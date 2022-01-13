@@ -1,0 +1,56 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::cub",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "language": "cpp",
+  "location": {
+    "column": 1,
+    "file": "thrust/system/cuda/config.h",
+    "line": 105
+  },
+  "name": "thrust::cub",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::cub",
+  "refid": "namespacethrust_1_1cub",
+  "static": false,
+  "strong": false,
+  "title": "thrust::cub",
+  "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cub.html",
+  "visibility": "public"
+}

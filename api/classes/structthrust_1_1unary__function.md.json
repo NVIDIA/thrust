@@ -1,0 +1,189 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1unary__function.html\">unary&#95;function</a></code> is an empty base class: it contains no member functions or member variables, but only type information. The only reason it exists is to make it more convenient to define types that are models of the concept Adaptable Unary Function. Specifically, any model of Adaptable Unary Function must define nested <code>typedefs</code>. Those <code>typedefs</code> are provided by the base class <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1unary__function.html\">unary&#95;function</a></code>.\n\nThe following code snippet demonstrates how to construct an Adaptable Unary Function using <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1unary__function.html\">unary&#95;function</a></code>.\n\n\n\n```cpp\nstruct sine : public thrust::unary_function<float,float>\n{\n  __host__ __device__\n  float operator()(float x) { return sinf(x); }\n};\n```",
+  "explicit": false,
+  "fullname": "thrust::unary_function",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/functional.h>",
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 80,
+    "bodyFile": "thrust/functional.h",
+    "bodyStart": 70,
+    "column": 1,
+    "file": "thrust/functional.h",
+    "line": 69
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "function_object_adaptors",
+    "kind": "group",
+    "language": "",
+    "name": "function_object_adaptors",
+    "qualifiedname": "function_object_adaptors",
+    "refid": "group__function__object__adaptors",
+    "title": "Function Object Adaptors",
+    "url": "{{ site.baseurl }}/api/groups/group__function__object__adaptors.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "language": "",
+      "name": "function_objects",
+      "qualifiedname": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "{{ site.baseurl }}/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_object_adaptors",
+      "kind": "group",
+      "language": "",
+      "name": "function_object_adaptors",
+      "qualifiedname": "function_object_adaptors",
+      "refid": "group__function__object__adaptors",
+      "title": "Function Object Adaptors",
+      "url": "{{ site.baseurl }}/api/groups/group__function__object__adaptors.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::unary_function",
+  "note": [
+    "Because C++11 language support makes the functionality of <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1unary__function.html\">unary&#95;function</a></code> obsolete, its use is optional if C++11 language features are enabled."
+  ],
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-argument-type",
+      "brief": "The type of the function object's argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "thrust::unary_function< Argument, Result >::argument_type",
+      "explicit": false,
+      "fullname": "thrust::unary_function::argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 74,
+        "column": 20,
+        "file": "thrust/functional.h",
+        "line": 74
+      },
+      "name": "argument_type",
+      "override": false,
+      "qualifiedname": "thrust::unary_function::argument_type",
+      "refid": "structthrust_1_1unary__function_1add99fadcf35ce6b0c8fab6ca0a6d7479",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's argument. ",
+      "title": "argument_type",
+      "type": "Argument",
+      "typePlain": "Argument",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unary__function.html#typedef-argument-type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-result-type",
+      "brief": "The type of the function object's result. ",
+      "category": "types",
+      "const": false,
+      "definition": "thrust::unary_function< Argument, Result >::result_type",
+      "explicit": false,
+      "fullname": "thrust::unary_function::result_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 79,
+        "column": 20,
+        "file": "thrust/functional.h",
+        "line": 79
+      },
+      "name": "result_type",
+      "override": false,
+      "qualifiedname": "thrust::unary_function::result_type",
+      "refid": "structthrust_1_1unary__function_1acba3e9e21e7a3ec6e856f5f402bbdc2b",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's result. ",
+      "title": "result_type",
+      "type": "Result",
+      "typePlain": "Result",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unary__function.html#typedef-result-type",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::unary_function",
+  "refid": "structthrust_1_1unary__function",
+  "see": [
+    "<a href=\"https://en.cppreference.com/w/cpp/utility/functional/unary_function\">https://en.cppreference.com/w/cpp/utility/functional/unary_function</a>",
+    "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1binary__function.html\">binary_function</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename Argument",
+      "typePlain": "typename Argument"
+    },
+    {
+      "name": "",
+      "type": "typename Result",
+      "typePlain": "typename Result"
+    }
+  ],
+  "title": "thrust::unary_function",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unary__function.html",
+  "visibility": "public"
+}

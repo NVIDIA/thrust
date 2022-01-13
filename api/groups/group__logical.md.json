@@ -1,0 +1,737 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "logical",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "reductions",
+    "kind": "group",
+    "language": "",
+    "name": "reductions",
+    "qualifiedname": "reductions",
+    "refid": "group__reductions",
+    "title": "Reductions",
+    "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "reductions",
+      "kind": "group",
+      "language": "",
+      "name": "reductions",
+      "qualifiedname": "reductions",
+      "refid": "group__reductions",
+      "title": "Reductions",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "logical",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "reductions",
+    "kind": "group",
+    "language": "",
+    "name": "reductions",
+    "qualifiedname": "reductions",
+    "refid": "group__reductions",
+    "title": "Reductions",
+    "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "reductions",
+      "kind": "group",
+      "language": "",
+      "name": "reductions",
+      "qualifiedname": "reductions",
+      "refid": "group__reductions",
+      "title": "Reductions",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-all-of",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::all_of",
+      "deleted": false,
+      "details": "<code>all&#95;of</code> determines whether all elements in a range satify a predicate. Specifically, <code>all&#95;of</code> returns <code>true</code> if <code>pred(&#42;i)</code> is <code>true</code> for every iterator <code>i</code> in the range <code>[first, last)</code> and <code>false</code> otherwise.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\n\n```cpp\n#include <thrust/logical.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\nbool A[3] = {true, true, false};\n\nthrust::all_of(thrust::host, A, A + 2, thrust::identity<bool>()); // returns true\nthrust::all_of(thrust::host, A, A + 3, thrust::identity<bool>()); // returns false\n\n// empty range\nthrust::all_of(thrust::host, A, A, thrust::identity<bool>()); // returns false\n```",
+      "explicit": false,
+      "fullname": "logical::all_of",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/logical.h",
+        "line": 75
+      },
+      "name": "all_of",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "pred",
+          "text": "A predicate used to test range elements. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::all_of",
+      "refid": "group__logical_1ga084fd0d3e070824248ffadf46f5f7765",
+      "returns": [
+        "<code>true</code>, if all elements satisfy the predicate; <code>false</code>, otherwise."
+      ],
+      "see": [
+        "any_of ",
+        "none_of ",
+        "transform_reduce "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "Predicate",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "all_of",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__logical.html#function-all-of",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-all-of",
+      "argsString": "(InputIterator first, InputIterator last, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "bool thrust::all_of",
+      "deleted": false,
+      "details": "<code>all&#95;of</code> determines whether all elements in a range satify a predicate. Specifically, <code>all&#95;of</code> returns <code>true</code> if <code>pred(&#42;i)</code> is <code>true</code> for every iterator <code>i</code> in the range <code>[first, last)</code> and <code>false</code> otherwise.\n\n\n\n```cpp\n#include <thrust/logical.h>\n#include <thrust/functional.h>\n...\nbool A[3] = {true, true, false};\n\nthrust::all_of(A, A + 2, thrust::identity<bool>()); // returns true\nthrust::all_of(A, A + 3, thrust::identity<bool>()); // returns false\n\n// empty range\nthrust::all_of(A, A, thrust::identity<bool>()); // returns false\n```",
+      "explicit": false,
+      "fullname": "logical::all_of",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/logical.h",
+        "line": 110
+      },
+      "name": "all_of",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "pred",
+          "text": "A predicate used to test range elements. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::all_of",
+      "refid": "group__logical_1gab2ec420fbc55976ebefecad00acb2b40",
+      "returns": [
+        "<code>true</code>, if all elements satisfy the predicate; <code>false</code>, otherwise."
+      ],
+      "see": [
+        "any_of ",
+        "none_of ",
+        "transform_reduce "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "Predicate",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "all_of",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/groups/group__logical.html#function-all-of",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-any-of",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::any_of",
+      "deleted": false,
+      "details": "<code>any&#95;of</code> determines whether any element in a range satifies a predicate. Specifically, <code>any&#95;of</code> returns <code>true</code> if <code>pred(&#42;i)</code> is <code>true</code> for any iterator <code>i</code> in the range <code>[first, last)</code> and <code>false</code> otherwise.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\n\n```cpp\n#include <thrust/logical.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\nbool A[3] = {true, true, false};\n\nthrust::any_of(thrust::host, A, A + 2, thrust::identity<bool>()); // returns true\nthrust::any_of(thrust::host, A, A + 3, thrust::identity<bool>()); // returns true\n\nthrust::any_of(thrust::host, A + 2, A + 3, thrust::identity<bool>()); // returns false\n\n// empty range\nthrust::any_of(thrust::host, A, A, thrust::identity<bool>()); // returns false\n```",
+      "explicit": false,
+      "fullname": "logical::any_of",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/logical.h",
+        "line": 152
+      },
+      "name": "any_of",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "pred",
+          "text": "A predicate used to test range elements. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::any_of",
+      "refid": "group__logical_1ga37bb33079f2becfcda2f0d6cad4d3efc",
+      "returns": [
+        "<code>true</code>, if any element satisfies the predicate; <code>false</code>, otherwise."
+      ],
+      "see": [
+        "all_of ",
+        "none_of ",
+        "transform_reduce "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "Predicate",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "any_of",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__logical.html#function-any-of",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-any-of",
+      "argsString": "(InputIterator first, InputIterator last, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "bool thrust::any_of",
+      "deleted": false,
+      "details": "<code>any&#95;of</code> determines whether any element in a range satifies a predicate. Specifically, <code>any&#95;of</code> returns <code>true</code> if <code>pred(&#42;i)</code> is <code>true</code> for any iterator <code>i</code> in the range <code>[first, last)</code> and <code>false</code> otherwise.\n\n\n\n```cpp\n#include <thrust/logical.h>\n#include <thrust/functional.h>\n...\nbool A[3] = {true, true, false};\n\nthrust::any_of(A, A + 2, thrust::identity<bool>()); // returns true\nthrust::any_of(A, A + 3, thrust::identity<bool>()); // returns true\n\nthrust::any_of(A + 2, A + 3, thrust::identity<bool>()); // returns false\n\n// empty range\nthrust::any_of(A, A, thrust::identity<bool>()); // returns false\n```",
+      "explicit": false,
+      "fullname": "logical::any_of",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/logical.h",
+        "line": 188
+      },
+      "name": "any_of",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "pred",
+          "text": "A predicate used to test range elements. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::any_of",
+      "refid": "group__logical_1ga55fa5c5afc62720119dc1d244fc40d5b",
+      "returns": [
+        "<code>true</code>, if any element satisfies the predicate; <code>false</code>, otherwise."
+      ],
+      "see": [
+        "all_of ",
+        "none_of ",
+        "transform_reduce "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "Predicate",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "any_of",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/groups/group__logical.html#function-any-of",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-none-of",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::none_of",
+      "deleted": false,
+      "details": "<code>none&#95;of</code> determines whether no element in a range satifies a predicate. Specifically, <code>none&#95;of</code> returns <code>true</code> if there is no iterator <code>i</code> in the range <code>[first, last)</code> such that <code>pred(&#42;i)</code> is <code>true</code>, and <code>false</code> otherwise.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\n\n```cpp\n#include <thrust/logical.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\nbool A[3] = {true, true, false};\n\nthrust::none_of(thrust::host, A, A + 2, thrust::identity<bool>()); // returns false\nthrust::none_of(thrust::host, A, A + 3, thrust::identity<bool>()); // returns false\n\nthrust::none_of(thrust::host, A + 2, A + 3, thrust::identity<bool>()); // returns true\n\n// empty range\nthrust::none_of(thrust::host, A, A, thrust::identity<bool>()); // returns true\n```",
+      "explicit": false,
+      "fullname": "logical::none_of",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/logical.h",
+        "line": 230
+      },
+      "name": "none_of",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "pred",
+          "text": "A predicate used to test range elements. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::none_of",
+      "refid": "group__logical_1ga0597bc81880a6f8e1050da853f1000c1",
+      "returns": [
+        "<code>true</code>, if no element satisfies the predicate; <code>false</code>, otherwise."
+      ],
+      "see": [
+        "all_of ",
+        "any_of ",
+        "transform_reduce "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "Predicate",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "none_of",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__logical.html#function-none-of",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-none-of",
+      "argsString": "(InputIterator first, InputIterator last, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "bool thrust::none_of",
+      "deleted": false,
+      "details": "<code>none&#95;of</code> determines whether no element in a range satifies a predicate. Specifically, <code>none&#95;of</code> returns <code>true</code> if there is no iterator <code>i</code> in the range <code>[first, last)</code> such that <code>pred(&#42;i)</code> is <code>true</code>, and <code>false</code> otherwise.\n\n\n\n```cpp\n#include <thrust/logical.h>\n#include <thrust/functional.h>\n...\nbool A[3] = {true, true, false};\n\nthrust::none_of(A, A + 2, thrust::identity<bool>()); // returns false\nthrust::none_of(A, A + 3, thrust::identity<bool>()); // returns false\n\nthrust::none_of(A + 2, A + 3, thrust::identity<bool>()); // returns true\n\n// empty range\nthrust::none_of(A, A, thrust::identity<bool>()); // returns true\n```",
+      "explicit": false,
+      "fullname": "logical::none_of",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/logical.h",
+        "line": 266
+      },
+      "name": "none_of",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "pred",
+          "text": "A predicate used to test range elements. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::none_of",
+      "refid": "group__logical_1gab2296f35374d339646d94a8d560aebf3",
+      "returns": [
+        "<code>true</code>, if no element satisfies the predicate; <code>false</code>, otherwise."
+      ],
+      "see": [
+        "all_of ",
+        "any_of ",
+        "transform_reduce "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "Predicate",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "none_of",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/groups/group__logical.html#function-none-of",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "logical",
+  "refid": "group__logical",
+  "static": false,
+  "strong": false,
+  "title": "Logical",
+  "url": "{{ site.baseurl }}/api/groups/group__logical.html",
+  "visibility": "public"
+}

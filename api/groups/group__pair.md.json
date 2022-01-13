@@ -1,0 +1,765 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "pair",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "utility",
+    "kind": "group",
+    "language": "",
+    "name": "utility",
+    "qualifiedname": "utility",
+    "refid": "group__utility",
+    "title": "Utility",
+    "url": "{{ site.baseurl }}/api/groups/group__utility.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "utility",
+      "kind": "group",
+      "language": "",
+      "name": "utility",
+      "qualifiedname": "utility",
+      "refid": "group__utility",
+      "title": "Utility",
+      "url": "{{ site.baseurl }}/api/groups/group__utility.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "pair",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "utility",
+    "kind": "group",
+    "language": "",
+    "name": "utility",
+    "qualifiedname": "utility",
+    "refid": "group__utility",
+    "title": "Utility",
+    "url": "{{ site.baseurl }}/api/groups/group__utility.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "utility",
+      "kind": "group",
+      "language": "",
+      "name": "utility",
+      "qualifiedname": "utility",
+      "refid": "group__utility",
+      "title": "Utility",
+      "url": "{{ site.baseurl }}/api/groups/group__utility.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::pair",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::pair",
+      "qualifiedname": "thrust::pair",
+      "refid": "structthrust_1_1pair",
+      "title": "thrust::pair",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1pair.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::tuple_element",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::tuple_element",
+      "qualifiedname": "thrust::tuple_element",
+      "refid": "structthrust_1_1tuple__element",
+      "title": "thrust::tuple_element",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1tuple__element.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::tuple_size",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::tuple_size",
+      "qualifiedname": "thrust::tuple_size",
+      "refid": "structthrust_1_1tuple__size",
+      "title": "thrust::tuple_size",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1tuple__size.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const pair< T1, T2 > &x, const pair< T1, T2 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::operator==",
+      "deleted": false,
+      "details": "This operator tests two <code>pairs</code> for equality.",
+      "explicit": false,
+      "fullname": "pair::operator==",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 10,
+        "file": "thrust/pair.h",
+        "line": 126
+      },
+      "name": "operator==",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The first <code>pair</code> to compare. "
+        },
+        {
+          "name": "y",
+          "text": "The second <code>pair</code> to compare. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const pair< T1, T2 > &",
+          "typePlain": "const pair< T1, T2 > &"
+        },
+        {
+          "name": "y",
+          "type": "const pair< T1, T2 > &",
+          "typePlain": "const pair< T1, T2 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::operator==",
+      "refid": "group__pair_1gabf46c54f860c9e666f1eef126350ffb4",
+      "returns": [
+        "<code>true</code> if and only if <code>x.first == y.first && x.second == y.second</code>."
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        },
+        {
+          "name": "",
+          "type": "typename T2",
+          "typePlain": "typename T2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>. "
+        },
+        {
+          "name": "T2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>. "
+        }
+      ],
+      "title": "operator==",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__pair.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator<",
+      "argsString": "(const pair< T1, T2 > &x, const pair< T1, T2 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::operator<",
+      "deleted": false,
+      "details": "This operator tests two pairs for ascending ordering.",
+      "explicit": false,
+      "fullname": "pair::operator<",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/pair.h",
+        "line": 140
+      },
+      "name": "operator<",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The first <code>pair</code> to compare. "
+        },
+        {
+          "name": "y",
+          "text": "The second <code>pair</code> to compare. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const pair< T1, T2 > &",
+          "typePlain": "const pair< T1, T2 > &"
+        },
+        {
+          "name": "y",
+          "type": "const pair< T1, T2 > &",
+          "typePlain": "const pair< T1, T2 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::operator<",
+      "refid": "group__pair_1ga447a8857c41150d99d8a13e1d61d838a",
+      "returns": [
+        "<code>true</code> if and only if <code>x.first &lt; y.first || (!(y.first &lt; x.first) && x.second &lt; y.second)</code>."
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        },
+        {
+          "name": "",
+          "type": "typename T2",
+          "typePlain": "typename T2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>. "
+        },
+        {
+          "name": "T2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>. "
+        }
+      ],
+      "title": "operator<",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__pair.html#function-operator<",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const pair< T1, T2 > &x, const pair< T1, T2 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::operator!=",
+      "deleted": false,
+      "details": "This operator tests two pairs for inequality.",
+      "explicit": false,
+      "fullname": "pair::operator!=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 10,
+        "file": "thrust/pair.h",
+        "line": 154
+      },
+      "name": "operator!=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The first <code>pair</code> to compare. "
+        },
+        {
+          "name": "y",
+          "text": "The second <code>pair</code> to compare. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const pair< T1, T2 > &",
+          "typePlain": "const pair< T1, T2 > &"
+        },
+        {
+          "name": "y",
+          "type": "const pair< T1, T2 > &",
+          "typePlain": "const pair< T1, T2 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::operator!=",
+      "refid": "group__pair_1gaae5a30de74797657fe1a2ea2d305729a",
+      "returns": [
+        "<code>true</code> if and only if <code>!(x == y)</code>."
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        },
+        {
+          "name": "",
+          "type": "typename T2",
+          "typePlain": "typename T2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>. "
+        },
+        {
+          "name": "T2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>. "
+        }
+      ],
+      "title": "operator!=",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__pair.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator>",
+      "argsString": "(const pair< T1, T2 > &x, const pair< T1, T2 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::operator>",
+      "deleted": false,
+      "details": "This operator tests two pairs for descending ordering.",
+      "explicit": false,
+      "fullname": "pair::operator>",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 10,
+        "file": "thrust/pair.h",
+        "line": 168
+      },
+      "name": "operator>",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The first <code>pair</code> to compare. "
+        },
+        {
+          "name": "y",
+          "text": "The second <code>pair</code> to compare. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const pair< T1, T2 > &",
+          "typePlain": "const pair< T1, T2 > &"
+        },
+        {
+          "name": "y",
+          "type": "const pair< T1, T2 > &",
+          "typePlain": "const pair< T1, T2 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::operator>",
+      "refid": "group__pair_1gacec28b73f3dfc963e2938439967068bc",
+      "returns": [
+        "<code>true</code> if and only if <code>y &lt; x</code>."
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        },
+        {
+          "name": "",
+          "type": "typename T2",
+          "typePlain": "typename T2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>. "
+        },
+        {
+          "name": "T2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>. "
+        }
+      ],
+      "title": "operator>",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__pair.html#function-operator>",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator<=",
+      "argsString": "(const pair< T1, T2 > &x, const pair< T1, T2 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::operator<=",
+      "deleted": false,
+      "details": "This operator tests two pairs for ascending ordering or equivalence.",
+      "explicit": false,
+      "fullname": "pair::operator<=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/pair.h",
+        "line": 182
+      },
+      "name": "operator<=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The first <code>pair</code> to compare. "
+        },
+        {
+          "name": "y",
+          "text": "The second <code>pair</code> to compare. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const pair< T1, T2 > &",
+          "typePlain": "const pair< T1, T2 > &"
+        },
+        {
+          "name": "y",
+          "type": "const pair< T1, T2 > &",
+          "typePlain": "const pair< T1, T2 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::operator<=",
+      "refid": "group__pair_1gaf9187730f2927bb1887919a78e85587f",
+      "returns": [
+        "<code>true</code> if and only if <code>!(y &lt; x)</code>."
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        },
+        {
+          "name": "",
+          "type": "typename T2",
+          "typePlain": "typename T2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>. "
+        },
+        {
+          "name": "T2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>. "
+        }
+      ],
+      "title": "operator<=",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__pair.html#function-operator<=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator>=",
+      "argsString": "(const pair< T1, T2 > &x, const pair< T1, T2 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::operator>=",
+      "deleted": false,
+      "details": "This operator tests two pairs for descending ordering or equivalence.",
+      "explicit": false,
+      "fullname": "pair::operator>=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 10,
+        "file": "thrust/pair.h",
+        "line": 196
+      },
+      "name": "operator>=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The first <code>pair</code> to compare. "
+        },
+        {
+          "name": "y",
+          "text": "The second <code>pair</code> to compare. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const pair< T1, T2 > &",
+          "typePlain": "const pair< T1, T2 > &"
+        },
+        {
+          "name": "y",
+          "type": "const pair< T1, T2 > &",
+          "typePlain": "const pair< T1, T2 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::operator>=",
+      "refid": "group__pair_1ga0bd91162a588cb4b86cd9e45ba77e918",
+      "returns": [
+        "<code>true</code> if and only if <code>!(x &lt; y)</code>."
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        },
+        {
+          "name": "",
+          "type": "typename T2",
+          "typePlain": "typename T2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>. "
+        },
+        {
+          "name": "T2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>. "
+        }
+      ],
+      "title": "operator>=",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__pair.html#function-operator>=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-swap",
+      "argsString": "(pair< T1, T2 > &x, pair< T1, T2 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::swap",
+      "deleted": false,
+      "details": "<code>swap</code> swaps the contents of two <code>pair</code>s.",
+      "explicit": false,
+      "fullname": "pair::swap",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 10,
+        "file": "thrust/pair.h",
+        "line": 206
+      },
+      "name": "swap",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The first <code>pair</code> to swap. "
+        },
+        {
+          "name": "y",
+          "text": "The second <code>pair</code> to swap. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "pair< T1, T2 > &",
+          "typePlain": "pair< T1, T2 > &"
+        },
+        {
+          "name": "y",
+          "type": "pair< T1, T2 > &",
+          "typePlain": "pair< T1, T2 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::swap",
+      "refid": "group__pair_1ga8b86ab5052f0acba4896937a91fc936a",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        },
+        {
+          "name": "",
+          "type": "typename T2",
+          "typePlain": "typename T2"
+        }
+      ],
+      "title": "swap",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/groups/group__pair.html#function-swap",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-make-pair",
+      "argsString": "(T1 x, T2 y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ pair< T1, T2 > thrust::make_pair",
+      "deleted": false,
+      "details": "This convenience function creates a <code>pair</code> from two objects.",
+      "explicit": false,
+      "fullname": "pair::make_pair",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 10,
+        "file": "thrust/pair.h",
+        "line": 220
+      },
+      "name": "make_pair",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The first object to copy from. "
+        },
+        {
+          "name": "y",
+          "text": "The second object to copy from. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "T1",
+          "typePlain": "T1"
+        },
+        {
+          "name": "y",
+          "type": "T2",
+          "typePlain": "T2"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::make_pair",
+      "refid": "group__pair_1ga110e6c930d099c109042e54a4eb929a6",
+      "returns": [
+        "A newly-constructed <code>pair</code> copied from <code>a</code> and <code>b</code>."
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        },
+        {
+          "name": "",
+          "type": "typename T2",
+          "typePlain": "typename T2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T1",
+          "text": "There are no requirements on the type of <code>T1</code>. "
+        },
+        {
+          "name": "T2",
+          "text": "There are no requirements on the type of <code>T2</code>. "
+        }
+      ],
+      "title": "make_pair",
+      "type": "__host__ __device__ pair< T1, T2 >",
+      "typePlain": "__host__ __device__ pair< T1, T2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__pair.html#function-make-pair",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "pair",
+  "refid": "group__pair",
+  "static": false,
+  "strong": false,
+  "title": "Pair",
+  "url": "{{ site.baseurl }}/api/groups/group__pair.html",
+  "visibility": "public"
+}

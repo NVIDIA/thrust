@@ -1,0 +1,156 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "swap",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "utility",
+    "kind": "group",
+    "language": "",
+    "name": "utility",
+    "qualifiedname": "utility",
+    "refid": "group__utility",
+    "title": "Utility",
+    "url": "{{ site.baseurl }}/api/groups/group__utility.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "utility",
+      "kind": "group",
+      "language": "",
+      "name": "utility",
+      "qualifiedname": "utility",
+      "refid": "group__utility",
+      "title": "Utility",
+      "url": "{{ site.baseurl }}/api/groups/group__utility.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "swap",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "utility",
+    "kind": "group",
+    "language": "",
+    "name": "utility",
+    "qualifiedname": "utility",
+    "refid": "group__utility",
+    "title": "Utility",
+    "url": "{{ site.baseurl }}/api/groups/group__utility.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "utility",
+      "kind": "group",
+      "language": "",
+      "name": "utility",
+      "qualifiedname": "utility",
+      "refid": "group__utility",
+      "title": "Utility",
+      "url": "{{ site.baseurl }}/api/groups/group__utility.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-swap",
+      "argsString": "(Assignable1 &a, Assignable2 &b)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::swap",
+      "deleted": false,
+      "details": "<code>swap</code> assigns the contents of <code>a</code> to <code>b</code> and the contents of <code>b</code> to <code>a</code>. This is used as a primitive operation by many other algorithms.\n\n\nThe following code snippet demonstrates how to use <code>swap</code> to swap the contents of two variables.\n\n\n\n```cpp\n#include <thrust/swap.h>\n...\nint x = 1;\nint y = 2;\nthrust::swap(x,h);\n\n// x == 2, y == 1\n```",
+      "explicit": false,
+      "fullname": "swap::swap",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 13,
+        "file": "thrust/swap.h",
+        "line": 62
+      },
+      "name": "swap",
+      "override": false,
+      "paramList": [
+        {
+          "name": "a",
+          "text": "The first value of interest. After completion, the value of b will be returned here. "
+        },
+        {
+          "name": "b",
+          "text": "The second value of interest. After completion, the value of a will be returned here."
+        }
+      ],
+      "params": [
+        {
+          "name": "a",
+          "type": "Assignable1 &",
+          "typePlain": "Assignable1 &"
+        },
+        {
+          "name": "b",
+          "type": "Assignable2 &",
+          "typePlain": "Assignable2 &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::swap",
+      "refid": "group__swap_1ga843afbedc50bd5da1eefd2bc0c17b000",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Assignable1",
+          "typePlain": "typename Assignable1"
+        },
+        {
+          "name": "",
+          "type": "typename Assignable2",
+          "typePlain": "typename Assignable2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "Assignable",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/CopyAssignable\">Assignable</a>."
+        }
+      ],
+      "title": "swap",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/groups/group__swap.html#function-swap",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "swap",
+  "refid": "group__swap",
+  "static": false,
+  "strong": false,
+  "title": "Swap",
+  "url": "{{ site.baseurl }}/api/groups/group__swap.html",
+  "visibility": "public"
+}

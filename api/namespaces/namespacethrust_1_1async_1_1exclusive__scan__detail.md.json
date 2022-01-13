@@ -1,0 +1,84 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::async::exclusive_scan_detail",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "language": "cpp",
+  "location": {
+    "column": 1,
+    "file": "thrust/async/scan.h",
+    "line": 186
+  },
+  "name": "thrust::async::exclusive_scan_detail",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust::async",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::async",
+    "qualifiedname": "thrust::async",
+    "refid": "namespacethrust_1_1async",
+    "title": "thrust::async",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1async.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust::async",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::async",
+      "qualifiedname": "thrust::async",
+      "refid": "namespacethrust_1_1async",
+      "title": "thrust::async",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1async.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::async::exclusive_scan_detail::exclusive_scan_fn",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::async::exclusive_scan_detail::exclusive_scan_fn",
+      "qualifiedname": "thrust::async::exclusive_scan_detail::exclusive_scan_fn",
+      "refid": "structthrust_1_1async_1_1exclusive__scan__detail_1_1exclusive__scan__fn",
+      "title": "thrust::async::exclusive_scan_detail::exclusive_scan_fn",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1async_1_1exclusive__scan__detail_1_1exclusive__scan__fn.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::async::exclusive_scan_detail",
+  "refid": "namespacethrust_1_1async_1_1exclusive__scan__detail",
+  "static": false,
+  "strong": false,
+  "title": "thrust::async::exclusive_scan_detail",
+  "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1async_1_1exclusive__scan__detail.html",
+  "visibility": "public"
+}

@@ -1,0 +1,73 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::detail::permutation_iterator_base",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "language": "cpp",
+  "location": {
+    "column": 1,
+    "file": "[generated]",
+    "line": 1
+  },
+  "name": "thrust::detail::permutation_iterator_base",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "\\exclude ",
+    "category": "namespaces",
+    "fullname": "thrust::detail",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::detail",
+    "qualifiedname": "thrust::detail",
+    "refid": "namespacethrust_1_1detail",
+    "summary": "\\exclude ",
+    "title": "thrust::detail",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "\\exclude ",
+      "category": "namespaces",
+      "fullname": "thrust::detail",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::detail",
+      "qualifiedname": "thrust::detail",
+      "refid": "namespacethrust_1_1detail",
+      "summary": "\\exclude ",
+      "title": "thrust::detail",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::detail::permutation_iterator_base",
+  "refid": "namespacethrust_1_1detail_1_1permutation__iterator__base",
+  "static": false,
+  "strong": false,
+  "title": "thrust::detail::permutation_iterator_base",
+  "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail_1_1permutation__iterator__base.html",
+  "visibility": "public"
+}

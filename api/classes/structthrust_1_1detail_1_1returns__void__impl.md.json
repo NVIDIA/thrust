@@ -1,0 +1,94 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::detail::returns_void_impl",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 293,
+    "column": 17,
+    "file": "thrust/optional.h",
+    "line": 293
+  },
+  "name": "thrust::detail::returns_void_impl",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "\\exclude ",
+    "category": "namespaces",
+    "fullname": "thrust::detail",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::detail",
+    "qualifiedname": "thrust::detail",
+    "refid": "namespacethrust_1_1detail",
+    "summary": "\\exclude ",
+    "title": "thrust::detail",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "\\exclude ",
+      "category": "namespaces",
+      "fullname": "thrust::detail",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::detail",
+      "qualifiedname": "thrust::detail",
+      "refid": "namespacethrust_1_1detail",
+      "summary": "\\exclude ",
+      "title": "thrust::detail",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::detail::returns_void_impl",
+  "refid": "structthrust_1_1detail_1_1returns__void__impl",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "class F",
+      "typePlain": "class F"
+    },
+    {
+      "defval": "void",
+      "defvalPlain": "void",
+      "name": "",
+      "type": "class",
+      "typePlain": "class"
+    },
+    {
+      "name": "U",
+      "type": "class...",
+      "typePlain": "class..."
+    }
+  ],
+  "title": "thrust::detail::returns_void_impl",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1returns__void__impl.html",
+  "visibility": "public"
+}

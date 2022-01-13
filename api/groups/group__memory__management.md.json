@@ -1,0 +1,1499 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "details": "All Thrust functionalities related to memory allocation and deallocation. ",
+  "explicit": false,
+  "fullname": "memory_management",
+  "groups": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "allocators",
+      "kind": "group",
+      "language": "",
+      "name": "allocators",
+      "qualifiedname": "allocators",
+      "refid": "group__allocators",
+      "title": "Allocators",
+      "url": "{{ site.baseurl }}/api/groups/group__allocators.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "memory_resources",
+      "kind": "group",
+      "language": "",
+      "name": "memory_resources",
+      "qualifiedname": "memory_resources",
+      "refid": "group__memory__resources",
+      "title": "Memory Resources",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__resources.html",
+      "visibility": "public"
+    }
+  ],
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "name": "memory_management",
+  "override": false,
+  "parent": null,
+  "publicClasses": [
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::reference< T, thrust::device_ptr< T >, thrust::device_reference< T > >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::device_reference",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::device_reference",
+      "qualifiedname": "thrust::device_reference",
+      "refid": "classthrust_1_1device__reference",
+      "title": "thrust::device_reference",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::pointer< T, thrust::device_system_tag, thrust::device_reference< T >, thrust::device_ptr< T > >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "brief": "<code>device&#95;ptr</code> is a pointer-like object which points to an object that resides in memory associated with the device system. ",
+      "category": "classes",
+      "fullname": "thrust::device_ptr",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::device_ptr",
+      "qualifiedname": "thrust::device_ptr",
+      "refid": "classthrust_1_1device__ptr",
+      "summary": "device_ptr is a pointer-like object which points to an object that resides in memory associated with the device system. ",
+      "title": "thrust::device_ptr",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-device-delete",
+      "argsString": "(thrust::device_ptr< T > ptr, const size_t n=1)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "void thrust::device_delete",
+      "deleted": false,
+      "details": "<code>device&#95;delete</code> deletes a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> allocated with <code>device&#95;new</code>.",
+      "explicit": false,
+      "fullname": "memory_management::device_delete",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 15,
+        "file": "thrust/device_delete.h",
+        "line": 44
+      },
+      "name": "device_delete",
+      "override": false,
+      "paramList": [
+        {
+          "name": "ptr",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> to delete, assumed to have been allocated with <code>device&#95;new</code>. "
+        },
+        {
+          "name": "n",
+          "text": "The number of objects to destroy at <code>ptr</code>. Defaults to <code>1</code> similar to <code>device&#95;new</code>."
+        }
+      ],
+      "params": [
+        {
+          "name": "ptr",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">thrust::device_ptr</a>< T >",
+          "typePlain": "thrust::device_ptr< T >"
+        },
+        {
+          "defval": "1",
+          "defvalPlain": "1",
+          "name": "n",
+          "type": "const size_t",
+          "typePlain": "const size_t"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_delete",
+      "refid": "group__memory__management_1ga1c393e01036d27ed0c0ab2a1750957dc",
+      "see": [
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device_ptr</a>",
+        "device_new "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "device_delete",
+      "type": "void",
+      "typePlain": "void",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-device-delete",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-free",
+      "argsString": "(thrust::device_ptr< void > ptr)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "void thrust::device_free",
+      "deleted": false,
+      "details": "<code>device&#95;free</code> deallocates memory allocated by the function <code>device&#95;malloc</code>.\n\n\nThe following code snippet demonstrates how to use <code>device&#95;free</code> to deallocate memory allocated by <code>device&#95;malloc</code>.\n\n\n\n```cpp\n#include <thrust/device_malloc.h>\n#include <thrust/device_free.h>\n...\n// allocate some integers with device_malloc\nconst int N = 100;\nthrust::device_ptr<int> int_array = thrust::device_malloc<int>(N);\n\n// manipulate integers\n...\n\n// deallocate with device_free\nthrust::device_free(int_array);\n```",
+      "explicit": false,
+      "fullname": "memory_management::device_free",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 13,
+        "file": "thrust/device_free.h",
+        "line": 57
+      },
+      "name": "device_free",
+      "override": false,
+      "paramList": [
+        {
+          "name": "ptr",
+          "text": "A <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> pointing to memory to be deallocated."
+        }
+      ],
+      "params": [
+        {
+          "name": "ptr",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">thrust::device_ptr</a>< void >",
+          "typePlain": "thrust::device_ptr< void >"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_free",
+      "refid": "group__memory__management_1ga1a350740a6ade432f3781096df91f162",
+      "see": [
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device_ptr</a>",
+        "device_malloc "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "device_free",
+      "type": "void",
+      "typePlain": "void",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-device-free",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-malloc",
+      "argsString": "(const std::size_t n)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_ptr< void > thrust::device_malloc",
+      "deleted": false,
+      "details": "This version of <code>device&#95;malloc</code> allocates sequential device storage for bytes.\n\n\nThe following code snippet demonstrates how to use <code>device&#95;malloc</code> to allocate a range of device memory.\n\n\n\n```cpp\n#include <thrust/device_malloc.h>\n#include <thrust/device_free.h>\n...\n// allocate some memory with device_malloc\nconst int N = 100;\nthrust::device_ptr<void> void_ptr = thrust::device_malloc(N);\n\n// manipulate memory\n...\n\n// deallocate with device_free\nthrust::device_free(void_ptr);\n```",
+      "explicit": false,
+      "fullname": "memory_management::device_malloc",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 27,
+        "file": "thrust/device_malloc.h",
+        "line": 61
+      },
+      "name": "device_malloc",
+      "override": false,
+      "paramList": [
+        {
+          "name": "n",
+          "text": "The number of bytes to allocate sequentially in device memory. "
+        }
+      ],
+      "params": [
+        {
+          "name": "n",
+          "type": "const std::size_t",
+          "typePlain": "const std::size_t"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_malloc",
+      "refid": "group__memory__management_1gae72d05ffd1c43049d17788db298467e8",
+      "returns": [
+        "A <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> to the newly allocated memory."
+      ],
+      "see": [
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device_ptr</a>",
+        "device_free "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "device_malloc",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">thrust::device_ptr</a>< void >",
+      "typePlain": "thrust::device_ptr< void >",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-device-malloc",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-malloc",
+      "argsString": "(const std::size_t n)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_ptr< T > thrust::device_malloc",
+      "deleted": false,
+      "details": "This version of <code>device&#95;malloc</code> allocates sequential device storage for new objects of the given type.\n\n\nThe following code snippet demonstrates how to use <code>device&#95;malloc</code> to allocate a range of device memory.\n\n\n\n```cpp\n#include <thrust/device_malloc.h>\n#include <thrust/device_free.h>\n...\n// allocate some integers with device_malloc\nconst int N = 100;\nthrust::device_ptr<int> int_array = thrust::device_malloc<int>(N);\n\n// manipulate integers\n...\n\n// deallocate with device_free\nthrust::device_free(int_array);\n```",
+      "explicit": false,
+      "fullname": "memory_management::device_malloc",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 29,
+        "file": "thrust/device_malloc.h",
+        "line": 92
+      },
+      "name": "device_malloc",
+      "override": false,
+      "paramList": [
+        {
+          "name": "n",
+          "text": "The number of objects of type T to allocate sequentially in device memory. "
+        }
+      ],
+      "params": [
+        {
+          "name": "n",
+          "type": "const std::size_t",
+          "typePlain": "const std::size_t"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_malloc",
+      "refid": "group__memory__management_1ga16490f90e8e83033b0b8ca5bd36353db",
+      "returns": [
+        "A <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> to the newly allocated memory."
+      ],
+      "see": [
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device_ptr</a>",
+        "device_free "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "device_malloc",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">thrust::device_ptr</a>< T >",
+      "typePlain": "thrust::device_ptr< T >",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-device-malloc",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-new",
+      "argsString": "(device_ptr< void > p, const size_t n=1)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "device_ptr< T > thrust::device_new",
+      "deleted": false,
+      "details": "<code>device&#95;new</code> implements the placement <code>new</code> operator for types resident in device memory. <code>device&#95;new</code> calls <code>T</code>'s null constructor on a array of objects in device memory. No memory is allocated by this function.",
+      "explicit": false,
+      "fullname": "memory_management::device_new",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 14,
+        "file": "thrust/device_new.h",
+        "line": 50
+      },
+      "name": "device_new",
+      "override": false,
+      "paramList": [
+        {
+          "name": "p",
+          "text": "A <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> to a region of device memory into which to construct one or many <code>T</code>s. "
+        },
+        {
+          "name": "n",
+          "text": "The number of objects to construct at <code>p</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "p",
+          "type": "device_ptr< void >",
+          "typePlain": "device_ptr< void >"
+        },
+        {
+          "defval": "1",
+          "defvalPlain": "1",
+          "name": "n",
+          "type": "const size_t",
+          "typePlain": "const size_t"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_new",
+      "refid": "group__memory__management_1ga86a38bc1d1e0801e1a7b9abe186645ba",
+      "returns": [
+        "p, casted to <code>T</code>'s type."
+      ],
+      "see": [
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device_ptr</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "device_new",
+      "type": "device_ptr< T >",
+      "typePlain": "device_ptr< T >",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-device-new",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-new",
+      "argsString": "(device_ptr< void > p, const T &exemplar, const size_t n=1)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "device_ptr< T > thrust::device_new",
+      "deleted": false,
+      "details": "<code>device&#95;new</code> implements the placement new operator for types resident in device memory. <code>device&#95;new</code> calls <code>T</code>'s copy constructor on a array of objects in device memory. No memory is allocated by this function.",
+      "explicit": false,
+      "fullname": "memory_management::device_new",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 14,
+        "file": "thrust/device_new.h",
+        "line": 68
+      },
+      "name": "device_new",
+      "override": false,
+      "paramList": [
+        {
+          "name": "p",
+          "text": "A <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> to a region of device memory into which to construct one or many <code>T</code>s. "
+        },
+        {
+          "name": "exemplar",
+          "text": "The value from which to copy. "
+        },
+        {
+          "name": "n",
+          "text": "The number of objects to construct at <code>p</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "p",
+          "type": "device_ptr< void >",
+          "typePlain": "device_ptr< void >"
+        },
+        {
+          "name": "exemplar",
+          "type": "const T &",
+          "typePlain": "const T &"
+        },
+        {
+          "defval": "1",
+          "defvalPlain": "1",
+          "name": "n",
+          "type": "const size_t",
+          "typePlain": "const size_t"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_new",
+      "refid": "group__memory__management_1ga6b0c18a0fdeba5cf935fd45af68a421e",
+      "returns": [
+        "p, casted to <code>T</code>'s type."
+      ],
+      "see": [
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device_ptr</a>",
+        "fill "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "device_new",
+      "type": "device_ptr< T >",
+      "typePlain": "device_ptr< T >",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-device-new",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-new",
+      "argsString": "(const size_t n=1)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "device_ptr< T > thrust::device_new",
+      "deleted": false,
+      "details": "<code>device&#95;new</code> implements the new operator for types resident in device memory. It allocates device memory large enough to hold <code>n</code> new objects of type <code>T</code>.",
+      "explicit": false,
+      "fullname": "memory_management::device_new",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 14,
+        "file": "thrust/device_new.h",
+        "line": 79
+      },
+      "name": "device_new",
+      "override": false,
+      "paramList": [
+        {
+          "name": "n",
+          "text": "The number of objects to allocate. Defaults to <code>1</code>. "
+        }
+      ],
+      "params": [
+        {
+          "defval": "1",
+          "defvalPlain": "1",
+          "name": "n",
+          "type": "const size_t",
+          "typePlain": "const size_t"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_new",
+      "refid": "group__memory__management_1gac414af4b15c3216bad91a1cf27287753",
+      "returns": [
+        "A <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> to the newly allocated region of device memory. "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "device_new",
+      "type": "device_ptr< T >",
+      "typePlain": "device_ptr< T >",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-device-new",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator<<",
+      "argsString": "(std::basic_ostream< CharT, Traits > &os, device_ptr< T > const &dp)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ std::basic_ostream< CharT, Traits > & thrust::operator<<",
+      "deleted": false,
+      "details": "Write the address that a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> points to to an output stream.",
+      "explicit": false,
+      "fullname": "memory_management::operator<<",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 1,
+        "file": "thrust/device_ptr.h",
+        "line": 179
+      },
+      "name": "operator<<",
+      "override": false,
+      "paramList": [
+        {
+          "name": "os",
+          "text": "The output stream. "
+        },
+        {
+          "name": "dp",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> to output."
+        }
+      ],
+      "params": [
+        {
+          "name": "os",
+          "type": "std::basic_ostream< CharT, Traits > &",
+          "typePlain": "std::basic_ostream< CharT, Traits > &"
+        },
+        {
+          "name": "dp",
+          "type": "device_ptr< T > const &",
+          "typePlain": "device_ptr< T > const &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::operator<<",
+      "refid": "group__memory__management_1gad524df6cd5b37a5e268b3ac299727431",
+      "returns": [
+        "<code>os</code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename CharT",
+          "typePlain": "typename CharT"
+        },
+        {
+          "name": "",
+          "type": "typename Traits",
+          "typePlain": "typename Traits"
+        }
+      ],
+      "title": "operator<<",
+      "type": "__host__ std::basic_ostream< CharT, Traits > &",
+      "typePlain": "__host__ std::basic_ostream< CharT, Traits > &",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-operator<<",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-pointer-cast",
+      "argsString": "(T *ptr)",
+      "brief": "Create a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> from a raw pointer. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ device_ptr< T > thrust::device_pointer_cast",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "memory_management::device_pointer_cast",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 12,
+        "file": "thrust/device_ptr.h",
+        "line": 194
+      },
+      "name": "device_pointer_cast",
+      "override": false,
+      "paramList": [
+        {
+          "name": "ptr",
+          "text": "A raw pointer to a <code>T</code> in device memory."
+        }
+      ],
+      "params": [
+        {
+          "name": "ptr",
+          "type": "T *",
+          "typePlain": "T *"
+        }
+      ],
+      "pre": [
+        "<code>ptr</code> points to a location in device memory."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_pointer_cast",
+      "refid": "group__memory__management_1gae0d8eafae56389ebb93acddab751e849",
+      "returns": [
+        "A <code>device&#95;ptr&lt;T&gt;</code> pointing to <code>ptr</code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "summary": "Create a device_ptr from a raw pointer. ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T",
+          "text": "Any type. "
+        }
+      ],
+      "title": "device_pointer_cast",
+      "type": "__host__ __device__ device_ptr< T >",
+      "typePlain": "__host__ __device__ device_ptr< T >",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-device-pointer-cast",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-pointer-cast",
+      "argsString": "(device_ptr< T > const &dptr)",
+      "brief": "Create a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> from another <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code>. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ device_ptr< T > thrust::device_pointer_cast",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "memory_management::device_pointer_cast",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 12,
+        "file": "thrust/device_ptr.h",
+        "line": 203
+      },
+      "name": "device_pointer_cast",
+      "override": false,
+      "paramList": [
+        {
+          "name": "dptr",
+          "text": "A <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> to a <code>T</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "dptr",
+          "type": "device_ptr< T > const &",
+          "typePlain": "device_ptr< T > const &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_pointer_cast",
+      "refid": "group__memory__management_1gaae8877ee375bd853c3fb175650de72bc",
+      "static": false,
+      "strong": false,
+      "summary": "Create a device_ptr from another device_ptr. ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T",
+          "text": "Any type. "
+        }
+      ],
+      "title": "device_pointer_cast",
+      "type": "__host__ __device__ device_ptr< T >",
+      "typePlain": "__host__ __device__ device_ptr< T >",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-device-pointer-cast",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-swap",
+      "argsString": "(device_reference< T > &x, device_reference< T > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::swap",
+      "deleted": false,
+      "details": "swaps the value of one <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> with another. <code>x</code> The first <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> of interest. <code>y</code> The second <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> of interest. ",
+      "explicit": false,
+      "fullname": "memory_management::swap",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "bodyEnd": 968,
+        "bodyFile": "thrust/device_reference.h",
+        "bodyStart": 965,
+        "column": 6,
+        "file": "thrust/device_reference.h",
+        "line": 965
+      },
+      "name": "swap",
+      "override": false,
+      "params": [
+        {
+          "name": "x",
+          "type": "device_reference< T > &",
+          "typePlain": "device_reference< T > &"
+        },
+        {
+          "name": "y",
+          "type": "device_reference< T > &",
+          "typePlain": "device_reference< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::swap",
+      "refid": "group__memory__management_1gaa677af4b24a5b9067359809a1f5df3e7",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "swap",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-swap",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator<<",
+      "argsString": "(std::basic_ostream< charT, traits > &os, const device_reference< T > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "std::basic_ostream< charT, traits > & thrust::operator<<",
+      "deleted": false,
+      "details": "Writes to an output stream the value of a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code>.",
+      "explicit": false,
+      "fullname": "memory_management::operator<<",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/device_reference.h",
+        "line": 965
+      },
+      "name": "operator<<",
+      "override": false,
+      "paramList": [
+        {
+          "name": "os",
+          "text": "The output stream. "
+        },
+        {
+          "name": "y",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> to output. "
+        }
+      ],
+      "params": [
+        {
+          "name": "os",
+          "type": "std::basic_ostream< charT, traits > &",
+          "typePlain": "std::basic_ostream< charT, traits > &"
+        },
+        {
+          "name": "y",
+          "type": "const device_reference< T > &",
+          "typePlain": "const device_reference< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::operator<<",
+      "refid": "group__memory__management_1gaa889fe30a5e2776131314ec5612e58ad",
+      "returns": [
+        "os. "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename charT",
+          "typePlain": "typename charT"
+        },
+        {
+          "name": "",
+          "type": "typename traits",
+          "typePlain": "typename traits"
+        }
+      ],
+      "title": "operator<<",
+      "type": "std::basic_ostream< charT, traits > &",
+      "typePlain": "std::basic_ostream< charT, traits > &",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-operator<<",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-malloc",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &system, std::size_t n)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ pointer< void, DerivedPolicy > thrust::malloc",
+      "deleted": false,
+      "details": "This version of <code>malloc</code> allocates untyped uninitialized storage associated with a given system.\n\n\nThe following code snippet demonstrates how to use <code>malloc</code> to allocate a range of memory associated with Thrust's device system.\n\n\n\n```cpp\n#include <thrust/memory.h>\n...\n// allocate some memory with thrust::malloc\nconst int N = 100;\nthrust::device_system_tag device_sys;\nthrust::pointer<void,thrust::device_space_tag> void_ptr = thrust::malloc(device_sys, N);\n\n// manipulate memory\n...\n\n// deallocate void_ptr with thrust::free\nthrust::free(device_sys, void_ptr);\n```",
+      "explicit": false,
+      "fullname": "memory_management::malloc",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 9,
+        "file": "thrust/memory.h",
+        "line": 174
+      },
+      "name": "malloc",
+      "override": false,
+      "paramList": [
+        {
+          "name": "system",
+          "text": "The Thrust system with which to associate the storage. "
+        },
+        {
+          "name": "n",
+          "text": "The number of bytes of storage to allocate. "
+        }
+      ],
+      "params": [
+        {
+          "name": "system",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "n",
+          "type": "std::size_t",
+          "typePlain": "std::size_t"
+        }
+      ],
+      "pre": [
+        "<code>DerivedPolicy</code> must be publically derived from <code>thrust::execution&#95;policy&lt;DerivedPolicy&gt;</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::malloc",
+      "refid": "group__memory__management_1gae731a1c6f3ad8b988e9d02dbc7cb3d9d",
+      "returns": [
+        "If allocation succeeds, a pointer to the allocated storage; a null pointer otherwise. The pointer must be deallocated with <code>thrust::free</code>."
+      ],
+      "see": [
+        "free ",
+        "device_malloc "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy."
+        }
+      ],
+      "title": "malloc",
+      "type": "__host__ __device__ pointer< void, DerivedPolicy >",
+      "typePlain": "__host__ __device__ pointer< void, DerivedPolicy >",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-malloc",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-malloc",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &system, std::size_t n)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ pointer< T, DerivedPolicy > thrust::malloc",
+      "deleted": false,
+      "details": "This version of <code>malloc</code> allocates typed uninitialized storage associated with a given system.\n\n\nThe following code snippet demonstrates how to use <code>malloc</code> to allocate a range of memory to accomodate integers associated with Thrust's device system.\n\n\n\n```cpp\n#include <thrust/memory.h>\n...\n// allocate storage for 100 ints with thrust::malloc\nconst int N = 100;\nthrust::device_system_tag device_sys;\nthrust::pointer<int,thrust::device_system_tag> ptr = thrust::malloc<int>(device_sys, N);\n\n// manipulate memory\n...\n\n// deallocate ptr with thrust::free\nthrust::free(device_sys, ptr);\n```",
+      "explicit": false,
+      "fullname": "memory_management::malloc",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 9,
+        "file": "thrust/memory.h",
+        "line": 212
+      },
+      "name": "malloc",
+      "override": false,
+      "paramList": [
+        {
+          "name": "system",
+          "text": "The Thrust system with which to associate the storage. "
+        },
+        {
+          "name": "n",
+          "text": "The number of elements of type <code>T</code> which the storage should accomodate. "
+        }
+      ],
+      "params": [
+        {
+          "name": "system",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "n",
+          "type": "std::size_t",
+          "typePlain": "std::size_t"
+        }
+      ],
+      "pre": [
+        "<code>DerivedPolicy</code> must be publically derived from <code>thrust::execution&#95;policy&lt;DerivedPolicy&gt;</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::malloc",
+      "refid": "group__memory__management_1gaa135825209301f8c9cac04dd7f10cb69",
+      "returns": [
+        "If allocation succeeds, a pointer to an allocation large enough to accomodate <code>n</code> elements of type <code>T</code>; a null pointer otherwise. The pointer must be deallocated with <code>thrust::free</code>."
+      ],
+      "see": [
+        "free ",
+        "device_malloc "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy."
+        }
+      ],
+      "title": "malloc",
+      "type": "__host__ __device__ pointer< T, DerivedPolicy >",
+      "typePlain": "__host__ __device__ pointer< T, DerivedPolicy >",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-malloc",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-get-temporary-buffer",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &system, typename thrust::pointer< T, DerivedPolicy >::difference_type n)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< thrust::pointer< T, DerivedPolicy >, typename thrust::pointer< T, DerivedPolicy >::difference_type > thrust::get_temporary_buffer",
+      "deleted": false,
+      "details": "<code>get&#95;temporary&#95;buffer</code> returns a pointer to storage associated with a given Thrust system sufficient to store up to <code>n</code> objects of type <code>T</code>. If not enough storage is available to accomodate <code>n</code> objects, an implementation may return a smaller buffer. The number of objects the returned buffer can accomodate is also returned.\n\nThrust uses <code>get&#95;temporary&#95;buffer</code> internally when allocating temporary storage required by algorithm implementations.\n\nThe storage allocated with <code>get&#95;temporary&#95;buffer</code> must be returned to the system with <code>return&#95;temporary&#95;buffer</code>.\n\n\nThe following code snippet demonstrates how to use <code>get&#95;temporary&#95;buffer</code> to allocate a range of memory to accomodate integers associated with Thrust's device system.\n\n\n\n```cpp\n#include <thrust/memory.h>\n...\n// allocate storage for 100 ints with thrust::get_temporary_buffer\nconst int N = 100;\n\ntypedef thrust::pair<\n  thrust::pointer<int,thrust::device_system_tag>,\n  std::ptrdiff_t\n> ptr_and_size_t;\n\nthrust::device_system_tag device_sys;\nptr_and_size_t ptr_and_size = thrust::get_temporary_buffer<int>(device_sys, N);\n\n// manipulate up to 100 ints\nfor(int i = 0; i < ptr_and_size.second; ++i)\n{\n  *ptr_and_size.first = i;\n}\n\n// deallocate storage with thrust::return_temporary_buffer\nthrust::return_temporary_buffer(device_sys, ptr_and_size.first);\n```",
+      "explicit": false,
+      "fullname": "memory_management::get_temporary_buffer",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 1,
+        "file": "thrust/memory.h",
+        "line": 266
+      },
+      "name": "get_temporary_buffer",
+      "override": false,
+      "paramList": [
+        {
+          "name": "system",
+          "text": "The Thrust system with which to associate the storage. "
+        },
+        {
+          "name": "n",
+          "text": "The requested number of objects of type <code>T</code> the storage should accomodate. "
+        }
+      ],
+      "params": [
+        {
+          "name": "system",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "n",
+          "type": "typename thrust::pointer< T, DerivedPolicy >::difference_type",
+          "typePlain": "typename thrust::pointer< T, DerivedPolicy >::difference_type"
+        }
+      ],
+      "pre": [
+        "<code>DerivedPolicy</code> must be publically derived from <code>thrust::execution&#95;policy&lt;DerivedPolicy&gt;</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::get_temporary_buffer",
+      "refid": "group__memory__management_1gaca901269ad9f7edf372b72372614b76b",
+      "returns": [
+        "A pair <code>p</code> such that <code>p.first</code> is a pointer to the allocated storage and <code>p.second</code> is the number of contiguous objects of type <code>T</code> that the storage can accomodate. If no storage can be allocated, <code>p.first</code> if no storage can be obtained. The storage must be returned to the system using <code>return&#95;temporary&#95;buffer</code>."
+      ],
+      "see": [
+        "malloc ",
+        "return_temporary_buffer "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy."
+        }
+      ],
+      "title": "get_temporary_buffer",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< thrust::pointer< T, DerivedPolicy >, typename thrust::pointer< T, DerivedPolicy >::difference_type >",
+      "typePlain": "__host__ __device__ thrust::pair< thrust::pointer< T, DerivedPolicy >, typename thrust::pointer< T, DerivedPolicy >::difference_type >",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-get-temporary-buffer",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-free",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &system, Pointer ptr)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::free",
+      "deleted": false,
+      "details": "<code>free</code> deallocates the storage previously allocated by <code>thrust::malloc</code>.\n\n\nThe following code snippet demonstrates how to use <code>free</code> to deallocate a range of memory previously allocated with <code>thrust::malloc</code>.\n\n\n\n```cpp\n#include <thrust/memory.h>\n...\n// allocate storage for 100 ints with thrust::malloc\nconst int N = 100;\nthrust::device_system_tag device_sys;\nthrust::pointer<int,thrust::device_system_tag> ptr = thrust::malloc<int>(device_sys, N);\n\n// mainpulate memory\n...\n\n// deallocate ptr with thrust::free\nthrust::free(device_sys, ptr);\n```",
+      "explicit": false,
+      "fullname": "memory_management::free",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/memory.h",
+        "line": 298
+      },
+      "name": "free",
+      "override": false,
+      "paramList": [
+        {
+          "name": "system",
+          "text": "The Thrust system with which the storage is associated. "
+        },
+        {
+          "name": "ptr",
+          "text": "A pointer previously returned by <code>thrust::malloc</code>. If <code>ptr</code> is null, <code>free</code> does nothing."
+        }
+      ],
+      "params": [
+        {
+          "name": "system",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "ptr",
+          "type": "Pointer",
+          "typePlain": "Pointer"
+        }
+      ],
+      "pre": [
+        "<code>ptr</code> shall have been returned by a previous call to <code>thrust::malloc(system, n)</code> or <code>thrust::malloc&lt;T&gt;(system, n)</code> for some type <code>T</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::free",
+      "refid": "group__memory__management_1ga65f74f777939ffdc62572853eee2c7ae",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename Pointer",
+          "typePlain": "typename Pointer"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy."
+        }
+      ],
+      "title": "free",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-free",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-return-temporary-buffer",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &system, Pointer p, std::ptrdiff_t n)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::return_temporary_buffer",
+      "deleted": false,
+      "details": "<code>return&#95;temporary&#95;buffer</code> deallocates storage associated with a given Thrust system previously allocated by <code>get&#95;temporary&#95;buffer</code>.\n\nThrust uses <code>return&#95;temporary&#95;buffer</code> internally when deallocating temporary storage required by algorithm implementations.\n\n\nThe following code snippet demonstrates how to use <code>return&#95;temporary&#95;buffer</code> to deallocate a range of memory previously allocated by <code>get&#95;temporary&#95;buffer</code>.\n\n\n\n```cpp\n#include <thrust/memory.h>\n...\n// allocate storage for 100 ints with thrust::get_temporary_buffer\nconst int N = 100;\n\ntypedef thrust::pair<\n  thrust::pointer<int,thrust::device_system_tag>,\n  std::ptrdiff_t\n> ptr_and_size_t;\n\nthrust::device_system_tag device_sys;\nptr_and_size_t ptr_and_size = thrust::get_temporary_buffer<int>(device_sys, N);\n\n// manipulate up to 100 ints\nfor(int i = 0; i < ptr_and_size.second; ++i)\n{\n  *ptr_and_size.first = i;\n}\n\n// deallocate storage with thrust::return_temporary_buffer\nthrust::return_temporary_buffer(device_sys, ptr_and_size.first);\n```",
+      "explicit": false,
+      "fullname": "memory_management::return_temporary_buffer",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/memory.h",
+        "line": 344
+      },
+      "name": "return_temporary_buffer",
+      "override": false,
+      "paramList": [
+        {
+          "name": "system",
+          "text": "The Thrust system with which the storage is associated. "
+        },
+        {
+          "name": "p",
+          "text": "A pointer previously returned by <code>thrust::get&#95;temporary&#95;buffer</code>. If <code>ptr</code> is null, <code>return&#95;temporary&#95;buffer</code> does nothing."
+        }
+      ],
+      "params": [
+        {
+          "name": "system",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "p",
+          "type": "Pointer",
+          "typePlain": "Pointer"
+        },
+        {
+          "name": "n",
+          "type": "std::ptrdiff_t",
+          "typePlain": "std::ptrdiff_t"
+        }
+      ],
+      "pre": [
+        "<code>p</code> shall have been previously allocated by <code>thrust::get&#95;temporary&#95;buffer</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::return_temporary_buffer",
+      "refid": "group__memory__management_1ga429af5322806389fbdcf4ed015c0aa47",
+      "see": [
+        "free ",
+        "get_temporary_buffer "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename Pointer",
+          "typePlain": "typename Pointer"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy."
+        }
+      ],
+      "title": "return_temporary_buffer",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-return-temporary-buffer",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-raw-pointer-cast",
+      "argsString": "(Pointer ptr)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::detail::pointer_traits< Pointer >::raw_pointer thrust::raw_pointer_cast",
+      "deleted": false,
+      "details": "<code>raw&#95;pointer&#95;cast</code> creates a \"raw\" pointer from a pointer-like type, simply returning the wrapped pointer, should it exist.",
+      "explicit": false,
+      "fullname": "memory_management::raw_pointer_cast",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 3,
+        "file": "thrust/memory.h",
+        "line": 357
+      },
+      "name": "raw_pointer_cast",
+      "override": false,
+      "paramList": [
+        {
+          "name": "ptr",
+          "text": "The pointer of interest. "
+        }
+      ],
+      "params": [
+        {
+          "name": "ptr",
+          "type": "Pointer",
+          "typePlain": "Pointer"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::raw_pointer_cast",
+      "refid": "group__memory__management_1ga50817a8bb87268a666f6319ee3c93d98",
+      "returns": [
+        "<code><a href=\"{{ site.baseurl }}/api/groups/group__tuple.html#function-get\">ptr.get()</a></code>, if the expression is well formed; <code>ptr</code>, otherwise. "
+      ],
+      "see": [
+        "raw_reference_cast "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Pointer",
+          "typePlain": "typename Pointer"
+        }
+      ],
+      "title": "raw_pointer_cast",
+      "type": "__host__ __device__ thrust::detail::pointer_traits< Pointer >::raw_pointer",
+      "typePlain": "__host__ __device__ thrust::detail::pointer_traits< Pointer >::raw_pointer",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-raw-pointer-cast",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-raw-reference-cast",
+      "argsString": "(T &ref)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ detail::raw_reference< T >::type thrust::raw_reference_cast",
+      "deleted": false,
+      "details": "<code>raw&#95;reference&#95;cast</code> creates a \"raw\" reference from a wrapped reference type, simply returning the underlying reference, should it exist.\n\nIf the argument is not a reference wrapper, the result is a reference to the argument.",
+      "explicit": false,
+      "fullname": "memory_management::raw_reference_cast",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 3,
+        "file": "thrust/memory.h",
+        "line": 374
+      },
+      "name": "raw_reference_cast",
+      "note": [
+        "There are two versions of <code>raw&#95;reference&#95;cast</code>. One for <code>const</code> references, and one for non-<code>const</code>. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "ref",
+          "text": "The reference of interest. "
+        }
+      ],
+      "params": [
+        {
+          "name": "ref",
+          "type": "T &",
+          "typePlain": "T &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::raw_reference_cast",
+      "refid": "group__memory__management_1ga5d2c05be46e3a5d383e1c1ce6b948c36",
+      "returns": [
+        "<code>&#42;thrust::raw&#95;pointer&#95;cast(&ref)</code>. "
+      ],
+      "see": [
+        "raw_pointer_cast "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "raw_reference_cast",
+      "type": "__host__ __device__ detail::raw_reference< T >::type",
+      "typePlain": "__host__ __device__ detail::raw_reference< T >::type",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-raw-reference-cast",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-raw-reference-cast",
+      "argsString": "(const T &ref)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ detail::raw_reference< constT >::type thrust::raw_reference_cast",
+      "deleted": false,
+      "details": "<code>raw&#95;reference&#95;cast</code> creates a \"raw\" reference from a wrapped reference type, simply returning the underlying reference, should it exist.\n\nIf the argument is not a reference wrapper, the result is a reference to the argument.",
+      "explicit": false,
+      "fullname": "memory_management::raw_reference_cast",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 3,
+        "file": "thrust/memory.h",
+        "line": 391
+      },
+      "name": "raw_reference_cast",
+      "note": [
+        "There are two versions of <code>raw&#95;reference&#95;cast</code>. One for <code>const</code> references, and one for non-<code>const</code>. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "ref",
+          "text": "The reference of interest. "
+        }
+      ],
+      "params": [
+        {
+          "name": "ref",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::raw_reference_cast",
+      "refid": "group__memory__management_1gae94e28c50b49ce2910ea8b0aea139f5c",
+      "returns": [
+        "<code>&#42;thrust::raw&#95;pointer&#95;cast(&ref)</code>. "
+      ],
+      "see": [
+        "raw_pointer_cast "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "raw_reference_cast",
+      "type": "__host__ __device__ detail::raw_reference< constT >::type",
+      "typePlain": "__host__ __device__ detail::raw_reference< constT >::type",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html#function-raw-reference-cast",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "memory_management",
+  "refid": "group__memory__management",
+  "static": false,
+  "strong": false,
+  "title": "Memory Management",
+  "url": "{{ site.baseurl }}/api/groups/group__memory__management.html",
+  "visibility": "public"
+}

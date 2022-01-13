@@ -1,0 +1,128 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "A tag type to represent an empty optional. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::nullopt_t",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "includes": "<thrust/optional.h>",
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 804,
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 800,
+    "column": 1,
+    "file": "thrust/optional.h",
+    "line": 800
+  },
+  "name": "thrust::nullopt_t",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::nullopt_t::do_not_use",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::nullopt_t::do_not_use",
+      "qualifiedname": "thrust::nullopt_t::do_not_use",
+      "refid": "structthrust_1_1nullopt__t_1_1do__not__use",
+      "title": "thrust::nullopt_t::do_not_use",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1nullopt__t_1_1do__not__use.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-nullopt-t",
+      "argsString": "(do_not_use, do_not_use) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ constexpr thrust::nullopt_t::nullopt_t",
+      "deleted": false,
+      "explicit": true,
+      "fullname": "thrust::nullopt_t::nullopt_t",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 803,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 803,
+        "column": 22,
+        "file": "thrust/optional.h",
+        "line": 803
+      },
+      "name": "nullopt_t",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "do_not_use",
+          "typePlain": "do_not_use"
+        },
+        {
+          "name": "",
+          "type": "do_not_use",
+          "typePlain": "do_not_use"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::nullopt_t::nullopt_t",
+      "refid": "structthrust_1_1nullopt__t_1ae40129127dfe722c309ebdb3b8bc14bf",
+      "static": false,
+      "strong": false,
+      "title": "nullopt_t",
+      "type": "__host__ __device__ constexpr",
+      "typePlain": "__host__ __device__ constexpr",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1nullopt__t.html#function-nullopt-t",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::nullopt_t",
+  "refid": "structthrust_1_1nullopt__t",
+  "static": false,
+  "strong": false,
+  "summary": "A tag type to represent an empty optional. ",
+  "title": "thrust::nullopt_t",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1nullopt__t.html",
+  "visibility": "public"
+}

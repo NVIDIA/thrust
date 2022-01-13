@@ -1,0 +1,444 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "thrust::reference< T, thrust::device_ptr< T >, thrust::device_reference< T > >",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> acts as a reference-like object to an object stored in device memory. <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> is not intended to be used directly; rather, this type is the result of deferencing a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code>. Similarly, taking the address of a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> yields a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code>.\n\n<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> may often be used from host code in place of operations defined on its associated <code>value&#95;type</code>. For example, when <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> refers to an arithmetic type, arithmetic operations on it are legal:\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n\nint main(void)\n{\n  thrust::device_vector<int> vec(1, 13);\n\n  thrust::device_reference<int> ref_to_thirteen = vec[0];\n\n  int x = ref_to_thirteen + 1;\n\n  // x is 14\n\n  return 0;\n}\n```\n\nSimilarly, we can print the value of <code>ref&#95;to&#95;thirteen</code> in the above code by using an <code>iostream:</code>\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <iostream>\n\nint main(void)\n{\n  thrust::device_vector<int> vec(1, 13);\n\n  thrust::device_reference<int> ref_to_thirteen = vec[0];\n\n  std::cout << ref_to_thirteen << std::endl;\n\n  // 13 is printed\n\n  return 0;\n}\n```\n\nOf course, we needn't explicitly create a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> in the previous example, because one is returned by <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a>'s</code> bracket operator. A more natural way to print the value of a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> element might be:\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <iostream>\n\nint main(void)\n{\n  thrust::device_vector<int> vec(1, 13);\n\n  std::cout << vec[0] << std::endl;\n\n  // 13 is printed\n\n  return 0;\n}\n```\n\nThese kinds of operations should be used sparingly in performance-critical code, because they imply a potentially expensive copy between host and device space.\n\nSome operations which are possible with regular objects are impossible with their corresponding <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> objects due to the requirements of the C++ language. For example, because the member access operator cannot be overloaded, member variables and functions of a referent object cannot be directly accessed through its <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code>.\n\nThe following code, which generates a compiler error, illustrates:\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n\nstruct foo\n{\n  int x;\n};\n\nint main(void)\n{\n  thrust::device_vector<foo> foo_vec(1);\n\n  thrust::device_reference<foo> foo_ref = foo_vec[0];\n\n  foo_ref.x = 13; // ERROR: x cannot be accessed through foo_ref\n\n  return 0;\n}\n```\n\nInstead, a host space copy must be created to access <code>foo's</code><code>x</code> member:\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n\nstruct foo\n{\n  int x;\n};\n\nint main(void)\n{\n  thrust::device_vector<foo> foo_vec(1);\n\n  // create a local host-side foo object\n  foo host_foo;\n  host_foo.x = 13;\n\n  thrust::device_reference<foo> foo_ref = foo_vec[0];\n\n  foo_ref = host_foo;\n\n  // foo_ref's x member is 13\n\n  return 0;\n}\n```\n\nAnother common case where a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> cannot directly be used in place of its referent object occurs when passing them as parameters to functions like <code>printf</code> which have varargs parameters. Because varargs parameters must be Plain Old Data, a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> to a POD type requires a cast when passed to <code>printf:</code>\n\n\n\n```cpp\n#include <stdio.h>\n#include <thrust/device_vector.h>\n\nint main(void)\n{\n  thrust::device_vector<int> vec(1,13);\n\n  // vec[0] must be cast to int when passing to printf\n  printf(\"%d\\n\", (int) vec[0]);\n\n  return 0;\n}\n```",
+  "explicit": false,
+  "fullname": "thrust::device_reference",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/device_reference.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 957,
+    "bodyFile": "thrust/device_reference.h",
+    "bodyStart": 190,
+    "column": 3,
+    "file": "thrust/device_reference.h",
+    "line": 184
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "memory_management",
+    "kind": "group",
+    "language": "",
+    "name": "memory_management",
+    "qualifiedname": "memory_management",
+    "refid": "group__memory__management",
+    "title": "Memory Management",
+    "url": "{{ site.baseurl }}/api/groups/group__memory__management.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "memory_management",
+      "kind": "group",
+      "language": "",
+      "name": "memory_management",
+      "qualifiedname": "memory_management",
+      "refid": "group__memory__management",
+      "title": "Memory Management",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::device_reference",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "privateTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-super-t",
+      "category": "types",
+      "const": false,
+      "definition": "typedef thrust::reference< T, thrust::device_ptr<T>, thrust::device_reference<T> > thrust::device_reference< T >::super_t",
+      "explicit": false,
+      "fullname": "thrust::device_reference::super_t",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/device_reference.h",
+        "bodyStart": 196,
+        "column": 2,
+        "file": "thrust/device_reference.h",
+        "line": 196
+      },
+      "name": "super_t",
+      "override": false,
+      "qualifiedname": "thrust::device_reference::super_t",
+      "refid": "classthrust_1_1device__reference_1aa8c5b93f4629bdba663d53210d549e06",
+      "static": false,
+      "strong": false,
+      "title": "super_t",
+      "type": "thrust::reference< T, <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">thrust::device_ptr</a>< T >, <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">thrust::device_reference</a>< T > >",
+      "typePlain": "thrust::reference< T, thrust::device_ptr< T >, thrust::device_reference< T > >",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html#typedef-super-t",
+      "visibility": "private"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-device-reference",
+      "argsString": "(const device_reference< OtherT > &other, typename thrust::detail::enable_if_convertible< typename device_reference< OtherT >::pointer, pointer >::type *=0)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::device_reference< T >::device_reference",
+      "deleted": false,
+      "details": "This copy constructor accepts a const reference to another <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code>. After this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> is constructed, it shall refer to the same object as <code>other</code>.\n\n\nThe following code snippet demonstrates the semantics of this copy constructor.\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <assert.h>\n...\nthrust::device_vector<int> v(1,0);\nthrust::device_reference<int> ref = v[0];\n\n// ref equals the object at v[0]\nassert(ref == v[0]);\n\n// the address of ref equals the address of v[0]\nassert(&ref == &v[0]);\n\n// modifying v[0] modifies ref\nv[0] = 13;\nassert(ref == 13);\n```",
+      "explicit": false,
+      "fullname": "thrust::device_reference::device_reference",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 245,
+        "bodyFile": "thrust/device_reference.h",
+        "bodyStart": 239,
+        "column": 5,
+        "file": "thrust/device_reference.h",
+        "line": 239
+      },
+      "name": "device_reference",
+      "note": [
+        "This constructor is templated primarily to allow initialization of <code>device&#95;reference&lt;const T&gt;</code> from <code>device&#95;reference&lt;T&gt;</code>. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "other",
+          "text": "A <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> to copy from."
+        }
+      ],
+      "params": [
+        {
+          "name": "other",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device_reference</a>< OtherT > &",
+          "typePlain": "const device_reference< OtherT > &"
+        },
+        {
+          "defval": "0",
+          "defvalPlain": "0",
+          "name": "",
+          "type": "typename thrust::detail::enable_if_convertible< typename <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device_reference</a>< OtherT ><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html#typedef-pointer\">::pointer</a>, <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html#typedef-pointer\">pointer</a> >::type *",
+          "typePlain": "typename thrust::detail::enable_if_convertible< typename device_reference< OtherT >::pointer, pointer >::type *"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_reference::device_reference",
+      "refid": "classthrust_1_1device__reference_1a543c48e228d8940b90247210eed46ada",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherT",
+          "typePlain": "typename OtherT"
+        }
+      ],
+      "title": "device_reference",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html#function-device-reference",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-reference",
+      "argsString": "(const pointer &ptr)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::device_reference< T >::device_reference",
+      "deleted": false,
+      "details": "This copy constructor initializes this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> to refer to an object pointed to by the given <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code>. After this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> is constructed, it shall refer to the object pointed to by <code>ptr</code>.\n\n\nThe following code snippet demonstrates the semantic of this copy constructor.\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <assert.h>\n...\nthrust::device_vector<int> v(1,0);\nthrust::device_ptr<int> ptr = &v[0];\nthrust::device_reference<int> ref(ptr);\n\n// ref equals the object pointed to by ptr\nassert(ref == *ptr);\n\n// the address of ref equals ptr\nassert(&ref == ptr);\n\n// modifying *ptr modifies ref\n*ptr = 13;\nassert(ref == 13);\n```",
+      "explicit": true,
+      "fullname": "thrust::device_reference::device_reference",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 279,
+        "bodyFile": "thrust/device_reference.h",
+        "bodyStart": 277,
+        "column": 14,
+        "file": "thrust/device_reference.h",
+        "line": 277
+      },
+      "name": "device_reference",
+      "override": false,
+      "paramList": [
+        {
+          "name": "ptr",
+          "text": "A <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> to copy from."
+        }
+      ],
+      "params": [
+        {
+          "name": "ptr",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html#typedef-pointer\">pointer</a> &",
+          "typePlain": "const pointer &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_reference::device_reference",
+      "refid": "classthrust_1_1device__reference_1a7b86b7fde1f85b6acfdd74610eb2a132",
+      "static": false,
+      "strong": false,
+      "title": "device_reference",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html#function-device-reference",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const device_reference< OtherT > &other)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ device_reference & thrust::device_reference< T >::operator=",
+      "deleted": false,
+      "details": "This assignment operator assigns the value of the object referenced by the given <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> to the object referenced by this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code>.",
+      "explicit": false,
+      "fullname": "thrust::device_reference::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 293,
+        "bodyFile": "thrust/device_reference.h",
+        "bodyStart": 290,
+        "column": 22,
+        "file": "thrust/device_reference.h",
+        "line": 290
+      },
+      "name": "operator=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "other",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code> to assign from. "
+        }
+      ],
+      "params": [
+        {
+          "name": "other",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device_reference</a>< OtherT > &",
+          "typePlain": "const device_reference< OtherT > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_reference::operator=",
+      "refid": "classthrust_1_1device__reference_1ae622f6593a2764bf5d39d7ca2948f054",
+      "returns": [
+        "<code>&#42;this</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherT",
+          "typePlain": "typename OtherT"
+        }
+      ],
+      "title": "operator=",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device_reference</a> &",
+      "typePlain": "__host__ __device__ device_reference &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const value_type &x)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ device_reference & thrust::device_reference< T >::operator=",
+      "deleted": false,
+      "details": "Assignment operator assigns the value of the given value to the value referenced by this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code>.",
+      "explicit": false,
+      "fullname": "thrust::device_reference::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 305,
+        "bodyFile": "thrust/device_reference.h",
+        "bodyStart": 302,
+        "column": 22,
+        "file": "thrust/device_reference.h",
+        "line": 302
+      },
+      "name": "operator=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The value to assign from. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html#typedef-value-type\">value_type</a> &",
+          "typePlain": "const value_type &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_reference::operator=",
+      "refid": "classthrust_1_1device__reference_1a256d82ee38d6a3c58781be8fd8d497d0",
+      "returns": [
+        "<code>&#42;this</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device_reference</a> &",
+      "typePlain": "__host__ __device__ device_reference &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-value-type",
+      "category": "types",
+      "const": false,
+      "definition": "typedef super_t::value_type thrust::device_reference< T >::value_type",
+      "details": "The type of the value referenced by this type of <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code>. ",
+      "explicit": false,
+      "fullname": "thrust::device_reference::value_type",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/device_reference.h",
+        "bodyStart": 201,
+        "column": 42,
+        "file": "thrust/device_reference.h",
+        "line": 201
+      },
+      "name": "value_type",
+      "override": false,
+      "qualifiedname": "thrust::device_reference::value_type",
+      "refid": "classthrust_1_1device__reference_1a170f4704d36c94a91196082d82e3bf65",
+      "static": false,
+      "strong": false,
+      "title": "value_type",
+      "type": "super_t::value_type",
+      "typePlain": "super_t::value_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html#typedef-value-type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-pointer",
+      "category": "types",
+      "const": false,
+      "definition": "typedef super_t::pointer thrust::device_reference< T >::pointer",
+      "details": "The type of the expression <code>&ref</code>, where <code>ref</code> is a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">device&#95;reference</a></code>. ",
+      "explicit": false,
+      "fullname": "thrust::device_reference::pointer",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/device_reference.h",
+        "bodyStart": 205,
+        "column": 42,
+        "file": "thrust/device_reference.h",
+        "line": 205
+      },
+      "name": "pointer",
+      "override": false,
+      "qualifiedname": "thrust::device_reference::pointer",
+      "refid": "classthrust_1_1device__reference_1add8f2f40c1f72de722ecd9fdc53778eb",
+      "static": false,
+      "strong": false,
+      "title": "pointer",
+      "type": "super_t::pointer",
+      "typePlain": "super_t::pointer",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html#typedef-pointer",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::device_reference",
+  "refid": "classthrust_1_1device__reference",
+  "see": [
+    "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device_ptr</a>",
+    "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    }
+  ],
+  "title": "thrust::device_reference",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html",
+  "visibility": "public"
+}

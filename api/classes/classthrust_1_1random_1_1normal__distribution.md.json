@@ -1,0 +1,791 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "detail::normal_distribution_base::type",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "brief": "A <code>normal&#95;distribution</code> random number distribution produces floating point Normally distributed random numbers. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "\nThe following code snippet demonstrates examples of using a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code> with a random number engine to produce random values drawn from the Normal distribution with a given mean and variance:\n\n\n\n```cpp\n#include <thrust/random/linear_congruential_engine.h>\n#include <thrust/random/normal_distribution.h>\n\nint main(void)\n{\n  // create a minstd_rand object to act as our source of randomness\n  thrust::minstd_rand rng;\n\n  // create a normal_distribution to produce floats from the Normal distribution\n  // with mean 2.0 and standard deviation 3.5\n  thrust::random::normal_distribution<float> dist(2.0f, 3.5f);\n\n  // write a random number to standard output\n  std::cout << dist(rng) << std::endl;\n\n  // write the mean of the distribution, just in case we forgot\n  std::cout << dist.mean() << std::endl;\n\n  // 2.0 is printed\n\n  // and the standard deviation\n  std::cout << dist.stddev() << std::endl;\n\n  // 3.5 is printed\n\n  return 0;\n}\n```",
+  "explicit": false,
+  "fullname": "thrust::random::normal_distribution",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/random/normal_distribution.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 214,
+    "bodyFile": "thrust/random/normal_distribution.h",
+    "bodyStart": 83,
+    "column": 3,
+    "file": "thrust/random/normal_distribution.h",
+    "line": 81
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "random_number_distributions",
+    "kind": "group",
+    "language": "",
+    "name": "random_number_distributions",
+    "qualifiedname": "random_number_distributions",
+    "refid": "group__random__number__distributions",
+    "title": "Random Number Distributions Class Templates",
+    "url": "{{ site.baseurl }}/api/groups/group__random__number__distributions.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "random",
+      "kind": "group",
+      "language": "",
+      "name": "random",
+      "qualifiedname": "random",
+      "refid": "group__random",
+      "title": "Random Number Generation",
+      "url": "{{ site.baseurl }}/api/groups/group__random.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "random_number_distributions",
+      "kind": "group",
+      "language": "",
+      "name": "random_number_distributions",
+      "qualifiedname": "random_number_distributions",
+      "refid": "group__random__number__distributions",
+      "title": "Random Number Distributions Class Templates",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__distributions.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::random::normal_distribution",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "<code>thrust::random</code> is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+    "category": "namespaces",
+    "fullname": "thrust::random",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::random",
+    "qualifiedname": "thrust::random",
+    "refid": "namespacethrust_1_1random",
+    "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+    "title": "thrust::random",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1random.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "<code>thrust::random</code> is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+      "category": "namespaces",
+      "fullname": "thrust::random",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::random",
+      "qualifiedname": "thrust::random",
+      "refid": "namespacethrust_1_1random",
+      "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+      "title": "thrust::random",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1random.html",
+      "visibility": "public"
+    }
+  ],
+  "privateTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-super-t",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::normal_distribution_base<RealType>::type thrust::random::normal_distribution< RealType >::super_t",
+      "explicit": false,
+      "fullname": "thrust::random::normal_distribution::super_t",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/normal_distribution.h",
+        "bodyStart": 85,
+        "column": 62,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 85
+      },
+      "name": "super_t",
+      "override": false,
+      "qualifiedname": "thrust::random::normal_distribution::super_t",
+      "refid": "classthrust_1_1random_1_1normal__distribution_1ac896e580bec058a417542c814c456140",
+      "static": false,
+      "strong": false,
+      "title": "super_t",
+      "type": "detail::normal_distribution_base< RealType >::type",
+      "typePlain": "detail::normal_distribution_base< RealType >::type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#typedef-super-t",
+      "visibility": "private"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-normal-distribution",
+      "argsString": "(RealType mean=0.0, RealType stddev=1.0)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::random::normal_distribution< RealType >::normal_distribution",
+      "deleted": false,
+      "details": "This constructor creates a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code> from two values defining the half-open interval of the distribution.",
+      "explicit": true,
+      "fullname": "thrust::random::normal_distribution::normal_distribution",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 14,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 109
+      },
+      "name": "normal_distribution",
+      "override": false,
+      "paramList": [
+        {
+          "name": "mean",
+          "text": "The mean (expected value) of the distribution. Defaults to <code>0.0</code>. "
+        },
+        {
+          "name": "stddev",
+          "text": "The standard deviation of the distribution. Defaults to <code>1.0</code>. "
+        }
+      ],
+      "params": [
+        {
+          "defval": "0.0",
+          "defvalPlain": "0.0",
+          "name": "mean",
+          "type": "RealType",
+          "typePlain": "RealType"
+        },
+        {
+          "defval": "1.0",
+          "defvalPlain": "1.0",
+          "name": "stddev",
+          "type": "RealType",
+          "typePlain": "RealType"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::normal_distribution::normal_distribution",
+      "refid": "classthrust_1_1random_1_1normal__distribution_1a0c00f49ae6a01e0997e6871a054c61cc",
+      "static": false,
+      "strong": false,
+      "title": "normal_distribution",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#function-normal-distribution",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-normal-distribution",
+      "argsString": "(const param_type &parm)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::random::normal_distribution< RealType >::normal_distribution",
+      "deleted": false,
+      "details": "This constructor creates a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code> from a <code>param&#95;type</code> object encapsulating the range of the distribution.",
+      "explicit": true,
+      "fullname": "thrust::random::normal_distribution::normal_distribution",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 14,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 117
+      },
+      "name": "normal_distribution",
+      "override": false,
+      "paramList": [
+        {
+          "name": "parm",
+          "text": "A <code>param&#95;type</code> object encapsulating the parameters (i.e., the mean and standard deviation) of the distribution. "
+        }
+      ],
+      "params": [
+        {
+          "name": "parm",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#typedef-param-type\">param_type</a> &",
+          "typePlain": "const param_type &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::normal_distribution::normal_distribution",
+      "refid": "classthrust_1_1random_1_1normal__distribution_1add1e89b505c664d1beee22cddaf71dc1",
+      "static": false,
+      "strong": false,
+      "title": "normal_distribution",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#function-normal-distribution",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-reset",
+      "argsString": "(void)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::random::normal_distribution< RealType >::reset",
+      "deleted": false,
+      "details": "Calling this member function guarantees that subsequent uses of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code> do not depend on values produced by any random number generator prior to invoking this function. ",
+      "explicit": false,
+      "fullname": "thrust::random::normal_distribution::reset",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 10,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 124
+      },
+      "name": "reset",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::normal_distribution::reset",
+      "refid": "classthrust_1_1random_1_1normal__distribution_1adf662757fd079afb014919bcde847de5",
+      "static": false,
+      "strong": false,
+      "title": "reset",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#function-reset",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(UniformRandomNumberGenerator &urng)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ result_type thrust::random::normal_distribution< RealType >::operator()",
+      "deleted": false,
+      "details": "This method produces a new Normal random integer drawn from this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a>'s</code> range using a <code>UniformRandomNumberGenerator</code> as a source of randomness.",
+      "explicit": false,
+      "fullname": "thrust::random::normal_distribution::operator()",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 17,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 135
+      },
+      "name": "operator()",
+      "override": false,
+      "paramList": [
+        {
+          "name": "urng",
+          "text": "The <code>UniformRandomNumberGenerator</code> to use as a source of randomness. "
+        }
+      ],
+      "params": [
+        {
+          "name": "urng",
+          "type": "UniformRandomNumberGenerator &",
+          "typePlain": "UniformRandomNumberGenerator &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::normal_distribution::operator()",
+      "refid": "classthrust_1_1random_1_1normal__distribution_1a877130cccdba4b60fa0dbc36d708f6ab",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename UniformRandomNumberGenerator",
+          "typePlain": "typename UniformRandomNumberGenerator"
+        }
+      ],
+      "title": "operator()",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#typedef-result-type\">result_type</a>",
+      "typePlain": "__host__ __device__ result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(UniformRandomNumberGenerator &urng, const param_type &parm)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ result_type thrust::random::normal_distribution< RealType >::operator()",
+      "deleted": false,
+      "details": "This method produces a new Normal random integer as if by creating a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code> from the given <code>param&#95;type</code> object, and calling its <code>operator()</code> method with the given <code>UniformRandomNumberGenerator</code> as a source of randomness.",
+      "explicit": false,
+      "fullname": "thrust::random::normal_distribution::operator()",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 17,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 147
+      },
+      "name": "operator()",
+      "override": false,
+      "paramList": [
+        {
+          "name": "urng",
+          "text": "The <code>UniformRandomNumberGenerator</code> to use as a source of randomness. "
+        },
+        {
+          "name": "parm",
+          "text": "A <code>param&#95;type</code> object encapsulating the parameters of the <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code> to draw from. "
+        }
+      ],
+      "params": [
+        {
+          "name": "urng",
+          "type": "UniformRandomNumberGenerator &",
+          "typePlain": "UniformRandomNumberGenerator &"
+        },
+        {
+          "name": "parm",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#typedef-param-type\">param_type</a> &",
+          "typePlain": "const param_type &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::normal_distribution::operator()",
+      "refid": "classthrust_1_1random_1_1normal__distribution_1a08f676894478e4d2bd072fb6c2979a8e",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename UniformRandomNumberGenerator",
+          "typePlain": "typename UniformRandomNumberGenerator"
+        }
+      ],
+      "title": "operator()",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#typedef-result-type\">result_type</a>",
+      "typePlain": "__host__ __device__ result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-mean",
+      "argsString": "(void) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ result_type thrust::random::normal_distribution< RealType >::mean",
+      "deleted": false,
+      "details": "This method returns the value of the parameter with which this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code> was constructed.",
+      "explicit": false,
+      "fullname": "thrust::random::normal_distribution::mean",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 17,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 157
+      },
+      "name": "mean",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::normal_distribution::mean",
+      "refid": "classthrust_1_1random_1_1normal__distribution_1aad854fbb72951888a9db10b8ab0efb24",
+      "returns": [
+        "The mean (expected value) of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a>'s</code> output. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "mean",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#typedef-result-type\">result_type</a>",
+      "typePlain": "__host__ __device__ result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#function-mean",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-stddev",
+      "argsString": "(void) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ result_type thrust::random::normal_distribution< RealType >::stddev",
+      "deleted": false,
+      "details": "This method returns the value of the parameter with which this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code> was constructed.",
+      "explicit": false,
+      "fullname": "thrust::random::normal_distribution::stddev",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 17,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 165
+      },
+      "name": "stddev",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::normal_distribution::stddev",
+      "refid": "classthrust_1_1random_1_1normal__distribution_1a6789176cc736f5db79c04dfe6bdf04ed",
+      "returns": [
+        "The standard deviation of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a>'s</code> output. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "stddev",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#typedef-result-type\">result_type</a>",
+      "typePlain": "__host__ __device__ result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#function-stddev",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-param",
+      "argsString": "(void) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ param_type thrust::random::normal_distribution< RealType >::param",
+      "deleted": false,
+      "details": "This method returns a <code>param&#95;type</code> object encapsulating the parameters with which this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code> was constructed.",
+      "explicit": false,
+      "fullname": "thrust::random::normal_distribution::param",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 16,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 173
+      },
+      "name": "param",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::normal_distribution::param",
+      "refid": "classthrust_1_1random_1_1normal__distribution_1a5758088e66d3379f7849fda9c77fff57",
+      "returns": [
+        "A <code>param&#95;type</code> object encapsulating the parameters (i.e., the mean and standard deviation) of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "param",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#typedef-param-type\">param_type</a>",
+      "typePlain": "__host__ __device__ param_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#function-param",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-param",
+      "argsString": "(const param_type &parm)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::random::normal_distribution< RealType >::param",
+      "deleted": false,
+      "details": "This method changes the parameters of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code> using the values encapsulated in a given <code>param&#95;type</code> object.",
+      "explicit": false,
+      "fullname": "thrust::random::normal_distribution::param",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 10,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 181
+      },
+      "name": "param",
+      "override": false,
+      "paramList": [
+        {
+          "name": "parm",
+          "text": "A <code>param&#95;type</code> object encapsulating the new parameters (i.e., the mean and variance) of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "parm",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#typedef-param-type\">param_type</a> &",
+          "typePlain": "const param_type &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::normal_distribution::param",
+      "refid": "classthrust_1_1random_1_1normal__distribution_1adbf9b659d3e1c67f3a467dfb891c10e8",
+      "static": false,
+      "strong": false,
+      "title": "param",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#function-param",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-thrust-prevent-macro-substitution",
+      "argsString": "(void) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ result_type min thrust::random::normal_distribution< RealType >::THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "deleted": false,
+      "details": "This method returns the smallest floating point number this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code> can potentially produce.",
+      "explicit": false,
+      "fullname": "thrust::random::normal_distribution::THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 21,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 188
+      },
+      "name": "THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::normal_distribution::THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "refid": "classthrust_1_1random_1_1normal__distribution_1a40a54b80ccb8322700c549b948a40dbd",
+      "returns": [
+        "The lower bound of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a>'s</code> half-open interval. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#typedef-result-type\">result_type</a> min",
+      "typePlain": "__host__ __device__ result_type min",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#function-thrust-prevent-macro-substitution",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-thrust-prevent-macro-substitution",
+      "argsString": "(void) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ result_type max thrust::random::normal_distribution< RealType >::THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "deleted": false,
+      "details": "This method returns the smallest number larger than largest floating point number this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> can potentially produce.",
+      "explicit": false,
+      "fullname": "thrust::random::normal_distribution::THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 21,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 195
+      },
+      "name": "THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::normal_distribution::THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "refid": "classthrust_1_1random_1_1normal__distribution_1a0fa0adf3adde7577db3a60104cc27dea",
+      "returns": [
+        "The upper bound of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a>'s</code> half-open interval. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#typedef-result-type\">result_type</a> max",
+      "typePlain": "__host__ __device__ result_type max",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#function-thrust-prevent-macro-substitution",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-result-type",
+      "brief": "The type of the floating point number produced by this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code>. ",
+      "category": "types",
+      "const": false,
+      "definition": "thrust::random::normal_distribution< RealType >::result_type",
+      "explicit": false,
+      "fullname": "thrust::random::normal_distribution::result_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/normal_distribution.h",
+        "bodyStart": 93,
+        "column": 22,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 93
+      },
+      "name": "result_type",
+      "override": false,
+      "qualifiedname": "thrust::random::normal_distribution::result_type",
+      "refid": "classthrust_1_1random_1_1normal__distribution_1a21ade1cd7b99e09b5756eba0e1f4844d",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the floating point number produced by this normal_distribution. ",
+      "title": "result_type",
+      "type": "RealType",
+      "typePlain": "RealType",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#typedef-result-type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-param-type",
+      "brief": "The type of the object encapsulating this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a>'s</code> parameters. ",
+      "category": "types",
+      "const": false,
+      "definition": "thrust::random::normal_distribution< RealType >::param_type",
+      "explicit": false,
+      "fullname": "thrust::random::normal_distribution::param_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/normal_distribution.h",
+        "bodyStart": 98,
+        "column": 26,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 98
+      },
+      "name": "param_type",
+      "override": false,
+      "qualifiedname": "thrust::random::normal_distribution::param_type",
+      "refid": "classthrust_1_1random_1_1normal__distribution_1a6dc0cf658e70e328c817782582095459",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the object encapsulating this normal_distribution's parameters. ",
+      "title": "param_type",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< RealType, RealType >",
+      "typePlain": "thrust::pair< RealType, RealType >",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html#typedef-param-type",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::random::normal_distribution",
+  "refid": "classthrust_1_1random_1_1normal__distribution",
+  "static": false,
+  "strong": false,
+  "summary": "A normal_distribution random number distribution produces floating point Normally distributed random numbers. ",
+  "templateParams": [
+    {
+      "defval": "double",
+      "defvalPlain": "double",
+      "name": "",
+      "type": "typename RealType",
+      "typePlain": "typename RealType"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "RealType",
+      "text": "The type of floating point number to produce."
+    }
+  ],
+  "title": "thrust::random::normal_distribution",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html",
+  "visibility": "public"
+}

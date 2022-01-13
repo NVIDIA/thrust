@@ -1,0 +1,92 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "std::false_type",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::detail::is_optional_impl",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 281,
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 281,
+    "column": 12,
+    "file": "thrust/optional.h",
+    "line": 281
+  },
+  "name": "thrust::detail::is_optional_impl",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "\\exclude ",
+    "category": "namespaces",
+    "fullname": "thrust::detail",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::detail",
+    "qualifiedname": "thrust::detail",
+    "refid": "namespacethrust_1_1detail",
+    "summary": "\\exclude ",
+    "title": "thrust::detail",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "\\exclude ",
+      "category": "namespaces",
+      "fullname": "thrust::detail",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::detail",
+      "qualifiedname": "thrust::detail",
+      "refid": "namespacethrust_1_1detail",
+      "summary": "\\exclude ",
+      "title": "thrust::detail",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::detail::is_optional_impl",
+  "refid": "structthrust_1_1detail_1_1is__optional__impl",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "class T",
+      "typePlain": "class T"
+    }
+  ],
+  "title": "thrust::detail::is_optional_impl",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1is__optional__impl.html",
+  "visibility": "public"
+}

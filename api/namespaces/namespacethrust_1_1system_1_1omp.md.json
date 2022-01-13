@@ -1,0 +1,741 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::system::omp",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "language": "cpp",
+  "location": {
+    "column": 16,
+    "file": "thrust/system/omp/memory.h",
+    "line": 31
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "system_backends",
+    "kind": "group",
+    "language": "",
+    "name": "system_backends",
+    "qualifiedname": "system_backends",
+    "refid": "group__system__backends",
+    "title": "Systems",
+    "url": "{{ site.baseurl }}/api/groups/group__system__backends.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "system",
+      "kind": "group",
+      "language": "",
+      "name": "system",
+      "qualifiedname": "system",
+      "refid": "group__system",
+      "title": "System",
+      "url": "{{ site.baseurl }}/api/groups/group__system.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "system_backends",
+      "kind": "group",
+      "language": "",
+      "name": "system_backends",
+      "qualifiedname": "system_backends",
+      "refid": "group__system__backends",
+      "title": "Systems",
+      "url": "{{ site.baseurl }}/api/groups/group__system__backends.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::system::omp",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "<code>thrust::system</code> is the namespace which contains specific Thrust backend systems. It also contains functionality for reporting error conditions originating from the operating system or other low-level application program interfaces such as the CUDA runtime. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+    "category": "namespaces",
+    "fullname": "thrust::system",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::system",
+    "qualifiedname": "thrust::system",
+    "refid": "namespacethrust_1_1system",
+    "summary": "thrust::system is the namespace which contains specific Thrust backend systems. It also contains functionality for reporting error conditions originating from the operating system or other low-level application program interfaces such as the CUDA runtime. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+    "title": "thrust::system",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "<code>thrust::system</code> is the namespace which contains specific Thrust backend systems. It also contains functionality for reporting error conditions originating from the operating system or other low-level application program interfaces such as the CUDA runtime. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+      "category": "namespaces",
+      "fullname": "thrust::system",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::system",
+      "qualifiedname": "thrust::system",
+      "refid": "namespacethrust_1_1system",
+      "summary": "thrust::system is the namespace which contains specific Thrust backend systems. It also contains functionality for reporting error conditions originating from the operating system or other low-level application program interfaces such as the CUDA runtime. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+      "title": "thrust::system",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-malloc",
+      "argsString": "(std::size_t n)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "pointer< void > thrust::system::omp::malloc",
+      "deleted": false,
+      "details": "Allocates an area of memory available to Thrust's <code>omp</code> system. ",
+      "explicit": false,
+      "fullname": "thrust::system::omp::malloc",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 16,
+        "file": "thrust/system/omp/memory.h",
+        "line": 44
+      },
+      "name": "malloc",
+      "note": [
+        "The <code>omp::pointer&lt;void&gt;</code> returned by this function must be deallocated with <code>omp::free</code>. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "n",
+          "text": "Number of bytes to allocate. "
+        }
+      ],
+      "params": [
+        {
+          "name": "n",
+          "type": "std::size_t",
+          "typePlain": "std::size_t"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::omp::malloc",
+      "refid": "system_2omp_2memory_8h_1a4dd0943e6ebe515eef551c862653b43f",
+      "returns": [
+        "A <code>omp::pointer&lt;void&gt;</code> pointing to the beginning of the newly allocated memory. A null <code>omp::pointer&lt;void&gt;</code> is returned if an error occurs. "
+      ],
+      "see": [
+        "omp::free ",
+        "std::malloc "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "malloc",
+      "type": "<a href=\"{{ site.baseurl }}/api/groups/group__system__backends.html#using-pointer\">pointer</a>< void >",
+      "typePlain": "pointer< void >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1omp.html#function-malloc",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-malloc",
+      "argsString": "(std::size_t n)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "pointer< T > thrust::system::omp::malloc",
+      "deleted": false,
+      "details": "Allocates a typed area of memory available to Thrust's <code>omp</code> system. ",
+      "explicit": false,
+      "fullname": "thrust::system::omp::malloc",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 16,
+        "file": "thrust/system/omp/memory.h",
+        "line": 57
+      },
+      "name": "malloc",
+      "note": [
+        "The <code>omp::pointer&lt;T&gt;</code> returned by this function must be deallocated with <code>omp::free</code>. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "n",
+          "text": "Number of elements to allocate. "
+        }
+      ],
+      "params": [
+        {
+          "name": "n",
+          "type": "std::size_t",
+          "typePlain": "std::size_t"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::omp::malloc",
+      "refid": "system_2omp_2memory_8h_1aabed6f83e7c7ce44bb041c6a99280c35",
+      "returns": [
+        "A <code>omp::pointer&lt;T&gt;</code> pointing to the beginning of the newly allocated memory. A null <code>omp::pointer&lt;T&gt;</code> is returned if an error occurs. "
+      ],
+      "see": [
+        "omp::free ",
+        "std::malloc "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "malloc",
+      "type": "<a href=\"{{ site.baseurl }}/api/groups/group__system__backends.html#using-pointer\">pointer</a>< T >",
+      "typePlain": "pointer< T >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1omp.html#function-malloc",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-free",
+      "argsString": "(pointer< void > ptr)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "void thrust::system::omp::free",
+      "deleted": false,
+      "details": "Deallocates an area of memory previously allocated by <code>omp::malloc</code>. ",
+      "explicit": false,
+      "fullname": "thrust::system::omp::free",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 13,
+        "file": "thrust/system/omp/memory.h",
+        "line": 65
+      },
+      "name": "free",
+      "override": false,
+      "paramList": [
+        {
+          "name": "ptr",
+          "text": "A <code>omp::pointer&lt;void&gt;</code> pointing to the beginning of an area of memory previously allocated with <code>omp::malloc</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "ptr",
+          "type": "<a href=\"{{ site.baseurl }}/api/groups/group__system__backends.html#using-pointer\">pointer</a>< void >",
+          "typePlain": "pointer< void >"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::omp::free",
+      "refid": "system_2omp_2memory_8h_1ae790f24df80e7a122ba340f9c9b8c596",
+      "see": [
+        "omp::malloc ",
+        "std::free "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "free",
+      "type": "void",
+      "typePlain": "void",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1omp.html#function-free",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-allocator",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::system::omp::allocator = typedef thrust::mr::stateless_resource_allocator< T, thrust::system::omp::memory_resource >",
+      "details": "<code>omp::allocator</code> is the default allocator used by the <code>omp</code> system's containers such as <code>omp::vector</code> if no user-specified allocator is provided. <code>omp::allocator</code> allocates (deallocates) storage with <code>omp::malloc</code> (<code>omp::free</code>). ",
+      "explicit": false,
+      "fullname": "thrust::system::omp::allocator",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/omp/memory.h",
+        "bodyStart": 75,
+        "column": 1,
+        "file": "thrust/system/omp/memory.h",
+        "line": 73
+      },
+      "name": "allocator",
+      "override": false,
+      "qualifiedname": "thrust::system::omp::allocator",
+      "refid": "system_2omp_2memory_8h_1a935050fe8f4b43104c64a3eb781f06ec",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "allocator",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html\">thrust::mr::stateless_resource_allocator</a>< T, <a href=\"{{ site.baseurl }}/api/groups/group__memory__resources.html#typedef-memory-resource\">thrust::system::omp::memory_resource</a> >",
+      "typePlain": "thrust::mr::stateless_resource_allocator< T, thrust::system::omp::memory_resource >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1omp.html#using-allocator",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-universal-allocator",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::system::omp::universal_allocator = typedef thrust::mr::stateless_resource_allocator< T, thrust::system::omp::universal_memory_resource >",
+      "details": "<code>omp::universal&#95;allocator</code> allocates memory that can be used by the <code>omp</code> system and host systems. ",
+      "explicit": false,
+      "fullname": "thrust::system::omp::universal_allocator",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/omp/memory.h",
+        "bodyStart": 83,
+        "column": 1,
+        "file": "thrust/system/omp/memory.h",
+        "line": 81
+      },
+      "name": "universal_allocator",
+      "override": false,
+      "qualifiedname": "thrust::system::omp::universal_allocator",
+      "refid": "system_2omp_2memory_8h_1a26aca42d37dcc48c02a1b2e5993dbf49",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "universal_allocator",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html\">thrust::mr::stateless_resource_allocator</a>< T, <a href=\"{{ site.baseurl }}/api/groups/group__memory__resources.html#typedef-universal-memory-resource\">thrust::system::omp::universal_memory_resource</a> >",
+      "typePlain": "thrust::mr::stateless_resource_allocator< T, thrust::system::omp::universal_memory_resource >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1omp.html#using-universal-allocator",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-memory-resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::native_resource thrust::system::omp::memory_resource",
+      "details": "The memory resource for the OpenMP system. Uses <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>omp::pointer</code>. ",
+      "explicit": false,
+      "fullname": "thrust::system::omp::memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/omp/memory_resource.h",
+        "bodyStart": 56,
+        "column": 33,
+        "file": "thrust/system/omp/memory_resource.h",
+        "line": 56
+      },
+      "name": "memory_resource",
+      "override": false,
+      "qualifiedname": "thrust::system::omp::memory_resource",
+      "refid": "group__memory__resources_1ga596395dc6ece99a8162406f6a23578d5",
+      "static": false,
+      "strong": false,
+      "title": "memory_resource",
+      "type": "detail::native_resource",
+      "typePlain": "detail::native_resource",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__resources.html#typedef-memory-resource",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-universal-memory-resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::universal_native_resource thrust::system::omp::universal_memory_resource",
+      "details": "The unified memory resource for the OpenMP system. Uses <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>omp::universal&#95;pointer</code>. ",
+      "explicit": false,
+      "fullname": "thrust::system::omp::universal_memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/omp/memory_resource.h",
+        "bodyStart": 60,
+        "column": 43,
+        "file": "thrust/system/omp/memory_resource.h",
+        "line": 60
+      },
+      "name": "universal_memory_resource",
+      "override": false,
+      "qualifiedname": "thrust::system::omp::universal_memory_resource",
+      "refid": "group__memory__resources_1ga6e2243768f6e78997944584175c91884",
+      "static": false,
+      "strong": false,
+      "title": "universal_memory_resource",
+      "type": "detail::universal_native_resource",
+      "typePlain": "detail::universal_native_resource",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__resources.html#typedef-universal-memory-resource",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-universal-host-pinned-memory-resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::native_resource thrust::system::omp::universal_host_pinned_memory_resource",
+      "details": "An alias for <code>omp::universal&#95;memory&#95;resource</code>. ",
+      "explicit": false,
+      "fullname": "thrust::system::omp::universal_host_pinned_memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/omp/memory_resource.h",
+        "bodyStart": 62,
+        "column": 33,
+        "file": "thrust/system/omp/memory_resource.h",
+        "line": 62
+      },
+      "name": "universal_host_pinned_memory_resource",
+      "override": false,
+      "qualifiedname": "thrust::system::omp::universal_host_pinned_memory_resource",
+      "refid": "group__memory__resources_1ga7826e41aad69314c57c060b5c1ee07cf",
+      "static": false,
+      "strong": false,
+      "title": "universal_host_pinned_memory_resource",
+      "type": "detail::native_resource",
+      "typePlain": "detail::native_resource",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__resources.html#typedef-universal-host-pinned-memory-resource",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-pointer",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::system::omp::pointer = typedef thrust::pointer< T, thrust::system::omp::tag, thrust::tagged_reference<T, thrust::system::omp::tag> >",
+      "details": "<code>omp::pointer</code> stores a pointer to an object allocated in memory accessible by the <code>omp</code> system. This type provides type safety when dispatching algorithms on ranges resident in <code>omp</code> memory.\n\n<code>omp::pointer</code> has pointer semantics: it may be dereferenced and manipulated with pointer arithmetic.\n\n<code>omp::pointer</code> can be created with the function <code>omp::malloc</code>, or by explicitly calling its constructor with a raw pointer.\n\nThe raw pointer encapsulated by a <code>omp::pointer</code> may be obtained by eiter its <code>get</code> member function or the <code>raw&#95;pointer&#95;cast</code> function.",
+      "explicit": false,
+      "fullname": "thrust::system::omp::pointer",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/omp/pointer.h",
+        "bodyStart": 60,
+        "column": 1,
+        "file": "thrust/system/omp/pointer.h",
+        "line": 56
+      },
+      "name": "pointer",
+      "note": [
+        "<code>omp::pointer</code> is not a \"smart\" pointer; it is the programmer's responsibility to deallocate memory pointed to by <code>omp::pointer</code>."
+      ],
+      "override": false,
+      "qualifiedname": "thrust::system::omp::pointer",
+      "refid": "group__system__backends_1ga64dade913bc262bb19b1d45c7fbbaf44",
+      "see": [
+        "omp::malloc ",
+        "omp::free ",
+        "raw_pointer_cast "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T",
+          "text": "specifies the type of the pointee."
+        }
+      ],
+      "title": "pointer",
+      "type": "thrust::pointer< T, thrust::system::omp::tag, thrust::tagged_reference< T, thrust::system::omp::tag > >",
+      "typePlain": "thrust::pointer< T, thrust::system::omp::tag, thrust::tagged_reference< T, thrust::system::omp::tag > >",
+      "url": "{{ site.baseurl }}/api/groups/group__system__backends.html#using-pointer",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-universal-pointer",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::system::omp::universal_pointer = typedef thrust::pointer< T, thrust::system::omp::tag, typename std::add_lvalue_reference<T>::type >",
+      "details": "<code>omp::universal&#95;pointer</code> stores a pointer to an object allocated in memory accessible by the <code>omp</code> system and host systems.\n\n<code>omp::universal&#95;pointer</code> has pointer semantics: it may be dereferenced and manipulated with pointer arithmetic.\n\n<code>omp::universal&#95;pointer</code> can be created with <code>omp::universal&#95;allocator</code> or by explicitly calling its constructor with a raw pointer.\n\nThe raw pointer encapsulated by a <code>omp::universal&#95;pointer</code> may be obtained by eiter its <code>get</code> member function or the <code>raw&#95;pointer&#95;cast</code> function.",
+      "explicit": false,
+      "fullname": "thrust::system::omp::universal_pointer",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/omp/pointer.h",
+        "bodyStart": 89,
+        "column": 1,
+        "file": "thrust/system/omp/pointer.h",
+        "line": 85
+      },
+      "name": "universal_pointer",
+      "note": [
+        "<code>omp::universal&#95;pointer</code> is not a \"smart\" pointer; it is the programmer's responsibility to deallocate memory pointed to by <code>omp::universal&#95;pointer</code>."
+      ],
+      "override": false,
+      "qualifiedname": "thrust::system::omp::universal_pointer",
+      "refid": "group__system__backends_1ga9eb890eccbca0f2e5c33eb703aac35ae",
+      "see": [
+        "omp::universal_allocator ",
+        "raw_pointer_cast "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T",
+          "text": "specifies the type of the pointee."
+        }
+      ],
+      "title": "universal_pointer",
+      "type": "thrust::pointer< T, thrust::system::omp::tag, typename std::add_lvalue_reference< T >::type >",
+      "typePlain": "thrust::pointer< T, thrust::system::omp::tag, typename std::add_lvalue_reference< T >::type >",
+      "url": "{{ site.baseurl }}/api/groups/group__system__backends.html#using-universal-pointer",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-reference",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::system::omp::reference = typedef thrust::tagged_reference<T, thrust::system::omp::tag>",
+      "details": "<code>reference</code> is a wrapped reference to an object stored in memory available to the <code>omp</code> system. <code>reference</code> is the type of the result of dereferencing a <code>omp::pointer</code>.",
+      "explicit": false,
+      "fullname": "thrust::system::omp::reference",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/omp/pointer.h",
+        "bodyStart": 98,
+        "column": 1,
+        "file": "thrust/system/omp/pointer.h",
+        "line": 98
+      },
+      "name": "reference",
+      "override": false,
+      "qualifiedname": "thrust::system::omp::reference",
+      "refid": "group__system__backends_1ga4e8ee99cde0e3768685b03ae854866d6",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T",
+          "text": "Specifies the type of the referenced object. "
+        }
+      ],
+      "title": "reference",
+      "type": "thrust::tagged_reference< T, thrust::system::omp::tag >",
+      "typePlain": "thrust::tagged_reference< T, thrust::system::omp::tag >",
+      "url": "{{ site.baseurl }}/api/groups/group__system__backends.html#using-reference",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-vector",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::system::omp::vector = typedef thrust::detail::vector_base<T, Allocator>",
+      "details": "<code>omp::vector</code> is a container that supports random access to elements, constant time removal of elements at the end, and linear time insertion and removal of elements at the beginning or in the middle. The number of elements in a <code>omp::vector</code> may vary dynamically; memory management is automatic. The elements contained in an <code>omp::vector</code> reside in memory accessible by the <code>omp</code> system.",
+      "explicit": false,
+      "fullname": "thrust::system::omp::vector",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/omp/vector.h",
+        "bodyStart": 51,
+        "column": 1,
+        "file": "thrust/system/omp/vector.h",
+        "line": 51
+      },
+      "name": "vector",
+      "override": false,
+      "qualifiedname": "thrust::system::omp::vector",
+      "refid": "omp_2vector_8h_1a5ff429eac8443646ded343fe95868785",
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/container/vector\">https://en.cppreference.com/w/cpp/container/vector</a>",
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> For the documentation of the complete interface which is shared by <code>omp::vector</code>. ",
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>",
+        "universal_vector "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "defval": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html\">thrust::system::omp::allocator</a><T>",
+          "defvalPlain": "thrust::system::omp::allocator<T>",
+          "name": "",
+          "type": "typename Allocator",
+          "typePlain": "typename Allocator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T",
+          "text": "The element type of the <code>omp::vector</code>. "
+        },
+        {
+          "name": "Allocator",
+          "text": "The allocator type of the <code>omp::vector</code>. Defaults to <code>omp::allocator</code>."
+        }
+      ],
+      "title": "vector",
+      "type": "thrust::detail::vector_base< T, Allocator >",
+      "typePlain": "thrust::detail::vector_base< T, Allocator >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1omp.html#using-vector",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-universal-vector",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::system::omp::universal_vector = typedef thrust::detail::vector_base<T, Allocator>",
+      "details": "<code>omp::universal&#95;vector</code> is a container that supports random access to elements, constant time removal of elements at the end, and linear time insertion and removal of elements at the beginning or in the middle. The number of elements in a <code>omp::universal&#95;vector</code> may vary dynamically; memory management is automatic. The elements contained in a <code>omp::universal&#95;vector</code> reside in memory accessible by the <code>omp</code> system and host systems.",
+      "explicit": false,
+      "fullname": "thrust::system::omp::universal_vector",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/omp/vector.h",
+        "bodyStart": 72,
+        "column": 1,
+        "file": "thrust/system/omp/vector.h",
+        "line": 72
+      },
+      "name": "universal_vector",
+      "override": false,
+      "qualifiedname": "thrust::system::omp::universal_vector",
+      "refid": "omp_2vector_8h_1ad9009ed4bf7002d9393b46e4137aa4d4",
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/container/vector\">https://en.cppreference.com/w/cpp/container/vector</a>",
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> For the documentation of the complete interface which is shared by <code>omp::universal&#95;vector</code>",
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>",
+        "universal_vector "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "defval": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html\">thrust::system::omp::universal_allocator</a><T>",
+          "defvalPlain": "thrust::system::omp::universal_allocator<T>",
+          "name": "",
+          "type": "typename Allocator",
+          "typePlain": "typename Allocator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T",
+          "text": "The element type of the <code>omp::universal&#95;vector</code>. "
+        },
+        {
+          "name": "Allocator",
+          "text": "The allocator type of the <code>omp::universal&#95;vector</code>. Defaults to <code>omp::universal&#95;allocator</code>."
+        }
+      ],
+      "title": "universal_vector",
+      "type": "thrust::detail::vector_base< T, Allocator >",
+      "typePlain": "thrust::detail::vector_base< T, Allocator >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1omp.html#using-universal-vector",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::system::omp",
+  "refid": "namespacethrust_1_1system_1_1omp",
+  "static": false,
+  "strong": false,
+  "title": "thrust::system::omp",
+  "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1omp.html",
+  "visibility": "public"
+}

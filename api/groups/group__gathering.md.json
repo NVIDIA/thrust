@@ -1,0 +1,951 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "gathering",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "copying",
+    "kind": "group",
+    "language": "",
+    "name": "copying",
+    "qualifiedname": "copying",
+    "refid": "group__copying",
+    "title": "Copying",
+    "url": "{{ site.baseurl }}/api/groups/group__copying.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "copying",
+      "kind": "group",
+      "language": "",
+      "name": "copying",
+      "qualifiedname": "copying",
+      "refid": "group__copying",
+      "title": "Copying",
+      "url": "{{ site.baseurl }}/api/groups/group__copying.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "gathering",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "copying",
+    "kind": "group",
+    "language": "",
+    "name": "copying",
+    "qualifiedname": "copying",
+    "refid": "group__copying",
+    "title": "Copying",
+    "url": "{{ site.baseurl }}/api/groups/group__copying.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "copying",
+      "kind": "group",
+      "language": "",
+      "name": "copying",
+      "qualifiedname": "copying",
+      "refid": "group__copying",
+      "title": "Copying",
+      "url": "{{ site.baseurl }}/api/groups/group__copying.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-gather",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator map_first, InputIterator map_last, RandomAccessIterator input_first, OutputIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::gather",
+      "deleted": false,
+      "details": "<code>gather</code> copies elements from a source array into a destination range according to a map. For each input iterator <code>i</code> in the range <code>[map&#95;first, map&#95;last)</code>, the value <code>input&#95;first[&#42;i]</code> is assigned to <code>&#42;(result + (i - map&#95;first))</code>. <code>RandomAccessIterator</code> must permit random access.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>gather</code> to reorder a range using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/gather.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n...\n// mark even indices with a 1; odd indices with a 0\nint values[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};\nthrust::device_vector<int> d_values(values, values + 10);\n\n// gather all even indices into the first half of the range\n// and odd indices to the last half of the range\nint map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};\nthrust::device_vector<int> d_map(map, map + 10);\n\nthrust::device_vector<int> d_output(10);\nthrust::gather(thrust::device,\n               d_map.begin(), d_map.end(),\n               d_values.begin(),\n               d_output.begin());\n// d_output is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}\n```",
+      "explicit": false,
+      "fullname": "gathering::gather",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/gather.h",
+        "line": 88
+      },
+      "name": "gather",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "map_first",
+          "text": "Beginning of the range of gather locations. "
+        },
+        {
+          "name": "map_last",
+          "text": "End of the range of gather locations. "
+        },
+        {
+          "name": "input_first",
+          "text": "Beginning of the source range. "
+        },
+        {
+          "name": "result",
+          "text": "Beginning of the destination range."
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "map_first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "map_last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "input_first",
+          "type": "RandomAccessIterator",
+          "typePlain": "RandomAccessIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        }
+      ],
+      "pre": [
+        "The range <code>[map&#95;first, map&#95;last)</code> shall not overlap the range <code>[result, result + (map&#95;last - map&#95;first))</code>. ",
+        "The input data shall not overlap the range <code>[result, result + (map&#95;last - map&#95;first))</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::gather",
+      "refid": "group__gathering_1ga86722e76264fb600d659c1adef5d51b2",
+      "remark": [
+        "<code>gather</code> is the inverse of thrust::scatter."
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename RandomAccessIterator",
+          "typePlain": "typename RandomAccessIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>difference&#95;type</code>. "
+        },
+        {
+          "name": "RandomAccessIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/random_access_iterator\">Random Access Iterator</a> and <code>RandomAccessIterator's</code><code>value&#95;type</code> must be convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>."
+        }
+      ],
+      "title": "gather",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__gathering.html#function-gather",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-gather",
+      "argsString": "(InputIterator map_first, InputIterator map_last, RandomAccessIterator input_first, OutputIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::gather",
+      "deleted": false,
+      "details": "<code>gather</code> copies elements from a source array into a destination range according to a map. For each input iterator <code>i</code> in the range <code>[map&#95;first, map&#95;last)</code>, the value <code>input&#95;first[&#42;i]</code> is assigned to <code>&#42;(result + (i - map&#95;first))</code>. <code>RandomAccessIterator</code> must permit random access.\n\n\nThe following code snippet demonstrates how to use <code>gather</code> to reorder a range.\n\n\n\n```cpp\n#include <thrust/gather.h>\n#include <thrust/device_vector.h>\n...\n// mark even indices with a 1; odd indices with a 0\nint values[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};\nthrust::device_vector<int> d_values(values, values + 10);\n\n// gather all even indices into the first half of the range\n// and odd indices to the last half of the range\nint map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};\nthrust::device_vector<int> d_map(map, map + 10);\n\nthrust::device_vector<int> d_output(10);\nthrust::gather(d_map.begin(), d_map.end(),\n               d_values.begin(),\n               d_output.begin());\n// d_output is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}\n```",
+      "explicit": false,
+      "fullname": "gathering::gather",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/gather.h",
+        "line": 140
+      },
+      "name": "gather",
+      "override": false,
+      "paramList": [
+        {
+          "name": "map_first",
+          "text": "Beginning of the range of gather locations. "
+        },
+        {
+          "name": "map_last",
+          "text": "End of the range of gather locations. "
+        },
+        {
+          "name": "input_first",
+          "text": "Beginning of the source range. "
+        },
+        {
+          "name": "result",
+          "text": "Beginning of the destination range."
+        }
+      ],
+      "params": [
+        {
+          "name": "map_first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "map_last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "input_first",
+          "type": "RandomAccessIterator",
+          "typePlain": "RandomAccessIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        }
+      ],
+      "pre": [
+        "The range <code>[map&#95;first, map&#95;last)</code> shall not overlap the range <code>[result, result + (map&#95;last - map&#95;first))</code>. ",
+        "The input data shall not overlap the range <code>[result, result + (map&#95;last - map&#95;first))</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::gather",
+      "refid": "group__gathering_1ga6fdb1fe3ff0d9ce01f41a72fa94c56df",
+      "remark": [
+        "<code>gather</code> is the inverse of thrust::scatter."
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename RandomAccessIterator",
+          "typePlain": "typename RandomAccessIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>difference&#95;type</code>. "
+        },
+        {
+          "name": "RandomAccessIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/random_access_iterator\">Random Access Iterator</a> and <code>RandomAccessIterator's</code><code>value&#95;type</code> must be convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>."
+        }
+      ],
+      "title": "gather",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__gathering.html#function-gather",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-gather-if",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 map_first, InputIterator1 map_last, InputIterator2 stencil, RandomAccessIterator input_first, OutputIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::gather_if",
+      "deleted": false,
+      "details": "<code>gather&#95;if</code> conditionally copies elements from a source array into a destination range according to a map. For each input iterator <code>i</code> in the range <code>[map&#95;first, map&#95;last)</code>, such that the value of <code>&#42;(stencil + (i - map&#95;first))</code> is <code>true</code>, the value <code>input&#95;first[&#42;i]</code> is assigned to <code>&#42;(result + (i - map&#95;first))</code>. <code>RandomAccessIterator</code> must permit random access.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>gather&#95;if</code> to gather selected values from an input range using the <code>thrust::device</code> execution policy:\n\n\n\n```cpp\n#include <thrust/gather.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n...\n\nint values[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};\nthrust::device_vector<int> d_values(values, values + 10);\n\n// select elements at even-indexed locations\nint stencil[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};\nthrust::device_vector<int> d_stencil(stencil, stencil + 10);\n\n// map all even indices into the first half of the range\n// and odd indices to the last half of the range\nint map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};\nthrust::device_vector<int> d_map(map, map + 10);\n\nthrust::device_vector<int> d_output(10, 7);\nthrust::gather_if(thrust::device,\n                  d_map.begin(), d_map.end(),\n                  d_stencil.begin(),\n                  d_values.begin(),\n                  d_output.begin());\n// d_output is now {0, 7, 4, 7, 8, 7, 3, 7, 7, 7}\n```",
+      "explicit": false,
+      "fullname": "gathering::gather_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/gather.h",
+        "line": 209
+      },
+      "name": "gather_if",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "map_first",
+          "text": "Beginning of the range of gather locations. "
+        },
+        {
+          "name": "map_last",
+          "text": "End of the range of gather locations. "
+        },
+        {
+          "name": "stencil",
+          "text": "Beginning of the range of predicate values. "
+        },
+        {
+          "name": "input_first",
+          "text": "Beginning of the source range. "
+        },
+        {
+          "name": "result",
+          "text": "Beginning of the destination range."
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "map_first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "map_last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "input_first",
+          "type": "RandomAccessIterator",
+          "typePlain": "RandomAccessIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        }
+      ],
+      "pre": [
+        "The range <code>[map&#95;first, map&#95;last)</code> shall not overlap the range <code>[result, result + (map&#95;last - map&#95;first))</code>. ",
+        "The range <code>[stencil, stencil + (map&#95;last - map&#95;first))</code> shall not overlap the range <code>[result, result + (map&#95;last - map&#95;first))</code>. ",
+        "The input data shall not overlap the range <code>[result, result + (map&#95;last - map&#95;first))</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::gather_if",
+      "refid": "group__gathering_1gab487e68db682dd1b8437be2669a9b8c2",
+      "remark": [
+        "<code>gather&#95;if</code> is the inverse of <code>scatter&#95;if</code>."
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename RandomAccessIterator",
+          "typePlain": "typename RandomAccessIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator1's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>difference&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator2's</code><code>value&#95;type</code> must be convertible to <code>bool</code>. "
+        },
+        {
+          "name": "RandomAccessIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/random_access_iterator\">Random Access iterator</a> and <code>RandomAccessIterator's</code><code>value&#95;type</code> must be convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>."
+        }
+      ],
+      "title": "gather_if",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__gathering.html#function-gather-if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-gather-if",
+      "argsString": "(InputIterator1 map_first, InputIterator1 map_last, InputIterator2 stencil, RandomAccessIterator input_first, OutputIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::gather_if",
+      "deleted": false,
+      "details": "<code>gather&#95;if</code> conditionally copies elements from a source array into a destination range according to a map. For each input iterator <code>i</code> in the range <code>[map&#95;first, map&#95;last)</code>, such that the value of <code>&#42;(stencil + (i - map&#95;first))</code> is <code>true</code>, the value <code>input&#95;first[&#42;i]</code> is assigned to <code>&#42;(result + (i - map&#95;first))</code>. <code>RandomAccessIterator</code> must permit random access.\n\n\nThe following code snippet demonstrates how to use <code>gather&#95;if</code> to gather selected values from an input range.\n\n\n\n```cpp\n#include <thrust/gather.h>\n#include <thrust/device_vector.h>\n...\n\nint values[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};\nthrust::device_vector<int> d_values(values, values + 10);\n\n// select elements at even-indexed locations\nint stencil[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};\nthrust::device_vector<int> d_stencil(stencil, stencil + 10);\n\n// map all even indices into the first half of the range\n// and odd indices to the last half of the range\nint map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};\nthrust::device_vector<int> d_map(map, map + 10);\n\nthrust::device_vector<int> d_output(10, 7);\nthrust::gather_if(d_map.begin(), d_map.end(),\n                  d_stencil.begin(),\n                  d_values.begin(),\n                  d_output.begin());\n// d_output is now {0, 7, 4, 7, 8, 7, 3, 7, 7, 7}\n```",
+      "explicit": false,
+      "fullname": "gathering::gather_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/gather.h",
+        "line": 272
+      },
+      "name": "gather_if",
+      "override": false,
+      "paramList": [
+        {
+          "name": "map_first",
+          "text": "Beginning of the range of gather locations. "
+        },
+        {
+          "name": "map_last",
+          "text": "End of the range of gather locations. "
+        },
+        {
+          "name": "stencil",
+          "text": "Beginning of the range of predicate values. "
+        },
+        {
+          "name": "input_first",
+          "text": "Beginning of the source range. "
+        },
+        {
+          "name": "result",
+          "text": "Beginning of the destination range."
+        }
+      ],
+      "params": [
+        {
+          "name": "map_first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "map_last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "input_first",
+          "type": "RandomAccessIterator",
+          "typePlain": "RandomAccessIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        }
+      ],
+      "pre": [
+        "The range <code>[map&#95;first, map&#95;last)</code> shall not overlap the range <code>[result, result + (map&#95;last - map&#95;first))</code>. ",
+        "The range <code>[stencil, stencil + (map&#95;last - map&#95;first))</code> shall not overlap the range <code>[result, result + (map&#95;last - map&#95;first))</code>. ",
+        "The input data shall not overlap the range <code>[result, result + (map&#95;last - map&#95;first))</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::gather_if",
+      "refid": "group__gathering_1gaf7acd33a67b2313a651ee19f3ac5cd04",
+      "remark": [
+        "<code>gather&#95;if</code> is the inverse of <code>scatter&#95;if</code>."
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename RandomAccessIterator",
+          "typePlain": "typename RandomAccessIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator1's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>difference&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator2's</code><code>value&#95;type</code> must be convertible to <code>bool</code>. "
+        },
+        {
+          "name": "RandomAccessIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/random_access_iterator\">Random Access iterator</a> and <code>RandomAccessIterator's</code><code>value&#95;type</code> must be convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>."
+        }
+      ],
+      "title": "gather_if",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__gathering.html#function-gather-if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-gather-if",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 map_first, InputIterator1 map_last, InputIterator2 stencil, RandomAccessIterator input_first, OutputIterator result, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::gather_if",
+      "deleted": false,
+      "details": "<code>gather&#95;if</code> conditionally copies elements from a source array into a destination range according to a map. For each input iterator <code>i</code> in the range <code>[map&#95;first, map&#95;last)</code> such that the value of <code>pred(&#42;(stencil + (i - map&#95;first)))</code> is <code>true</code>, the value <code>input&#95;first[&#42;i]</code> is assigned to <code>&#42;(result + (i - map&#95;first))</code>. <code>RandomAccessIterator</code> must permit random access.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>gather&#95;if</code> to gather selected values from an input range based on an arbitrary selection function using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/gather.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\n\nint values[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};\nthrust::device_vector<int> d_values(values, values + 10);\n\n// we will select an element when our stencil is even\nint stencil[10] = {0, 3, 4, 1, 4, 1, 2, 7, 8, 9};\nthrust::device_vector<int> d_stencil(stencil, stencil + 10);\n\n// map all even indices into the first half of the range\n// and odd indices to the last half of the range\nint map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};\nthrust::device_vector<int> d_map(map, map + 10);\n\nthrust::device_vector<int> d_output(10, 7);\nthrust::gather_if(thrust::device,\n                  d_map.begin(), d_map.end(),\n                  d_stencil.begin(),\n                  d_values.begin(),\n                  d_output.begin(),\n                  is_even());\n// d_output is now {0, 7, 4, 7, 8, 7, 3, 7, 7, 7}\n```",
+      "explicit": false,
+      "fullname": "gathering::gather_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/gather.h",
+        "line": 355
+      },
+      "name": "gather_if",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "map_first",
+          "text": "Beginning of the range of gather locations. "
+        },
+        {
+          "name": "map_last",
+          "text": "End of the range of gather locations. "
+        },
+        {
+          "name": "stencil",
+          "text": "Beginning of the range of predicate values. "
+        },
+        {
+          "name": "input_first",
+          "text": "Beginning of the source range. "
+        },
+        {
+          "name": "result",
+          "text": "Beginning of the destination range. "
+        },
+        {
+          "name": "pred",
+          "text": "Predicate to apply to the stencil values."
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "map_first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "map_last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "input_first",
+          "type": "RandomAccessIterator",
+          "typePlain": "RandomAccessIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The range <code>[map&#95;first, map&#95;last)</code> shall not overlap the range <code>[result, result + (map&#95;last - map&#95;first))</code>. ",
+        "The range <code>[stencil, stencil + (map&#95;last - map&#95;first))</code> shall not overlap the range <code>[result, result + (map&#95;last - map&#95;first))</code>. ",
+        "The input data shall not overlap the range <code>[result, result + (map&#95;last - map&#95;first))</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::gather_if",
+      "refid": "group__gathering_1gaf9f82c5f9cb7ee4bbafc827b86c50cda",
+      "remark": [
+        "<code>gather&#95;if</code> is the inverse of <code>scatter&#95;if</code>."
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename RandomAccessIterator",
+          "typePlain": "typename RandomAccessIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator1's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>difference&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator2's</code><code>value&#95;type</code> must be convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "RandomAccessIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/random_access_iterator\">Random Access iterator</a> and <code>RandomAccessIterator's</code><code>value&#95;type</code> must be convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "gather_if",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__gathering.html#function-gather-if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-gather-if",
+      "argsString": "(InputIterator1 map_first, InputIterator1 map_last, InputIterator2 stencil, RandomAccessIterator input_first, OutputIterator result, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::gather_if",
+      "deleted": false,
+      "details": "<code>gather&#95;if</code> conditionally copies elements from a source array into a destination range according to a map. For each input iterator <code>i</code> in the range <code>[map&#95;first, map&#95;last)</code> such that the value of <code>pred(&#42;(stencil + (i - map&#95;first)))</code> is <code>true</code>, the value <code>input&#95;first[&#42;i]</code> is assigned to <code>&#42;(result + (i - map&#95;first))</code>. <code>RandomAccessIterator</code> must permit random access.\n\n\nThe following code snippet demonstrates how to use <code>gather&#95;if</code> to gather selected values from an input range based on an arbitrary selection function.\n\n\n\n```cpp\n#include <thrust/gather.h>\n#include <thrust/device_vector.h>\n\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\n\nint values[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};\nthrust::device_vector<int> d_values(values, values + 10);\n\n// we will select an element when our stencil is even\nint stencil[10] = {0, 3, 4, 1, 4, 1, 2, 7, 8, 9};\nthrust::device_vector<int> d_stencil(stencil, stencil + 10);\n\n// map all even indices into the first half of the range\n// and odd indices to the last half of the range\nint map[10]   = {0, 2, 4, 6, 8, 1, 3, 5, 7, 9};\nthrust::device_vector<int> d_map(map, map + 10);\n\nthrust::device_vector<int> d_output(10, 7);\nthrust::gather_if(d_map.begin(), d_map.end(),\n                  d_stencil.begin(),\n                  d_values.begin(),\n                  d_output.begin(),\n                  is_even());\n// d_output is now {0, 7, 4, 7, 8, 7, 3, 7, 7, 7}\n```",
+      "explicit": false,
+      "fullname": "gathering::gather_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/gather.h",
+        "line": 432
+      },
+      "name": "gather_if",
+      "override": false,
+      "paramList": [
+        {
+          "name": "map_first",
+          "text": "Beginning of the range of gather locations. "
+        },
+        {
+          "name": "map_last",
+          "text": "End of the range of gather locations. "
+        },
+        {
+          "name": "stencil",
+          "text": "Beginning of the range of predicate values. "
+        },
+        {
+          "name": "input_first",
+          "text": "Beginning of the source range. "
+        },
+        {
+          "name": "result",
+          "text": "Beginning of the destination range. "
+        },
+        {
+          "name": "pred",
+          "text": "Predicate to apply to the stencil values."
+        }
+      ],
+      "params": [
+        {
+          "name": "map_first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "map_last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "input_first",
+          "type": "RandomAccessIterator",
+          "typePlain": "RandomAccessIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The range <code>[map&#95;first, map&#95;last)</code> shall not overlap the range <code>[result, result + (map&#95;last - map&#95;first))</code>. ",
+        "The range <code>[stencil, stencil + (map&#95;last - map&#95;first))</code> shall not overlap the range <code>[result, result + (map&#95;last - map&#95;first))</code>. ",
+        "The input data shall not overlap the range <code>[result, result + (map&#95;last - map&#95;first))</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::gather_if",
+      "refid": "group__gathering_1ga99684dec614e14ccc4b2b6b896324b81",
+      "remark": [
+        "<code>gather&#95;if</code> is the inverse of <code>scatter&#95;if</code>."
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename RandomAccessIterator",
+          "typePlain": "typename RandomAccessIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator1's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>difference&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator2's</code><code>value&#95;type</code> must be convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "RandomAccessIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/random_access_iterator\">Random Access iterator</a> and <code>RandomAccessIterator's</code><code>value&#95;type</code> must be convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "gather_if",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__gathering.html#function-gather-if",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "gathering",
+  "refid": "group__gathering",
+  "static": false,
+  "strong": false,
+  "title": "Gathering",
+  "url": "{{ site.baseurl }}/api/groups/group__gathering.html",
+  "visibility": "public"
+}

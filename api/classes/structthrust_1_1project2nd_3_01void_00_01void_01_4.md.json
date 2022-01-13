@@ -1,0 +1,209 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::project2nd< void, void >",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 1477,
+    "bodyFile": "thrust/functional.h",
+    "bodyStart": 1466,
+    "column": 1,
+    "file": "thrust/functional.h",
+    "line": 1465
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "generalized_identity_operations",
+    "kind": "group",
+    "language": "",
+    "name": "generalized_identity_operations",
+    "qualifiedname": "generalized_identity_operations",
+    "refid": "group__generalized__identity__operations",
+    "title": "Generalized Identity Operations",
+    "url": "{{ site.baseurl }}/api/groups/group__generalized__identity__operations.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "language": "",
+      "name": "function_objects",
+      "qualifiedname": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "{{ site.baseurl }}/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "language": "",
+      "name": "predefined_function_objects",
+      "qualifiedname": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "{{ site.baseurl }}/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "generalized_identity_operations",
+      "kind": "group",
+      "language": "",
+      "name": "generalized_identity_operations",
+      "qualifiedname": "generalized_identity_operations",
+      "refid": "group__generalized__identity__operations",
+      "title": "Generalized Identity Operations",
+      "url": "{{ site.baseurl }}/api/groups/group__generalized__identity__operations.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::project2nd< void, void >",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(T1 &&, T2 &&t2) const noexcept(noexcept(THRUST_FWD(t2))) THRUST_TRAILING_RETURN(decltype(THRUST_FWD(t2)))",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto thrust::project2nd< void, void >::operator()",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::project2nd< void, void >::operator()",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 1476,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1471,
+        "column": 18,
+        "file": "thrust/functional.h",
+        "line": 1471
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "T1 &&",
+          "typePlain": "T1 &&"
+        },
+        {
+          "name": "t2",
+          "type": "T2 &&",
+          "typePlain": "T2 &&"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::project2nd< void, void >::operator()",
+      "refid": "structthrust_1_1project2nd_3_01void_00_01void_01_4_1a4b5e9f6512298c9b7affa24c3dd741b2",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        },
+        {
+          "name": "",
+          "type": "typename T2",
+          "typePlain": "typename T2"
+        }
+      ],
+      "title": "operator()",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1project2nd_3_01void_00_01void_01_4.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-is-transparent",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::project2nd< void, void >::is_transparent =  void",
+      "explicit": false,
+      "fullname": "thrust::project2nd< void, void >::is_transparent",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1467,
+        "column": 3,
+        "file": "thrust/functional.h",
+        "line": 1467
+      },
+      "name": "is_transparent",
+      "override": false,
+      "qualifiedname": "thrust::project2nd< void, void >::is_transparent",
+      "refid": "structthrust_1_1project2nd_3_01void_00_01void_01_4_1a30612d8541fac3ac3b22ad20ea9c2e95",
+      "static": false,
+      "strong": false,
+      "title": "is_transparent",
+      "type": "void",
+      "typePlain": "void",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1project2nd_3_01void_00_01void_01_4.html#using-is-transparent",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::project2nd< void, void >",
+  "refid": "structthrust_1_1project2nd_3_01void_00_01void_01_4",
+  "static": false,
+  "strong": false,
+  "title": "thrust::project2nd< void, void >",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1project2nd_3_01void_00_01void_01_4.html",
+  "visibility": "public"
+}

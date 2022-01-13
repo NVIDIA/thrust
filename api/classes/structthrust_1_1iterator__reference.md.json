@@ -1,0 +1,65 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::iterator_reference",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyFile": "thrust/iterator/iterator_traits.h",
+    "bodyStart": 50,
+    "column": 11,
+    "file": "thrust/iterator/iterator_traits.h",
+    "line": 50
+  },
+  "name": "thrust::iterator_reference",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::iterator_reference",
+  "refid": "structthrust_1_1iterator__reference",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename Iterator",
+      "typePlain": "typename Iterator"
+    }
+  ],
+  "title": "thrust::iterator_reference",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1iterator__reference.html",
+  "visibility": "public"
+}

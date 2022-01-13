@@ -1,0 +1,96 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::unique_eager_event_type_detail",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "language": "cpp",
+  "location": {
+    "column": 1,
+    "file": "thrust/future.h",
+    "line": 86
+  },
+  "name": "thrust::unique_eager_event_type_detail",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-select",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::unique_eager_event_type_detail::select = typedef decltype( unique_eager_event_type(std::declval<System>()) )",
+      "explicit": false,
+      "fullname": "thrust::unique_eager_event_type_detail::select",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/future.h",
+        "bodyStart": 94,
+        "column": 1,
+        "file": "thrust/future.h",
+        "line": 92
+      },
+      "name": "select",
+      "override": false,
+      "qualifiedname": "thrust::unique_eager_event_type_detail::select",
+      "refid": "future_8h_1a347cd79b55928e5af527ea17b3b9445a",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename System",
+          "typePlain": "typename System"
+        }
+      ],
+      "title": "select",
+      "type": "decltype(unique_eager_event_type(std::declval< System >()))",
+      "typePlain": "decltype(unique_eager_event_type(std::declval< System >()))",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1unique__eager__event__type__detail.html#using-select",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::unique_eager_event_type_detail",
+  "refid": "namespacethrust_1_1unique__eager__event__type__detail",
+  "static": false,
+  "strong": false,
+  "title": "thrust::unique_eager_event_type_detail",
+  "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1unique__eager__event__type__detail.html",
+  "visibility": "public"
+}

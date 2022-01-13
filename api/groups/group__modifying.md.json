@@ -1,0 +1,541 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "modifying",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "transformations",
+    "kind": "group",
+    "language": "",
+    "name": "transformations",
+    "qualifiedname": "transformations",
+    "refid": "group__transformations",
+    "title": "Transformations",
+    "url": "{{ site.baseurl }}/api/groups/group__transformations.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "transformations",
+      "kind": "group",
+      "language": "",
+      "name": "transformations",
+      "qualifiedname": "transformations",
+      "refid": "group__transformations",
+      "title": "Transformations",
+      "url": "{{ site.baseurl }}/api/groups/group__transformations.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "modifying",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "transformations",
+    "kind": "group",
+    "language": "",
+    "name": "transformations",
+    "qualifiedname": "transformations",
+    "refid": "group__transformations",
+    "title": "Transformations",
+    "url": "{{ site.baseurl }}/api/groups/group__transformations.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "transformations",
+      "kind": "group",
+      "language": "",
+      "name": "transformations",
+      "qualifiedname": "transformations",
+      "refid": "group__transformations",
+      "title": "Transformations",
+      "url": "{{ site.baseurl }}/api/groups/group__transformations.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-for-each",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, UnaryFunction f)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ InputIterator thrust::for_each",
+      "deleted": false,
+      "details": "<code>for&#95;each</code> applies the function object <code>f</code> to each element in the range <code>[first, last)</code>; <code>f's</code> return value, if any, is ignored. Unlike the C++ Standard Template Library function <code>std::for&#95;each</code>, this version offers no guarantee on order of execution. For this reason, this version of <code>for&#95;each</code> does not return a copy of the function object.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>for&#95;each</code> to print the elements of a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">thrust::device&#95;vector</a></code> using the <code>thrust::device</code> parallelization policy:\n\n\n\n```cpp\n#include <thrust/for_each.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n#include <cstdio>\n...\n\nstruct printf_functor\n{\n  __host__ __device__\n  void operator()(int x)\n  {\n    // note that using printf in a __device__ function requires\n    // code compiled for a GPU with compute capability 2.0 or\n    // higher (nvcc --arch=sm_20)\n    printf(\"%d\\n\", x);\n  }\n};\n...\nthrust::device_vector<int> d_vec(3);\nd_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;\n\nthrust::for_each(thrust::device, d_vec.begin(), d_vec.end(), printf_functor());\n\n// 0 1 2 is printed to standard output in some unspecified order\n```",
+      "explicit": false,
+      "fullname": "modifying::for_each",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 15,
+        "file": "thrust/for_each.h",
+        "line": 93
+      },
+      "name": "for_each",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "f",
+          "text": "The function object to apply to the range <code>[first, last)</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "f",
+          "type": "UnaryFunction",
+          "typePlain": "UnaryFunction"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::for_each",
+      "refid": "group__modifying_1ga14cba62489aee67ffa6348eb74997b57",
+      "returns": [
+        "last"
+      ],
+      "see": [
+        "for_each_n ",
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/for_each\">https://en.cppreference.com/w/cpp/algorithm/for_each</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename UnaryFunction",
+          "typePlain": "typename UnaryFunction"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/InputIterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>UnaryFunction's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "UnaryFunction",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/unary_function\">Unary Function</a>, and <code>UnaryFunction</code> does not apply any non-constant operation through its argument."
+        }
+      ],
+      "title": "for_each",
+      "type": "__host__ __device__ InputIterator",
+      "typePlain": "__host__ __device__ InputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__modifying.html#function-for-each",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-for-each-n",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, Size n, UnaryFunction f)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ InputIterator thrust::for_each_n",
+      "deleted": false,
+      "details": "<code>for&#95;each&#95;n</code> applies the function object <code>f</code> to each element in the range <code>[first, first + n)</code>; <code>f's</code> return value, if any, is ignored. Unlike the C++ Standard Template Library function <code>std::for&#95;each</code>, this version offers no guarantee on order of execution.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>for&#95;each&#95;n</code> to print the elements of a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> using the <code>thrust::device</code> parallelization policy.\n\n\n\n```cpp\n#include <thrust/for_each.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n#include <cstdio>\n\nstruct printf_functor\n{\n  __host__ __device__\n  void operator()(int x)\n  {\n    // note that using printf in a __device__ function requires\n    // code compiled for a GPU with compute capability 2.0 or\n    // higher (nvcc --arch=sm_20)\n    printf(\"%d\\n\", x);\n  }\n};\n...\nthrust::device_vector<int> d_vec(3);\nd_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;\n\nthrust::for_each_n(thrust::device, d_vec.begin(), d_vec.size(), printf_functor());\n\n// 0 1 2 is printed to standard output in some unspecified order\n```",
+      "explicit": false,
+      "fullname": "modifying::for_each_n",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 15,
+        "file": "thrust/for_each.h",
+        "line": 157
+      },
+      "name": "for_each_n",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "n",
+          "text": "The size of the input sequence. "
+        },
+        {
+          "name": "f",
+          "text": "The function object to apply to the range <code>[first, first + n)</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "n",
+          "type": "Size",
+          "typePlain": "Size"
+        },
+        {
+          "name": "f",
+          "type": "UnaryFunction",
+          "typePlain": "UnaryFunction"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::for_each_n",
+      "refid": "group__modifying_1ga00ad46c06f41dd29601d44d3c6c25819",
+      "returns": [
+        "<code>first + n</code>"
+      ],
+      "see": [
+        "for_each ",
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/for_each\">https://en.cppreference.com/w/cpp/algorithm/for_each</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Size",
+          "typePlain": "typename Size"
+        },
+        {
+          "name": "",
+          "type": "typename UnaryFunction",
+          "typePlain": "typename UnaryFunction"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/InputIterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>UnaryFunction's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "Size",
+          "text": "is an integral type. "
+        },
+        {
+          "name": "UnaryFunction",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/unary_function\">Unary Function</a>, and <code>UnaryFunction</code> does not apply any non-constant operation through its argument."
+        }
+      ],
+      "title": "for_each_n",
+      "type": "__host__ __device__ InputIterator",
+      "typePlain": "__host__ __device__ InputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__modifying.html#function-for-each-n",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-for-each",
+      "argsString": "(InputIterator first, InputIterator last, UnaryFunction f)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "InputIterator thrust::for_each",
+      "deleted": false,
+      "details": "<code>for&#95;each</code> applies the function object <code>f</code> to each element in the range <code>[first, last)</code>; <code>f's</code> return value, if any, is ignored. Unlike the C++ Standard Template Library function <code>std::for&#95;each</code>, this version offers no guarantee on order of execution. For this reason, this version of <code>for&#95;each</code> does not return a copy of the function object.\n\n\nThe following code snippet demonstrates how to use <code>for&#95;each</code> to print the elements of a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code>.\n\n\n\n```cpp\n#include <thrust/for_each.h>\n#include <thrust/device_vector.h>\n#include <stdio.h>\n\nstruct printf_functor\n{\n  __host__ __device__\n  void operator()(int x)\n  {\n    // note that using printf in a __device__ function requires\n    // code compiled for a GPU with compute capability 2.0 or\n    // higher (nvcc --arch=sm_20)\n    printf(\"%d\\n\", x);\n  }\n};\n...\nthrust::device_vector<int> d_vec(3);\nd_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;\n\nthrust::for_each(d_vec.begin(), d_vec.end(), printf_functor());\n\n// 0 1 2 is printed to standard output in some unspecified order\n```",
+      "explicit": false,
+      "fullname": "modifying::for_each",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 15,
+        "file": "thrust/for_each.h",
+        "line": 212
+      },
+      "name": "for_each",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "f",
+          "text": "The function object to apply to the range <code>[first, last)</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "f",
+          "type": "UnaryFunction",
+          "typePlain": "UnaryFunction"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::for_each",
+      "refid": "group__modifying_1ga263741e1287daa9edbac8d56c95070ba",
+      "returns": [
+        "last"
+      ],
+      "see": [
+        "for_each_n ",
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/for_each\">https://en.cppreference.com/w/cpp/algorithm/for_each</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename UnaryFunction",
+          "typePlain": "typename UnaryFunction"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/InputIterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>UnaryFunction's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "UnaryFunction",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/unary_function\">Unary Function</a>, and <code>UnaryFunction</code> does not apply any non-constant operation through its argument."
+        }
+      ],
+      "title": "for_each",
+      "type": "InputIterator",
+      "typePlain": "InputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__modifying.html#function-for-each",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-for-each-n",
+      "argsString": "(InputIterator first, Size n, UnaryFunction f)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "InputIterator thrust::for_each_n",
+      "deleted": false,
+      "details": "<code>for&#95;each&#95;n</code> applies the function object <code>f</code> to each element in the range <code>[first, first + n)</code>; <code>f's</code> return value, if any, is ignored. Unlike the C++ Standard Template Library function <code>std::for&#95;each</code>, this version offers no guarantee on order of execution.\n\n\nThe following code snippet demonstrates how to use <code>for&#95;each&#95;n</code> to print the elements of a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code>.\n\n\n\n```cpp\n#include <thrust/for_each.h>\n#include <thrust/device_vector.h>\n#include <stdio.h>\n\nstruct printf_functor\n{\n  __host__ __device__\n  void operator()(int x)\n  {\n    // note that using printf in a __device__ function requires\n    // code compiled for a GPU with compute capability 2.0 or\n    // higher (nvcc --arch=sm_20)\n    printf(\"%d\\n\", x);\n  }\n};\n...\nthrust::device_vector<int> d_vec(3);\nd_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;\n\nthrust::for_each_n(d_vec.begin(), d_vec.size(), printf_functor());\n\n// 0 1 2 is printed to standard output in some unspecified order\n```",
+      "explicit": false,
+      "fullname": "modifying::for_each_n",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 15,
+        "file": "thrust/for_each.h",
+        "line": 268
+      },
+      "name": "for_each_n",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "n",
+          "text": "The size of the input sequence. "
+        },
+        {
+          "name": "f",
+          "text": "The function object to apply to the range <code>[first, first + n)</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "n",
+          "type": "Size",
+          "typePlain": "Size"
+        },
+        {
+          "name": "f",
+          "type": "UnaryFunction",
+          "typePlain": "UnaryFunction"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::for_each_n",
+      "refid": "group__modifying_1ga4c825347127313bc87b33731c907739a",
+      "returns": [
+        "<code>first + n</code>"
+      ],
+      "see": [
+        "for_each ",
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/for_each\">https://en.cppreference.com/w/cpp/algorithm/for_each</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Size",
+          "typePlain": "typename Size"
+        },
+        {
+          "name": "",
+          "type": "typename UnaryFunction",
+          "typePlain": "typename UnaryFunction"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/InputIterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>UnaryFunction's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "Size",
+          "text": "is an integral type. "
+        },
+        {
+          "name": "UnaryFunction",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/unary_function\">Unary Function</a>, and <code>UnaryFunction</code> does not apply any non-constant operation through its argument."
+        }
+      ],
+      "title": "for_each_n",
+      "type": "InputIterator",
+      "typePlain": "InputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__modifying.html#function-for-each-n",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "modifying",
+  "refid": "group__modifying",
+  "static": false,
+  "strong": false,
+  "title": "Modifying",
+  "url": "{{ site.baseurl }}/api/groups/group__modifying.html",
+  "visibility": "public"
+}

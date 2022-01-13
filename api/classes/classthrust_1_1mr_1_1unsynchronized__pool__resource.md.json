@@ -1,0 +1,1330 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": false,
+      "name": "thrust::mr::memory_resource< Upstream::pointer >",
+      "publicFunctions": [
+        {
+          "abstract": false,
+          "anchor": "#function-~memory-resource",
+          "argsString": "()=default",
+          "category": "functions",
+          "const": false,
+          "default": true,
+          "definition": "virtual thrust::mr::memory_resource< Pointer >::~memory_resource",
+          "deleted": false,
+          "details": "Virtual destructor, defaulted when possible. ",
+          "explicit": false,
+          "fullname": "thrust::mr::memory_resource::~memory_resource",
+          "hasDetails": true,
+          "inline": false,
+          "kind": "function",
+          "language": "cpp",
+          "location": {
+            "column": 13,
+            "file": "thrust/mr/memory_resource.h",
+            "line": 57
+          },
+          "name": "~memory_resource",
+          "override": false,
+          "params": [],
+          "pureVirtual": false,
+          "qualifiedname": "thrust::mr::memory_resource::~memory_resource",
+          "refid": "classthrust_1_1mr_1_1memory__resource_1a261fd74b7a280f8a694acbe47286d5b0",
+          "static": false,
+          "strong": false,
+          "title": "~memory_resource",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html#function-~memory-resource",
+          "virtual": true,
+          "visibility": "public"
+        },
+        {
+          "abstract": false,
+          "anchor": "#function-allocate",
+          "argsString": "(std::size_t bytes, std::size_t alignment=alignof(std::max_align_t))",
+          "category": "functions",
+          "const": false,
+          "default": false,
+          "definition": "pointer thrust::mr::memory_resource< Pointer >::allocate",
+          "deleted": false,
+          "details": "Allocates memory of size at least <code>bytes</code> and alignment at least <code>alignment</code>.",
+          "exceptionsList": [
+            {
+              "name": "thrust::bad_alloc",
+              "text": "when no memory with requested size and alignment can be allocated. "
+            }
+          ],
+          "explicit": false,
+          "fullname": "thrust::mr::memory_resource::allocate",
+          "hasDetails": true,
+          "inline": true,
+          "kind": "function",
+          "language": "cpp",
+          "location": {
+            "bodyEnd": 70,
+            "bodyFile": "thrust/mr/memory_resource.h",
+            "bodyStart": 67,
+            "column": 13,
+            "file": "thrust/mr/memory_resource.h",
+            "line": 67
+          },
+          "name": "allocate",
+          "override": false,
+          "paramList": [
+            {
+              "name": "bytes",
+              "text": "size, in bytes, that is requested from this allocation "
+            },
+            {
+              "name": "alignment",
+              "text": "alignment that is requested from this allocation "
+            }
+          ],
+          "params": [
+            {
+              "name": "bytes",
+              "type": "std::size_t",
+              "typePlain": "std::size_t"
+            },
+            {
+              "defval": "alignof(std::max_align_t)",
+              "defvalPlain": "alignof(std::max_align_t)",
+              "name": "alignment",
+              "type": "std::size_t",
+              "typePlain": "std::size_t"
+            }
+          ],
+          "pureVirtual": false,
+          "qualifiedname": "thrust::mr::memory_resource::allocate",
+          "refid": "classthrust_1_1mr_1_1memory__resource_1a60e0b2a6bd20537fff92b3a41ec5f2c2",
+          "returns": [
+            "A pointer to void to the newly allocated memory. "
+          ],
+          "static": false,
+          "strong": false,
+          "title": "allocate",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html#typedef-pointer\">pointer</a>",
+          "typePlain": "pointer",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html#function-allocate",
+          "virtual": false,
+          "visibility": "public"
+        },
+        {
+          "abstract": false,
+          "anchor": "#function-deallocate",
+          "argsString": "(pointer p, std::size_t bytes, std::size_t alignment=alignof(std::max_align_t))",
+          "category": "functions",
+          "const": false,
+          "default": false,
+          "definition": "void thrust::mr::memory_resource< Pointer >::deallocate",
+          "deleted": false,
+          "details": "Deallocates memory pointed to by <code>p</code>.",
+          "explicit": false,
+          "fullname": "thrust::mr::memory_resource::deallocate",
+          "hasDetails": true,
+          "inline": true,
+          "kind": "function",
+          "language": "cpp",
+          "location": {
+            "bodyEnd": 83,
+            "bodyFile": "thrust/mr/memory_resource.h",
+            "bodyStart": 80,
+            "column": 10,
+            "file": "thrust/mr/memory_resource.h",
+            "line": 80
+          },
+          "name": "deallocate",
+          "override": false,
+          "paramList": [
+            {
+              "name": "p",
+              "text": "pointer to be deallocated "
+            },
+            {
+              "name": "bytes",
+              "text": "the size of the allocation. This must be equivalent to the value of <code>bytes</code> that was passed to the allocation function that returned <code>p</code>. "
+            },
+            {
+              "name": "alignment",
+              "text": "the alignment of the allocation. This must be equivalent to the value of <code>alignment</code> that was passed to the allocation function that returned <code>p</code>. "
+            }
+          ],
+          "params": [
+            {
+              "name": "p",
+              "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html#typedef-pointer\">pointer</a>",
+              "typePlain": "pointer"
+            },
+            {
+              "name": "bytes",
+              "type": "std::size_t",
+              "typePlain": "std::size_t"
+            },
+            {
+              "defval": "alignof(std::max_align_t)",
+              "defvalPlain": "alignof(std::max_align_t)",
+              "name": "alignment",
+              "type": "std::size_t",
+              "typePlain": "std::size_t"
+            }
+          ],
+          "pureVirtual": false,
+          "qualifiedname": "thrust::mr::memory_resource::deallocate",
+          "refid": "classthrust_1_1mr_1_1memory__resource_1a5153a93c858b588b4a1ea1e2ba7a489a",
+          "static": false,
+          "strong": false,
+          "title": "deallocate",
+          "type": "void",
+          "typePlain": "void",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html#function-deallocate",
+          "virtual": false,
+          "visibility": "public"
+        },
+        {
+          "abstract": false,
+          "anchor": "#function-is-equal",
+          "argsString": "(const memory_resource &other) const noexcept",
+          "category": "functions",
+          "const": true,
+          "default": false,
+          "definition": "__host__ __device__ bool thrust::mr::memory_resource< Pointer >::is_equal",
+          "deleted": false,
+          "details": "Compares this resource to the other one. The default implementation uses identity comparison, which is often the right thing to do and doesn't require RTTI involvement.",
+          "explicit": false,
+          "fullname": "thrust::mr::memory_resource::is_equal",
+          "hasDetails": true,
+          "inline": true,
+          "kind": "function",
+          "language": "cpp",
+          "location": {
+            "bodyEnd": 95,
+            "bodyFile": "thrust/mr/memory_resource.h",
+            "bodyStart": 92,
+            "column": 10,
+            "file": "thrust/mr/memory_resource.h",
+            "line": 92
+          },
+          "name": "is_equal",
+          "override": false,
+          "paramList": [
+            {
+              "name": "other",
+              "text": "the other resource to compare this resource to "
+            }
+          ],
+          "params": [
+            {
+              "name": "other",
+              "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html\">memory_resource</a> &",
+              "typePlain": "const memory_resource &"
+            }
+          ],
+          "pureVirtual": false,
+          "qualifiedname": "thrust::mr::memory_resource::is_equal",
+          "refid": "classthrust_1_1mr_1_1memory__resource_1aa31ed2a7057d84f4e616498172875474",
+          "returns": [
+            "whether the two resources are equivalent. "
+          ],
+          "static": false,
+          "strong": false,
+          "title": "is_equal",
+          "type": "__host__ __device__ bool",
+          "typePlain": "__host__ __device__ bool",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html#function-is-equal",
+          "virtual": false,
+          "visibility": "public"
+        },
+        {
+          "abstract": false,
+          "anchor": "#function-do-is-equal",
+          "argsString": "(const memory_resource &other) const noexcept",
+          "category": "functions",
+          "const": true,
+          "default": false,
+          "definition": "__host__ virtual __device__ bool thrust::mr::memory_resource< Pointer >::do_is_equal",
+          "deleted": false,
+          "details": "Compares this resource to the other one. The default implementation uses identity comparison, which is often the right thing to do and doesn't require RTTI involvement.",
+          "explicit": false,
+          "fullname": "thrust::mr::memory_resource::do_is_equal",
+          "hasDetails": true,
+          "inline": true,
+          "kind": "function",
+          "language": "cpp",
+          "location": {
+            "bodyEnd": 126,
+            "bodyFile": "thrust/mr/memory_resource.h",
+            "bodyStart": 123,
+            "column": 18,
+            "file": "thrust/mr/memory_resource.h",
+            "line": 123
+          },
+          "name": "do_is_equal",
+          "override": false,
+          "paramList": [
+            {
+              "name": "other",
+              "text": "the other resource to compare this resource to "
+            }
+          ],
+          "params": [
+            {
+              "name": "other",
+              "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html\">memory_resource</a> &",
+              "typePlain": "const memory_resource &"
+            }
+          ],
+          "pureVirtual": false,
+          "qualifiedname": "thrust::mr::memory_resource::do_is_equal",
+          "refid": "classthrust_1_1mr_1_1memory__resource_1ab942189772873c162bb64103a6c85abb",
+          "returns": [
+            "whether the two resources are equivalent. "
+          ],
+          "static": false,
+          "strong": false,
+          "title": "do_is_equal",
+          "type": "__host__ virtual __device__ bool",
+          "typePlain": "__host__ virtual __device__ bool",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html#function-do-is-equal",
+          "virtual": true,
+          "visibility": "public"
+        }
+      ],
+      "publicTypes": [
+        {
+          "abstract": false,
+          "anchor": "#typedef-pointer",
+          "category": "types",
+          "const": false,
+          "definition": "typedef Pointer thrust::mr::memory_resource< Pointer >::pointer",
+          "details": "Alias for the template parameter. ",
+          "explicit": false,
+          "fullname": "thrust::mr::memory_resource::pointer",
+          "hasDetails": true,
+          "inline": false,
+          "kind": "typedef",
+          "language": "cpp",
+          "location": {
+            "bodyFile": "thrust/mr/memory_resource.h",
+            "bodyStart": 53,
+            "column": 21,
+            "file": "thrust/mr/memory_resource.h",
+            "line": 53
+          },
+          "name": "pointer",
+          "override": false,
+          "qualifiedname": "thrust::mr::memory_resource::pointer",
+          "refid": "classthrust_1_1mr_1_1memory__resource_1aba4c34d8cc07d59ce14fe6c30e92727e",
+          "static": false,
+          "strong": false,
+          "title": "pointer",
+          "type": "Pointer",
+          "typePlain": "Pointer",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html#typedef-pointer",
+          "visibility": "public"
+        }
+      ],
+      "refid": "classthrust_1_1mr_1_1memory__resource",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+      "virtual": "non-virtual",
+      "visibility": "public"
+    },
+    {
+      "external": true,
+      "name": "thrust::mr::validator< Upstream >",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "private"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "A memory resource adaptor allowing for pooling and caching allocations from <code>Upstream</code>, using memory allocated from it for both blocks then allocated to the user and for internal bookkeeping of the cached memory.\n\nOn a typical memory resource, calls to <code>allocate</code> and <code>deallocate</code> actually allocate and deallocate memory. Pooling memory resources only allocate and deallocate memory from an external resource (the upstream memory resource) when there's no suitable memory currently cached; otherwise, they use memory they have acquired beforehand, to make memory allocation faster and more efficient.\n\nThe non-disjoint version of the pool resource uses a single upstream memory resource. Every allocation is larger than strictly necessary to fulfill the end-user's request, because it needs to account for the memory overhead of tracking the memory blocks and chunks inside those same memory regions. Nevertheless, this version should be more memory-efficient than the <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource.html\">disjoint&#95;unsynchronized&#95;pool&#95;resource</a></code>, because it doesn't need to allocate additional blocks of memory from a separate resource, which in turn would necessitate the bookkeeping overhead in the upstream resource.\n\nThis version requires that memory allocated from Upstream is accessible from device. It supports smart references, meaning that the non-managed CUDA resource, returning a device-tagged pointer, will work, but will be much less efficient than the disjoint version, which wouldn't need to touch device memory at all, and therefore wouldn't need to transfer it back and forth between the host and the device whenever an allocation or a deallocation happens.",
+  "explicit": false,
+  "fullname": "thrust::mr::unsynchronized_pool_resource",
+  "hasAdditionalMembers": true,
+  "hasDetails": true,
+  "includes": "<thrust/mr/pool.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 500,
+    "bodyFile": "thrust/mr/pool.h",
+    "bodyStart": 71,
+    "column": 1,
+    "file": "thrust/mr/pool.h",
+    "line": 68
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "memory_resources",
+    "kind": "group",
+    "language": "",
+    "name": "memory_resources",
+    "qualifiedname": "memory_resources",
+    "refid": "group__memory__resources",
+    "title": "Memory Resources",
+    "url": "{{ site.baseurl }}/api/groups/group__memory__resources.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "memory_management",
+      "kind": "group",
+      "language": "",
+      "name": "memory_management",
+      "qualifiedname": "memory_management",
+      "refid": "group__memory__management",
+      "title": "Memory Management",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "memory_resources",
+      "kind": "group",
+      "language": "",
+      "name": "memory_resources",
+      "qualifiedname": "memory_resources",
+      "refid": "group__memory__resources",
+      "title": "Memory Resources",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__resources.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::mr::unsynchronized_pool_resource",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "<code>thrust::mr</code> is the namespace containing system agnostic types and functions for <code>memory&#95;resource</code> related functionalities. ",
+    "category": "namespaces",
+    "fullname": "thrust::mr",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::mr",
+    "qualifiedname": "thrust::mr",
+    "refid": "namespacethrust_1_1mr",
+    "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
+    "title": "thrust::mr",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1mr.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "<code>thrust::mr</code> is the namespace containing system agnostic types and functions for <code>memory&#95;resource</code> related functionalities. ",
+      "category": "namespaces",
+      "fullname": "thrust::mr",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::mr",
+      "qualifiedname": "thrust::mr",
+      "refid": "namespacethrust_1_1mr",
+      "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
+      "title": "thrust::mr",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1mr.html",
+      "visibility": "public"
+    }
+  ],
+  "privateAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-m-upstream",
+      "category": "attributes",
+      "const": false,
+      "definition": "Upstream* thrust::mr::unsynchronized_pool_resource< Upstream >::m_upstream",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::m_upstream",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 202,
+        "column": 15,
+        "file": "thrust/mr/pool.h",
+        "line": 202
+      },
+      "name": "m_upstream",
+      "override": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::m_upstream",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1a3d0c7a5d981d40f4304fbc2e9819a28a",
+      "static": false,
+      "strong": false,
+      "title": "m_upstream",
+      "type": "Upstream *",
+      "typePlain": "Upstream *",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#variable-m-upstream",
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-m-options",
+      "category": "attributes",
+      "const": false,
+      "definition": "pool_options thrust::mr::unsynchronized_pool_resource< Upstream >::m_options",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::m_options",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 204,
+        "column": 18,
+        "file": "thrust/mr/pool.h",
+        "line": 204
+      },
+      "name": "m_options",
+      "override": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::m_options",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1a62c0441620eaf371ebc6eb2cb548e418",
+      "static": false,
+      "strong": false,
+      "title": "m_options",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1pool__options.html\">pool_options</a>",
+      "typePlain": "pool_options",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#variable-m-options",
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-m-smallest-block-log2",
+      "category": "attributes",
+      "const": false,
+      "definition": "std::size_t thrust::mr::unsynchronized_pool_resource< Upstream >::m_smallest_block_log2",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::m_smallest_block_log2",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 205,
+        "column": 17,
+        "file": "thrust/mr/pool.h",
+        "line": 205
+      },
+      "name": "m_smallest_block_log2",
+      "override": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::m_smallest_block_log2",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1ad757b730704c59c01097a6a1ddf947fd",
+      "static": false,
+      "strong": false,
+      "title": "m_smallest_block_log2",
+      "type": "std::size_t",
+      "typePlain": "std::size_t",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#variable-m-smallest-block-log2",
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-m-pools",
+      "category": "attributes",
+      "const": false,
+      "definition": "pool_vector thrust::mr::unsynchronized_pool_resource< Upstream >::m_pools",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::m_pools",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 207,
+        "column": 17,
+        "file": "thrust/mr/pool.h",
+        "line": 207
+      },
+      "name": "m_pools",
+      "override": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::m_pools",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1a03aafb7fcf4ed46e40dd0f1a0dbedd9c",
+      "static": false,
+      "strong": false,
+      "title": "m_pools",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">pool_vector</a>",
+      "typePlain": "pool_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#variable-m-pools",
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-m-allocated",
+      "category": "attributes",
+      "const": false,
+      "definition": "chunk_descriptor_ptr thrust::mr::unsynchronized_pool_resource< Upstream >::m_allocated",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::m_allocated",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 208,
+        "column": 26,
+        "file": "thrust/mr/pool.h",
+        "line": 208
+      },
+      "name": "m_allocated",
+      "override": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::m_allocated",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1ab107d966a7c66b8f713839813e738ead",
+      "static": false,
+      "strong": false,
+      "title": "m_allocated",
+      "type": "chunk_descriptor_ptr",
+      "typePlain": "chunk_descriptor_ptr",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#variable-m-allocated",
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-m-oversized",
+      "category": "attributes",
+      "const": false,
+      "definition": "oversized_block_descriptor_ptr thrust::mr::unsynchronized_pool_resource< Upstream >::m_oversized",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::m_oversized",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 209,
+        "column": 36,
+        "file": "thrust/mr/pool.h",
+        "line": 209
+      },
+      "name": "m_oversized",
+      "override": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::m_oversized",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1a483c382cbb65b1a3baccf4b39e9bea43",
+      "static": false,
+      "strong": false,
+      "title": "m_oversized",
+      "type": "oversized_block_descriptor_ptr",
+      "typePlain": "oversized_block_descriptor_ptr",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#variable-m-oversized",
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-m-cached-oversized",
+      "category": "attributes",
+      "const": false,
+      "definition": "oversized_block_descriptor_ptr thrust::mr::unsynchronized_pool_resource< Upstream >::m_cached_oversized",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::m_cached_oversized",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 210,
+        "column": 36,
+        "file": "thrust/mr/pool.h",
+        "line": 210
+      },
+      "name": "m_cached_oversized",
+      "override": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::m_cached_oversized",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1ae8b735843785e625563514b9817edb79",
+      "static": false,
+      "strong": false,
+      "title": "m_cached_oversized",
+      "type": "oversized_block_descriptor_ptr",
+      "typePlain": "oversized_block_descriptor_ptr",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#variable-m-cached-oversized",
+      "visibility": "private"
+    }
+  ],
+  "privateClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::mr::unsynchronized_pool_resource::block_descriptor",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::mr::unsynchronized_pool_resource::block_descriptor",
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::block_descriptor",
+      "refid": "structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1block__descriptor",
+      "title": "thrust::mr::unsynchronized_pool_resource::block_descriptor",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1block__descriptor.html",
+      "visibility": "private"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::mr::unsynchronized_pool_resource::chunk_descriptor",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::mr::unsynchronized_pool_resource::chunk_descriptor",
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::chunk_descriptor",
+      "refid": "structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1chunk__descriptor",
+      "title": "thrust::mr::unsynchronized_pool_resource::chunk_descriptor",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1chunk__descriptor.html",
+      "visibility": "private"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::mr::unsynchronized_pool_resource::oversized_block_descriptor",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::mr::unsynchronized_pool_resource::oversized_block_descriptor",
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::oversized_block_descriptor",
+      "refid": "structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1oversized__block__descriptor",
+      "title": "thrust::mr::unsynchronized_pool_resource::oversized_block_descriptor",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1oversized__block__descriptor.html",
+      "visibility": "private"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::mr::unsynchronized_pool_resource::pool",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::mr::unsynchronized_pool_resource::pool",
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::pool",
+      "refid": "structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1pool",
+      "title": "thrust::mr::unsynchronized_pool_resource::pool",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1pool.html",
+      "visibility": "private"
+    }
+  ],
+  "privateTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-void-ptr",
+      "category": "types",
+      "const": false,
+      "definition": "typedef Upstream::pointer thrust::mr::unsynchronized_pool_resource< Upstream >::void_ptr",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::void_ptr",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 148,
+        "column": 40,
+        "file": "thrust/mr/pool.h",
+        "line": 148
+      },
+      "name": "void_ptr",
+      "override": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::void_ptr",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1a47a06ceebf6c3176b044a6bdc44b6d6f",
+      "static": false,
+      "strong": false,
+      "title": "void_ptr",
+      "type": "Upstream::pointer",
+      "typePlain": "Upstream::pointer",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#typedef-void-ptr",
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-char-ptr",
+      "category": "types",
+      "const": false,
+      "definition": "typedef thrust::detail::pointer_traits<void_ptr>::template rebind<char>::other thrust::mr::unsynchronized_pool_resource< Upstream >::char_ptr",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::char_ptr",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 149,
+        "column": 79,
+        "file": "thrust/mr/pool.h",
+        "line": 149
+      },
+      "name": "char_ptr",
+      "override": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::char_ptr",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1afb3c57e3fcb3a71e219a5eb1241993a6",
+      "static": false,
+      "strong": false,
+      "title": "char_ptr",
+      "type": "thrust::detail::pointer_traits< void_ptr >::template rebind< char >::other",
+      "typePlain": "thrust::detail::pointer_traits< void_ptr >::template rebind< char >::other",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#typedef-char-ptr",
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-block-descriptor-ptr",
+      "category": "types",
+      "const": false,
+      "definition": "typedef thrust::detail::pointer_traits<void_ptr>::template rebind<block_descriptor>::other thrust::mr::unsynchronized_pool_resource< Upstream >::block_descriptor_ptr",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::block_descriptor_ptr",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 153,
+        "column": 79,
+        "file": "thrust/mr/pool.h",
+        "line": 155
+      },
+      "name": "block_descriptor_ptr",
+      "override": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::block_descriptor_ptr",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1a778f83e16c9b7266264143e3862a83f9",
+      "static": false,
+      "strong": false,
+      "title": "block_descriptor_ptr",
+      "type": "thrust::detail::pointer_traits< void_ptr >::template rebind< block_descriptor >::other",
+      "typePlain": "thrust::detail::pointer_traits< void_ptr >::template rebind< block_descriptor >::other",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#typedef-block-descriptor-ptr",
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-chunk-descriptor-ptr",
+      "category": "types",
+      "const": false,
+      "definition": "typedef thrust::detail::pointer_traits<void_ptr>::template rebind<chunk_descriptor>::other thrust::mr::unsynchronized_pool_resource< Upstream >::chunk_descriptor_ptr",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::chunk_descriptor_ptr",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 156,
+        "column": 79,
+        "file": "thrust/mr/pool.h",
+        "line": 156
+      },
+      "name": "chunk_descriptor_ptr",
+      "override": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::chunk_descriptor_ptr",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1aba96a1e8fa36b5f3c68f137c7481cf24",
+      "static": false,
+      "strong": false,
+      "title": "chunk_descriptor_ptr",
+      "type": "thrust::detail::pointer_traits< void_ptr >::template rebind< chunk_descriptor >::other",
+      "typePlain": "thrust::detail::pointer_traits< void_ptr >::template rebind< chunk_descriptor >::other",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#typedef-chunk-descriptor-ptr",
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-oversized-block-descriptor-ptr",
+      "category": "types",
+      "const": false,
+      "definition": "typedef thrust::detail::pointer_traits<void_ptr>::template rebind<oversized_block_descriptor>::other thrust::mr::unsynchronized_pool_resource< Upstream >::oversized_block_descriptor_ptr",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::oversized_block_descriptor_ptr",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 157,
+        "column": 79,
+        "file": "thrust/mr/pool.h",
+        "line": 157
+      },
+      "name": "oversized_block_descriptor_ptr",
+      "override": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::oversized_block_descriptor_ptr",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1a25e470e4fbf4dd93241551d863f35cdf",
+      "static": false,
+      "strong": false,
+      "title": "oversized_block_descriptor_ptr",
+      "type": "thrust::detail::pointer_traits< void_ptr >::template rebind< oversized_block_descriptor >::other",
+      "typePlain": "thrust::detail::pointer_traits< void_ptr >::template rebind< oversized_block_descriptor >::other",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#typedef-oversized-block-descriptor-ptr",
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-pool-vector",
+      "category": "types",
+      "const": false,
+      "definition": "typedef thrust::host_vector< pool, allocator<pool, Upstream> > thrust::mr::unsynchronized_pool_resource< Upstream >::pool_vector",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::pool_vector",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 200,
+        "column": 2,
+        "file": "thrust/mr/pool.h",
+        "line": 200
+      },
+      "name": "pool_vector",
+      "override": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::pool_vector",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1ac80db11c27bae2a95d01aa98c14c20de",
+      "static": false,
+      "strong": false,
+      "title": "pool_vector",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">thrust::host_vector</a>< pool, <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html\">allocator</a>< pool, Upstream > >",
+      "typePlain": "thrust::host_vector< pool, allocator< pool, Upstream > >",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#typedef-pool-vector",
+      "visibility": "private"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-get-default-options",
+      "argsString": "()",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "static pool_options thrust::mr::unsynchronized_pool_resource< Upstream >::get_default_options",
+      "deleted": false,
+      "details": "Get the default options for a pool. These are meant to be a sensible set of values for many use cases, and as such, may be tuned in the future. This function is exposed so that creating a set of options that are just a slight departure from the defaults is easy. ",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::get_default_options",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 97,
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 77,
+        "column": 25,
+        "file": "thrust/mr/pool.h",
+        "line": 77
+      },
+      "name": "get_default_options",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::get_default_options",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1a5bb33b019c4133b4e234140f0649e6c1",
+      "static": true,
+      "strong": false,
+      "title": "get_default_options",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1pool__options.html\">pool_options</a>",
+      "typePlain": "pool_options",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#function-get-default-options",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unsynchronized-pool-resource",
+      "argsString": "(Upstream *upstream, pool_options options=get_default_options())",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::mr::unsynchronized_pool_resource< Upstream >::unsynchronized_pool_resource",
+      "deleted": false,
+      "details": "Constructor.",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::unsynchronized_pool_resource",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 117,
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 104,
+        "column": 5,
+        "file": "thrust/mr/pool.h",
+        "line": 104
+      },
+      "name": "unsynchronized_pool_resource",
+      "override": false,
+      "paramList": [
+        {
+          "name": "upstream",
+          "text": "the upstream memory resource for allocations "
+        },
+        {
+          "name": "options",
+          "text": "pool options to use "
+        }
+      ],
+      "params": [
+        {
+          "name": "upstream",
+          "type": "Upstream *",
+          "typePlain": "Upstream *"
+        },
+        {
+          "defval": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#function-get-default-options\">get_default_options</a>()",
+          "defvalPlain": "get_default_options()",
+          "name": "options",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1pool__options.html\">pool_options</a>",
+          "typePlain": "pool_options"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::unsynchronized_pool_resource",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1ad77718ac585b022167883dd8758bc7d2",
+      "static": false,
+      "strong": false,
+      "title": "unsynchronized_pool_resource",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#function-unsynchronized-pool-resource",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unsynchronized-pool-resource",
+      "argsString": "(pool_options options=get_default_options())",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::mr::unsynchronized_pool_resource< Upstream >::unsynchronized_pool_resource",
+      "deleted": false,
+      "details": "Constructor. The upstream resource is obtained by calling <code>get&#95;global&#95;resource&lt;Upstream&gt;</code>.",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::unsynchronized_pool_resource",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 138,
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 125,
+        "column": 5,
+        "file": "thrust/mr/pool.h",
+        "line": 125
+      },
+      "name": "unsynchronized_pool_resource",
+      "override": false,
+      "paramList": [
+        {
+          "name": "options",
+          "text": "pool options to use "
+        }
+      ],
+      "params": [
+        {
+          "defval": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#function-get-default-options\">get_default_options</a>()",
+          "defvalPlain": "get_default_options()",
+          "name": "options",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1pool__options.html\">pool_options</a>",
+          "typePlain": "pool_options"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::unsynchronized_pool_resource",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1a5d6da6076d59adb74d2df9b917c34595",
+      "static": false,
+      "strong": false,
+      "title": "unsynchronized_pool_resource",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#function-unsynchronized-pool-resource",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-~unsynchronized-pool-resource",
+      "argsString": "()",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::mr::unsynchronized_pool_resource< Upstream >::~unsynchronized_pool_resource",
+      "deleted": false,
+      "details": "Destructor. Releases all held memory to upstream. ",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::~unsynchronized_pool_resource",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 145,
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 142,
+        "column": 5,
+        "file": "thrust/mr/pool.h",
+        "line": 142
+      },
+      "name": "~unsynchronized_pool_resource",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::~unsynchronized_pool_resource",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1a6a26db84c987b745a85b5ab62f7ee8cd",
+      "static": false,
+      "strong": false,
+      "title": "~unsynchronized_pool_resource",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#function-~unsynchronized-pool-resource",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-release",
+      "argsString": "()",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "void thrust::mr::unsynchronized_pool_resource< Upstream >::release",
+      "deleted": false,
+      "details": "Releases all held memory to upstream. ",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::release",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 253,
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 215,
+        "column": 10,
+        "file": "thrust/mr/pool.h",
+        "line": 215
+      },
+      "name": "release",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::release",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1a236e23907c5239777c9f07d31d12c6cf",
+      "static": false,
+      "strong": false,
+      "title": "release",
+      "type": "void",
+      "typePlain": "void",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#function-release",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-do-allocate",
+      "argsString": "(std::size_t bytes, std::size_t alignment=alignof(std::max_align_t)) override",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "virtual void_ptr thrust::mr::unsynchronized_pool_resource< Upstream >::do_allocate",
+      "deleted": false,
+      "details": "Allocates memory of size at least <code>bytes</code> and alignment at least <code>alignment</code>.",
+      "exceptionsList": [
+        {
+          "name": "thrust::bad_alloc",
+          "text": "when no memory with requested size and alignment can be allocated. "
+        }
+      ],
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::do_allocate",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 426,
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 255,
+        "column": 23,
+        "file": "thrust/mr/pool.h",
+        "line": 255
+      },
+      "name": "do_allocate",
+      "override": true,
+      "paramList": [
+        {
+          "name": "bytes",
+          "text": "size, in bytes, that is requested from this allocation "
+        },
+        {
+          "name": "alignment",
+          "text": "alignment that is requested from this allocation "
+        }
+      ],
+      "params": [
+        {
+          "name": "bytes",
+          "type": "std::size_t",
+          "typePlain": "std::size_t"
+        },
+        {
+          "defval": "alignof(std::max_align_t)",
+          "defvalPlain": "alignof(std::max_align_t)",
+          "name": "alignment",
+          "type": "std::size_t",
+          "typePlain": "std::size_t"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::do_allocate",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1af6d67890c2a4191f63485cb4b13cd895",
+      "reimplements": {
+        "anchor": "#function-do-allocate",
+        "category": "functions",
+        "fullname": "thrust::mr::memory_resource::do_allocate",
+        "kind": "function",
+        "language": "cpp",
+        "name": "do_allocate",
+        "pureVirtual": true,
+        "qualifiedname": "thrust::mr::memory_resource::do_allocate",
+        "refid": "classthrust_1_1mr_1_1memory__resource_1affb0e7d04fa2e105440a35ce68758565",
+        "title": "do_allocate",
+        "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html#function-do-allocate",
+        "virtual": true,
+        "visibility": "public"
+      },
+      "returns": [
+        "A pointer to void to the newly allocated memory. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "do_allocate",
+      "type": "void_ptr",
+      "typePlain": "void_ptr",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#function-do-allocate",
+      "virtual": true,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-do-deallocate",
+      "argsString": "(void_ptr p, std::size_t n, std::size_t alignment=alignof(std::max_align_t)) override",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "virtual void thrust::mr::unsynchronized_pool_resource< Upstream >::do_deallocate",
+      "deleted": false,
+      "details": "Deallocates memory pointed to by <code>p</code>.",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::do_deallocate",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 499,
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 428,
+        "column": 18,
+        "file": "thrust/mr/pool.h",
+        "line": 428
+      },
+      "name": "do_deallocate",
+      "override": true,
+      "paramList": [
+        {
+          "name": "p",
+          "text": "pointer to be deallocated "
+        },
+        {
+          "name": "bytes",
+          "text": "the size of the allocation. This must be equivalent to the value of <code>bytes</code> that was passed to the allocation function that returned <code>p</code>. "
+        },
+        {
+          "name": "alignment",
+          "text": "the size of the allocation. This must be equivalent to the value of <code>alignment</code> that was passed to the allocation function that returned <code>p</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "p",
+          "type": "void_ptr",
+          "typePlain": "void_ptr"
+        },
+        {
+          "name": "bytes",
+          "type": "std::size_t",
+          "typePlain": "std::size_t"
+        },
+        {
+          "defval": "alignof(std::max_align_t)",
+          "defvalPlain": "alignof(std::max_align_t)",
+          "name": "alignment",
+          "type": "std::size_t",
+          "typePlain": "std::size_t"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::do_deallocate",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource_1a1245a2c251d9948e2b7456ad4902a398",
+      "reimplements": {
+        "anchor": "#function-do-deallocate",
+        "category": "functions",
+        "fullname": "thrust::mr::memory_resource::do_deallocate",
+        "kind": "function",
+        "language": "cpp",
+        "name": "do_deallocate",
+        "pureVirtual": true,
+        "qualifiedname": "thrust::mr::memory_resource::do_deallocate",
+        "refid": "classthrust_1_1mr_1_1memory__resource_1ae4fd0eb8907fd516b469826532782cce",
+        "title": "do_deallocate",
+        "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html#function-do-deallocate",
+        "virtual": true,
+        "visibility": "public"
+      },
+      "static": false,
+      "strong": false,
+      "title": "do_deallocate",
+      "type": "void",
+      "typePlain": "void",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html#function-do-deallocate",
+      "virtual": true,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::mr::unsynchronized_pool_resource",
+  "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename Upstream",
+      "typePlain": "typename Upstream"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "Upstream",
+      "text": "the type of memory resources that will be used for allocating memory blocks "
+    }
+  ],
+  "title": "thrust::mr::unsynchronized_pool_resource",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html",
+  "visibility": "public"
+}

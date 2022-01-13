@@ -1,0 +1,97 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "std::is_void< invoke_result_t< F, U... > >",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 296,
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 296,
+    "column": 1,
+    "file": "thrust/optional.h",
+    "line": 295
+  },
+  "name": "thrust::detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "\\exclude ",
+    "category": "namespaces",
+    "fullname": "thrust::detail",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::detail",
+    "qualifiedname": "thrust::detail",
+    "refid": "namespacethrust_1_1detail",
+    "summary": "\\exclude ",
+    "title": "thrust::detail",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "\\exclude ",
+      "category": "namespaces",
+      "fullname": "thrust::detail",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::detail",
+      "qualifiedname": "thrust::detail",
+      "refid": "namespacethrust_1_1detail",
+      "summary": "\\exclude ",
+      "title": "thrust::detail",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
+  "refid": "structthrust_1_1detail_1_1returns__void__impl_3_01F_00_01void__t_3_01invoke__result__t_3_01F_00_92d99556b5b7d67309a0911581ace58d",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "class F",
+      "typePlain": "class F"
+    },
+    {
+      "name": "U",
+      "type": "class...",
+      "typePlain": "class..."
+    }
+  ],
+  "title": "thrust::detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1returns__void__impl_3_01f_00_01void__t_3_01invoke__result__t_3_01f_00_92d99556b5b7d67309a0911581ace58d.html",
+  "visibility": "public"
+}

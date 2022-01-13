@@ -1,0 +1,69 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "system",
+  "groups": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "system_backends",
+      "kind": "group",
+      "language": "",
+      "name": "system_backends",
+      "qualifiedname": "system_backends",
+      "refid": "group__system__backends",
+      "title": "Systems",
+      "url": "{{ site.baseurl }}/api/groups/group__system__backends.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "system_diagnostics",
+      "kind": "group",
+      "language": "",
+      "name": "system_diagnostics",
+      "qualifiedname": "system_diagnostics",
+      "refid": "group__system__diagnostics",
+      "title": "System Diagnostics",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html",
+      "visibility": "public"
+    }
+  ],
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "name": "system",
+  "namespaces": [
+    {
+      "anchor": "",
+      "brief": "<code>thrust::system</code> is the namespace which contains specific Thrust backend systems. It also contains functionality for reporting error conditions originating from the operating system or other low-level application program interfaces such as the CUDA runtime. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+      "category": "namespaces",
+      "fullname": "thrust::system",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::system",
+      "qualifiedname": "thrust::system",
+      "refid": "namespacethrust_1_1system",
+      "summary": "thrust::system is the namespace which contains specific Thrust backend systems. It also contains functionality for reporting error conditions originating from the operating system or other low-level application program interfaces such as the CUDA runtime. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+      "title": "thrust::system",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system.html",
+      "visibility": "public"
+    }
+  ],
+  "override": false,
+  "parent": null,
+  "qualifiedname": "system",
+  "refid": "group__system",
+  "static": false,
+  "strong": false,
+  "title": "System",
+  "url": "{{ site.baseurl }}/api/groups/group__system.html",
+  "visibility": "public"
+}

@@ -1,0 +1,142 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "execution_policies",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "name": "execution_policies",
+  "override": false,
+  "parent": null,
+  "publicAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-host",
+      "category": "attributes",
+      "const": false,
+      "definition": "const detail::host_t thrust::host",
+      "details": "<code>thrust::host</code> is the default parallel execution policy associated with Thrust's host backend system configured by the <code>THRUST&#95;HOST&#95;SYSTEM</code> macro.\n\nInstead of relying on implicit algorithm dispatch through iterator system tags, users may directly target algorithm dispatch at Thrust's host system by providing <code>thrust::host</code> as an algorithm parameter.\n\nExplicit dispatch can be useful in avoiding the introduction of data copies into containers such as <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">thrust::host&#95;vector</a></code>.\n\nNote that even though <code>thrust::host</code> targets the host CPU, it is a parallel execution policy. That is, the order that an algorithm invokes functors or dereferences iterators is not defined.\n\nThe type of <code>thrust::host</code> is implementation-defined.\n\nThe following code snippet demonstrates how to use <code>thrust::host</code> to explicitly dispatch an invocation of <code>thrust::for&#95;each</code> to the host backend system:\n\n\n\n```cpp\n#include <thrust/for_each.h>\n#include <thrust/execution_policy.h>\n#include <cstdio>\n\nstruct printf_functor\n{\n  __host__ __device__\n  void operator()(int x)\n  {\n    printf(\"%d\\n\", x);\n  }\n};\n...\nint vec(3);\nvec[0] = 0; vec[1] = 1; vec[2] = 2;\n\nthrust::for_each(thrust::host, vec.begin(), vec.end(), printf_functor());\n\n// 0 1 2 is printed to standard output in some unspecified order\n```",
+      "explicit": false,
+      "fullname": "execution_policies::host",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "variable",
+      "language": "",
+      "location": {
+        "bodyFile": "thrust/execution_policy.h",
+        "bodyStart": 296,
+        "column": 29,
+        "file": "thrust/execution_policy.h",
+        "line": 296
+      },
+      "name": "host",
+      "override": false,
+      "qualifiedname": "thrust::host",
+      "refid": "group__execution__policies_1ga98394c05ebaaac46c17cf0ec970695e0",
+      "see": [
+        "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1host__execution__policy.html\">host_execution_policy</a>",
+        "thrust::device "
+      ],
+      "static": true,
+      "strong": false,
+      "title": "host",
+      "type": "const detail::host_t",
+      "typePlain": "const detail::host_t",
+      "url": "{{ site.baseurl }}/api/groups/group__execution__policies.html#variable-host",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-device",
+      "category": "attributes",
+      "const": false,
+      "definition": "THRUST_INLINE_CONSTANT detail::device_t thrust::device",
+      "details": "<code>thrust::device</code> is the default parallel execution policy associated with Thrust's device backend system configured by the <code>THRUST&#95;DEVICE&#95;SYSTEM</code> macro.\n\nInstead of relying on implicit algorithm dispatch through iterator system tags, users may directly target algorithm dispatch at Thrust's device system by providing <code>thrust::device</code> as an algorithm parameter.\n\nExplicit dispatch can be useful in avoiding the introduction of data copies into containers such as <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">thrust::device&#95;vector</a></code> or to avoid wrapping e.g. raw pointers allocated by the CUDA API with types such as <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">thrust::device&#95;ptr</a></code>.\n\nThe user must take care to guarantee that the iterators provided to an algorithm are compatible with the device backend system. For example, raw pointers allocated by <code>std::malloc</code> typically cannot be dereferenced by a GPU. For this reason, raw pointers allocated by host APIs should not be mixed with a <code>thrust::device</code> algorithm invocation when the device backend is CUDA.\n\nThe type of <code>thrust::device</code> is implementation-defined.\n\nThe following code snippet demonstrates how to use <code>thrust::device</code> to explicitly dispatch an invocation of <code>thrust::for&#95;each</code> to the device backend system:\n\n\n\n```cpp\n#include <thrust/for_each.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n#include <cstdio>\n\nstruct printf_functor\n{\n  __host__ __device__\n  void operator()(int x)\n  {\n    printf(\"%d\\n\", x);\n  }\n};\n...\nthrust::device_vector<int> vec(3);\nvec[0] = 0; vec[1] = 1; vec[2] = 2;\n\nthrust::for_each(thrust::device, vec.begin(), vec.end(), printf_functor());\n\n// 0 1 2 is printed to standard output in some unspecified order\n```",
+      "explicit": false,
+      "fullname": "execution_policies::device",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "variable",
+      "language": "",
+      "location": {
+        "bodyFile": "thrust/execution_policy.h",
+        "bodyStart": 345,
+        "column": 41,
+        "file": "thrust/execution_policy.h",
+        "line": 345
+      },
+      "name": "device",
+      "override": false,
+      "qualifiedname": "thrust::device",
+      "refid": "group__execution__policies_1ga330d16be82b0518b6a37d026c2811e7e",
+      "see": [
+        "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1host__execution__policy.html\">host_execution_policy</a>",
+        "thrust::device "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "device",
+      "type": "THRUST_INLINE_CONSTANT detail::device_t",
+      "typePlain": "THRUST_INLINE_CONSTANT detail::device_t",
+      "url": "{{ site.baseurl }}/api/groups/group__execution__policies.html#variable-device",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::execution_policy< DerivedPolicy >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::host_execution_policy",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::host_execution_policy",
+      "qualifiedname": "thrust::host_execution_policy",
+      "refid": "structthrust_1_1host__execution__policy",
+      "title": "thrust::host_execution_policy",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1host__execution__policy.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::execution_policy< DerivedPolicy >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::device_execution_policy",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::device_execution_policy",
+      "qualifiedname": "thrust::device_execution_policy",
+      "refid": "structthrust_1_1device__execution__policy",
+      "title": "thrust::device_execution_policy",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1device__execution__policy.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "execution_policies",
+  "refid": "group__execution__policies",
+  "static": false,
+  "strong": false,
+  "title": "Parallel Execution Policies",
+  "url": "{{ site.baseurl }}/api/groups/group__execution__policies.html",
+  "visibility": "public"
+}

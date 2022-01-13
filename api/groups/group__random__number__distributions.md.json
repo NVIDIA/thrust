@@ -1,0 +1,1000 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "random_number_distributions",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "random",
+    "kind": "group",
+    "language": "",
+    "name": "random",
+    "qualifiedname": "random",
+    "refid": "group__random",
+    "title": "Random Number Generation",
+    "url": "{{ site.baseurl }}/api/groups/group__random.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "random",
+      "kind": "group",
+      "language": "",
+      "name": "random",
+      "qualifiedname": "random",
+      "refid": "group__random",
+      "title": "Random Number Generation",
+      "url": "{{ site.baseurl }}/api/groups/group__random.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "random_number_distributions",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "random",
+    "kind": "group",
+    "language": "",
+    "name": "random",
+    "qualifiedname": "random",
+    "refid": "group__random",
+    "title": "Random Number Generation",
+    "url": "{{ site.baseurl }}/api/groups/group__random.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "random",
+      "kind": "group",
+      "language": "",
+      "name": "random",
+      "qualifiedname": "random",
+      "refid": "group__random",
+      "title": "Random Number Generation",
+      "url": "{{ site.baseurl }}/api/groups/group__random.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "detail::normal_distribution_base::type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "brief": "A <code>normal&#95;distribution</code> random number distribution produces floating point Normally distributed random numbers. ",
+      "category": "classes",
+      "fullname": "thrust::random::normal_distribution",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::random::normal_distribution",
+      "qualifiedname": "thrust::random::normal_distribution",
+      "refid": "classthrust_1_1random_1_1normal__distribution",
+      "summary": "A normal_distribution random number distribution produces floating point Normally distributed random numbers. ",
+      "title": "thrust::random::normal_distribution",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "A <code>uniform&#95;int&#95;distribution</code> random number distribution produces signed or unsigned integer uniform random numbers from a given range. ",
+      "category": "classes",
+      "fullname": "thrust::random::uniform_int_distribution",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::random::uniform_int_distribution",
+      "qualifiedname": "thrust::random::uniform_int_distribution",
+      "refid": "classthrust_1_1random_1_1uniform__int__distribution",
+      "summary": "A uniform_int_distribution random number distribution produces signed or unsigned integer uniform random numbers from a given range. ",
+      "title": "thrust::random::uniform_int_distribution",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "A <code>uniform&#95;real&#95;distribution</code> random number distribution produces floating point uniform random numbers from a half-open interval. ",
+      "category": "classes",
+      "fullname": "thrust::random::uniform_real_distribution",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::random::uniform_real_distribution",
+      "qualifiedname": "thrust::random::uniform_real_distribution",
+      "refid": "classthrust_1_1random_1_1uniform__real__distribution",
+      "summary": "A uniform_real_distribution random number distribution produces floating point uniform random numbers from a half-open interval. ",
+      "title": "thrust::random::uniform_real_distribution",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__real__distribution.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const normal_distribution< RealType > &lhs, const normal_distribution< RealType > &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::random::operator==",
+      "deleted": false,
+      "details": "This function checks two <code>normal&#95;distributions</code> for equality. ",
+      "explicit": false,
+      "fullname": "random_number_distributions::operator==",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 224
+      },
+      "name": "operator==",
+      "override": false,
+      "paramList": [
+        {
+          "name": "lhs",
+          "text": "The first <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code> to test. "
+        },
+        {
+          "name": "rhs",
+          "text": "The second <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code> to test. "
+        }
+      ],
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const normal_distribution< RealType > &",
+          "typePlain": "const normal_distribution< RealType > &"
+        },
+        {
+          "name": "rhs",
+          "type": "const normal_distribution< RealType > &",
+          "typePlain": "const normal_distribution< RealType > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::operator==",
+      "refid": "group__random__number__distributions_1ga32ded46af328d3f5e6913b19706ab3c3",
+      "returns": [
+        "<code>true</code> if <code>lhs</code> is equal to <code>rhs</code>; <code>false</code>, otherwise. "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename RealType",
+          "typePlain": "typename RealType"
+        }
+      ],
+      "title": "operator==",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__distributions.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const normal_distribution< RealType > &lhs, const normal_distribution< RealType > &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::random::operator!=",
+      "deleted": false,
+      "details": "This function checks two <code>normal&#95;distributions</code> for inequality. ",
+      "explicit": false,
+      "fullname": "random_number_distributions::operator!=",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 235
+      },
+      "name": "operator!=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "lhs",
+          "text": "The first <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code> to test. "
+        },
+        {
+          "name": "rhs",
+          "text": "The second <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code> to test. "
+        }
+      ],
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const normal_distribution< RealType > &",
+          "typePlain": "const normal_distribution< RealType > &"
+        },
+        {
+          "name": "rhs",
+          "type": "const normal_distribution< RealType > &",
+          "typePlain": "const normal_distribution< RealType > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::operator!=",
+      "refid": "group__random__number__distributions_1gae462ca2957c05fe59abf36dd0d430ad7",
+      "returns": [
+        "<code>true</code> if <code>lhs</code> is not equal to <code>rhs</code>; <code>false</code>, otherwise. "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename RealType",
+          "typePlain": "typename RealType"
+        }
+      ],
+      "title": "operator!=",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__distributions.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator<<",
+      "argsString": "(std::basic_ostream< CharT, Traits > &os, const normal_distribution< RealType > &d)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "std::basic_ostream< CharT, Traits > & thrust::random::operator<<",
+      "deleted": false,
+      "details": "This function streams a <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal_distribution</a> to a <code>std::basic&#95;ostream</code>. ",
+      "explicit": false,
+      "fullname": "random_number_distributions::operator<<",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 235
+      },
+      "name": "operator<<",
+      "override": false,
+      "paramList": [
+        {
+          "name": "os",
+          "text": "The <code>basic&#95;ostream</code> to stream out to. "
+        },
+        {
+          "name": "d",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code> to stream out. "
+        }
+      ],
+      "params": [
+        {
+          "name": "os",
+          "type": "std::basic_ostream< CharT, Traits > &",
+          "typePlain": "std::basic_ostream< CharT, Traits > &"
+        },
+        {
+          "name": "d",
+          "type": "const normal_distribution< RealType > &",
+          "typePlain": "const normal_distribution< RealType > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::operator<<",
+      "refid": "group__random__number__distributions_1ga6daf6d224dd4678aa0e5298d768f78e8",
+      "returns": [
+        "<code>os</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename RealType",
+          "typePlain": "typename RealType"
+        },
+        {
+          "name": "",
+          "type": "typename CharT",
+          "typePlain": "typename CharT"
+        },
+        {
+          "name": "",
+          "type": "typename Traits",
+          "typePlain": "typename Traits"
+        }
+      ],
+      "title": "operator<<",
+      "type": "std::basic_ostream< CharT, Traits > &",
+      "typePlain": "std::basic_ostream< CharT, Traits > &",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__distributions.html#function-operator<<",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator>>",
+      "argsString": "(std::basic_istream< CharT, Traits > &is, normal_distribution< RealType > &d)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "std::basic_istream< CharT, Traits > & thrust::random::operator>>",
+      "deleted": false,
+      "details": "This function streams a <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal_distribution</a> in from a std::basic_istream. ",
+      "explicit": false,
+      "fullname": "random_number_distributions::operator>>",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 1,
+        "file": "thrust/random/normal_distribution.h",
+        "line": 259
+      },
+      "name": "operator>>",
+      "override": false,
+      "paramList": [
+        {
+          "name": "is",
+          "text": "The <code>basic&#95;istream</code> to stream from. "
+        },
+        {
+          "name": "d",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html\">normal&#95;distribution</a></code> to stream in. "
+        }
+      ],
+      "params": [
+        {
+          "name": "is",
+          "type": "std::basic_istream< CharT, Traits > &",
+          "typePlain": "std::basic_istream< CharT, Traits > &"
+        },
+        {
+          "name": "d",
+          "type": "normal_distribution< RealType > &",
+          "typePlain": "normal_distribution< RealType > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::operator>>",
+      "refid": "group__random__number__distributions_1ga3621a65a0e13f25d49a9067742c8aa6f",
+      "returns": [
+        "<code>is</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename RealType",
+          "typePlain": "typename RealType"
+        },
+        {
+          "name": "",
+          "type": "typename CharT",
+          "typePlain": "typename CharT"
+        },
+        {
+          "name": "",
+          "type": "typename Traits",
+          "typePlain": "typename Traits"
+        }
+      ],
+      "title": "operator>>",
+      "type": "std::basic_istream< CharT, Traits > &",
+      "typePlain": "std::basic_istream< CharT, Traits > &",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__distributions.html#function-operator>>",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const uniform_int_distribution< IntType > &lhs, const uniform_int_distribution< IntType > &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::random::operator==",
+      "deleted": false,
+      "details": "This function checks two <code>uniform&#95;int&#95;distributions</code> for equality. ",
+      "explicit": false,
+      "fullname": "random_number_distributions::operator==",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/random/uniform_int_distribution.h",
+        "line": 226
+      },
+      "name": "operator==",
+      "override": false,
+      "paramList": [
+        {
+          "name": "lhs",
+          "text": "The first <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to test. "
+        },
+        {
+          "name": "rhs",
+          "text": "The second <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to test. "
+        }
+      ],
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const uniform_int_distribution< IntType > &",
+          "typePlain": "const uniform_int_distribution< IntType > &"
+        },
+        {
+          "name": "rhs",
+          "type": "const uniform_int_distribution< IntType > &",
+          "typePlain": "const uniform_int_distribution< IntType > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::operator==",
+      "refid": "group__random__number__distributions_1ga2557e2c36a8c6900d0c1dd3c99d6fedd",
+      "returns": [
+        "<code>true</code> if <code>lhs</code> is equal to <code>rhs</code>; <code>false</code>, otherwise. "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename IntType",
+          "typePlain": "typename IntType"
+        }
+      ],
+      "title": "operator==",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__distributions.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const uniform_int_distribution< IntType > &lhs, const uniform_int_distribution< IntType > &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::random::operator!=",
+      "deleted": false,
+      "details": "This function checks two <code>uniform&#95;int&#95;distributions</code> for inequality. ",
+      "explicit": false,
+      "fullname": "random_number_distributions::operator!=",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/random/uniform_int_distribution.h",
+        "line": 237
+      },
+      "name": "operator!=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "lhs",
+          "text": "The first <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to test. "
+        },
+        {
+          "name": "rhs",
+          "text": "The second <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to test. "
+        }
+      ],
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const uniform_int_distribution< IntType > &",
+          "typePlain": "const uniform_int_distribution< IntType > &"
+        },
+        {
+          "name": "rhs",
+          "type": "const uniform_int_distribution< IntType > &",
+          "typePlain": "const uniform_int_distribution< IntType > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::operator!=",
+      "refid": "group__random__number__distributions_1ga2ae650722942607ea142ce2881abfd8e",
+      "returns": [
+        "<code>true</code> if <code>lhs</code> is not equal to <code>rhs</code>; <code>false</code>, otherwise. "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename IntType",
+          "typePlain": "typename IntType"
+        }
+      ],
+      "title": "operator!=",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__distributions.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator<<",
+      "argsString": "(std::basic_ostream< CharT, Traits > &os, const uniform_int_distribution< IntType > &d)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "std::basic_ostream< CharT, Traits > & thrust::random::operator<<",
+      "deleted": false,
+      "details": "This function streams a <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform_int_distribution</a> to a <code>std::basic&#95;ostream</code>. ",
+      "explicit": false,
+      "fullname": "random_number_distributions::operator<<",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/random/uniform_int_distribution.h",
+        "line": 237
+      },
+      "name": "operator<<",
+      "override": false,
+      "paramList": [
+        {
+          "name": "os",
+          "text": "The <code>basic&#95;ostream</code> to stream out to. "
+        },
+        {
+          "name": "d",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to stream out. "
+        }
+      ],
+      "params": [
+        {
+          "name": "os",
+          "type": "std::basic_ostream< CharT, Traits > &",
+          "typePlain": "std::basic_ostream< CharT, Traits > &"
+        },
+        {
+          "name": "d",
+          "type": "const uniform_int_distribution< IntType > &",
+          "typePlain": "const uniform_int_distribution< IntType > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::operator<<",
+      "refid": "group__random__number__distributions_1ga5a4cf83ea6b55fa3b9f9d77c8aeb0f22",
+      "returns": [
+        "<code>os</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename IntType",
+          "typePlain": "typename IntType"
+        },
+        {
+          "name": "",
+          "type": "typename CharT",
+          "typePlain": "typename CharT"
+        },
+        {
+          "name": "",
+          "type": "typename Traits",
+          "typePlain": "typename Traits"
+        }
+      ],
+      "title": "operator<<",
+      "type": "std::basic_ostream< CharT, Traits > &",
+      "typePlain": "std::basic_ostream< CharT, Traits > &",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__distributions.html#function-operator<<",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator>>",
+      "argsString": "(std::basic_istream< CharT, Traits > &is, uniform_int_distribution< IntType > &d)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "std::basic_istream< CharT, Traits > & thrust::random::operator>>",
+      "deleted": false,
+      "details": "This function streams a <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform_int_distribution</a> in from a std::basic_istream. ",
+      "explicit": false,
+      "fullname": "random_number_distributions::operator>>",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 1,
+        "file": "thrust/random/uniform_int_distribution.h",
+        "line": 261
+      },
+      "name": "operator>>",
+      "override": false,
+      "paramList": [
+        {
+          "name": "is",
+          "text": "The <code>basic&#95;istream</code> to stream from. "
+        },
+        {
+          "name": "d",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to stream in. "
+        }
+      ],
+      "params": [
+        {
+          "name": "is",
+          "type": "std::basic_istream< CharT, Traits > &",
+          "typePlain": "std::basic_istream< CharT, Traits > &"
+        },
+        {
+          "name": "d",
+          "type": "uniform_int_distribution< IntType > &",
+          "typePlain": "uniform_int_distribution< IntType > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::operator>>",
+      "refid": "group__random__number__distributions_1gae0886e2e54370b9b819bd10f05a89885",
+      "returns": [
+        "<code>is</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename IntType",
+          "typePlain": "typename IntType"
+        },
+        {
+          "name": "",
+          "type": "typename CharT",
+          "typePlain": "typename CharT"
+        },
+        {
+          "name": "",
+          "type": "typename Traits",
+          "typePlain": "typename Traits"
+        }
+      ],
+      "title": "operator>>",
+      "type": "std::basic_istream< CharT, Traits > &",
+      "typePlain": "std::basic_istream< CharT, Traits > &",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__distributions.html#function-operator>>",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const uniform_real_distribution< RealType > &lhs, const uniform_real_distribution< RealType > &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::random::operator==",
+      "deleted": false,
+      "details": "This function checks two <code>uniform&#95;real&#95;distributions</code> for equality. ",
+      "explicit": false,
+      "fullname": "random_number_distributions::operator==",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/random/uniform_real_distribution.h",
+        "line": 223
+      },
+      "name": "operator==",
+      "override": false,
+      "paramList": [
+        {
+          "name": "lhs",
+          "text": "The first <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to test. "
+        },
+        {
+          "name": "rhs",
+          "text": "The second <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to test. "
+        }
+      ],
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const uniform_real_distribution< RealType > &",
+          "typePlain": "const uniform_real_distribution< RealType > &"
+        },
+        {
+          "name": "rhs",
+          "type": "const uniform_real_distribution< RealType > &",
+          "typePlain": "const uniform_real_distribution< RealType > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::operator==",
+      "refid": "group__random__number__distributions_1ga1aaaeec56f85ae468c6f2721653b4be6",
+      "returns": [
+        "<code>true</code> if <code>lhs</code> is equal to <code>rhs</code>; <code>false</code>, otherwise. "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename RealType",
+          "typePlain": "typename RealType"
+        }
+      ],
+      "title": "operator==",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__distributions.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const uniform_real_distribution< RealType > &lhs, const uniform_real_distribution< RealType > &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::random::operator!=",
+      "deleted": false,
+      "details": "This function checks two <code>uniform&#95;real&#95;distributions</code> for inequality. ",
+      "explicit": false,
+      "fullname": "random_number_distributions::operator!=",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/random/uniform_real_distribution.h",
+        "line": 234
+      },
+      "name": "operator!=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "lhs",
+          "text": "The first <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to test. "
+        },
+        {
+          "name": "rhs",
+          "text": "The second <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to test. "
+        }
+      ],
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const uniform_real_distribution< RealType > &",
+          "typePlain": "const uniform_real_distribution< RealType > &"
+        },
+        {
+          "name": "rhs",
+          "type": "const uniform_real_distribution< RealType > &",
+          "typePlain": "const uniform_real_distribution< RealType > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::operator!=",
+      "refid": "group__random__number__distributions_1gaad7923cdcb4be4d2c9420ceaf45cd30e",
+      "returns": [
+        "<code>true</code> if <code>lhs</code> is not equal to <code>rhs</code>; <code>false</code>, otherwise. "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename RealType",
+          "typePlain": "typename RealType"
+        }
+      ],
+      "title": "operator!=",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__distributions.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator<<",
+      "argsString": "(std::basic_ostream< CharT, Traits > &os, const uniform_real_distribution< RealType > &d)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "std::basic_ostream< CharT, Traits > & thrust::random::operator<<",
+      "deleted": false,
+      "details": "This function streams a <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__real__distribution.html\">uniform_real_distribution</a> to a <code>std::basic&#95;ostream</code>. ",
+      "explicit": false,
+      "fullname": "random_number_distributions::operator<<",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/random/uniform_real_distribution.h",
+        "line": 234
+      },
+      "name": "operator<<",
+      "override": false,
+      "paramList": [
+        {
+          "name": "os",
+          "text": "The <code>basic&#95;ostream</code> to stream out to. "
+        },
+        {
+          "name": "d",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to stream out. "
+        }
+      ],
+      "params": [
+        {
+          "name": "os",
+          "type": "std::basic_ostream< CharT, Traits > &",
+          "typePlain": "std::basic_ostream< CharT, Traits > &"
+        },
+        {
+          "name": "d",
+          "type": "const uniform_real_distribution< RealType > &",
+          "typePlain": "const uniform_real_distribution< RealType > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::operator<<",
+      "refid": "group__random__number__distributions_1ga7c463b1f88a97fd69a362035def78da7",
+      "returns": [
+        "<code>os</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename RealType",
+          "typePlain": "typename RealType"
+        },
+        {
+          "name": "",
+          "type": "typename CharT",
+          "typePlain": "typename CharT"
+        },
+        {
+          "name": "",
+          "type": "typename Traits",
+          "typePlain": "typename Traits"
+        }
+      ],
+      "title": "operator<<",
+      "type": "std::basic_ostream< CharT, Traits > &",
+      "typePlain": "std::basic_ostream< CharT, Traits > &",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__distributions.html#function-operator<<",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator>>",
+      "argsString": "(std::basic_istream< CharT, Traits > &is, uniform_real_distribution< RealType > &d)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "std::basic_istream< CharT, Traits > & thrust::random::operator>>",
+      "deleted": false,
+      "details": "This function streams a <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__real__distribution.html\">uniform_real_distribution</a> in from a std::basic_istream. ",
+      "explicit": false,
+      "fullname": "random_number_distributions::operator>>",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 1,
+        "file": "thrust/random/uniform_real_distribution.h",
+        "line": 258
+      },
+      "name": "operator>>",
+      "override": false,
+      "paramList": [
+        {
+          "name": "is",
+          "text": "The <code>basic&#95;istream</code> to stream from. "
+        },
+        {
+          "name": "d",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to stream in. "
+        }
+      ],
+      "params": [
+        {
+          "name": "is",
+          "type": "std::basic_istream< CharT, Traits > &",
+          "typePlain": "std::basic_istream< CharT, Traits > &"
+        },
+        {
+          "name": "d",
+          "type": "uniform_real_distribution< RealType > &",
+          "typePlain": "uniform_real_distribution< RealType > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::operator>>",
+      "refid": "group__random__number__distributions_1gac575a46df1d59f980e66c8b9dea621ce",
+      "returns": [
+        "<code>is</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename RealType",
+          "typePlain": "typename RealType"
+        },
+        {
+          "name": "",
+          "type": "typename CharT",
+          "typePlain": "typename CharT"
+        },
+        {
+          "name": "",
+          "type": "typename Traits",
+          "typePlain": "typename Traits"
+        }
+      ],
+      "title": "operator>>",
+      "type": "std::basic_istream< CharT, Traits > &",
+      "typePlain": "std::basic_istream< CharT, Traits > &",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__distributions.html#function-operator>>",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "random_number_distributions",
+  "refid": "group__random__number__distributions",
+  "static": false,
+  "strong": false,
+  "title": "Random Number Distributions Class Templates",
+  "url": "{{ site.baseurl }}/api/groups/group__random__number__distributions.html",
+  "visibility": "public"
+}

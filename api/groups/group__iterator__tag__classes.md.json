@@ -1,0 +1,389 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "iterator_tag_classes",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "iterator_tags",
+    "kind": "group",
+    "language": "",
+    "name": "iterator_tags",
+    "qualifiedname": "iterator_tags",
+    "refid": "group__iterator__tags",
+    "title": "Iterator Tags",
+    "url": "{{ site.baseurl }}/api/groups/group__iterator__tags.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterators",
+      "kind": "group",
+      "language": "",
+      "name": "iterators",
+      "qualifiedname": "iterators",
+      "refid": "group__iterators",
+      "title": "Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterator_tags",
+      "kind": "group",
+      "language": "",
+      "name": "iterator_tags",
+      "qualifiedname": "iterator_tags",
+      "refid": "group__iterator__tags",
+      "title": "Iterator Tags",
+      "url": "{{ site.baseurl }}/api/groups/group__iterator__tags.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "iterator_tag_classes",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "iterator_tags",
+    "kind": "group",
+    "language": "",
+    "name": "iterator_tags",
+    "qualifiedname": "iterator_tags",
+    "refid": "group__iterator__tags",
+    "title": "Iterator Tags",
+    "url": "{{ site.baseurl }}/api/groups/group__iterator__tags.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterators",
+      "kind": "group",
+      "language": "",
+      "name": "iterators",
+      "qualifiedname": "iterators",
+      "refid": "group__iterators",
+      "title": "Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterator_tags",
+      "kind": "group",
+      "language": "",
+      "name": "iterator_tags",
+      "qualifiedname": "iterator_tags",
+      "refid": "group__iterator__tags",
+      "title": "Iterator Tags",
+      "url": "{{ site.baseurl }}/api/groups/group__iterator__tags.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::iterator_category_with_system_and_traversal< std::input_iterator_tag, thrust::device_system_tag, thrust::single_pass_traversal_tag >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::input_device_iterator_tag",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::input_device_iterator_tag",
+      "qualifiedname": "thrust::input_device_iterator_tag",
+      "refid": "structthrust_1_1input__device__iterator__tag",
+      "title": "thrust::input_device_iterator_tag",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1input__device__iterator__tag.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::iterator_category_with_system_and_traversal< std::output_iterator_tag, thrust::device_system_tag, thrust::single_pass_traversal_tag >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::output_device_iterator_tag",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::output_device_iterator_tag",
+      "qualifiedname": "thrust::output_device_iterator_tag",
+      "refid": "structthrust_1_1output__device__iterator__tag",
+      "title": "thrust::output_device_iterator_tag",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1output__device__iterator__tag.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::iterator_category_with_system_and_traversal< std::forward_iterator_tag, thrust::device_system_tag, thrust::forward_traversal_tag >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::forward_device_iterator_tag",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::forward_device_iterator_tag",
+      "qualifiedname": "thrust::forward_device_iterator_tag",
+      "refid": "structthrust_1_1forward__device__iterator__tag",
+      "title": "thrust::forward_device_iterator_tag",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1forward__device__iterator__tag.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::iterator_category_with_system_and_traversal< std::bidirectional_iterator_tag, thrust::device_system_tag, thrust::bidirectional_traversal_tag >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::bidirectional_device_iterator_tag",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::bidirectional_device_iterator_tag",
+      "qualifiedname": "thrust::bidirectional_device_iterator_tag",
+      "refid": "structthrust_1_1bidirectional__device__iterator__tag",
+      "title": "thrust::bidirectional_device_iterator_tag",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1bidirectional__device__iterator__tag.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::iterator_category_with_system_and_traversal< std::random_access_iterator_tag, thrust::device_system_tag, thrust::random_access_traversal_tag >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::random_access_device_iterator_tag",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::random_access_device_iterator_tag",
+      "qualifiedname": "thrust::random_access_device_iterator_tag",
+      "refid": "structthrust_1_1random__access__device__iterator__tag",
+      "title": "thrust::random_access_device_iterator_tag",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1random__access__device__iterator__tag.html",
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-input-host-iterator-tag",
+      "category": "types",
+      "const": false,
+      "definition": "typedef std::input_iterator_tag thrust::input_host_iterator_tag",
+      "details": "<code>input&#95;host&#95;iterator&#95;tag</code> is an empty class: it has no member functions, member variables, or nested types. It is used solely as a \"tag\": a representation of the Input Host Iterator concept within the C++ type system.",
+      "explicit": false,
+      "fullname": "iterator_tag_classes::input_host_iterator_tag",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "language": "",
+      "location": {
+        "bodyFile": "thrust/iterator/iterator_categories.h",
+        "bodyStart": 159,
+        "column": 33,
+        "file": "thrust/iterator/iterator_categories.h",
+        "line": 159
+      },
+      "name": "input_host_iterator_tag",
+      "override": false,
+      "qualifiedname": "thrust::input_host_iterator_tag",
+      "refid": "group__iterator__tag__classes_1ga9c81b5a0793b7ab5164138cf90bc4467",
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/iterator/iterator_tags\">https://en.cppreference.com/w/cpp/iterator/iterator_tags</a><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">iterator_traits</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1input__device__iterator__tag.html\">input_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1output__device__iterator__tag.html\">output_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1forward__device__iterator__tag.html\">forward_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1bidirectional__device__iterator__tag.html\">bidirectional_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1random__access__device__iterator__tag.html\">random_access_device_iterator_tag</a>, output_host_iterator_tag, forward_host_iterator_tag, bidirectional_host_iterator_tag, random_access_host_iterator_tag "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "input_host_iterator_tag",
+      "type": "std::input_iterator_tag",
+      "typePlain": "std::input_iterator_tag",
+      "url": "{{ site.baseurl }}/api/groups/group__iterator__tag__classes.html#typedef-input-host-iterator-tag",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-output-host-iterator-tag",
+      "category": "types",
+      "const": false,
+      "definition": "typedef std::output_iterator_tag thrust::output_host_iterator_tag",
+      "details": "<code>output&#95;host&#95;iterator&#95;tag</code> is an empty class: it has no member functions, member variables, or nested types. It is used solely as a \"tag\": a representation of the Output Host Iterator concept within the C++ type system.",
+      "explicit": false,
+      "fullname": "iterator_tag_classes::output_host_iterator_tag",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "language": "",
+      "location": {
+        "bodyFile": "thrust/iterator/iterator_categories.h",
+        "bodyStart": 173,
+        "column": 34,
+        "file": "thrust/iterator/iterator_categories.h",
+        "line": 173
+      },
+      "name": "output_host_iterator_tag",
+      "override": false,
+      "qualifiedname": "thrust::output_host_iterator_tag",
+      "refid": "group__iterator__tag__classes_1ga1a68f19231a55966d6ccbbeb0143fc78",
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/iterator/iterator_tags\">https://en.cppreference.com/w/cpp/iterator/iterator_tags</a><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">iterator_traits</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1input__device__iterator__tag.html\">input_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1output__device__iterator__tag.html\">output_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1forward__device__iterator__tag.html\">forward_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1bidirectional__device__iterator__tag.html\">bidirectional_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1random__access__device__iterator__tag.html\">random_access_device_iterator_tag</a>, input_host_iterator_tag, forward_host_iterator_tag, bidirectional_host_iterator_tag, random_access_host_iterator_tag "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "output_host_iterator_tag",
+      "type": "std::output_iterator_tag",
+      "typePlain": "std::output_iterator_tag",
+      "url": "{{ site.baseurl }}/api/groups/group__iterator__tag__classes.html#typedef-output-host-iterator-tag",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-forward-host-iterator-tag",
+      "category": "types",
+      "const": false,
+      "definition": "typedef std::forward_iterator_tag thrust::forward_host_iterator_tag",
+      "details": "<code>forward&#95;host&#95;iterator&#95;tag</code> is an empty class: it has no member functions, member variables, or nested types. It is used solely as a \"tag\": a representation of the Forward Host Iterator concept within the C++ type system.",
+      "explicit": false,
+      "fullname": "iterator_tag_classes::forward_host_iterator_tag",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "language": "",
+      "location": {
+        "bodyFile": "thrust/iterator/iterator_categories.h",
+        "bodyStart": 187,
+        "column": 35,
+        "file": "thrust/iterator/iterator_categories.h",
+        "line": 187
+      },
+      "name": "forward_host_iterator_tag",
+      "override": false,
+      "qualifiedname": "thrust::forward_host_iterator_tag",
+      "refid": "group__iterator__tag__classes_1ga3e917ce7912b40457dc8bf8eac3f63c4",
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/iterator/iterator_tags\">https://en.cppreference.com/w/cpp/iterator/iterator_tags</a><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">iterator_traits</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1input__device__iterator__tag.html\">input_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1output__device__iterator__tag.html\">output_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1forward__device__iterator__tag.html\">forward_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1bidirectional__device__iterator__tag.html\">bidirectional_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1random__access__device__iterator__tag.html\">random_access_device_iterator_tag</a>, input_host_iterator_tag, output_host_iterator_tag, bidirectional_host_iterator_tag, random_access_host_iterator_tag "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "forward_host_iterator_tag",
+      "type": "std::forward_iterator_tag",
+      "typePlain": "std::forward_iterator_tag",
+      "url": "{{ site.baseurl }}/api/groups/group__iterator__tag__classes.html#typedef-forward-host-iterator-tag",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-bidirectional-host-iterator-tag",
+      "category": "types",
+      "const": false,
+      "definition": "typedef std::bidirectional_iterator_tag thrust::bidirectional_host_iterator_tag",
+      "details": "<code>bidirectional&#95;host&#95;iterator&#95;tag</code> is an empty class: it has no member functions, member variables, or nested types. It is used solely as a \"tag\": a representation of the Forward Host Iterator concept within the C++ type system.",
+      "explicit": false,
+      "fullname": "iterator_tag_classes::bidirectional_host_iterator_tag",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "language": "",
+      "location": {
+        "bodyFile": "thrust/iterator/iterator_categories.h",
+        "bodyStart": 201,
+        "column": 41,
+        "file": "thrust/iterator/iterator_categories.h",
+        "line": 201
+      },
+      "name": "bidirectional_host_iterator_tag",
+      "override": false,
+      "qualifiedname": "thrust::bidirectional_host_iterator_tag",
+      "refid": "group__iterator__tag__classes_1ga4fc4cba5e02678c694d1e2c38ecc97ac",
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/iterator/iterator_tags\">https://en.cppreference.com/w/cpp/iterator/iterator_tags</a><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">iterator_traits</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1input__device__iterator__tag.html\">input_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1output__device__iterator__tag.html\">output_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1forward__device__iterator__tag.html\">forward_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1bidirectional__device__iterator__tag.html\">bidirectional_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1random__access__device__iterator__tag.html\">random_access_device_iterator_tag</a>, input_host_iterator_tag, output_host_iterator_tag, forward_host_iterator_tag, random_access_host_iterator_tag "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "bidirectional_host_iterator_tag",
+      "type": "std::bidirectional_iterator_tag",
+      "typePlain": "std::bidirectional_iterator_tag",
+      "url": "{{ site.baseurl }}/api/groups/group__iterator__tag__classes.html#typedef-bidirectional-host-iterator-tag",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-random-access-host-iterator-tag",
+      "category": "types",
+      "const": false,
+      "definition": "typedef std::random_access_iterator_tag thrust::random_access_host_iterator_tag",
+      "details": "<code>random&#95;access&#95;host&#95;iterator&#95;tag</code> is an empty class: it has no member functions, member variables, or nested types. It is used solely as a \"tag\": a representation of the Forward Host Iterator concept within the C++ type system.",
+      "explicit": false,
+      "fullname": "iterator_tag_classes::random_access_host_iterator_tag",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "language": "",
+      "location": {
+        "bodyFile": "thrust/iterator/iterator_categories.h",
+        "bodyStart": 215,
+        "column": 41,
+        "file": "thrust/iterator/iterator_categories.h",
+        "line": 215
+      },
+      "name": "random_access_host_iterator_tag",
+      "override": false,
+      "qualifiedname": "thrust::random_access_host_iterator_tag",
+      "refid": "group__iterator__tag__classes_1ga80a4b8250e3322344767a6b417e72256",
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/iterator/iterator_tags\">https://en.cppreference.com/w/cpp/iterator/iterator_tags</a><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">iterator_traits</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1input__device__iterator__tag.html\">input_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1output__device__iterator__tag.html\">output_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1forward__device__iterator__tag.html\">forward_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1bidirectional__device__iterator__tag.html\">bidirectional_device_iterator_tag</a>, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1random__access__device__iterator__tag.html\">random_access_device_iterator_tag</a>, input_host_iterator_tag, output_host_iterator_tag, forward_host_iterator_tag, bidirectional_host_iterator_tag "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "random_access_host_iterator_tag",
+      "type": "std::random_access_iterator_tag",
+      "typePlain": "std::random_access_iterator_tag",
+      "url": "{{ site.baseurl }}/api/groups/group__iterator__tag__classes.html#typedef-random-access-host-iterator-tag",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "iterator_tag_classes",
+  "refid": "group__iterator__tag__classes",
+  "static": false,
+  "strong": false,
+  "title": "Iterator Tag Classes",
+  "url": "{{ site.baseurl }}/api/groups/group__iterator__tag__classes.html",
+  "visibility": "public"
+}

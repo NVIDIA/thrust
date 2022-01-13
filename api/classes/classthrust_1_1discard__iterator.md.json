@@ -1,0 +1,258 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "detail::discard_iterator_base::type",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html\">discard&#95;iterator</a></code> is an iterator which represents a special kind of pointer that ignores values written to it upon dereference. This iterator is useful for ignoring the output of certain algorithms without wasting memory capacity or bandwidth. <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html\">discard&#95;iterator</a></code> may also be used to count the size of an algorithm's output which may not be known a priori.\n\nThe following code snippet demonstrates how to use <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html\">discard&#95;iterator</a></code> to ignore ignore one of the output ranges of reduce_by_key\n\n\n\n```cpp\n#include <thrust/iterator/discard_iterator.h>\n#include <thrust/reduce.h>\n#include <thrust/device_vector.h>\n\nint main()\n{\n  thrust::device_vector<int> keys(7), values(7);\n\n  keys[0] = 1;\n  keys[1] = 3;\n  keys[2] = 3;\n  keys[3] = 3;\n  keys[4] = 2;\n  keys[5] = 2;\n  keys[6] = 1;\n\n  values[0] = 9;\n  values[1] = 8;\n  values[2] = 7;\n  values[3] = 6;\n  values[4] = 5;\n  values[5] = 4;\n  values[6] = 3;\n\n  thrust::device_vector<int> result(4);\n\n  // we are only interested in the reduced values\n  // use discard_iterator to ignore the output keys\n  thrust::reduce_by_key(keys.begin(), keys.end(),\n                        values.begin(),\n                        thrust::make_discard_iterator(),\n                        result.begin());\n\n  // result is now [9, 21, 9, 3]\n\n  return 0;\n}\n```",
+  "explicit": false,
+  "fullname": "thrust::discard_iterator",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/iterator/discard_iterator.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 147,
+    "bodyFile": "thrust/iterator/discard_iterator.h",
+    "bodyStart": 95,
+    "column": 3,
+    "file": "thrust/iterator/discard_iterator.h",
+    "line": 93
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "fancyiterator",
+    "kind": "group",
+    "language": "",
+    "name": "fancyiterator",
+    "qualifiedname": "fancyiterator",
+    "refid": "group__fancyiterator",
+    "title": "Fancy Iterators",
+    "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterators",
+      "kind": "group",
+      "language": "",
+      "name": "iterators",
+      "qualifiedname": "iterators",
+      "refid": "group__iterators",
+      "title": "Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "fancyiterator",
+      "kind": "group",
+      "language": "",
+      "name": "fancyiterator",
+      "qualifiedname": "fancyiterator",
+      "refid": "group__fancyiterator",
+      "title": "Fancy Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::discard_iterator",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "privateFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-discard-iterator",
+      "argsString": "(discard_iterator const &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::discard_iterator< System >::discard_iterator",
+      "deleted": false,
+      "details": "Copy constructor copies from a source <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html\">discard_iterator</a>.\n\n<code>rhs</code> The <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html\">discard_iterator</a> to copy. ",
+      "explicit": false,
+      "fullname": "thrust::discard_iterator::discard_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 116,
+        "bodyFile": "thrust/iterator/discard_iterator.h",
+        "bodyStart": 115,
+        "column": 5,
+        "file": "thrust/iterator/discard_iterator.h",
+        "line": 115
+      },
+      "name": "discard_iterator",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html\">discard_iterator</a> const &",
+          "typePlain": "discard_iterator const &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::discard_iterator::discard_iterator",
+      "refid": "classthrust_1_1discard__iterator_1a82b891c2c3a985aa3134c06d7c837582",
+      "static": false,
+      "strong": false,
+      "title": "discard_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html#function-discard-iterator",
+      "virtual": false,
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const discard_iterator &)=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "discard_iterator & thrust::discard_iterator< System >::operator=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::discard_iterator::operator=",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 23,
+        "file": "thrust/iterator/discard_iterator.h",
+        "line": 119
+      },
+      "name": "operator=",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html\">discard_iterator</a> &",
+          "typePlain": "const discard_iterator &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::discard_iterator::operator=",
+      "refid": "classthrust_1_1discard__iterator_1a40666980045b0adca556dab3c179cb0e",
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html\">discard_iterator</a> &",
+      "typePlain": "discard_iterator &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html#function-operator=",
+      "virtual": false,
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-discard-iterator",
+      "argsString": "(incrementable const &i=incrementable())",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::discard_iterator< System >::discard_iterator",
+      "deleted": false,
+      "details": "This constructor receives an optional index specifying the position of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html\">discard&#95;iterator</a></code> in a range.\n\n<code>i</code> The index of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html\">discard&#95;iterator</a></code> in a range. Defaults to the value returned by <code>Incrementable's</code> null constructor. For example, when <code>Incrementable == int</code>, <code>0</code>. ",
+      "explicit": false,
+      "fullname": "thrust::discard_iterator::discard_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 131,
+        "bodyFile": "thrust/iterator/discard_iterator.h",
+        "bodyStart": 130,
+        "column": 5,
+        "file": "thrust/iterator/discard_iterator.h",
+        "line": 130
+      },
+      "name": "discard_iterator",
+      "override": false,
+      "params": [
+        {
+          "defval": "incrementable()",
+          "defvalPlain": "incrementable()",
+          "name": "i",
+          "type": "incrementable const &",
+          "typePlain": "incrementable const &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::discard_iterator::discard_iterator",
+      "refid": "classthrust_1_1discard__iterator_1ab3386ffa4be810350df012e9de48cd49",
+      "static": false,
+      "strong": false,
+      "title": "discard_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html#function-discard-iterator",
+      "virtual": false,
+      "visibility": "private"
+    }
+  ],
+  "qualifiedname": "thrust::discard_iterator",
+  "refid": "classthrust_1_1discard__iterator",
+  "see": [
+    "make_discard_iterator "
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "defval": "use_default",
+      "defvalPlain": "use_default",
+      "name": "",
+      "type": "typename System",
+      "typePlain": "typename System"
+    }
+  ],
+  "title": "thrust::discard_iterator",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html",
+  "visibility": "public"
+}

@@ -1,0 +1,601 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "A <code>subtract&#95;with&#95;carry&#95;engine</code> random number engine produces unsigned integer random numbers using the subtract with carry algorithm of Marsaglia & Zaman. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "The generation algorithm is performed as follows:\n\n1. Let <code>Y = X&#95;{i-s}- X&#95;{i-r} - c</code>.\n2. Set <code>X&#95;i</code> to <code>y = T mod m</code>. Set <code>c</code> to <code>1</code> if <code>Y &lt; 0</code>, otherwise set <code>c</code> to <code>0</code>.\nThis algorithm corresponds to a modular linear function of the form\n\n<code>TA(x&#95;i) = (a &#42; x&#95;i) mod b</code>, where <code>b</code> is of the form <code>m^r - m^s + 1</code> and <code>a = b - (b-1)/m</code>.",
+  "explicit": false,
+  "fullname": "thrust::random::subtract_with_carry_engine",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/random/subtract_with_carry_engine.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 164,
+    "bodyFile": "thrust/random/subtract_with_carry_engine.h",
+    "bodyStart": 67,
+    "column": 3,
+    "file": "thrust/random/subtract_with_carry_engine.h",
+    "line": 66
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "random_number_engine_templates",
+    "kind": "group",
+    "language": "",
+    "name": "random_number_engine_templates",
+    "qualifiedname": "random_number_engine_templates",
+    "refid": "group__random__number__engine__templates",
+    "title": "Random Number Engine Class Templates",
+    "url": "{{ site.baseurl }}/api/groups/group__random__number__engine__templates.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "random",
+      "kind": "group",
+      "language": "",
+      "name": "random",
+      "qualifiedname": "random",
+      "refid": "group__random",
+      "title": "Random Number Generation",
+      "url": "{{ site.baseurl }}/api/groups/group__random.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "random_number_engine_templates",
+      "kind": "group",
+      "language": "",
+      "name": "random_number_engine_templates",
+      "qualifiedname": "random_number_engine_templates",
+      "refid": "group__random__number__engine__templates",
+      "title": "Random Number Engine Class Templates",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__engine__templates.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::random::subtract_with_carry_engine",
+  "note": [
+    "Inexperienced users should not use this class template directly. Instead, use <code>ranlux24&#95;base</code> or <code>ranlux48&#95;base</code>, which are instances of <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code>."
+  ],
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "<code>thrust::random</code> is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+    "category": "namespaces",
+    "fullname": "thrust::random",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::random",
+    "qualifiedname": "thrust::random",
+    "refid": "namespacethrust_1_1random",
+    "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+    "title": "thrust::random",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1random.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "<code>thrust::random</code> is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+      "category": "namespaces",
+      "fullname": "thrust::random",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::random",
+      "qualifiedname": "thrust::random",
+      "refid": "namespacethrust_1_1random",
+      "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+      "title": "thrust::random",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1random.html",
+      "visibility": "public"
+    }
+  ],
+  "publicAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-word-size",
+      "category": "attributes",
+      "const": false,
+      "definition": "const size_t thrust::random::subtract_with_carry_engine< UIntType, w, s, r >::word_size",
+      "details": "The word size of the produced values. ",
+      "explicit": false,
+      "fullname": "thrust::random::subtract_with_carry_engine::word_size",
+      "hasDetails": true,
+      "initializer": "= w",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/subtract_with_carry_engine.h",
+        "bodyStart": 87,
+        "column": 25,
+        "file": "thrust/random/subtract_with_carry_engine.h",
+        "line": 87
+      },
+      "name": "word_size",
+      "override": false,
+      "qualifiedname": "thrust::random::subtract_with_carry_engine::word_size",
+      "refid": "classthrust_1_1random_1_1subtract__with__carry__engine_1a66964dbd4194b1ff39b8103fdb151b22",
+      "static": true,
+      "strong": false,
+      "title": "word_size",
+      "type": "const size_t",
+      "typePlain": "const size_t",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#variable-word-size",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-short-lag",
+      "category": "attributes",
+      "const": false,
+      "definition": "const size_t thrust::random::subtract_with_carry_engine< UIntType, w, s, r >::short_lag",
+      "details": "The size of the short lag used in the generation algorithm. ",
+      "explicit": false,
+      "fullname": "thrust::random::subtract_with_carry_engine::short_lag",
+      "hasDetails": true,
+      "initializer": "= s",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/subtract_with_carry_engine.h",
+        "bodyStart": 91,
+        "column": 25,
+        "file": "thrust/random/subtract_with_carry_engine.h",
+        "line": 91
+      },
+      "name": "short_lag",
+      "override": false,
+      "qualifiedname": "thrust::random::subtract_with_carry_engine::short_lag",
+      "refid": "classthrust_1_1random_1_1subtract__with__carry__engine_1a62f7538c3e2a263b746d86856123b0b3",
+      "static": true,
+      "strong": false,
+      "title": "short_lag",
+      "type": "const size_t",
+      "typePlain": "const size_t",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#variable-short-lag",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-long-lag",
+      "category": "attributes",
+      "const": false,
+      "definition": "const size_t thrust::random::subtract_with_carry_engine< UIntType, w, s, r >::long_lag",
+      "details": "The size of the long lag used in the generation algorithm. ",
+      "explicit": false,
+      "fullname": "thrust::random::subtract_with_carry_engine::long_lag",
+      "hasDetails": true,
+      "initializer": "= r",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/subtract_with_carry_engine.h",
+        "bodyStart": 95,
+        "column": 25,
+        "file": "thrust/random/subtract_with_carry_engine.h",
+        "line": 95
+      },
+      "name": "long_lag",
+      "override": false,
+      "qualifiedname": "thrust::random::subtract_with_carry_engine::long_lag",
+      "refid": "classthrust_1_1random_1_1subtract__with__carry__engine_1a4b2b053a49e6c77323ce10a5d650cb92",
+      "static": true,
+      "strong": false,
+      "title": "long_lag",
+      "type": "const size_t",
+      "typePlain": "const size_t",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#variable-long-lag",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-min",
+      "category": "attributes",
+      "const": false,
+      "definition": "const result_type thrust::random::subtract_with_carry_engine< UIntType, w, s, r >::min",
+      "details": "The smallest value this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> may potentially produce. ",
+      "explicit": false,
+      "fullname": "thrust::random::subtract_with_carry_engine::min",
+      "hasDetails": true,
+      "initializer": "= 0",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/subtract_with_carry_engine.h",
+        "bodyStart": 99,
+        "column": 30,
+        "file": "thrust/random/subtract_with_carry_engine.h",
+        "line": 99
+      },
+      "name": "min",
+      "override": false,
+      "qualifiedname": "thrust::random::subtract_with_carry_engine::min",
+      "refid": "classthrust_1_1random_1_1subtract__with__carry__engine_1a807c7c1e316b18bf1b7109f907fe2279",
+      "static": true,
+      "strong": false,
+      "title": "min",
+      "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "const result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#variable-min",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-max",
+      "category": "attributes",
+      "const": false,
+      "definition": "const result_type thrust::random::subtract_with_carry_engine< UIntType, w, s, r >::max",
+      "details": "The largest value this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> may potentially produce. ",
+      "explicit": false,
+      "fullname": "thrust::random::subtract_with_carry_engine::max",
+      "hasDetails": true,
+      "initializer": "= modulus - 1",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/subtract_with_carry_engine.h",
+        "bodyStart": 103,
+        "column": 30,
+        "file": "thrust/random/subtract_with_carry_engine.h",
+        "line": 103
+      },
+      "name": "max",
+      "override": false,
+      "qualifiedname": "thrust::random::subtract_with_carry_engine::max",
+      "refid": "classthrust_1_1random_1_1subtract__with__carry__engine_1a9ff99c959fcd31d4e3d84abfbd3f8508",
+      "static": true,
+      "strong": false,
+      "title": "max",
+      "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "const result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#variable-max",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-default-seed",
+      "category": "attributes",
+      "const": false,
+      "definition": "const result_type thrust::random::subtract_with_carry_engine< UIntType, w, s, r >::default_seed",
+      "details": "The default seed of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code>. ",
+      "explicit": false,
+      "fullname": "thrust::random::subtract_with_carry_engine::default_seed",
+      "hasDetails": true,
+      "initializer": "= 19780503u",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/subtract_with_carry_engine.h",
+        "bodyStart": 107,
+        "column": 30,
+        "file": "thrust/random/subtract_with_carry_engine.h",
+        "line": 107
+      },
+      "name": "default_seed",
+      "override": false,
+      "qualifiedname": "thrust::random::subtract_with_carry_engine::default_seed",
+      "refid": "classthrust_1_1random_1_1subtract__with__carry__engine_1a184bfa44731d997780c95e6a6dfc9e57",
+      "static": true,
+      "strong": false,
+      "title": "default_seed",
+      "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "const result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#variable-default-seed",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-subtract-with-carry-engine",
+      "argsString": "(result_type value=default_seed)",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__host__ __device__ thrust::random::subtract_with_carry_engine< UIntType, w, s, r >::subtract_with_carry_engine",
+      "deleted": false,
+      "details": "This constructor, which optionally accepts a seed, initializes a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code>.",
+      "explicit": true,
+      "fullname": "thrust::random::subtract_with_carry_engine::subtract_with_carry_engine",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 14,
+        "file": "thrust/random/subtract_with_carry_engine.h",
+        "line": 117
+      },
+      "name": "subtract_with_carry_engine",
+      "override": false,
+      "paramList": [
+        {
+          "name": "value",
+          "text": "The seed used to intialize this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state. "
+        }
+      ],
+      "params": [
+        {
+          "defval": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#variable-default-seed\">default_seed</a>",
+          "defvalPlain": "default_seed",
+          "name": "value",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#typedef-result-type\">result_type</a>",
+          "typePlain": "result_type"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::subtract_with_carry_engine::subtract_with_carry_engine",
+      "refid": "classthrust_1_1random_1_1subtract__with__carry__engine_1a28c70491464802467ea8f742ca4f0300",
+      "static": false,
+      "strong": false,
+      "title": "subtract_with_carry_engine",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#function-subtract-with-carry-engine",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-seed",
+      "argsString": "(result_type value=default_seed)",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__host__ __device__ void thrust::random::subtract_with_carry_engine< UIntType, w, s, r >::seed",
+      "deleted": false,
+      "details": "This method initializes this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state, and optionally accepts a seed value.",
+      "explicit": false,
+      "fullname": "thrust::random::subtract_with_carry_engine::seed",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 10,
+        "file": "thrust/random/subtract_with_carry_engine.h",
+        "line": 125
+      },
+      "name": "seed",
+      "override": false,
+      "paramList": [
+        {
+          "name": "value",
+          "text": "The seed used to initializes this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state. "
+        }
+      ],
+      "params": [
+        {
+          "defval": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#variable-default-seed\">default_seed</a>",
+          "defvalPlain": "default_seed",
+          "name": "value",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#typedef-result-type\">result_type</a>",
+          "typePlain": "result_type"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::subtract_with_carry_engine::seed",
+      "refid": "classthrust_1_1random_1_1subtract__with__carry__engine_1ab88c118a1f16ac68da040e5942ccf002",
+      "static": false,
+      "strong": false,
+      "title": "seed",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#function-seed",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(void)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ result_type thrust::random::subtract_with_carry_engine< UIntType, w, s, r >::operator()",
+      "deleted": false,
+      "details": "This member function produces a new random value and updates this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state. ",
+      "explicit": false,
+      "fullname": "thrust::random::subtract_with_carry_engine::operator()",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 17,
+        "file": "thrust/random/subtract_with_carry_engine.h",
+        "line": 133
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::subtract_with_carry_engine::operator()",
+      "refid": "classthrust_1_1random_1_1subtract__with__carry__engine_1a79705ac7deaabf418dfa7b83cac32bd3",
+      "returns": [
+        "A new random number. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "__host__ __device__ result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-discard",
+      "argsString": "(unsigned long long z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::random::subtract_with_carry_engine< UIntType, w, s, r >::discard",
+      "deleted": false,
+      "details": "This member function advances this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state a given number of times and discards the results.",
+      "explicit": false,
+      "fullname": "thrust::random::subtract_with_carry_engine::discard",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 10,
+        "file": "thrust/random/subtract_with_carry_engine.h",
+        "line": 142
+      },
+      "name": "discard",
+      "note": [
+        "This function is provided because an implementation may be able to accelerate it. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The number of random values to discard. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "unsigned long long",
+          "typePlain": "unsigned long long"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::subtract_with_carry_engine::discard",
+      "refid": "classthrust_1_1random_1_1subtract__with__carry__engine_1a49342a619a2683e27c91febecee17b78",
+      "static": false,
+      "strong": false,
+      "title": "discard",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#function-discard",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-result-type",
+      "brief": "The type of the unsigned integer produced by this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code>. ",
+      "category": "types",
+      "const": false,
+      "definition": "thrust::random::subtract_with_carry_engine< UIntType, w, s, r >::result_type",
+      "explicit": false,
+      "fullname": "thrust::random::subtract_with_carry_engine::result_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/subtract_with_carry_engine.h",
+        "bodyStart": 81,
+        "column": 22,
+        "file": "thrust/random/subtract_with_carry_engine.h",
+        "line": 81
+      },
+      "name": "result_type",
+      "override": false,
+      "qualifiedname": "thrust::random::subtract_with_carry_engine::result_type",
+      "refid": "classthrust_1_1random_1_1subtract__with__carry__engine_1a9a9422e98947b75f2c9798e61066b95b",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the unsigned integer produced by this subtract_with_carry_engine. ",
+      "title": "result_type",
+      "type": "UIntType",
+      "typePlain": "UIntType",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html#typedef-result-type",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::random::subtract_with_carry_engine",
+  "refid": "classthrust_1_1random_1_1subtract__with__carry__engine",
+  "see": [
+    "<a href=\"{{ site.baseurl }}/api/groups/group__predefined__random.html#typedef-ranlux24-base\">thrust::random::ranlux24_base</a>",
+    "<a href=\"{{ site.baseurl }}/api/groups/group__predefined__random.html#typedef-ranlux48-base\">thrust::random::ranlux48_base</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "summary": "A subtract_with_carry_engine random number engine produces unsigned integer random numbers using the subtract with carry algorithm of Marsaglia & Zaman. ",
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename UIntType",
+      "typePlain": "typename UIntType"
+    },
+    {
+      "name": "w",
+      "type": "size_t",
+      "typePlain": "size_t"
+    },
+    {
+      "name": "s",
+      "type": "size_t",
+      "typePlain": "size_t"
+    },
+    {
+      "name": "r",
+      "type": "size_t",
+      "typePlain": "size_t"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "UIntType",
+      "text": "The type of unsigned integer to produce. "
+    },
+    {
+      "name": "w",
+      "text": "The word size of the produced values (<code> w &lt;= sizeof(UIntType)</code>). "
+    },
+    {
+      "name": "s",
+      "text": "The short lag of the generation algorithm. "
+    },
+    {
+      "name": "r",
+      "text": "The long lag of the generation algorithm."
+    }
+  ],
+  "title": "thrust::random::subtract_with_carry_engine",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html",
+  "visibility": "public"
+}

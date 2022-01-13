@@ -1,0 +1,4063 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "stream_compaction",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "reordering",
+    "kind": "group",
+    "language": "",
+    "name": "reordering",
+    "qualifiedname": "reordering",
+    "refid": "group__reordering",
+    "title": "Reordering",
+    "url": "{{ site.baseurl }}/api/groups/group__reordering.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "reordering",
+      "kind": "group",
+      "language": "",
+      "name": "reordering",
+      "qualifiedname": "reordering",
+      "refid": "group__reordering",
+      "title": "Reordering",
+      "url": "{{ site.baseurl }}/api/groups/group__reordering.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "stream_compaction",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "reordering",
+    "kind": "group",
+    "language": "",
+    "name": "reordering",
+    "qualifiedname": "reordering",
+    "refid": "group__reordering",
+    "title": "Reordering",
+    "url": "{{ site.baseurl }}/api/groups/group__reordering.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "reordering",
+      "kind": "group",
+      "language": "",
+      "name": "reordering",
+      "qualifiedname": "reordering",
+      "refid": "group__reordering",
+      "title": "Reordering",
+      "url": "{{ site.baseurl }}/api/groups/group__reordering.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-copy-if",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, OutputIterator result, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::copy_if",
+      "deleted": false,
+      "details": "This version of <code>copy&#95;if</code> copies elements from the range <code>[first,last)</code> to a range beginning at <code>result</code>, except that any element which causes <code>pred</code> to be <code>false</code> is not copied. <code>copy&#95;if</code> is stable, meaning that the relative order of elements that are copied is unchanged.\n\nMore precisely, for every integer <code>n</code> such that <code>0 &lt;= n &lt; last-first</code>, <code>copy&#95;if</code> performs the assignment <code>&#42;result = &#42;(first+n)</code> and <code>result</code> is advanced one position if <code>pred(&#42;(first+n))</code>. Otherwise, no assignment occurs and <code>result</code> is not advanced.\n\nThe algorithm's execution is parallelized as determined by <code>system</code>.\n\n\nThe following code snippet demonstrates how to use <code>copy&#95;if</code> to perform stream compaction to copy even numbers to an output range using the <code>thrust::host</code> parallelization policy:\n\n\n\n```cpp\n#include <thrust/copy.h>\n#include <thrust/execution_policy.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nconst int N = 6;\nint V[N] = {-2, 0, -1, 0, 1, 2};\nint result[4];\n\nthrust::copy_if(thrust::host, V, V + N, result, is_even());\n\n// V remains {-2, 0, -1, 0, 1, 2}\n// result is now {-2, 0, 0, 2}\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::copy_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/copy.h",
+        "line": 300
+      },
+      "name": "copy_if",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence from which to copy. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence from which to copy. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the sequence into which to copy. "
+        },
+        {
+          "name": "pred",
+          "text": "The predicate to test on every value of the range <code>[first, last)</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The ranges <code>[first, last)</code> and <code>[result, result + (last - first))</code> shall not overlap."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::copy_if",
+      "refid": "group__stream__compaction_1ga695e974946e56f2ecfb20e9ec4fb7cca",
+      "returns": [
+        "<code>result + n</code>, where <code>n</code> is equal to the number of times <code>pred</code> evaluated to <code>true</code> in the range <code>[first, last)</code>."
+      ],
+      "see": [
+        "<code>remove&#95;copy&#95;if</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "copy_if",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-copy-if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-copy-if",
+      "argsString": "(InputIterator first, InputIterator last, OutputIterator result, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::copy_if",
+      "deleted": false,
+      "details": "This version of <code>copy&#95;if</code> copies elements from the range <code>[first,last)</code> to a range beginning at <code>result</code>, except that any element which causes <code>pred</code> to <code>false</code> is not copied. <code>copy&#95;if</code> is stable, meaning that the relative order of elements that are copied is unchanged.\n\nMore precisely, for every integer <code>n</code> such that <code>0 &lt;= n &lt; last-first</code>, <code>copy&#95;if</code> performs the assignment <code>&#42;result = &#42;(first+n)</code> and <code>result</code> is advanced one position if <code>pred(&#42;(first+n))</code>. Otherwise, no assignment occurs and <code>result</code> is not advanced.\n\n\nThe following code snippet demonstrates how to use <code>copy&#95;if</code> to perform stream compaction to copy even numbers to an output range.\n\n\n\n```cpp\n#include <thrust/copy.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nconst int N = 6;\nint V[N] = {-2, 0, -1, 0, 1, 2};\nint result[4];\n\nthrust::copy_if(V, V + N, result, is_even());\n\n// V remains {-2, 0, -1, 0, 1, 2}\n// result is now {-2, 0, 0, 2}\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::copy_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/copy.h",
+        "line": 362
+      },
+      "name": "copy_if",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence from which to copy. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence from which to copy. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the sequence into which to copy. "
+        },
+        {
+          "name": "pred",
+          "text": "The predicate to test on every value of the range <code>[first, last)</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The ranges <code>[first, last)</code> and <code>[result, result + (last - first))</code> shall not overlap."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::copy_if",
+      "refid": "group__stream__compaction_1gafd4cd96b998ad2b3c336be1e24dc1f67",
+      "returns": [
+        "<code>result + n</code>, where <code>n</code> is equal to the number of times <code>pred</code> evaluated to <code>true</code> in the range <code>[first, last)</code>."
+      ],
+      "see": [
+        "<code>remove&#95;copy&#95;if</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "copy_if",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-copy-if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-copy-if",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 first, InputIterator1 last, InputIterator2 stencil, OutputIterator result, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::copy_if",
+      "deleted": false,
+      "details": "This version of <code>copy&#95;if</code> copies elements from the range <code>[first,last)</code> to a range beginning at <code>result</code>, except that any element whose corresponding stencil element causes <code>pred</code> to be <code>false</code> is not copied. <code>copy&#95;if</code> is stable, meaning that the relative order of elements that are copied is unchanged.\n\nMore precisely, for every integer <code>n</code> such that <code>0 &lt;= n &lt; last-first</code>, <code>copy&#95;if</code> performs the assignment <code>&#42;result = &#42;(first+n)</code> and <code>result</code> is advanced one position if <code>pred(&#42;(stencil+n))</code>. Otherwise, no assignment occurs and <code>result</code> is not advanced.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>copy&#95;if</code> to perform stream compaction to copy numbers to an output range when corresponding stencil elements are even using the <code>thrust::host</code> execution policy:\n\n\n\n```cpp\n#include <thrust/copy.h>\n#include <thrust/execution_policy.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nint N = 6;\nint data[N]    = { 0, 1,  2, 3, 4, 5};\nint stencil[N] = {-2, 0, -1, 0, 1, 2};\nint result[4];\n\nthrust::copy_if(thrust::host, data, data + N, stencil, result, is_even());\n\n// data remains    = { 0, 1,  2, 3, 4, 5};\n// stencil remains = {-2, 0, -1, 0, 1, 2};\n// result is now     { 0, 1,  3, 5}\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::copy_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/copy.h",
+        "line": 431
+      },
+      "name": "copy_if",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence from which to copy. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence from which to copy. "
+        },
+        {
+          "name": "stencil",
+          "text": "The beginning of the stencil sequence. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the sequence into which to copy. "
+        },
+        {
+          "name": "pred",
+          "text": "The predicate to test on every value of the range <code>[stencil, stencil + (last-first))</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The ranges <code>[first, last)</code> and <code>[result, result + (last - first))</code> shall not overlap. ",
+        "The ranges <code>[stencil, stencil + (last - first))</code> and <code>[result, result + (last - first))</code> shall not overlap."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::copy_if",
+      "refid": "group__stream__compaction_1gac1155c0eddf9d5145776bd454732415b",
+      "returns": [
+        "<code>result + n</code>, where <code>n</code> is equal to the number of times <code>pred</code> evaluated to <code>true</code> in the range <code>[stencil, stencil + (last-first))</code>."
+      ],
+      "see": [
+        "<code>remove&#95;copy&#95;if</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/OutputIterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "copy_if",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-copy-if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-copy-if",
+      "argsString": "(InputIterator1 first, InputIterator1 last, InputIterator2 stencil, OutputIterator result, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::copy_if",
+      "deleted": false,
+      "details": "This version of <code>copy&#95;if</code> copies elements from the range <code>[first,last)</code> to a range beginning at <code>result</code>, except that any element whose corresponding stencil element causes <code>pred</code> to be <code>false</code> is not copied. <code>copy&#95;if</code> is stable, meaning that the relative order of elements that are copied is unchanged.\n\nMore precisely, for every integer <code>n</code> such that <code>0 &lt;= n &lt; last-first</code>, <code>copy&#95;if</code> performs the assignment <code>&#42;result = &#42;(first+n)</code> and <code>result</code> is advanced one position if <code>pred(&#42;(stencil+n))</code>. Otherwise, no assignment occurs and <code>result</code> is not advanced.\n\n\nThe following code snippet demonstrates how to use <code>copy&#95;if</code> to perform stream compaction to copy numbers to an output range when corresponding stencil elements are even:\n\n\n\n```cpp\n#include <thrust/copy.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nint N = 6;\nint data[N]    = { 0, 1,  2, 3, 4, 5};\nint stencil[N] = {-2, 0, -1, 0, 1, 2};\nint result[4];\n\nthrust::copy_if(data, data + N, stencil, result, is_even());\n\n// data remains    = { 0, 1,  2, 3, 4, 5};\n// stencil remains = {-2, 0, -1, 0, 1, 2};\n// result is now     { 0, 1,  3, 5}\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::copy_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/copy.h",
+        "line": 499
+      },
+      "name": "copy_if",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence from which to copy. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence from which to copy. "
+        },
+        {
+          "name": "stencil",
+          "text": "The beginning of the stencil sequence. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the sequence into which to copy. "
+        },
+        {
+          "name": "pred",
+          "text": "The predicate to test on every value of the range <code>[stencil, stencil + (last-first))</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The ranges <code>[first, last)</code> and <code>[result, result + (last - first))</code> shall not overlap. ",
+        "The ranges <code>[stencil, stencil + (last - first))</code> and <code>[result, result + (last - first))</code> shall not overlap."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::copy_if",
+      "refid": "group__stream__compaction_1ga36d9d6ed8e17b442c1fd8dc40bd515d5",
+      "returns": [
+        "<code>result + n</code>, where <code>n</code> is equal to the number of times <code>pred</code> evaluated to <code>true</code> in the range <code>[stencil, stencil + (last-first))</code>."
+      ],
+      "see": [
+        "<code>remove&#95;copy&#95;if</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/OutputIterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "copy_if",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-copy-if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-remove",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last, const T &value)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ ForwardIterator thrust::remove",
+      "deleted": false,
+      "details": "<code>remove</code> removes from the range <code>[first, last)</code> all elements that are equal to <code>value</code>. That is, <code>remove</code> returns an iterator <code>new&#95;last</code> such that the range <code>[first, new&#95;last)</code> contains no elements equal to <code>value</code>. The iterators in the range <code>[new&#95;first,last)</code> are all still dereferenceable, but the elements that they point to are unspecified. <code>remove</code> is stable, meaning that the relative order of elements that are not equal to <code>value</code> is unchanged.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>remove</code> to remove a number of interest from a range using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/remove.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 6;\nint A[N] = {3, 1, 4, 1, 5, 9};\nint *new_end = thrust::remove(A, A + N, 1);\n// The first four values of A are now {3, 4, 5, 9}\n// Values beyond new_end are unspecified\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::remove",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/remove.h",
+        "line": 97
+      },
+      "name": "remove",
+      "note": [
+        "The meaning of \"removal\" is somewhat subtle. <code>remove</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>, <code>remove(V.begin(), V.end(), 0)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a> is <code>S.erase(remove(S.begin(), S.end(), x), S.end())</code>."
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the range of interest. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the range of interest. "
+        },
+        {
+          "name": "value",
+          "text": "The value to remove from the range <code>[first, last)</code>. Elements which are equal to value are removed from the sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "value",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::remove",
+      "refid": "group__stream__compaction_1ga50e1ff3b382ad6d65c0f69dc01c4832e",
+      "returns": [
+        "A <code>ForwardIterator</code> pointing to the end of the resulting range of elements which are not equal to <code>value</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove\">https://en.cppreference.com/w/cpp/algorithm/remove</a>",
+        "remove_if ",
+        "remove_copy ",
+        "remove_copy_if "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator</code> is mutable. "
+        },
+        {
+          "name": "T",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>, and objects of type <code>T</code> can be compared for equality with objects of <code>ForwardIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "remove",
+      "type": "__host__ __device__ ForwardIterator",
+      "typePlain": "__host__ __device__ ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-remove",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-remove",
+      "argsString": "(ForwardIterator first, ForwardIterator last, const T &value)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "ForwardIterator thrust::remove",
+      "deleted": false,
+      "details": "<code>remove</code> removes from the range <code>[first, last)</code> all elements that are equal to <code>value</code>. That is, <code>remove</code> returns an iterator <code>new&#95;last</code> such that the range <code>[first, new&#95;last)</code> contains no elements equal to <code>value</code>. The iterators in the range <code>[new&#95;first,last)</code> are all still dereferenceable, but the elements that they point to are unspecified. <code>remove</code> is stable, meaning that the relative order of elements that are not equal to <code>value</code> is unchanged.\n\n\nThe following code snippet demonstrates how to use <code>remove</code> to remove a number of interest from a range.\n\n\n\n```cpp\n#include <thrust/remove.h>\n...\nconst int N = 6;\nint A[N] = {3, 1, 4, 1, 5, 9};\nint *new_end = thrust::remove(A, A + N, 1);\n// The first four values of A are now {3, 4, 5, 9}\n// Values beyond new_end are unspecified\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::remove",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/remove.h",
+        "line": 157
+      },
+      "name": "remove",
+      "note": [
+        "The meaning of \"removal\" is somewhat subtle. <code>remove</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>, <code>remove(V.begin(), V.end(), 0)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a> is <code>S.erase(remove(S.begin(), S.end(), x), S.end())</code>."
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the range of interest. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the range of interest. "
+        },
+        {
+          "name": "value",
+          "text": "The value to remove from the range <code>[first, last)</code>. Elements which are equal to value are removed from the sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "value",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::remove",
+      "refid": "group__stream__compaction_1gaf6724a17d4f4d25bd0eb45714ed03063",
+      "returns": [
+        "A <code>ForwardIterator</code> pointing to the end of the resulting range of elements which are not equal to <code>value</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove\">https://en.cppreference.com/w/cpp/algorithm/remove</a>",
+        "remove_if ",
+        "remove_copy ",
+        "remove_copy_if "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator</code> is mutable. "
+        },
+        {
+          "name": "T",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>, and objects of type <code>T</code> can be compared for equality with objects of <code>ForwardIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "remove",
+      "type": "ForwardIterator",
+      "typePlain": "ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-remove",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-remove-copy",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, OutputIterator result, const T &value)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::remove_copy",
+      "deleted": false,
+      "details": "<code>remove&#95;copy</code> copies elements that are not equal to <code>value</code> from the range <code>[first, last)</code> to a range beginning at <code>result</code>. The return value is the end of the resulting range. This operation is stable, meaning that the relative order of the elements that are copied is the same as in the range <code>[first, last)</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>remove&#95;copy</code> to copy a sequence of numbers to an output range while omitting a value of interest using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/remove.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 6;\nint V[N] = {-2, 0, -1, 0, 1, 2};\nint result[N-2];\nthrust::remove_copy(thrust::host, V, V + N, result, 0);\n// V remains {-2, 0, -1, 0, 1, 2}\n// result is now {-2, -1, 1, 2}\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::remove_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/remove.h",
+        "line": 214
+      },
+      "name": "remove_copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the range of interest. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the range of interest. "
+        },
+        {
+          "name": "result",
+          "text": "The resulting range is copied to the sequence beginning at this location. "
+        },
+        {
+          "name": "value",
+          "text": "The value to omit from the copied range. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "value",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pre": [
+        "The range <code>[first, last)</code> shall not overlap the range <code>[result, result + (last - first))</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::remove_copy",
+      "refid": "group__stream__compaction_1ga7b4f706511e0994e3e6cb9646940d4ed",
+      "returns": [
+        "An OutputIterator pointing to the end of the resulting range of elements which are not equal to <code>value</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove_copy\">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>",
+        "remove ",
+        "remove_if ",
+        "remove_copy_if "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "T",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>, and objects of type <code>T</code> can be compared for equality with objects of <code>InputIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "remove_copy",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-remove-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-remove-copy",
+      "argsString": "(InputIterator first, InputIterator last, OutputIterator result, const T &value)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::remove_copy",
+      "deleted": false,
+      "details": "<code>remove&#95;copy</code> copies elements that are not equal to <code>value</code> from the range <code>[first, last)</code> to a range beginning at <code>result</code>. The return value is the end of the resulting range. This operation is stable, meaning that the relative order of the elements that are copied is the same as in the range <code>[first, last)</code>.\n\n\nThe following code snippet demonstrates how to use <code>remove&#95;copy</code> to copy a sequence of numbers to an output range while omitting a value of interest.\n\n\n\n```cpp\n#include <thrust/remove.h>\n...\nconst int N = 6;\nint V[N] = {-2, 0, -1, 0, 1, 2};\nint result[N-2];\nthrust::remove_copy(V, V + N, result, 0);\n// V remains {-2, 0, -1, 0, 1, 2}\n// result is now {-2, -1, 1, 2}\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::remove_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/remove.h",
+        "line": 265
+      },
+      "name": "remove_copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the range of interest. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the range of interest. "
+        },
+        {
+          "name": "result",
+          "text": "The resulting range is copied to the sequence beginning at this location. "
+        },
+        {
+          "name": "value",
+          "text": "The value to omit from the copied range. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "value",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pre": [
+        "The range <code>[first, last)</code> shall not overlap the range <code>[result, result + (last - first))</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::remove_copy",
+      "refid": "group__stream__compaction_1ga95e6719fc01574bb30daf46102896e76",
+      "returns": [
+        "An OutputIterator pointing to the end of the resulting range of elements which are not equal to <code>value</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove_copy\">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>",
+        "remove ",
+        "remove_if ",
+        "remove_copy_if "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "T",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>, and objects of type <code>T</code> can be compared for equality with objects of <code>InputIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "remove_copy",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-remove-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-remove-if",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ ForwardIterator thrust::remove_if",
+      "deleted": false,
+      "details": "<code>remove&#95;if</code> removes from the range <code>[first, last)</code> every element <code>x</code> such that <code>pred(x)</code> is <code>true</code>. That is, <code>remove&#95;if</code> returns an iterator <code>new&#95;last</code> such that the range <code>[first,new&#95;last)</code> contains no elements for which <code>pred</code> is <code>true</code>. The iterators in the range <code>[new&#95;last,last)</code> are all still dereferenceable, but the elements that they point to are unspecified. <code>remove&#95;if</code> is stable, meaning that the relative order of elements that are not removed is unchanged.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>remove&#95;if</code> to remove all even numbers from an array of integers using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/remove.h>\n#include <thrust/execution_policy.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nconst int N = 6;\nint A[N] = {1, 4, 2, 8, 5, 7};\nint *new_end = thrust::remove_if(thrust::host, A, A + N, is_even());\n// The first three values of A are now {1, 5, 7}\n// Values beyond new_end are unspecified\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::remove_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/remove.h",
+        "line": 344
+      },
+      "name": "remove_if",
+      "note": [
+        "The meaning of \"removal\" is somewhat subtle. <code>remove&#95;if</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>, <code>remove&#95;if(V.begin(), V.end(), pred)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove&#95;if</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a> is <code>S.erase(remove&#95;if(S.begin(), S.end(), pred), S.end())</code>."
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the range of interest. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the range of interest. "
+        },
+        {
+          "name": "pred",
+          "text": "A predicate to evaluate for each element of the range <code>[first,last)</code>. Elements for which <code>pred</code> evaluates to <code>true</code> are removed from the sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::remove_if",
+      "refid": "group__stream__compaction_1ga307d7f64566909172a3f9e16b7e2ad53",
+      "returns": [
+        "A ForwardIterator pointing to the end of the resulting range of elements for which <code>pred</code> evaluated to <code>true</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove\">https://en.cppreference.com/w/cpp/algorithm/remove</a>",
+        "remove ",
+        "remove_copy ",
+        "remove_copy_if "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, <code>ForwardIterator</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "remove_if",
+      "type": "__host__ __device__ ForwardIterator",
+      "typePlain": "__host__ __device__ ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-remove-if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-remove-if",
+      "argsString": "(ForwardIterator first, ForwardIterator last, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "ForwardIterator thrust::remove_if",
+      "deleted": false,
+      "details": "<code>remove&#95;if</code> removes from the range <code>[first, last)</code> every element <code>x</code> such that <code>pred(x)</code> is <code>true</code>. That is, <code>remove&#95;if</code> returns an iterator <code>new&#95;last</code> such that the range <code>[first,new&#95;last)</code> contains no elements for which <code>pred</code> is <code>true</code>. The iterators in the range <code>[new&#95;last,last)</code> are all still dereferenceable, but the elements that they point to are unspecified. <code>remove&#95;if</code> is stable, meaning that the relative order of elements that are not removed is unchanged.\n\n\nThe following code snippet demonstrates how to use <code>remove&#95;if</code> to remove all even numbers from an array of integers.\n\n\n\n```cpp\n#include <thrust/remove.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nconst int N = 6;\nint A[N] = {1, 4, 2, 8, 5, 7};\nint *new_end = thrust::remove_if(A, A + N, is_even());\n// The first three values of A are now {1, 5, 7}\n// Values beyond new_end are unspecified\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::remove_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/remove.h",
+        "line": 415
+      },
+      "name": "remove_if",
+      "note": [
+        "The meaning of \"removal\" is somewhat subtle. <code>remove&#95;if</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>, <code>remove&#95;if(V.begin(), V.end(), pred)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove&#95;if</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a> is <code>S.erase(remove&#95;if(S.begin(), S.end(), pred), S.end())</code>."
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the range of interest. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the range of interest. "
+        },
+        {
+          "name": "pred",
+          "text": "A predicate to evaluate for each element of the range <code>[first,last)</code>. Elements for which <code>pred</code> evaluates to <code>true</code> are removed from the sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::remove_if",
+      "refid": "group__stream__compaction_1ga5fa8f86717696de88ab484410b43829b",
+      "returns": [
+        "A ForwardIterator pointing to the end of the resulting range of elements for which <code>pred</code> evaluated to <code>true</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove\">https://en.cppreference.com/w/cpp/algorithm/remove</a>",
+        "remove ",
+        "remove_copy ",
+        "remove_copy_if "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, <code>ForwardIterator</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "remove_if",
+      "type": "ForwardIterator",
+      "typePlain": "ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-remove-if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-remove-copy-if",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, OutputIterator result, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::remove_copy_if",
+      "deleted": false,
+      "details": "<code>remove&#95;copy&#95;if</code> copies elements from the range <code>[first,last)</code> to a range beginning at <code>result</code>, except that elements for which <code>pred</code> is <code>true</code> are not copied. The return value is the end of the resulting range. This operation is stable, meaning that the relative order of the elements that are copied is the same as the range <code>[first,last)</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>remove&#95;copy&#95;if</code> to copy a sequence of numbers to an output range while omitting even numbers using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/remove.h>\n#include <thrust/execution_policy.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nconst int N = 6;\nint V[N] = {-2, 0, -1, 0, 1, 2};\nint result[2];\nthrust::remove_copy_if(thrust::host, V, V + N, result, is_even());\n// V remains {-2, 0, -1, 0, 1, 2}\n// result is now {-1, 1}\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::remove_copy_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/remove.h",
+        "line": 482
+      },
+      "name": "remove_copy_if",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the range of interest. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the range of interest. "
+        },
+        {
+          "name": "result",
+          "text": "The resulting range is copied to the sequence beginning at this location. "
+        },
+        {
+          "name": "pred",
+          "text": "A predicate to evaluate for each element of the range <code>[first,last)</code>. Elements for which <code>pred</code> evaluates to <code>false</code> are not copied to the resulting sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The range <code>[first, last)</code> shall not overlap the range <code>[result, result + (last - first))</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::remove_copy_if",
+      "refid": "group__stream__compaction_1gaef6b5a8a71a99d7ab96cf6b009b6f2fd",
+      "returns": [
+        "An OutputIterator pointing to the end of the resulting range."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove_copy\">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>",
+        "remove ",
+        "remove_copy ",
+        "remove_if "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator's</code><code>value&#95;type</code> is convertible to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "remove_copy_if",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-remove-copy-if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-remove-copy-if",
+      "argsString": "(InputIterator first, InputIterator last, OutputIterator result, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::remove_copy_if",
+      "deleted": false,
+      "details": "<code>remove&#95;copy&#95;if</code> copies elements from the range <code>[first,last)</code> to a range beginning at <code>result</code>, except that elements for which <code>pred</code> is <code>true</code> are not copied. The return value is the end of the resulting range. This operation is stable, meaning that the relative order of the elements that are copied is the same as the range <code>[first,last)</code>.\n\n\nThe following code snippet demonstrates how to use <code>remove&#95;copy&#95;if</code> to copy a sequence of numbers to an output range while omitting even numbers.\n\n\n\n```cpp\n#include <thrust/remove.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nconst int N = 6;\nint V[N] = {-2, 0, -1, 0, 1, 2};\nint result[2];\nthrust::remove_copy_if(V, V + N, result, is_even());\n// V remains {-2, 0, -1, 0, 1, 2}\n// result is now {-1, 1}\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::remove_copy_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/remove.h",
+        "line": 543
+      },
+      "name": "remove_copy_if",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the range of interest. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the range of interest. "
+        },
+        {
+          "name": "result",
+          "text": "The resulting range is copied to the sequence beginning at this location. "
+        },
+        {
+          "name": "pred",
+          "text": "A predicate to evaluate for each element of the range <code>[first,last)</code>. Elements for which <code>pred</code> evaluates to <code>false</code> are not copied to the resulting sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The range <code>[first, last)</code> shall not overlap the range <code>[result, result + (last - first))</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::remove_copy_if",
+      "refid": "group__stream__compaction_1ga68cd876b18d71b7dd4a8d9bcefbb7d2d",
+      "returns": [
+        "An OutputIterator pointing to the end of the resulting range."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove_copy\">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>",
+        "remove ",
+        "remove_copy ",
+        "remove_if "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator's</code><code>value&#95;type</code> is convertible to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "remove_copy_if",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-remove-copy-if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-remove-if",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last, InputIterator stencil, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ ForwardIterator thrust::remove_if",
+      "deleted": false,
+      "details": "<code>remove&#95;if</code> removes from the range <code>[first, last)</code> every element <code>x</code> such that <code>pred(x)</code> is <code>true</code>. That is, <code>remove&#95;if</code> returns an iterator <code>new&#95;last</code> such that the range <code>[first, new&#95;last)</code> contains no elements for which <code>pred</code> of the corresponding stencil value is <code>true</code>. The iterators in the range <code>[new&#95;last,last)</code> are all still dereferenceable, but the elements that they point to are unspecified. <code>remove&#95;if</code> is stable, meaning that the relative order of elements that are not removed is unchanged.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>remove&#95;if</code> to remove specific elements from an array of integers using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/remove.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 6;\nint A[N] = {1, 4, 2, 8, 5, 7};\nint S[N] = {0, 1, 1, 1, 0, 0};\n\nint *new_end = thrust::remove_if(thrust::host, A, A + N, S, thrust::identity<int>());\n// The first three values of A are now {1, 5, 7}\n// Values beyond new_end are unspecified\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::remove_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/remove.h",
+        "line": 608
+      },
+      "name": "remove_if",
+      "note": [
+        "The range <code>[first, last)</code> is not permitted to overlap with the range <code>[stencil, stencil + (last - first))</code>."
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the range of interest. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the range of interest. "
+        },
+        {
+          "name": "stencil",
+          "text": "The beginning of the stencil sequence. "
+        },
+        {
+          "name": "pred",
+          "text": "A predicate to evaluate for each element of the range <code>[stencil, stencil + (last - first))</code>. Elements for which <code>pred</code> evaluates to <code>true</code> are removed from the sequence <code>[first, last)</code>"
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The range <code>[first, last)</code> shall not overlap the range <code>[result, result + (last - first))</code>. ",
+        "The range <code>[stencil, stencil + (last - first))</code> shall not overlap the range <code>[result, result + (last - first))</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::remove_if",
+      "refid": "group__stream__compaction_1ga93935a411226c7520dec5d8f52b08826",
+      "returns": [
+        "A ForwardIterator pointing to the end of the resulting range of elements for which <code>pred</code> evaluated to <code>true</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove\">https://en.cppreference.com/w/cpp/algorithm/remove</a>",
+        "remove ",
+        "remove_copy ",
+        "remove_copy_if "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a> and <code>ForwardIterator</code> is mutable. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "remove_if",
+      "type": "__host__ __device__ ForwardIterator",
+      "typePlain": "__host__ __device__ ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-remove-if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-remove-if",
+      "argsString": "(ForwardIterator first, ForwardIterator last, InputIterator stencil, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "ForwardIterator thrust::remove_if",
+      "deleted": false,
+      "details": "<code>remove&#95;if</code> removes from the range <code>[first, last)</code> every element <code>x</code> such that <code>pred(x)</code> is <code>true</code>. That is, <code>remove&#95;if</code> returns an iterator <code>new&#95;last</code> such that the range <code>[first, new&#95;last)</code> contains no elements for which <code>pred</code> of the corresponding stencil value is <code>true</code>. The iterators in the range <code>[new&#95;last,last)</code> are all still dereferenceable, but the elements that they point to are unspecified. <code>remove&#95;if</code> is stable, meaning that the relative order of elements that are not removed is unchanged.\n\n\nThe following code snippet demonstrates how to use <code>remove&#95;if</code> to remove specific elements from an array of integers.\n\n\n\n```cpp\n#include <thrust/remove.h>\n...\nconst int N = 6;\nint A[N] = {1, 4, 2, 8, 5, 7};\nint S[N] = {0, 1, 1, 1, 0, 0};\n\nint *new_end = thrust::remove_if(A, A + N, S, thrust::identity<int>());\n// The first three values of A are now {1, 5, 7}\n// Values beyond new_end are unspecified\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::remove_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/remove.h",
+        "line": 666
+      },
+      "name": "remove_if",
+      "note": [
+        "The range <code>[first, last)</code> is not permitted to overlap with the range <code>[stencil, stencil + (last - first))</code>."
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the range of interest. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the range of interest. "
+        },
+        {
+          "name": "stencil",
+          "text": "The beginning of the stencil sequence. "
+        },
+        {
+          "name": "pred",
+          "text": "A predicate to evaluate for each element of the range <code>[stencil, stencil + (last - first))</code>. Elements for which <code>pred</code> evaluates to <code>true</code> are removed from the sequence <code>[first, last)</code>"
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The range <code>[first, last)</code> shall not overlap the range <code>[result, result + (last - first))</code>. ",
+        "The range <code>[stencil, stencil + (last - first))</code> shall not overlap the range <code>[result, result + (last - first))</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::remove_if",
+      "refid": "group__stream__compaction_1ga2e6f9b410f1ea32246cbb4890d636b7e",
+      "returns": [
+        "A ForwardIterator pointing to the end of the resulting range of elements for which <code>pred</code> evaluated to <code>true</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove\">https://en.cppreference.com/w/cpp/algorithm/remove</a>",
+        "remove ",
+        "remove_copy ",
+        "remove_copy_if "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a> and <code>ForwardIterator</code> is mutable. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "remove_if",
+      "type": "ForwardIterator",
+      "typePlain": "ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-remove-if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-remove-copy-if",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 first, InputIterator1 last, InputIterator2 stencil, OutputIterator result, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::remove_copy_if",
+      "deleted": false,
+      "details": "<code>remove&#95;copy&#95;if</code> copies elements from the range <code>[first,last)</code> to a range beginning at <code>result</code>, except that elements for which <code>pred</code> of the corresponding stencil value is <code>true</code> are not copied. The return value is the end of the resulting range. This operation is stable, meaning that the relative order of the elements that are copied is the same as the range <code>[first,last)</code>.\n\nThe algorithm's execution policy is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>remove&#95;copy&#95;if</code> to copy a sequence of numbers to an output range while omitting specific elements using the <code>thrust::host</code> execution policy for parallelization.\n\n\n\n```cpp\n#include <thrust/remove.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 6;\nint V[N] = {-2, 0, -1, 0, 1, 2};\nint S[N] = { 1, 1,  0, 1, 0, 1};\nint result[2];\nthrust::remove_copy_if(thrust::host, V, V + N, S, result, thrust::identity<int>());\n// V remains {-2, 0, -1, 0, 1, 2}\n// result is now {-1, 1}\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::remove_copy_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/remove.h",
+        "line": 731
+      },
+      "name": "remove_copy_if",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the range of interest. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the range of interest. "
+        },
+        {
+          "name": "stencil",
+          "text": "The beginning of the stencil sequence. "
+        },
+        {
+          "name": "result",
+          "text": "The resulting range is copied to the sequence beginning at this location. "
+        },
+        {
+          "name": "pred",
+          "text": "A predicate to evaluate for each element of the range <code>[first,last)</code>. Elements for which <code>pred</code> evaluates to <code>false</code> are not copied to the resulting sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The range <code>[stencil, stencil + (last - first))</code> shall not overlap the range <code>[result, result + (last - first))</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::remove_copy_if",
+      "refid": "group__stream__compaction_1ga608bcdb9dd1e9b9c066fd0882efbea09",
+      "returns": [
+        "An OutputIterator pointing to the end of the resulting range."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove_copy\">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>",
+        "remove ",
+        "remove_copy ",
+        "remove_if ",
+        "copy_if "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator1's</code><code>value&#95;type</code> is convertible to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "remove_copy_if",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-remove-copy-if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-remove-copy-if",
+      "argsString": "(InputIterator1 first, InputIterator1 last, InputIterator2 stencil, OutputIterator result, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::remove_copy_if",
+      "deleted": false,
+      "details": "<code>remove&#95;copy&#95;if</code> copies elements from the range <code>[first,last)</code> to a range beginning at <code>result</code>, except that elements for which <code>pred</code> of the corresponding stencil value is <code>true</code> are not copied. The return value is the end of the resulting range. This operation is stable, meaning that the relative order of the elements that are copied is the same as the range <code>[first,last)</code>.\n\n\nThe following code snippet demonstrates how to use <code>remove&#95;copy&#95;if</code> to copy a sequence of numbers to an output range while omitting specific elements.\n\n\n\n```cpp\n#include <thrust/remove.h>\n...\nconst int N = 6;\nint V[N] = {-2, 0, -1, 0, 1, 2};\nint S[N] = { 1, 1,  0, 1, 0, 1};\nint result[2];\nthrust::remove_copy_if(V, V + N, S, result, thrust::identity<int>());\n// V remains {-2, 0, -1, 0, 1, 2}\n// result is now {-1, 1}\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::remove_copy_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/remove.h",
+        "line": 790
+      },
+      "name": "remove_copy_if",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the range of interest. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the range of interest. "
+        },
+        {
+          "name": "stencil",
+          "text": "The beginning of the stencil sequence. "
+        },
+        {
+          "name": "result",
+          "text": "The resulting range is copied to the sequence beginning at this location. "
+        },
+        {
+          "name": "pred",
+          "text": "A predicate to evaluate for each element of the range <code>[first,last)</code>. Elements for which <code>pred</code> evaluates to <code>false</code> are not copied to the resulting sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The range <code>[stencil, stencil + (last - first))</code> shall not overlap the range <code>[result, result + (last - first))</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::remove_copy_if",
+      "refid": "group__stream__compaction_1ga5ca0dab8bdfb53742f0fca18156c8987",
+      "returns": [
+        "An OutputIterator pointing to the end of the resulting range."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove_copy\">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>",
+        "remove ",
+        "remove_copy ",
+        "remove_if ",
+        "copy_if "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator1's</code><code>value&#95;type</code> is convertible to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "remove_copy_if",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-remove-copy-if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ ForwardIterator thrust::unique",
+      "deleted": false,
+      "details": "For each group of consecutive elements in the range <code>[first, last)</code> with the same value, <code>unique</code> removes all but the first element of the group. The return value is an iterator <code>new&#95;last</code> such that no two consecutive elements in the range <code>[first, new&#95;last)</code> are equal. The iterators in the range <code>[new&#95;last, last)</code> are all still dereferenceable, but the elements that they point to are unspecified. <code>unique</code> is stable, meaning that the relative order of elements that are not removed is unchanged.\n\nThis version of <code>unique</code> uses <code>operator==</code> to test for equality.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique</code> to compact a sequence of numbers to remove consecutive duplicates using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1};\nint *new_end = thrust::unique(thrust::host, A, A + N);\n// The first four values of A are now {1, 3, 2, 1}\n// Values beyond new_end are unspecified.\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 17,
+        "file": "thrust/unique.h",
+        "line": 79
+      },
+      "name": "unique",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input range. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique",
+      "refid": "group__stream__compaction_1gae5a90c7aa7c2370087c142936d405e8c",
+      "returns": [
+        "The end of the unique range <code>[first, new&#95;last)</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/unique\">https://en.cppreference.com/w/cpp/algorithm/unique</a>",
+        "unique_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>."
+        }
+      ],
+      "title": "unique",
+      "type": "__host__ __device__ ForwardIterator",
+      "typePlain": "__host__ __device__ ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique",
+      "argsString": "(ForwardIterator first, ForwardIterator last)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "ForwardIterator thrust::unique",
+      "deleted": false,
+      "details": "For each group of consecutive elements in the range <code>[first, last)</code> with the same value, <code>unique</code> removes all but the first element of the group. The return value is an iterator <code>new&#95;last</code> such that no two consecutive elements in the range <code>[first, new&#95;last)</code> are equal. The iterators in the range <code>[new&#95;last, last)</code> are all still dereferenceable, but the elements that they point to are unspecified. <code>unique</code> is stable, meaning that the relative order of elements that are not removed is unchanged.\n\nThis version of <code>unique</code> uses <code>operator==</code> to test for equality.\n\n\nThe following code snippet demonstrates how to use <code>unique</code> to compact a sequence of numbers to remove consecutive duplicates.\n\n\n\n```cpp\n#include <thrust/unique.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1};\nint *new_end = thrust::unique(A, A + N);\n// The first four values of A are now {1, 3, 2, 1}\n// Values beyond new_end are unspecified.\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 17,
+        "file": "thrust/unique.h",
+        "line": 120
+      },
+      "name": "unique",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the input range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input range. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique",
+      "refid": "group__stream__compaction_1gaccf33f1e24f8526b003f8a679591ad65",
+      "returns": [
+        "The end of the unique range <code>[first, new&#95;last)</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/unique\">https://en.cppreference.com/w/cpp/algorithm/unique</a>",
+        "unique_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>."
+        }
+      ],
+      "title": "unique",
+      "type": "ForwardIterator",
+      "typePlain": "ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate binary_pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ ForwardIterator thrust::unique",
+      "deleted": false,
+      "details": "For each group of consecutive elements in the range <code>[first, last)</code> with the same value, <code>unique</code> removes all but the first element of the group. The return value is an iterator <code>new&#95;last</code> such that no two consecutive elements in the range <code>[first, new&#95;last)</code> are equal. The iterators in the range <code>[new&#95;last, last)</code> are all still dereferenceable, but the elements that they point to are unspecified. <code>unique</code> is stable, meaning that the relative order of elements that are not removed is unchanged.\n\nThis version of <code>unique</code> uses the function object <code>binary&#95;pred</code> to test for equality.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique</code> to compact a sequence of numbers to remove consecutive duplicates using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1};\nint *new_end = thrust::unique(thrust::host, A, A + N, thrust::equal_to<int>());\n// The first four values of A are now {1, 3, 2, 1}\n// Values beyond new_end are unspecified.\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 17,
+        "file": "thrust/unique.h",
+        "line": 172
+      },
+      "name": "unique",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique",
+      "refid": "group__stream__compaction_1ga76d09b803bb439fa86b12de43d4fdcf8",
+      "returns": [
+        "The end of the unique range <code>[first, new&#95;last)</code>"
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/unique\">https://en.cppreference.com/w/cpp/algorithm/unique</a>",
+        "unique_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "unique",
+      "type": "__host__ __device__ ForwardIterator",
+      "typePlain": "__host__ __device__ ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique",
+      "argsString": "(ForwardIterator first, ForwardIterator last, BinaryPredicate binary_pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "ForwardIterator thrust::unique",
+      "deleted": false,
+      "details": "For each group of consecutive elements in the range <code>[first, last)</code> with the same value, <code>unique</code> removes all but the first element of the group. The return value is an iterator <code>new&#95;last</code> such that no two consecutive elements in the range <code>[first, new&#95;last)</code> are equal. The iterators in the range <code>[new&#95;last, last)</code> are all still dereferenceable, but the elements that they point to are unspecified. <code>unique</code> is stable, meaning that the relative order of elements that are not removed is unchanged.\n\nThis version of <code>unique</code> uses the function object <code>binary&#95;pred</code> to test for equality.\n\n\nThe following code snippet demonstrates how to use <code>unique</code> to compact a sequence of numbers to remove consecutive duplicates.\n\n\n\n```cpp\n#include <thrust/unique.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1};\nint *new_end = thrust::unique(A, A + N, thrust::equal_to<int>());\n// The first four values of A are now {1, 3, 2, 1}\n// Values beyond new_end are unspecified.\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 17,
+        "file": "thrust/unique.h",
+        "line": 218
+      },
+      "name": "unique",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the input range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique",
+      "refid": "group__stream__compaction_1gacc951d5d2780083d91639e6d98b8cd4b",
+      "returns": [
+        "The end of the unique range <code>[first, new&#95;last)</code>"
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/unique\">https://en.cppreference.com/w/cpp/algorithm/unique</a>",
+        "unique_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "unique",
+      "type": "ForwardIterator",
+      "typePlain": "ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-copy",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, OutputIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::unique_copy",
+      "deleted": false,
+      "details": "<code>unique&#95;copy</code> copies elements from the range <code>[first, last)</code> to a range beginning with <code>result</code>, except that in a consecutive group of duplicate elements only the first one is copied. The return value is the end of the range to which the elements are copied.\n\nThe reason there are two different versions of unique_copy is that there are two different definitions of what it means for a consecutive group of elements to be duplicates. In the first version, the test is simple equality: the elements in a range <code>[f, l)</code> are duplicates if, for every iterator <code>i</code> in the range, either <code>i == f</code> or else <code>&#42;i == &#42;(i-1)</code>. In the second, the test is an arbitrary <code>BinaryPredicate</code><code>binary&#95;pred:</code> the elements in <code>[f, l)</code> are duplicates if, for every iterator <code>i</code> in the range, either <code>i == f</code> or else <code>binary&#95;pred(&#42;i, &#42;(i-1))</code> is <code>true</code>.\n\nThis version of <code>unique&#95;copy</code> uses <code>operator==</code> to test for equality.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;copy</code> to compact a sequence of numbers to remove consecutive duplicates using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1};\nint B[N];\nint *result_end = thrust::unique_copy(thrust::host, A, A + N, B);\n// The first four values of B are now {1, 3, 2, 1} and (result_end - B) is 4\n// Values beyond result_end are unspecified\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 16,
+        "file": "thrust/unique.h",
+        "line": 279
+      },
+      "name": "unique_copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input range. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the output range. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        }
+      ],
+      "pre": [
+        "The range <code>[first,last)</code> and the range <code>[result, result + (last - first))</code> shall not overlap."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_copy",
+      "refid": "group__stream__compaction_1gaf9e6d5b2043121f4b680d3ea0d69c7a4",
+      "returns": [
+        "The end of the unique range <code>[result, result&#95;end)</code>."
+      ],
+      "see": [
+        "unique ",
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/unique_copy\">https://en.cppreference.com/w/cpp/algorithm/unique_copy</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "unique_copy",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-copy",
+      "argsString": "(InputIterator first, InputIterator last, OutputIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::unique_copy",
+      "deleted": false,
+      "details": "<code>unique&#95;copy</code> copies elements from the range <code>[first, last)</code> to a range beginning with <code>result</code>, except that in a consecutive group of duplicate elements only the first one is copied. The return value is the end of the range to which the elements are copied.\n\nThe reason there are two different versions of unique_copy is that there are two different definitions of what it means for a consecutive group of elements to be duplicates. In the first version, the test is simple equality: the elements in a range <code>[f, l)</code> are duplicates if, for every iterator <code>i</code> in the range, either <code>i == f</code> or else <code>&#42;i == &#42;(i-1)</code>. In the second, the test is an arbitrary <code>BinaryPredicate</code><code>binary&#95;pred:</code> the elements in <code>[f, l)</code> are duplicates if, for every iterator <code>i</code> in the range, either <code>i == f</code> or else <code>binary&#95;pred(&#42;i, &#42;(i-1))</code> is <code>true</code>.\n\nThis version of <code>unique&#95;copy</code> uses <code>operator==</code> to test for equality.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;copy</code> to compact a sequence of numbers to remove consecutive duplicates.\n\n\n\n```cpp\n#include <thrust/unique.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1};\nint B[N];\nint *result_end = thrust::unique_copy(A, A + N, B);\n// The first four values of B are now {1, 3, 2, 1} and (result_end - B) is 4\n// Values beyond result_end are unspecified\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 16,
+        "file": "thrust/unique.h",
+        "line": 333
+      },
+      "name": "unique_copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the input range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input range. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the output range. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        }
+      ],
+      "pre": [
+        "The range <code>[first,last)</code> and the range <code>[result, result + (last - first))</code> shall not overlap."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_copy",
+      "refid": "group__stream__compaction_1gae51a1d24941cd0667e5d8b831dda3f90",
+      "returns": [
+        "The end of the unique range <code>[result, result&#95;end)</code>."
+      ],
+      "see": [
+        "unique ",
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/unique_copy\">https://en.cppreference.com/w/cpp/algorithm/unique_copy</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "unique_copy",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-copy",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, OutputIterator result, BinaryPredicate binary_pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::unique_copy",
+      "deleted": false,
+      "details": "<code>unique&#95;copy</code> copies elements from the range <code>[first, last)</code> to a range beginning with <code>result</code>, except that in a consecutive group of duplicate elements only the first one is copied. The return value is the end of the range to which the elements are copied.\n\nThis version of <code>unique&#95;copy</code> uses the function object <code>binary&#95;pred</code> to test for equality.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;copy</code> to compact a sequence of numbers to remove consecutive duplicates using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1};\nint B[N];\nint *result_end = thrust::unique_copy(thrust::host, A, A + N, B, thrust::equal_to<int>());\n// The first four values of B are now {1, 3, 2, 1} and (result_end - B) is 4\n// Values beyond result_end are unspecified.\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 16,
+        "file": "thrust/unique.h",
+        "line": 388
+      },
+      "name": "unique_copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input range. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the output range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pre": [
+        "The range <code>[first,last)</code> and the range <code>[result, result + (last - first))</code> shall not overlap."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_copy",
+      "refid": "group__stream__compaction_1ga31abf57faf11245ce1bc3d94ccebebaf",
+      "returns": [
+        "The end of the unique range <code>[result, result&#95;end)</code>."
+      ],
+      "see": [
+        "unique ",
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/unique_copy\">https://en.cppreference.com/w/cpp/algorithm/unique_copy</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "unique_copy",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-copy",
+      "argsString": "(InputIterator first, InputIterator last, OutputIterator result, BinaryPredicate binary_pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::unique_copy",
+      "deleted": false,
+      "details": "<code>unique&#95;copy</code> copies elements from the range <code>[first, last)</code> to a range beginning with <code>result</code>, except that in a consecutive group of duplicate elements only the first one is copied. The return value is the end of the range to which the elements are copied.\n\nThis version of <code>unique&#95;copy</code> uses the function object <code>binary&#95;pred</code> to test for equality.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;copy</code> to compact a sequence of numbers to remove consecutive duplicates.\n\n\n\n```cpp\n#include <thrust/unique.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1};\nint B[N];\nint *result_end = thrust::unique_copy(A, A + N, B, thrust::equal_to<int>());\n// The first four values of B are now {1, 3, 2, 1} and (result_end - B) is 4\n// Values beyond result_end are unspecified.\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 16,
+        "file": "thrust/unique.h",
+        "line": 437
+      },
+      "name": "unique_copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the input range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input range. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the output range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pre": [
+        "The range <code>[first,last)</code> and the range <code>[result, result + (last - first))</code> shall not overlap."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_copy",
+      "refid": "group__stream__compaction_1ga155c8c6cf6f1b282a3db3d5d376d4ed2",
+      "returns": [
+        "The end of the unique range <code>[result, result&#95;end)</code>."
+      ],
+      "see": [
+        "unique ",
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/unique_copy\">https://en.cppreference.com/w/cpp/algorithm/unique_copy</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "unique_copy",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-by-key",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator1 keys_first, ForwardIterator1 keys_last, ForwardIterator2 values_first)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< ForwardIterator1, ForwardIterator2 > thrust::unique_by_key",
+      "deleted": false,
+      "details": "<code>unique&#95;by&#95;key</code> is a generalization of <code>unique</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key</code> removes all but the first element of the group. Similarly, the corresponding values in the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are also removed.\n\nThe return value is a <code>pair</code> of iterators <code>(new&#95;keys&#95;last,new&#95;values&#95;last)</code> such that no two consecutive elements in the range <code>[keys&#95;first, new&#95;keys&#95;last)</code> are equal.\n\nThis version of <code>unique&#95;by&#95;key</code> uses <code>operator==</code> to test for equality and <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1project1st.html\">project1st</a></code> to reduce values with equal keys.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key</code> to compact a sequence of key/value pairs to remove consecutive duplicates using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::unique_by_key(thrust::host, A, A + N, B);\n\n// The first four keys in A are now {1, 3, 2, 1} and new_end.first - A is 4.\n// The first four values in B are now {9, 8, 5, 3} and new_end.second - B is 4.\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique_by_key",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 3,
+        "file": "thrust/unique.h",
+        "line": 502
+      },
+      "name": "unique_by_key",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "keys_first",
+          "text": "The beginning of the key range. "
+        },
+        {
+          "name": "keys_last",
+          "text": "The end of the key range. "
+        },
+        {
+          "name": "values_first",
+          "text": "The beginning of the value range. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "keys_first",
+          "type": "ForwardIterator1",
+          "typePlain": "ForwardIterator1"
+        },
+        {
+          "name": "keys_last",
+          "type": "ForwardIterator1",
+          "typePlain": "ForwardIterator1"
+        },
+        {
+          "name": "values_first",
+          "type": "ForwardIterator2",
+          "typePlain": "ForwardIterator2"
+        }
+      ],
+      "pre": [
+        "The range <code>[keys&#95;first, keys&#95;last)</code> and the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> shall not overlap."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_by_key",
+      "refid": "group__stream__compaction_1gaab1568defb3c937cb1bb438ca1099ed4",
+      "returns": [
+        "A pair of iterators at end of the ranges <code>[key&#95;first, keys&#95;new&#95;last)</code> and <code>[values&#95;first, values&#95;new&#95;last)</code>."
+      ],
+      "see": [
+        "unique ",
+        "unique_by_key_copy ",
+        "reduce_by_key "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator1",
+          "typePlain": "typename ForwardIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator2",
+          "typePlain": "typename ForwardIterator2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator1</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>. "
+        },
+        {
+          "name": "ForwardIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator2</code> is mutable."
+        }
+      ],
+      "title": "unique_by_key",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< ForwardIterator1, ForwardIterator2 >",
+      "typePlain": "__host__ __device__ thrust::pair< ForwardIterator1, ForwardIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-by-key",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-by-key",
+      "argsString": "(ForwardIterator1 keys_first, ForwardIterator1 keys_last, ForwardIterator2 values_first)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::pair< ForwardIterator1, ForwardIterator2 > thrust::unique_by_key",
+      "deleted": false,
+      "details": "<code>unique&#95;by&#95;key</code> is a generalization of <code>unique</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key</code> removes all but the first element of the group. Similarly, the corresponding values in the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are also removed.\n\nThe return value is a <code>pair</code> of iterators <code>(new&#95;keys&#95;last,new&#95;values&#95;last)</code> such that no two consecutive elements in the range <code>[keys&#95;first, new&#95;keys&#95;last)</code> are equal.\n\nThis version of <code>unique&#95;by&#95;key</code> uses <code>operator==</code> to test for equality and <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1project1st.html\">project1st</a></code> to reduce values with equal keys.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key</code> to compact a sequence of key/value pairs to remove consecutive duplicates.\n\n\n\n```cpp\n#include <thrust/unique.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::unique_by_key(A, A + N, B);\n\n// The first four keys in A are now {1, 3, 2, 1} and new_end.first - A is 4.\n// The first four values in B are now {9, 8, 5, 3} and new_end.second - B is 4.\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique_by_key",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 3,
+        "file": "thrust/unique.h",
+        "line": 559
+      },
+      "name": "unique_by_key",
+      "override": false,
+      "paramList": [
+        {
+          "name": "keys_first",
+          "text": "The beginning of the key range. "
+        },
+        {
+          "name": "keys_last",
+          "text": "The end of the key range. "
+        },
+        {
+          "name": "values_first",
+          "text": "The beginning of the value range. "
+        }
+      ],
+      "params": [
+        {
+          "name": "keys_first",
+          "type": "ForwardIterator1",
+          "typePlain": "ForwardIterator1"
+        },
+        {
+          "name": "keys_last",
+          "type": "ForwardIterator1",
+          "typePlain": "ForwardIterator1"
+        },
+        {
+          "name": "values_first",
+          "type": "ForwardIterator2",
+          "typePlain": "ForwardIterator2"
+        }
+      ],
+      "pre": [
+        "The range <code>[keys&#95;first, keys&#95;last)</code> and the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> shall not overlap."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_by_key",
+      "refid": "group__stream__compaction_1ga94a71d9ea40c94489e180474ce8e245d",
+      "returns": [
+        "A pair of iterators at end of the ranges <code>[key&#95;first, keys&#95;new&#95;last)</code> and <code>[values&#95;first, values&#95;new&#95;last)</code>."
+      ],
+      "see": [
+        "unique ",
+        "unique_by_key_copy ",
+        "reduce_by_key "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator1",
+          "typePlain": "typename ForwardIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator2",
+          "typePlain": "typename ForwardIterator2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator1</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>. "
+        },
+        {
+          "name": "ForwardIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator2</code> is mutable."
+        }
+      ],
+      "title": "unique_by_key",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< ForwardIterator1, ForwardIterator2 >",
+      "typePlain": "thrust::pair< ForwardIterator1, ForwardIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-by-key",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-by-key",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator1 keys_first, ForwardIterator1 keys_last, ForwardIterator2 values_first, BinaryPredicate binary_pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< ForwardIterator1, ForwardIterator2 > thrust::unique_by_key",
+      "deleted": false,
+      "details": "<code>unique&#95;by&#95;key</code> is a generalization of <code>unique</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key</code> removes all but the first element of the group. Similarly, the corresponding values in the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are also removed.\n\nThis version of <code>unique&#95;by&#95;key</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1project1st.html\">project1st</a></code> to reduce values with equal keys.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key</code> to compact a sequence of key/value pairs to remove consecutive duplicates using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // values\n\nthrust::pair<int*,int*> new_end;\nthrust::equal_to<int> binary_pred;\nnew_end = thrust::unique_by_key(thrust::host, keys, keys + N, values, binary_pred);\n\n// The first four keys in A are now {1, 3, 2, 1} and new_end.first - A is 4.\n// The first four values in B are now {9, 8, 5, 3} and new_end.second - B is 4.\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique_by_key",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/unique.h",
+        "line": 623
+      },
+      "name": "unique_by_key",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "keys_first",
+          "text": "The beginning of the key range. "
+        },
+        {
+          "name": "keys_last",
+          "text": "The end of the key range. "
+        },
+        {
+          "name": "values_first",
+          "text": "The beginning of the value range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "keys_first",
+          "type": "ForwardIterator1",
+          "typePlain": "ForwardIterator1"
+        },
+        {
+          "name": "keys_last",
+          "type": "ForwardIterator1",
+          "typePlain": "ForwardIterator1"
+        },
+        {
+          "name": "values_first",
+          "type": "ForwardIterator2",
+          "typePlain": "ForwardIterator2"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pre": [
+        "The range <code>[keys&#95;first, keys&#95;last)</code> and the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> shall not overlap."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_by_key",
+      "refid": "group__stream__compaction_1ga284188014e6d81b4ab23ec88a005205d",
+      "returns": [
+        "The end of the unique range <code>[first, new&#95;last)</code>."
+      ],
+      "see": [
+        "unique ",
+        "unique_by_key_copy ",
+        "reduce_by_key "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator1",
+          "typePlain": "typename ForwardIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator2",
+          "typePlain": "typename ForwardIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator1</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>. "
+        },
+        {
+          "name": "ForwardIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator2</code> is mutable. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "unique_by_key",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< ForwardIterator1, ForwardIterator2 >",
+      "typePlain": "__host__ __device__ thrust::pair< ForwardIterator1, ForwardIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-by-key",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-by-key",
+      "argsString": "(ForwardIterator1 keys_first, ForwardIterator1 keys_last, ForwardIterator2 values_first, BinaryPredicate binary_pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::pair< ForwardIterator1, ForwardIterator2 > thrust::unique_by_key",
+      "deleted": false,
+      "details": "<code>unique&#95;by&#95;key</code> is a generalization of <code>unique</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key</code> removes all but the first element of the group. Similarly, the corresponding values in the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are also removed.\n\nThis version of <code>unique&#95;by&#95;key</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1project1st.html\">project1st</a></code> to reduce values with equal keys.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key</code> to compact a sequence of key/value pairs to remove consecutive duplicates.\n\n\n\n```cpp\n#include <thrust/unique.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // values\n\nthrust::pair<int*,int*> new_end;\nthrust::equal_to<int> binary_pred;\nnew_end = thrust::unique_by_key(keys, keys + N, values, binary_pred);\n\n// The first four keys in A are now {1, 3, 2, 1} and new_end.first - A is 4.\n// The first four values in B are now {9, 8, 5, 3} and new_end.second - B is 4.\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique_by_key",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 3,
+        "file": "thrust/unique.h",
+        "line": 681
+      },
+      "name": "unique_by_key",
+      "override": false,
+      "paramList": [
+        {
+          "name": "keys_first",
+          "text": "The beginning of the key range. "
+        },
+        {
+          "name": "keys_last",
+          "text": "The end of the key range. "
+        },
+        {
+          "name": "values_first",
+          "text": "The beginning of the value range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "keys_first",
+          "type": "ForwardIterator1",
+          "typePlain": "ForwardIterator1"
+        },
+        {
+          "name": "keys_last",
+          "type": "ForwardIterator1",
+          "typePlain": "ForwardIterator1"
+        },
+        {
+          "name": "values_first",
+          "type": "ForwardIterator2",
+          "typePlain": "ForwardIterator2"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pre": [
+        "The range <code>[keys&#95;first, keys&#95;last)</code> and the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> shall not overlap."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_by_key",
+      "refid": "group__stream__compaction_1gab232924f9217f26f58668a80b6fe590d",
+      "returns": [
+        "The end of the unique range <code>[first, new&#95;last)</code>."
+      ],
+      "see": [
+        "unique ",
+        "unique_by_key_copy ",
+        "reduce_by_key "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator1",
+          "typePlain": "typename ForwardIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator2",
+          "typePlain": "typename ForwardIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator1</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>. "
+        },
+        {
+          "name": "ForwardIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator2</code> is mutable. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "unique_by_key",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< ForwardIterator1, ForwardIterator2 >",
+      "typePlain": "thrust::pair< ForwardIterator1, ForwardIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-by-key",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-by-key-copy",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 keys_first, InputIterator1 keys_last, InputIterator2 values_first, OutputIterator1 keys_result, OutputIterator2 values_result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > thrust::unique_by_key_copy",
+      "deleted": false,
+      "details": "<code>unique&#95;by&#95;key&#95;copy</code> is a generalization of <code>unique&#95;copy</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key&#95;copy</code> copies the first element of the group to a range beginning with <code>keys&#95;result</code> and the corresponding values from the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are copied to a range beginning with <code>values&#95;result</code>.\n\nThis version of <code>unique&#95;by&#95;key&#95;copy</code> uses <code>operator==</code> to test for equality and <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1project1st.html\">project1st</a></code> to reduce values with equal keys.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key&#95;copy</code> to compact a sequence of key/value pairs and with equal keys using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::unique_by_key_copy(thrust::host, A, A + N, B, C, D);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique_by_key_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/unique.h",
+        "line": 749
+      },
+      "name": "unique_by_key_copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "keys_first",
+          "text": "The beginning of the input key range. "
+        },
+        {
+          "name": "keys_last",
+          "text": "The end of the input key range. "
+        },
+        {
+          "name": "values_first",
+          "text": "The beginning of the input value range. "
+        },
+        {
+          "name": "keys_result",
+          "text": "The beginning of the output key range. "
+        },
+        {
+          "name": "values_result",
+          "text": "The beginning of the output value range. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "keys_first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "values_first",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "keys_result",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "values_result",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        }
+      ],
+      "pre": [
+        "The input ranges shall not overlap either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_by_key_copy",
+      "refid": "group__stream__compaction_1ga8c5288a398bacebc3c5659eedcbe0b91",
+      "returns": [
+        "A pair of iterators at end of the ranges <code>[keys&#95;result, keys&#95;result&#95;last)</code> and <code>[values&#95;result, values&#95;result&#95;last)</code>."
+      ],
+      "see": [
+        "unique_copy ",
+        "unique_by_key ",
+        "reduce_by_key "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator1's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>OutputIterator2's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "unique_by_key_copy",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-by-key-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-by-key-copy",
+      "argsString": "(InputIterator1 keys_first, InputIterator1 keys_last, InputIterator2 values_first, OutputIterator1 keys_result, OutputIterator2 values_result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::pair< OutputIterator1, OutputIterator2 > thrust::unique_by_key_copy",
+      "deleted": false,
+      "details": "<code>unique&#95;by&#95;key&#95;copy</code> is a generalization of <code>unique&#95;copy</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key&#95;copy</code> copies the first element of the group to a range beginning with <code>keys&#95;result</code> and the corresponding values from the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are copied to a range beginning with <code>values&#95;result</code>.\n\nThis version of <code>unique&#95;by&#95;key&#95;copy</code> uses <code>operator==</code> to test for equality and <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1project1st.html\">project1st</a></code> to reduce values with equal keys.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key&#95;copy</code> to compact a sequence of key/value pairs and with equal keys.\n\n\n\n```cpp\n#include <thrust/unique.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::unique_by_key_copy(A, A + N, B, C, D);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique_by_key_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 3,
+        "file": "thrust/unique.h",
+        "line": 811
+      },
+      "name": "unique_by_key_copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "keys_first",
+          "text": "The beginning of the input key range. "
+        },
+        {
+          "name": "keys_last",
+          "text": "The end of the input key range. "
+        },
+        {
+          "name": "values_first",
+          "text": "The beginning of the input value range. "
+        },
+        {
+          "name": "keys_result",
+          "text": "The beginning of the output key range. "
+        },
+        {
+          "name": "values_result",
+          "text": "The beginning of the output value range. "
+        }
+      ],
+      "params": [
+        {
+          "name": "keys_first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "values_first",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "keys_result",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "values_result",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        }
+      ],
+      "pre": [
+        "The input ranges shall not overlap either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_by_key_copy",
+      "refid": "group__stream__compaction_1ga838bce66b72eed718ee0e8adc2826c02",
+      "returns": [
+        "A pair of iterators at end of the ranges <code>[keys&#95;result, keys&#95;result&#95;last)</code> and <code>[values&#95;result, values&#95;result&#95;last)</code>."
+      ],
+      "see": [
+        "unique_copy ",
+        "unique_by_key ",
+        "reduce_by_key "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator1's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>OutputIterator2's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "unique_by_key_copy",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-by-key-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-by-key-copy",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 keys_first, InputIterator1 keys_last, InputIterator2 values_first, OutputIterator1 keys_result, OutputIterator2 values_result, BinaryPredicate binary_pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > thrust::unique_by_key_copy",
+      "deleted": false,
+      "details": "<code>unique&#95;by&#95;key&#95;copy</code> is a generalization of <code>unique&#95;copy</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key&#95;copy</code> copies the first element of the group to a range beginning with <code>keys&#95;result</code> and the corresponding values from the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are copied to a range beginning with <code>values&#95;result</code>.\n\nThis version of <code>unique&#95;by&#95;key&#95;copy</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1project1st.html\">project1st</a></code> to reduce values with equal keys.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key&#95;copy</code> to compact a sequence of key/value pairs and with equal keys using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nthrust::equal_to<int> binary_pred;\nnew_end = thrust::unique_by_key_copy(thrust::host, A, A + N, B, C, D, binary_pred);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique_by_key_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/unique.h",
+        "line": 884
+      },
+      "name": "unique_by_key_copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "keys_first",
+          "text": "The beginning of the input key range. "
+        },
+        {
+          "name": "keys_last",
+          "text": "The end of the input key range. "
+        },
+        {
+          "name": "values_first",
+          "text": "The beginning of the input value range. "
+        },
+        {
+          "name": "keys_result",
+          "text": "The beginning of the output key range. "
+        },
+        {
+          "name": "values_result",
+          "text": "The beginning of the output value range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "keys_first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "values_first",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "keys_result",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "values_result",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pre": [
+        "The input ranges shall not overlap either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_by_key_copy",
+      "refid": "group__stream__compaction_1gaadbb5997f7576e6706cc8e8fe91441e0",
+      "returns": [
+        "A pair of iterators at end of the ranges <code>[keys&#95;result, keys&#95;result&#95;last)</code> and <code>[values&#95;result, values&#95;result&#95;last)</code>."
+      ],
+      "see": [
+        "unique_copy ",
+        "unique_by_key ",
+        "reduce_by_key "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator1's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>OutputIterator2's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "unique_by_key_copy",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-by-key-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-by-key-copy",
+      "argsString": "(InputIterator1 keys_first, InputIterator1 keys_last, InputIterator2 values_first, OutputIterator1 keys_result, OutputIterator2 values_result, BinaryPredicate binary_pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::pair< OutputIterator1, OutputIterator2 > thrust::unique_by_key_copy",
+      "deleted": false,
+      "details": "<code>unique&#95;by&#95;key&#95;copy</code> is a generalization of <code>unique&#95;copy</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key&#95;copy</code> copies the first element of the group to a range beginning with <code>keys&#95;result</code> and the corresponding values from the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are copied to a range beginning with <code>values&#95;result</code>.\n\nThis version of <code>unique&#95;by&#95;key&#95;copy</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1project1st.html\">project1st</a></code> to reduce values with equal keys.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key&#95;copy</code> to compact a sequence of key/value pairs and with equal keys.\n\n\n\n```cpp\n#include <thrust/unique.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nthrust::equal_to<int> binary_pred;\nnew_end = thrust::unique_by_key_copy(A, A + N, B, C, D, binary_pred);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique_by_key_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 3,
+        "file": "thrust/unique.h",
+        "line": 951
+      },
+      "name": "unique_by_key_copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "keys_first",
+          "text": "The beginning of the input key range. "
+        },
+        {
+          "name": "keys_last",
+          "text": "The end of the input key range. "
+        },
+        {
+          "name": "values_first",
+          "text": "The beginning of the input value range. "
+        },
+        {
+          "name": "keys_result",
+          "text": "The beginning of the output key range. "
+        },
+        {
+          "name": "values_result",
+          "text": "The beginning of the output value range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "keys_first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "values_first",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "keys_result",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "values_result",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pre": [
+        "The input ranges shall not overlap either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_by_key_copy",
+      "refid": "group__stream__compaction_1gaabc023568688210d8aa70e97d161a8b8",
+      "returns": [
+        "A pair of iterators at end of the ranges <code>[keys&#95;result, keys&#95;result&#95;last)</code> and <code>[values&#95;result, values&#95;result&#95;last)</code>."
+      ],
+      "see": [
+        "unique_copy ",
+        "unique_by_key ",
+        "reduce_by_key "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator1's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>OutputIterator2's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "unique_by_key_copy",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-by-key-copy",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "stream_compaction",
+  "refid": "group__stream__compaction",
+  "static": false,
+  "strong": false,
+  "title": "Stream Compaction",
+  "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html",
+  "visibility": "public"
+}

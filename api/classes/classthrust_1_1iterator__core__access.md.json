@@ -1,0 +1,102 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1iterator__core__access.html\">iterator&#95;core&#95;access</a></code> is the class which user iterator types derived from <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1iterator__adaptor.html\">thrust::iterator&#95;adaptor</a></code> or <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1iterator__facade.html\">thrust::iterator&#95;facade</a></code> must befriend to allow it to access their private interface. ",
+  "explicit": false,
+  "fullname": "thrust::iterator_core_access",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/iterator/iterator_facade.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 223,
+    "bodyFile": "thrust/iterator/iterator_facade.h",
+    "bodyStart": 61,
+    "column": 1,
+    "file": "thrust/iterator/iterator_facade.h",
+    "line": 60
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "fancyiterator",
+    "kind": "group",
+    "language": "",
+    "name": "fancyiterator",
+    "qualifiedname": "fancyiterator",
+    "refid": "group__fancyiterator",
+    "title": "Fancy Iterators",
+    "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterators",
+      "kind": "group",
+      "language": "",
+      "name": "iterators",
+      "qualifiedname": "iterators",
+      "refid": "group__iterators",
+      "title": "Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "fancyiterator",
+      "kind": "group",
+      "language": "",
+      "name": "fancyiterator",
+      "qualifiedname": "fancyiterator",
+      "refid": "group__fancyiterator",
+      "title": "Fancy Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::iterator_core_access",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::iterator_core_access",
+  "refid": "classthrust_1_1iterator__core__access",
+  "static": false,
+  "strong": false,
+  "title": "thrust::iterator_core_access",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1iterator__core__access.html",
+  "visibility": "public"
+}

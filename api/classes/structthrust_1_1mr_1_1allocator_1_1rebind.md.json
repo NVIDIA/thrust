@@ -1,0 +1,152 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "The <code>rebind</code> metafunction provides the type of an <code>allocator</code> instantiated with another type.",
+  "explicit": false,
+  "fullname": "thrust::mr::allocator::rebind",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/mr/allocator.h>",
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 90,
+    "bodyFile": "thrust/mr/allocator.h",
+    "bodyStart": 86,
+    "column": 5,
+    "file": "thrust/mr/allocator.h",
+    "line": 85
+  },
+  "name": "thrust::mr::allocator::rebind",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "baseClasses": [
+      {
+        "external": true,
+        "name": "thrust::mr::validator< MR >",
+        "virtual": "non-virtual",
+        "visibility": "private"
+      }
+    ],
+    "category": "classes",
+    "fullname": "thrust::mr::allocator",
+    "kind": "class",
+    "language": "cpp",
+    "name": "thrust::mr::allocator",
+    "qualifiedname": "thrust::mr::allocator",
+    "refid": "classthrust_1_1mr_1_1allocator",
+    "title": "thrust::mr::allocator",
+    "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "<code>thrust::mr</code> is the namespace containing system agnostic types and functions for <code>memory&#95;resource</code> related functionalities. ",
+      "category": "namespaces",
+      "fullname": "thrust::mr",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::mr",
+      "qualifiedname": "thrust::mr",
+      "refid": "namespacethrust_1_1mr",
+      "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
+      "title": "thrust::mr",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1mr.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::mr::validator< MR >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::mr::allocator",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::mr::allocator",
+      "qualifiedname": "thrust::mr::allocator",
+      "refid": "classthrust_1_1mr_1_1allocator",
+      "title": "thrust::mr::allocator",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html",
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-other",
+      "category": "types",
+      "const": false,
+      "definition": "typedef allocator<U, MR> thrust::mr::allocator< T, MR >::rebind< U >::other",
+      "details": "The typedef <code>other</code> gives the type of the rebound <code>allocator</code>. ",
+      "explicit": false,
+      "fullname": "thrust::mr::allocator::rebind::other",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/allocator.h",
+        "bodyStart": 89,
+        "column": 27,
+        "file": "thrust/mr/allocator.h",
+        "line": 89
+      },
+      "name": "other",
+      "override": false,
+      "qualifiedname": "thrust::mr::allocator::rebind::other",
+      "refid": "structthrust_1_1mr_1_1allocator_1_1rebind_1a2e51c5cbd10373e21b044032c5398b33",
+      "static": false,
+      "strong": false,
+      "title": "other",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html\">allocator</a>< U, MR >",
+      "typePlain": "allocator< U, MR >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1allocator_1_1rebind.html#typedef-other",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::mr::allocator::rebind",
+  "refid": "structthrust_1_1mr_1_1allocator_1_1rebind",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename U",
+      "typePlain": "typename U"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "U",
+      "text": "the other type to use for instantiation. "
+    }
+  ],
+  "title": "thrust::mr::allocator::rebind",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1allocator_1_1rebind.html",
+  "visibility": "public"
+}

@@ -1,0 +1,311 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "detail::zip_iterator_base::type",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip&#95;iterator</a></code> is an iterator which represents a pointer into a range of <code>tuples</code> whose elements are themselves taken from a <code>tuple</code> of input iterators. This iterator is useful for creating a virtual array of structures while achieving the same performance and bandwidth as the structure of arrays idiom. <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip&#95;iterator</a></code> also facilitates kernel fusion by providing a convenient means of amortizing the execution of the same operation over multiple ranges.\n\nThe following code snippet demonstrates how to create a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip&#95;iterator</a></code> which represents the result of \"zipping\" multiple ranges together.\n\n\n\n```cpp\n#include <thrust/iterator/zip_iterator.h>\n#include <thrust/tuple.h>\n#include <thrust/device_vector.h>\n...\nthrust::device_vector<int> int_v(3);\nint_v[0] = 0; int_v[1] = 1; int_v[2] = 2;\n\nthrust::device_vector<float> float_v(3);\nfloat_v[0] = 0.0f; float_v[1] = 1.0f; float_v[2] = 2.0f;\n\nthrust::device_vector<char> char_v(3);\nchar_v[0] = 'a'; char_v[1] = 'b'; char_v[2] = 'c';\n\n// typedef these iterators for shorthand\ntypedef thrust::device_vector<int>::iterator   IntIterator;\ntypedef thrust::device_vector<float>::iterator FloatIterator;\ntypedef thrust::device_vector<char>::iterator  CharIterator;\n\n// typedef a tuple of these iterators\ntypedef thrust::tuple<IntIterator, FloatIterator, CharIterator> IteratorTuple;\n\n// typedef the zip_iterator of this tuple\ntypedef thrust::zip_iterator<IteratorTuple> ZipIterator;\n\n// finally, create the zip_iterator\nZipIterator iter(thrust::make_tuple(int_v.begin(), float_v.begin(), char_v.begin()));\n\n*iter;   // returns (0, 0.0f, 'a')\niter[0]; // returns (0, 0.0f, 'a')\niter[1]; // returns (1, 1.0f, 'b')\niter[2]; // returns (2, 2.0f, 'c')\n\nthrust::get<0>(iter[2]); // returns 2\nthrust::get<1>(iter[0]); // returns 0.0f\nthrust::get<2>(iter[1]); // returns 'b'\n\n// iter[3] is an out-of-bounds error\n```\n\nDefining the type of a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip&#95;iterator</a></code> can be complex. The next code example demonstrates how to use the <code>make&#95;zip&#95;iterator</code> function with the <code>make&#95;tuple</code> function to avoid explicitly specifying the type of the <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip&#95;iterator</a></code>. This example shows how to use <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip&#95;iterator</a></code> to copy multiple ranges with a single call to <code>thrust::copy</code>.\n\n\n\n```cpp\n#include <thrust/zip_iterator.h>\n#include <thrust/tuple.h>\n#include <thrust/device_vector.h>\n\nint main()\n{\n  thrust::device_vector<int> int_in(3), int_out(3);\n  int_in[0] = 0;\n  int_in[1] = 1;\n  int_in[2] = 2;\n\n  thrust::device_vector<float> float_in(3), float_out(3);\n  float_in[0] =  0.0f;\n  float_in[1] = 10.0f;\n  float_in[2] = 20.0f;\n\n  thrust::copy(thrust::make_zip_iterator(thrust::make_tuple(int_in.begin(), float_in.begin())),\n               thrust::make_zip_iterator(thrust::make_tuple(int_in.end(),   float_in.end())),\n               thrust::make_zip_iterator(thrust::make_tuple(int_out.begin(),float_out.begin())));\n\n  // int_out is now [0, 1, 2]\n  // float_out is now [0.0f, 10.0f, 20.0f]\n\n  return 0;\n}\n```",
+  "explicit": false,
+  "fullname": "thrust::zip_iterator",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/iterator/zip_iterator.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 221,
+    "bodyFile": "thrust/iterator/zip_iterator.h",
+    "bodyStart": 141,
+    "column": 3,
+    "file": "thrust/iterator/zip_iterator.h",
+    "line": 139
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "fancyiterator",
+    "kind": "group",
+    "language": "",
+    "name": "fancyiterator",
+    "qualifiedname": "fancyiterator",
+    "refid": "group__fancyiterator",
+    "title": "Fancy Iterators",
+    "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterators",
+      "kind": "group",
+      "language": "",
+      "name": "iterators",
+      "qualifiedname": "iterators",
+      "refid": "group__iterators",
+      "title": "Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "fancyiterator",
+      "kind": "group",
+      "language": "",
+      "name": "fancyiterator",
+      "qualifiedname": "fancyiterator",
+      "refid": "group__fancyiterator",
+      "title": "Fancy Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::zip_iterator",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-zip-iterator",
+      "argsString": "()",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::zip_iterator< IteratorTuple >::zip_iterator",
+      "deleted": false,
+      "details": "Null constructor does nothing. ",
+      "explicit": false,
+      "fullname": "thrust::zip_iterator::zip_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 5,
+        "file": "thrust/iterator/zip_iterator.h",
+        "line": 146
+      },
+      "name": "zip_iterator",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::zip_iterator::zip_iterator",
+      "refid": "classthrust_1_1zip__iterator_1a9fdda7d74fa93409a7706483d183e6c2",
+      "static": false,
+      "strong": false,
+      "title": "zip_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html#function-zip-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-zip-iterator",
+      "argsString": "(IteratorTuple iterator_tuple)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::zip_iterator< IteratorTuple >::zip_iterator",
+      "deleted": false,
+      "details": "This constructor creates a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip&#95;iterator</a></code> from a <code>tuple</code> of iterators.",
+      "explicit": false,
+      "fullname": "thrust::zip_iterator::zip_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 5,
+        "file": "thrust/iterator/zip_iterator.h",
+        "line": 154
+      },
+      "name": "zip_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "iterator_tuple",
+          "text": "The <code>tuple</code> of iterators to copy from. "
+        }
+      ],
+      "params": [
+        {
+          "name": "iterator_tuple",
+          "type": "IteratorTuple",
+          "typePlain": "IteratorTuple"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::zip_iterator::zip_iterator",
+      "refid": "classthrust_1_1zip__iterator_1a5365068bc6d654c2b2b22e8dae9d6acf",
+      "static": false,
+      "strong": false,
+      "title": "zip_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html#function-zip-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-zip-iterator",
+      "argsString": "(const zip_iterator< OtherIteratorTuple > &other, typename thrust::detail::enable_if_convertible< OtherIteratorTuple, IteratorTuple >::type *=0)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::zip_iterator< IteratorTuple >::zip_iterator",
+      "deleted": false,
+      "details": "This copy constructor creates a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip&#95;iterator</a></code> from another <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip&#95;iterator</a></code>.",
+      "explicit": false,
+      "fullname": "thrust::zip_iterator::zip_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 5,
+        "file": "thrust/iterator/zip_iterator.h",
+        "line": 163
+      },
+      "name": "zip_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "other",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip&#95;iterator</a></code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "other",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip_iterator</a>< OtherIteratorTuple > &",
+          "typePlain": "const zip_iterator< OtherIteratorTuple > &"
+        },
+        {
+          "defval": "0",
+          "defvalPlain": "0",
+          "name": "",
+          "type": "typename thrust::detail::enable_if_convertible< OtherIteratorTuple, IteratorTuple >::type *",
+          "typePlain": "typename thrust::detail::enable_if_convertible< OtherIteratorTuple, IteratorTuple >::type *"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::zip_iterator::zip_iterator",
+      "refid": "classthrust_1_1zip__iterator_1a0c74fcf6eb9e3195db94965c56a73088",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherIteratorTuple",
+          "typePlain": "typename OtherIteratorTuple"
+        }
+      ],
+      "title": "zip_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html#function-zip-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-get-iterator-tuple",
+      "argsString": "() const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ const IteratorTuple & thrust::zip_iterator< IteratorTuple >::get_iterator_tuple",
+      "deleted": false,
+      "details": "This method returns a <code>const</code> reference to this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip&#95;iterator</a>'s</code><code>tuple</code> of iterators.",
+      "explicit": false,
+      "fullname": "thrust::zip_iterator::get_iterator_tuple",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 25,
+        "file": "thrust/iterator/zip_iterator.h",
+        "line": 176
+      },
+      "name": "get_iterator_tuple",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::zip_iterator::get_iterator_tuple",
+      "refid": "classthrust_1_1zip__iterator_1ace76f3c714d994c35c89793c74ee46a7",
+      "returns": [
+        "A <code>const</code> reference to this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip&#95;iterator</a>'s</code><code>tuple</code> of iterators. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "get_iterator_tuple",
+      "type": "__host__ __device__ const IteratorTuple &",
+      "typePlain": "__host__ __device__ const IteratorTuple &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html#function-get-iterator-tuple",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::zip_iterator",
+  "refid": "classthrust_1_1zip__iterator",
+  "see": [
+    "make_zip_iterator ",
+    "make_tuple ",
+    "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1tuple.html\">tuple</a>",
+    "get "
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename IteratorTuple",
+      "typePlain": "typename IteratorTuple"
+    }
+  ],
+  "title": "thrust::zip_iterator",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html",
+  "visibility": "public"
+}

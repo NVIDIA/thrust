@@ -1,0 +1,77 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "std::iterator_traits< T >",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">iterator&#95;traits</a></code> is a type trait class that provides a uniform interface for querying the properties of iterators at compile-time. ",
+  "explicit": false,
+  "fullname": "thrust::iterator_traits",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/iterator/iterator_traits.h>",
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 44,
+    "bodyFile": "thrust/iterator/iterator_traits.h",
+    "bodyStart": 44,
+    "column": 1,
+    "file": "thrust/iterator/iterator_traits.h",
+    "line": 44
+  },
+  "name": "thrust::iterator_traits",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::iterator_traits",
+  "refid": "structthrust_1_1iterator__traits",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    }
+  ],
+  "title": "thrust::iterator_traits",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html",
+  "visibility": "public"
+}

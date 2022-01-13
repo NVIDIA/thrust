@@ -1,0 +1,39 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "container_classes",
+  "groups": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "host_containers",
+      "kind": "group",
+      "language": "",
+      "name": "host_containers",
+      "qualifiedname": "host_containers",
+      "refid": "group__host__containers",
+      "title": "Host Containers",
+      "url": "{{ site.baseurl }}/api/groups/group__host__containers.html",
+      "visibility": "public"
+    }
+  ],
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "name": "container_classes",
+  "override": false,
+  "parent": null,
+  "qualifiedname": "container_classes",
+  "refid": "group__container__classes",
+  "static": false,
+  "strong": false,
+  "title": "Container Classes",
+  "url": "{{ site.baseurl }}/api/groups/group__container__classes.html",
+  "visibility": "public"
+}

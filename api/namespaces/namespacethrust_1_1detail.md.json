@@ -1,0 +1,2142 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "\\exclude ",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::detail",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "language": "cpp",
+  "location": {
+    "column": 1,
+    "file": "thrust/allocate_unique.h",
+    "line": 27
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "function_object_adaptors",
+    "kind": "group",
+    "language": "",
+    "name": "function_object_adaptors",
+    "qualifiedname": "function_object_adaptors",
+    "refid": "group__function__object__adaptors",
+    "title": "Function Object Adaptors",
+    "url": "{{ site.baseurl }}/api/groups/group__function__object__adaptors.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "language": "",
+      "name": "function_objects",
+      "qualifiedname": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "{{ site.baseurl }}/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_object_adaptors",
+      "kind": "group",
+      "language": "",
+      "name": "function_object_adaptors",
+      "qualifiedname": "function_object_adaptors",
+      "refid": "group__function__object__adaptors",
+      "title": "Function Object Adaptors",
+      "url": "{{ site.baseurl }}/api/groups/group__function__object__adaptors.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::detail",
+  "namespaces": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust::detail::permutation_iterator_base",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::detail::permutation_iterator_base",
+      "qualifiedname": "thrust::detail::permutation_iterator_base",
+      "refid": "namespacethrust_1_1detail_1_1permutation__iterator__base",
+      "title": "thrust::detail::permutation_iterator_base",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail_1_1permutation__iterator__base.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust::detail::zip_detail",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::detail::zip_detail",
+      "qualifiedname": "thrust::detail::zip_detail",
+      "refid": "namespacethrust_1_1detail_1_1zip__detail",
+      "title": "thrust::detail::zip_detail",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail_1_1zip__detail.html",
+      "visibility": "public"
+    }
+  ],
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "std::true_type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::detail::conjunction",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::conjunction",
+      "qualifiedname": "thrust::detail::conjunction",
+      "refid": "structthrust_1_1detail_1_1conjunction",
+      "title": "thrust::detail::conjunction",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1conjunction.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "B",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::detail::conjunction< B >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::conjunction< B >",
+      "qualifiedname": "thrust::detail::conjunction< B >",
+      "refid": "structthrust_1_1detail_1_1conjunction_3_01B_01_4",
+      "title": "thrust::detail::conjunction< B >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1conjunction_3_01b_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "std::conditional::type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::detail::conjunction< B, Bs... >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::conjunction< B, Bs... >",
+      "qualifiedname": "thrust::detail::conjunction< B, Bs... >",
+      "refid": "structthrust_1_1detail_1_1conjunction_3_01B_00_01Bs_8_8_8_01_4",
+      "title": "thrust::detail::conjunction< B, Bs... >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1conjunction_3_01b_00_01bs_8_8_8_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::detail::i_am_secret",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::i_am_secret",
+      "qualifiedname": "thrust::detail::i_am_secret",
+      "refid": "structthrust_1_1detail_1_1i__am__secret",
+      "title": "thrust::detail::i_am_secret",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1i__am__secret.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::detail::invoke_result_impl",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::invoke_result_impl",
+      "qualifiedname": "thrust::detail::invoke_result_impl",
+      "refid": "structthrust_1_1detail_1_1invoke__result__impl",
+      "title": "thrust::detail::invoke_result_impl",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1invoke__result__impl.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
+      "qualifiedname": "thrust::detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
+      "refid": "structthrust_1_1detail_1_1invoke__result__impl_3_01F_00_01decltype_07detail_1_1invoke_07std_1_1d451dd7dc5a7b7994ee40dec8cfe27460",
+      "title": "thrust::detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1invoke__result__impl_3_01f_00_01decltype_07detail_1_1invoke_07std_1.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "std::true_type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::detail::is_nothrow_swappable",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::is_nothrow_swappable",
+      "qualifiedname": "thrust::detail::is_nothrow_swappable",
+      "refid": "structthrust_1_1detail_1_1is__nothrow__swappable",
+      "title": "thrust::detail::is_nothrow_swappable",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1is__nothrow__swappable.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "std::false_type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::detail::is_optional_impl",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::is_optional_impl",
+      "qualifiedname": "thrust::detail::is_optional_impl",
+      "refid": "structthrust_1_1detail_1_1is__optional__impl",
+      "title": "thrust::detail::is_optional_impl",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1is__optional__impl.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "std::true_type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::detail::is_optional_impl< optional< T > >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::is_optional_impl< optional< T > >",
+      "qualifiedname": "thrust::detail::is_optional_impl< optional< T > >",
+      "refid": "structthrust_1_1detail_1_1is__optional__impl_3_01optional_3_01T_01_4_01_4",
+      "title": "thrust::detail::is_optional_impl< optional< T > >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1is__optional__impl_3_01optional_3_01t_01_4_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "std::true_type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::detail::is_swappable",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::is_swappable",
+      "qualifiedname": "thrust::detail::is_swappable",
+      "refid": "structthrust_1_1detail_1_1is__swappable",
+      "title": "thrust::detail::is_swappable",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1is__swappable.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::optional_move_base< T >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "derivedClasses": [
+        {
+          "external": false,
+          "name": "thrust::detail::optional_move_assign_base< T, bool >",
+          "refid": "structthrust_1_1detail_1_1optional__move__assign__base",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__move__assign__base.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": false,
+          "name": "thrust::detail::optional_move_assign_base< T, false >",
+          "refid": "structthrust_1_1detail_1_1optional__move__assign__base_3_01T_00_01false_01_4",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__move__assign__base_3_01t_00_01false_01_4.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "fullname": "thrust::detail::optional_copy_assign_base",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_copy_assign_base",
+      "qualifiedname": "thrust::detail::optional_copy_assign_base",
+      "refid": "structthrust_1_1detail_1_1optional__copy__assign__base",
+      "title": "thrust::detail::optional_copy_assign_base",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__copy__assign__base.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::optional_move_base< T >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::detail::optional_copy_assign_base< T, false >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_copy_assign_base< T, false >",
+      "qualifiedname": "thrust::detail::optional_copy_assign_base< T, false >",
+      "refid": "structthrust_1_1detail_1_1optional__copy__assign__base_3_01T_00_01false_01_4",
+      "title": "thrust::detail::optional_copy_assign_base< T, false >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::optional_operations_base< T >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "derivedClasses": [
+        {
+          "external": false,
+          "name": "thrust::detail::optional_move_base< T, bool >",
+          "refid": "structthrust_1_1detail_1_1optional__move__base",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__move__base.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": false,
+          "name": "thrust::detail::optional_move_base< T, false >",
+          "refid": "structthrust_1_1detail_1_1optional__move__base_3_01T_00_01false_01_4",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__move__base_3_01t_00_01false_01_4.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "fullname": "thrust::detail::optional_copy_base",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_copy_base",
+      "qualifiedname": "thrust::detail::optional_copy_base",
+      "refid": "structthrust_1_1detail_1_1optional__copy__base",
+      "title": "thrust::detail::optional_copy_base",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__copy__base.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::optional_operations_base< T >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::detail::optional_copy_base< T, false >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_copy_base< T, false >",
+      "qualifiedname": "thrust::detail::optional_copy_base< T, false >",
+      "refid": "structthrust_1_1detail_1_1optional__copy__base_3_01T_00_01false_01_4",
+      "title": "thrust::detail::optional_copy_base< T, false >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__copy__base_3_01t_00_01false_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "derivedClasses": [
+        {
+          "external": false,
+          "name": "thrust::optional< T >",
+          "refid": "classthrust_1_1optional",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1optional.html",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "fullname": "thrust::detail::optional_delete_assign_base",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_delete_assign_base",
+      "qualifiedname": "thrust::detail::optional_delete_assign_base",
+      "refid": "structthrust_1_1detail_1_1optional__delete__assign__base",
+      "title": "thrust::detail::optional_delete_assign_base",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__assign__base.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::detail::optional_delete_assign_base< T, false, false >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_delete_assign_base< T, false, false >",
+      "qualifiedname": "thrust::detail::optional_delete_assign_base< T, false, false >",
+      "refid": "structthrust_1_1detail_1_1optional__delete__assign__base_3_01T_00_01false_00_01false_01_4",
+      "title": "thrust::detail::optional_delete_assign_base< T, false, false >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__assign__base_3_01t_00_01false_00_01false_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::detail::optional_delete_assign_base< T, false, true >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_delete_assign_base< T, false, true >",
+      "qualifiedname": "thrust::detail::optional_delete_assign_base< T, false, true >",
+      "refid": "structthrust_1_1detail_1_1optional__delete__assign__base_3_01T_00_01false_00_01true_01_4",
+      "title": "thrust::detail::optional_delete_assign_base< T, false, true >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__assign__base_3_01t_00_01false_00_01true_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::detail::optional_delete_assign_base< T, true, false >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_delete_assign_base< T, true, false >",
+      "qualifiedname": "thrust::detail::optional_delete_assign_base< T, true, false >",
+      "refid": "structthrust_1_1detail_1_1optional__delete__assign__base_3_01T_00_01true_00_01false_01_4",
+      "title": "thrust::detail::optional_delete_assign_base< T, true, false >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__assign__base_3_01t_00_01true_00_01false_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "derivedClasses": [
+        {
+          "external": false,
+          "name": "thrust::optional< T >",
+          "refid": "classthrust_1_1optional",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1optional.html",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "fullname": "thrust::detail::optional_delete_ctor_base",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_delete_ctor_base",
+      "qualifiedname": "thrust::detail::optional_delete_ctor_base",
+      "refid": "structthrust_1_1detail_1_1optional__delete__ctor__base",
+      "title": "thrust::detail::optional_delete_ctor_base",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__ctor__base.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::detail::optional_delete_ctor_base< T, false, false >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_delete_ctor_base< T, false, false >",
+      "qualifiedname": "thrust::detail::optional_delete_ctor_base< T, false, false >",
+      "refid": "structthrust_1_1detail_1_1optional__delete__ctor__base_3_01T_00_01false_00_01false_01_4",
+      "title": "thrust::detail::optional_delete_ctor_base< T, false, false >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01false_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::detail::optional_delete_ctor_base< T, false, true >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_delete_ctor_base< T, false, true >",
+      "qualifiedname": "thrust::detail::optional_delete_ctor_base< T, false, true >",
+      "refid": "structthrust_1_1detail_1_1optional__delete__ctor__base_3_01T_00_01false_00_01true_01_4",
+      "title": "thrust::detail::optional_delete_ctor_base< T, false, true >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01true_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::detail::optional_delete_ctor_base< T, true, false >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_delete_ctor_base< T, true, false >",
+      "qualifiedname": "thrust::detail::optional_delete_ctor_base< T, true, false >",
+      "refid": "structthrust_1_1detail_1_1optional__delete__ctor__base_3_01T_00_01true_00_01false_01_4",
+      "title": "thrust::detail::optional_delete_ctor_base< T, true, false >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__ctor__base_3_01t_00_01true_00_01false_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::optional_copy_assign_base< T >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "derivedClasses": [
+        {
+          "external": false,
+          "name": "thrust::optional< T >",
+          "refid": "classthrust_1_1optional",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1optional.html",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "fullname": "thrust::detail::optional_move_assign_base",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_move_assign_base",
+      "qualifiedname": "thrust::detail::optional_move_assign_base",
+      "refid": "structthrust_1_1detail_1_1optional__move__assign__base",
+      "title": "thrust::detail::optional_move_assign_base",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__move__assign__base.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::optional_copy_assign_base< T >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::detail::optional_move_assign_base< T, false >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_move_assign_base< T, false >",
+      "qualifiedname": "thrust::detail::optional_move_assign_base< T, false >",
+      "refid": "structthrust_1_1detail_1_1optional__move__assign__base_3_01T_00_01false_01_4",
+      "title": "thrust::detail::optional_move_assign_base< T, false >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__move__assign__base_3_01t_00_01false_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::optional_copy_base< T >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "derivedClasses": [
+        {
+          "external": false,
+          "name": "thrust::detail::optional_copy_assign_base< T, bool >",
+          "refid": "structthrust_1_1detail_1_1optional__copy__assign__base",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__copy__assign__base.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": false,
+          "name": "thrust::detail::optional_copy_assign_base< T, false >",
+          "refid": "structthrust_1_1detail_1_1optional__copy__assign__base_3_01T_00_01false_01_4",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "fullname": "thrust::detail::optional_move_base",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_move_base",
+      "qualifiedname": "thrust::detail::optional_move_base",
+      "refid": "structthrust_1_1detail_1_1optional__move__base",
+      "title": "thrust::detail::optional_move_base",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__move__base.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::optional_copy_base< T >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::detail::optional_move_base< T, false >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_move_base< T, false >",
+      "qualifiedname": "thrust::detail::optional_move_base< T, false >",
+      "refid": "structthrust_1_1detail_1_1optional__move__base_3_01T_00_01false_01_4",
+      "title": "thrust::detail::optional_move_base< T, false >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__move__base_3_01t_00_01false_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::optional_storage_base< T >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "derivedClasses": [
+        {
+          "external": false,
+          "name": "thrust::detail::optional_copy_base< T, bool >",
+          "refid": "structthrust_1_1detail_1_1optional__copy__base",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__copy__base.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": false,
+          "name": "thrust::detail::optional_copy_base< T, false >",
+          "refid": "structthrust_1_1detail_1_1optional__copy__base_3_01T_00_01false_01_4",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__copy__base_3_01t_00_01false_01_4.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "fullname": "thrust::detail::optional_operations_base",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_operations_base",
+      "qualifiedname": "thrust::detail::optional_operations_base",
+      "refid": "structthrust_1_1detail_1_1optional__operations__base",
+      "title": "thrust::detail::optional_operations_base",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__operations__base.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "derivedClasses": [
+        {
+          "external": false,
+          "name": "thrust::detail::optional_operations_base< T >",
+          "refid": "structthrust_1_1detail_1_1optional__operations__base",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__operations__base.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "fullname": "thrust::detail::optional_storage_base",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_storage_base",
+      "qualifiedname": "thrust::detail::optional_storage_base",
+      "refid": "structthrust_1_1detail_1_1optional__storage__base",
+      "title": "thrust::detail::optional_storage_base",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__storage__base.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::detail::optional_storage_base< T, true >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_storage_base< T, true >",
+      "qualifiedname": "thrust::detail::optional_storage_base< T, true >",
+      "refid": "structthrust_1_1detail_1_1optional__storage__base_3_01T_00_01true_01_4",
+      "title": "thrust::detail::optional_storage_base< T, true >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__storage__base_3_01t_00_01true_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::detail::returns_void_impl",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::returns_void_impl",
+      "qualifiedname": "thrust::detail::returns_void_impl",
+      "refid": "structthrust_1_1detail_1_1returns__void__impl",
+      "title": "thrust::detail::returns_void_impl",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1returns__void__impl.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "std::is_void< invoke_result_t< F, U... > >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
+      "qualifiedname": "thrust::detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
+      "refid": "structthrust_1_1detail_1_1returns__void__impl_3_01F_00_01void__t_3_01invoke__result__t_3_01F_00_92d99556b5b7d67309a0911581ace58d",
+      "title": "thrust::detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1returns__void__impl_3_01f_00_01void__t_3_01invoke__result__t_3_01f_00_92d99556b5b7d67309a0911581ace58d.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::detail::voider",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::voider",
+      "qualifiedname": "thrust::detail::voider",
+      "refid": "structthrust_1_1detail_1_1voider",
+      "title": "thrust::detail::voider",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1voider.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-allocator-delete-impl",
+      "argsString": "(Allocator const &alloc, Pointer p, std::false_type)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "void thrust::detail::allocator_delete_impl",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::detail::allocator_delete_impl",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 48,
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 31,
+        "column": 6,
+        "file": "thrust/allocate_unique.h",
+        "line": 31
+      },
+      "name": "allocator_delete_impl",
+      "override": false,
+      "params": [
+        {
+          "name": "alloc",
+          "type": "Allocator const &",
+          "typePlain": "Allocator const &"
+        },
+        {
+          "name": "p",
+          "type": "Pointer",
+          "typePlain": "Pointer"
+        },
+        {
+          "name": "",
+          "type": "std::false_type",
+          "typePlain": "std::false_type"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::detail::allocator_delete_impl",
+      "refid": "namespacethrust_1_1detail_1aa149e4501f8040eb4a07358ae449fb98",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Allocator",
+          "typePlain": "typename Allocator"
+        },
+        {
+          "name": "",
+          "type": "typename Pointer",
+          "typePlain": "typename Pointer"
+        }
+      ],
+      "title": "allocator_delete_impl",
+      "type": "void",
+      "typePlain": "void",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#function-allocator-delete-impl",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-allocator-delete-impl",
+      "argsString": "(Allocator const &alloc, Pointer p, std::true_type)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "void thrust::detail::allocator_delete_impl",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::detail::allocator_delete_impl",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 67,
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 51,
+        "column": 6,
+        "file": "thrust/allocate_unique.h",
+        "line": 51
+      },
+      "name": "allocator_delete_impl",
+      "override": false,
+      "params": [
+        {
+          "name": "alloc",
+          "type": "Allocator const &",
+          "typePlain": "Allocator const &"
+        },
+        {
+          "name": "p",
+          "type": "Pointer",
+          "typePlain": "Pointer"
+        },
+        {
+          "name": "",
+          "type": "std::true_type",
+          "typePlain": "std::true_type"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::detail::allocator_delete_impl",
+      "refid": "namespacethrust_1_1detail_1afe69495e876b73acb6cce34ef5f5dfa5",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Allocator",
+          "typePlain": "typename Allocator"
+        },
+        {
+          "name": "",
+          "type": "typename Pointer",
+          "typePlain": "typename Pointer"
+        }
+      ],
+      "title": "allocator_delete_impl",
+      "type": "void",
+      "typePlain": "void",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#function-allocator-delete-impl",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-array-allocator-delete-impl",
+      "argsString": "(Allocator const &alloc, Pointer p, Size count, std::false_type)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "void thrust::detail::array_allocator_delete_impl",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::detail::array_allocator_delete_impl",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 158,
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 141,
+        "column": 6,
+        "file": "thrust/allocate_unique.h",
+        "line": 141
+      },
+      "name": "array_allocator_delete_impl",
+      "override": false,
+      "params": [
+        {
+          "name": "alloc",
+          "type": "Allocator const &",
+          "typePlain": "Allocator const &"
+        },
+        {
+          "name": "p",
+          "type": "Pointer",
+          "typePlain": "Pointer"
+        },
+        {
+          "name": "count",
+          "type": "Size",
+          "typePlain": "Size"
+        },
+        {
+          "name": "",
+          "type": "std::false_type",
+          "typePlain": "std::false_type"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::detail::array_allocator_delete_impl",
+      "refid": "namespacethrust_1_1detail_1a3b4f216bf83c074a612bdac7db93d71b",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Allocator",
+          "typePlain": "typename Allocator"
+        },
+        {
+          "name": "",
+          "type": "typename Pointer",
+          "typePlain": "typename Pointer"
+        },
+        {
+          "name": "",
+          "type": "typename Size",
+          "typePlain": "typename Size"
+        }
+      ],
+      "title": "array_allocator_delete_impl",
+      "type": "void",
+      "typePlain": "void",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#function-array-allocator-delete-impl",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-array-allocator-delete-impl",
+      "argsString": "(Allocator const &alloc, Pointer p, Size count, std::true_type)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "void thrust::detail::array_allocator_delete_impl",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::detail::array_allocator_delete_impl",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 177,
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 161,
+        "column": 6,
+        "file": "thrust/allocate_unique.h",
+        "line": 161
+      },
+      "name": "array_allocator_delete_impl",
+      "override": false,
+      "params": [
+        {
+          "name": "alloc",
+          "type": "Allocator const &",
+          "typePlain": "Allocator const &"
+        },
+        {
+          "name": "p",
+          "type": "Pointer",
+          "typePlain": "Pointer"
+        },
+        {
+          "name": "count",
+          "type": "Size",
+          "typePlain": "Size"
+        },
+        {
+          "name": "",
+          "type": "std::true_type",
+          "typePlain": "std::true_type"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::detail::array_allocator_delete_impl",
+      "refid": "namespacethrust_1_1detail_1a502df2eff4ef35d17118c4630c3dbe11",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Allocator",
+          "typePlain": "typename Allocator"
+        },
+        {
+          "name": "",
+          "type": "typename Pointer",
+          "typePlain": "typename Pointer"
+        },
+        {
+          "name": "",
+          "type": "typename Size",
+          "typePlain": "typename Size"
+        }
+      ],
+      "title": "array_allocator_delete_impl",
+      "type": "void",
+      "typePlain": "void",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#function-array-allocator-delete-impl",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-invoke",
+      "argsString": "(Fn &&f, Args &&... args) noexcept(noexcept(std::mem_fn(f)(std::forward< Args >(args)...))) THRUST_TRAILING_RETURN(decltype(std",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto thrust::detail::invoke",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::detail::invoke",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 246,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 241,
+        "column": 16,
+        "file": "thrust/optional.h",
+        "line": 241
+      },
+      "name": "invoke",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "Fn &&",
+          "typePlain": "Fn &&"
+        },
+        {
+          "name": "args",
+          "type": "Args &&...",
+          "typePlain": "Args &&..."
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::detail::invoke",
+      "refid": "namespacethrust_1_1detail_1a350a39b353ed4cb40340433c5ac62140",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Fn",
+          "typePlain": "typename Fn"
+        },
+        {
+          "name": "Args",
+          "type": "typename...",
+          "typePlain": "typename..."
+        },
+        {
+          "defval": "enable_if_t<std::is_member_pointer<decay_t<Fn>>::value>",
+          "defvalPlain": "enable_if_t<std::is_member_pointer<decay_t<Fn>>::value>",
+          "name": "",
+          "type": "typename",
+          "typePlain": "typename"
+        },
+        {
+          "defval": "0",
+          "defvalPlain": "0",
+          "name": "",
+          "type": "int",
+          "typePlain": "int"
+        }
+      ],
+      "title": "invoke",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#function-invoke",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-invoke",
+      "argsString": "(Fn &&f, Args &&... args) noexcept(noexcept(std::forward< Fn >(f)(std::forward< Args >(args)...))) THRUST_TRAILING_RETURN(decltype(std",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto thrust::detail::invoke",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::detail::invoke",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 257,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 252,
+        "column": 16,
+        "file": "thrust/optional.h",
+        "line": 252
+      },
+      "name": "invoke",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "Fn &&",
+          "typePlain": "Fn &&"
+        },
+        {
+          "name": "args",
+          "type": "Args &&...",
+          "typePlain": "Args &&..."
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::detail::invoke",
+      "refid": "namespacethrust_1_1detail_1a394adbd5e4c2086b12da7671544d07dd",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Fn",
+          "typePlain": "typename Fn"
+        },
+        {
+          "name": "Args",
+          "type": "typename...",
+          "typePlain": "typename..."
+        },
+        {
+          "defval": "enable_if_t<!std::is_member_pointer<decay_t<Fn>>::value>",
+          "defvalPlain": "enable_if_t<!std::is_member_pointer<decay_t<Fn>>::value>",
+          "name": "",
+          "type": "typename",
+          "typePlain": "typename"
+        }
+      ],
+      "title": "invoke",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#function-invoke",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-optional-map-impl",
+      "argsString": "(Opt &&opt, F &&f)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto thrust::detail::optional_map_impl",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::detail::optional_map_impl",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 2057,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2053,
+        "column": 16,
+        "file": "thrust/optional.h",
+        "line": 2053
+      },
+      "name": "optional_map_impl",
+      "override": false,
+      "params": [
+        {
+          "name": "opt",
+          "type": "Opt &&",
+          "typePlain": "Opt &&"
+        },
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::detail::optional_map_impl",
+      "refid": "namespacethrust_1_1detail_1a4fecc2c5338d886730cefd6c4e08d8a7",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class Opt",
+          "typePlain": "class Opt"
+        },
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "defval": "decltype(detail::invoke(std::declval<F>(),                                              *std::declval<Opt>()))",
+          "defvalPlain": "decltype(detail::invoke(std::declval<F>(),                                              *std::declval<Opt>()))",
+          "name": "",
+          "type": "class Ret",
+          "typePlain": "class Ret"
+        },
+        {
+          "defval": "nullptr",
+          "defvalPlain": "nullptr",
+          "name": "",
+          "type": "detail::enable_if_t<!std::is_void< Ret >::value > *",
+          "typePlain": "detail::enable_if_t<!std::is_void< Ret >::value > *"
+        }
+      ],
+      "title": "optional_map_impl",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#function-optional-map-impl",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-optional-map-impl",
+      "argsString": "(Opt &&opt, F &&f)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ auto thrust::detail::optional_map_impl",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::detail::optional_map_impl",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 2072,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2065,
+        "column": 6,
+        "file": "thrust/optional.h",
+        "line": 2065
+      },
+      "name": "optional_map_impl",
+      "override": false,
+      "params": [
+        {
+          "name": "opt",
+          "type": "Opt &&",
+          "typePlain": "Opt &&"
+        },
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::detail::optional_map_impl",
+      "refid": "namespacethrust_1_1detail_1a0b6e65cf6313a2d65070f679c7bfc34b",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class Opt",
+          "typePlain": "class Opt"
+        },
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "defval": "decltype(detail::invoke(std::declval<F>(),                                              *std::declval<Opt>()))",
+          "defvalPlain": "decltype(detail::invoke(std::declval<F>(),                                              *std::declval<Opt>()))",
+          "name": "",
+          "type": "class Ret",
+          "typePlain": "class Ret"
+        },
+        {
+          "defval": "nullptr",
+          "defvalPlain": "nullptr",
+          "name": "",
+          "type": "detail::enable_if_t< std::is_void< Ret >::value > *",
+          "typePlain": "detail::enable_if_t< std::is_void< Ret >::value > *"
+        }
+      ],
+      "title": "optional_map_impl",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ auto",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ auto",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#function-optional-map-impl",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-remove-const-t",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::remove_const_t = typedef typename std::remove_const<T>::type",
+      "explicit": false,
+      "fullname": "thrust::detail::remove_const_t",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 187,
+        "column": 13,
+        "file": "thrust/optional.h",
+        "line": 187
+      },
+      "name": "remove_const_t",
+      "override": false,
+      "qualifiedname": "thrust::detail::remove_const_t",
+      "refid": "namespacethrust_1_1detail_1aac4aca6ee28e95b618dc45a33c5edbb8",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class T",
+          "typePlain": "class T"
+        }
+      ],
+      "title": "remove_const_t",
+      "type": "typename std::remove_const< T >::type",
+      "typePlain": "typename std::remove_const< T >::type",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-remove-const-t",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-remove-reference-t",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::remove_reference_t = typedef typename std::remove_reference<T>::type",
+      "explicit": false,
+      "fullname": "thrust::detail::remove_reference_t",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 189,
+        "column": 1,
+        "file": "thrust/optional.h",
+        "line": 189
+      },
+      "name": "remove_reference_t",
+      "override": false,
+      "qualifiedname": "thrust::detail::remove_reference_t",
+      "refid": "namespacethrust_1_1detail_1a0ec960c2b6aa6c7cc520be24846e2e87",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class T",
+          "typePlain": "class T"
+        }
+      ],
+      "title": "remove_reference_t",
+      "type": "typename std::remove_reference< T >::type",
+      "typePlain": "typename std::remove_reference< T >::type",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-remove-reference-t",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-decay-t",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::decay_t = typedef typename std::decay<T>::type",
+      "explicit": false,
+      "fullname": "thrust::detail::decay_t",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 190,
+        "column": 13,
+        "file": "thrust/optional.h",
+        "line": 190
+      },
+      "name": "decay_t",
+      "override": false,
+      "qualifiedname": "thrust::detail::decay_t",
+      "refid": "namespacethrust_1_1detail_1acce04692344f7808843d98b6dfa06752",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class T",
+          "typePlain": "class T"
+        }
+      ],
+      "title": "decay_t",
+      "type": "typename std::decay< T >::type",
+      "typePlain": "typename std::decay< T >::type",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-decay-t",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-enable-if-t",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::enable_if_t = typedef typename std::enable_if<E, T>::type",
+      "explicit": false,
+      "fullname": "thrust::detail::enable_if_t",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 192,
+        "column": 1,
+        "file": "thrust/optional.h",
+        "line": 192
+      },
+      "name": "enable_if_t",
+      "override": false,
+      "qualifiedname": "thrust::detail::enable_if_t",
+      "refid": "namespacethrust_1_1detail_1a300da6e984d55885fc139cb7c02cbdb7",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "E",
+          "type": "bool",
+          "typePlain": "bool"
+        },
+        {
+          "defval": "void",
+          "defvalPlain": "void",
+          "name": "",
+          "type": "class T",
+          "typePlain": "class T"
+        }
+      ],
+      "title": "enable_if_t",
+      "type": "typename std::enable_if< E, T >::type",
+      "typePlain": "typename std::enable_if< E, T >::type",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-enable-if-t",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-conditional-t",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::conditional_t = typedef typename std::conditional<B, T, F>::type",
+      "explicit": false,
+      "fullname": "thrust::detail::conditional_t",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 194,
+        "column": 1,
+        "file": "thrust/optional.h",
+        "line": 194
+      },
+      "name": "conditional_t",
+      "override": false,
+      "qualifiedname": "thrust::detail::conditional_t",
+      "refid": "namespacethrust_1_1detail_1a8ff49b5ff9e89225810a7b254b1f9d36",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "B",
+          "type": "bool",
+          "typePlain": "bool"
+        },
+        {
+          "name": "",
+          "type": "class T",
+          "typePlain": "class T"
+        },
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        }
+      ],
+      "title": "conditional_t",
+      "type": "typename std::conditional< B, T, F >::type",
+      "typePlain": "typename std::conditional< B, T, F >::type",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-conditional-t",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-invoke-result",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::invoke_result = typedef invoke_result_impl<F, void, Us...>",
+      "explicit": false,
+      "fullname": "thrust::detail::invoke_result",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 270,
+        "column": 1,
+        "file": "thrust/optional.h",
+        "line": 270
+      },
+      "name": "invoke_result",
+      "override": false,
+      "qualifiedname": "thrust::detail::invoke_result",
+      "refid": "namespacethrust_1_1detail_1a56c4f953a0fa75b17b2279c5b6126041",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "name": "Us",
+          "type": "class...",
+          "typePlain": "class..."
+        }
+      ],
+      "title": "invoke_result",
+      "type": "invoke_result_impl< F, void, Us... >",
+      "typePlain": "invoke_result_impl< F, void, Us... >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-invoke-result",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-invoke-result-t",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::invoke_result_t = typedef typename invoke_result<F, Us...>::type",
+      "explicit": false,
+      "fullname": "thrust::detail::invoke_result_t",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 273,
+        "column": 1,
+        "file": "thrust/optional.h",
+        "line": 273
+      },
+      "name": "invoke_result_t",
+      "override": false,
+      "qualifiedname": "thrust::detail::invoke_result_t",
+      "refid": "namespacethrust_1_1detail_1ac4950c8527f23e3c88530dd9c6bb42be",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "name": "Us",
+          "type": "class...",
+          "typePlain": "class..."
+        }
+      ],
+      "title": "invoke_result_t",
+      "type": "typename invoke_result< F, Us... >::type",
+      "typePlain": "typename invoke_result< F, Us... >::type",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-invoke-result-t",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-void-t",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::void_t = typedef typename voider<Ts...>::type",
+      "explicit": false,
+      "fullname": "thrust::detail::void_t",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 278,
+        "column": 13,
+        "file": "thrust/optional.h",
+        "line": 278
+      },
+      "name": "void_t",
+      "override": false,
+      "qualifiedname": "thrust::detail::void_t",
+      "refid": "namespacethrust_1_1detail_1ab4fe155bf286dfd6faf59c0192eb2ca8",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "Ts",
+          "type": "class...",
+          "typePlain": "class..."
+        }
+      ],
+      "title": "void_t",
+      "type": "typename voider< Ts... >::type",
+      "typePlain": "typename voider< Ts... >::type",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-void-t",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-is-optional",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::is_optional = typedef is_optional_impl<decay_t<T> >",
+      "explicit": false,
+      "fullname": "thrust::detail::is_optional",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 283,
+        "column": 13,
+        "file": "thrust/optional.h",
+        "line": 283
+      },
+      "name": "is_optional",
+      "override": false,
+      "qualifiedname": "thrust::detail::is_optional",
+      "refid": "namespacethrust_1_1detail_1acc6552bdd60de696fc39f9117d9fb523",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class T",
+          "typePlain": "class T"
+        }
+      ],
+      "title": "is_optional",
+      "type": "is_optional_impl< decay_t< T > >",
+      "typePlain": "is_optional_impl< decay_t< T > >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-is-optional",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-fixup-void",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::fixup_void = typedef conditional_t<std::is_void<U>::value, monostate, U>",
+      "explicit": false,
+      "fullname": "thrust::detail::fixup_void",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 287,
+        "column": 1,
+        "file": "thrust/optional.h",
+        "line": 287
+      },
+      "name": "fixup_void",
+      "override": false,
+      "qualifiedname": "thrust::detail::fixup_void",
+      "refid": "namespacethrust_1_1detail_1a894268fb7dc81252668401f72d5ef6fb",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        }
+      ],
+      "title": "fixup_void",
+      "type": "conditional_t< std::is_void< U >::value, <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1monostate.html\">monostate</a>, U >",
+      "typePlain": "conditional_t< std::is_void< U >::value, monostate, U >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-fixup-void",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-get-map-return",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::get_map_return = typedef optional<fixup_void<invoke_result_t<F, U> >>",
+      "explicit": false,
+      "fullname": "thrust::detail::get_map_return",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 290,
+        "column": 1,
+        "file": "thrust/optional.h",
+        "line": 290
+      },
+      "name": "get_map_return",
+      "override": false,
+      "qualifiedname": "thrust::detail::get_map_return",
+      "refid": "namespacethrust_1_1detail_1a1099fd7e7de5dbb39424cf4e436e12d6",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        },
+        {
+          "defval": "invoke_result_t<F, U>",
+          "defvalPlain": "invoke_result_t<F, U>",
+          "name": "",
+          "type": "class",
+          "typePlain": "class"
+        }
+      ],
+      "title": "get_map_return",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< fixup_void< invoke_result_t< F, U > > >",
+      "typePlain": "optional< fixup_void< invoke_result_t< F, U > > >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-get-map-return",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-returns-void",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::returns_void = typedef returns_void_impl<F, void, U...>",
+      "explicit": false,
+      "fullname": "thrust::detail::returns_void",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 298,
+        "column": 1,
+        "file": "thrust/optional.h",
+        "line": 298
+      },
+      "name": "returns_void",
+      "override": false,
+      "qualifiedname": "thrust::detail::returns_void",
+      "refid": "namespacethrust_1_1detail_1a6a0c209d9c69276dc29339a10f4216d8",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "name": "U",
+          "type": "class...",
+          "typePlain": "class..."
+        }
+      ],
+      "title": "returns_void",
+      "type": "returns_void_impl< F, void, U... >",
+      "typePlain": "returns_void_impl< F, void, U... >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-returns-void",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-enable-if-ret-void",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::enable_if_ret_void = typedef enable_if_t<returns_void<T &&, U...>::value>",
+      "explicit": false,
+      "fullname": "thrust::detail::enable_if_ret_void",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 301,
+        "column": 1,
+        "file": "thrust/optional.h",
+        "line": 301
+      },
+      "name": "enable_if_ret_void",
+      "override": false,
+      "qualifiedname": "thrust::detail::enable_if_ret_void",
+      "refid": "namespacethrust_1_1detail_1ac2e7de87cc7ec6b217de1e834adfb01f",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class T",
+          "typePlain": "class T"
+        },
+        {
+          "name": "U",
+          "type": "class...",
+          "typePlain": "class..."
+        }
+      ],
+      "title": "enable_if_ret_void",
+      "type": "enable_if_t< returns_void< T &&, U... >::value >",
+      "typePlain": "enable_if_t< returns_void< T &&, U... >::value >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-enable-if-ret-void",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-disable-if-ret-void",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::disable_if_ret_void = typedef enable_if_t<!returns_void<T &&, U...>::value>",
+      "explicit": false,
+      "fullname": "thrust::detail::disable_if_ret_void",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 304,
+        "column": 1,
+        "file": "thrust/optional.h",
+        "line": 304
+      },
+      "name": "disable_if_ret_void",
+      "override": false,
+      "qualifiedname": "thrust::detail::disable_if_ret_void",
+      "refid": "namespacethrust_1_1detail_1aa3ab99eb01f5cb59f536140249292898",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class T",
+          "typePlain": "class T"
+        },
+        {
+          "name": "U",
+          "type": "class...",
+          "typePlain": "class..."
+        }
+      ],
+      "title": "disable_if_ret_void",
+      "type": "enable_if_t<!returns_void< T &&, U... >::value >",
+      "typePlain": "enable_if_t<!returns_void< T &&, U... >::value >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-disable-if-ret-void",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-enable-forward-value",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::enable_forward_value = typedef detail::enable_if_t<std::is_constructible<T, U &&>::value && !std::is_same<detail::decay_t<U>, in_place_t>::value && !std::is_same<optional<T>, detail::decay_t<U> >::value>",
+      "explicit": false,
+      "fullname": "thrust::detail::enable_forward_value",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 310,
+        "column": 1,
+        "file": "thrust/optional.h",
+        "line": 307
+      },
+      "name": "enable_forward_value",
+      "override": false,
+      "qualifiedname": "thrust::detail::enable_forward_value",
+      "refid": "namespacethrust_1_1detail_1ad7c352e30224d2b86bd96e950e43c3d4",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class T",
+          "typePlain": "class T"
+        },
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        }
+      ],
+      "title": "enable_forward_value",
+      "type": "detail::enable_if_t< std::is_constructible< T, U && >::value &&!std::is_same< detail::decay_t< U >, <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1in__place__t.html\">in_place_t</a> >::value &&!std::is_same< <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< T >, detail::decay_t< U > >::value >",
+      "typePlain": "detail::enable_if_t< std::is_constructible< T, U && >::value &&!std::is_same< detail::decay_t< U >, in_place_t >::value &&!std::is_same< optional< T >, detail::decay_t< U > >::value >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-enable-forward-value",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-enable-from-other",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::enable_from_other = typedef detail::enable_if_t< std::is_constructible<T, Other>::value && !std::is_constructible<T, optional<U> &>::value && !std::is_constructible<T, optional<U> &&>::value && !std::is_constructible<T, const optional<U> &>::value && !std::is_constructible<T, const optional<U> &&>::value && !std::is_convertible<optional<U> &, T>::value && !std::is_convertible<optional<U> &&, T>::value && !std::is_convertible<const optional<U> &, T>::value && !std::is_convertible<const optional<U> &&, T>::value>",
+      "explicit": false,
+      "fullname": "thrust::detail::enable_from_other",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 322,
+        "column": 1,
+        "file": "thrust/optional.h",
+        "line": 313
+      },
+      "name": "enable_from_other",
+      "override": false,
+      "qualifiedname": "thrust::detail::enable_from_other",
+      "refid": "namespacethrust_1_1detail_1a7425573310a3da59007416b120dffedb",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class T",
+          "typePlain": "class T"
+        },
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        },
+        {
+          "name": "",
+          "type": "class Other",
+          "typePlain": "class Other"
+        }
+      ],
+      "title": "enable_from_other",
+      "type": "detail::enable_if_t< std::is_constructible< T, Other >::value &&!std::is_constructible< T, <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > & >::value &&!std::is_constructible< T, <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > && >::value &&!std::is_constructible< T, const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > & >::value &&!std::is_constructible< T, const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > && >::value &&!std::is_convertible< <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > &, T >::value &&!std::is_convertible< <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > &&, T >::value &&!std::is_convertible< const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > &, T >::value &&!std::is_convertible< const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > &&, T >::value >",
+      "typePlain": "detail::enable_if_t< std::is_constructible< T, Other >::value &&!std::is_constructible< T, optional< U > & >::value &&!std::is_constructible< T, optional< U > && >::value &&!std::is_constructible< T, const optional< U > & >::value &&!std::is_constructible< T, const optional< U > && >::value &&!std::is_convertible< optional< U > &, T >::value &&!std::is_convertible< optional< U > &&, T >::value &&!std::is_convertible< const optional< U > &, T >::value &&!std::is_convertible< const optional< U > &&, T >::value >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-enable-from-other",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-enable-assign-forward",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::enable_assign_forward = typedef detail::enable_if_t< !std::is_same<optional<T>, detail::decay_t<U> >::value && !detail::conjunction<std::is_scalar<T>, std::is_same<T, detail::decay_t<U> >>::value && std::is_constructible<T, U>::value && std::is_assignable<T &, U>::value>",
+      "explicit": false,
+      "fullname": "thrust::detail::enable_assign_forward",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 329,
+        "column": 1,
+        "file": "thrust/optional.h",
+        "line": 325
+      },
+      "name": "enable_assign_forward",
+      "override": false,
+      "qualifiedname": "thrust::detail::enable_assign_forward",
+      "refid": "namespacethrust_1_1detail_1ae8ede1e840d14b4b9fe08807e4df3548",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class T",
+          "typePlain": "class T"
+        },
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        }
+      ],
+      "title": "enable_assign_forward",
+      "type": "detail::enable_if_t< !std::is_same< <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< T >, detail::decay_t< U > >::value &&!detail::conjunction< std::is_scalar< T >, std::is_same< T, detail::decay_t< U > > >::value &&std::is_constructible< T, U >::value &&std::is_assignable< T &, U >::value >",
+      "typePlain": "detail::enable_if_t< !std::is_same< optional< T >, detail::decay_t< U > >::value &&!detail::conjunction< std::is_scalar< T >, std::is_same< T, detail::decay_t< U > > >::value &&std::is_constructible< T, U >::value &&std::is_assignable< T &, U >::value >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-enable-assign-forward",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-enable-assign-from-other",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::detail::enable_assign_from_other = typedef detail::enable_if_t< std::is_constructible<T, Other>::value && std::is_assignable<T &, Other>::value && !std::is_constructible<T, optional<U> &>::value && !std::is_constructible<T, optional<U> &&>::value && !std::is_constructible<T, const optional<U> &>::value && !std::is_constructible<T, const optional<U> &&>::value && !std::is_convertible<optional<U> &, T>::value && !std::is_convertible<optional<U> &&, T>::value && !std::is_convertible<const optional<U> &, T>::value && !std::is_convertible<const optional<U> &&, T>::value && !std::is_assignable<T &, optional<U> &>::value && !std::is_assignable<T &, optional<U> &&>::value && !std::is_assignable<T &, const optional<U> &>::value && !std::is_assignable<T &, const optional<U> &&>::value>",
+      "explicit": false,
+      "fullname": "thrust::detail::enable_assign_from_other",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 346,
+        "column": 1,
+        "file": "thrust/optional.h",
+        "line": 332
+      },
+      "name": "enable_assign_from_other",
+      "override": false,
+      "qualifiedname": "thrust::detail::enable_assign_from_other",
+      "refid": "namespacethrust_1_1detail_1a2e79fc442cb2c27e00425e239d308d28",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class T",
+          "typePlain": "class T"
+        },
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        },
+        {
+          "name": "",
+          "type": "class Other",
+          "typePlain": "class Other"
+        }
+      ],
+      "title": "enable_assign_from_other",
+      "type": "detail::enable_if_t< std::is_constructible< T, Other >::value &&std::is_assignable< T &, Other >::value &&!std::is_constructible< T, <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > & >::value &&!std::is_constructible< T, <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > && >::value &&!std::is_constructible< T, const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > & >::value &&!std::is_constructible< T, const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > && >::value &&!std::is_convertible< <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > &, T >::value &&!std::is_convertible< <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > &&, T >::value &&!std::is_convertible< const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > &, T >::value &&!std::is_convertible< const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > &&, T >::value &&!std::is_assignable< T &, <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > & >::value &&!std::is_assignable< T &, <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > && >::value &&!std::is_assignable< T &, const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > & >::value &&!std::is_assignable< T &, const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1optional.html\">optional</a>< U > && >::value >",
+      "typePlain": "detail::enable_if_t< std::is_constructible< T, Other >::value &&std::is_assignable< T &, Other >::value &&!std::is_constructible< T, optional< U > & >::value &&!std::is_constructible< T, optional< U > && >::value &&!std::is_constructible< T, const optional< U > & >::value &&!std::is_constructible< T, const optional< U > && >::value &&!std::is_convertible< optional< U > &, T >::value &&!std::is_convertible< optional< U > &&, T >::value &&!std::is_convertible< const optional< U > &, T >::value &&!std::is_convertible< const optional< U > &&, T >::value &&!std::is_assignable< T &, optional< U > & >::value &&!std::is_assignable< T &, optional< U > && >::value &&!std::is_assignable< T &, const optional< U > & >::value &&!std::is_assignable< T &, const optional< U > && >::value >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-enable-assign-from-other",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::detail",
+  "refid": "namespacethrust_1_1detail",
+  "static": false,
+  "strong": false,
+  "summary": "\\exclude ",
+  "title": "thrust::detail",
+  "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html",
+  "visibility": "public"
+}

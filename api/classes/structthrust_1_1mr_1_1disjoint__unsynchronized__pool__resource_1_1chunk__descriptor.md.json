@@ -1,0 +1,183 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource::chunk_descriptor",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 164,
+    "bodyFile": "thrust/mr/disjoint_pool.h",
+    "bodyStart": 161,
+    "column": 5,
+    "file": "thrust/mr/disjoint_pool.h",
+    "line": 160
+  },
+  "name": "thrust::mr::disjoint_unsynchronized_pool_resource::chunk_descriptor",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "baseClasses": [
+      {
+        "external": false,
+        "name": "thrust::mr::memory_resource< Upstream::pointer >",
+        "refid": "classthrust_1_1mr_1_1memory__resource",
+        "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+        "virtual": "non-virtual",
+        "visibility": "public"
+      },
+      {
+        "external": true,
+        "name": "thrust::mr::validator2< Upstream, Bookkeeper >",
+        "virtual": "non-virtual",
+        "visibility": "private"
+      }
+    ],
+    "category": "classes",
+    "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource",
+    "kind": "class",
+    "language": "cpp",
+    "name": "thrust::mr::disjoint_unsynchronized_pool_resource",
+    "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource",
+    "refid": "classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource",
+    "title": "thrust::mr::disjoint_unsynchronized_pool_resource",
+    "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "<code>thrust::mr</code> is the namespace containing system agnostic types and functions for <code>memory&#95;resource</code> related functionalities. ",
+      "category": "namespaces",
+      "fullname": "thrust::mr",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::mr",
+      "qualifiedname": "thrust::mr",
+      "refid": "namespacethrust_1_1mr",
+      "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
+      "title": "thrust::mr",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1mr.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "thrust::mr::memory_resource< Upstream::pointer >",
+          "refid": "classthrust_1_1mr_1_1memory__resource",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": true,
+          "name": "thrust::mr::validator2< Upstream, Bookkeeper >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::mr::disjoint_unsynchronized_pool_resource",
+      "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource",
+      "refid": "classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource",
+      "title": "thrust::mr::disjoint_unsynchronized_pool_resource",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource.html",
+      "visibility": "public"
+    }
+  ],
+  "publicAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-size",
+      "category": "attributes",
+      "const": false,
+      "definition": "std::size_t thrust::mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >::chunk_descriptor::size",
+      "explicit": false,
+      "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource::chunk_descriptor::size",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/disjoint_pool.h",
+        "bodyStart": 162,
+        "column": 21,
+        "file": "thrust/mr/disjoint_pool.h",
+        "line": 162
+      },
+      "name": "size",
+      "override": false,
+      "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource::chunk_descriptor::size",
+      "refid": "structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor_1a78fdf358b73e84ffadf785cd6574a4fa",
+      "static": false,
+      "strong": false,
+      "title": "size",
+      "type": "std::size_t",
+      "typePlain": "std::size_t",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor.html#variable-size",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-pointer",
+      "category": "attributes",
+      "const": false,
+      "definition": "void_ptr thrust::mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >::chunk_descriptor::pointer",
+      "explicit": false,
+      "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource::chunk_descriptor::pointer",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/disjoint_pool.h",
+        "bodyStart": 163,
+        "column": 18,
+        "file": "thrust/mr/disjoint_pool.h",
+        "line": 163
+      },
+      "name": "pointer",
+      "override": false,
+      "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource::chunk_descriptor::pointer",
+      "refid": "structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor_1a9274a5b3dab0ef2e082dad22fcfb65af",
+      "static": false,
+      "strong": false,
+      "title": "pointer",
+      "type": "void_ptr",
+      "typePlain": "void_ptr",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor.html#variable-pointer",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource::chunk_descriptor",
+  "refid": "structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor",
+  "static": false,
+  "strong": false,
+  "title": "thrust::mr::disjoint_unsynchronized_pool_resource::chunk_descriptor",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor.html",
+  "visibility": "private"
+}

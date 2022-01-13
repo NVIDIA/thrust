@@ -1,0 +1,101 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::unique_eager_future_type_detail",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "language": "cpp",
+  "location": {
+    "column": 1,
+    "file": "thrust/future.h",
+    "line": 98
+  },
+  "name": "thrust::unique_eager_future_type_detail",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-select",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::unique_eager_future_type_detail::select = typedef decltype( unique_eager_future_type<T>(std::declval<System>()) )",
+      "explicit": false,
+      "fullname": "thrust::unique_eager_future_type_detail::select",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/future.h",
+        "bodyStart": 106,
+        "column": 1,
+        "file": "thrust/future.h",
+        "line": 104
+      },
+      "name": "select",
+      "override": false,
+      "qualifiedname": "thrust::unique_eager_future_type_detail::select",
+      "refid": "future_8h_1a38e91bba31179b2c7293f57cec2eaf49",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename System",
+          "typePlain": "typename System"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "select",
+      "type": "decltype(unique_eager_future_type< T >(std::declval< System >()))",
+      "typePlain": "decltype(unique_eager_future_type< T >(std::declval< System >()))",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1unique__eager__future__type__detail.html#using-select",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::unique_eager_future_type_detail",
+  "refid": "namespacethrust_1_1unique__eager__future__type__detail",
+  "static": false,
+  "strong": false,
+  "title": "thrust::unique_eager_future_type_detail",
+  "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1unique__eager__future__type__detail.html",
+  "visibility": "public"
+}

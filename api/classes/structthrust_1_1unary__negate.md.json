@@ -1,0 +1,289 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": false,
+      "name": "thrust::unary_function< Predicate::argument_type, bool >",
+      "publicTypes": [
+        {
+          "abstract": false,
+          "anchor": "#typedef-argument-type",
+          "brief": "The type of the function object's argument. ",
+          "category": "types",
+          "const": false,
+          "definition": "thrust::unary_function< Argument, Result >::argument_type",
+          "explicit": false,
+          "fullname": "thrust::unary_function::argument_type",
+          "hasDetails": false,
+          "inline": false,
+          "kind": "typedef",
+          "language": "cpp",
+          "location": {
+            "bodyFile": "thrust/functional.h",
+            "bodyStart": 74,
+            "column": 20,
+            "file": "thrust/functional.h",
+            "line": 74
+          },
+          "name": "argument_type",
+          "override": false,
+          "qualifiedname": "thrust::unary_function::argument_type",
+          "refid": "structthrust_1_1unary__function_1add99fadcf35ce6b0c8fab6ca0a6d7479",
+          "static": false,
+          "strong": false,
+          "summary": "The type of the function object's argument. ",
+          "title": "argument_type",
+          "type": "Argument",
+          "typePlain": "Argument",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unary__function.html#typedef-argument-type",
+          "visibility": "public"
+        },
+        {
+          "abstract": false,
+          "anchor": "#typedef-result-type",
+          "brief": "The type of the function object's result. ",
+          "category": "types",
+          "const": false,
+          "definition": "thrust::unary_function< Argument, Result >::result_type",
+          "explicit": false,
+          "fullname": "thrust::unary_function::result_type",
+          "hasDetails": false,
+          "inline": false,
+          "kind": "typedef",
+          "language": "cpp",
+          "location": {
+            "bodyFile": "thrust/functional.h",
+            "bodyStart": 79,
+            "column": 20,
+            "file": "thrust/functional.h",
+            "line": 79
+          },
+          "name": "result_type",
+          "override": false,
+          "qualifiedname": "thrust::unary_function::result_type",
+          "refid": "structthrust_1_1unary__function_1acba3e9e21e7a3ec6e856f5f402bbdc2b",
+          "static": false,
+          "strong": false,
+          "summary": "The type of the function object's result. ",
+          "title": "result_type",
+          "type": "Result",
+          "typePlain": "Result",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unary__function.html#typedef-result-type",
+          "visibility": "public"
+        }
+      ],
+      "refid": "structthrust_1_1unary__function",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unary__function.html",
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1unary__negate.html\">unary&#95;negate</a></code> is a function object adaptor: it is an Adaptable Predicate that represents the logical negation of some other Adaptable Predicate. That is: if <code>f</code> is an object of class <code>unary&#95;negate&lt;AdaptablePredicate&gt;</code>, then there exists an object <code>pred</code> of class <code>AdaptablePredicate</code> such that <code>f(x)</code> always returns the same value as <code>!pred(x)</code>. There is rarely any reason to construct a <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1unary__negate.html\">unary&#95;negate</a></code> directly; it is almost always easier to use the helper function not1.",
+  "explicit": false,
+  "fullname": "thrust::unary_negate",
+  "hasAdditionalMembers": true,
+  "hasDetails": true,
+  "includes": "<thrust/functional.h>",
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 1520,
+    "bodyFile": "thrust/functional.h",
+    "bodyStart": 1502,
+    "column": 1,
+    "file": "thrust/functional.h",
+    "line": 1500
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "function_object_adaptors",
+    "kind": "group",
+    "language": "",
+    "name": "function_object_adaptors",
+    "qualifiedname": "function_object_adaptors",
+    "refid": "group__function__object__adaptors",
+    "title": "Function Object Adaptors",
+    "url": "{{ site.baseurl }}/api/groups/group__function__object__adaptors.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "language": "",
+      "name": "function_objects",
+      "qualifiedname": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "{{ site.baseurl }}/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_object_adaptors",
+      "kind": "group",
+      "language": "",
+      "name": "function_object_adaptors",
+      "qualifiedname": "function_object_adaptors",
+      "refid": "group__function__object__adaptors",
+      "title": "Function Object Adaptors",
+      "url": "{{ site.baseurl }}/api/groups/group__function__object__adaptors.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::unary_negate",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-unary-negate",
+      "argsString": "(Predicate p)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::unary_negate< Predicate >::unary_negate",
+      "deleted": false,
+      "details": "Constructor takes a <code>Predicate</code> object to negate. ",
+      "explicit": true,
+      "fullname": "thrust::unary_negate::unary_negate",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 1507,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1507,
+        "column": 12,
+        "file": "thrust/functional.h",
+        "line": 1507
+      },
+      "name": "unary_negate",
+      "override": false,
+      "paramList": [
+        {
+          "name": "p",
+          "text": "The <code>Predicate</code> object to negate. "
+        }
+      ],
+      "params": [
+        {
+          "name": "p",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unary_negate::unary_negate",
+      "refid": "structthrust_1_1unary__negate_1a5fa0f16affb645867ae56f067ad5bca8",
+      "static": false,
+      "strong": false,
+      "title": "unary_negate",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unary__negate.html#function-unary-negate",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(const typename Predicate::argument_type &x)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ bool thrust::unary_negate< Predicate >::operator()",
+      "deleted": false,
+      "details": "Function call operator. The return value is <code>!pred(x)</code>. ",
+      "explicit": false,
+      "fullname": "thrust::unary_negate::operator()",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 1513,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1513,
+        "column": 8,
+        "file": "thrust/functional.h",
+        "line": 1513
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "x",
+          "type": "const typename Predicate::argument_type &",
+          "typePlain": "const typename Predicate::argument_type &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unary_negate::operator()",
+      "refid": "structthrust_1_1unary__negate_1a258947e7aab4829b903496cba1111ab0",
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ bool",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unary__negate.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::unary_negate",
+  "refid": "structthrust_1_1unary__negate",
+  "see": [
+    "<a href=\"https://en.cppreference.com/w/cpp/utility/functional/unary_negate\">https://en.cppreference.com/w/cpp/utility/functional/unary_negate</a>",
+    "not1 "
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename Predicate",
+      "typePlain": "typename Predicate"
+    }
+  ],
+  "title": "thrust::unary_negate",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unary__negate.html",
+  "visibility": "public"
+}

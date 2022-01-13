@@ -1,0 +1,218 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "iterators",
+  "groups": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "fancyiterator",
+      "kind": "group",
+      "language": "",
+      "name": "fancyiterator",
+      "qualifiedname": "fancyiterator",
+      "refid": "group__fancyiterator",
+      "title": "Fancy Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterator_tags",
+      "kind": "group",
+      "language": "",
+      "name": "iterator_tags",
+      "qualifiedname": "iterator_tags",
+      "refid": "group__iterator__tags",
+      "title": "Iterator Tags",
+      "url": "{{ site.baseurl }}/api/groups/group__iterator__tags.html",
+      "visibility": "public"
+    }
+  ],
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "name": "iterators",
+  "override": false,
+  "parent": null,
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-advance",
+      "argsString": "(InputIterator &i, Distance n)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::advance",
+      "deleted": false,
+      "details": "<code>advance(i, n)</code> increments the iterator <code>i</code> by the distance <code>n</code>. If <code>n &gt; 0</code> it is equivalent to executing <code>++i</code><code>n</code> times, and if <code>n &lt; 0</code> it is equivalent to executing <code>&ndash;i</code><code>n</code> times. If <code>n == 0</code>, the call has no effect.\n\n\nThe following code snippet demonstrates how to use <code>advance</code> to increment an iterator a given number of times.\n\n\n\n```cpp\n#include <thrust/advance.h>\n#include <thrust/device_vector.h>\n...\nthrust::device_vector<int> vec(13);\nthrust::device_vector<int>::iterator iter = vec.begin();\n\nthrust::advance(iter, 7);\n\n// iter - vec.begin() == 7\n```",
+      "explicit": false,
+      "fullname": "iterators::advance",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/advance.h",
+        "line": 64
+      },
+      "name": "advance",
+      "override": false,
+      "paramList": [
+        {
+          "name": "i",
+          "text": "The iterator to be advanced. "
+        },
+        {
+          "name": "n",
+          "text": "The distance by which to advance the iterator."
+        }
+      ],
+      "params": [
+        {
+          "name": "i",
+          "type": "InputIterator &",
+          "typePlain": "InputIterator &"
+        },
+        {
+          "name": "n",
+          "type": "Distance",
+          "typePlain": "Distance"
+        }
+      ],
+      "pre": [
+        "<code>n</code> shall be negative only for bidirectional and random access iterators."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::advance",
+      "refid": "group__iterators_1gafd488bbe514cc2cc3ff28401c0229685",
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/iterator/advance\">https://en.cppreference.com/w/cpp/iterator/advance</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Distance",
+          "typePlain": "typename Distance"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>. "
+        },
+        {
+          "name": "Distance",
+          "text": "is an integral type that is convertible to <code>InputIterator's</code> distance type."
+        }
+      ],
+      "title": "advance",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/groups/group__iterators.html#function-advance",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-distance",
+      "argsString": "(InputIterator first, InputIterator last)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type thrust::distance",
+      "deleted": false,
+      "details": "<code>distance</code> finds the distance between <code>first</code> and <code>last</code>, i.e. the number of times that <code>first</code> must be incremented until it is equal to <code>last</code>.\n\n\nThe following code snippet demonstrates how to use <code>distance</code> to compute the distance to one iterator from another.\n\n\n\n```cpp\n#include <thrust/distance.h>\n#include <thrust/device_vector.h>\n...\nthrust::device_vector<int> vec(13);\nthrust::device_vector<int>::iterator iter1 = vec.begin();\nthrust::device_vector<int>::iterator iter2 = iter1 + 7;\n\nint d = thrust::distance(iter1, iter2);\n\n// d is 7\n```",
+      "explicit": false,
+      "fullname": "iterators::distance",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/distance.h",
+        "line": 67
+      },
+      "name": "distance",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of an input range of interest. "
+        },
+        {
+          "name": "last",
+          "text": "The end of an input range of interest. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        }
+      ],
+      "pre": [
+        "If <code>InputIterator</code> meets the requirements of random access iterator, <code>last</code> shall be reachable from <code>first</code> or <code>first</code> shall be reachable from <code>last</code>; otherwise, <code>last</code> shall be reachable from <code>first</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::distance",
+      "refid": "group__iterators_1gac44f7373f1ec2ff90c72d019b5a1043f",
+      "returns": [
+        "The distance between the beginning and end of the input range."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/iterator/distance\">https://en.cppreference.com/w/cpp/iterator/distance</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>."
+        }
+      ],
+      "title": "distance",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">thrust::iterator_traits</a>< InputIterator >::difference_type",
+      "typePlain": "__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type",
+      "url": "{{ site.baseurl }}/api/groups/group__iterators.html#function-distance",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "iterators",
+  "refid": "group__iterators",
+  "static": false,
+  "strong": false,
+  "title": "Iterators",
+  "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+  "visibility": "public"
+}

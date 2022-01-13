@@ -1,0 +1,545 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code>pair</code> is a generic data structure encapsulating a heterogeneous pair of values.",
+  "explicit": false,
+  "fullname": "thrust::pair",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/pair.h>",
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 112,
+    "bodyFile": "thrust/pair.h",
+    "bodyStart": 49,
+    "column": 3,
+    "file": "thrust/pair.h",
+    "line": 48
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "pair",
+    "kind": "group",
+    "language": "",
+    "name": "pair",
+    "qualifiedname": "pair",
+    "refid": "group__pair",
+    "title": "Pair",
+    "url": "{{ site.baseurl }}/api/groups/group__pair.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "utility",
+      "kind": "group",
+      "language": "",
+      "name": "utility",
+      "qualifiedname": "utility",
+      "refid": "group__utility",
+      "title": "Utility",
+      "url": "{{ site.baseurl }}/api/groups/group__utility.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "pair",
+      "kind": "group",
+      "language": "",
+      "name": "pair",
+      "qualifiedname": "pair",
+      "refid": "group__pair",
+      "title": "Pair",
+      "url": "{{ site.baseurl }}/api/groups/group__pair.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::pair",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-first",
+      "category": "attributes",
+      "const": false,
+      "definition": "first_type thrust::pair< T1, T2 >::first",
+      "details": "The <code>pair's</code> first object. ",
+      "explicit": false,
+      "fullname": "thrust::pair::first",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/pair.h",
+        "bodyStart": 60,
+        "column": 14,
+        "file": "thrust/pair.h",
+        "line": 60
+      },
+      "name": "first",
+      "override": false,
+      "qualifiedname": "thrust::pair::first",
+      "refid": "structthrust_1_1pair_1a3aa50b508ab42ca1712aa3cb0df86326",
+      "static": false,
+      "strong": false,
+      "title": "first",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html#typedef-first-type\">first_type</a>",
+      "typePlain": "first_type",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1pair.html#variable-first",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-second",
+      "category": "attributes",
+      "const": false,
+      "definition": "second_type thrust::pair< T1, T2 >::second",
+      "details": "The <code>pair's</code> second object. ",
+      "explicit": false,
+      "fullname": "thrust::pair::second",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/pair.h",
+        "bodyStart": 64,
+        "column": 15,
+        "file": "thrust/pair.h",
+        "line": 64
+      },
+      "name": "second",
+      "override": false,
+      "qualifiedname": "thrust::pair::second",
+      "refid": "structthrust_1_1pair_1a07500adf3d87e92d4f7b62fc62f020f7",
+      "static": false,
+      "strong": false,
+      "title": "second",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html#typedef-second-type\">second_type</a>",
+      "typePlain": "second_type",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1pair.html#variable-second",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-pair",
+      "argsString": "(void)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< T1, T2 >::pair",
+      "deleted": false,
+      "details": "<code>pair's</code> default constructor constructs <code>first</code> and <code>second</code> using <code>first&#95;type</code> & <code>second&#95;type's</code> default constructors, respectively. ",
+      "explicit": false,
+      "fullname": "thrust::pair::pair",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 23,
+        "file": "thrust/pair.h",
+        "line": 70
+      },
+      "name": "pair",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::pair::pair",
+      "refid": "structthrust_1_1pair_1a2335c59307a32c9d021bb0085380d4e6",
+      "static": false,
+      "strong": false,
+      "title": "pair",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1pair.html#function-pair",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-pair",
+      "argsString": "(const T1 &x, const T2 &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< T1, T2 >::pair",
+      "deleted": false,
+      "details": "This constructor accepts two objects to copy into this <code>pair</code>.",
+      "explicit": false,
+      "fullname": "thrust::pair::pair",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 3,
+        "file": "thrust/pair.h",
+        "line": 78
+      },
+      "name": "pair",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The object to copy into <code>first</code>. "
+        },
+        {
+          "name": "y",
+          "text": "The object to copy into <code>second</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const T1 &",
+          "typePlain": "const T1 &"
+        },
+        {
+          "name": "y",
+          "type": "const T2 &",
+          "typePlain": "const T2 &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::pair::pair",
+      "refid": "structthrust_1_1pair_1a0ac0e42bb0ee742a04edc70223ffb275",
+      "static": false,
+      "strong": false,
+      "title": "pair",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1pair.html#function-pair",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-pair",
+      "argsString": "(const pair< U1, U2 > &p)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< T1, T2 >::pair",
+      "deleted": false,
+      "details": "This copy constructor copies from a <code>pair</code> whose types are convertible to this <code>pair's</code><code>first&#95;type</code> and <code>second&#95;type</code>, respectively.",
+      "explicit": false,
+      "fullname": "thrust::pair::pair",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 3,
+        "file": "thrust/pair.h",
+        "line": 91
+      },
+      "name": "pair",
+      "override": false,
+      "paramList": [
+        {
+          "name": "p",
+          "text": "The <code>pair</code> to copy from."
+        }
+      ],
+      "params": [
+        {
+          "name": "p",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">pair</a>< U1, U2 > &",
+          "typePlain": "const pair< U1, U2 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::pair::pair",
+      "refid": "structthrust_1_1pair_1a09deb0b13155f11bd8b14d153b6cd7c9",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename U1",
+          "typePlain": "typename U1"
+        },
+        {
+          "name": "",
+          "type": "typename U2",
+          "typePlain": "typename U2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "U1",
+          "text": "is convertible to <code>first&#95;type</code>. "
+        },
+        {
+          "name": "U2",
+          "text": "is convertible to <code>second&#95;type</code>. "
+        }
+      ],
+      "title": "pair",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1pair.html#function-pair",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-pair",
+      "argsString": "(const std::pair< U1, U2 > &p)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< T1, T2 >::pair",
+      "deleted": false,
+      "details": "This copy constructor copies from a <code>std::pair</code> whose types are convertible to this <code>pair's</code><code>first&#95;type</code> and <code>second&#95;type</code>, respectively.",
+      "explicit": false,
+      "fullname": "thrust::pair::pair",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 3,
+        "file": "thrust/pair.h",
+        "line": 104
+      },
+      "name": "pair",
+      "override": false,
+      "paramList": [
+        {
+          "name": "p",
+          "text": "The <code>std::pair</code> to copy from."
+        }
+      ],
+      "params": [
+        {
+          "name": "p",
+          "type": "const std::pair< U1, U2 > &",
+          "typePlain": "const std::pair< U1, U2 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::pair::pair",
+      "refid": "structthrust_1_1pair_1a5e5762f6cec21180651b90a489e9f97f",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename U1",
+          "typePlain": "typename U1"
+        },
+        {
+          "name": "",
+          "type": "typename U2",
+          "typePlain": "typename U2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "U1",
+          "text": "is convertible to <code>first&#95;type</code>. "
+        },
+        {
+          "name": "U2",
+          "text": "is convertible to <code>second&#95;type</code>. "
+        }
+      ],
+      "title": "pair",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1pair.html#function-pair",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-swap",
+      "argsString": "(pair &p)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::pair< T1, T2 >::swap",
+      "deleted": false,
+      "details": "<code>swap</code> swaps the elements of two <code>pair</code>s.",
+      "explicit": false,
+      "fullname": "thrust::pair::swap",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 8,
+        "file": "thrust/pair.h",
+        "line": 111
+      },
+      "name": "swap",
+      "override": false,
+      "paramList": [
+        {
+          "name": "p",
+          "text": "The other <code>pair</code> with which to swap. "
+        }
+      ],
+      "params": [
+        {
+          "name": "p",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">pair</a> &",
+          "typePlain": "pair &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::pair::swap",
+      "refid": "structthrust_1_1pair_1af8569b59d8d4013f5343f23303bcc589",
+      "static": false,
+      "strong": false,
+      "title": "swap",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1pair.html#function-swap",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-first-type",
+      "category": "types",
+      "const": false,
+      "definition": "typedef T1 thrust::pair< T1, T2 >::first_type",
+      "details": "<code>first&#95;type</code> is the type of <code>pair's</code> first object type. ",
+      "explicit": false,
+      "fullname": "thrust::pair::first_type",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/pair.h",
+        "bodyStart": 52,
+        "column": 14,
+        "file": "thrust/pair.h",
+        "line": 52
+      },
+      "name": "first_type",
+      "override": false,
+      "qualifiedname": "thrust::pair::first_type",
+      "refid": "structthrust_1_1pair_1ab2b030c7ed90ed51e236e8ed0191c67c",
+      "static": false,
+      "strong": false,
+      "title": "first_type",
+      "type": "T1",
+      "typePlain": "T1",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1pair.html#typedef-first-type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-second-type",
+      "category": "types",
+      "const": false,
+      "definition": "typedef T2 thrust::pair< T1, T2 >::second_type",
+      "details": "<code>second&#95;type</code> is the type of <code>pair's</code> second object type. ",
+      "explicit": false,
+      "fullname": "thrust::pair::second_type",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/pair.h",
+        "bodyStart": 56,
+        "column": 14,
+        "file": "thrust/pair.h",
+        "line": 56
+      },
+      "name": "second_type",
+      "override": false,
+      "qualifiedname": "thrust::pair::second_type",
+      "refid": "structthrust_1_1pair_1adc1cc855e8aad87ad0d9617c45605473",
+      "static": false,
+      "strong": false,
+      "title": "second_type",
+      "type": "T2",
+      "typePlain": "T2",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1pair.html#typedef-second-type",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::pair",
+  "refid": "structthrust_1_1pair",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename T1",
+      "typePlain": "typename T1"
+    },
+    {
+      "name": "",
+      "type": "typename T2",
+      "typePlain": "typename T2"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "T1",
+      "text": "The type of <code>pair's</code> first object type. There are no requirements on the type of <code>T1</code>. <code>T1</code>'s type is provided by <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html#typedef-first-type\">pair::first&#95;type</a></code>."
+    },
+    {
+      "name": "T2",
+      "text": "The type of <code>pair's</code> second object type. There are no requirements on the type of <code>T2</code>. <code>T2</code>'s type is provided by <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html#typedef-second-type\">pair::second&#95;type</a></code>. "
+    }
+  ],
+  "title": "thrust::pair",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1pair.html",
+  "visibility": "public"
+}

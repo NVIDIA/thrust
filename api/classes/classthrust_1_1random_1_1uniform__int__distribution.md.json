@@ -1,0 +1,749 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "A <code>uniform&#95;int&#95;distribution</code> random number distribution produces signed or unsigned integer uniform random numbers from a given range. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "\nThe following code snippet demonstrates examples of using a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> with a random number engine to produce random integers drawn from a given range:\n\n\n\n```cpp\n#include <thrust/random/linear_congruential_engine.h>\n#include <thrust/random/uniform_int_distribution.h>\n\nint main(void)\n{\n  // create a minstd_rand object to act as our source of randomness\n  thrust::minstd_rand rng;\n\n  // create a uniform_int_distribution to produce ints from [-7,13]\n  thrust::uniform_int_distribution<int> dist(-7,13);\n\n  // write a random number from the range [-7,13] to standard output\n  std::cout << dist(rng) << std::endl;\n\n  // write the range of the distribution, just in case we forgot\n  std::cout << dist.min() << std::endl;\n\n  // -7 is printed\n\n  std::cout << dist.max() << std::endl;\n\n  // 13 is printed\n\n  // write the parameters of the distribution (which happen to be the bounds) to standard output\n  std::cout << dist.a() << std::endl;\n\n  // -7 is printed\n\n  std::cout << dist.b() << std::endl;\n\n  // 13 is printed\n\n  return 0;\n}\n```",
+  "explicit": false,
+  "fullname": "thrust::random::uniform_int_distribution",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/random/uniform_int_distribution.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 216,
+    "bodyFile": "thrust/random/uniform_int_distribution.h",
+    "bodyStart": 88,
+    "column": 3,
+    "file": "thrust/random/uniform_int_distribution.h",
+    "line": 87
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "random_number_distributions",
+    "kind": "group",
+    "language": "",
+    "name": "random_number_distributions",
+    "qualifiedname": "random_number_distributions",
+    "refid": "group__random__number__distributions",
+    "title": "Random Number Distributions Class Templates",
+    "url": "{{ site.baseurl }}/api/groups/group__random__number__distributions.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "random",
+      "kind": "group",
+      "language": "",
+      "name": "random",
+      "qualifiedname": "random",
+      "refid": "group__random",
+      "title": "Random Number Generation",
+      "url": "{{ site.baseurl }}/api/groups/group__random.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "random_number_distributions",
+      "kind": "group",
+      "language": "",
+      "name": "random_number_distributions",
+      "qualifiedname": "random_number_distributions",
+      "refid": "group__random__number__distributions",
+      "title": "Random Number Distributions Class Templates",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__distributions.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::random::uniform_int_distribution",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "<code>thrust::random</code> is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+    "category": "namespaces",
+    "fullname": "thrust::random",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::random",
+    "qualifiedname": "thrust::random",
+    "refid": "namespacethrust_1_1random",
+    "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+    "title": "thrust::random",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1random.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "<code>thrust::random</code> is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+      "category": "namespaces",
+      "fullname": "thrust::random",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::random",
+      "qualifiedname": "thrust::random",
+      "refid": "namespacethrust_1_1random",
+      "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+      "title": "thrust::random",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1random.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-uniform-int-distribution",
+      "argsString": "(IntType a=0, IntType b=THRUST_NS_QUALIFIER::detail::integer_traits< IntType >::const_max)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::random::uniform_int_distribution< IntType >::uniform_int_distribution",
+      "deleted": false,
+      "details": "This constructor creates a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> from two values defining the range of the distribution.",
+      "explicit": true,
+      "fullname": "thrust::random::uniform_int_distribution::uniform_int_distribution",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 14,
+        "file": "thrust/random/uniform_int_distribution.h",
+        "line": 112
+      },
+      "name": "uniform_int_distribution",
+      "override": false,
+      "paramList": [
+        {
+          "name": "a",
+          "text": "The smallest integer to potentially produce. Defaults to <code>0</code>. "
+        },
+        {
+          "name": "b",
+          "text": "The largest integer to potentially produce. Defaults to the largest representable integer in the platform. "
+        }
+      ],
+      "params": [
+        {
+          "defval": "0",
+          "defvalPlain": "0",
+          "name": "a",
+          "type": "IntType",
+          "typePlain": "IntType"
+        },
+        {
+          "defval": "THRUST_NS_QUALIFIER::detail::integer_traits< IntType >::const_max",
+          "defvalPlain": "THRUST_NS_QUALIFIER::detail::integer_traits< IntType >::const_max",
+          "name": "b",
+          "type": "IntType",
+          "typePlain": "IntType"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::uniform_int_distribution::uniform_int_distribution",
+      "refid": "classthrust_1_1random_1_1uniform__int__distribution_1a49040aebfb3493e576a5e1d3fd997c31",
+      "static": false,
+      "strong": false,
+      "title": "uniform_int_distribution",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#function-uniform-int-distribution",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-uniform-int-distribution",
+      "argsString": "(const param_type &parm)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::random::uniform_int_distribution< IntType >::uniform_int_distribution",
+      "deleted": false,
+      "details": "This constructor creates a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> from a <code>param&#95;type</code> object encapsulating the range of the distribution.",
+      "explicit": true,
+      "fullname": "thrust::random::uniform_int_distribution::uniform_int_distribution",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 14,
+        "file": "thrust/random/uniform_int_distribution.h",
+        "line": 121
+      },
+      "name": "uniform_int_distribution",
+      "override": false,
+      "paramList": [
+        {
+          "name": "parm",
+          "text": "A <code>param&#95;type</code> object encapsulating the parameters (i.e., the range) of the distribution. "
+        }
+      ],
+      "params": [
+        {
+          "name": "parm",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#typedef-param-type\">param_type</a> &",
+          "typePlain": "const param_type &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::uniform_int_distribution::uniform_int_distribution",
+      "refid": "classthrust_1_1random_1_1uniform__int__distribution_1ad908b179380543ebba598c503120fe02",
+      "static": false,
+      "strong": false,
+      "title": "uniform_int_distribution",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#function-uniform-int-distribution",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-reset",
+      "argsString": "(void)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::random::uniform_int_distribution< IntType >::reset",
+      "deleted": false,
+      "details": "This does nothing. It is included to conform to the requirements of the RandomDistribution concept. ",
+      "explicit": false,
+      "fullname": "thrust::random::uniform_int_distribution::reset",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 10,
+        "file": "thrust/random/uniform_int_distribution.h",
+        "line": 126
+      },
+      "name": "reset",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::uniform_int_distribution::reset",
+      "refid": "classthrust_1_1random_1_1uniform__int__distribution_1ae6f0a038f5fcb84f61589b8df51e48ba",
+      "static": false,
+      "strong": false,
+      "title": "reset",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#function-reset",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(UniformRandomNumberGenerator &urng)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ result_type thrust::random::uniform_int_distribution< IntType >::operator()",
+      "deleted": false,
+      "details": "This method produces a new uniform random integer drawn from this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a>'s</code> range using a <code>UniformRandomNumberGenerator</code> as a source of randomness.",
+      "explicit": false,
+      "fullname": "thrust::random::uniform_int_distribution::operator()",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 17,
+        "file": "thrust/random/uniform_int_distribution.h",
+        "line": 137
+      },
+      "name": "operator()",
+      "override": false,
+      "paramList": [
+        {
+          "name": "urng",
+          "text": "The <code>UniformRandomNumberGenerator</code> to use as a source of randomness. "
+        }
+      ],
+      "params": [
+        {
+          "name": "urng",
+          "type": "UniformRandomNumberGenerator &",
+          "typePlain": "UniformRandomNumberGenerator &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::uniform_int_distribution::operator()",
+      "refid": "classthrust_1_1random_1_1uniform__int__distribution_1a593f140f7f1076a3db3aa60a5f69c868",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename UniformRandomNumberGenerator",
+          "typePlain": "typename UniformRandomNumberGenerator"
+        }
+      ],
+      "title": "operator()",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#typedef-result-type\">result_type</a>",
+      "typePlain": "__host__ __device__ result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(UniformRandomNumberGenerator &urng, const param_type &parm)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ result_type thrust::random::uniform_int_distribution< IntType >::operator()",
+      "deleted": false,
+      "details": "This method produces a new uniform random integer as if by creating a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> from the given <code>param&#95;type</code> object, and calling its <code>operator()</code> method with the given <code>UniformRandomNumberGenerator</code> as a source of randomness.",
+      "explicit": false,
+      "fullname": "thrust::random::uniform_int_distribution::operator()",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 17,
+        "file": "thrust/random/uniform_int_distribution.h",
+        "line": 149
+      },
+      "name": "operator()",
+      "override": false,
+      "paramList": [
+        {
+          "name": "urng",
+          "text": "The <code>UniformRandomNumberGenerator</code> to use as a source of randomness. "
+        },
+        {
+          "name": "parm",
+          "text": "A <code>param&#95;type</code> object encapsulating the parameters of the <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to draw from. "
+        }
+      ],
+      "params": [
+        {
+          "name": "urng",
+          "type": "UniformRandomNumberGenerator &",
+          "typePlain": "UniformRandomNumberGenerator &"
+        },
+        {
+          "name": "parm",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#typedef-param-type\">param_type</a> &",
+          "typePlain": "const param_type &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::uniform_int_distribution::operator()",
+      "refid": "classthrust_1_1random_1_1uniform__int__distribution_1a764842b364ea2fed96515a7d33df3d32",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename UniformRandomNumberGenerator",
+          "typePlain": "typename UniformRandomNumberGenerator"
+        }
+      ],
+      "title": "operator()",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#typedef-result-type\">result_type</a>",
+      "typePlain": "__host__ __device__ result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-a",
+      "argsString": "(void) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ result_type thrust::random::uniform_int_distribution< IntType >::a",
+      "deleted": false,
+      "details": "This method returns the value of the parameter with which this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> was constructed.",
+      "explicit": false,
+      "fullname": "thrust::random::uniform_int_distribution::a",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 17,
+        "file": "thrust/random/uniform_int_distribution.h",
+        "line": 159
+      },
+      "name": "a",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::uniform_int_distribution::a",
+      "refid": "classthrust_1_1random_1_1uniform__int__distribution_1a51f3df6e6f3272785f49acee30d24652",
+      "returns": [
+        "The lower bound of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a>'s</code> range. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "a",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#typedef-result-type\">result_type</a>",
+      "typePlain": "__host__ __device__ result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#function-a",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-b",
+      "argsString": "(void) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ result_type thrust::random::uniform_int_distribution< IntType >::b",
+      "deleted": false,
+      "details": "This method returns the value of the parameter with which this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> was constructed.",
+      "explicit": false,
+      "fullname": "thrust::random::uniform_int_distribution::b",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 17,
+        "file": "thrust/random/uniform_int_distribution.h",
+        "line": 167
+      },
+      "name": "b",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::uniform_int_distribution::b",
+      "refid": "classthrust_1_1random_1_1uniform__int__distribution_1ab491ee15fb74b7c1a66391ae9bb967d9",
+      "returns": [
+        "The upper bound of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a>'s</code> range. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "b",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#typedef-result-type\">result_type</a>",
+      "typePlain": "__host__ __device__ result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#function-b",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-param",
+      "argsString": "(void) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ param_type thrust::random::uniform_int_distribution< IntType >::param",
+      "deleted": false,
+      "details": "This method returns a <code>param&#95;type</code> object encapsulating the parameters with which this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> was constructed.",
+      "explicit": false,
+      "fullname": "thrust::random::uniform_int_distribution::param",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 16,
+        "file": "thrust/random/uniform_int_distribution.h",
+        "line": 175
+      },
+      "name": "param",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::uniform_int_distribution::param",
+      "refid": "classthrust_1_1random_1_1uniform__int__distribution_1af42a35b0a7294c144972b8ef4e25efb0",
+      "returns": [
+        "A <code>param&#95;type</code> object enapsulating the range of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "param",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#typedef-param-type\">param_type</a>",
+      "typePlain": "__host__ __device__ param_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#function-param",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-param",
+      "argsString": "(const param_type &parm)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::random::uniform_int_distribution< IntType >::param",
+      "deleted": false,
+      "details": "This method changes the parameters of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> using the values encapsulated in a given <code>param&#95;type</code> object.",
+      "explicit": false,
+      "fullname": "thrust::random::uniform_int_distribution::param",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 10,
+        "file": "thrust/random/uniform_int_distribution.h",
+        "line": 183
+      },
+      "name": "param",
+      "override": false,
+      "paramList": [
+        {
+          "name": "parm",
+          "text": "A <code>param&#95;type</code> object encapsulating the new range of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "parm",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#typedef-param-type\">param_type</a> &",
+          "typePlain": "const param_type &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::uniform_int_distribution::param",
+      "refid": "classthrust_1_1random_1_1uniform__int__distribution_1a89059d1a74ab9f27d25cc576c5da6c79",
+      "static": false,
+      "strong": false,
+      "title": "param",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#function-param",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-thrust-prevent-macro-substitution",
+      "argsString": "(void) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ result_type min thrust::random::uniform_int_distribution< IntType >::THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "deleted": false,
+      "details": "This method returns the smallest integer this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> can potentially produce.",
+      "explicit": false,
+      "fullname": "thrust::random::uniform_int_distribution::THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 21,
+        "file": "thrust/random/uniform_int_distribution.h",
+        "line": 190
+      },
+      "name": "THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::uniform_int_distribution::THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "refid": "classthrust_1_1random_1_1uniform__int__distribution_1a67d1b7a1794ef734e06672bce0601547",
+      "returns": [
+        "The lower bound of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a>'s</code> range. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#typedef-result-type\">result_type</a> min",
+      "typePlain": "__host__ __device__ result_type min",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#function-thrust-prevent-macro-substitution",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-thrust-prevent-macro-substitution",
+      "argsString": "(void) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ result_type max thrust::random::uniform_int_distribution< IntType >::THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "deleted": false,
+      "details": "This method returns the largest integer this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> can potentially produce.",
+      "explicit": false,
+      "fullname": "thrust::random::uniform_int_distribution::THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 21,
+        "file": "thrust/random/uniform_int_distribution.h",
+        "line": 197
+      },
+      "name": "THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::uniform_int_distribution::THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "refid": "classthrust_1_1random_1_1uniform__int__distribution_1abced05e877008c6247b28953c28fc658",
+      "returns": [
+        "The upper bound of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a>'s</code> range. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "THRUST_PREVENT_MACRO_SUBSTITUTION",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#typedef-result-type\">result_type</a> max",
+      "typePlain": "__host__ __device__ result_type max",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#function-thrust-prevent-macro-substitution",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-result-type",
+      "brief": "The type of the integer produced by this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code>. ",
+      "category": "types",
+      "const": false,
+      "definition": "thrust::random::uniform_int_distribution< IntType >::result_type",
+      "explicit": false,
+      "fullname": "thrust::random::uniform_int_distribution::result_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/uniform_int_distribution.h",
+        "bodyStart": 95,
+        "column": 21,
+        "file": "thrust/random/uniform_int_distribution.h",
+        "line": 95
+      },
+      "name": "result_type",
+      "override": false,
+      "qualifiedname": "thrust::random::uniform_int_distribution::result_type",
+      "refid": "classthrust_1_1random_1_1uniform__int__distribution_1a1dc4226bc70b518ad8c00f25be3b685b",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the integer produced by this uniform_int_distribution. ",
+      "title": "result_type",
+      "type": "IntType",
+      "typePlain": "IntType",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#typedef-result-type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-param-type",
+      "brief": "The type of the object encapsulating this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a>'s</code> parameters. ",
+      "category": "types",
+      "const": false,
+      "definition": "thrust::random::uniform_int_distribution< IntType >::param_type",
+      "explicit": false,
+      "fullname": "thrust::random::uniform_int_distribution::param_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/uniform_int_distribution.h",
+        "bodyStart": 100,
+        "column": 26,
+        "file": "thrust/random/uniform_int_distribution.h",
+        "line": 100
+      },
+      "name": "param_type",
+      "override": false,
+      "qualifiedname": "thrust::random::uniform_int_distribution::param_type",
+      "refid": "classthrust_1_1random_1_1uniform__int__distribution_1a204c91119e69b778f206495da409f10f",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the object encapsulating this uniform_int_distribution's parameters. ",
+      "title": "param_type",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< IntType, IntType >",
+      "typePlain": "thrust::pair< IntType, IntType >",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html#typedef-param-type",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::random::uniform_int_distribution",
+  "refid": "classthrust_1_1random_1_1uniform__int__distribution",
+  "static": false,
+  "strong": false,
+  "summary": "A uniform_int_distribution random number distribution produces signed or unsigned integer uniform random numbers from a given range. ",
+  "templateParams": [
+    {
+      "defval": "int",
+      "defvalPlain": "int",
+      "name": "",
+      "type": "typename IntType",
+      "typePlain": "typename IntType"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "IntType",
+      "text": "The type of integer to produce."
+    }
+  ],
+  "title": "thrust::random::uniform_int_distribution",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html",
+  "visibility": "public"
+}

@@ -1,0 +1,152 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::mr::unsynchronized_pool_resource::block_descriptor",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 162,
+    "bodyFile": "thrust/mr/pool.h",
+    "bodyStart": 160,
+    "column": 5,
+    "file": "thrust/mr/pool.h",
+    "line": 159
+  },
+  "name": "thrust::mr::unsynchronized_pool_resource::block_descriptor",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "baseClasses": [
+      {
+        "external": false,
+        "name": "thrust::mr::memory_resource< Upstream::pointer >",
+        "refid": "classthrust_1_1mr_1_1memory__resource",
+        "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+        "virtual": "non-virtual",
+        "visibility": "public"
+      },
+      {
+        "external": true,
+        "name": "thrust::mr::validator< Upstream >",
+        "virtual": "non-virtual",
+        "visibility": "private"
+      }
+    ],
+    "category": "classes",
+    "fullname": "thrust::mr::unsynchronized_pool_resource",
+    "kind": "class",
+    "language": "cpp",
+    "name": "thrust::mr::unsynchronized_pool_resource",
+    "qualifiedname": "thrust::mr::unsynchronized_pool_resource",
+    "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource",
+    "title": "thrust::mr::unsynchronized_pool_resource",
+    "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "<code>thrust::mr</code> is the namespace containing system agnostic types and functions for <code>memory&#95;resource</code> related functionalities. ",
+      "category": "namespaces",
+      "fullname": "thrust::mr",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::mr",
+      "qualifiedname": "thrust::mr",
+      "refid": "namespacethrust_1_1mr",
+      "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
+      "title": "thrust::mr",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1mr.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "thrust::mr::memory_resource< Upstream::pointer >",
+          "refid": "classthrust_1_1mr_1_1memory__resource",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": true,
+          "name": "thrust::mr::validator< Upstream >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::mr::unsynchronized_pool_resource",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::mr::unsynchronized_pool_resource",
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource",
+      "title": "thrust::mr::unsynchronized_pool_resource",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html",
+      "visibility": "public"
+    }
+  ],
+  "publicAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-next",
+      "category": "attributes",
+      "const": false,
+      "definition": "block_descriptor_ptr thrust::mr::unsynchronized_pool_resource< Upstream >::block_descriptor::next",
+      "explicit": false,
+      "fullname": "thrust::mr::unsynchronized_pool_resource::block_descriptor::next",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 161,
+        "column": 30,
+        "file": "thrust/mr/pool.h",
+        "line": 161
+      },
+      "name": "next",
+      "override": false,
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource::block_descriptor::next",
+      "refid": "structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1block__descriptor_1ac491ab558cf271b8e9b48e9b92da527c",
+      "static": false,
+      "strong": false,
+      "title": "next",
+      "type": "block_descriptor_ptr",
+      "typePlain": "block_descriptor_ptr",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1block__descriptor.html#variable-next",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::mr::unsynchronized_pool_resource::block_descriptor",
+  "refid": "structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1block__descriptor",
+  "static": false,
+  "strong": false,
+  "title": "thrust::mr::unsynchronized_pool_resource::block_descriptor",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1block__descriptor.html",
+  "visibility": "private"
+}

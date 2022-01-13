@@ -1,0 +1,59 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "std",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "language": "cpp",
+  "location": {
+    "column": 1,
+    "file": "thrust/optional.h",
+    "line": 2873
+  },
+  "name": "std",
+  "namespaces": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "std::conditional",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "std::conditional",
+      "qualifiedname": "std::conditional",
+      "refid": "namespacestd_1_1conditional",
+      "title": "std::conditional",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacestd_1_1conditional.html",
+      "visibility": "public"
+    }
+  ],
+  "override": false,
+  "parent": null,
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "std::hash< THRUST_NS_QUALIFIER::optional< T > >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "std::hash< THRUST_NS_QUALIFIER::optional< T > >",
+      "qualifiedname": "std::hash< THRUST_NS_QUALIFIER::optional< T > >",
+      "refid": "structstd_1_1hash_3_01THRUST__NS__QUALIFIER_1_1optional_3_01T_01_4_01_4",
+      "title": "std::hash< THRUST_NS_QUALIFIER::optional< T > >",
+      "url": "{{ site.baseurl }}/api/classes/structstd_1_1hash_3_01thrust__ns__qualifier_1_1optional_3_01t_01_4_01_4.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "std",
+  "refid": "namespacestd",
+  "static": false,
+  "strong": false,
+  "title": "std",
+  "url": "{{ site.baseurl }}/api/namespaces/namespacestd.html",
+  "visibility": "public"
+}

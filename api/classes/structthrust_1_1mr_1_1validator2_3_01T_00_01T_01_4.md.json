@@ -1,0 +1,92 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "thrust::mr::validator< T >",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "private"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::mr::validator2< T, T >",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 47,
+    "bodyFile": "thrust/mr/validator.h",
+    "bodyStart": 46,
+    "column": 1,
+    "file": "thrust/mr/validator.h",
+    "line": 45
+  },
+  "name": "thrust::mr::validator2< T, T >",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "<code>thrust::mr</code> is the namespace containing system agnostic types and functions for <code>memory&#95;resource</code> related functionalities. ",
+    "category": "namespaces",
+    "fullname": "thrust::mr",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::mr",
+    "qualifiedname": "thrust::mr",
+    "refid": "namespacethrust_1_1mr",
+    "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
+    "title": "thrust::mr",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1mr.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "<code>thrust::mr</code> is the namespace containing system agnostic types and functions for <code>memory&#95;resource</code> related functionalities. ",
+      "category": "namespaces",
+      "fullname": "thrust::mr",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::mr",
+      "qualifiedname": "thrust::mr",
+      "refid": "namespacethrust_1_1mr",
+      "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
+      "title": "thrust::mr",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1mr.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::mr::validator2< T, T >",
+  "refid": "structthrust_1_1mr_1_1validator2_3_01T_00_01T_01_4",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    }
+  ],
+  "title": "thrust::mr::validator2< T, T >",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2_3_01t_00_01t_01_4.html",
+  "visibility": "public"
+}

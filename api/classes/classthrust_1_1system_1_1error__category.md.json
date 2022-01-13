@@ -1,0 +1,527 @@
+{
+  "abstract": true,
+  "anchor": "",
+  "brief": "The class <code>error&#95;category</code> serves as a base class for types used to identify the source and encoding of a particular category of error code. Classes may be derived from <code>error&#95;category</code> to support categories of errors in addition to those defined in the C++ International Standard. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::system::error_category",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "includes": "<thrust/system/error_code.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 198,
+    "bodyFile": "thrust/system/error_code.h",
+    "bodyStart": 156,
+    "column": 1,
+    "file": "thrust/system/error_code.h",
+    "line": 155
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "system_diagnostics",
+    "kind": "group",
+    "language": "",
+    "name": "system_diagnostics",
+    "qualifiedname": "system_diagnostics",
+    "refid": "group__system__diagnostics",
+    "title": "System Diagnostics",
+    "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "system",
+      "kind": "group",
+      "language": "",
+      "name": "system",
+      "qualifiedname": "system",
+      "refid": "group__system",
+      "title": "System",
+      "url": "{{ site.baseurl }}/api/groups/group__system.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "system_diagnostics",
+      "kind": "group",
+      "language": "",
+      "name": "system_diagnostics",
+      "qualifiedname": "system_diagnostics",
+      "refid": "group__system__diagnostics",
+      "title": "System Diagnostics",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::system::error_category",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "<code>thrust::system</code> is the namespace which contains specific Thrust backend systems. It also contains functionality for reporting error conditions originating from the operating system or other low-level application program interfaces such as the CUDA runtime. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+    "category": "namespaces",
+    "fullname": "thrust::system",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::system",
+    "qualifiedname": "thrust::system",
+    "refid": "namespacethrust_1_1system",
+    "summary": "thrust::system is the namespace which contains specific Thrust backend systems. It also contains functionality for reporting error conditions originating from the operating system or other low-level application program interfaces such as the CUDA runtime. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+    "title": "thrust::system",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "<code>thrust::system</code> is the namespace which contains specific Thrust backend systems. It also contains functionality for reporting error conditions originating from the operating system or other low-level application program interfaces such as the CUDA runtime. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+      "category": "namespaces",
+      "fullname": "thrust::system",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::system",
+      "qualifiedname": "thrust::system",
+      "refid": "namespacethrust_1_1system",
+      "summary": "thrust::system is the namespace which contains specific Thrust backend systems. It also contains functionality for reporting error conditions originating from the operating system or other low-level application program interfaces such as the CUDA runtime. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+      "title": "thrust::system",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-~error-category",
+      "argsString": "(void)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "virtual thrust::system::error_category::~error_category",
+      "deleted": false,
+      "details": "Destructor does nothing. ",
+      "explicit": false,
+      "fullname": "thrust::system::error_category::~error_category",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 20,
+        "file": "thrust/system/error_code.h",
+        "line": 160
+      },
+      "name": "~error_category",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::error_category::~error_category",
+      "refid": "classthrust_1_1system_1_1error__category_1af9ec04bdad757ea999e64e07bf5a201d",
+      "static": false,
+      "strong": false,
+      "title": "~error_category",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html#function-~error-category",
+      "virtual": true,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-name",
+      "argsString": "(void) const =0",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "virtual const char * thrust::system::error_category::name",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::system::error_category::name",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 31,
+        "file": "thrust/system/error_code.h",
+        "line": 168
+      },
+      "name": "name",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": true,
+      "qualifiedname": "thrust::system::error_category::name",
+      "refid": "classthrust_1_1system_1_1error__category_1aa83d426282bc746775848b56766299fc",
+      "returns": [
+        "A string naming the error category. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "name",
+      "type": "const char *",
+      "typePlain": "const char *",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html#function-name",
+      "virtual": true,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-default-error-condition",
+      "argsString": "(int ev) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "virtual error_condition thrust::system::error_category::default_error_condition",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::system::error_category::default_error_condition",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 36,
+        "file": "thrust/system/error_code.h",
+        "line": 172
+      },
+      "name": "default_error_condition",
+      "override": false,
+      "params": [
+        {
+          "name": "ev",
+          "type": "int",
+          "typePlain": "int"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::error_category::default_error_condition",
+      "refid": "classthrust_1_1system_1_1error__category_1aae14a2a162e3dec8bc6f3a331ed51f9c",
+      "returns": [
+        "<code>error&#95;condition(ev, &#42;this)</code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "default_error_condition",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__condition.html\">error_condition</a>",
+      "typePlain": "error_condition",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html#function-default-error-condition",
+      "virtual": true,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-equivalent",
+      "argsString": "(int code, const error_condition &condition) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "virtual bool thrust::system::error_category::equivalent",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::system::error_category::equivalent",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 25,
+        "file": "thrust/system/error_code.h",
+        "line": 176
+      },
+      "name": "equivalent",
+      "override": false,
+      "params": [
+        {
+          "name": "code",
+          "type": "int",
+          "typePlain": "int"
+        },
+        {
+          "name": "condition",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__condition.html\">error_condition</a> &",
+          "typePlain": "const error_condition &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::error_category::equivalent",
+      "refid": "classthrust_1_1system_1_1error__category_1a7f2f3e83f80cd9a3b224e1864da8bc35",
+      "returns": [
+        "<code>default&#95;error&#95;condition(code) == condition</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "title": "equivalent",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html#function-equivalent",
+      "virtual": true,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-equivalent",
+      "argsString": "(const error_code &code, int condition) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "virtual bool thrust::system::error_category::equivalent",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::system::error_category::equivalent",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 25,
+        "file": "thrust/system/error_code.h",
+        "line": 180
+      },
+      "name": "equivalent",
+      "override": false,
+      "params": [
+        {
+          "name": "code",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__code.html\">error_code</a> &",
+          "typePlain": "const error_code &"
+        },
+        {
+          "name": "condition",
+          "type": "int",
+          "typePlain": "int"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::error_category::equivalent",
+      "refid": "classthrust_1_1system_1_1error__category_1ad1bb0afd888bf7a7a63d1c4cb44e0662",
+      "returns": [
+        "<code>&#42;this == code.category() && code.value() == condition</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "title": "equivalent",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html#function-equivalent",
+      "virtual": true,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-message",
+      "argsString": "(int ev) const =0",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "virtual std::string thrust::system::error_category::message",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::system::error_category::message",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 25,
+        "file": "thrust/system/error_code.h",
+        "line": 184
+      },
+      "name": "message",
+      "override": false,
+      "params": [
+        {
+          "name": "ev",
+          "type": "int",
+          "typePlain": "int"
+        }
+      ],
+      "pureVirtual": true,
+      "qualifiedname": "thrust::system::error_category::message",
+      "refid": "classthrust_1_1system_1_1error__category_1a1462ceceb990812f2326337738d5b65a",
+      "returns": [
+        "A string that describes the error condition denoted by <code>ev</code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "message",
+      "type": "std::string",
+      "typePlain": "std::string",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html#function-message",
+      "virtual": true,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const error_category &rhs) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "bool thrust::system::error_category::operator==",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::system::error_category::operator==",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 17,
+        "file": "thrust/system/error_code.h",
+        "line": 188
+      },
+      "name": "operator==",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html\">error_category</a> &",
+          "typePlain": "const error_category &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::error_category::operator==",
+      "refid": "classthrust_1_1system_1_1error__category_1ac9a83e71e71e819431a39445cefa4aa5",
+      "returns": [
+        "<code>&#42;this == &rhs</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator==",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const error_category &rhs) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "bool thrust::system::error_category::operator!=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::system::error_category::operator!=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 17,
+        "file": "thrust/system/error_code.h",
+        "line": 192
+      },
+      "name": "operator!=",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html\">error_category</a> &",
+          "typePlain": "const error_category &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::error_category::operator!=",
+      "refid": "classthrust_1_1system_1_1error__category_1a6ede4961866d71974032bfdbb2b395d2",
+      "returns": [
+        "<code>!(&#42;this == rhs)</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator!=",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator<",
+      "argsString": "(const error_category &rhs) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "bool thrust::system::error_category::operator<",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::system::error_category::operator<",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 12,
+        "file": "thrust/system/error_code.h",
+        "line": 197
+      },
+      "name": "operator<",
+      "note": [
+        "<code>less</code> provides a total ordering for pointers. "
+      ],
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html\">error_category</a> &",
+          "typePlain": "const error_category &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::error_category::operator<",
+      "refid": "classthrust_1_1system_1_1error__category_1a105d827bc3d59339b7c1aef07ff79574",
+      "returns": [
+        "<code>less&lt;const error&#95;category&#42;&gt;()(this, &rhs)</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator<",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html#function-operator<",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::system::error_category",
+  "refid": "classthrust_1_1system_1_1error__category",
+  "static": false,
+  "strong": false,
+  "summary": "The class error_category serves as a base class for types used to identify the source and encoding of a particular category of error code. Classes may be derived from error_category to support categories of errors in addition to those defined in the C++ International Standard. ",
+  "title": "thrust::system::error_category",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html",
+  "visibility": "public"
+}

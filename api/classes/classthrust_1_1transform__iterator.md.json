@@ -1,0 +1,511 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "detail::transform_iterator_base::type",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a></code> is an iterator which represents a pointer into a range of values after transformation by a function. This iterator is useful for creating a range filled with the result of applying an operation to another range without either explicitly storing it in memory, or explicitly executing the transformation. Using <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a></code> facilitates kernel fusion by deferring the execution of a transformation until the value is needed while saving both memory capacity and bandwidth.\n\nThe following code snippet demonstrates how to create a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a></code> which represents the result of <code>sqrtf</code> applied to the contents of a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code>.\n\n\n\n```cpp\n#include <thrust/iterator/transform_iterator.h>\n#include <thrust/device_vector.h>\n\n// note: functor inherits from unary_function\nstruct square_root : public thrust::unary_function<float,float>\n{\n  __host__ __device__\n  float operator()(float x) const\n  {\n    return sqrtf(x);\n  }\n};\n\nint main()\n{\n  thrust::device_vector<float> v(4);\n  v[0] = 1.0f;\n  v[1] = 4.0f;\n  v[2] = 9.0f;\n  v[3] = 16.0f;\n\n  typedef thrust::device_vector<float>::iterator FloatIterator;\n\n  thrust::transform_iterator<square_root, FloatIterator> iter(v.begin(), square_root());\n\n  *iter;   // returns 1.0f\n  iter[0]; // returns 1.0f;\n  iter[1]; // returns 2.0f;\n  iter[2]; // returns 3.0f;\n  iter[3]; // returns 4.0f;\n\n  // iter[4] is an out-of-bounds error\n}\n```\n\nThis next example demonstrates how to use a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a></code> with the <code>thrust::reduce</code> function to compute the sum of squares of a sequence. We will create temporary <code>transform&#95;iterators</code> with the <code>make&#95;transform&#95;iterator</code> function in order to avoid explicitly specifying their type:\n\n\n\n```cpp\n#include <thrust/iterator/transform_iterator.h>\n#include <thrust/device_vector.h>\n#include <thrust/reduce.h>\n#include <iostream>\n\n// note: functor inherits from unary_function\nstruct square : public thrust::unary_function<float,float>\n{\n  __host__ __device__\n  float operator()(float x) const\n  {\n    return x * x;\n  }\n};\n\nint main()\n{\n  // initialize a device array\n  thrust::device_vector<float> v(4);\n  v[0] = 1.0f;\n  v[1] = 2.0f;\n  v[2] = 3.0f;\n  v[3] = 4.0f;\n\n  float sum_of_squares =\n   thrust::reduce(thrust::make_transform_iterator(v.begin(), square()),\n                  thrust::make_transform_iterator(v.end(),   square()));\n\n  std::cout << \"sum of squares: \" << sum_of_squares << std::endl;\n  return 0;\n}\n```\n\nNote that in the previous two examples the transform functor (namely <code>square&#95;root</code> and <code>square</code>) inherits from <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1unary__function.html\">thrust::unary&#95;function</a></code>. Inheriting from <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1unary__function.html\">thrust::unary&#95;function</a></code> ensures that a functor is a valid <code>AdaptableUnaryFunction</code> and provides all the necessary <code>typedef</code> declarations. The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a></code> can also be applied to a <code>UnaryFunction</code> that does not inherit from <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1unary__function.html\">thrust::unary&#95;function</a></code> using an optional template argument. The following example illustrates how to use the third template argument to specify the <code>result&#95;type</code> of the function.\n\n\n\n```cpp\n#include <thrust/iterator/transform_iterator.h>\n#include <thrust/device_vector.h>\n\n// note: functor *does not* inherit from unary_function\nstruct square_root\n{\n  __host__ __device__\n  float operator()(float x) const\n  {\n    return sqrtf(x);\n  }\n};\n\nint main()\n{\n  thrust::device_vector<float> v(4);\n  v[0] = 1.0f;\n  v[1] = 4.0f;\n  v[2] = 9.0f;\n  v[3] = 16.0f;\n\n  typedef thrust::device_vector<float>::iterator FloatIterator;\n\n  // note: float result_type is specified explicitly\n  thrust::transform_iterator<square_root, FloatIterator, float> iter(v.begin(), square_root());\n\n  *iter;   // returns 1.0f\n  iter[0]; // returns 1.0f;\n  iter[1]; // returns 2.0f;\n  iter[2]; // returns 3.0f;\n  iter[3]; // returns 4.0f;\n\n  // iter[4] is an out-of-bounds error\n}\n```",
+  "explicit": false,
+  "fullname": "thrust::transform_iterator",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/iterator/transform_iterator.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 326,
+    "bodyFile": "thrust/iterator/transform_iterator.h",
+    "bodyStart": 191,
+    "column": 3,
+    "file": "thrust/iterator/transform_iterator.h",
+    "line": 189
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "fancyiterator",
+    "kind": "group",
+    "language": "",
+    "name": "fancyiterator",
+    "qualifiedname": "fancyiterator",
+    "refid": "group__fancyiterator",
+    "title": "Fancy Iterators",
+    "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterators",
+      "kind": "group",
+      "language": "",
+      "name": "iterators",
+      "qualifiedname": "iterators",
+      "refid": "group__iterators",
+      "title": "Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "fancyiterator",
+      "kind": "group",
+      "language": "",
+      "name": "fancyiterator",
+      "qualifiedname": "fancyiterator",
+      "refid": "group__fancyiterator",
+      "title": "Fancy Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::transform_iterator",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-transform-iterator",
+      "argsString": "()",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::transform_iterator< AdaptableUnaryFunction, Iterator, Reference, Value >::transform_iterator",
+      "deleted": false,
+      "details": "Null constructor does nothing. ",
+      "explicit": false,
+      "fullname": "thrust::transform_iterator::transform_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 207,
+        "bodyFile": "thrust/iterator/transform_iterator.h",
+        "bodyStart": 207,
+        "column": 5,
+        "file": "thrust/iterator/transform_iterator.h",
+        "line": 207
+      },
+      "name": "transform_iterator",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::transform_iterator::transform_iterator",
+      "refid": "classthrust_1_1transform__iterator_1a8739dc94f9299ca108fc45df11ec0225",
+      "static": false,
+      "strong": false,
+      "title": "transform_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html#function-transform-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-transform-iterator",
+      "argsString": "(transform_iterator const &)=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "thrust::transform_iterator< AdaptableUnaryFunction, Iterator, Reference, Value >::transform_iterator",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::transform_iterator::transform_iterator",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 5,
+        "file": "thrust/iterator/transform_iterator.h",
+        "line": 210
+      },
+      "name": "transform_iterator",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform_iterator</a> const &",
+          "typePlain": "transform_iterator const &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::transform_iterator::transform_iterator",
+      "refid": "classthrust_1_1transform__iterator_1a5eff5db837acb424280c01bf47aea234",
+      "static": false,
+      "strong": false,
+      "title": "transform_iterator",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html#function-transform-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-transform-iterator",
+      "argsString": "(Iterator const &x, AdaptableUnaryFunction f)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::transform_iterator< AdaptableUnaryFunction, Iterator, Reference, Value >::transform_iterator",
+      "deleted": false,
+      "details": "This constructor takes as arguments an <code>Iterator</code> and an <code>AdaptableUnaryFunction</code> and copies them to a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a></code>.",
+      "explicit": false,
+      "fullname": "thrust::transform_iterator::transform_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 222,
+        "bodyFile": "thrust/iterator/transform_iterator.h",
+        "bodyStart": 220,
+        "column": 5,
+        "file": "thrust/iterator/transform_iterator.h",
+        "line": 220
+      },
+      "name": "transform_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "An <code>Iterator</code> pointing to the input to this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a>'s</code><code>AdaptableUnaryFunction</code>. "
+        },
+        {
+          "name": "f",
+          "text": "An <code>AdaptableUnaryFunction</code> used to transform the objects pointed to by <code>x</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "Iterator const &",
+          "typePlain": "Iterator const &"
+        },
+        {
+          "name": "f",
+          "type": "AdaptableUnaryFunction",
+          "typePlain": "AdaptableUnaryFunction"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::transform_iterator::transform_iterator",
+      "refid": "classthrust_1_1transform__iterator_1a8e67da1e493d3e10eea1b03626998168",
+      "static": false,
+      "strong": false,
+      "title": "transform_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html#function-transform-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-transform-iterator",
+      "argsString": "(Iterator const &x)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::transform_iterator< AdaptableUnaryFunction, Iterator, Reference, Value >::transform_iterator",
+      "deleted": false,
+      "details": "This explicit constructor copies the value of a given <code>Iterator</code> and creates this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a>'s</code><code>AdaptableUnaryFunction</code> using its null constructor.",
+      "explicit": true,
+      "fullname": "thrust::transform_iterator::transform_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 231,
+        "bodyFile": "thrust/iterator/transform_iterator.h",
+        "bodyStart": 230,
+        "column": 14,
+        "file": "thrust/iterator/transform_iterator.h",
+        "line": 230
+      },
+      "name": "transform_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "An <code>Iterator</code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "Iterator const &",
+          "typePlain": "Iterator const &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::transform_iterator::transform_iterator",
+      "refid": "classthrust_1_1transform__iterator_1a1cc41d1fc7bc4648ac977a0b91e0e21a",
+      "static": false,
+      "strong": false,
+      "title": "transform_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html#function-transform-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-transform-iterator",
+      "argsString": "(const transform_iterator< OtherAdaptableUnaryFunction, OtherIterator, OtherReference, OtherValue > &other, typename thrust::detail::enable_if_convertible< OtherIterator, Iterator >::type *=0, typename thrust::detail::enable_if_convertible< OtherAdaptableUnaryFunction, AdaptableUnaryFunction >::type *=0)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::transform_iterator< AdaptableUnaryFunction, Iterator, Reference, Value >::transform_iterator",
+      "deleted": false,
+      "details": "This copy constructor creates a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a></code> from another <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a></code>.",
+      "explicit": false,
+      "fullname": "thrust::transform_iterator::transform_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 246,
+        "bodyFile": "thrust/iterator/transform_iterator.h",
+        "bodyStart": 243,
+        "column": 5,
+        "file": "thrust/iterator/transform_iterator.h",
+        "line": 243
+      },
+      "name": "transform_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "other",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a></code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "other",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform_iterator</a>< OtherAdaptableUnaryFunction, OtherIterator, OtherReference, OtherValue > &",
+          "typePlain": "const transform_iterator< OtherAdaptableUnaryFunction, OtherIterator, OtherReference, OtherValue > &"
+        },
+        {
+          "defval": "0",
+          "defvalPlain": "0",
+          "name": "",
+          "type": "typename thrust::detail::enable_if_convertible< OtherIterator, Iterator >::type *",
+          "typePlain": "typename thrust::detail::enable_if_convertible< OtherIterator, Iterator >::type *"
+        },
+        {
+          "defval": "0",
+          "defvalPlain": "0",
+          "name": "",
+          "type": "typename thrust::detail::enable_if_convertible< OtherAdaptableUnaryFunction, AdaptableUnaryFunction >::type *",
+          "typePlain": "typename thrust::detail::enable_if_convertible< OtherAdaptableUnaryFunction, AdaptableUnaryFunction >::type *"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::transform_iterator::transform_iterator",
+      "refid": "classthrust_1_1transform__iterator_1aa094e863a429aa67c343aa48056fcfb8",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherAdaptableUnaryFunction",
+          "typePlain": "typename OtherAdaptableUnaryFunction"
+        },
+        {
+          "name": "",
+          "type": "typename OtherIterator",
+          "typePlain": "typename OtherIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OtherReference",
+          "typePlain": "typename OtherReference"
+        },
+        {
+          "name": "",
+          "type": "typename OtherValue",
+          "typePlain": "typename OtherValue"
+        }
+      ],
+      "title": "transform_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html#function-transform-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const transform_iterator &other)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ transform_iterator & thrust::transform_iterator< AdaptableUnaryFunction, Iterator, Reference, Value >::operator=",
+      "deleted": false,
+      "details": "Copy assignment operator copies from another <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a></code>. <code>other</code> The other <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a></code> to copy \nIn any case, this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a>'s</code> underlying iterator will be copy assigned. ",
+      "explicit": false,
+      "fullname": "thrust::transform_iterator::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 269,
+        "bodyFile": "thrust/iterator/transform_iterator.h",
+        "bodyStart": 259,
+        "column": 24,
+        "file": "thrust/iterator/transform_iterator.h",
+        "line": 259
+      },
+      "name": "operator=",
+      "note": [
+        "If the type of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a>'s</code> functor is not copy assignable (for example, if it is a lambda) it is not an error to call this function. In this case, however, the functor will not be modified."
+      ],
+      "override": false,
+      "params": [
+        {
+          "name": "other",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform_iterator</a> &",
+          "typePlain": "const transform_iterator &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::transform_iterator::operator=",
+      "refid": "classthrust_1_1transform__iterator_1a76e10a573d310f07c3a3db7eb1b9395a",
+      "returns": [
+        "<code>&#42;this</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform_iterator</a> &",
+      "typePlain": "__host__ __device__ transform_iterator &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-functor",
+      "argsString": "() const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ AdaptableUnaryFunction thrust::transform_iterator< AdaptableUnaryFunction, Iterator, Reference, Value >::functor",
+      "deleted": false,
+      "details": "This method returns a copy of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a>'s</code><code>AdaptableUnaryFunction</code>. ",
+      "explicit": false,
+      "fullname": "thrust::transform_iterator::functor",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 276,
+        "bodyFile": "thrust/iterator/transform_iterator.h",
+        "bodyStart": 275,
+        "column": 28,
+        "file": "thrust/iterator/transform_iterator.h",
+        "line": 275
+      },
+      "name": "functor",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::transform_iterator::functor",
+      "refid": "classthrust_1_1transform__iterator_1ac69f5c7a682d3221743d848c5d87cf72",
+      "returns": [
+        "A copy of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a>'s</code><code>AdaptableUnaryFunction</code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "functor",
+      "type": "__host__ __device__ AdaptableUnaryFunction",
+      "typePlain": "__host__ __device__ AdaptableUnaryFunction",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html#function-functor",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::transform_iterator",
+  "refid": "classthrust_1_1transform__iterator",
+  "see": [
+    "make_transform_iterator "
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "class AdaptableUnaryFunction",
+      "typePlain": "class AdaptableUnaryFunction"
+    },
+    {
+      "name": "",
+      "type": "class Iterator",
+      "typePlain": "class Iterator"
+    },
+    {
+      "defval": "use_default",
+      "defvalPlain": "use_default",
+      "name": "",
+      "type": "class Reference",
+      "typePlain": "class Reference"
+    },
+    {
+      "defval": "use_default",
+      "defvalPlain": "use_default",
+      "name": "",
+      "type": "class Value",
+      "typePlain": "class Value"
+    }
+  ],
+  "title": "thrust::transform_iterator",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html",
+  "visibility": "public"
+}

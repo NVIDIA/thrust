@@ -1,0 +1,996 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "<code>thrust::mr</code> is the namespace containing system agnostic types and functions for <code>memory&#95;resource</code> related functionalities. ",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::mr",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "language": "cpp",
+  "location": {
+    "column": 1,
+    "file": "thrust/mr/allocator.h",
+    "line": 34
+  },
+  "name": "thrust::mr",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::mr::validator< MR >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::mr::allocator",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::mr::allocator",
+      "qualifiedname": "thrust::mr::allocator",
+      "refid": "classthrust_1_1mr_1_1allocator",
+      "title": "thrust::mr::allocator",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "thrust::mr::memory_resource< Upstream::pointer >",
+          "refid": "classthrust_1_1mr_1_1memory__resource",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::mr::disjoint_synchronized_pool_resource",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::mr::disjoint_synchronized_pool_resource",
+      "qualifiedname": "thrust::mr::disjoint_synchronized_pool_resource",
+      "refid": "structthrust_1_1mr_1_1disjoint__synchronized__pool__resource",
+      "title": "thrust::mr::disjoint_synchronized_pool_resource",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1disjoint__synchronized__pool__resource.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "thrust::mr::memory_resource< Upstream::pointer >",
+          "refid": "classthrust_1_1mr_1_1memory__resource",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": true,
+          "name": "thrust::mr::validator2< Upstream, Bookkeeper >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::mr::disjoint_unsynchronized_pool_resource",
+      "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource",
+      "refid": "classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource",
+      "title": "thrust::mr::disjoint_unsynchronized_pool_resource",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "thrust::mr::memory_resource< Pointer >",
+          "refid": "classthrust_1_1mr_1_1memory__resource",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": true,
+          "name": "thrust::mr::validator< Upstream >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::mr::fancy_pointer_resource",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::mr::fancy_pointer_resource",
+      "qualifiedname": "thrust::mr::fancy_pointer_resource",
+      "refid": "classthrust_1_1mr_1_1fancy__pointer__resource",
+      "title": "thrust::mr::fancy_pointer_resource",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1fancy__pointer__resource.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "derivedClasses": [
+        {
+          "external": false,
+          "name": "thrust::mr::new_delete_resource",
+          "refid": "classthrust_1_1mr_1_1new__delete__resource",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1new__delete__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": false,
+          "name": "thrust::mr::polymorphic_adaptor_resource< Pointer >",
+          "refid": "classthrust_1_1mr_1_1polymorphic__adaptor__resource",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1polymorphic__adaptor__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "fullname": "thrust::mr::memory_resource",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::mr::memory_resource",
+      "qualifiedname": "thrust::mr::memory_resource",
+      "refid": "classthrust_1_1mr_1_1memory__resource",
+      "title": "thrust::mr::memory_resource",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::mr::memory_resource< void * >",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::mr::memory_resource< void * >",
+      "qualifiedname": "thrust::mr::memory_resource< void * >",
+      "refid": "classthrust_1_1mr_1_1memory__resource_3_01void_01_5_01_4",
+      "title": "thrust::mr::memory_resource< void * >",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource_3_01void_01_5_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "thrust::mr::memory_resource<>",
+          "refid": "classthrust_1_1mr_1_1memory__resource",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::mr::new_delete_resource",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::mr::new_delete_resource",
+      "qualifiedname": "thrust::mr::new_delete_resource",
+      "refid": "classthrust_1_1mr_1_1new__delete__resource",
+      "title": "thrust::mr::new_delete_resource",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1new__delete__resource.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "thrust::mr::memory_resource< void * >",
+          "refid": "classthrust_1_1mr_1_1memory__resource",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::mr::polymorphic_adaptor_resource",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::mr::polymorphic_adaptor_resource",
+      "qualifiedname": "thrust::mr::polymorphic_adaptor_resource",
+      "refid": "classthrust_1_1mr_1_1polymorphic__adaptor__resource",
+      "title": "thrust::mr::polymorphic_adaptor_resource",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1polymorphic__adaptor__resource.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::mr::pool_options",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::mr::pool_options",
+      "qualifiedname": "thrust::mr::pool_options",
+      "refid": "structthrust_1_1mr_1_1pool__options",
+      "title": "thrust::mr::pool_options",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1pool__options.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "thrust::mr::allocator< T, Upstream >",
+          "refid": "classthrust_1_1mr_1_1allocator",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": true,
+          "name": "thrust::mr::validator< MR >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::mr::stateless_resource_allocator",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::mr::stateless_resource_allocator",
+      "qualifiedname": "thrust::mr::stateless_resource_allocator",
+      "refid": "classthrust_1_1mr_1_1stateless__resource__allocator",
+      "title": "thrust::mr::stateless_resource_allocator",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "thrust::mr::memory_resource< Upstream::pointer >",
+          "refid": "classthrust_1_1mr_1_1memory__resource",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::mr::synchronized_pool_resource",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::mr::synchronized_pool_resource",
+      "qualifiedname": "thrust::mr::synchronized_pool_resource",
+      "refid": "structthrust_1_1mr_1_1synchronized__pool__resource",
+      "title": "thrust::mr::synchronized_pool_resource",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1synchronized__pool__resource.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "thrust::mr::memory_resource< Upstream::pointer >",
+          "refid": "classthrust_1_1mr_1_1memory__resource",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": true,
+          "name": "thrust::mr::validator< Upstream >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::mr::unsynchronized_pool_resource",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::mr::unsynchronized_pool_resource",
+      "qualifiedname": "thrust::mr::unsynchronized_pool_resource",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource",
+      "title": "thrust::mr::unsynchronized_pool_resource",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "derivedClasses": [
+        {
+          "external": false,
+          "name": "thrust::mr::allocator< T, device_ptr_memory_resource< device_memory_resource > >",
+          "refid": "classthrust_1_1mr_1_1allocator",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        },
+        {
+          "external": false,
+          "name": "thrust::mr::allocator< T, Upstream >",
+          "refid": "classthrust_1_1mr_1_1allocator",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        },
+        {
+          "external": false,
+          "name": "thrust::mr::validator2< Upstream, Bookkeeper >",
+          "refid": "structthrust_1_1mr_1_1validator2",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2.html",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        },
+        {
+          "external": false,
+          "name": "thrust::mr::validator2< Upstream, Bookkeeper >",
+          "refid": "structthrust_1_1mr_1_1validator2",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2.html",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        },
+        {
+          "external": false,
+          "name": "thrust::mr::allocator< T, MR >",
+          "refid": "classthrust_1_1mr_1_1allocator",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        },
+        {
+          "external": false,
+          "name": "thrust::mr::fancy_pointer_resource< Upstream, Pointer >",
+          "refid": "classthrust_1_1mr_1_1fancy__pointer__resource",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1fancy__pointer__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        },
+        {
+          "external": false,
+          "name": "thrust::mr::unsynchronized_pool_resource< Upstream >",
+          "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        },
+        {
+          "external": false,
+          "name": "thrust::mr::validator2< T, U >",
+          "refid": "structthrust_1_1mr_1_1validator2",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2.html",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        },
+        {
+          "external": false,
+          "name": "thrust::mr::validator2< T, U >",
+          "refid": "structthrust_1_1mr_1_1validator2",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2.html",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        },
+        {
+          "external": false,
+          "name": "thrust::mr::validator2< T, T >",
+          "refid": "structthrust_1_1mr_1_1validator2_3_01T_00_01T_01_4",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2_3_01t_00_01t_01_4.html",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "fullname": "thrust::mr::validator",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::mr::validator",
+      "qualifiedname": "thrust::mr::validator",
+      "refid": "structthrust_1_1mr_1_1validator",
+      "title": "thrust::mr::validator",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::mr::validator< T >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        },
+        {
+          "external": true,
+          "name": "thrust::mr::validator< U >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "category": "classes",
+      "derivedClasses": [
+        {
+          "external": false,
+          "name": "thrust::mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >",
+          "refid": "classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "fullname": "thrust::mr::validator2",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::mr::validator2",
+      "qualifiedname": "thrust::mr::validator2",
+      "refid": "structthrust_1_1mr_1_1validator2",
+      "title": "thrust::mr::validator2",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::mr::validator< T >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::mr::validator2< T, T >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::mr::validator2< T, T >",
+      "qualifiedname": "thrust::mr::validator2< T, T >",
+      "refid": "structthrust_1_1mr_1_1validator2_3_01T_00_01T_01_4",
+      "title": "thrust::mr::validator2< T, T >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2_3_01t_00_01t_01_4.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const allocator< T, MR > &lhs, const allocator< T, MR > &rhs) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::mr::operator==",
+      "deleted": false,
+      "details": "Compares the allocators for equality by comparing the underlying memory resources. ",
+      "explicit": false,
+      "fullname": "thrust::mr::operator==",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 162,
+        "bodyFile": "thrust/mr/allocator.h",
+        "bodyStart": 159,
+        "column": 6,
+        "file": "thrust/mr/allocator.h",
+        "line": 159
+      },
+      "name": "operator==",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html\">allocator</a>< T, MR > &",
+          "typePlain": "const allocator< T, MR > &"
+        },
+        {
+          "name": "rhs",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html\">allocator</a>< T, MR > &",
+          "typePlain": "const allocator< T, MR > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::mr::operator==",
+      "refid": "group__allocators_1ga343219996d47f4d2b55c2b32b928fbbe",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename MR",
+          "typePlain": "typename MR"
+        }
+      ],
+      "title": "operator==",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__allocators.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const allocator< T, MR > &lhs, const allocator< T, MR > &rhs) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::mr::operator!=",
+      "deleted": false,
+      "details": "Compares the allocators for inequality by comparing the underlying memory resources. ",
+      "explicit": false,
+      "fullname": "thrust::mr::operator!=",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 170,
+        "bodyFile": "thrust/mr/allocator.h",
+        "bodyStart": 167,
+        "column": 6,
+        "file": "thrust/mr/allocator.h",
+        "line": 167
+      },
+      "name": "operator!=",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html\">allocator</a>< T, MR > &",
+          "typePlain": "const allocator< T, MR > &"
+        },
+        {
+          "name": "rhs",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html\">allocator</a>< T, MR > &",
+          "typePlain": "const allocator< T, MR > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::mr::operator!=",
+      "refid": "group__allocators_1gae8c095731767460b11aa8ef193a82d14",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename MR",
+          "typePlain": "typename MR"
+        }
+      ],
+      "title": "operator!=",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__allocators.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-tls-disjoint-pool",
+      "argsString": "(Upstream *upstream=NULL, Bookkeeper *bookkeeper=NULL)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper > & thrust::mr::tls_disjoint_pool",
+      "deleted": false,
+      "details": "Potentially constructs, if not yet created, and then returns the address of a thread-local <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource.html\">disjoint&#95;unsynchronized&#95;pool&#95;resource</a></code>,",
+      "explicit": false,
+      "fullname": "thrust::mr::tls_disjoint_pool",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 60,
+        "bodyFile": "thrust/mr/disjoint_tls_pool.h",
+        "bodyStart": 50,
+        "column": 52,
+        "file": "thrust/mr/disjoint_tls_pool.h",
+        "line": 50
+      },
+      "name": "tls_disjoint_pool",
+      "override": false,
+      "paramList": [
+        {
+          "name": "upstream",
+          "text": "the first argument to the constructor, if invoked "
+        },
+        {
+          "name": "bookkeeper",
+          "text": "the second argument to the constructor, if invoked "
+        }
+      ],
+      "params": [
+        {
+          "defval": "NULL",
+          "defvalPlain": "NULL",
+          "name": "upstream",
+          "type": "Upstream *",
+          "typePlain": "Upstream *"
+        },
+        {
+          "defval": "NULL",
+          "defvalPlain": "NULL",
+          "name": "bookkeeper",
+          "type": "Bookkeeper *",
+          "typePlain": "Bookkeeper *"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::mr::tls_disjoint_pool",
+      "refid": "group__memory__resources_1gae6a37bc49c758decce33ba5bfa59eee9",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Upstream",
+          "typePlain": "typename Upstream"
+        },
+        {
+          "name": "",
+          "type": "typename Bookkeeper",
+          "typePlain": "typename Bookkeeper"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "Upstream",
+          "text": "the first template argument to the pool template "
+        },
+        {
+          "name": "Bookkeeper",
+          "text": "the second template argument to the pool template "
+        }
+      ],
+      "title": "tls_disjoint_pool",
+      "type": "__host__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource.html\">thrust::mr::disjoint_unsynchronized_pool_resource</a>< Upstream, Bookkeeper > &",
+      "typePlain": "__host__ thrust::mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper > &",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__resources.html#function-tls-disjoint-pool",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const memory_resource< Pointer > &lhs, const memory_resource< Pointer > &rhs) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::mr::operator==",
+      "deleted": false,
+      "details": "Compares the memory resources for equality, first by identity, then by <code>is&#95;equal</code>. ",
+      "explicit": false,
+      "fullname": "thrust::mr::operator==",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 188,
+        "bodyFile": "thrust/mr/memory_resource.h",
+        "bodyStart": 185,
+        "column": 6,
+        "file": "thrust/mr/memory_resource.h",
+        "line": 185
+      },
+      "name": "operator==",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html\">memory_resource</a>< Pointer > &",
+          "typePlain": "const memory_resource< Pointer > &"
+        },
+        {
+          "name": "rhs",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html\">memory_resource</a>< Pointer > &",
+          "typePlain": "const memory_resource< Pointer > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::mr::operator==",
+      "refid": "group__memory__resources_1gaea7e16173d053d33c62e428a5030eab3",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Pointer",
+          "typePlain": "typename Pointer"
+        }
+      ],
+      "title": "operator==",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__resources.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const memory_resource< Pointer > &lhs, const memory_resource< Pointer > &rhs) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::mr::operator!=",
+      "deleted": false,
+      "details": "Compares the memory resources for inequality, first by identity, then by <code>is&#95;equal</code>. ",
+      "explicit": false,
+      "fullname": "thrust::mr::operator!=",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 197,
+        "bodyFile": "thrust/mr/memory_resource.h",
+        "bodyStart": 194,
+        "column": 6,
+        "file": "thrust/mr/memory_resource.h",
+        "line": 194
+      },
+      "name": "operator!=",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html\">memory_resource</a>< Pointer > &",
+          "typePlain": "const memory_resource< Pointer > &"
+        },
+        {
+          "name": "rhs",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html\">memory_resource</a>< Pointer > &",
+          "typePlain": "const memory_resource< Pointer > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::mr::operator!=",
+      "refid": "group__memory__resources_1ga3e6fa8fb643319d1d03a42095400d456",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Pointer",
+          "typePlain": "typename Pointer"
+        }
+      ],
+      "title": "operator!=",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__resources.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-get-global-resource",
+      "argsString": "()",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ MR * thrust::mr::get_global_resource",
+      "deleted": false,
+      "details": "Returns a global instance of <code>MR</code>, created as a function local static variable.",
+      "explicit": false,
+      "fullname": "thrust::mr::get_global_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 210,
+        "bodyFile": "thrust/mr/memory_resource.h",
+        "bodyStart": 206,
+        "column": 5,
+        "file": "thrust/mr/memory_resource.h",
+        "line": 206
+      },
+      "name": "get_global_resource",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::mr::get_global_resource",
+      "refid": "group__memory__resources_1gafc754f64fe3d1b3214418fea878bad00",
+      "returns": [
+        "a pointer to a global instance of <code>MR</code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename MR",
+          "typePlain": "typename MR"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "MR",
+          "text": "type of a memory resource to get an instance from. Must be <code>DefaultConstructible</code>. "
+        }
+      ],
+      "title": "get_global_resource",
+      "type": "__host__ MR *",
+      "typePlain": "__host__ MR *",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__resources.html#function-get-global-resource",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-tls-pool",
+      "argsString": "(Upstream *upstream=NULL)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::mr::unsynchronized_pool_resource< Upstream > & thrust::mr::tls_pool",
+      "deleted": false,
+      "details": "Potentially constructs, if not yet created, and then returns the address of a thread-local <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html\">unsynchronized&#95;pool&#95;resource</a></code>,",
+      "explicit": false,
+      "fullname": "thrust::mr::tls_pool",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 55,
+        "bodyFile": "thrust/mr/tls_pool.h",
+        "bodyStart": 47,
+        "column": 43,
+        "file": "thrust/mr/tls_pool.h",
+        "line": 47
+      },
+      "name": "tls_pool",
+      "override": false,
+      "paramList": [
+        {
+          "name": "upstream",
+          "text": "the argument to the constructor, if invoked "
+        }
+      ],
+      "params": [
+        {
+          "defval": "NULL",
+          "defvalPlain": "NULL",
+          "name": "upstream",
+          "type": "Upstream *",
+          "typePlain": "Upstream *"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::mr::tls_pool",
+      "refid": "group__memory__resources_1ga85241fd5d2bc28e980be6d546f7b1f6a",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Upstream",
+          "typePlain": "typename Upstream"
+        },
+        {
+          "name": "",
+          "type": "typename Bookkeeper",
+          "typePlain": "typename Bookkeeper"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "Upstream",
+          "text": "the template argument to the pool template "
+        }
+      ],
+      "title": "tls_pool",
+      "type": "__host__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html\">thrust::mr::unsynchronized_pool_resource</a>< Upstream > &",
+      "typePlain": "__host__ thrust::mr::unsynchronized_pool_resource< Upstream > &",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__resources.html#function-tls-pool",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-polymorphic-allocator",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::mr::polymorphic_allocator = typedef allocator<T, polymorphic_adaptor_resource<Pointer> >",
+      "explicit": false,
+      "fullname": "thrust::mr::polymorphic_allocator",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/allocator.h",
+        "bodyStart": 175,
+        "column": 1,
+        "file": "thrust/mr/allocator.h",
+        "line": 175
+      },
+      "name": "polymorphic_allocator",
+      "override": false,
+      "qualifiedname": "thrust::mr::polymorphic_allocator",
+      "refid": "group__allocators_1gaa3254521722da4dc78bc3ad9d8619ec0",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename Pointer",
+          "typePlain": "typename Pointer"
+        }
+      ],
+      "title": "polymorphic_allocator",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html\">allocator</a>< T, polymorphic_adaptor_resource< Pointer > >",
+      "typePlain": "allocator< T, polymorphic_adaptor_resource< Pointer > >",
+      "url": "{{ site.baseurl }}/api/groups/group__allocators.html#using-polymorphic-allocator",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::mr",
+  "refid": "namespacethrust_1_1mr",
+  "static": false,
+  "strong": false,
+  "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
+  "title": "thrust::mr",
+  "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1mr.html",
+  "visibility": "public"
+}

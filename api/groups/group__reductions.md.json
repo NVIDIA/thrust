@@ -1,0 +1,1759 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "reductions",
+  "groups": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "counting",
+      "kind": "group",
+      "language": "",
+      "name": "counting",
+      "qualifiedname": "counting",
+      "refid": "group__counting",
+      "title": "Counting",
+      "url": "{{ site.baseurl }}/api/groups/group__counting.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "comparisons",
+      "kind": "group",
+      "language": "",
+      "name": "comparisons",
+      "qualifiedname": "comparisons",
+      "refid": "group__comparisons",
+      "title": "Comparisons",
+      "url": "{{ site.baseurl }}/api/groups/group__comparisons.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "extrema",
+      "kind": "group",
+      "language": "",
+      "name": "extrema",
+      "qualifiedname": "extrema",
+      "refid": "group__extrema",
+      "title": "Extrema",
+      "url": "{{ site.baseurl }}/api/groups/group__extrema.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "transformed_reductions",
+      "kind": "group",
+      "language": "",
+      "name": "transformed_reductions",
+      "qualifiedname": "transformed_reductions",
+      "refid": "group__transformed__reductions",
+      "title": "Transformed Reductions",
+      "url": "{{ site.baseurl }}/api/groups/group__transformed__reductions.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "logical",
+      "kind": "group",
+      "language": "",
+      "name": "logical",
+      "qualifiedname": "logical",
+      "refid": "group__logical",
+      "title": "Logical",
+      "url": "{{ site.baseurl }}/api/groups/group__logical.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predicates",
+      "kind": "group",
+      "language": "",
+      "name": "predicates",
+      "qualifiedname": "predicates",
+      "refid": "group__predicates",
+      "title": "Predicates",
+      "url": "{{ site.baseurl }}/api/groups/group__predicates.html",
+      "visibility": "public"
+    }
+  ],
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "algorithms",
+    "kind": "group",
+    "language": "",
+    "name": "algorithms",
+    "qualifiedname": "algorithms",
+    "refid": "group__algorithms",
+    "title": "Algorithms",
+    "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "reductions",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "algorithms",
+    "kind": "group",
+    "language": "",
+    "name": "algorithms",
+    "qualifiedname": "algorithms",
+    "refid": "group__algorithms",
+    "title": "Algorithms",
+    "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-reduce",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::iterator_traits< InputIterator >::value_type thrust::reduce",
+      "deleted": false,
+      "details": "<code>reduce</code> is a generalization of summation: it computes the sum (or some other binary operation) of all the elements in the range <code>[first, last)</code>. This version of <code>reduce</code> uses <code>0</code> as the initial value of the reduction. <code>reduce</code> is similar to the C++ Standard Template Library's <code>std::accumulate</code>. The primary difference between the two functions is that <code>std::accumulate</code> guarantees the order of summation, while <code>reduce</code> requires associativity of the binary operation to parallelize the reduction.\n\nNote that <code>reduce</code> also assumes that the binary reduction operator (in this case operator+) is commutative. If the reduction operator is not commutative then <code>thrust::reduce</code> should not be used. Instead, one could use <code>inclusive&#95;scan</code> (which does not require commutativity) and select the last element of the output array.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>reduce</code> to compute the sum of a sequence of integers using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/reduce.h>\n#include <thrust/execution_policy.h>\n...\nint data[6] = {1, 0, 2, 2, 1, 3};\nint result = thrust::reduce(thrust::host, data, data + 6);\n\n// result == 9\n```",
+      "explicit": false,
+      "fullname": "reductions::reduce",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/reduce.h",
+        "line": 83
+      },
+      "name": "reduce",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::reduce",
+      "refid": "group__reductions_1ga76e89362d46ef788f1fb2c16c28042b7",
+      "returns": [
+        "The result of the reduction."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/accumulate\">https://en.cppreference.com/w/cpp/algorithm/accumulate</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and if <code>x</code> and <code>y</code> are objects of <code>InputIterator's</code><code>value&#95;type</code>, then <code>x + y</code> is defined and is convertible to <code>InputIterator's</code><code>value&#95;type</code>. If <code>T</code> is <code>InputIterator's</code><code>value&#95;type</code>, then <code>T(0)</code> is defined."
+        }
+      ],
+      "title": "reduce",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">thrust::iterator_traits</a>< InputIterator >::value_type",
+      "typePlain": "__host__ __device__ thrust::iterator_traits< InputIterator >::value_type",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html#function-reduce",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-reduce",
+      "argsString": "(InputIterator first, InputIterator last)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::iterator_traits< InputIterator >::value_type thrust::reduce",
+      "deleted": false,
+      "details": "<code>reduce</code> is a generalization of summation: it computes the sum (or some other binary operation) of all the elements in the range <code>[first, last)</code>. This version of <code>reduce</code> uses <code>0</code> as the initial value of the reduction. <code>reduce</code> is similar to the C++ Standard Template Library's <code>std::accumulate</code>. The primary difference between the two functions is that <code>std::accumulate</code> guarantees the order of summation, while <code>reduce</code> requires associativity of the binary operation to parallelize the reduction.\n\nNote that <code>reduce</code> also assumes that the binary reduction operator (in this case operator+) is commutative. If the reduction operator is not commutative then <code>thrust::reduce</code> should not be used. Instead, one could use <code>inclusive&#95;scan</code> (which does not require commutativity) and select the last element of the output array.\n\n\nThe following code snippet demonstrates how to use <code>reduce</code> to compute the sum of a sequence of integers.\n\n\n\n```cpp\n#include <thrust/reduce.h>\n...\nint data[6] = {1, 0, 2, 2, 1, 3};\nint result = thrust::reduce(data, data + 6);\n\n// result == 9\n```",
+      "explicit": false,
+      "fullname": "reductions::reduce",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 40,
+        "file": "thrust/reduce.h",
+        "line": 126
+      },
+      "name": "reduce",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::reduce",
+      "refid": "group__reductions_1ga4fd69af6cd437e3bf95a46cf3836dc08",
+      "returns": [
+        "The result of the reduction."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/accumulate\">https://en.cppreference.com/w/cpp/algorithm/accumulate</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and if <code>x</code> and <code>y</code> are objects of <code>InputIterator's</code><code>value&#95;type</code>, then <code>x + y</code> is defined and is convertible to <code>InputIterator's</code><code>value&#95;type</code>. If <code>T</code> is <code>InputIterator's</code><code>value&#95;type</code>, then <code>T(0)</code> is defined."
+        }
+      ],
+      "title": "reduce",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">thrust::iterator_traits</a>< InputIterator >::value_type",
+      "typePlain": "thrust::iterator_traits< InputIterator >::value_type",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html#function-reduce",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-reduce",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, T init)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ T thrust::reduce",
+      "deleted": false,
+      "details": "<code>reduce</code> is a generalization of summation: it computes the sum (or some other binary operation) of all the elements in the range <code>[first, last)</code>. This version of <code>reduce</code> uses <code>init</code> as the initial value of the reduction. <code>reduce</code> is similar to the C++ Standard Template Library's <code>std::accumulate</code>. The primary difference between the two functions is that <code>std::accumulate</code> guarantees the order of summation, while <code>reduce</code> requires associativity of the binary operation to parallelize the reduction.\n\nNote that <code>reduce</code> also assumes that the binary reduction operator (in this case operator+) is commutative. If the reduction operator is not commutative then <code>thrust::reduce</code> should not be used. Instead, one could use <code>inclusive&#95;scan</code> (which does not require commutativity) and select the last element of the output array.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>reduce</code> to compute the sum of a sequence of integers including an intialization value using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/reduce.h>\n#include <thrust/execution_policy.h>\n...\nint data[6] = {1, 0, 2, 2, 1, 3};\nint result = thrust::reduce(thrust::host, data, data + 6, 1);\n\n// result == 10\n```",
+      "explicit": false,
+      "fullname": "reductions::reduce",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/reduce.h",
+        "line": 176
+      },
+      "name": "reduce",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input sequence. "
+        },
+        {
+          "name": "init",
+          "text": "The initial value. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "init",
+          "type": "T",
+          "typePlain": "T"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::reduce",
+      "refid": "group__reductions_1ga6ac0fe1561f58692e85112bd1145ddff",
+      "returns": [
+        "The result of the reduction."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/accumulate\">https://en.cppreference.com/w/cpp/algorithm/accumulate</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and if <code>x</code> and <code>y</code> are objects of <code>InputIterator's</code><code>value&#95;type</code>, then <code>x + y</code> is defined and is convertible to <code>T</code>. "
+        },
+        {
+          "name": "T",
+          "text": "is convertible to <code>InputIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "reduce",
+      "type": "__host__ __device__ T",
+      "typePlain": "__host__ __device__ T",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html#function-reduce",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-reduce",
+      "argsString": "(InputIterator first, InputIterator last, T init)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "T thrust::reduce",
+      "deleted": false,
+      "details": "<code>reduce</code> is a generalization of summation: it computes the sum (or some other binary operation) of all the elements in the range <code>[first, last)</code>. This version of <code>reduce</code> uses <code>init</code> as the initial value of the reduction. <code>reduce</code> is similar to the C++ Standard Template Library's <code>std::accumulate</code>. The primary difference between the two functions is that <code>std::accumulate</code> guarantees the order of summation, while <code>reduce</code> requires associativity of the binary operation to parallelize the reduction.\n\nNote that <code>reduce</code> also assumes that the binary reduction operator (in this case operator+) is commutative. If the reduction operator is not commutative then <code>thrust::reduce</code> should not be used. Instead, one could use <code>inclusive&#95;scan</code> (which does not require commutativity) and select the last element of the output array.\n\n\nThe following code snippet demonstrates how to use <code>reduce</code> to compute the sum of a sequence of integers including an intialization value.\n\n\n\n```cpp\n#include <thrust/reduce.h>\n...\nint data[6] = {1, 0, 2, 2, 1, 3};\nint result = thrust::reduce(data, data + 6, 1);\n\n// result == 10\n```",
+      "explicit": false,
+      "fullname": "reductions::reduce",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/reduce.h",
+        "line": 222
+      },
+      "name": "reduce",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the input sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input sequence. "
+        },
+        {
+          "name": "init",
+          "text": "The initial value. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "init",
+          "type": "T",
+          "typePlain": "T"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::reduce",
+      "refid": "group__reductions_1gad88f81c37fb8a41039d2185f26fec99d",
+      "returns": [
+        "The result of the reduction."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/accumulate\">https://en.cppreference.com/w/cpp/algorithm/accumulate</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and if <code>x</code> and <code>y</code> are objects of <code>InputIterator's</code><code>value&#95;type</code>, then <code>x + y</code> is defined and is convertible to <code>T</code>. "
+        },
+        {
+          "name": "T",
+          "text": "is convertible to <code>InputIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "reduce",
+      "type": "T",
+      "typePlain": "T",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html#function-reduce",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-reduce",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, T init, BinaryFunction binary_op)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ T thrust::reduce",
+      "deleted": false,
+      "details": "<code>reduce</code> is a generalization of summation: it computes the sum (or some other binary operation) of all the elements in the range <code>[first, last)</code>. This version of <code>reduce</code> uses <code>init</code> as the initial value of the reduction and <code>binary&#95;op</code> as the binary function used for summation. <code>reduce</code> is similar to the C++ Standard Template Library's <code>std::accumulate</code>. The primary difference between the two functions is that <code>std::accumulate</code> guarantees the order of summation, while <code>reduce</code> requires associativity of <code>binary&#95;op</code> to parallelize the reduction.\n\nNote that <code>reduce</code> also assumes that the binary reduction operator (in this case <code>binary&#95;op</code>) is commutative. If the reduction operator is not commutative then <code>thrust::reduce</code> should not be used. Instead, one could use <code>inclusive&#95;scan</code> (which does not require commutativity) and select the last element of the output array.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>reduce</code> to compute the maximum value of a sequence of integers using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/reduce.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\nint data[6] = {1, 0, 2, 2, 1, 3};\nint result = thrust::reduce(thrust::host,\n                            data, data + 6,\n                            -1,\n                            thrust::maximum<int>());\n// result == 3\n```",
+      "explicit": false,
+      "fullname": "reductions::reduce",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/reduce.h",
+        "line": 284
+      },
+      "name": "reduce",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input sequence. "
+        },
+        {
+          "name": "init",
+          "text": "The initial value. "
+        },
+        {
+          "name": "binary_op",
+          "text": "The binary function used to 'sum' values. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "init",
+          "type": "T",
+          "typePlain": "T"
+        },
+        {
+          "name": "binary_op",
+          "type": "BinaryFunction",
+          "typePlain": "BinaryFunction"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::reduce",
+      "refid": "group__reductions_1ga6869a1fbdf07499b2ed96fb3ec803c13",
+      "returns": [
+        "The result of the reduction."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/accumulate\">https://en.cppreference.com/w/cpp/algorithm/accumulate</a>",
+        "transform_reduce "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryFunction",
+          "typePlain": "typename BinaryFunction"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>T</code>. "
+        },
+        {
+          "name": "T",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/CopyAssignable\">Assignable</a>, and is convertible to <code>BinaryFunction's</code><code>first&#95;argument&#95;type</code> and <code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryFunction",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/binary_function\">Binary Function</a>, and <code>BinaryFunction's</code><code>result&#95;type</code> is convertible to <code>OutputType</code>."
+        }
+      ],
+      "title": "reduce",
+      "type": "__host__ __device__ T",
+      "typePlain": "__host__ __device__ T",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html#function-reduce",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-reduce",
+      "argsString": "(InputIterator first, InputIterator last, T init, BinaryFunction binary_op)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "T thrust::reduce",
+      "deleted": false,
+      "details": "<code>reduce</code> is a generalization of summation: it computes the sum (or some other binary operation) of all the elements in the range <code>[first, last)</code>. This version of <code>reduce</code> uses <code>init</code> as the initial value of the reduction and <code>binary&#95;op</code> as the binary function used for summation. <code>reduce</code> is similar to the C++ Standard Template Library's <code>std::accumulate</code>. The primary difference between the two functions is that <code>std::accumulate</code> guarantees the order of summation, while <code>reduce</code> requires associativity of <code>binary&#95;op</code> to parallelize the reduction.\n\nNote that <code>reduce</code> also assumes that the binary reduction operator (in this case <code>binary&#95;op</code>) is commutative. If the reduction operator is not commutative then <code>thrust::reduce</code> should not be used. Instead, one could use <code>inclusive&#95;scan</code> (which does not require commutativity) and select the last element of the output array.\n\n\nThe following code snippet demonstrates how to use <code>reduce</code> to compute the maximum value of a sequence of integers.\n\n\n\n```cpp\n#include <thrust/reduce.h>\n#include <thrust/functional.h>\n...\nint data[6] = {1, 0, 2, 2, 1, 3};\nint result = thrust::reduce(data, data + 6,\n                            -1,\n                            thrust::maximum<int>());\n// result == 3\n```",
+      "explicit": false,
+      "fullname": "reductions::reduce",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/reduce.h",
+        "line": 339
+      },
+      "name": "reduce",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the input sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input sequence. "
+        },
+        {
+          "name": "init",
+          "text": "The initial value. "
+        },
+        {
+          "name": "binary_op",
+          "text": "The binary function used to 'sum' values. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "init",
+          "type": "T",
+          "typePlain": "T"
+        },
+        {
+          "name": "binary_op",
+          "type": "BinaryFunction",
+          "typePlain": "BinaryFunction"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::reduce",
+      "refid": "group__reductions_1ga5e9cef4919927834bec50fc4829f6e6b",
+      "returns": [
+        "The result of the reduction."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/accumulate\">https://en.cppreference.com/w/cpp/algorithm/accumulate</a>",
+        "transform_reduce "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryFunction",
+          "typePlain": "typename BinaryFunction"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>T</code>. "
+        },
+        {
+          "name": "T",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/CopyAssignable\">Assignable</a>, and is convertible to <code>BinaryFunction's</code><code>first&#95;argument&#95;type</code> and <code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryFunction",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/binary_function\">Binary Function</a>, and <code>BinaryFunction's</code><code>result&#95;type</code> is convertible to <code>OutputType</code>."
+        }
+      ],
+      "title": "reduce",
+      "type": "T",
+      "typePlain": "T",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html#function-reduce",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-reduce-by-key",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 keys_first, InputIterator1 keys_last, InputIterator2 values_first, OutputIterator1 keys_output, OutputIterator2 values_output)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > thrust::reduce_by_key",
+      "deleted": false,
+      "details": "<code>reduce&#95;by&#95;key</code> is a generalization of <code>reduce</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>reduce&#95;by&#95;key</code> copies the first element of the group to the <code>keys&#95;output</code>. The corresponding values in the range are reduced using the <code>plus</code> and the result copied to <code>values&#95;output</code>.\n\nThis version of <code>reduce&#95;by&#95;key</code> uses the function object <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1equal__to.html\">equal&#95;to</a></code> to test for equality and <code>plus</code> to reduce values with equal keys.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>reduce&#95;by&#95;key</code> to compact a sequence of key/value pairs and sum values with equal keys using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/reduce.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::reduce_by_key(thrust::host, A, A + N, B, C, D);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 21, 9, 3} and new_end.second - D is 4.\n```",
+      "explicit": false,
+      "fullname": "reductions::reduce_by_key",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 3,
+        "file": "thrust/reduce.h",
+        "line": 407
+      },
+      "name": "reduce_by_key",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "keys_first",
+          "text": "The beginning of the input key range. "
+        },
+        {
+          "name": "keys_last",
+          "text": "The end of the input key range. "
+        },
+        {
+          "name": "values_first",
+          "text": "The beginning of the input value range. "
+        },
+        {
+          "name": "keys_output",
+          "text": "The beginning of the output key range. "
+        },
+        {
+          "name": "values_output",
+          "text": "The beginning of the output value range. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "keys_first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "values_first",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "keys_output",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "values_output",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        }
+      ],
+      "pre": [
+        "The input ranges shall not overlap either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::reduce_by_key",
+      "refid": "group__reductions_1gab70270b001b1c52458a20ac15a1739dd",
+      "returns": [
+        "A pair of iterators at end of the ranges <code>[keys&#95;output, keys&#95;output&#95;last)</code> and <code>[values&#95;output, values&#95;output&#95;last)</code>."
+      ],
+      "see": [
+        "reduce ",
+        "unique_copy ",
+        "unique_by_key ",
+        "unique_by_key_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator1's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>OutputIterator2's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "reduce_by_key",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html#function-reduce-by-key",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-reduce-by-key",
+      "argsString": "(InputIterator1 keys_first, InputIterator1 keys_last, InputIterator2 values_first, OutputIterator1 keys_output, OutputIterator2 values_output)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::pair< OutputIterator1, OutputIterator2 > thrust::reduce_by_key",
+      "deleted": false,
+      "details": "<code>reduce&#95;by&#95;key</code> is a generalization of <code>reduce</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>reduce&#95;by&#95;key</code> copies the first element of the group to the <code>keys&#95;output</code>. The corresponding values in the range are reduced using the <code>plus</code> and the result copied to <code>values&#95;output</code>.\n\nThis version of <code>reduce&#95;by&#95;key</code> uses the function object <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1equal__to.html\">equal&#95;to</a></code> to test for equality and <code>plus</code> to reduce values with equal keys.\n\n\nThe following code snippet demonstrates how to use <code>reduce&#95;by&#95;key</code> to compact a sequence of key/value pairs and sum values with equal keys.\n\n\n\n```cpp\n#include <thrust/reduce.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::reduce_by_key(A, A + N, B, C, D);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 21, 9, 3} and new_end.second - D is 4.\n```",
+      "explicit": false,
+      "fullname": "reductions::reduce_by_key",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 3,
+        "file": "thrust/reduce.h",
+        "line": 469
+      },
+      "name": "reduce_by_key",
+      "override": false,
+      "paramList": [
+        {
+          "name": "keys_first",
+          "text": "The beginning of the input key range. "
+        },
+        {
+          "name": "keys_last",
+          "text": "The end of the input key range. "
+        },
+        {
+          "name": "values_first",
+          "text": "The beginning of the input value range. "
+        },
+        {
+          "name": "keys_output",
+          "text": "The beginning of the output key range. "
+        },
+        {
+          "name": "values_output",
+          "text": "The beginning of the output value range. "
+        }
+      ],
+      "params": [
+        {
+          "name": "keys_first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "values_first",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "keys_output",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "values_output",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        }
+      ],
+      "pre": [
+        "The input ranges shall not overlap either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::reduce_by_key",
+      "refid": "group__reductions_1gab9ff4507e03235f511e59169106bde5c",
+      "returns": [
+        "A pair of iterators at end of the ranges <code>[keys&#95;output, keys&#95;output&#95;last)</code> and <code>[values&#95;output, values&#95;output&#95;last)</code>."
+      ],
+      "see": [
+        "reduce ",
+        "unique_copy ",
+        "unique_by_key ",
+        "unique_by_key_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator1's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>OutputIterator2's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "reduce_by_key",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html#function-reduce-by-key",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-reduce-by-key",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 keys_first, InputIterator1 keys_last, InputIterator2 values_first, OutputIterator1 keys_output, OutputIterator2 values_output, BinaryPredicate binary_pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > thrust::reduce_by_key",
+      "deleted": false,
+      "details": "<code>reduce&#95;by&#95;key</code> is a generalization of <code>reduce</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>reduce&#95;by&#95;key</code> copies the first element of the group to the <code>keys&#95;output</code>. The corresponding values in the range are reduced using the <code>plus</code> and the result copied to <code>values&#95;output</code>.\n\nThis version of <code>reduce&#95;by&#95;key</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code>plus</code> to reduce values with equal keys.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>reduce&#95;by&#95;key</code> to compact a sequence of key/value pairs and sum values with equal keys using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/reduce.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nthrust::equal_to<int> binary_pred;\nnew_end = thrust::reduce_by_key(thrust::host, A, A + N, B, C, D, binary_pred);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 21, 9, 3} and new_end.second - D is 4.\n```",
+      "explicit": false,
+      "fullname": "reductions::reduce_by_key",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 3,
+        "file": "thrust/reduce.h",
+        "line": 542
+      },
+      "name": "reduce_by_key",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "keys_first",
+          "text": "The beginning of the input key range. "
+        },
+        {
+          "name": "keys_last",
+          "text": "The end of the input key range. "
+        },
+        {
+          "name": "values_first",
+          "text": "The beginning of the input value range. "
+        },
+        {
+          "name": "keys_output",
+          "text": "The beginning of the output key range. "
+        },
+        {
+          "name": "values_output",
+          "text": "The beginning of the output value range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "keys_first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "values_first",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "keys_output",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "values_output",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pre": [
+        "The input ranges shall not overlap either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::reduce_by_key",
+      "refid": "group__reductions_1ga19efedf5fd2b6e829b0223915c8c1160",
+      "returns": [
+        "A pair of iterators at end of the ranges <code>[keys&#95;output, keys&#95;output&#95;last)</code> and <code>[values&#95;output, values&#95;output&#95;last)</code>."
+      ],
+      "see": [
+        "reduce ",
+        "unique_copy ",
+        "unique_by_key ",
+        "unique_by_key_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator1's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>OutputIterator2's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "reduce_by_key",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html#function-reduce-by-key",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-reduce-by-key",
+      "argsString": "(InputIterator1 keys_first, InputIterator1 keys_last, InputIterator2 values_first, OutputIterator1 keys_output, OutputIterator2 values_output, BinaryPredicate binary_pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::pair< OutputIterator1, OutputIterator2 > thrust::reduce_by_key",
+      "deleted": false,
+      "details": "<code>reduce&#95;by&#95;key</code> is a generalization of <code>reduce</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>reduce&#95;by&#95;key</code> copies the first element of the group to the <code>keys&#95;output</code>. The corresponding values in the range are reduced using the <code>plus</code> and the result copied to <code>values&#95;output</code>.\n\nThis version of <code>reduce&#95;by&#95;key</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code>plus</code> to reduce values with equal keys.\n\n\nThe following code snippet demonstrates how to use <code>reduce&#95;by&#95;key</code> to compact a sequence of key/value pairs and sum values with equal keys.\n\n\n\n```cpp\n#include <thrust/reduce.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nthrust::equal_to<int> binary_pred;\nnew_end = thrust::reduce_by_key(A, A + N, B, C, D, binary_pred);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 21, 9, 3} and new_end.second - D is 4.\n```",
+      "explicit": false,
+      "fullname": "reductions::reduce_by_key",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 3,
+        "file": "thrust/reduce.h",
+        "line": 609
+      },
+      "name": "reduce_by_key",
+      "override": false,
+      "paramList": [
+        {
+          "name": "keys_first",
+          "text": "The beginning of the input key range. "
+        },
+        {
+          "name": "keys_last",
+          "text": "The end of the input key range. "
+        },
+        {
+          "name": "values_first",
+          "text": "The beginning of the input value range. "
+        },
+        {
+          "name": "keys_output",
+          "text": "The beginning of the output key range. "
+        },
+        {
+          "name": "values_output",
+          "text": "The beginning of the output value range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "keys_first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "values_first",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "keys_output",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "values_output",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pre": [
+        "The input ranges shall not overlap either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::reduce_by_key",
+      "refid": "group__reductions_1ga57d272415cad873c95cf2f0f534face9",
+      "returns": [
+        "A pair of iterators at end of the ranges <code>[keys&#95;output, keys&#95;output&#95;last)</code> and <code>[values&#95;output, values&#95;output&#95;last)</code>."
+      ],
+      "see": [
+        "reduce ",
+        "unique_copy ",
+        "unique_by_key ",
+        "unique_by_key_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator1's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>OutputIterator2's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "reduce_by_key",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html#function-reduce-by-key",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-reduce-by-key",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 keys_first, InputIterator1 keys_last, InputIterator2 values_first, OutputIterator1 keys_output, OutputIterator2 values_output, BinaryPredicate binary_pred, BinaryFunction binary_op)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > thrust::reduce_by_key",
+      "deleted": false,
+      "details": "<code>reduce&#95;by&#95;key</code> is a generalization of <code>reduce</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>reduce&#95;by&#95;key</code> copies the first element of the group to the <code>keys&#95;output</code>. The corresponding values in the range are reduced using the <code>BinaryFunction</code><code>binary&#95;op</code> and the result copied to <code>values&#95;output</code>. Specifically, if consecutive key iterators <code>i</code> and <code></code>(i + 1) are such that <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is <code>true</code>, then the corresponding values are reduced to a single value with <code>binary&#95;op</code>.\n\nThis version of <code>reduce&#95;by&#95;key</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code>binary&#95;op</code> to reduce values with equal keys.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>reduce&#95;by&#95;key</code> to compact a sequence of key/value pairs and sum values with equal keys using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/reduce.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nthrust::equal_to<int> binary_pred;\nthrust::plus<int> binary_op;\nnew_end = thrust::reduce_by_key(thrust::host, A, A + N, B, C, D, binary_pred, binary_op);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 21, 9, 3} and new_end.second - D is 4.\n```",
+      "explicit": false,
+      "fullname": "reductions::reduce_by_key",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 3,
+        "file": "thrust/reduce.h",
+        "line": 691
+      },
+      "name": "reduce_by_key",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "keys_first",
+          "text": "The beginning of the input key range. "
+        },
+        {
+          "name": "keys_last",
+          "text": "The end of the input key range. "
+        },
+        {
+          "name": "values_first",
+          "text": "The beginning of the input value range. "
+        },
+        {
+          "name": "keys_output",
+          "text": "The beginning of the output key range. "
+        },
+        {
+          "name": "values_output",
+          "text": "The beginning of the output value range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        },
+        {
+          "name": "binary_op",
+          "text": "The binary function used to accumulate values. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "keys_first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "values_first",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "keys_output",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "values_output",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        },
+        {
+          "name": "binary_op",
+          "type": "BinaryFunction",
+          "typePlain": "BinaryFunction"
+        }
+      ],
+      "pre": [
+        "The input ranges shall not overlap either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::reduce_by_key",
+      "refid": "group__reductions_1ga0430894470bc1de12dc2ce53c5325de8",
+      "returns": [
+        "A pair of iterators at end of the ranges <code>[keys&#95;output, keys&#95;output&#95;last)</code> and <code>[values&#95;output, values&#95;output&#95;last)</code>."
+      ],
+      "see": [
+        "reduce ",
+        "unique_copy ",
+        "unique_by_key ",
+        "unique_by_key_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryFunction",
+          "typePlain": "typename BinaryFunction"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator1's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>OutputIterator2's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>. "
+        },
+        {
+          "name": "BinaryFunction",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/binary_function\">Binary Function</a> and <code>BinaryFunction's</code><code>result&#95;type</code> is convertible to <code>OutputIterator2's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "reduce_by_key",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html#function-reduce-by-key",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-reduce-by-key",
+      "argsString": "(InputIterator1 keys_first, InputIterator1 keys_last, InputIterator2 values_first, OutputIterator1 keys_output, OutputIterator2 values_output, BinaryPredicate binary_pred, BinaryFunction binary_op)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::pair< OutputIterator1, OutputIterator2 > thrust::reduce_by_key",
+      "deleted": false,
+      "details": "<code>reduce&#95;by&#95;key</code> is a generalization of <code>reduce</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>reduce&#95;by&#95;key</code> copies the first element of the group to the <code>keys&#95;output</code>. The corresponding values in the range are reduced using the <code>BinaryFunction</code><code>binary&#95;op</code> and the result copied to <code>values&#95;output</code>. Specifically, if consecutive key iterators <code>i</code> and <code></code>(i + 1) are such that <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is <code>true</code>, then the corresponding values are reduced to a single value with <code>binary&#95;op</code>.\n\nThis version of <code>reduce&#95;by&#95;key</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code>binary&#95;op</code> to reduce values with equal keys.\n\n\nThe following code snippet demonstrates how to use <code>reduce&#95;by&#95;key</code> to compact a sequence of key/value pairs and sum values with equal keys.\n\n\n\n```cpp\n#include <thrust/reduce.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nthrust::equal_to<int> binary_pred;\nthrust::plus<int> binary_op;\nnew_end = thrust::reduce_by_key(A, A + N, B, C, D, binary_pred, binary_op);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 21, 9, 3} and new_end.second - D is 4.\n```",
+      "explicit": false,
+      "fullname": "reductions::reduce_by_key",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 3,
+        "file": "thrust/reduce.h",
+        "line": 767
+      },
+      "name": "reduce_by_key",
+      "override": false,
+      "paramList": [
+        {
+          "name": "keys_first",
+          "text": "The beginning of the input key range. "
+        },
+        {
+          "name": "keys_last",
+          "text": "The end of the input key range. "
+        },
+        {
+          "name": "values_first",
+          "text": "The beginning of the input value range. "
+        },
+        {
+          "name": "keys_output",
+          "text": "The beginning of the output key range. "
+        },
+        {
+          "name": "values_output",
+          "text": "The beginning of the output value range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        },
+        {
+          "name": "binary_op",
+          "text": "The binary function used to accumulate values. "
+        }
+      ],
+      "params": [
+        {
+          "name": "keys_first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "values_first",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "keys_output",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "values_output",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        },
+        {
+          "name": "binary_op",
+          "type": "BinaryFunction",
+          "typePlain": "BinaryFunction"
+        }
+      ],
+      "pre": [
+        "The input ranges shall not overlap either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::reduce_by_key",
+      "refid": "group__reductions_1gab3e386472112538d710875d0d8880fca",
+      "returns": [
+        "A pair of iterators at end of the ranges <code>[keys&#95;output, keys&#95;output&#95;last)</code> and <code>[values&#95;output, values&#95;output&#95;last)</code>."
+      ],
+      "see": [
+        "reduce ",
+        "unique_copy ",
+        "unique_by_key ",
+        "unique_by_key_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryFunction",
+          "typePlain": "typename BinaryFunction"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator1's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>OutputIterator2's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>. "
+        },
+        {
+          "name": "BinaryFunction",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/binary_function\">Binary Function</a> and <code>BinaryFunction's</code><code>result&#95;type</code> is convertible to <code>OutputIterator2's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "reduce_by_key",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html#function-reduce-by-key",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "reductions",
+  "refid": "group__reductions",
+  "static": false,
+  "strong": false,
+  "title": "Reductions",
+  "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+  "visibility": "public"
+}

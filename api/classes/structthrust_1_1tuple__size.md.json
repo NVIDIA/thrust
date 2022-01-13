@@ -1,0 +1,121 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "This convenience metafunction is included for compatibility with <code>tuple</code>. It returns <code>2</code>, the number of elements of a <code>pair</code>, in its nested data member, <code>value</code>.\n\n\nThis metafunction returns the number of elements of a <code>tuple</code> type of interest.",
+  "explicit": false,
+  "fullname": "thrust::tuple_size",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyFile": "thrust/pair.h",
+    "bodyStart": 239,
+    "column": 11,
+    "file": "thrust/pair.h",
+    "line": 239
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "tuple",
+    "kind": "group",
+    "language": "",
+    "name": "tuple",
+    "qualifiedname": "tuple",
+    "refid": "group__tuple",
+    "title": "Tuple",
+    "url": "{{ site.baseurl }}/api/groups/group__tuple.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "utility",
+      "kind": "group",
+      "language": "",
+      "name": "utility",
+      "qualifiedname": "utility",
+      "refid": "group__utility",
+      "title": "Utility",
+      "url": "{{ site.baseurl }}/api/groups/group__utility.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "tuple",
+      "kind": "group",
+      "language": "",
+      "name": "tuple",
+      "qualifiedname": "tuple",
+      "refid": "group__tuple",
+      "title": "Tuple",
+      "url": "{{ site.baseurl }}/api/groups/group__tuple.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::tuple_size",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::tuple_size",
+  "refid": "structthrust_1_1tuple__size",
+  "see": [
+    "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">pair</a>",
+    "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1tuple.html\">tuple</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename Pair",
+      "typePlain": "typename Pair"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "Pair",
+      "text": "A <code>pair</code> type of interest."
+    },
+    {
+      "name": "T",
+      "text": "A <code>tuple</code> type of interest."
+    }
+  ],
+  "title": "thrust::tuple_size",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1tuple__size.html",
+  "visibility": "public"
+}

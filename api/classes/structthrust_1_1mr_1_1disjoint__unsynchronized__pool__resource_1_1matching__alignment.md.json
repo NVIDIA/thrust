@@ -1,0 +1,242 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource::matching_alignment",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 224,
+    "bodyFile": "thrust/mr/disjoint_pool.h",
+    "bodyStart": 209,
+    "column": 5,
+    "file": "thrust/mr/disjoint_pool.h",
+    "line": 208
+  },
+  "name": "thrust::mr::disjoint_unsynchronized_pool_resource::matching_alignment",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "baseClasses": [
+      {
+        "external": false,
+        "name": "thrust::mr::memory_resource< Upstream::pointer >",
+        "refid": "classthrust_1_1mr_1_1memory__resource",
+        "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+        "virtual": "non-virtual",
+        "visibility": "public"
+      },
+      {
+        "external": true,
+        "name": "thrust::mr::validator2< Upstream, Bookkeeper >",
+        "virtual": "non-virtual",
+        "visibility": "private"
+      }
+    ],
+    "category": "classes",
+    "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource",
+    "kind": "class",
+    "language": "cpp",
+    "name": "thrust::mr::disjoint_unsynchronized_pool_resource",
+    "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource",
+    "refid": "classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource",
+    "title": "thrust::mr::disjoint_unsynchronized_pool_resource",
+    "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "<code>thrust::mr</code> is the namespace containing system agnostic types and functions for <code>memory&#95;resource</code> related functionalities. ",
+      "category": "namespaces",
+      "fullname": "thrust::mr",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::mr",
+      "qualifiedname": "thrust::mr",
+      "refid": "namespacethrust_1_1mr",
+      "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
+      "title": "thrust::mr",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1mr.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "thrust::mr::memory_resource< Upstream::pointer >",
+          "refid": "classthrust_1_1mr_1_1memory__resource",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": true,
+          "name": "thrust::mr::validator2< Upstream, Bookkeeper >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::mr::disjoint_unsynchronized_pool_resource",
+      "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource",
+      "refid": "classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource",
+      "title": "thrust::mr::disjoint_unsynchronized_pool_resource",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource.html",
+      "visibility": "public"
+    }
+  ],
+  "privateAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-requested",
+      "category": "attributes",
+      "const": false,
+      "definition": "std::size_t thrust::mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >::matching_alignment::requested",
+      "explicit": false,
+      "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource::matching_alignment::requested",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/mr/disjoint_pool.h",
+        "bodyStart": 223,
+        "column": 21,
+        "file": "thrust/mr/disjoint_pool.h",
+        "line": 223
+      },
+      "name": "requested",
+      "override": false,
+      "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource::matching_alignment::requested",
+      "refid": "structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment_1a38af79273d24193b32c184ffe219f24c",
+      "static": false,
+      "strong": false,
+      "title": "requested",
+      "type": "std::size_t",
+      "typePlain": "std::size_t",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment.html#variable-requested",
+      "visibility": "private"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-matching-alignment",
+      "argsString": "(std::size_t requested)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >::matching_alignment::matching_alignment",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource::matching_alignment::matching_alignment",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 214,
+        "bodyFile": "thrust/mr/disjoint_pool.h",
+        "bodyStart": 212,
+        "column": 9,
+        "file": "thrust/mr/disjoint_pool.h",
+        "line": 212
+      },
+      "name": "matching_alignment",
+      "override": false,
+      "params": [
+        {
+          "name": "requested",
+          "type": "std::size_t",
+          "typePlain": "std::size_t"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource::matching_alignment::matching_alignment",
+      "refid": "structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment_1aa18dd6007f77019c3ff84e14df52a9e9",
+      "static": false,
+      "strong": false,
+      "title": "matching_alignment",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment.html#function-matching-alignment",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(const oversized_block_descriptor &desc) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >::matching_alignment::operator()",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource::matching_alignment::operator()",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 220,
+        "bodyFile": "thrust/mr/disjoint_pool.h",
+        "bodyStart": 217,
+        "column": 14,
+        "file": "thrust/mr/disjoint_pool.h",
+        "line": 217
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "desc",
+          "type": "const oversized_block_descriptor &",
+          "typePlain": "const oversized_block_descriptor &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource::matching_alignment::operator()",
+      "refid": "structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment_1a372779a1a7dfd4903425f99162ecbeba",
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource::matching_alignment",
+  "refid": "structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment",
+  "static": false,
+  "strong": false,
+  "title": "thrust::mr::disjoint_unsynchronized_pool_resource::matching_alignment",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment.html",
+  "visibility": "private"
+}

@@ -1,0 +1,1459 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "merging",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "algorithms",
+    "kind": "group",
+    "language": "",
+    "name": "algorithms",
+    "qualifiedname": "algorithms",
+    "refid": "group__algorithms",
+    "title": "Algorithms",
+    "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "merging",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "algorithms",
+    "kind": "group",
+    "language": "",
+    "name": "algorithms",
+    "qualifiedname": "algorithms",
+    "refid": "group__algorithms",
+    "title": "Algorithms",
+    "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-merge",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, OutputIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::merge",
+      "deleted": false,
+      "details": "<code>merge</code> combines two sorted ranges <code>[first1, last1)</code> and <code>[first2, last2)</code> into a single sorted range. That is, it copies from <code>[first1, last1)</code> and <code>[first2, last2)</code> into <code>[result, result + (last1 - first1) + (last2 - first2))</code> such that the resulting range is in ascending order. <code>merge</code> is stable, meaning both that the relative order of elements within each input range is preserved, and that for equivalent elements in both input ranges the element from the first range precedes the element from the second. The return value is <code>result + (last1 - first1) + (last2 - first2)</code>.\n\nThis version of <code>merge</code> compares elements using <code>operator&lt;</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>merge</code> to compute the merger of two sorted sets of integers using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/merge.h>\n#include <thrust/execution_policy.h>\n...\nint A1[6] = {1, 3, 5, 7, 9, 11};\nint A2[7] = {1, 1, 2, 3, 5,  8, 13};\n\nint result[13];\n\nint *result_end =\n  thrust::merge(thrust::host,\n                A1, A1 + 6,\n                A2, A2 + 7,\n                result);\n// result = {1, 1, 1, 2, 3, 3, 5, 5, 7, 8, 9, 11, 13}\n```",
+      "explicit": false,
+      "fullname": "merging::merge",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/merge.h",
+        "line": 101
+      },
+      "name": "merge",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first1",
+          "text": "The beginning of the first input range. "
+        },
+        {
+          "name": "last1",
+          "text": "The end of the first input range. "
+        },
+        {
+          "name": "first2",
+          "text": "The beginning of the second input range. "
+        },
+        {
+          "name": "last2",
+          "text": "The end of the second input range. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the merged output. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "first2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "last2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        }
+      ],
+      "pre": [
+        "The ranges <code>[first1, last1)</code> and <code>[first2, last2)</code> shall be sorted with respect to <code>operator&lt;</code>. ",
+        "The resulting range shall not overlap with either input range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::merge",
+      "refid": "group__merging_1gad0269cdfcd1048406ca429c06f42fef1",
+      "returns": [
+        "The end of the output range."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/merge\">https://en.cppreference.com/w/cpp/algorithm/merge</a>",
+        "<code>set&#95;union</code>",
+        "<code>sort</code>",
+        "<code>is&#95;sorted</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator1</code> and <code>InputIterator2</code> have the same <code>value&#95;type</code>, <code>InputIterator1's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>, the ordering on <code>InputIterator1's</code><code>value&#95;type</code> is a strict weak ordering, as defined in the <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a> requirements, and <code>InputIterator1's</code><code>value&#95;type</code> is convertable to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator2</code> and <code>InputIterator1</code> have the same <code>value&#95;type</code>, <code>InputIterator2's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>, the ordering on <code>InputIterator2's</code><code>value&#95;type</code> is a strict weak ordering, as defined in the <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a> requirements, and <code>InputIterator2's</code><code>value&#95;type</code> is convertable to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>."
+        }
+      ],
+      "title": "merge",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__merging.html#function-merge",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-merge",
+      "argsString": "(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, OutputIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::merge",
+      "deleted": false,
+      "details": "<code>merge</code> combines two sorted ranges <code>[first1, last1)</code> and <code>[first2, last2)</code> into a single sorted range. That is, it copies from <code>[first1, last1)</code> and <code>[first2, last2)</code> into <code>[result, result + (last1 - first1) + (last2 - first2))</code> such that the resulting range is in ascending order. <code>merge</code> is stable, meaning both that the relative order of elements within each input range is preserved, and that for equivalent elements in both input ranges the element from the first range precedes the element from the second. The return value is <code>result + (last1 - first1) + (last2 - first2)</code>.\n\nThis version of <code>merge</code> compares elements using <code>operator&lt;</code>.\n\n\nThe following code snippet demonstrates how to use <code>merge</code> to compute the merger of two sorted sets of integers.\n\n\n\n```cpp\n#include <thrust/merge.h>\n...\nint A1[6] = {1, 3, 5, 7, 9, 11};\nint A2[7] = {1, 1, 2, 3, 5,  8, 13};\n\nint result[13];\n\nint *result_end = thrust::merge(A1, A1 + 6, A2, A2 + 7, result);\n// result = {1, 1, 1, 2, 3, 3, 5, 5, 7, 8, 9, 11, 13}\n```",
+      "explicit": false,
+      "fullname": "merging::merge",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/merge.h",
+        "line": 164
+      },
+      "name": "merge",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first1",
+          "text": "The beginning of the first input range. "
+        },
+        {
+          "name": "last1",
+          "text": "The end of the first input range. "
+        },
+        {
+          "name": "first2",
+          "text": "The beginning of the second input range. "
+        },
+        {
+          "name": "last2",
+          "text": "The end of the second input range. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the merged output. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "first2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "last2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        }
+      ],
+      "pre": [
+        "The ranges <code>[first1, last1)</code> and <code>[first2, last2)</code> shall be sorted with respect to <code>operator&lt;</code>. ",
+        "The resulting range shall not overlap with either input range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::merge",
+      "refid": "group__merging_1ga3d2776685a00dca265399f411784acec",
+      "returns": [
+        "The end of the output range."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/merge\">https://en.cppreference.com/w/cpp/algorithm/merge</a>",
+        "<code>set&#95;union</code>",
+        "<code>sort</code>",
+        "<code>is&#95;sorted</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator1</code> and <code>InputIterator2</code> have the same <code>value&#95;type</code>, <code>InputIterator1's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>, the ordering on <code>InputIterator1's</code><code>value&#95;type</code> is a strict weak ordering, as defined in the <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a> requirements, and <code>InputIterator1's</code><code>value&#95;type</code> is convertable to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator2</code> and <code>InputIterator1</code> have the same <code>value&#95;type</code>, <code>InputIterator2's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>, the ordering on <code>InputIterator2's</code><code>value&#95;type</code> is a strict weak ordering, as defined in the <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a> requirements, and <code>InputIterator2's</code><code>value&#95;type</code> is convertable to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>."
+        }
+      ],
+      "title": "merge",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__merging.html#function-merge",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-merge",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, OutputIterator result, StrictWeakCompare comp)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::merge",
+      "deleted": false,
+      "details": "<code>merge</code> combines two sorted ranges <code>[first1, last1)</code> and <code>[first2, last2)</code> into a single sorted range. That is, it copies from <code>[first1, last1)</code> and <code>[first2, last2)</code> into <code>[result, result + (last1 - first1) + (last2 - first2))</code> such that the resulting range is in ascending order. <code>merge</code> is stable, meaning both that the relative order of elements within each input range is preserved, and that for equivalent elements in both input ranges the element from the first range precedes the element from the second. The return value is <code>result + (last1 - first1) + (last2 - first2)</code>.\n\nThis version of <code>merge</code> compares elements using a function object <code>comp</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>merge</code> to compute the merger of two sets of integers sorted in descending order using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/merge.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\nint A1[6] = {11, 9, 7, 5, 3, 1};\nint A2[7] = {13, 8, 5, 3, 2, 1, 1};\n\nint result[13];\n\nint *result_end = thrust::merge(thrust::host,\n                                A1, A1 + 6,\n                                A2, A2 + 7,\n                                result,\n                                thrust::greater<int>());\n// result = {13, 11, 9, 8, 7, 5, 5, 3, 3, 2, 1, 1, 1}\n```",
+      "explicit": false,
+      "fullname": "merging::merge",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/merge.h",
+        "line": 237
+      },
+      "name": "merge",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first1",
+          "text": "The beginning of the first input range. "
+        },
+        {
+          "name": "last1",
+          "text": "The end of the first input range. "
+        },
+        {
+          "name": "first2",
+          "text": "The beginning of the second input range. "
+        },
+        {
+          "name": "last2",
+          "text": "The end of the second input range. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the merged output. "
+        },
+        {
+          "name": "comp",
+          "text": "Comparison operator. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "first2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "last2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "comp",
+          "type": "StrictWeakCompare",
+          "typePlain": "StrictWeakCompare"
+        }
+      ],
+      "pre": [
+        "The ranges <code>[first1, last1)</code> and <code>[first2, last2)</code> shall be sorted with respect to <code>comp</code>. ",
+        "The resulting range shall not overlap with either input range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::merge",
+      "refid": "group__merging_1ga25a16faaaf07bb1b7b38d374475845c1",
+      "returns": [
+        "The end of the output range."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/merge\">https://en.cppreference.com/w/cpp/algorithm/merge</a>",
+        "<code>sort</code>",
+        "<code>is&#95;sorted</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename StrictWeakCompare",
+          "typePlain": "typename StrictWeakCompare"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator1's</code><code>value&#95;type</code> is convertable to <code>StrictWeakCompare's</code><code>first&#95;argument&#95;type</code>. and <code>InputIterator1's</code><code>value&#95;type</code> is convertable to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator2's</code><code>value&#95;type</code> is convertable to <code>StrictWeakCompare's</code><code>second&#95;argument&#95;type</code>. and <code>InputIterator2's</code><code>value&#95;type</code> is convertable to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "StrictWeakCompare",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/strict_weak_order\">Strict Weak Ordering</a>."
+        }
+      ],
+      "title": "merge",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__merging.html#function-merge",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-merge",
+      "argsString": "(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, OutputIterator result, StrictWeakCompare comp)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::merge",
+      "deleted": false,
+      "details": "<code>merge</code> combines two sorted ranges <code>[first1, last1)</code> and <code>[first2, last2)</code> into a single sorted range. That is, it copies from <code>[first1, last1)</code> and <code>[first2, last2)</code> into <code>[result, result + (last1 - first1) + (last2 - first2))</code> such that the resulting range is in ascending order. <code>merge</code> is stable, meaning both that the relative order of elements within each input range is preserved, and that for equivalent elements in both input ranges the element from the first range precedes the element from the second. The return value is <code>result + (last1 - first1) + (last2 - first2)</code>.\n\nThis version of <code>merge</code> compares elements using a function object <code>comp</code>.\n\n\nThe following code snippet demonstrates how to use <code>merge</code> to compute the merger of two sets of integers sorted in descending order.\n\n\n\n```cpp\n#include <thrust/merge.h>\n#include <thrust/functional.h>\n...\nint A1[6] = {11, 9, 7, 5, 3, 1};\nint A2[7] = {13, 8, 5, 3, 2, 1, 1};\n\nint result[13];\n\nint *result_end = thrust::merge(A1, A1 + 6, A2, A2 + 7, result, thrust::greater<int>());\n// result = {13, 11, 9, 8, 7, 5, 5, 3, 3, 2, 1, 1, 1}\n```",
+      "explicit": false,
+      "fullname": "merging::merge",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/merge.h",
+        "line": 301
+      },
+      "name": "merge",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first1",
+          "text": "The beginning of the first input range. "
+        },
+        {
+          "name": "last1",
+          "text": "The end of the first input range. "
+        },
+        {
+          "name": "first2",
+          "text": "The beginning of the second input range. "
+        },
+        {
+          "name": "last2",
+          "text": "The end of the second input range. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the merged output. "
+        },
+        {
+          "name": "comp",
+          "text": "Comparison operator. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "first2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "last2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "comp",
+          "type": "StrictWeakCompare",
+          "typePlain": "StrictWeakCompare"
+        }
+      ],
+      "pre": [
+        "The ranges <code>[first1, last1)</code> and <code>[first2, last2)</code> shall be sorted with respect to <code>comp</code>. ",
+        "The resulting range shall not overlap with either input range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::merge",
+      "refid": "group__merging_1gaae0c908dc70a47bfd2bfbda46fcc1d12",
+      "returns": [
+        "The end of the output range."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/merge\">https://en.cppreference.com/w/cpp/algorithm/merge</a>",
+        "<code>sort</code>",
+        "<code>is&#95;sorted</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename StrictWeakCompare",
+          "typePlain": "typename StrictWeakCompare"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator1's</code><code>value&#95;type</code> is convertable to <code>StrictWeakCompare's</code><code>first&#95;argument&#95;type</code>. and <code>InputIterator1's</code><code>value&#95;type</code> is convertable to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator2's</code><code>value&#95;type</code> is convertable to <code>StrictWeakCompare's</code><code>second&#95;argument&#95;type</code>. and <code>InputIterator2's</code><code>value&#95;type</code> is convertable to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "StrictWeakCompare",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/strict_weak_order\">Strict Weak Ordering</a>."
+        }
+      ],
+      "title": "merge",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__merging.html#function-merge",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-merge-by-key",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 keys_first1, InputIterator1 keys_last1, InputIterator2 keys_first2, InputIterator2 keys_last2, InputIterator3 values_first1, InputIterator4 values_first2, OutputIterator1 keys_result, OutputIterator2 values_result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > thrust::merge_by_key",
+      "deleted": false,
+      "details": "<code>merge&#95;by&#95;key</code> performs a key-value merge. That is, <code>merge&#95;by&#95;key</code> copies elements from <code>[keys&#95;first1, keys&#95;last1)</code> and <code>[keys&#95;first2, keys&#95;last2)</code> into a single range, <code>[keys&#95;result, keys&#95;result + (keys&#95;last1 - keys&#95;first1) + (keys&#95;last2 - keys&#95;first2))</code> such that the resulting range is in ascending key order.\n\nAt the same time, <code>merge&#95;by&#95;key</code> copies elements from the two associated ranges <code>[values&#95;first1 + (keys&#95;last1 - keys&#95;first1))</code> and <code>[values&#95;first2 + (keys&#95;last2 - keys&#95;first2))</code> into a single range, <code>[values&#95;result, values&#95;result + (keys&#95;last1 - keys&#95;first1) + (keys&#95;last2 - keys&#95;first2))</code> such that the resulting range is in ascending order implied by each input element's associated key.\n\n<code>merge&#95;by&#95;key</code> is stable, meaning both that the relative order of elements within each input range is preserved, and that for equivalent elements in all input key ranges the element from the first range precedes the element from the second.\n\nThe return value is is <code>(keys&#95;result + (keys&#95;last1 - keys&#95;first1) + (keys&#95;last2 - keys&#95;first2))</code> and <code>(values&#95;result + (keys&#95;last1 - keys&#95;first1) + (keys&#95;last2 - keys&#95;first2))</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>merge&#95;by&#95;key</code> to compute the merger of two sets of integers sorted in ascending order using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/merge.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\nint A_keys[6] = {1, 3, 5, 7, 9, 11};\nint A_vals[6] = {0, 0, 0, 0, 0, 0};\n\nint B_keys[7] = {1, 1, 2, 3, 5, 8, 13};\nint B_vals[7] = {1, 1, 1, 1, 1, 1, 1};\n\nint keys_result[13];\nint vals_result[13];\n\nthrust::pair<int*,int*> end =\n  thrust::merge_by_key(thrust::host,\n                       A_keys, A_keys + 6,\n                       B_keys, B_keys + 7,\n                       A_vals, B_vals,\n                       keys_result, vals_result);\n\n// keys_result = {1, 1, 1, 2, 3, 3, 5, 5, 7, 8, 9, 11, 13}\n// vals_result = {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0,  0,  1}\n```",
+      "explicit": false,
+      "fullname": "merging::merge_by_key",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/merge.h",
+        "line": 397
+      },
+      "name": "merge_by_key",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "keys_first1",
+          "text": "The beginning of the first input range of keys. "
+        },
+        {
+          "name": "keys_last1",
+          "text": "The end of the first input range of keys. "
+        },
+        {
+          "name": "keys_first2",
+          "text": "The beginning of the second input range of keys. "
+        },
+        {
+          "name": "keys_last2",
+          "text": "The end of the second input range of keys. "
+        },
+        {
+          "name": "values_first1",
+          "text": "The beginning of the first input range of values. "
+        },
+        {
+          "name": "values_first2",
+          "text": "The beginning of the first input range of values. "
+        },
+        {
+          "name": "keys_result",
+          "text": "The beginning of the merged output range of keys. "
+        },
+        {
+          "name": "values_result",
+          "text": "The beginning of the merged output range of values. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "keys_first1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_last1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_first2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "keys_last2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "values_first1",
+          "type": "InputIterator3",
+          "typePlain": "InputIterator3"
+        },
+        {
+          "name": "values_first2",
+          "type": "InputIterator4",
+          "typePlain": "InputIterator4"
+        },
+        {
+          "name": "keys_result",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "values_result",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        }
+      ],
+      "pre": [
+        "The ranges <code>[keys&#95;first1, keys&#95;last1)</code> and <code>[keys&#95;first2, keys&#95;last2)</code> shall be sorted with respect to <code>operator&lt;</code>. ",
+        "The resulting ranges shall not overlap with any input range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::merge_by_key",
+      "refid": "group__merging_1ga2404e9fbef3a1fa7358a36e695bb6bd9",
+      "returns": [
+        "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
+      ],
+      "see": [
+        "merge ",
+        "<code>sort&#95;by&#95;key</code>",
+        "<code>is&#95;sorted</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator3",
+          "typePlain": "typename InputIterator3"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator4",
+          "typePlain": "typename InputIterator4"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator1</code> and <code>InputIterator2</code> have the same <code>value&#95;type</code>, <code>InputIterator1's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>, the ordering on <code>InputIterator1's</code><code>value&#95;type</code> is a strict weak ordering, as defined in the <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a> requirements, and <code>InputIterator1's</code><code>value&#95;type</code> is convertable to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator2</code> and <code>InputIterator1</code> have the same <code>value&#95;type</code>, <code>InputIterator2's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>, the ordering on <code>InputIterator2's</code><code>value&#95;type</code> is a strict weak ordering, as defined in the <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a> requirements, and <code>InputIterator2's</code><code>value&#95;type</code> is convertable to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator3",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator3's</code><code>value&#95;type</code> is convertible to a type in <code>OutputIterator2's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator4",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator4's</code><code>value&#95;type</code> is convertible to a type in <code>OutputIterator2's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>."
+        }
+      ],
+      "title": "merge_by_key",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__merging.html#function-merge-by-key",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-merge-by-key",
+      "argsString": "(InputIterator1 keys_first1, InputIterator1 keys_last1, InputIterator2 keys_first2, InputIterator2 keys_last2, InputIterator3 values_first1, InputIterator4 values_first2, OutputIterator1 keys_result, OutputIterator2 values_result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::pair< OutputIterator1, OutputIterator2 > thrust::merge_by_key",
+      "deleted": false,
+      "details": "<code>merge&#95;by&#95;key</code> performs a key-value merge. That is, <code>merge&#95;by&#95;key</code> copies elements from <code>[keys&#95;first1, keys&#95;last1)</code> and <code>[keys&#95;first2, keys&#95;last2)</code> into a single range, <code>[keys&#95;result, keys&#95;result + (keys&#95;last1 - keys&#95;first1) + (keys&#95;last2 - keys&#95;first2))</code> such that the resulting range is in ascending key order.\n\nAt the same time, <code>merge&#95;by&#95;key</code> copies elements from the two associated ranges <code>[values&#95;first1 + (keys&#95;last1 - keys&#95;first1))</code> and <code>[values&#95;first2 + (keys&#95;last2 - keys&#95;first2))</code> into a single range, <code>[values&#95;result, values&#95;result + (keys&#95;last1 - keys&#95;first1) + (keys&#95;last2 - keys&#95;first2))</code> such that the resulting range is in ascending order implied by each input element's associated key.\n\n<code>merge&#95;by&#95;key</code> is stable, meaning both that the relative order of elements within each input range is preserved, and that for equivalent elements in all input key ranges the element from the first range precedes the element from the second.\n\nThe return value is is <code>(keys&#95;result + (keys&#95;last1 - keys&#95;first1) + (keys&#95;last2 - keys&#95;first2))</code> and <code>(values&#95;result + (keys&#95;last1 - keys&#95;first1) + (keys&#95;last2 - keys&#95;first2))</code>.\n\n\nThe following code snippet demonstrates how to use <code>merge&#95;by&#95;key</code> to compute the merger of two sets of integers sorted in ascending order.\n\n\n\n```cpp\n#include <thrust/merge.h>\n#include <thrust/functional.h>\n...\nint A_keys[6] = {1, 3, 5, 7, 9, 11};\nint A_vals[6] = {0, 0, 0, 0, 0, 0};\n\nint B_keys[7] = {1, 1, 2, 3, 5, 8, 13};\nint B_vals[7] = {1, 1, 1, 1, 1, 1, 1};\n\nint keys_result[13];\nint vals_result[13];\n\nthrust::pair<int*,int*> end = thrust::merge_by_key(A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, B_vals, keys_result, vals_result);\n\n// keys_result = {1, 1, 1, 2, 3, 3, 5, 5, 7, 8, 9, 11, 13}\n// vals_result = {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0,  0,  1}\n```",
+      "explicit": false,
+      "fullname": "merging::merge_by_key",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/merge.h",
+        "line": 482
+      },
+      "name": "merge_by_key",
+      "override": false,
+      "paramList": [
+        {
+          "name": "keys_first1",
+          "text": "The beginning of the first input range of keys. "
+        },
+        {
+          "name": "keys_last1",
+          "text": "The end of the first input range of keys. "
+        },
+        {
+          "name": "keys_first2",
+          "text": "The beginning of the second input range of keys. "
+        },
+        {
+          "name": "keys_last2",
+          "text": "The end of the second input range of keys. "
+        },
+        {
+          "name": "values_first1",
+          "text": "The beginning of the first input range of values. "
+        },
+        {
+          "name": "values_first2",
+          "text": "The beginning of the first input range of values. "
+        },
+        {
+          "name": "keys_result",
+          "text": "The beginning of the merged output range of keys. "
+        },
+        {
+          "name": "values_result",
+          "text": "The beginning of the merged output range of values. "
+        }
+      ],
+      "params": [
+        {
+          "name": "keys_first1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_last1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_first2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "keys_last2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "values_first1",
+          "type": "InputIterator3",
+          "typePlain": "InputIterator3"
+        },
+        {
+          "name": "values_first2",
+          "type": "InputIterator4",
+          "typePlain": "InputIterator4"
+        },
+        {
+          "name": "keys_result",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "values_result",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        }
+      ],
+      "pre": [
+        "The ranges <code>[keys&#95;first1, keys&#95;last1)</code> and <code>[keys&#95;first2, keys&#95;last2)</code> shall be sorted with respect to <code>operator&lt;</code>. ",
+        "The resulting ranges shall not overlap with any input range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::merge_by_key",
+      "refid": "group__merging_1ga01d8a43543df8007377221809f811779",
+      "returns": [
+        "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
+      ],
+      "see": [
+        "merge ",
+        "<code>sort&#95;by&#95;key</code>",
+        "<code>is&#95;sorted</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator3",
+          "typePlain": "typename InputIterator3"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator4",
+          "typePlain": "typename InputIterator4"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator1</code> and <code>InputIterator2</code> have the same <code>value&#95;type</code>, <code>InputIterator1's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>, the ordering on <code>InputIterator1's</code><code>value&#95;type</code> is a strict weak ordering, as defined in the <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a> requirements, and <code>InputIterator1's</code><code>value&#95;type</code> is convertable to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator2</code> and <code>InputIterator1</code> have the same <code>value&#95;type</code>, <code>InputIterator2's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>, the ordering on <code>InputIterator2's</code><code>value&#95;type</code> is a strict weak ordering, as defined in the <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a> requirements, and <code>InputIterator2's</code><code>value&#95;type</code> is convertable to a type in <code>OutputIterator's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator3",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator3's</code><code>value&#95;type</code> is convertible to a type in <code>OutputIterator2's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator4",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator4's</code><code>value&#95;type</code> is convertible to a type in <code>OutputIterator2's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>."
+        }
+      ],
+      "title": "merge_by_key",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__merging.html#function-merge-by-key",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-merge-by-key",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 keys_first1, InputIterator1 keys_last1, InputIterator2 keys_first2, InputIterator2 keys_last2, InputIterator3 values_first1, InputIterator4 values_first2, OutputIterator1 keys_result, OutputIterator2 values_result, Compare comp)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > thrust::merge_by_key",
+      "deleted": false,
+      "details": "<code>merge&#95;by&#95;key</code> performs a key-value merge. That is, <code>merge&#95;by&#95;key</code> copies elements from <code>[keys&#95;first1, keys&#95;last1)</code> and <code>[keys&#95;first2, keys&#95;last2)</code> into a single range, <code>[keys&#95;result, keys&#95;result + (keys&#95;last1 - keys&#95;first1) + (keys&#95;last2 - keys&#95;first2))</code> such that the resulting range is in ascending key order.\n\nAt the same time, <code>merge&#95;by&#95;key</code> copies elements from the two associated ranges <code>[values&#95;first1 + (keys&#95;last1 - keys&#95;first1))</code> and <code>[values&#95;first2 + (keys&#95;last2 - keys&#95;first2))</code> into a single range, <code>[values&#95;result, values&#95;result + (keys&#95;last1 - keys&#95;first1) + (keys&#95;last2 - keys&#95;first2))</code> such that the resulting range is in ascending order implied by each input element's associated key.\n\n<code>merge&#95;by&#95;key</code> is stable, meaning both that the relative order of elements within each input range is preserved, and that for equivalent elements in all input key ranges the element from the first range precedes the element from the second.\n\nThe return value is is <code>(keys&#95;result + (keys&#95;last1 - keys&#95;first1) + (keys&#95;last2 - keys&#95;first2))</code> and <code>(values&#95;result + (keys&#95;last1 - keys&#95;first1) + (keys&#95;last2 - keys&#95;first2))</code>.\n\nThis version of <code>merge&#95;by&#95;key</code> compares key elements using a function object <code>comp</code>.\n\nThe algorithm's execution is parallelized using <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>merge&#95;by&#95;key</code> to compute the merger of two sets of integers sorted in descending order using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/merge.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\nint A_keys[6] = {11, 9, 7, 5, 3, 1};\nint A_vals[6] = { 0, 0, 0, 0, 0, 0};\n\nint B_keys[7] = {13, 8, 5, 3, 2, 1, 1};\nint B_vals[7] = { 1, 1, 1, 1, 1, 1, 1};\n\nint keys_result[13];\nint vals_result[13];\n\nthrust::pair<int*,int*> end =\n  thrust::merge_by_key(thrust::host,\n                       A_keys, A_keys + 6,\n                       B_keys, B_keys + 7,\n                       A_vals, B_vals,\n                       keys_result, vals_result,\n                       thrust::greater<int>());\n\n// keys_result = {13, 11, 9, 8, 7, 5, 5, 3, 3, 2, 1, 1, 1}\n// vals_result = { 1,  0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1}\n```",
+      "explicit": false,
+      "fullname": "merging::merge_by_key",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/merge.h",
+        "line": 578
+      },
+      "name": "merge_by_key",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "keys_first1",
+          "text": "The beginning of the first input range of keys. "
+        },
+        {
+          "name": "keys_last1",
+          "text": "The end of the first input range of keys. "
+        },
+        {
+          "name": "keys_first2",
+          "text": "The beginning of the second input range of keys. "
+        },
+        {
+          "name": "keys_last2",
+          "text": "The end of the second input range of keys. "
+        },
+        {
+          "name": "values_first1",
+          "text": "The beginning of the first input range of values. "
+        },
+        {
+          "name": "values_first2",
+          "text": "The beginning of the first input range of values. "
+        },
+        {
+          "name": "keys_result",
+          "text": "The beginning of the merged output range of keys. "
+        },
+        {
+          "name": "values_result",
+          "text": "The beginning of the merged output range of values. "
+        },
+        {
+          "name": "comp",
+          "text": "Comparison operator. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "keys_first1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_last1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_first2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "keys_last2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "values_first1",
+          "type": "InputIterator3",
+          "typePlain": "InputIterator3"
+        },
+        {
+          "name": "values_first2",
+          "type": "InputIterator4",
+          "typePlain": "InputIterator4"
+        },
+        {
+          "name": "keys_result",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "values_result",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        },
+        {
+          "name": "comp",
+          "type": "Compare",
+          "typePlain": "Compare"
+        }
+      ],
+      "pre": [
+        "The ranges <code>[keys&#95;first1, keys&#95;last1)</code> and <code>[keys&#95;first2, keys&#95;last2)</code> shall be sorted with respect to <code>comp</code>. ",
+        "The resulting ranges shall not overlap with any input range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::merge_by_key",
+      "refid": "group__merging_1ga7223d16cc5ee97db6f35a082ae4d671c",
+      "returns": [
+        "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
+      ],
+      "see": [
+        "merge ",
+        "<code>sort&#95;by&#95;key</code>",
+        "<code>is&#95;sorted</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator3",
+          "typePlain": "typename InputIterator3"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator4",
+          "typePlain": "typename InputIterator4"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename Compare",
+          "typePlain": "typename Compare"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator1's</code><code>value&#95;type</code> is convertable to <code>StrictWeakCompare's</code><code>first&#95;argument&#95;type</code>. and <code>InputIterator1's</code><code>value&#95;type</code> is convertable to a type in <code>OutputIterator1's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator2's</code><code>value&#95;type</code> is convertable to <code>StrictWeakCompare's</code><code>second&#95;argument&#95;type</code>. and <code>InputIterator2's</code><code>value&#95;type</code> is convertable to a type in <code>OutputIterator1's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator3",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator3's</code><code>value&#95;type</code> is convertible to a type in <code>OutputIterator2's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator4",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator4's</code><code>value&#95;type</code> is convertible to a type in <code>OutputIterator2's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "StrictWeakCompare",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/strict_weak_order\">Strict Weak Ordering</a>."
+        }
+      ],
+      "title": "merge_by_key",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__merging.html#function-merge-by-key",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-merge-by-key",
+      "argsString": "(InputIterator1 keys_first1, InputIterator1 keys_last1, InputIterator2 keys_first2, InputIterator2 keys_last2, InputIterator3 values_first1, InputIterator4 values_first2, OutputIterator1 keys_result, OutputIterator2 values_result, StrictWeakCompare comp)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::pair< OutputIterator1, OutputIterator2 > thrust::merge_by_key",
+      "deleted": false,
+      "details": "<code>merge&#95;by&#95;key</code> performs a key-value merge. That is, <code>merge&#95;by&#95;key</code> copies elements from <code>[keys&#95;first1, keys&#95;last1)</code> and <code>[keys&#95;first2, keys&#95;last2)</code> into a single range, <code>[keys&#95;result, keys&#95;result + (keys&#95;last1 - keys&#95;first1) + (keys&#95;last2 - keys&#95;first2))</code> such that the resulting range is in ascending key order.\n\nAt the same time, <code>merge&#95;by&#95;key</code> copies elements from the two associated ranges <code>[values&#95;first1 + (keys&#95;last1 - keys&#95;first1))</code> and <code>[values&#95;first2 + (keys&#95;last2 - keys&#95;first2))</code> into a single range, <code>[values&#95;result, values&#95;result + (keys&#95;last1 - keys&#95;first1) + (keys&#95;last2 - keys&#95;first2))</code> such that the resulting range is in ascending order implied by each input element's associated key.\n\n<code>merge&#95;by&#95;key</code> is stable, meaning both that the relative order of elements within each input range is preserved, and that for equivalent elements in all input key ranges the element from the first range precedes the element from the second.\n\nThe return value is is <code>(keys&#95;result + (keys&#95;last1 - keys&#95;first1) + (keys&#95;last2 - keys&#95;first2))</code> and <code>(values&#95;result + (keys&#95;last1 - keys&#95;first1) + (keys&#95;last2 - keys&#95;first2))</code>.\n\nThis version of <code>merge&#95;by&#95;key</code> compares key elements using a function object <code>comp</code>.\n\n\nThe following code snippet demonstrates how to use <code>merge&#95;by&#95;key</code> to compute the merger of two sets of integers sorted in descending order.\n\n\n\n```cpp\n#include <thrust/merge.h>\n#include <thrust/functional.h>\n...\nint A_keys[6] = {11, 9, 7, 5, 3, 1};\nint A_vals[6] = { 0, 0, 0, 0, 0, 0};\n\nint B_keys[7] = {13, 8, 5, 3, 2, 1, 1};\nint B_vals[7] = { 1, 1, 1, 1, 1, 1, 1};\n\nint keys_result[13];\nint vals_result[13];\n\nthrust::pair<int*,int*> end = thrust::merge_by_key(A_keys, A_keys + 6, B_keys, B_keys + 7, A_vals, B_vals, keys_result, vals_result, thrust::greater<int>());\n\n// keys_result = {13, 11, 9, 8, 7, 5, 5, 3, 3, 2, 1, 1, 1}\n// vals_result = { 1,  0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1}\n```",
+      "explicit": false,
+      "fullname": "merging::merge_by_key",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/merge.h",
+        "line": 664
+      },
+      "name": "merge_by_key",
+      "override": false,
+      "paramList": [
+        {
+          "name": "keys_first1",
+          "text": "The beginning of the first input range of keys. "
+        },
+        {
+          "name": "keys_last1",
+          "text": "The end of the first input range of keys. "
+        },
+        {
+          "name": "keys_first2",
+          "text": "The beginning of the second input range of keys. "
+        },
+        {
+          "name": "keys_last2",
+          "text": "The end of the second input range of keys. "
+        },
+        {
+          "name": "values_first1",
+          "text": "The beginning of the first input range of values. "
+        },
+        {
+          "name": "values_first2",
+          "text": "The beginning of the first input range of values. "
+        },
+        {
+          "name": "keys_result",
+          "text": "The beginning of the merged output range of keys. "
+        },
+        {
+          "name": "values_result",
+          "text": "The beginning of the merged output range of values. "
+        },
+        {
+          "name": "comp",
+          "text": "Comparison operator. "
+        }
+      ],
+      "params": [
+        {
+          "name": "keys_first1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_last1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "keys_first2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "keys_last2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "values_first1",
+          "type": "InputIterator3",
+          "typePlain": "InputIterator3"
+        },
+        {
+          "name": "values_first2",
+          "type": "InputIterator4",
+          "typePlain": "InputIterator4"
+        },
+        {
+          "name": "keys_result",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "values_result",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        },
+        {
+          "name": "comp",
+          "type": "StrictWeakCompare",
+          "typePlain": "StrictWeakCompare"
+        }
+      ],
+      "pre": [
+        "The ranges <code>[keys&#95;first1, keys&#95;last1)</code> and <code>[keys&#95;first2, keys&#95;last2)</code> shall be sorted with respect to <code>comp</code>. ",
+        "The resulting ranges shall not overlap with any input range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::merge_by_key",
+      "refid": "group__merging_1ga7ab71e9ed6abf8bf85fc500b7850cea0",
+      "returns": [
+        "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
+      ],
+      "see": [
+        "merge ",
+        "<code>sort&#95;by&#95;key</code>",
+        "<code>is&#95;sorted</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator3",
+          "typePlain": "typename InputIterator3"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator4",
+          "typePlain": "typename InputIterator4"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename StrictWeakCompare",
+          "typePlain": "typename StrictWeakCompare"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator1's</code><code>value&#95;type</code> is convertable to <code>StrictWeakCompare's</code><code>first&#95;argument&#95;type</code>. and <code>InputIterator1's</code><code>value&#95;type</code> is convertable to a type in <code>OutputIterator1's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, <code>InputIterator2's</code><code>value&#95;type</code> is convertable to <code>StrictWeakCompare's</code><code>second&#95;argument&#95;type</code>. and <code>InputIterator2's</code><code>value&#95;type</code> is convertable to a type in <code>OutputIterator1's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator3",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator3's</code><code>value&#95;type</code> is convertible to a type in <code>OutputIterator2's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator4",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator4's</code><code>value&#95;type</code> is convertible to a type in <code>OutputIterator2's</code> set of <code>value&#95;types</code>. "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "StrictWeakCompare",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/strict_weak_order\">Strict Weak Ordering</a>."
+        }
+      ],
+      "title": "merge_by_key",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__merging.html#function-merge-by-key",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "merging",
+  "refid": "group__merging",
+  "static": false,
+  "strong": false,
+  "title": "Merging",
+  "url": "{{ site.baseurl }}/api/groups/group__merging.html",
+  "visibility": "public"
+}

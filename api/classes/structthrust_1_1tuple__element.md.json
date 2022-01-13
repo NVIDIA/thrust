@@ -1,0 +1,134 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "This convenience metafunction is included for compatibility with <code>tuple</code>. It returns either the type of a <code>pair's</code><code>first&#95;type</code> or <code>second&#95;type</code> in its nested type, <code>type</code>.\n\n\nThis metafunction returns the type of a <code>tuple's</code><code>N</code>th element.",
+  "explicit": false,
+  "fullname": "thrust::tuple_element",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyFile": "thrust/pair.h",
+    "bodyStart": 230,
+    "column": 13,
+    "file": "thrust/pair.h",
+    "line": 230
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "tuple",
+    "kind": "group",
+    "language": "",
+    "name": "tuple",
+    "qualifiedname": "tuple",
+    "refid": "group__tuple",
+    "title": "Tuple",
+    "url": "{{ site.baseurl }}/api/groups/group__tuple.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "utility",
+      "kind": "group",
+      "language": "",
+      "name": "utility",
+      "qualifiedname": "utility",
+      "refid": "group__utility",
+      "title": "Utility",
+      "url": "{{ site.baseurl }}/api/groups/group__utility.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "tuple",
+      "kind": "group",
+      "language": "",
+      "name": "tuple",
+      "qualifiedname": "tuple",
+      "refid": "group__tuple",
+      "title": "Tuple",
+      "url": "{{ site.baseurl }}/api/groups/group__tuple.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::tuple_element",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::tuple_element",
+  "refid": "structthrust_1_1tuple__element",
+  "see": [
+    "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">pair</a>",
+    "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1tuple.html\">tuple</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "N",
+      "type": "size_t",
+      "typePlain": "size_t"
+    },
+    {
+      "name": "",
+      "type": "class T",
+      "typePlain": "class T"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "N",
+      "text": "This parameter selects the member of interest. "
+    },
+    {
+      "name": "T",
+      "text": "A <code>pair</code> type of interest."
+    },
+    {
+      "name": "N",
+      "text": "This parameter selects the element of interest. "
+    },
+    {
+      "name": "T",
+      "text": "A <code>tuple</code> type of interest."
+    }
+  ],
+  "title": "thrust::tuple_element",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1tuple__element.html",
+  "visibility": "public"
+}

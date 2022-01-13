@@ -1,0 +1,719 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "A <code>discard&#95;block&#95;engine</code> adapts an existing base random number engine and produces random values by discarding some of the values returned by its base engine. Each cycle of the compound engine begins by returning <code>r</code> values successively produced by the base engine and ends by discarding <code>p-r</code> such values. The engine's state is the state of its base engine followed by the number of calls to <code>operator()</code> that have occurred since the beginning of the current cycle. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "\nThe following code snippet shows an example of using a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html\">discard&#95;block&#95;engine</a></code> instance:\n\n\n\n```cpp\n#include <thrust/random/linear_congruential_engine.h>\n#include <thrust/random/discard_block_engine.h>\n#include <iostream>\n\nint main(void)\n{\n  // create a discard_block_engine from minstd_rand, with a cycle length of 13\n  // keep every first 10 values, and discard the next 3\n  thrust::discard_block_engine<thrust::minstd_rand, 13, 10> rng;\n\n  // print a random number to standard output\n  std::cout << rng() << std::endl;\n\n  return 0;\n}\n```",
+  "explicit": false,
+  "fullname": "thrust::random::discard_block_engine",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/random/discard_block_engine.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 192,
+    "bodyFile": "thrust/random/discard_block_engine.h",
+    "bodyStart": 77,
+    "column": 3,
+    "file": "thrust/random/discard_block_engine.h",
+    "line": 76
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "random_number_engine_adaptors",
+    "kind": "group",
+    "language": "",
+    "name": "random_number_engine_adaptors",
+    "qualifiedname": "random_number_engine_adaptors",
+    "refid": "group__random__number__engine__adaptors",
+    "title": "Random Number Engine Adaptor Class Templates",
+    "url": "{{ site.baseurl }}/api/groups/group__random__number__engine__adaptors.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "random",
+      "kind": "group",
+      "language": "",
+      "name": "random",
+      "qualifiedname": "random",
+      "refid": "group__random",
+      "title": "Random Number Generation",
+      "url": "{{ site.baseurl }}/api/groups/group__random.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "random_number_engine_adaptors",
+      "kind": "group",
+      "language": "",
+      "name": "random_number_engine_adaptors",
+      "qualifiedname": "random_number_engine_adaptors",
+      "refid": "group__random__number__engine__adaptors",
+      "title": "Random Number Engine Adaptor Class Templates",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__engine__adaptors.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::random::discard_block_engine",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "<code>thrust::random</code> is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+    "category": "namespaces",
+    "fullname": "thrust::random",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::random",
+    "qualifiedname": "thrust::random",
+    "refid": "namespacethrust_1_1random",
+    "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+    "title": "thrust::random",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1random.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "<code>thrust::random</code> is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+      "category": "namespaces",
+      "fullname": "thrust::random",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::random",
+      "qualifiedname": "thrust::random",
+      "refid": "namespacethrust_1_1random",
+      "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+      "title": "thrust::random",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1random.html",
+      "visibility": "public"
+    }
+  ],
+  "publicAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-block-size",
+      "category": "attributes",
+      "const": false,
+      "definition": "const size_t thrust::random::discard_block_engine< Engine, p, r >::block_size",
+      "details": "The length of the production cycle. ",
+      "explicit": false,
+      "fullname": "thrust::random::discard_block_engine::block_size",
+      "hasDetails": true,
+      "initializer": "= p",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/discard_block_engine.h",
+        "bodyStart": 95,
+        "column": 25,
+        "file": "thrust/random/discard_block_engine.h",
+        "line": 95
+      },
+      "name": "block_size",
+      "override": false,
+      "qualifiedname": "thrust::random::discard_block_engine::block_size",
+      "refid": "classthrust_1_1random_1_1discard__block__engine_1a7be03bfae99d952bb313c085a629e43c",
+      "static": true,
+      "strong": false,
+      "title": "block_size",
+      "type": "const size_t",
+      "typePlain": "const size_t",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#variable-block-size",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-used-block",
+      "category": "attributes",
+      "const": false,
+      "definition": "const size_t thrust::random::discard_block_engine< Engine, p, r >::used_block",
+      "details": "The number of used numbers per production cycle. ",
+      "explicit": false,
+      "fullname": "thrust::random::discard_block_engine::used_block",
+      "hasDetails": true,
+      "initializer": "= r",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/discard_block_engine.h",
+        "bodyStart": 99,
+        "column": 25,
+        "file": "thrust/random/discard_block_engine.h",
+        "line": 99
+      },
+      "name": "used_block",
+      "override": false,
+      "qualifiedname": "thrust::random::discard_block_engine::used_block",
+      "refid": "classthrust_1_1random_1_1discard__block__engine_1aa18e76442cdf222ac27718e2425b6c46",
+      "static": true,
+      "strong": false,
+      "title": "used_block",
+      "type": "const size_t",
+      "typePlain": "const size_t",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#variable-used-block",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-min",
+      "category": "attributes",
+      "const": false,
+      "definition": "const result_type thrust::random::discard_block_engine< Engine, p, r >::min",
+      "details": "The smallest value this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html\">discard&#95;block&#95;engine</a></code> may potentially produce. ",
+      "explicit": false,
+      "fullname": "thrust::random::discard_block_engine::min",
+      "hasDetails": true,
+      "initializer": "= base_type::min",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/discard_block_engine.h",
+        "bodyStart": 103,
+        "column": 30,
+        "file": "thrust/random/discard_block_engine.h",
+        "line": 103
+      },
+      "name": "min",
+      "override": false,
+      "qualifiedname": "thrust::random::discard_block_engine::min",
+      "refid": "classthrust_1_1random_1_1discard__block__engine_1a64cb4e57d056bdf1abe15e49af197ec2",
+      "static": true,
+      "strong": false,
+      "title": "min",
+      "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "const result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#variable-min",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-max",
+      "category": "attributes",
+      "const": false,
+      "definition": "const result_type thrust::random::discard_block_engine< Engine, p, r >::max",
+      "details": "The largest value this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html\">discard&#95;block&#95;engine</a></code> may potentially produce. ",
+      "explicit": false,
+      "fullname": "thrust::random::discard_block_engine::max",
+      "hasDetails": true,
+      "initializer": "= base_type::max",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/discard_block_engine.h",
+        "bodyStart": 107,
+        "column": 30,
+        "file": "thrust/random/discard_block_engine.h",
+        "line": 107
+      },
+      "name": "max",
+      "override": false,
+      "qualifiedname": "thrust::random::discard_block_engine::max",
+      "refid": "classthrust_1_1random_1_1discard__block__engine_1a548c2a9982f48453ff194d5750732362",
+      "static": true,
+      "strong": false,
+      "title": "max",
+      "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "const result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#variable-max",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-discard-block-engine",
+      "argsString": "()",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::random::discard_block_engine< Engine, p, r >::discard_block_engine",
+      "deleted": false,
+      "details": "This constructor constructs a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html\">discard&#95;block&#95;engine</a></code> and constructs its <code>base&#95;type</code> engine using its null constructor. ",
+      "explicit": false,
+      "fullname": "thrust::random::discard_block_engine::discard_block_engine",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 5,
+        "file": "thrust/random/discard_block_engine.h",
+        "line": 115
+      },
+      "name": "discard_block_engine",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::discard_block_engine::discard_block_engine",
+      "refid": "classthrust_1_1random_1_1discard__block__engine_1a432c67c03c6b972cd3795676ce59e4d5",
+      "static": false,
+      "strong": false,
+      "title": "discard_block_engine",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#function-discard-block-engine",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-discard-block-engine",
+      "argsString": "(const base_type &urng)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::random::discard_block_engine< Engine, p, r >::discard_block_engine",
+      "deleted": false,
+      "details": "This constructor constructs a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html\">discard&#95;block&#95;engine</a></code> using a given <code>base&#95;type</code> engine to initialize its adapted base engine.",
+      "explicit": true,
+      "fullname": "thrust::random::discard_block_engine::discard_block_engine",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 14,
+        "file": "thrust/random/discard_block_engine.h",
+        "line": 124
+      },
+      "name": "discard_block_engine",
+      "override": false,
+      "paramList": [
+        {
+          "name": "urng",
+          "text": "A <code>base&#95;type</code> to use to initialize this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html\">discard&#95;block&#95;engine</a>'s</code> adapted base engine. "
+        }
+      ],
+      "params": [
+        {
+          "name": "urng",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#typedef-base-type\">base_type</a> &",
+          "typePlain": "const base_type &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::discard_block_engine::discard_block_engine",
+      "refid": "classthrust_1_1random_1_1discard__block__engine_1aa83718a5078ed876dc391310193547a1",
+      "static": false,
+      "strong": false,
+      "title": "discard_block_engine",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#function-discard-block-engine",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-discard-block-engine",
+      "argsString": "(result_type s)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::random::discard_block_engine< Engine, p, r >::discard_block_engine",
+      "deleted": false,
+      "details": "This constructor initializes a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html\">discard&#95;block&#95;engine</a></code> with a given seed.",
+      "explicit": true,
+      "fullname": "thrust::random::discard_block_engine::discard_block_engine",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 14,
+        "file": "thrust/random/discard_block_engine.h",
+        "line": 131
+      },
+      "name": "discard_block_engine",
+      "override": false,
+      "paramList": [
+        {
+          "name": "s",
+          "text": "The seed used to intialize this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html\">discard&#95;block&#95;engine</a>'s</code> adapted base engine. "
+        }
+      ],
+      "params": [
+        {
+          "name": "s",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#typedef-result-type\">result_type</a>",
+          "typePlain": "result_type"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::discard_block_engine::discard_block_engine",
+      "refid": "classthrust_1_1random_1_1discard__block__engine_1ae7bf1e1dcc9de8753c21febf749c0edd",
+      "static": false,
+      "strong": false,
+      "title": "discard_block_engine",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#function-discard-block-engine",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-seed",
+      "argsString": "(void)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::random::discard_block_engine< Engine, p, r >::seed",
+      "deleted": false,
+      "details": "This method initializes the state of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html\">discard&#95;block&#95;engine</a>'s</code> adapted base engine by using its <code>default&#95;seed</code> value. ",
+      "explicit": false,
+      "fullname": "thrust::random::discard_block_engine::seed",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 10,
+        "file": "thrust/random/discard_block_engine.h",
+        "line": 137
+      },
+      "name": "seed",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::discard_block_engine::seed",
+      "refid": "classthrust_1_1random_1_1discard__block__engine_1a945037afbe5308a56a03b5e113f31001",
+      "static": false,
+      "strong": false,
+      "title": "seed",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#function-seed",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-seed",
+      "argsString": "(result_type s)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::random::discard_block_engine< Engine, p, r >::seed",
+      "deleted": false,
+      "details": "This method initializes the state of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html\">discard&#95;block&#95;engine</a>'s</code> adapted base engine by using the given seed.",
+      "explicit": false,
+      "fullname": "thrust::random::discard_block_engine::seed",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 10,
+        "file": "thrust/random/discard_block_engine.h",
+        "line": 145
+      },
+      "name": "seed",
+      "override": false,
+      "paramList": [
+        {
+          "name": "s",
+          "text": "The seed with which to intialize this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html\">discard&#95;block&#95;engine</a>'s</code> adapted base engine. "
+        }
+      ],
+      "params": [
+        {
+          "name": "s",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#typedef-result-type\">result_type</a>",
+          "typePlain": "result_type"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::discard_block_engine::seed",
+      "refid": "classthrust_1_1random_1_1discard__block__engine_1a4c5b8ad335ad093029f81d3e388bf3b0",
+      "static": false,
+      "strong": false,
+      "title": "seed",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#function-seed",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(void)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ result_type thrust::random::discard_block_engine< Engine, p, r >::operator()",
+      "deleted": false,
+      "details": "This member function produces a new random value and updates this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html\">discard&#95;block&#95;engine</a>'s</code> state. ",
+      "explicit": false,
+      "fullname": "thrust::random::discard_block_engine::operator()",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 17,
+        "file": "thrust/random/discard_block_engine.h",
+        "line": 153
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::discard_block_engine::operator()",
+      "refid": "classthrust_1_1random_1_1discard__block__engine_1acd3330499631de3e3c503066f39f27ef",
+      "returns": [
+        "A new random number. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "__host__ __device__ result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-discard",
+      "argsString": "(unsigned long long z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::random::discard_block_engine< Engine, p, r >::discard",
+      "deleted": false,
+      "details": "This member function advances this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html\">discard&#95;block&#95;engine</a>'s</code> state a given number of times and discards the results.",
+      "explicit": false,
+      "fullname": "thrust::random::discard_block_engine::discard",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 10,
+        "file": "thrust/random/discard_block_engine.h",
+        "line": 162
+      },
+      "name": "discard",
+      "note": [
+        "This function is provided because an implementation may be able to accelerate it. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The number of random values to discard. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "unsigned long long",
+          "typePlain": "unsigned long long"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::discard_block_engine::discard",
+      "refid": "classthrust_1_1random_1_1discard__block__engine_1aa4a53a785592f9011f990d2d576a573d",
+      "static": false,
+      "strong": false,
+      "title": "discard",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#function-discard",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-base",
+      "argsString": "(void) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ const base_type & thrust::random::discard_block_engine< Engine, p, r >::base",
+      "deleted": false,
+      "details": "This member function returns a const reference to this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html\">discard&#95;block&#95;engine</a>'s</code> adapted base engine.",
+      "explicit": false,
+      "fullname": "thrust::random::discard_block_engine::base",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 21,
+        "file": "thrust/random/discard_block_engine.h",
+        "line": 172
+      },
+      "name": "base",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::discard_block_engine::base",
+      "refid": "classthrust_1_1random_1_1discard__block__engine_1a7870daf880f430618a72f75678899d1f",
+      "returns": [
+        "A const reference to the base engine this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html\">discard&#95;block&#95;engine</a></code> adapts. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "base",
+      "type": "__host__ __device__ const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#typedef-base-type\">base_type</a> &",
+      "typePlain": "__host__ __device__ const base_type &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#function-base",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-base-type",
+      "brief": "The type of the adapted base random number engine. ",
+      "category": "types",
+      "const": false,
+      "definition": "thrust::random::discard_block_engine< Engine, p, r >::base_type",
+      "explicit": false,
+      "fullname": "thrust::random::discard_block_engine::base_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/discard_block_engine.h",
+        "bodyStart": 84,
+        "column": 20,
+        "file": "thrust/random/discard_block_engine.h",
+        "line": 84
+      },
+      "name": "base_type",
+      "override": false,
+      "qualifiedname": "thrust::random::discard_block_engine::base_type",
+      "refid": "classthrust_1_1random_1_1discard__block__engine_1a64c1ecf80a6e3d1cadb1c54d9cc205cc",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the adapted base random number engine. ",
+      "title": "base_type",
+      "type": "Engine",
+      "typePlain": "Engine",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#typedef-base-type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-result-type",
+      "brief": "The type of the unsigned integer produced by this <code>linear&#95;congruential&#95;engine</code>. ",
+      "category": "types",
+      "const": false,
+      "definition": "thrust::random::discard_block_engine< Engine, p, r >::result_type",
+      "explicit": false,
+      "fullname": "thrust::random::discard_block_engine::result_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/discard_block_engine.h",
+        "bodyStart": 89,
+        "column": 45,
+        "file": "thrust/random/discard_block_engine.h",
+        "line": 89
+      },
+      "name": "result_type",
+      "override": false,
+      "qualifiedname": "thrust::random::discard_block_engine::result_type",
+      "refid": "classthrust_1_1random_1_1discard__block__engine_1ac66ab26f2900d6c1c21f246941b2257d",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the unsigned integer produced by this linear_congruential_engine. ",
+      "title": "result_type",
+      "type": "base_type::result_type",
+      "typePlain": "base_type::result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html#typedef-result-type",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::random::discard_block_engine",
+  "refid": "classthrust_1_1random_1_1discard__block__engine",
+  "static": false,
+  "strong": false,
+  "summary": "A discard_block_engine adapts an existing base random number engine and produces random values by discarding some of the values returned by its base engine. Each cycle of the compound engine begins by returning r values successively produced by the base engine and ends by discarding p-r such values. The engine's state is the state of its base engine followed by the number of calls to operator() that have occurred since the beginning of the current cycle. ",
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename Engine",
+      "typePlain": "typename Engine"
+    },
+    {
+      "name": "p",
+      "type": "size_t",
+      "typePlain": "size_t"
+    },
+    {
+      "name": "r",
+      "type": "size_t",
+      "typePlain": "size_t"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "Engine",
+      "text": "The type of the base random number engine to adapt. "
+    },
+    {
+      "name": "p",
+      "text": "The discard cycle length. "
+    },
+    {
+      "name": "r",
+      "text": "The number of values to return of the base engine. Because <code>p-r</code> will be discarded, <code>r &lt;= p</code>."
+    }
+  ],
+  "title": "thrust::random::discard_block_engine",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html",
+  "visibility": "public"
+}

@@ -1,0 +1,1391 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "detail::vector_base< T, std::allocator< T > >",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "A <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> is a container that supports random access to elements, constant time removal of elements at the end, and linear time insertion and removal of elements at the beginning or in the middle. The number of elements in a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> may vary dynamically; memory management is automatic. The memory associated with a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> resides in memory accessible to hosts.",
+  "explicit": false,
+  "fullname": "thrust::host_vector",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/host_vector.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 498,
+    "bodyFile": "thrust/host_vector.h",
+    "bodyStart": 53,
+    "column": 3,
+    "file": "thrust/host_vector.h",
+    "line": 51
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "host_containers",
+    "kind": "group",
+    "language": "",
+    "name": "host_containers",
+    "qualifiedname": "host_containers",
+    "refid": "group__host__containers",
+    "title": "Host Containers",
+    "url": "{{ site.baseurl }}/api/groups/group__host__containers.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "container_classes",
+      "kind": "group",
+      "language": "",
+      "name": "container_classes",
+      "qualifiedname": "container_classes",
+      "refid": "group__container__classes",
+      "title": "Container Classes",
+      "url": "{{ site.baseurl }}/api/groups/group__container__classes.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "host_containers",
+      "kind": "group",
+      "language": "",
+      "name": "host_containers",
+      "qualifiedname": "host_containers",
+      "refid": "group__host__containers",
+      "title": "Host Containers",
+      "url": "{{ site.baseurl }}/api/groups/group__host__containers.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::host_vector",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "privateTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-parent",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::vector_base<T,Alloc> thrust::host_vector< T, Alloc >::Parent",
+      "explicit": false,
+      "fullname": "thrust::host_vector::Parent",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 55,
+        "column": 33,
+        "file": "thrust/host_vector.h",
+        "line": 55
+      },
+      "name": "Parent",
+      "override": false,
+      "qualifiedname": "thrust::host_vector::Parent",
+      "refid": "classthrust_1_1host__vector_1a97fd2416605deb4554e52d79ce04f7f2",
+      "static": false,
+      "strong": false,
+      "title": "Parent",
+      "type": "detail::vector_base< T, Alloc >",
+      "typePlain": "detail::vector_base< T, Alloc >",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#typedef-parent",
+      "visibility": "private"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-host-vector",
+      "argsString": "(void)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::host_vector< T, Alloc >::host_vector",
+      "deleted": false,
+      "details": "This constructor creates an empty <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code>. ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 69,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 68,
+        "column": 5,
+        "file": "thrust/host_vector.h",
+        "line": 68
+      },
+      "name": "host_vector",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::host_vector",
+      "refid": "classthrust_1_1host__vector_1a369df58e3626a424b8c87fadb43b65e2",
+      "static": false,
+      "strong": false,
+      "title": "host_vector",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-host-vector",
+      "argsString": "(const Alloc &alloc)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::host_vector< T, Alloc >::host_vector",
+      "deleted": false,
+      "details": "This constructor creates an empty <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code>. ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 76,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 75,
+        "column": 5,
+        "file": "thrust/host_vector.h",
+        "line": 75
+      },
+      "name": "host_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "alloc",
+          "text": "The allocator to use by this <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "alloc",
+          "type": "const Alloc &",
+          "typePlain": "const Alloc &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::host_vector",
+      "refid": "classthrust_1_1host__vector_1a2fb1bb9c157118f99ab84f62a721d9b8",
+      "static": false,
+      "strong": false,
+      "title": "host_vector",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-~host-vector",
+      "argsString": "(void)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::host_vector< T, Alloc >::~host_vector",
+      "deleted": false,
+      "details": "The destructor erases the elements. ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::~host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 83,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 83,
+        "column": 5,
+        "file": "thrust/host_vector.h",
+        "line": 83
+      },
+      "name": "~host_vector",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::~host_vector",
+      "refid": "classthrust_1_1host__vector_1aca9087a41b0d8deffe1e600b7b0a97a0",
+      "static": false,
+      "strong": false,
+      "title": "~host_vector",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-~host-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-host-vector",
+      "argsString": "(size_type n)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::host_vector< T, Alloc >::host_vector",
+      "deleted": false,
+      "details": "This constructor creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> with the given size. ",
+      "explicit": true,
+      "fullname": "thrust::host_vector::host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 91,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 90,
+        "column": 14,
+        "file": "thrust/host_vector.h",
+        "line": 90
+      },
+      "name": "host_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "n",
+          "text": "The number of elements to initially create. "
+        }
+      ],
+      "params": [
+        {
+          "name": "n",
+          "type": "size_type",
+          "typePlain": "size_type"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::host_vector",
+      "refid": "classthrust_1_1host__vector_1ac2df310036fc90fb8dd7e2ac43119d38",
+      "static": false,
+      "strong": false,
+      "title": "host_vector",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-host-vector",
+      "argsString": "(size_type n, const Alloc &alloc)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::host_vector< T, Alloc >::host_vector",
+      "deleted": false,
+      "details": "This constructor creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> with the given size. ",
+      "explicit": true,
+      "fullname": "thrust::host_vector::host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 100,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 99,
+        "column": 14,
+        "file": "thrust/host_vector.h",
+        "line": 99
+      },
+      "name": "host_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "n",
+          "text": "The number of elements to initially create. "
+        },
+        {
+          "name": "alloc",
+          "text": "The allocator to use by this <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "n",
+          "type": "size_type",
+          "typePlain": "size_type"
+        },
+        {
+          "name": "alloc",
+          "type": "const Alloc &",
+          "typePlain": "const Alloc &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::host_vector",
+      "refid": "classthrust_1_1host__vector_1af6728a714c04190b74224c7f31d195f8",
+      "static": false,
+      "strong": false,
+      "title": "host_vector",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-host-vector",
+      "argsString": "(size_type n, const value_type &value)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::host_vector< T, Alloc >::host_vector",
+      "deleted": false,
+      "details": "This constructor creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> with copies of an exemplar element. ",
+      "explicit": true,
+      "fullname": "thrust::host_vector::host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 109,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 108,
+        "column": 14,
+        "file": "thrust/host_vector.h",
+        "line": 108
+      },
+      "name": "host_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "n",
+          "text": "The number of elements to initially create. "
+        },
+        {
+          "name": "value",
+          "text": "An element to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "n",
+          "type": "size_type",
+          "typePlain": "size_type"
+        },
+        {
+          "name": "value",
+          "type": "const value_type &",
+          "typePlain": "const value_type &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::host_vector",
+      "refid": "classthrust_1_1host__vector_1a015f5831ca2e86ecc0f5ce219f44ab9e",
+      "static": false,
+      "strong": false,
+      "title": "host_vector",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-host-vector",
+      "argsString": "(size_type n, const value_type &value, const Alloc &alloc)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::host_vector< T, Alloc >::host_vector",
+      "deleted": false,
+      "details": "This constructor creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> with copies of an exemplar element. ",
+      "explicit": true,
+      "fullname": "thrust::host_vector::host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 119,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 118,
+        "column": 14,
+        "file": "thrust/host_vector.h",
+        "line": 118
+      },
+      "name": "host_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "n",
+          "text": "The number of elements to initially create. "
+        },
+        {
+          "name": "value",
+          "text": "An element to copy. "
+        },
+        {
+          "name": "alloc",
+          "text": "The allocator to use by this <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "n",
+          "type": "size_type",
+          "typePlain": "size_type"
+        },
+        {
+          "name": "value",
+          "type": "const value_type &",
+          "typePlain": "const value_type &"
+        },
+        {
+          "name": "alloc",
+          "type": "const Alloc &",
+          "typePlain": "const Alloc &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::host_vector",
+      "refid": "classthrust_1_1host__vector_1a60b185b488ae33742efe2ddaab6c106b",
+      "static": false,
+      "strong": false,
+      "title": "host_vector",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-host-vector",
+      "argsString": "(const host_vector &v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::host_vector< T, Alloc >::host_vector",
+      "deleted": false,
+      "details": "Copy constructor copies from an exemplar <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code>. ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 126,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 125,
+        "column": 5,
+        "file": "thrust/host_vector.h",
+        "line": 125
+      },
+      "name": "host_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> &",
+          "typePlain": "const host_vector &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::host_vector",
+      "refid": "classthrust_1_1host__vector_1ae6ed4675e620122f604c3862969aac75",
+      "static": false,
+      "strong": false,
+      "title": "host_vector",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-host-vector",
+      "argsString": "(const host_vector &v, const Alloc &alloc)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::host_vector< T, Alloc >::host_vector",
+      "deleted": false,
+      "details": "Copy constructor copies from an exemplar <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code>. ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 134,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 133,
+        "column": 5,
+        "file": "thrust/host_vector.h",
+        "line": 133
+      },
+      "name": "host_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> to copy. "
+        },
+        {
+          "name": "alloc",
+          "text": "The allocator to use by this <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> &",
+          "typePlain": "const host_vector &"
+        },
+        {
+          "name": "alloc",
+          "type": "const Alloc &",
+          "typePlain": "const Alloc &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::host_vector",
+      "refid": "classthrust_1_1host__vector_1a2ffeba59fd34af46ae11256c8f581f5a",
+      "static": false,
+      "strong": false,
+      "title": "host_vector",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-host-vector",
+      "argsString": "(host_vector &&v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::host_vector< T, Alloc >::host_vector",
+      "deleted": false,
+      "details": "Move constructor moves from another <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a>. ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 142,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 141,
+        "column": 5,
+        "file": "thrust/host_vector.h",
+        "line": 141
+      },
+      "name": "host_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> to move. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> &&",
+          "typePlain": "host_vector &&"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::host_vector",
+      "refid": "classthrust_1_1host__vector_1a364b189de598e0bfd9a2f8e3c7e2b204",
+      "static": false,
+      "strong": false,
+      "title": "host_vector",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-host-vector",
+      "argsString": "(host_vector &&v, const Alloc &alloc)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::host_vector< T, Alloc >::host_vector",
+      "deleted": false,
+      "details": "Move constructor moves from another <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a>. ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 150,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 149,
+        "column": 5,
+        "file": "thrust/host_vector.h",
+        "line": 149
+      },
+      "name": "host_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> to move. "
+        },
+        {
+          "name": "alloc",
+          "text": "The allocator to use by this <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> &&",
+          "typePlain": "host_vector &&"
+        },
+        {
+          "name": "alloc",
+          "type": "const Alloc &",
+          "typePlain": "const Alloc &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::host_vector",
+      "refid": "classthrust_1_1host__vector_1abe7637abc1b72c7e6b8a4762652f0f0e",
+      "static": false,
+      "strong": false,
+      "title": "host_vector",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const host_vector &v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ host_vector & thrust::host_vector< T, Alloc >::operator=",
+      "deleted": false,
+      "details": "Assign operator copies from an exemplar <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code>. ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 158,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 157,
+        "column": 15,
+        "file": "thrust/host_vector.h",
+        "line": 157
+      },
+      "name": "operator=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> &",
+          "typePlain": "const host_vector &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::operator=",
+      "refid": "classthrust_1_1host__vector_1a7ee0946ef1b9d9efba025a7f18932570",
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "__host__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> &",
+      "typePlain": "__host__ host_vector &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(host_vector &&v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ host_vector & thrust::host_vector< T, Alloc >::operator=",
+      "deleted": false,
+      "details": "Move assign operator moves from another <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a>. ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 166,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 165,
+        "column": 18,
+        "file": "thrust/host_vector.h",
+        "line": 165
+      },
+      "name": "operator=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> to move. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> &&",
+          "typePlain": "host_vector &&"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::operator=",
+      "refid": "classthrust_1_1host__vector_1ae479aa1548679469c122a904429643cb",
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "__host__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> &",
+      "typePlain": "__host__ host_vector &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-host-vector",
+      "argsString": "(const host_vector< OtherT, OtherAlloc > &v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::host_vector< T, Alloc >::host_vector",
+      "deleted": false,
+      "details": "Copy constructor copies from an exemplar <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> with different type. ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 175,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 174,
+        "column": 5,
+        "file": "thrust/host_vector.h",
+        "line": 174
+      },
+      "name": "host_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a>< OtherT, OtherAlloc > &",
+          "typePlain": "const host_vector< OtherT, OtherAlloc > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::host_vector",
+      "refid": "classthrust_1_1host__vector_1a490275e35cdcbdca1dfa1669f9493f9b",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherT",
+          "typePlain": "typename OtherT"
+        },
+        {
+          "name": "",
+          "type": "typename OtherAlloc",
+          "typePlain": "typename OtherAlloc"
+        }
+      ],
+      "title": "host_vector",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const host_vector< OtherT, OtherAlloc > &v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ host_vector & thrust::host_vector< T, Alloc >::operator=",
+      "deleted": false,
+      "details": "Assign operator copies from an exemplar <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> with different type. ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 183,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 182,
+        "column": 17,
+        "file": "thrust/host_vector.h",
+        "line": 182
+      },
+      "name": "operator=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a>< OtherT, OtherAlloc > &",
+          "typePlain": "const host_vector< OtherT, OtherAlloc > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::operator=",
+      "refid": "classthrust_1_1host__vector_1af8815163b26603141f1ec77fa4b844e2",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherT",
+          "typePlain": "typename OtherT"
+        },
+        {
+          "name": "",
+          "type": "typename OtherAlloc",
+          "typePlain": "typename OtherAlloc"
+        }
+      ],
+      "title": "operator=",
+      "type": "__host__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> &",
+      "typePlain": "__host__ host_vector &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-host-vector",
+      "argsString": "(const std::vector< OtherT, OtherAlloc > &v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::host_vector< T, Alloc >::host_vector",
+      "deleted": false,
+      "details": "Copy constructor copies from an exemplar <code>std::vector</code>. ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 191,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 190,
+        "column": 5,
+        "file": "thrust/host_vector.h",
+        "line": 190
+      },
+      "name": "host_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code>std::vector</code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const std::vector< OtherT, OtherAlloc > &",
+          "typePlain": "const std::vector< OtherT, OtherAlloc > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::host_vector",
+      "refid": "classthrust_1_1host__vector_1ae55e4d63e419ab6667cf529e4072492d",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherT",
+          "typePlain": "typename OtherT"
+        },
+        {
+          "name": "",
+          "type": "typename OtherAlloc",
+          "typePlain": "typename OtherAlloc"
+        }
+      ],
+      "title": "host_vector",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const std::vector< OtherT, OtherAlloc > &v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ host_vector & thrust::host_vector< T, Alloc >::operator=",
+      "deleted": false,
+      "details": "Assign operator copies from an exemplar <code>std::vector</code>. ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 199,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 198,
+        "column": 17,
+        "file": "thrust/host_vector.h",
+        "line": 198
+      },
+      "name": "operator=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code>std::vector</code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const std::vector< OtherT, OtherAlloc > &",
+          "typePlain": "const std::vector< OtherT, OtherAlloc > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::operator=",
+      "refid": "classthrust_1_1host__vector_1aded30fd3d558fbd9519ed38e0ca5da74",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherT",
+          "typePlain": "typename OtherT"
+        },
+        {
+          "name": "",
+          "type": "typename OtherAlloc",
+          "typePlain": "typename OtherAlloc"
+        }
+      ],
+      "title": "operator=",
+      "type": "__host__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> &",
+      "typePlain": "__host__ host_vector &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-host-vector",
+      "argsString": "(const detail::vector_base< OtherT, OtherAlloc > &v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::host_vector< T, Alloc >::host_vector",
+      "deleted": false,
+      "details": "Copy construct from a <code>vector&#95;base</code> whose element type is convertible to <code>T</code>.",
+      "explicit": false,
+      "fullname": "thrust::host_vector::host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 209,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 208,
+        "column": 5,
+        "file": "thrust/host_vector.h",
+        "line": 208
+      },
+      "name": "host_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code>vector&#95;base</code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const detail::vector_base< OtherT, OtherAlloc > &",
+          "typePlain": "const detail::vector_base< OtherT, OtherAlloc > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::host_vector",
+      "refid": "classthrust_1_1host__vector_1a237c1f5840e60a195c55fb3be33996ea",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherT",
+          "typePlain": "typename OtherT"
+        },
+        {
+          "name": "",
+          "type": "typename OtherAlloc",
+          "typePlain": "typename OtherAlloc"
+        }
+      ],
+      "title": "host_vector",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const detail::vector_base< OtherT, OtherAlloc > &v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ host_vector & thrust::host_vector< T, Alloc >::operator=",
+      "deleted": false,
+      "details": "Assign a <code>vector&#95;base</code> whose element type is convertible to <code>T</code>.",
+      "explicit": false,
+      "fullname": "thrust::host_vector::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 218,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 217,
+        "column": 17,
+        "file": "thrust/host_vector.h",
+        "line": 217
+      },
+      "name": "operator=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code>vector&#95;base</code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const detail::vector_base< OtherT, OtherAlloc > &",
+          "typePlain": "const detail::vector_base< OtherT, OtherAlloc > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::operator=",
+      "refid": "classthrust_1_1host__vector_1a153c5b3e66fd56c0cb7af8a717395d60",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherT",
+          "typePlain": "typename OtherT"
+        },
+        {
+          "name": "",
+          "type": "typename OtherAlloc",
+          "typePlain": "typename OtherAlloc"
+        }
+      ],
+      "title": "operator=",
+      "type": "__host__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> &",
+      "typePlain": "__host__ host_vector &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-host-vector",
+      "argsString": "(InputIterator first, InputIterator last)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::host_vector< T, Alloc >::host_vector",
+      "deleted": false,
+      "details": "This constructor builds a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> from a range. ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 227,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 226,
+        "column": 5,
+        "file": "thrust/host_vector.h",
+        "line": 226
+      },
+      "name": "host_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the range. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::host_vector",
+      "refid": "classthrust_1_1host__vector_1a418ad5feac42362fd2a8d9c64d094264",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        }
+      ],
+      "title": "host_vector",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-host-vector",
+      "argsString": "(InputIterator first, InputIterator last, const Alloc &alloc)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::host_vector< T, Alloc >::host_vector",
+      "deleted": false,
+      "details": "This constructor builds a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> from a range. ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 237,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 236,
+        "column": 5,
+        "file": "thrust/host_vector.h",
+        "line": 236
+      },
+      "name": "host_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the range. "
+        },
+        {
+          "name": "alloc",
+          "text": "The allocator to use by this <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "alloc",
+          "type": "const Alloc &",
+          "typePlain": "const Alloc &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::host_vector",
+      "refid": "classthrust_1_1host__vector_1a722828beed6d3d80972bed3d474e8245",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        }
+      ],
+      "title": "host_vector",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::host_vector",
+  "refid": "classthrust_1_1host__vector",
+  "see": [
+    "<a href=\"https://en.cppreference.com/w/cpp/container/vector\">https://en.cppreference.com/w/cpp/container/vector</a>",
+    "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>",
+    "universal_vector "
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    },
+    {
+      "defval": "std::allocator<T>",
+      "defvalPlain": "std::allocator<T>",
+      "name": "",
+      "type": "typename Alloc",
+      "typePlain": "typename Alloc"
+    }
+  ],
+  "title": "thrust::host_vector",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html",
+  "visibility": "public"
+}

@@ -1,0 +1,107 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::detail::optional_storage_base::dummy",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 446,
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 446,
+    "column": 3,
+    "file": "thrust/optional.h",
+    "line": 446
+  },
+  "name": "thrust::detail::optional_storage_base::dummy",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "classes",
+    "derivedClasses": [
+      {
+        "external": false,
+        "name": "thrust::detail::optional_operations_base< T >",
+        "refid": "structthrust_1_1detail_1_1optional__operations__base",
+        "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__operations__base.html",
+        "virtual": "non-virtual",
+        "visibility": "public"
+      }
+    ],
+    "fullname": "thrust::detail::optional_storage_base",
+    "kind": "struct",
+    "language": "cpp",
+    "name": "thrust::detail::optional_storage_base",
+    "qualifiedname": "thrust::detail::optional_storage_base",
+    "refid": "structthrust_1_1detail_1_1optional__storage__base",
+    "title": "thrust::detail::optional_storage_base",
+    "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__storage__base.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "\\exclude ",
+      "category": "namespaces",
+      "fullname": "thrust::detail",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::detail",
+      "qualifiedname": "thrust::detail",
+      "refid": "namespacethrust_1_1detail",
+      "summary": "\\exclude ",
+      "title": "thrust::detail",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "derivedClasses": [
+        {
+          "external": false,
+          "name": "thrust::detail::optional_operations_base< T >",
+          "refid": "structthrust_1_1detail_1_1optional__operations__base",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__operations__base.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "fullname": "thrust::detail::optional_storage_base",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::detail::optional_storage_base",
+      "qualifiedname": "thrust::detail::optional_storage_base",
+      "refid": "structthrust_1_1detail_1_1optional__storage__base",
+      "title": "thrust::detail::optional_storage_base",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__storage__base.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::detail::optional_storage_base::dummy",
+  "refid": "structthrust_1_1detail_1_1optional__storage__base_1_1dummy",
+  "static": false,
+  "strong": false,
+  "title": "thrust::detail::optional_storage_base::dummy",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__storage__base_1_1dummy.html",
+  "visibility": "public"
+}

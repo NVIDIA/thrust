@@ -1,0 +1,113 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "<a href=\"https://en.cppreference.com/w/cpp/types/integral_constant\"><code>std::integral&#95;constant</code></a> whose value is <code>(... || Bs)</code>. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::disjunction_value",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyFile": "thrust/type_traits/logical_metafunctions.h",
+    "bodyStart": 215,
+    "column": 1,
+    "file": "thrust/type_traits/logical_metafunctions.h",
+    "line": 215
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "type_traits",
+    "kind": "group",
+    "language": "",
+    "name": "type_traits",
+    "qualifiedname": "type_traits",
+    "refid": "group__type__traits",
+    "title": "Type Traits",
+    "url": "{{ site.baseurl }}/api/groups/group__type__traits.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "utility",
+      "kind": "group",
+      "language": "",
+      "name": "utility",
+      "qualifiedname": "utility",
+      "refid": "group__utility",
+      "title": "Utility",
+      "url": "{{ site.baseurl }}/api/groups/group__utility.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "type_traits",
+      "kind": "group",
+      "language": "",
+      "name": "type_traits",
+      "qualifiedname": "type_traits",
+      "refid": "group__type__traits",
+      "title": "Type Traits",
+      "url": "{{ site.baseurl }}/api/groups/group__type__traits.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::disjunction_value",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::disjunction_value",
+  "refid": "structthrust_1_1disjunction__value",
+  "see": [
+    "disjunction_value_v ",
+    "disjunction ",
+    "<a href=\"https://en.cppreference.com/w/cpp/types/disjunction\"><code>std::disjunction</code></a>"
+  ],
+  "static": false,
+  "strong": false,
+  "summary": "std::integral_constant whose value is (... || Bs). ",
+  "templateParams": [
+    {
+      "name": "Bs",
+      "type": "bool...",
+      "typePlain": "bool..."
+    }
+  ],
+  "title": "thrust::disjunction_value",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1disjunction__value.html",
+  "visibility": "public"
+}

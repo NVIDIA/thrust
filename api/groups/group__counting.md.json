@@ -1,0 +1,519 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "counting",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "reductions",
+    "kind": "group",
+    "language": "",
+    "name": "reductions",
+    "qualifiedname": "reductions",
+    "refid": "group__reductions",
+    "title": "Reductions",
+    "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "reductions",
+      "kind": "group",
+      "language": "",
+      "name": "reductions",
+      "qualifiedname": "reductions",
+      "refid": "group__reductions",
+      "title": "Reductions",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "counting",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "reductions",
+    "kind": "group",
+    "language": "",
+    "name": "reductions",
+    "qualifiedname": "reductions",
+    "refid": "group__reductions",
+    "title": "Reductions",
+    "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "reductions",
+      "kind": "group",
+      "language": "",
+      "name": "reductions",
+      "qualifiedname": "reductions",
+      "refid": "group__reductions",
+      "title": "Reductions",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-count",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, const EqualityComparable &value)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type thrust::count",
+      "deleted": false,
+      "details": "<code>count</code> finds the number of elements in <code>[first,last)</code> that are equal to <code>value</code>. More precisely, <code>count</code> returns the number of iterators <code>i</code> in <code>[first, last)</code> such that <code>&#42;i == value</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>count</code> to count the number of instances in a range of a value of interest using the <code>thrust::device</code> execution policy:\n\n\n\n```cpp\n#include <thrust/count.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n...\n// put 3 1s in a device_vector\nthrust::device_vector<int> vec(5,0);\nvec[1] = 1;\nvec[3] = 1;\nvec[4] = 1;\n\n// count the 1s\nint result = thrust::count(thrust::device, vec.begin(), vec.end(), 1);\n// result == 3\n```",
+      "explicit": false,
+      "fullname": "counting::count",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/count.h",
+        "line": 84
+      },
+      "name": "count",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "value",
+          "text": "The value to be counted. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "value",
+          "type": "const EqualityComparable &",
+          "typePlain": "const EqualityComparable &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::count",
+      "refid": "group__counting_1gadcc5ee87e006d41f417e8f8e97be2b52",
+      "returns": [
+        "The number of elements equal to <code>value</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/count\">https://en.cppreference.com/w/cpp/algorithm/count</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename EqualityComparable",
+          "typePlain": "typename EqualityComparable"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> must be a model of must be a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>. "
+        },
+        {
+          "name": "EqualityComparable",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a> and can be compared for equality with <code>InputIterator's</code><code>value&#95;type</code>"
+        }
+      ],
+      "title": "count",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">thrust::iterator_traits</a>< InputIterator >::difference_type",
+      "typePlain": "__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type",
+      "url": "{{ site.baseurl }}/api/groups/group__counting.html#function-count",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-count",
+      "argsString": "(InputIterator first, InputIterator last, const EqualityComparable &value)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::iterator_traits< InputIterator >::difference_type thrust::count",
+      "deleted": false,
+      "details": "<code>count</code> finds the number of elements in <code>[first,last)</code> that are equal to <code>value</code>. More precisely, <code>count</code> returns the number of iterators <code>i</code> in <code>[first, last)</code> such that <code>&#42;i == value</code>.\n\n\nThe following code snippet demonstrates how to use <code>count</code> to count the number of instances in a range of a value of interest. \n\n```cpp\n#include <thrust/count.h>\n#include <thrust/device_vector.h>\n...\n// put 3 1s in a device_vector\nthrust::device_vector<int> vec(5,0);\nvec[1] = 1;\nvec[3] = 1;\nvec[4] = 1;\n\n// count the 1s\nint result = thrust::count(vec.begin(), vec.end(), 1);\n// result == 3\n```",
+      "explicit": false,
+      "fullname": "counting::count",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/count.h",
+        "line": 121
+      },
+      "name": "count",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "value",
+          "text": "The value to be counted. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "value",
+          "type": "const EqualityComparable &",
+          "typePlain": "const EqualityComparable &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::count",
+      "refid": "group__counting_1ga44673d327c2caf92e51d0b479044fd4e",
+      "returns": [
+        "The number of elements equal to <code>value</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/count\">https://en.cppreference.com/w/cpp/algorithm/count</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename EqualityComparable",
+          "typePlain": "typename EqualityComparable"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> must be a model of must be a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>. "
+        },
+        {
+          "name": "EqualityComparable",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a> and can be compared for equality with <code>InputIterator's</code><code>value&#95;type</code>"
+        }
+      ],
+      "title": "count",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">thrust::iterator_traits</a>< InputIterator >::difference_type",
+      "typePlain": "thrust::iterator_traits< InputIterator >::difference_type",
+      "url": "{{ site.baseurl }}/api/groups/group__counting.html#function-count",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-count-if",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type thrust::count_if",
+      "deleted": false,
+      "details": "<code>count&#95;if</code> finds the number of elements in <code>[first,last)</code> for which a predicate is <code>true</code>. More precisely, <code>count&#95;if</code> returns the number of iterators <code>i</code> in <code>[first, last)</code> such that <code>pred(&#42;i) == true</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>count</code> to count the number of odd numbers in a range using the <code>thrust::device</code> execution policy:\n\n\n\n```cpp\n#include <thrust/count.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n...\nstruct is_odd\n{\n  __host__ __device__\n  bool operator()(int &x)\n  {\n    return x & 1;\n  }\n};\n...\n// fill a device_vector with even & odd numbers\nthrust::device_vector<int> vec(5);\nvec[0] = 0;\nvec[1] = 1;\nvec[2] = 2;\nvec[3] = 3;\nvec[4] = 4;\n\n// count the odd elements in vec\nint result = thrust::count_if(thrust::device, vec.begin(), vec.end(), is_odd());\n// result == 2\n```",
+      "explicit": false,
+      "fullname": "counting::count_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/count.h",
+        "line": 175
+      },
+      "name": "count_if",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "pred",
+          "text": "The predicate. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::count_if",
+      "refid": "group__counting_1ga870002a18569b26ea38150e497f13381",
+      "returns": [
+        "The number of elements where <code>pred</code> is <code>true</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/count\">https://en.cppreference.com/w/cpp/algorithm/count</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> must be convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "count_if",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">thrust::iterator_traits</a>< InputIterator >::difference_type",
+      "typePlain": "__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type",
+      "url": "{{ site.baseurl }}/api/groups/group__counting.html#function-count-if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-count-if",
+      "argsString": "(InputIterator first, InputIterator last, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::iterator_traits< InputIterator >::difference_type thrust::count_if",
+      "deleted": false,
+      "details": "<code>count&#95;if</code> finds the number of elements in <code>[first,last)</code> for which a predicate is <code>true</code>. More precisely, <code>count&#95;if</code> returns the number of iterators <code>i</code> in <code>[first, last)</code> such that <code>pred(&#42;i) == true</code>.\n\n\nThe following code snippet demonstrates how to use <code>count</code> to count the number of odd numbers in a range. \n\n```cpp\n#include <thrust/count.h>\n#include <thrust/device_vector.h>\n...\nstruct is_odd\n{\n  __host__ __device__\n  bool operator()(int &x)\n  {\n    return x & 1;\n  }\n};\n...\n// fill a device_vector with even & odd numbers\nthrust::device_vector<int> vec(5);\nvec[0] = 0;\nvec[1] = 1;\nvec[2] = 2;\nvec[3] = 3;\nvec[4] = 4;\n\n// count the odd elements in vec\nint result = thrust::count_if(vec.begin(), vec.end(), is_odd());\n// result == 2\n```",
+      "explicit": false,
+      "fullname": "counting::count_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/count.h",
+        "line": 222
+      },
+      "name": "count_if",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "pred",
+          "text": "The predicate. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::count_if",
+      "refid": "group__counting_1ga632cfedf61f2107f734814da1f3b4c3e",
+      "returns": [
+        "The number of elements where <code>pred</code> is <code>true</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/count\">https://en.cppreference.com/w/cpp/algorithm/count</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> must be convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "count_if",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">thrust::iterator_traits</a>< InputIterator >::difference_type",
+      "typePlain": "thrust::iterator_traits< InputIterator >::difference_type",
+      "url": "{{ site.baseurl }}/api/groups/group__counting.html#function-count-if",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "counting",
+  "refid": "group__counting",
+  "static": false,
+  "strong": false,
+  "title": "Counting",
+  "url": "{{ site.baseurl }}/api/groups/group__counting.html",
+  "visibility": "public"
+}

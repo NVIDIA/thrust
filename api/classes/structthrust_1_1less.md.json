@@ -1,0 +1,287 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code>less</code> is a function object. Specifically, it is an Adaptable Binary Predicate, which means it is a function object that tests the truth or falsehood of some condition. If <code>f</code> is an object of class <code>less&lt;T&gt;</code> and <code>x</code> and <code>y</code> are objects of class <code>T</code>, then <code>f(x,y)</code> returns <code>true</code> if <code>x &lt; y</code> and <code>false</code> otherwise.",
+  "explicit": false,
+  "fullname": "thrust::less",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/functional.h>",
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 768,
+    "bodyFile": "thrust/functional.h",
+    "bodyStart": 744,
+    "column": 1,
+    "file": "thrust/functional.h",
+    "line": 743
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "comparison_operations",
+    "kind": "group",
+    "language": "",
+    "name": "comparison_operations",
+    "qualifiedname": "comparison_operations",
+    "refid": "group__comparison__operations",
+    "title": "Comparison Operations",
+    "url": "{{ site.baseurl }}/api/groups/group__comparison__operations.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "language": "",
+      "name": "function_objects",
+      "qualifiedname": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "{{ site.baseurl }}/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "language": "",
+      "name": "predefined_function_objects",
+      "qualifiedname": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "{{ site.baseurl }}/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "comparison_operations",
+      "kind": "group",
+      "language": "",
+      "name": "comparison_operations",
+      "qualifiedname": "comparison_operations",
+      "refid": "group__comparison__operations",
+      "title": "Comparison Operations",
+      "url": "{{ site.baseurl }}/api/groups/group__comparison__operations.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::less",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(const T &lhs, const T &rhs) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ constexpr bool thrust::less< T >::operator()",
+      "deleted": false,
+      "details": "Function call operator. The return value is <code>lhs &lt; rhs</code>. ",
+      "explicit": false,
+      "fullname": "thrust::less::operator()",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 767,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 764,
+        "column": 18,
+        "file": "thrust/functional.h",
+        "line": 764
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const T &",
+          "typePlain": "const T &"
+        },
+        {
+          "name": "rhs",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::less::operator()",
+      "refid": "structthrust_1_1less_1a19f16805547c6fc36e1be3f441145468",
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr bool",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ constexpr bool",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1less.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-first-argument-type",
+      "brief": "The type of the function object's first argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "thrust::less< T >::first_argument_type",
+      "explicit": false,
+      "fullname": "thrust::less::first_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 748,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 748
+      },
+      "name": "first_argument_type",
+      "override": false,
+      "qualifiedname": "thrust::less::first_argument_type",
+      "refid": "structthrust_1_1less_1a80fc56b3670800fdcd46660789024fb7",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's first argument. ",
+      "title": "first_argument_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1less.html#typedef-first-argument-type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-second-argument-type",
+      "brief": "The type of the function object's second argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "thrust::less< T >::second_argument_type",
+      "explicit": false,
+      "fullname": "thrust::less::second_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 753,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 753
+      },
+      "name": "second_argument_type",
+      "override": false,
+      "qualifiedname": "thrust::less::second_argument_type",
+      "refid": "structthrust_1_1less_1a36a01c5808b71c012b2ea90d962313dd",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's second argument. ",
+      "title": "second_argument_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1less.html#typedef-second-argument-type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-result-type",
+      "brief": "The type of the function object's result;. ",
+      "category": "types",
+      "const": false,
+      "definition": "thrust::less< T >::result_type",
+      "explicit": false,
+      "fullname": "thrust::less::result_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 758,
+        "column": 16,
+        "file": "thrust/functional.h",
+        "line": 758
+      },
+      "name": "result_type",
+      "override": false,
+      "qualifiedname": "thrust::less::result_type",
+      "refid": "structthrust_1_1less_1ad1c3efb2d05baa4d284c682aae248087",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's result;. ",
+      "title": "result_type",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1less.html#typedef-result-type",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::less",
+  "refid": "structthrust_1_1less",
+  "see": [
+    "<a href=\"https://en.cppreference.com/w/cpp/utility/functional/less\">https://en.cppreference.com/w/cpp/utility/functional/less</a>",
+    "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1binary__function.html\">binary_function</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "defval": "void",
+      "defvalPlain": "void",
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "T",
+      "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>."
+    }
+  ],
+  "title": "thrust::less",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1less.html",
+  "visibility": "public"
+}

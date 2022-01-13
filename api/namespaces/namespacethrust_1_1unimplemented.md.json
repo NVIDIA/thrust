@@ -1,0 +1,175 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::unimplemented",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "language": "cpp",
+  "location": {
+    "column": 1,
+    "file": "thrust/future.h",
+    "line": 68
+  },
+  "name": "thrust::unimplemented",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::unimplemented::no_unique_eager_event_type_found",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::unimplemented::no_unique_eager_event_type_found",
+      "qualifiedname": "thrust::unimplemented::no_unique_eager_event_type_found",
+      "refid": "structthrust_1_1unimplemented_1_1no__unique__eager__event__type__found",
+      "title": "thrust::unimplemented::no_unique_eager_event_type_found",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unimplemented_1_1no__unique__eager__event__type__found.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::unimplemented::no_unique_eager_future_type_found",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::unimplemented::no_unique_eager_future_type_found",
+      "qualifiedname": "thrust::unimplemented::no_unique_eager_future_type_found",
+      "refid": "structthrust_1_1unimplemented_1_1no__unique__eager__future__type__found",
+      "title": "thrust::unimplemented::no_unique_eager_future_type_found",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unimplemented_1_1no__unique__eager__future__type__found.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-unique-eager-event-type",
+      "argsString": "(...) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ no_unique_eager_event_type_found thrust::unimplemented::unique_eager_event_type",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::unimplemented::unique_eager_event_type",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 1,
+        "file": "thrust/future.h",
+        "line": 75
+      },
+      "name": "unique_eager_event_type",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "...",
+          "typePlain": "..."
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unimplemented::unique_eager_event_type",
+      "refid": "future_8h_1a02b84e0bcbd1d5e73136175e2a5e27d7",
+      "static": false,
+      "strong": false,
+      "title": "unique_eager_event_type",
+      "type": "__host__ no_unique_eager_event_type_found",
+      "typePlain": "__host__ no_unique_eager_event_type_found",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1unimplemented.html#function-unique-eager-event-type",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-eager-future-type",
+      "argsString": "(...) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ no_unique_eager_future_type_found thrust::unimplemented::unique_eager_future_type",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::unimplemented::unique_eager_future_type",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 1,
+        "file": "thrust/future.h",
+        "line": 82
+      },
+      "name": "unique_eager_future_type",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "...",
+          "typePlain": "..."
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unimplemented::unique_eager_future_type",
+      "refid": "future_8h_1a97445b29c58fcfc71477393e89c04d12",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "unique_eager_future_type",
+      "type": "__host__ no_unique_eager_future_type_found",
+      "typePlain": "__host__ no_unique_eager_future_type_found",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1unimplemented.html#function-unique-eager-future-type",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::unimplemented",
+  "refid": "namespacethrust_1_1unimplemented",
+  "static": false,
+  "strong": false,
+  "title": "thrust::unimplemented",
+  "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1unimplemented.html",
+  "visibility": "public"
+}

@@ -1,0 +1,56 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "std::conditional",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "language": "cpp",
+  "location": {
+    "column": 1,
+    "file": "[generated]",
+    "line": 1
+  },
+  "name": "std::conditional",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "std",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "std",
+    "qualifiedname": "std",
+    "refid": "namespacestd",
+    "title": "std",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacestd.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "std",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "std",
+      "qualifiedname": "std",
+      "refid": "namespacestd",
+      "title": "std",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacestd.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "std::conditional",
+  "refid": "namespacestd_1_1conditional",
+  "static": false,
+  "strong": false,
+  "title": "std::conditional",
+  "url": "{{ site.baseurl }}/api/namespaces/namespacestd_1_1conditional.html",
+  "visibility": "public"
+}

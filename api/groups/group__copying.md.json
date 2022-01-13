@@ -1,0 +1,1227 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "copying",
+  "groups": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "gathering",
+      "kind": "group",
+      "language": "",
+      "name": "gathering",
+      "qualifiedname": "gathering",
+      "refid": "group__gathering",
+      "title": "Gathering",
+      "url": "{{ site.baseurl }}/api/groups/group__gathering.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "scattering",
+      "kind": "group",
+      "language": "",
+      "name": "scattering",
+      "qualifiedname": "scattering",
+      "refid": "group__scattering",
+      "title": "Scattering",
+      "url": "{{ site.baseurl }}/api/groups/group__scattering.html",
+      "visibility": "public"
+    }
+  ],
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "algorithms",
+    "kind": "group",
+    "language": "",
+    "name": "algorithms",
+    "qualifiedname": "algorithms",
+    "refid": "group__algorithms",
+    "title": "Algorithms",
+    "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "copying",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "algorithms",
+    "kind": "group",
+    "language": "",
+    "name": "algorithms",
+    "qualifiedname": "algorithms",
+    "refid": "group__algorithms",
+    "title": "Algorithms",
+    "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-copy",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, OutputIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::copy",
+      "deleted": false,
+      "details": "<code>copy</code> copies elements from the range [<code>first</code>, <code>last</code>) to the range [<code>result</code>, <code>result</code> + (<code>last</code> - <code>first</code>)). That is, it performs the assignments *<code>result</code> = *<code>first</code>, *(<code>result</code> + <code>1</code>) = *(<code>first</code> + <code>1</code>), and so on. Generally, for every integer <code>n</code> from <code>0</code> to <code>last</code> - <code>first</code>, <code>copy</code> performs the assignment *(<code>result</code> + <code>n</code>) = *(<code>first</code> + <code>n</code>). Unlike <code>std::copy</code>, <code>copy</code> offers no guarantee on order of operation. As a result, calling <code>copy</code> with overlapping source and destination ranges has undefined behavior.\n\nThe return value is <code>result</code> + (<code>last</code> - <code>first</code>).\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>copy</code> to copy from one range to another using the <code>thrust::device</code> parallelization policy:\n\n\n\n```cpp\n#include <thrust/copy.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n...\n\nthrust::device_vector<int> vec0(100);\nthrust::device_vector<int> vec1(100);\n...\n\nthrust::copy(thrust::device, vec0.begin(), vec0.end(), vec1.begin());\n\n// vec1 is now a copy of vec0\n```",
+      "explicit": false,
+      "fullname": "copying::copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/copy.h",
+        "line": 84
+      },
+      "name": "copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence to copy. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence to copy. "
+        },
+        {
+          "name": "result",
+          "text": "The destination sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        }
+      ],
+      "pre": [
+        "<code>result</code> may be equal to <code>first</code>, but <code>result</code> shall not be in the range <code>[first, last)</code> otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::copy",
+      "refid": "group__copying_1ga3e43fb8472db501412452fa27b931ee2",
+      "returns": [
+        "The end of the destination sequence. "
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/copy\">https://en.cppreference.com/w/cpp/algorithm/copy</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> must be convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>."
+        }
+      ],
+      "title": "copy",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__copying.html#function-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-copy-n",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, Size n, OutputIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::copy_n",
+      "deleted": false,
+      "details": "<code>copy&#95;n</code> copies elements from the range <code>[first, first + n)</code> to the range <code>[result, result + n)</code>. That is, it performs the assignments <code>&#42;result = &#42;first, &#42;(result + 1) = &#42;(first + 1)</code>, and so on. Generally, for every integer <code>i</code> from <code>0</code> to <code>n</code>, <code>copy</code> performs the assignment *(<code>result</code> + <code>i</code>) = *(<code>first</code> + <code>i</code>). Unlike <code>std::copy&#95;n</code>, <code>copy&#95;n</code> offers no guarantee on order of operation. As a result, calling <code>copy&#95;n</code> with overlapping source and destination ranges has undefined behavior.\n\nThe return value is <code>result</code> + <code>n</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>copy</code> to copy from one range to another using the <code>thrust::device</code> parallelization policy:\n\n\n\n```cpp\n#include <thrust/copy.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n...\nsize_t n = 100;\nthrust::device_vector<int> vec0(n);\nthrust::device_vector<int> vec1(n);\n...\nthrust::copy_n(thrust::device, vec0.begin(), n, vec1.begin());\n\n// vec1 is now a copy of vec0\n```",
+      "explicit": false,
+      "fullname": "copying::copy_n",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/copy.h",
+        "line": 137
+      },
+      "name": "copy_n",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the range to copy. "
+        },
+        {
+          "name": "n",
+          "text": "The number of elements to copy. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning destination range. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "n",
+          "type": "Size",
+          "typePlain": "Size"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        }
+      ],
+      "pre": [
+        "<code>result</code> may be equal to <code>first</code>, but <code>result</code> shall not be in the range <code>[first, first + n)</code> otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::copy_n",
+      "refid": "group__copying_1gad7de8cc38a5a9196b9ebf11fee69052b",
+      "returns": [
+        "The end of the destination range."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/copy_n\">https://en.cppreference.com/w/cpp/algorithm/copy_n</a>",
+        "thrust::copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Size",
+          "typePlain": "typename Size"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> must be convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "Size",
+          "text": "is an integral type. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>."
+        }
+      ],
+      "title": "copy_n",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__copying.html#function-copy-n",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-copy",
+      "argsString": "(InputIterator first, InputIterator last, OutputIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::copy",
+      "deleted": false,
+      "details": "<code>copy</code> copies elements from the range [<code>first</code>, <code>last</code>) to the range [<code>result</code>, <code>result</code> + (<code>last</code> - <code>first</code>)). That is, it performs the assignments *<code>result</code> = *<code>first</code>, *(<code>result</code> + <code>1</code>) = *(<code>first</code> + <code>1</code>), and so on. Generally, for every integer <code>n</code> from <code>0</code> to <code>last</code> - <code>first</code>, <code>copy</code> performs the assignment *(<code>result</code> + <code>n</code>) = *(<code>first</code> + <code>n</code>). Unlike <code>std::copy</code>, <code>copy</code> offers no guarantee on order of operation. As a result, calling <code>copy</code> with overlapping source and destination ranges has undefined behavior.\n\nThe return value is <code>result</code> + (<code>last</code> - <code>first</code>).\n\n\nThe following code snippet demonstrates how to use <code>copy</code> to copy from one range to another.\n\n\n\n```cpp\n#include <thrust/copy.h>\n#include <thrust/device_vector.h>\n...\n\nthrust::device_vector<int> vec0(100);\nthrust::device_vector<int> vec1(100);\n...\n\nthrust::copy(vec0.begin(), vec0.end(),\n             vec1.begin());\n\n// vec1 is now a copy of vec0\n```",
+      "explicit": false,
+      "fullname": "copying::copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/copy.h",
+        "line": 185
+      },
+      "name": "copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence to copy. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence to copy. "
+        },
+        {
+          "name": "result",
+          "text": "The destination sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        }
+      ],
+      "pre": [
+        "<code>result</code> may be equal to <code>first</code>, but <code>result</code> shall not be in the range <code>[first, last)</code> otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::copy",
+      "refid": "group__copying_1ga24ccfaaa706a9163ec5117758fdb71b9",
+      "returns": [
+        "The end of the destination sequence. "
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/copy\">https://en.cppreference.com/w/cpp/algorithm/copy</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> must be convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>."
+        }
+      ],
+      "title": "copy",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__copying.html#function-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-copy-n",
+      "argsString": "(InputIterator first, Size n, OutputIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::copy_n",
+      "deleted": false,
+      "details": "<code>copy&#95;n</code> copies elements from the range <code>[first, first + n)</code> to the range <code>[result, result + n)</code>. That is, it performs the assignments <code>&#42;result = &#42;first, &#42;(result + 1) = &#42;(first + 1)</code>, and so on. Generally, for every integer <code>i</code> from <code>0</code> to <code>n</code>, <code>copy</code> performs the assignment *(<code>result</code> + <code>i</code>) = *(<code>first</code> + <code>i</code>). Unlike <code>std::copy&#95;n</code>, <code>copy&#95;n</code> offers no guarantee on order of operation. As a result, calling <code>copy&#95;n</code> with overlapping source and destination ranges has undefined behavior.\n\nThe return value is <code>result</code> + <code>n</code>.\n\n\nThe following code snippet demonstrates how to use <code>copy</code> to copy from one range to another.\n\n\n\n```cpp\n#include <thrust/copy.h>\n#include <thrust/device_vector.h>\n...\nsize_t n = 100;\nthrust::device_vector<int> vec0(n);\nthrust::device_vector<int> vec1(n);\n...\nthrust::copy_n(vec0.begin(), n, vec1.begin());\n\n// vec1 is now a copy of vec0\n```",
+      "explicit": false,
+      "fullname": "copying::copy_n",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/copy.h",
+        "line": 230
+      },
+      "name": "copy_n",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the range to copy. "
+        },
+        {
+          "name": "n",
+          "text": "The number of elements to copy. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning destination range. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "n",
+          "type": "Size",
+          "typePlain": "Size"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        }
+      ],
+      "pre": [
+        "<code>result</code> may be equal to <code>first</code>, but <code>result</code> shall not be in the range <code>[first, first + n)</code> otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::copy_n",
+      "refid": "group__copying_1gab3d33f1aa1d078b5f6b579f07313d058",
+      "returns": [
+        "The end of the destination range."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/copy_n\">https://en.cppreference.com/w/cpp/algorithm/copy_n</a>",
+        "thrust::copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Size",
+          "typePlain": "typename Size"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> must be convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "Size",
+          "text": "is an integral type. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>."
+        }
+      ],
+      "title": "copy_n",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__copying.html#function-copy-n",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-swap-ranges",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator1 first1, ForwardIterator1 last1, ForwardIterator2 first2)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ ForwardIterator2 thrust::swap_ranges",
+      "deleted": false,
+      "details": "<code>swap&#95;ranges</code> swaps each of the elements in the range <code>[first1, last1)</code> with the corresponding element in the range <code>[first2, first2 + (last1 - first1))</code>. That is, for each integer <code>n</code> such that <code>0 &lt;= n &lt; (last1 - first1)</code>, it swaps <code>&#42;(first1 + n)</code> and <code>&#42;(first2 + n)</code>. The return value is <code>first2 + (last1 - first1)</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>swap&#95;ranges</code> to swap the contents of two <code>thrust::device&#95;vectors</code> using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/swap.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n...\nthrust::device_vector<int> v1(2), v2(2);\nv1[0] = 1;\nv1[1] = 2;\nv2[0] = 3;\nv2[1] = 4;\n\nthrust::swap_ranges(thrust::device, v1.begin(), v1.end(), v2.begin());\n\n// v1[0] == 3, v1[1] == 4, v2[0] == 1, v2[1] == 2\n```",
+      "explicit": false,
+      "fullname": "copying::swap_ranges",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 20,
+        "file": "thrust/swap.h",
+        "line": 126
+      },
+      "name": "swap_ranges",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first1",
+          "text": "The beginning of the first sequence to swap. "
+        },
+        {
+          "name": "last1",
+          "text": "One position past the last element of the first sequence to swap. "
+        },
+        {
+          "name": "first2",
+          "text": "The beginning of the second sequence to swap. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first1",
+          "type": "ForwardIterator1",
+          "typePlain": "ForwardIterator1"
+        },
+        {
+          "name": "last1",
+          "type": "ForwardIterator1",
+          "typePlain": "ForwardIterator1"
+        },
+        {
+          "name": "first2",
+          "type": "ForwardIterator2",
+          "typePlain": "ForwardIterator2"
+        }
+      ],
+      "pre": [
+        "<code>first1</code> may equal <code>first2</code>, but the range <code>[first1, last1)</code> shall not overlap the range <code>[first2, first2 + (last1 - first1))</code> otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::swap_ranges",
+      "refid": "group__copying_1gabdc9834367c0e681aa1b5aac3bc02245",
+      "returns": [
+        "An iterator pointing to one position past the last element of the second sequence to swap."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/swap_ranges\">https://en.cppreference.com/w/cpp/algorithm/swap_ranges</a>",
+        "<code><a href=\"{{ site.baseurl }}/api/groups/group__swap.html\">Swap</a></code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator1",
+          "typePlain": "typename ForwardIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator2",
+          "typePlain": "typename ForwardIterator2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator1's</code><code>value&#95;type</code> must be convertible to <code>ForwardIterator2's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "ForwardIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator2's</code><code>value&#95;type</code> must be convertible to <code>ForwardIterator1's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "swap_ranges",
+      "type": "__host__ __device__ ForwardIterator2",
+      "typePlain": "__host__ __device__ ForwardIterator2",
+      "url": "{{ site.baseurl }}/api/groups/group__copying.html#function-swap-ranges",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-swap-ranges",
+      "argsString": "(ForwardIterator1 first1, ForwardIterator1 last1, ForwardIterator2 first2)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "ForwardIterator2 thrust::swap_ranges",
+      "deleted": false,
+      "details": "<code>swap&#95;ranges</code> swaps each of the elements in the range <code>[first1, last1)</code> with the corresponding element in the range <code>[first2, first2 + (last1 - first1))</code>. That is, for each integer <code>n</code> such that <code>0 &lt;= n &lt; (last1 - first1)</code>, it swaps <code>&#42;(first1 + n)</code> and <code>&#42;(first2 + n)</code>. The return value is <code>first2 + (last1 - first1)</code>.\n\n\nThe following code snippet demonstrates how to use <code>swap&#95;ranges</code> to swap the contents of two <code>thrust::device&#95;vectors</code>.\n\n\n\n```cpp\n#include <thrust/swap.h>\n#include <thrust/device_vector.h>\n...\nthrust::device_vector<int> v1(2), v2(2);\nv1[0] = 1;\nv1[1] = 2;\nv2[0] = 3;\nv2[1] = 4;\n\nthrust::swap_ranges(v1.begin(), v1.end(), v2.begin());\n\n// v1[0] == 3, v1[1] == 4, v2[0] == 1, v2[1] == 2\n```",
+      "explicit": false,
+      "fullname": "copying::swap_ranges",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 20,
+        "file": "thrust/swap.h",
+        "line": 174
+      },
+      "name": "swap_ranges",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first1",
+          "text": "The beginning of the first sequence to swap. "
+        },
+        {
+          "name": "last1",
+          "text": "One position past the last element of the first sequence to swap. "
+        },
+        {
+          "name": "first2",
+          "text": "The beginning of the second sequence to swap. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first1",
+          "type": "ForwardIterator1",
+          "typePlain": "ForwardIterator1"
+        },
+        {
+          "name": "last1",
+          "type": "ForwardIterator1",
+          "typePlain": "ForwardIterator1"
+        },
+        {
+          "name": "first2",
+          "type": "ForwardIterator2",
+          "typePlain": "ForwardIterator2"
+        }
+      ],
+      "pre": [
+        "<code>first1</code> may equal <code>first2</code>, but the range <code>[first1, last1)</code> shall not overlap the range <code>[first2, first2 + (last1 - first1))</code> otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::swap_ranges",
+      "refid": "group__copying_1ga24337437822d9f7ca85f0c48b9248f6e",
+      "returns": [
+        "An iterator pointing to one position past the last element of the second sequence to swap."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/swap_ranges\">https://en.cppreference.com/w/cpp/algorithm/swap_ranges</a>",
+        "<code><a href=\"{{ site.baseurl }}/api/groups/group__swap.html\">Swap</a></code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator1",
+          "typePlain": "typename ForwardIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator2",
+          "typePlain": "typename ForwardIterator2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator1's</code><code>value&#95;type</code> must be convertible to <code>ForwardIterator2's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "ForwardIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator2's</code><code>value&#95;type</code> must be convertible to <code>ForwardIterator1's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "swap_ranges",
+      "type": "ForwardIterator2",
+      "typePlain": "ForwardIterator2",
+      "url": "{{ site.baseurl }}/api/groups/group__copying.html#function-swap-ranges",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-uninitialized-copy",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, ForwardIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ ForwardIterator thrust::uninitialized_copy",
+      "deleted": false,
+      "details": "In <code>thrust</code>, the function <code>thrust::device&#95;new</code> allocates memory for an object and then creates an object at that location by calling a constructor. Occasionally, however, it is useful to separate those two operations. If each iterator in the range <code>[result, result + (last - first))</code> points to uninitialized memory, then <code>uninitialized&#95;copy</code> creates a copy of <code>[first, last)</code> in that range. That is, for each iterator <code>i</code> in the input, <code>uninitialized&#95;copy</code> creates a copy of <code>&#42;i</code> in the location pointed to by the corresponding iterator in the output range by <code>ForwardIterator's</code><code>value&#95;type's</code> copy constructor with *i as its argument.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>uninitialized&#95;copy</code> to initialize a range of uninitialized memory using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/uninitialized_copy.h>\n#include <thrust/device_malloc.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n\nstruct Int\n{\n  __host__ __device__\n  Int(int x) : val(x) {}\n  int val;\n};  \n...\nconst int N = 137;\n\nInt val(46);\nthrust::device_vector<Int> input(N, val);\nthrust::device_ptr<Int> array = thrust::device_malloc<Int>(N);\nthrust::uninitialized_copy(thrust::device, input.begin(), input.end(), array);\n\n// Int x = array[i];\n// x.val == 46 for all 0 <= i < N\n```",
+      "explicit": false,
+      "fullname": "copying::uninitialized_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/uninitialized_copy.h",
+        "line": 96
+      },
+      "name": "uninitialized_copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The first element of the input range to copy from. "
+        },
+        {
+          "name": "last",
+          "text": "The last element of the input range to copy from. "
+        },
+        {
+          "name": "result",
+          "text": "The first element of the output range to copy to. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        }
+      ],
+      "pre": [
+        "<code>first</code> may equal <code>result</code>, but the range <code>[first, last)</code> and the range <code>[result, result + (last - first))</code> shall not overlap otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::uninitialized_copy",
+      "refid": "group__copying_1ga3e4b76ea19fd71cc22906f094953807c",
+      "returns": [
+        "An iterator pointing to the last element of the output range."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/memory/uninitialized_copy\">https://en.cppreference.com/w/cpp/memory/uninitialized_copy</a>",
+        "<code>copy</code>",
+        "<code>uninitialized&#95;fill</code>",
+        "<code>device&#95;new</code>",
+        "<code>device&#95;malloc</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, <code>ForwardIterator</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> has a constructor that takes a single argument whose type is <code>InputIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "uninitialized_copy",
+      "type": "__host__ __device__ ForwardIterator",
+      "typePlain": "__host__ __device__ ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__copying.html#function-uninitialized-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-uninitialized-copy",
+      "argsString": "(InputIterator first, InputIterator last, ForwardIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "ForwardIterator thrust::uninitialized_copy",
+      "deleted": false,
+      "details": "In <code>thrust</code>, the function <code>thrust::device&#95;new</code> allocates memory for an object and then creates an object at that location by calling a constructor. Occasionally, however, it is useful to separate those two operations. If each iterator in the range <code>[result, result + (last - first))</code> points to uninitialized memory, then <code>uninitialized&#95;copy</code> creates a copy of <code>[first, last)</code> in that range. That is, for each iterator <code>i</code> in the input, <code>uninitialized&#95;copy</code> creates a copy of <code>&#42;i</code> in the location pointed to by the corresponding iterator in the output range by <code>ForwardIterator's</code><code>value&#95;type's</code> copy constructor with *i as its argument.\n\n\nThe following code snippet demonstrates how to use <code>uninitialized&#95;copy</code> to initialize a range of uninitialized memory.\n\n\n\n```cpp\n#include <thrust/uninitialized_copy.h>\n#include <thrust/device_malloc.h>\n#include <thrust/device_vector.h>\n\nstruct Int\n{\n  __host__ __device__\n  Int(int x) : val(x) {}\n  int val;\n};  \n...\nconst int N = 137;\n\nInt val(46);\nthrust::device_vector<Int> input(N, val);\nthrust::device_ptr<Int> array = thrust::device_malloc<Int>(N);\nthrust::uninitialized_copy(input.begin(), input.end(), array);\n\n// Int x = array[i];\n// x.val == 46 for all 0 <= i < N\n```",
+      "explicit": false,
+      "fullname": "copying::uninitialized_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/uninitialized_copy.h",
+        "line": 157
+      },
+      "name": "uninitialized_copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The first element of the input range to copy from. "
+        },
+        {
+          "name": "last",
+          "text": "The last element of the input range to copy from. "
+        },
+        {
+          "name": "result",
+          "text": "The first element of the output range to copy to. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        }
+      ],
+      "pre": [
+        "<code>first</code> may equal <code>result</code>, but the range <code>[first, last)</code> and the range <code>[result, result + (last - first))</code> shall not overlap otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::uninitialized_copy",
+      "refid": "group__copying_1ga50ecdff4f2b8c7606f837e1cfeb70f24",
+      "returns": [
+        "An iterator pointing to the last element of the output range."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/memory/uninitialized_copy\">https://en.cppreference.com/w/cpp/memory/uninitialized_copy</a>",
+        "<code>copy</code>",
+        "<code>uninitialized&#95;fill</code>",
+        "<code>device&#95;new</code>",
+        "<code>device&#95;malloc</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, <code>ForwardIterator</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> has a constructor that takes a single argument whose type is <code>InputIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "uninitialized_copy",
+      "type": "ForwardIterator",
+      "typePlain": "ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__copying.html#function-uninitialized-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-uninitialized-copy-n",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, Size n, ForwardIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ ForwardIterator thrust::uninitialized_copy_n",
+      "deleted": false,
+      "details": "In <code>thrust</code>, the function <code>thrust::device&#95;new</code> allocates memory for an object and then creates an object at that location by calling a constructor. Occasionally, however, it is useful to separate those two operations. If each iterator in the range <code>[result, result + n)</code> points to uninitialized memory, then <code>uninitialized&#95;copy&#95;n</code> creates a copy of <code>[first, first + n)</code> in that range. That is, for each iterator <code>i</code> in the input, <code>uninitialized&#95;copy&#95;n</code> creates a copy of <code>&#42;i</code> in the location pointed to by the corresponding iterator in the output range by <code>InputIterator's</code><code>value&#95;type's</code> copy constructor with *i as its argument.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>uninitialized&#95;copy</code> to initialize a range of uninitialized memory using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/uninitialized_copy.h>\n#include <thrust/device_malloc.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n\nstruct Int\n{\n  __host__ __device__\n  Int(int x) : val(x) {}\n  int val;\n};  \n...\nconst int N = 137;\n\nInt val(46);\nthrust::device_vector<Int> input(N, val);\nthrust::device_ptr<Int> array = thrust::device_malloc<Int>(N);\nthrust::uninitialized_copy_n(thrust::device, input.begin(), N, array);\n\n// Int x = array[i];\n// x.val == 46 for all 0 <= i < N\n```",
+      "explicit": false,
+      "fullname": "copying::uninitialized_copy_n",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/uninitialized_copy.h",
+        "line": 226
+      },
+      "name": "uninitialized_copy_n",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The first element of the input range to copy from. "
+        },
+        {
+          "name": "n",
+          "text": "The number of elements to copy. "
+        },
+        {
+          "name": "result",
+          "text": "The first element of the output range to copy to. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "n",
+          "type": "Size",
+          "typePlain": "Size"
+        },
+        {
+          "name": "result",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        }
+      ],
+      "pre": [
+        "<code>first</code> may equal <code>result</code>, but the range <code>[first, first + n)</code> and the range <code>[result, result + n)</code> shall not overlap otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::uninitialized_copy_n",
+      "refid": "group__copying_1ga3d4e850ab7bb9a11c47d171137da9d69",
+      "returns": [
+        "An iterator pointing to the last element of the output range."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/memory/uninitialized_copy\">https://en.cppreference.com/w/cpp/memory/uninitialized_copy</a>",
+        "<code>uninitialized&#95;copy</code>",
+        "<code>copy</code>",
+        "<code>uninitialized&#95;fill</code>",
+        "<code>device&#95;new</code>",
+        "<code>device&#95;malloc</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Size",
+          "typePlain": "typename Size"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>. "
+        },
+        {
+          "name": "Size",
+          "text": "is an integral type. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, <code>ForwardIterator</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> has a constructor that takes a single argument whose type is <code>InputIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "uninitialized_copy_n",
+      "type": "__host__ __device__ ForwardIterator",
+      "typePlain": "__host__ __device__ ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__copying.html#function-uninitialized-copy-n",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-uninitialized-copy-n",
+      "argsString": "(InputIterator first, Size n, ForwardIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "ForwardIterator thrust::uninitialized_copy_n",
+      "deleted": false,
+      "details": "In <code>thrust</code>, the function <code>thrust::device&#95;new</code> allocates memory for an object and then creates an object at that location by calling a constructor. Occasionally, however, it is useful to separate those two operations. If each iterator in the range <code>[result, result + n)</code> points to uninitialized memory, then <code>uninitialized&#95;copy&#95;n</code> creates a copy of <code>[first, first + n)</code> in that range. That is, for each iterator <code>i</code> in the input, <code>uninitialized&#95;copy&#95;n</code> creates a copy of <code>&#42;i</code> in the location pointed to by the corresponding iterator in the output range by <code>InputIterator's</code><code>value&#95;type's</code> copy constructor with *i as its argument.\n\n\nThe following code snippet demonstrates how to use <code>uninitialized&#95;copy</code> to initialize a range of uninitialized memory.\n\n\n\n```cpp\n#include <thrust/uninitialized_copy.h>\n#include <thrust/device_malloc.h>\n#include <thrust/device_vector.h>\n\nstruct Int\n{\n  __host__ __device__\n  Int(int x) : val(x) {}\n  int val;\n};  \n...\nconst int N = 137;\n\nInt val(46);\nthrust::device_vector<Int> input(N, val);\nthrust::device_ptr<Int> array = thrust::device_malloc<Int>(N);\nthrust::uninitialized_copy_n(input.begin(), N, array);\n\n// Int x = array[i];\n// x.val == 46 for all 0 <= i < N\n```",
+      "explicit": false,
+      "fullname": "copying::uninitialized_copy_n",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/uninitialized_copy.h",
+        "line": 289
+      },
+      "name": "uninitialized_copy_n",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The first element of the input range to copy from. "
+        },
+        {
+          "name": "n",
+          "text": "The number of elements to copy. "
+        },
+        {
+          "name": "result",
+          "text": "The first element of the output range to copy to. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "n",
+          "type": "Size",
+          "typePlain": "Size"
+        },
+        {
+          "name": "result",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        }
+      ],
+      "pre": [
+        "<code>first</code> may equal <code>result</code>, but the range <code>[first, first + n)</code> and the range <code>[result, result + n)</code> shall not overlap otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::uninitialized_copy_n",
+      "refid": "group__copying_1gabe36cff9b0dcf6a52869a725379eb726",
+      "returns": [
+        "An iterator pointing to the last element of the output range."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/memory/uninitialized_copy\">https://en.cppreference.com/w/cpp/memory/uninitialized_copy</a>",
+        "<code>uninitialized&#95;copy</code>",
+        "<code>copy</code>",
+        "<code>uninitialized&#95;fill</code>",
+        "<code>device&#95;new</code>",
+        "<code>device&#95;malloc</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Size",
+          "typePlain": "typename Size"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>. "
+        },
+        {
+          "name": "Size",
+          "text": "is an integral type. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, <code>ForwardIterator</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> has a constructor that takes a single argument whose type is <code>InputIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "uninitialized_copy_n",
+      "type": "ForwardIterator",
+      "typePlain": "ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__copying.html#function-uninitialized-copy-n",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "copying",
+  "refid": "group__copying",
+  "static": false,
+  "strong": false,
+  "title": "Copying",
+  "url": "{{ site.baseurl }}/api/groups/group__copying.html",
+  "visibility": "public"
+}

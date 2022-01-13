@@ -1,0 +1,555 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "comparisons",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "reductions",
+    "kind": "group",
+    "language": "",
+    "name": "reductions",
+    "qualifiedname": "reductions",
+    "refid": "group__reductions",
+    "title": "Reductions",
+    "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "reductions",
+      "kind": "group",
+      "language": "",
+      "name": "reductions",
+      "qualifiedname": "reductions",
+      "refid": "group__reductions",
+      "title": "Reductions",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "comparisons",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "reductions",
+    "kind": "group",
+    "language": "",
+    "name": "reductions",
+    "qualifiedname": "reductions",
+    "refid": "group__reductions",
+    "title": "Reductions",
+    "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "reductions",
+      "kind": "group",
+      "language": "",
+      "name": "reductions",
+      "qualifiedname": "reductions",
+      "refid": "group__reductions",
+      "title": "Reductions",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-equal",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::equal",
+      "deleted": false,
+      "details": "<code>equal</code> returns <code>true</code> if the two ranges <code>[first1, last1)</code> and <code>[first2, first2 + (last1 - first1))</code> are identical when compared element-by-element, and otherwise returns <code>false</code>.\n\nThis version of <code>equal</code> returns <code>true</code> if and only if for every iterator <code>i</code> in <code>[first1, last1)</code>, <code>&#42;i == &#42;(first2 + (i - first1))</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>equal</code> to test two ranges for equality using the <code>thrust::host</code> execution policy:\n\n\n\n```cpp\n#include <thrust/equal.h>\n#include <thrust/execution_policy.h>\n...\nint A1[7] = {3, 1, 4, 1, 5, 9, 3};\nint A2[7] = {3, 1, 4, 2, 8, 5, 7};\n...\nbool result = thrust::equal(thrust::host, A1, A1 + 7, A2);\n\n// result == false\n```",
+      "explicit": false,
+      "fullname": "comparisons::equal",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/equal.h",
+        "line": 79
+      },
+      "name": "equal",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first1",
+          "text": "The beginning of the first sequence. "
+        },
+        {
+          "name": "last1",
+          "text": "The end of the first sequence. "
+        },
+        {
+          "name": "first2",
+          "text": "The beginning of the second sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "first2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::equal",
+      "refid": "group__comparisons_1gad90af5f86ba9092cd92c0ae4ebd8d677",
+      "returns": [
+        "<code>true</code>, if the sequences are equal; <code>false</code>, otherwise."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/equal\">https://en.cppreference.com/w/cpp/algorithm/equal</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator1's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>, and <code>InputIterator1's</code><code>value&#95;type</code> can be compared for equality with <code>InputIterator2's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator2's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>, and <code>InputIterator2's</code><code>value&#95;type</code> can be compared for equality with <code>InputIterator1's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "equal",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__comparisons.html#function-equal",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-equal",
+      "argsString": "(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "bool thrust::equal",
+      "deleted": false,
+      "details": "<code>equal</code> returns <code>true</code> if the two ranges <code>[first1, last1)</code> and <code>[first2, first2 + (last1 - first1))</code> are identical when compared element-by-element, and otherwise returns <code>false</code>.\n\nThis version of <code>equal</code> returns <code>true</code> if and only if for every iterator <code>i</code> in <code>[first1, last1)</code>, <code>&#42;i == &#42;(first2 + (i - first1))</code>.\n\n\nThe following code snippet demonstrates how to use <code>equal</code> to test two ranges for equality.\n\n\n\n```cpp\n#include <thrust/equal.h>\n...\nint A1[7] = {3, 1, 4, 1, 5, 9, 3};\nint A2[7] = {3, 1, 4, 2, 8, 5, 7};\n...\nbool result = thrust::equal(A1, A1 + 7, A2);\n\n// result == false\n```",
+      "explicit": false,
+      "fullname": "comparisons::equal",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/equal.h",
+        "line": 118
+      },
+      "name": "equal",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first1",
+          "text": "The beginning of the first sequence. "
+        },
+        {
+          "name": "last1",
+          "text": "The end of the first sequence. "
+        },
+        {
+          "name": "first2",
+          "text": "The beginning of the second sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "first2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::equal",
+      "refid": "group__comparisons_1ga82ba7c515fe521e5b36eb7f94b391ee2",
+      "returns": [
+        "<code>true</code>, if the sequences are equal; <code>false</code>, otherwise."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/equal\">https://en.cppreference.com/w/cpp/algorithm/equal</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator1's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>, and <code>InputIterator1's</code><code>value&#95;type</code> can be compared for equality with <code>InputIterator2's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator2's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>, and <code>InputIterator2's</code><code>value&#95;type</code> can be compared for equality with <code>InputIterator1's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "equal",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/groups/group__comparisons.html#function-equal",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-equal",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool thrust::equal",
+      "deleted": false,
+      "details": "<code>equal</code> returns <code>true</code> if the two ranges <code>[first1, last1)</code> and <code>[first2, first2 + (last1 - first1))</code> are identical when compared element-by-element, and otherwise returns <code>false</code>.\n\nThis version of <code>equal</code> returns <code>true</code> if and only if for every iterator <code>i</code> in <code>[first1, last1)</code>, <code>binary&#95;pred(&#42;i, &#42;(first2 + (i - first1)))</code> is <code>true</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>equal</code> to compare the elements in two ranges modulo 2 using the <code>thrust::host</code> execution policy.\n\n\n\n```cpp\n#include <thrust/equal.h>\n#include <thrust/execution_policy.h>\n...\n\nstruct compare_modulo_two\n{\n  __host__ __device__\n  bool operator()(int x, int y) const\n  {\n    return (x % 2) == (y % 2);\n  }\n};\n...\nint x[6] = {0, 2, 4, 6, 8, 10};\nint y[6] = {1, 3, 5, 7, 9, 11};\n\nbool result = thrust::equal(x, x + 6, y, compare_modulo_two());\n\n// result is false\n```",
+      "explicit": false,
+      "fullname": "comparisons::equal",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/equal.h",
+        "line": 175
+      },
+      "name": "equal",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first1",
+          "text": "The beginning of the first sequence. "
+        },
+        {
+          "name": "last1",
+          "text": "The end of the first sequence. "
+        },
+        {
+          "name": "first2",
+          "text": "The beginning of the second sequence. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "Binary predicate used to test element equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "first2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::equal",
+      "refid": "group__comparisons_1gaa40938be2dcb3d467eb9d1ba8873e16d",
+      "returns": [
+        "<code>true</code>, if the sequences are equal; <code>false</code>, otherwise."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/equal\">https://en.cppreference.com/w/cpp/algorithm/equal</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator1's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "equal",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/groups/group__comparisons.html#function-equal",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-equal",
+      "argsString": "(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "bool thrust::equal",
+      "deleted": false,
+      "details": "<code>equal</code> returns <code>true</code> if the two ranges <code>[first1, last1)</code> and <code>[first2, first2 + (last1 - first1))</code> are identical when compared element-by-element, and otherwise returns <code>false</code>.\n\nThis version of <code>equal</code> returns <code>true</code> if and only if for every iterator <code>i</code> in <code>[first1, last1)</code>, <code>binary&#95;pred(&#42;i, &#42;(first2 + (i - first1)))</code> is <code>true</code>.\n\n\nThe following code snippet demonstrates how to use <code>equal</code> to compare the elements in two ranges modulo 2.\n\n\n\n```cpp\n#include <thrust/equal.h>\n\nstruct compare_modulo_two\n{\n  __host__ __device__\n  bool operator()(int x, int y) const\n  {\n    return (x % 2) == (y % 2);\n  }\n};\n...\nint x[6] = {0, 2, 4, 6, 8, 10};\nint y[6] = {1, 3, 5, 7, 9, 11};\n\nbool result = thrust::equal(x, x + 5, y, compare_modulo_two());\n\n// result is true\n```",
+      "explicit": false,
+      "fullname": "comparisons::equal",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 6,
+        "file": "thrust/equal.h",
+        "line": 225
+      },
+      "name": "equal",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first1",
+          "text": "The beginning of the first sequence. "
+        },
+        {
+          "name": "last1",
+          "text": "The end of the first sequence. "
+        },
+        {
+          "name": "first2",
+          "text": "The beginning of the second sequence. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "Binary predicate used to test element equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "first2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::equal",
+      "refid": "group__comparisons_1ga4e78ee4bcd8f90e3ff1dae8f59b9e153",
+      "returns": [
+        "<code>true</code>, if the sequences are equal; <code>false</code>, otherwise."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/equal\">https://en.cppreference.com/w/cpp/algorithm/equal</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator1's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "equal",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/groups/group__comparisons.html#function-equal",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "comparisons",
+  "refid": "group__comparisons",
+  "static": false,
+  "strong": false,
+  "title": "Comparisons",
+  "url": "{{ site.baseurl }}/api/groups/group__comparisons.html",
+  "visibility": "public"
+}

@@ -1,0 +1,1347 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "detail::vector_base< T, thrust::device_allocator< T > >",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "A <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> is a container that supports random access to elements, constant time removal of elements at the end, and linear time insertion and removal of elements at the beginning or in the middle. The number of elements in a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> may vary dynamically; memory management is automatic. The memory associated with a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> resides in the memory accessible to devices.",
+  "explicit": false,
+  "fullname": "thrust::device_vector",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/device_vector.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 476,
+    "bodyFile": "thrust/device_vector.h",
+    "bodyStart": 53,
+    "column": 3,
+    "file": "thrust/device_vector.h",
+    "line": 51
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "containers",
+    "kind": "group",
+    "language": "",
+    "name": "containers",
+    "qualifiedname": "containers",
+    "refid": "group__containers",
+    "title": "Containers",
+    "url": "{{ site.baseurl }}/api/groups/group__containers.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "containers",
+      "kind": "group",
+      "language": "",
+      "name": "containers",
+      "qualifiedname": "containers",
+      "refid": "group__containers",
+      "title": "Containers",
+      "url": "{{ site.baseurl }}/api/groups/group__containers.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::device_vector",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "privateTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-parent",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::vector_base<T,Alloc> thrust::device_vector< T, Alloc >::Parent",
+      "explicit": false,
+      "fullname": "thrust::device_vector::Parent",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 55,
+        "column": 33,
+        "file": "thrust/device_vector.h",
+        "line": 55
+      },
+      "name": "Parent",
+      "override": false,
+      "qualifiedname": "thrust::device_vector::Parent",
+      "refid": "classthrust_1_1device__vector_1a013a9dd8b94017028261c27e6d6f462d",
+      "static": false,
+      "strong": false,
+      "title": "Parent",
+      "type": "detail::vector_base< T, Alloc >",
+      "typePlain": "detail::vector_base< T, Alloc >",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#typedef-parent",
+      "visibility": "private"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-device-vector",
+      "argsString": "(void)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::device_vector",
+      "deleted": false,
+      "details": "This constructor creates an empty <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code>. ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 68,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 67,
+        "column": 5,
+        "file": "thrust/device_vector.h",
+        "line": 67
+      },
+      "name": "device_vector",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::device_vector",
+      "refid": "classthrust_1_1device__vector_1a27c652c9b7c4a650fe59fbdb185b6831",
+      "static": false,
+      "strong": false,
+      "title": "device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-device-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-vector",
+      "argsString": "(const Alloc &alloc)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::device_vector",
+      "deleted": false,
+      "details": "This constructor creates an empty <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code>. ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 74,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 73,
+        "column": 5,
+        "file": "thrust/device_vector.h",
+        "line": 73
+      },
+      "name": "device_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "alloc",
+          "text": "The allocator to use by this <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "alloc",
+          "type": "const Alloc &",
+          "typePlain": "const Alloc &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::device_vector",
+      "refid": "classthrust_1_1device__vector_1a922ddf17336ac26b25a66bf918bba668",
+      "static": false,
+      "strong": false,
+      "title": "device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-device-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-~device-vector",
+      "argsString": "(void)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::~device_vector",
+      "deleted": false,
+      "details": "The destructor erases the elements. ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::~device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 80,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 80,
+        "column": 5,
+        "file": "thrust/device_vector.h",
+        "line": 80
+      },
+      "name": "~device_vector",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::~device_vector",
+      "refid": "classthrust_1_1device__vector_1ab81ffcc84ec3dd3b2df1e8536bceff56",
+      "static": false,
+      "strong": false,
+      "title": "~device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-~device-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-vector",
+      "argsString": "(size_type n)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::device_vector",
+      "deleted": false,
+      "details": "This constructor creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> with the given size. ",
+      "explicit": true,
+      "fullname": "thrust::device_vector::device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 87,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 86,
+        "column": 14,
+        "file": "thrust/device_vector.h",
+        "line": 86
+      },
+      "name": "device_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "n",
+          "text": "The number of elements to initially create. "
+        }
+      ],
+      "params": [
+        {
+          "name": "n",
+          "type": "size_type",
+          "typePlain": "size_type"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::device_vector",
+      "refid": "classthrust_1_1device__vector_1a7beff53dbac6a3e230f337c6185fe489",
+      "static": false,
+      "strong": false,
+      "title": "device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-device-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-vector",
+      "argsString": "(size_type n, const Alloc &alloc)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::device_vector",
+      "deleted": false,
+      "details": "This constructor creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> with the given size. ",
+      "explicit": true,
+      "fullname": "thrust::device_vector::device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 95,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 94,
+        "column": 14,
+        "file": "thrust/device_vector.h",
+        "line": 94
+      },
+      "name": "device_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "n",
+          "text": "The number of elements to initially create. "
+        },
+        {
+          "name": "alloc",
+          "text": "The allocator to use by this <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "n",
+          "type": "size_type",
+          "typePlain": "size_type"
+        },
+        {
+          "name": "alloc",
+          "type": "const Alloc &",
+          "typePlain": "const Alloc &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::device_vector",
+      "refid": "classthrust_1_1device__vector_1a912c8dee68a6384c501e6bf99456b030",
+      "static": false,
+      "strong": false,
+      "title": "device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-device-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-vector",
+      "argsString": "(size_type n, const value_type &value)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::device_vector",
+      "deleted": false,
+      "details": "This constructor creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> with copies of an exemplar element. ",
+      "explicit": true,
+      "fullname": "thrust::device_vector::device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 103,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 102,
+        "column": 14,
+        "file": "thrust/device_vector.h",
+        "line": 102
+      },
+      "name": "device_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "n",
+          "text": "The number of elements to initially create. "
+        },
+        {
+          "name": "value",
+          "text": "An element to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "n",
+          "type": "size_type",
+          "typePlain": "size_type"
+        },
+        {
+          "name": "value",
+          "type": "const value_type &",
+          "typePlain": "const value_type &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::device_vector",
+      "refid": "classthrust_1_1device__vector_1a881860f3a5d6236bcf96272c25063bbc",
+      "static": false,
+      "strong": false,
+      "title": "device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-device-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-vector",
+      "argsString": "(size_type n, const value_type &value, const Alloc &alloc)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::device_vector",
+      "deleted": false,
+      "details": "This constructor creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> with copies of an exemplar element. ",
+      "explicit": true,
+      "fullname": "thrust::device_vector::device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 112,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 111,
+        "column": 14,
+        "file": "thrust/device_vector.h",
+        "line": 111
+      },
+      "name": "device_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "n",
+          "text": "The number of elements to initially create. "
+        },
+        {
+          "name": "value",
+          "text": "An element to copy. "
+        },
+        {
+          "name": "alloc",
+          "text": "The allocator to use by this <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "n",
+          "type": "size_type",
+          "typePlain": "size_type"
+        },
+        {
+          "name": "value",
+          "type": "const value_type &",
+          "typePlain": "const value_type &"
+        },
+        {
+          "name": "alloc",
+          "type": "const Alloc &",
+          "typePlain": "const Alloc &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::device_vector",
+      "refid": "classthrust_1_1device__vector_1ad133089105c900807362d111e177c4fd",
+      "static": false,
+      "strong": false,
+      "title": "device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-device-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-vector",
+      "argsString": "(const device_vector &v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::device_vector",
+      "deleted": false,
+      "details": "Copy constructor copies from an exemplar <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code>. ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 118,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 117,
+        "column": 5,
+        "file": "thrust/device_vector.h",
+        "line": 117
+      },
+      "name": "device_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a> &",
+          "typePlain": "const device_vector &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::device_vector",
+      "refid": "classthrust_1_1device__vector_1acfd63c5f7f9c647f63bdfb144ed5909e",
+      "static": false,
+      "strong": false,
+      "title": "device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-device-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-vector",
+      "argsString": "(const device_vector &v, const Alloc &alloc)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::device_vector",
+      "deleted": false,
+      "details": "Copy constructor copies from an exemplar <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code>. ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 125,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 124,
+        "column": 5,
+        "file": "thrust/device_vector.h",
+        "line": 124
+      },
+      "name": "device_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> to copy. "
+        },
+        {
+          "name": "alloc",
+          "text": "The allocator to use by this <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a> &",
+          "typePlain": "const device_vector &"
+        },
+        {
+          "name": "alloc",
+          "type": "const Alloc &",
+          "typePlain": "const Alloc &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::device_vector",
+      "refid": "classthrust_1_1device__vector_1aa904ddd7b4cf8186cf153fe4e60181d9",
+      "static": false,
+      "strong": false,
+      "title": "device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-device-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-vector",
+      "argsString": "(device_vector &&v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::device_vector",
+      "deleted": false,
+      "details": "Move constructor moves from another <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code>. ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 132,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 131,
+        "column": 5,
+        "file": "thrust/device_vector.h",
+        "line": 131
+      },
+      "name": "device_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a> to move. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a> &&",
+          "typePlain": "device_vector &&"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::device_vector",
+      "refid": "classthrust_1_1device__vector_1a0f45898e0f76ce0905fbaa4a39fc5b47",
+      "static": false,
+      "strong": false,
+      "title": "device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-device-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-vector",
+      "argsString": "(device_vector &&v, const Alloc &alloc)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::device_vector",
+      "deleted": false,
+      "details": "Move constructor moves from another <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code>. ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 139,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 138,
+        "column": 5,
+        "file": "thrust/device_vector.h",
+        "line": 138
+      },
+      "name": "device_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a> to move. "
+        },
+        {
+          "name": "alloc",
+          "text": "The allocator to use by this <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a> &&",
+          "typePlain": "device_vector &&"
+        },
+        {
+          "name": "alloc",
+          "type": "const Alloc &",
+          "typePlain": "const Alloc &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::device_vector",
+      "refid": "classthrust_1_1device__vector_1aad2e0836fec7edf5b42bb144de84ec8f",
+      "static": false,
+      "strong": false,
+      "title": "device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-device-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const device_vector &v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "device_vector & thrust::device_vector< T, Alloc >::operator=",
+      "deleted": false,
+      "details": "Copy assign operator copies another <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> with the same type. ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 146,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 145,
+        "column": 19,
+        "file": "thrust/device_vector.h",
+        "line": 145
+      },
+      "name": "operator=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a> &",
+          "typePlain": "const device_vector &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::operator=",
+      "refid": "classthrust_1_1device__vector_1a6975e33a10fbed5a94fd16b989d6f2e8",
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a> &",
+      "typePlain": "device_vector &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(device_vector &&v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "device_vector & thrust::device_vector< T, Alloc >::operator=",
+      "deleted": false,
+      "details": "Move assign operator moves from another <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code>. ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 153,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 152,
+        "column": 20,
+        "file": "thrust/device_vector.h",
+        "line": 152
+      },
+      "name": "operator=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a> to move. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a> &&",
+          "typePlain": "device_vector &&"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::operator=",
+      "refid": "classthrust_1_1device__vector_1a030162efaa4c7901339cf5d3e577a637",
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a> &",
+      "typePlain": "device_vector &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-vector",
+      "argsString": "(const device_vector< OtherT, OtherAlloc > &v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::device_vector",
+      "deleted": false,
+      "details": "Copy constructor copies from an exemplar <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> with different type. ",
+      "explicit": true,
+      "fullname": "thrust::device_vector::device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 161,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 160,
+        "column": 14,
+        "file": "thrust/device_vector.h",
+        "line": 160
+      },
+      "name": "device_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>< OtherT, OtherAlloc > &",
+          "typePlain": "const device_vector< OtherT, OtherAlloc > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::device_vector",
+      "refid": "classthrust_1_1device__vector_1a24ed0692f6a9117c1ff0427dcb0bb54c",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherT",
+          "typePlain": "typename OtherT"
+        },
+        {
+          "name": "",
+          "type": "typename OtherAlloc",
+          "typePlain": "typename OtherAlloc"
+        }
+      ],
+      "title": "device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-device-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const device_vector< OtherT, OtherAlloc > &v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "device_vector & thrust::device_vector< T, Alloc >::operator=",
+      "deleted": false,
+      "details": "Assign operator copies from an exemplar <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> with different type. ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 168,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 167,
+        "column": 19,
+        "file": "thrust/device_vector.h",
+        "line": 167
+      },
+      "name": "operator=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>< OtherT, OtherAlloc > &",
+          "typePlain": "const device_vector< OtherT, OtherAlloc > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::operator=",
+      "refid": "classthrust_1_1device__vector_1ae851e7fae458bfe7bb3d0a4c68f279ad",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherT",
+          "typePlain": "typename OtherT"
+        },
+        {
+          "name": "",
+          "type": "typename OtherAlloc",
+          "typePlain": "typename OtherAlloc"
+        }
+      ],
+      "title": "operator=",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a> &",
+      "typePlain": "device_vector &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-vector",
+      "argsString": "(const std::vector< OtherT, OtherAlloc > &v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::device_vector",
+      "deleted": false,
+      "details": "Copy constructor copies from an exemplar <code>std::vector</code>. ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 175,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 174,
+        "column": 5,
+        "file": "thrust/device_vector.h",
+        "line": 174
+      },
+      "name": "device_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code>std::vector</code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const std::vector< OtherT, OtherAlloc > &",
+          "typePlain": "const std::vector< OtherT, OtherAlloc > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::device_vector",
+      "refid": "classthrust_1_1device__vector_1a043a84319417c285e5e6f751349b22a1",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherT",
+          "typePlain": "typename OtherT"
+        },
+        {
+          "name": "",
+          "type": "typename OtherAlloc",
+          "typePlain": "typename OtherAlloc"
+        }
+      ],
+      "title": "device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-device-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const std::vector< OtherT, OtherAlloc > &v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "device_vector & thrust::device_vector< T, Alloc >::operator=",
+      "deleted": false,
+      "details": "Assign operator copies from an exemplar <code>std::vector</code>. ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 182,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 181,
+        "column": 19,
+        "file": "thrust/device_vector.h",
+        "line": 181
+      },
+      "name": "operator=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code>std::vector</code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const std::vector< OtherT, OtherAlloc > &",
+          "typePlain": "const std::vector< OtherT, OtherAlloc > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::operator=",
+      "refid": "classthrust_1_1device__vector_1a7b56808104871ca69fbc3eefb4048006",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherT",
+          "typePlain": "typename OtherT"
+        },
+        {
+          "name": "",
+          "type": "typename OtherAlloc",
+          "typePlain": "typename OtherAlloc"
+        }
+      ],
+      "title": "operator=",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a> &",
+      "typePlain": "device_vector &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-vector",
+      "argsString": "(const detail::vector_base< OtherT, OtherAlloc > &v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::device_vector",
+      "deleted": false,
+      "details": "Copy construct from a <code>vector&#95;base</code> whose element type is convertible to <code>T</code>.",
+      "explicit": false,
+      "fullname": "thrust::device_vector::device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 191,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 190,
+        "column": 5,
+        "file": "thrust/device_vector.h",
+        "line": 190
+      },
+      "name": "device_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code>vector&#95;base</code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const detail::vector_base< OtherT, OtherAlloc > &",
+          "typePlain": "const detail::vector_base< OtherT, OtherAlloc > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::device_vector",
+      "refid": "classthrust_1_1device__vector_1addb64f006059c2799d1b3f5de688d04d",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherT",
+          "typePlain": "typename OtherT"
+        },
+        {
+          "name": "",
+          "type": "typename OtherAlloc",
+          "typePlain": "typename OtherAlloc"
+        }
+      ],
+      "title": "device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-device-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const detail::vector_base< OtherT, OtherAlloc > &v)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "device_vector & thrust::device_vector< T, Alloc >::operator=",
+      "deleted": false,
+      "details": "Assign a <code>vector&#95;base</code> whose element type is convertible to <code>T</code>. ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 198,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 197,
+        "column": 19,
+        "file": "thrust/device_vector.h",
+        "line": 197
+      },
+      "name": "operator=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "v",
+          "text": "The <code>vector&#95;base</code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "v",
+          "type": "const detail::vector_base< OtherT, OtherAlloc > &",
+          "typePlain": "const detail::vector_base< OtherT, OtherAlloc > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::operator=",
+      "refid": "classthrust_1_1device__vector_1a518238d419d906774240580f67de9231",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherT",
+          "typePlain": "typename OtherT"
+        },
+        {
+          "name": "",
+          "type": "typename OtherAlloc",
+          "typePlain": "typename OtherAlloc"
+        }
+      ],
+      "title": "operator=",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a> &",
+      "typePlain": "device_vector &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-vector",
+      "argsString": "(InputIterator first, InputIterator last)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::device_vector",
+      "deleted": false,
+      "details": "This constructor builds a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> from a range. ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 206,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 205,
+        "column": 5,
+        "file": "thrust/device_vector.h",
+        "line": 205
+      },
+      "name": "device_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the range. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::device_vector",
+      "refid": "classthrust_1_1device__vector_1a747dbc07d93a7f8fa58896dcb14744df",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        }
+      ],
+      "title": "device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-device-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-vector",
+      "argsString": "(InputIterator first, InputIterator last, const Alloc &alloc)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::device_vector",
+      "deleted": false,
+      "details": "This constructor builds a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> from a range. ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 215,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 214,
+        "column": 5,
+        "file": "thrust/device_vector.h",
+        "line": 214
+      },
+      "name": "device_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the range. "
+        },
+        {
+          "name": "alloc",
+          "text": "The allocator to use by this <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "alloc",
+          "type": "const Alloc &",
+          "typePlain": "const Alloc &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::device_vector",
+      "refid": "classthrust_1_1device__vector_1a3c899659d16a34947d4b67d5cba047be",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        }
+      ],
+      "title": "device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-device-vector",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::device_vector",
+  "refid": "classthrust_1_1device__vector",
+  "see": [
+    "<a href=\"https://en.cppreference.com/w/cpp/container/vector\">https://en.cppreference.com/w/cpp/container/vector</a>",
+    "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html\">device_allocator</a>",
+    "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a>",
+    "universal_vector "
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    },
+    {
+      "defval": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html\">thrust::device_allocator</a><T>",
+      "defvalPlain": "thrust::device_allocator<T>",
+      "name": "",
+      "type": "typename Alloc",
+      "typePlain": "typename Alloc"
+    }
+  ],
+  "title": "thrust::device_vector",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html",
+  "visibility": "public"
+}

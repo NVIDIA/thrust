@@ -1,0 +1,100 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "<code>thrust::omp</code> is a top-level alias for thrust::system::omp. ",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"{{ site.baseurl }}/api/namespaces/namespacethrust_1_1omp.html\">thrust::omp</a></code> is a top-level alias for <code>thrust::system::omp</code>. ",
+  "explicit": false,
+  "fullname": "thrust::omp",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "namespace",
+  "language": "cpp",
+  "location": {
+    "column": 1,
+    "file": "thrust/system/omp/memory.h",
+    "line": 87
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "system_backends",
+    "kind": "group",
+    "language": "",
+    "name": "system_backends",
+    "qualifiedname": "system_backends",
+    "refid": "group__system__backends",
+    "title": "Systems",
+    "url": "{{ site.baseurl }}/api/groups/group__system__backends.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "system",
+      "kind": "group",
+      "language": "",
+      "name": "system",
+      "qualifiedname": "system",
+      "refid": "group__system",
+      "title": "System",
+      "url": "{{ site.baseurl }}/api/groups/group__system.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "system_backends",
+      "kind": "group",
+      "language": "",
+      "name": "system_backends",
+      "qualifiedname": "system_backends",
+      "refid": "group__system__backends",
+      "title": "Systems",
+      "url": "{{ site.baseurl }}/api/groups/group__system__backends.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::omp",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::omp",
+  "refid": "namespacethrust_1_1omp",
+  "static": false,
+  "strong": false,
+  "summary": "thrust::omp is a top-level alias for thrust::system::omp. ",
+  "title": "thrust::omp",
+  "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1omp.html",
+  "visibility": "public"
+}

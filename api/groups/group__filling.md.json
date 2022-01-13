@@ -1,0 +1,951 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "filling",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "transformations",
+    "kind": "group",
+    "language": "",
+    "name": "transformations",
+    "qualifiedname": "transformations",
+    "refid": "group__transformations",
+    "title": "Transformations",
+    "url": "{{ site.baseurl }}/api/groups/group__transformations.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "transformations",
+      "kind": "group",
+      "language": "",
+      "name": "transformations",
+      "qualifiedname": "transformations",
+      "refid": "group__transformations",
+      "title": "Transformations",
+      "url": "{{ site.baseurl }}/api/groups/group__transformations.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "filling",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "transformations",
+    "kind": "group",
+    "language": "",
+    "name": "transformations",
+    "qualifiedname": "transformations",
+    "refid": "group__transformations",
+    "title": "Transformations",
+    "url": "{{ site.baseurl }}/api/groups/group__transformations.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "transformations",
+      "kind": "group",
+      "language": "",
+      "name": "transformations",
+      "qualifiedname": "transformations",
+      "refid": "group__transformations",
+      "title": "Transformations",
+      "url": "{{ site.baseurl }}/api/groups/group__transformations.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-fill",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last, const T &value)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::fill",
+      "deleted": false,
+      "details": "<code>fill</code> assigns the value <code>value</code> to every element in the range <code>[first, last)</code>. That is, for every iterator <code>i</code> in <code>[first, last)</code>, it performs the assignment <code>&#42;i = value</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>fill</code> to set a <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">thrust::device_vector</a>'s elements to a given value using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/fill.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n...\nthrust::device_vector<int> v(4);\nthrust::fill(thrust::device, v.begin(), v.end(), 137);\n\n// v[0] == 137, v[1] == 137, v[2] == 137, v[3] == 137\n```",
+      "explicit": false,
+      "fullname": "filling::fill",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 8,
+        "file": "thrust/fill.h",
+        "line": 74
+      },
+      "name": "fill",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "value",
+          "text": "The value to be copied."
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "value",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::fill",
+      "refid": "group__filling_1gae2637d0d68bfdde69b3081039ba22796",
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/fill\">https://en.cppreference.com/w/cpp/algorithm/fill</a>",
+        "<code>fill&#95;n</code>",
+        "<code>uninitialized&#95;fill</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator</code> is mutable. "
+        },
+        {
+          "name": "T",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/CopyAssignable\">Assignable</a>, and <code>T's</code><code>value&#95;type</code> is convertible to <code>ForwardIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "fill",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/groups/group__filling.html#function-fill",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-fill",
+      "argsString": "(ForwardIterator first, ForwardIterator last, const T &value)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::fill",
+      "deleted": false,
+      "details": "<code>fill</code> assigns the value <code>value</code> to every element in the range <code>[first, last)</code>. That is, for every iterator <code>i</code> in <code>[first, last)</code>, it performs the assignment <code>&#42;i = value</code>.\n\n\nThe following code snippet demonstrates how to use <code>fill</code> to set a <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">thrust::device_vector</a>'s elements to a given value.\n\n\n\n```cpp\n#include <thrust/fill.h>\n#include <thrust/device_vector.h>\n...\nthrust::device_vector<int> v(4);\nthrust::fill(v.begin(), v.end(), 137);\n\n// v[0] == 137, v[1] == 137, v[2] == 137, v[3] == 137\n```",
+      "explicit": false,
+      "fullname": "filling::fill",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 8,
+        "file": "thrust/fill.h",
+        "line": 113
+      },
+      "name": "fill",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "value",
+          "text": "The value to be copied."
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "value",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::fill",
+      "refid": "group__filling_1gaeb67a048e8397f31f745dec0ad80f9c4",
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/fill\">https://en.cppreference.com/w/cpp/algorithm/fill</a>",
+        "<code>fill&#95;n</code>",
+        "<code>uninitialized&#95;fill</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator</code> is mutable. "
+        },
+        {
+          "name": "T",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/CopyAssignable\">Assignable</a>, and <code>T's</code><code>value&#95;type</code> is convertible to <code>ForwardIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "fill",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/groups/group__filling.html#function-fill",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-fill-n",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, OutputIterator first, Size n, const T &value)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::fill_n",
+      "deleted": false,
+      "details": "<code>fill&#95;n</code> assigns the value <code>value</code> to every element in the range <code>[first, first+n)</code>. That is, for every iterator <code>i</code> in <code>[first, first+n)</code>, it performs the assignment <code>&#42;i = value</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>fill</code> to set a <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">thrust::device_vector</a>'s elements to a given value using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/fill.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n...\nthrust::device_vector<int> v(4);\nthrust::fill_n(thrust::device, v.begin(), v.size(), 137);\n\n// v[0] == 137, v[1] == 137, v[2] == 137, v[3] == 137\n```",
+      "explicit": false,
+      "fullname": "filling::fill_n",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/fill.h",
+        "line": 156
+      },
+      "name": "fill_n",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "n",
+          "text": "The size of the sequence. "
+        },
+        {
+          "name": "value",
+          "text": "The value to be copied. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "n",
+          "type": "Size",
+          "typePlain": "Size"
+        },
+        {
+          "name": "value",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::fill_n",
+      "refid": "group__filling_1ga7b7650471fc9da4d339ad8fc7b959393",
+      "returns": [
+        "<code>first + n</code>"
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/fill_n\">https://en.cppreference.com/w/cpp/algorithm/fill_n</a>",
+        "<code>fill</code>",
+        "<code>uninitialized&#95;fill&#95;n</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Size",
+          "typePlain": "typename Size"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "T",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/CopyAssignable\">Assignable</a>, and <code>T's</code><code>value&#95;type</code> is convertible to a type in <code>OutputIterator's</code> set of <code>value&#95;type</code>."
+        }
+      ],
+      "title": "fill_n",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__filling.html#function-fill-n",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-fill-n",
+      "argsString": "(OutputIterator first, Size n, const T &value)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::fill_n",
+      "deleted": false,
+      "details": "<code>fill&#95;n</code> assigns the value <code>value</code> to every element in the range <code>[first, first+n)</code>. That is, for every iterator <code>i</code> in <code>[first, first+n)</code>, it performs the assignment <code>&#42;i = value</code>.\n\n\nThe following code snippet demonstrates how to use <code>fill</code> to set a <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">thrust::device_vector</a>'s elements to a given value.\n\n\n\n```cpp\n#include <thrust/fill.h>\n#include <thrust/device_vector.h>\n...\nthrust::device_vector<int> v(4);\nthrust::fill_n(v.begin(), v.size(), 137);\n\n// v[0] == 137, v[1] == 137, v[2] == 137, v[3] == 137\n```",
+      "explicit": false,
+      "fullname": "filling::fill_n",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/fill.h",
+        "line": 195
+      },
+      "name": "fill_n",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "n",
+          "text": "The size of the sequence. "
+        },
+        {
+          "name": "value",
+          "text": "The value to be copied. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "n",
+          "type": "Size",
+          "typePlain": "Size"
+        },
+        {
+          "name": "value",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::fill_n",
+      "refid": "group__filling_1gaba85984f8afa1842e59589f2f58abae6",
+      "returns": [
+        "<code>first + n</code>"
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/fill_n\">https://en.cppreference.com/w/cpp/algorithm/fill_n</a>",
+        "<code>fill</code>",
+        "<code>uninitialized&#95;fill&#95;n</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Size",
+          "typePlain": "typename Size"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "T",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/CopyAssignable\">Assignable</a>, and <code>T's</code><code>value&#95;type</code> is convertible to a type in <code>OutputIterator's</code> set of <code>value&#95;type</code>."
+        }
+      ],
+      "title": "fill_n",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__filling.html#function-fill-n",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-uninitialized-fill",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last, const T &x)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::uninitialized_fill",
+      "deleted": false,
+      "details": "In <code>thrust</code>, the function <code>thrust::device&#95;new</code> allocates memory for an object and then creates an object at that location by calling a constructor. Occasionally, however, it is useful to separate those two operations. If each iterator in the range <code>[first, last)</code> points to uninitialized memory, then <code>uninitialized&#95;fill</code> creates copies of <code>x</code> in that range. That is, for each iterator <code>i</code> in the range <code>[first, last)</code>, <code>uninitialized&#95;fill</code> creates a copy of <code>x</code> in the location pointed to <code>i</code> by calling <code>ForwardIterator's</code><code>value&#95;type's</code> copy constructor.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>uninitialized&#95;fill</code> to initialize a range of uninitialized memory using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/uninitialized_fill.h>\n#include <thrust/device_malloc.h>\n#include <thrust/execution_policy.h>\n\nstruct Int\n{\n  __host__ __device__\n  Int(int x) : val(x) {}\n  int val;\n};  \n...\nconst int N = 137;\n\nInt val(46);\nthrust::device_ptr<Int> array = thrust::device_malloc<Int>(N);\nthrust::uninitialized_fill(thrust::device, array, array + N, val);\n\n// Int x = array[i];\n// x.val == 46 for all 0 <= i < N\n```",
+      "explicit": false,
+      "fullname": "filling::uninitialized_fill",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 8,
+        "file": "thrust/uninitialized_fill.h",
+        "line": 90
+      },
+      "name": "uninitialized_fill",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The first element of the range of interest. "
+        },
+        {
+          "name": "last",
+          "text": "The last element of the range of interest. "
+        },
+        {
+          "name": "x",
+          "text": "The value to use as the exemplar of the copy constructor."
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "x",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::uninitialized_fill",
+      "refid": "group__filling_1ga7afcf37f1bd2799befe7e93aae7b43a1",
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/memory/uninitialized_fill\">https://en.cppreference.com/w/cpp/memory/uninitialized_fill</a>",
+        "<code>uninitialized&#95;fill&#95;n</code>",
+        "<code>fill</code>",
+        "<code>uninitialized&#95;copy</code>",
+        "<code>device&#95;new</code>",
+        "<code>device&#95;malloc</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, <code>ForwardIterator</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> has a constructor that takes a single argument of type <code>T</code>."
+        }
+      ],
+      "title": "uninitialized_fill",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/groups/group__filling.html#function-uninitialized-fill",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-uninitialized-fill",
+      "argsString": "(ForwardIterator first, ForwardIterator last, const T &x)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "void thrust::uninitialized_fill",
+      "deleted": false,
+      "details": "In <code>thrust</code>, the function <code>thrust::device&#95;new</code> allocates memory for an object and then creates an object at that location by calling a constructor. Occasionally, however, it is useful to separate those two operations. If each iterator in the range <code>[first, last)</code> points to uninitialized memory, then <code>uninitialized&#95;fill</code> creates copies of <code>x</code> in that range. That is, for each iterator <code>i</code> in the range <code>[first, last)</code>, <code>uninitialized&#95;fill</code> creates a copy of <code>x</code> in the location pointed to <code>i</code> by calling <code>ForwardIterator's</code><code>value&#95;type's</code> copy constructor.\n\n\nThe following code snippet demonstrates how to use <code>uninitialized&#95;fill</code> to initialize a range of uninitialized memory.\n\n\n\n```cpp\n#include <thrust/uninitialized_fill.h>\n#include <thrust/device_malloc.h>\n\nstruct Int\n{\n  __host__ __device__\n  Int(int x) : val(x) {}\n  int val;\n};  \n...\nconst int N = 137;\n\nInt val(46);\nthrust::device_ptr<Int> array = thrust::device_malloc<Int>(N);\nthrust::uninitialized_fill(array, array + N, val);\n\n// Int x = array[i];\n// x.val == 46 for all 0 <= i < N\n```",
+      "explicit": false,
+      "fullname": "filling::uninitialized_fill",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 8,
+        "file": "thrust/uninitialized_fill.h",
+        "line": 145
+      },
+      "name": "uninitialized_fill",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The first element of the range of interest. "
+        },
+        {
+          "name": "last",
+          "text": "The last element of the range of interest. "
+        },
+        {
+          "name": "x",
+          "text": "The value to use as the exemplar of the copy constructor."
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "x",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::uninitialized_fill",
+      "refid": "group__filling_1ga5037eb05758b347f7b376f50b78f187e",
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/memory/uninitialized_fill\">https://en.cppreference.com/w/cpp/memory/uninitialized_fill</a>",
+        "<code>uninitialized&#95;fill&#95;n</code>",
+        "<code>fill</code>",
+        "<code>uninitialized&#95;copy</code>",
+        "<code>device&#95;new</code>",
+        "<code>device&#95;malloc</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, <code>ForwardIterator</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> has a constructor that takes a single argument of type <code>T</code>."
+        }
+      ],
+      "title": "uninitialized_fill",
+      "type": "void",
+      "typePlain": "void",
+      "url": "{{ site.baseurl }}/api/groups/group__filling.html#function-uninitialized-fill",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-uninitialized-fill-n",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, Size n, const T &x)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ ForwardIterator thrust::uninitialized_fill_n",
+      "deleted": false,
+      "details": "In <code>thrust</code>, the function <code>thrust::device&#95;new</code> allocates memory for an object and then creates an object at that location by calling a constructor. Occasionally, however, it is useful to separate those two operations. If each iterator in the range <code>[first, first+n)</code> points to uninitialized memory, then <code>uninitialized&#95;fill</code> creates copies of <code>x</code> in that range. That is, for each iterator <code>i</code> in the range <code>[first, first+n)</code>, <code>uninitialized&#95;fill</code> creates a copy of <code>x</code> in the location pointed to <code>i</code> by calling <code>ForwardIterator's</code><code>value&#95;type's</code> copy constructor.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>uninitialized&#95;fill</code> to initialize a range of uninitialized memory using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/uninitialized_fill.h>\n#include <thrust/device_malloc.h>\n#include <thrust/execution_policy.h>\n\nstruct Int\n{\n  __host__ __device__\n  Int(int x) : val(x) {}\n  int val;\n};  \n...\nconst int N = 137;\n\nInt val(46);\nthrust::device_ptr<Int> array = thrust::device_malloc<Int>(N);\nthrust::uninitialized_fill_n(thrust::device, array, N, val);\n\n// Int x = array[i];\n// x.val == 46 for all 0 <= i < N\n```",
+      "explicit": false,
+      "fullname": "filling::uninitialized_fill_n",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/uninitialized_fill.h",
+        "line": 206
+      },
+      "name": "uninitialized_fill_n",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The first element of the range of interest. "
+        },
+        {
+          "name": "n",
+          "text": "The size of the range of interest. "
+        },
+        {
+          "name": "x",
+          "text": "The value to use as the exemplar of the copy constructor. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "n",
+          "type": "Size",
+          "typePlain": "Size"
+        },
+        {
+          "name": "x",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::uninitialized_fill_n",
+      "refid": "group__filling_1ga65fd6694fb8020b83e652e34c479f90e",
+      "returns": [
+        "<code>first+n</code>"
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/memory/uninitialized_fill\">https://en.cppreference.com/w/cpp/memory/uninitialized_fill</a>",
+        "<code>uninitialized&#95;fill</code>",
+        "<code>fill</code>",
+        "<code>uninitialized&#95;copy&#95;n</code>",
+        "<code>device&#95;new</code>",
+        "<code>device&#95;malloc</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Size",
+          "typePlain": "typename Size"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, <code>ForwardIterator</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> has a constructor that takes a single argument of type <code>T</code>."
+        }
+      ],
+      "title": "uninitialized_fill_n",
+      "type": "__host__ __device__ ForwardIterator",
+      "typePlain": "__host__ __device__ ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__filling.html#function-uninitialized-fill-n",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-uninitialized-fill-n",
+      "argsString": "(ForwardIterator first, Size n, const T &x)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "ForwardIterator thrust::uninitialized_fill_n",
+      "deleted": false,
+      "details": "In <code>thrust</code>, the function <code>thrust::device&#95;new</code> allocates memory for an object and then creates an object at that location by calling a constructor. Occasionally, however, it is useful to separate those two operations. If each iterator in the range <code>[first, first+n)</code> points to uninitialized memory, then <code>uninitialized&#95;fill</code> creates copies of <code>x</code> in that range. That is, for each iterator <code>i</code> in the range <code>[first, first+n)</code>, <code>uninitialized&#95;fill</code> creates a copy of <code>x</code> in the location pointed to <code>i</code> by calling <code>ForwardIterator's</code><code>value&#95;type's</code> copy constructor.\n\n\nThe following code snippet demonstrates how to use <code>uninitialized&#95;fill</code> to initialize a range of uninitialized memory.\n\n\n\n```cpp\n#include <thrust/uninitialized_fill.h>\n#include <thrust/device_malloc.h>\n\nstruct Int\n{\n  __host__ __device__\n  Int(int x) : val(x) {}\n  int val;\n};  \n...\nconst int N = 137;\n\nInt val(46);\nthrust::device_ptr<Int> array = thrust::device_malloc<Int>(N);\nthrust::uninitialized_fill_n(array, N, val);\n\n// Int x = array[i];\n// x.val == 46 for all 0 <= i < N\n```",
+      "explicit": false,
+      "fullname": "filling::uninitialized_fill_n",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/uninitialized_fill.h",
+        "line": 262
+      },
+      "name": "uninitialized_fill_n",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The first element of the range of interest. "
+        },
+        {
+          "name": "n",
+          "text": "The size of the range of interest. "
+        },
+        {
+          "name": "x",
+          "text": "The value to use as the exemplar of the copy constructor. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "n",
+          "type": "Size",
+          "typePlain": "Size"
+        },
+        {
+          "name": "x",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::uninitialized_fill_n",
+      "refid": "group__filling_1ga337355b88a0110cd88b29571f59af76b",
+      "returns": [
+        "<code>first+n</code>"
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/memory/uninitialized_fill\">https://en.cppreference.com/w/cpp/memory/uninitialized_fill</a>",
+        "<code>uninitialized&#95;fill</code>",
+        "<code>fill</code>",
+        "<code>uninitialized&#95;copy&#95;n</code>",
+        "<code>device&#95;new</code>",
+        "<code>device&#95;malloc</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Size",
+          "typePlain": "typename Size"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, <code>ForwardIterator</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> has a constructor that takes a single argument of type <code>T</code>."
+        }
+      ],
+      "title": "uninitialized_fill_n",
+      "type": "ForwardIterator",
+      "typePlain": "ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__filling.html#function-uninitialized-fill-n",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "filling",
+  "refid": "group__filling",
+  "static": false,
+  "strong": false,
+  "title": "Filling",
+  "url": "{{ site.baseurl }}/api/groups/group__filling.html",
+  "visibility": "public"
+}

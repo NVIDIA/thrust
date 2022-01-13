@@ -1,0 +1,56 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "detail::constant_iterator_base",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "language": "cpp",
+  "location": {
+    "column": 1,
+    "file": "[generated]",
+    "line": 1
+  },
+  "name": "detail::constant_iterator_base",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "detail",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "detail",
+    "qualifiedname": "detail",
+    "refid": "namespacedetail",
+    "title": "detail",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacedetail.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "detail",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "detail",
+      "qualifiedname": "detail",
+      "refid": "namespacedetail",
+      "title": "detail",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacedetail.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "detail::constant_iterator_base",
+  "refid": "namespacedetail_1_1constant__iterator__base",
+  "static": false,
+  "strong": false,
+  "title": "detail::constant_iterator_base",
+  "url": "{{ site.baseurl }}/api/namespaces/namespacedetail_1_1constant__iterator__base.html",
+  "visibility": "public"
+}

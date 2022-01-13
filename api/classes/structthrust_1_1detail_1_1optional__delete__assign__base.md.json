@@ -1,0 +1,308 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "derivedClasses": [
+    {
+      "external": false,
+      "name": "thrust::optional< T >",
+      "refid": "classthrust_1_1optional",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1optional.html",
+      "virtual": "non-virtual",
+      "visibility": "private"
+    }
+  ],
+  "explicit": false,
+  "fullname": "thrust::detail::optional_delete_assign_base",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 747,
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 733,
+    "column": 1,
+    "file": "thrust/optional.h",
+    "line": 733
+  },
+  "name": "thrust::detail::optional_delete_assign_base",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "\\exclude ",
+    "category": "namespaces",
+    "fullname": "thrust::detail",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::detail",
+    "qualifiedname": "thrust::detail",
+    "refid": "namespacethrust_1_1detail",
+    "summary": "\\exclude ",
+    "title": "thrust::detail",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "\\exclude ",
+      "category": "namespaces",
+      "fullname": "thrust::detail",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::detail",
+      "qualifiedname": "thrust::detail",
+      "refid": "namespacethrust_1_1detail",
+      "summary": "\\exclude ",
+      "title": "thrust::detail",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-optional-delete-assign-base",
+      "argsString": "()=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__thrust_exec_check_disable__ thrust::detail::optional_delete_assign_base< T, EnableCopy, EnableMove >::optional_delete_assign_base",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::detail::optional_delete_assign_base::optional_delete_assign_base",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 735
+      },
+      "name": "optional_delete_assign_base",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::detail::optional_delete_assign_base::optional_delete_assign_base",
+      "refid": "structthrust_1_1detail_1_1optional__delete__assign__base_1aafab45f5e8f68b9e3016c0d73ea63f6a",
+      "static": false,
+      "strong": false,
+      "title": "optional_delete_assign_base",
+      "type": "__thrust_exec_check_disable__",
+      "typePlain": "__thrust_exec_check_disable__",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__assign__base.html#function-optional-delete-assign-base",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-optional-delete-assign-base",
+      "argsString": "(const optional_delete_assign_base &)=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__thrust_exec_check_disable__ thrust::detail::optional_delete_assign_base< T, EnableCopy, EnableMove >::optional_delete_assign_base",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::detail::optional_delete_assign_base::optional_delete_assign_base",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 737
+      },
+      "name": "optional_delete_assign_base",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "const optional_delete_assign_base &",
+          "typePlain": "const optional_delete_assign_base &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::detail::optional_delete_assign_base::optional_delete_assign_base",
+      "refid": "structthrust_1_1detail_1_1optional__delete__assign__base_1a245c94be44a09f55eb46b84467ecac0b",
+      "static": false,
+      "strong": false,
+      "title": "optional_delete_assign_base",
+      "type": "__thrust_exec_check_disable__",
+      "typePlain": "__thrust_exec_check_disable__",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__assign__base.html#function-optional-delete-assign-base",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-optional-delete-assign-base",
+      "argsString": "(optional_delete_assign_base &&) noexcept=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__thrust_exec_check_disable__ thrust::detail::optional_delete_assign_base< T, EnableCopy, EnableMove >::optional_delete_assign_base",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::detail::optional_delete_assign_base::optional_delete_assign_base",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 739
+      },
+      "name": "optional_delete_assign_base",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "optional_delete_assign_base &&",
+          "typePlain": "optional_delete_assign_base &&"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::detail::optional_delete_assign_base::optional_delete_assign_base",
+      "refid": "structthrust_1_1detail_1_1optional__delete__assign__base_1aa9be00d6dfb1da4512e6f7b04c5bf682",
+      "static": false,
+      "strong": false,
+      "title": "optional_delete_assign_base",
+      "type": "__thrust_exec_check_disable__",
+      "typePlain": "__thrust_exec_check_disable__",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__assign__base.html#function-optional-delete-assign-base",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const optional_delete_assign_base &)=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__thrust_exec_check_disable__ optional_delete_assign_base & thrust::detail::optional_delete_assign_base< T, EnableCopy, EnableMove >::operator=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::detail::optional_delete_assign_base::operator=",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 743
+      },
+      "name": "operator=",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "const optional_delete_assign_base &",
+          "typePlain": "const optional_delete_assign_base &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::detail::optional_delete_assign_base::operator=",
+      "refid": "structthrust_1_1detail_1_1optional__delete__assign__base_1aa0c1188225552d8c2d39f5eae775bb6e",
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "__thrust_exec_check_disable__ optional_delete_assign_base &",
+      "typePlain": "__thrust_exec_check_disable__ optional_delete_assign_base &",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__assign__base.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(optional_delete_assign_base &&) noexcept=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__thrust_exec_check_disable__ optional_delete_assign_base & thrust::detail::optional_delete_assign_base< T, EnableCopy, EnableMove >::operator=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::detail::optional_delete_assign_base::operator=",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 746
+      },
+      "name": "operator=",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "optional_delete_assign_base &&",
+          "typePlain": "optional_delete_assign_base &&"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::detail::optional_delete_assign_base::operator=",
+      "refid": "structthrust_1_1detail_1_1optional__delete__assign__base_1af1c37a8d937cbc0c73c06489cce1330e",
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "__thrust_exec_check_disable__ optional_delete_assign_base &",
+      "typePlain": "__thrust_exec_check_disable__ optional_delete_assign_base &",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__assign__base.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::detail::optional_delete_assign_base",
+  "refid": "structthrust_1_1detail_1_1optional__delete__assign__base",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "class T",
+      "typePlain": "class T"
+    },
+    {
+      "defval": "(std::is_copy_constructible<T>::value &&                             std::is_copy_assignable<T>::value)",
+      "defvalPlain": "(std::is_copy_constructible<T>::value &&                             std::is_copy_assignable<T>::value)",
+      "name": "EnableCopy",
+      "type": "bool",
+      "typePlain": "bool"
+    },
+    {
+      "defval": "(std::is_move_constructible<T>::value &&                             std::is_move_assignable<T>::value)",
+      "defvalPlain": "(std::is_move_constructible<T>::value &&                             std::is_move_assignable<T>::value)",
+      "name": "EnableMove",
+      "type": "bool",
+      "typePlain": "bool"
+    }
+  ],
+  "title": "thrust::detail::optional_delete_assign_base",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__assign__base.html",
+  "visibility": "public"
+}

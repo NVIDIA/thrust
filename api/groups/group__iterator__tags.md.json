@@ -1,0 +1,94 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "iterator_tags",
+  "groups": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterator_tag_classes",
+      "kind": "group",
+      "language": "",
+      "name": "iterator_tag_classes",
+      "qualifiedname": "iterator_tag_classes",
+      "refid": "group__iterator__tag__classes",
+      "title": "Iterator Tag Classes",
+      "url": "{{ site.baseurl }}/api/groups/group__iterator__tag__classes.html",
+      "visibility": "public"
+    }
+  ],
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "iterators",
+    "kind": "group",
+    "language": "",
+    "name": "iterators",
+    "qualifiedname": "iterators",
+    "refid": "group__iterators",
+    "title": "Iterators",
+    "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterators",
+      "kind": "group",
+      "language": "",
+      "name": "iterators",
+      "qualifiedname": "iterators",
+      "refid": "group__iterators",
+      "title": "Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "iterator_tags",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "iterators",
+    "kind": "group",
+    "language": "",
+    "name": "iterators",
+    "qualifiedname": "iterators",
+    "refid": "group__iterators",
+    "title": "Iterators",
+    "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterators",
+      "kind": "group",
+      "language": "",
+      "name": "iterators",
+      "qualifiedname": "iterators",
+      "refid": "group__iterators",
+      "title": "Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "iterator_tags",
+  "refid": "group__iterator__tags",
+  "static": false,
+  "strong": false,
+  "title": "Iterator Tags",
+  "url": "{{ site.baseurl }}/api/groups/group__iterator__tags.html",
+  "visibility": "public"
+}

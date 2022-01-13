@@ -1,0 +1,385 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "detail::counting_iterator_base::type",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting&#95;iterator</a></code> is an iterator which represents a pointer into a range of sequentially changing values. This iterator is useful for creating a range filled with a sequence without explicitly storing it in memory. Using <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting&#95;iterator</a></code> saves memory capacity and bandwidth.\n\nThe following code snippet demonstrates how to create a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting&#95;iterator</a></code> whose <code>value&#95;type</code> is <code>int</code> and which sequentially increments by <code>1</code>.\n\n\n\n```cpp\n#include <thrust/iterator/counting_iterator.h>\n...\n// create iterators\nthrust::counting_iterator<int> first(10);\nthrust::counting_iterator<int> last = first + 3;\n\nfirst[0]   // returns 10\nfirst[1]   // returns 11\nfirst[100] // returns 110\n\n// sum of [first, last)\nthrust::reduce(first, last);   // returns 33 (i.e. 10 + 11 + 12)\n\n// initialize vector to [0,1,2,..]\nthrust::counting_iterator<int> iter(0);\nthrust::device_vector<int> vec(500);\nthrust::copy(iter, iter + vec.size(), vec.begin());\n```\n\nThis next example demonstrates how to use a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting&#95;iterator</a></code> with the <code>thrust::copy&#95;if</code> function to compute the indices of the non-zero elements of a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code>. In this example, we use the <code>make&#95;counting&#95;iterator</code> function to avoid specifying the type of the <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting&#95;iterator</a></code>.\n\n\n\n```cpp\n#include <thrust/iterator/counting_iterator.h>\n#include <thrust/copy.h>\n#include <thrust/functional.h>\n#include <thrust/device_vector.h>\n\nint main()\n{\n // this example computes indices for all the nonzero values in a sequence\n\n // sequence of zero and nonzero values\n thrust::device_vector<int> stencil(8);\n stencil[0] = 0;\n stencil[1] = 1;\n stencil[2] = 1;\n stencil[3] = 0;\n stencil[4] = 0;\n stencil[5] = 1;\n stencil[6] = 0;\n stencil[7] = 1;\n\n // storage for the nonzero indices\n thrust::device_vector<int> indices(8);\n\n // compute indices of nonzero elements\n typedef thrust::device_vector<int>::iterator IndexIterator;\n\n // use make_counting_iterator to define the sequence [0, 8)\n IndexIterator indices_end = thrust::copy_if(thrust::make_counting_iterator(0),\n                                             thrust::make_counting_iterator(8),\n                                             stencil.begin(),\n                                             indices.begin(),\n                                             thrust::identity<int>());\n // indices now contains [1,2,5,7]\n\n return 0;\n}\n```",
+  "explicit": false,
+  "fullname": "thrust::counting_iterator",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/iterator/counting_iterator.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 223,
+    "bodyFile": "thrust/iterator/counting_iterator.h",
+    "bodyStart": 133,
+    "column": 3,
+    "file": "thrust/iterator/counting_iterator.h",
+    "line": 131
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "fancyiterator",
+    "kind": "group",
+    "language": "",
+    "name": "fancyiterator",
+    "qualifiedname": "fancyiterator",
+    "refid": "group__fancyiterator",
+    "title": "Fancy Iterators",
+    "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterators",
+      "kind": "group",
+      "language": "",
+      "name": "iterators",
+      "qualifiedname": "iterators",
+      "refid": "group__iterators",
+      "title": "Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "fancyiterator",
+      "kind": "group",
+      "language": "",
+      "name": "fancyiterator",
+      "qualifiedname": "fancyiterator",
+      "refid": "group__fancyiterator",
+      "title": "Fancy Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::counting_iterator",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "privateFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-counting-iterator",
+      "argsString": "()",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::counting_iterator< Incrementable, System, Traversal, Difference >::counting_iterator",
+      "deleted": false,
+      "details": "Default constructor initializes this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting&#95;iterator</a>'s</code> counter to <code>Incrementable{}</code>. ",
+      "explicit": false,
+      "fullname": "thrust::counting_iterator::counting_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 151,
+        "bodyFile": "thrust/iterator/counting_iterator.h",
+        "bodyStart": 151,
+        "column": 5,
+        "file": "thrust/iterator/counting_iterator.h",
+        "line": 151
+      },
+      "name": "counting_iterator",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::counting_iterator::counting_iterator",
+      "refid": "classthrust_1_1counting__iterator_1ad7fdd5fbd844774b96fa579027609d40",
+      "static": false,
+      "strong": false,
+      "title": "counting_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html#function-counting-iterator",
+      "virtual": false,
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-counting-iterator",
+      "argsString": "(counting_iterator const &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::counting_iterator< Incrementable, System, Traversal, Difference >::counting_iterator",
+      "deleted": false,
+      "details": "Copy constructor copies the value of another <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting&#95;iterator</a></code> into a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting&#95;iterator</a></code>.\n\n<code>rhs</code> The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting&#95;iterator</a></code> to copy. ",
+      "explicit": false,
+      "fullname": "thrust::counting_iterator::counting_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 159,
+        "bodyFile": "thrust/iterator/counting_iterator.h",
+        "bodyStart": 159,
+        "column": 5,
+        "file": "thrust/iterator/counting_iterator.h",
+        "line": 159
+      },
+      "name": "counting_iterator",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting_iterator</a> const &",
+          "typePlain": "counting_iterator const &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::counting_iterator::counting_iterator",
+      "refid": "classthrust_1_1counting__iterator_1a0c95c91078573066b3853cd7c38158fb",
+      "static": false,
+      "strong": false,
+      "title": "counting_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html#function-counting-iterator",
+      "virtual": false,
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-counting-iterator",
+      "argsString": "(counting_iterator< Incrementable, OtherSystem, Traversal, Difference > const &rhs, typename thrust::detail::enable_if_convertible< typename thrust::iterator_system< counting_iterator< Incrementable, OtherSystem, Traversal, Difference > >::type, typename thrust::iterator_system< super_t >::type >::type *=0)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::counting_iterator< Incrementable, System, Traversal, Difference >::counting_iterator",
+      "deleted": false,
+      "details": "Copy constructor copies the value of another <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting_iterator</a> with related System type.",
+      "explicit": false,
+      "fullname": "thrust::counting_iterator::counting_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 173,
+        "bodyFile": "thrust/iterator/counting_iterator.h",
+        "bodyStart": 168,
+        "column": 5,
+        "file": "thrust/iterator/counting_iterator.h",
+        "line": 168
+      },
+      "name": "counting_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "rhs",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting&#95;iterator</a></code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "rhs",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting_iterator</a>< Incrementable, OtherSystem, Traversal, Difference > const &",
+          "typePlain": "counting_iterator< Incrementable, OtherSystem, Traversal, Difference > const &"
+        },
+        {
+          "defval": "0",
+          "defvalPlain": "0",
+          "name": "",
+          "type": "typename thrust::detail::enable_if_convertible< typename thrust::iterator_system< <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting_iterator</a>< Incrementable, OtherSystem, Traversal, Difference > >::type, typename thrust::iterator_system< super_t >::type >::type *",
+          "typePlain": "typename thrust::detail::enable_if_convertible< typename thrust::iterator_system< counting_iterator< Incrementable, OtherSystem, Traversal, Difference > >::type, typename thrust::iterator_system< super_t >::type >::type *"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::counting_iterator::counting_iterator",
+      "refid": "classthrust_1_1counting__iterator_1a6c41cd3acf1b15d8338077bbddfc6758",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherSystem",
+          "typePlain": "typename OtherSystem"
+        }
+      ],
+      "title": "counting_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html#function-counting-iterator",
+      "virtual": false,
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-counting-iterator",
+      "argsString": "(Incrementable x)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::counting_iterator< Incrementable, System, Traversal, Difference >::counting_iterator",
+      "deleted": false,
+      "details": "This <code>explicit</code> constructor copies the value of an <code>Incrementable</code> into a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting&#95;iterator</a>'s</code><code>Incrementable</code> counter.",
+      "explicit": true,
+      "fullname": "thrust::counting_iterator::counting_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 182,
+        "bodyFile": "thrust/iterator/counting_iterator.h",
+        "bodyStart": 182,
+        "column": 14,
+        "file": "thrust/iterator/counting_iterator.h",
+        "line": 182
+      },
+      "name": "counting_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The initial value of the new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting&#95;iterator</a>'s</code><code>Incrementable</code> counter. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "Incrementable",
+          "typePlain": "Incrementable"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::counting_iterator::counting_iterator",
+      "refid": "classthrust_1_1counting__iterator_1abf5fe52464b5c7c916bb0c55ad40760b",
+      "static": false,
+      "strong": false,
+      "title": "counting_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html#function-counting-iterator",
+      "virtual": false,
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const counting_iterator &)=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "counting_iterator & thrust::counting_iterator< Incrementable, System, Traversal, Difference >::operator=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::counting_iterator::operator=",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 24,
+        "file": "thrust/iterator/counting_iterator.h",
+        "line": 185
+      },
+      "name": "operator=",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting_iterator</a> &",
+          "typePlain": "const counting_iterator &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::counting_iterator::operator=",
+      "refid": "classthrust_1_1counting__iterator_1a56d2d0c11ea821f8ab7a3a713e432e9f",
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting_iterator</a> &",
+      "typePlain": "counting_iterator &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html#function-operator=",
+      "virtual": false,
+      "visibility": "private"
+    }
+  ],
+  "qualifiedname": "thrust::counting_iterator",
+  "refid": "classthrust_1_1counting__iterator",
+  "see": [
+    "make_counting_iterator "
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename Incrementable",
+      "typePlain": "typename Incrementable"
+    },
+    {
+      "defval": "use_default",
+      "defvalPlain": "use_default",
+      "name": "",
+      "type": "typename System",
+      "typePlain": "typename System"
+    },
+    {
+      "defval": "use_default",
+      "defvalPlain": "use_default",
+      "name": "",
+      "type": "typename Traversal",
+      "typePlain": "typename Traversal"
+    },
+    {
+      "defval": "use_default",
+      "defvalPlain": "use_default",
+      "name": "",
+      "type": "typename Difference",
+      "typePlain": "typename Difference"
+    }
+  ],
+  "title": "thrust::counting_iterator",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html",
+  "visibility": "public"
+}

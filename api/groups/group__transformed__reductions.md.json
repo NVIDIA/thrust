@@ -1,0 +1,943 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "transformed_reductions",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "reductions",
+    "kind": "group",
+    "language": "",
+    "name": "reductions",
+    "qualifiedname": "reductions",
+    "refid": "group__reductions",
+    "title": "Reductions",
+    "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "reductions",
+      "kind": "group",
+      "language": "",
+      "name": "reductions",
+      "qualifiedname": "reductions",
+      "refid": "group__reductions",
+      "title": "Reductions",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "transformed_reductions",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "reductions",
+    "kind": "group",
+    "language": "",
+    "name": "reductions",
+    "qualifiedname": "reductions",
+    "refid": "group__reductions",
+    "title": "Reductions",
+    "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "reductions",
+      "kind": "group",
+      "language": "",
+      "name": "reductions",
+      "qualifiedname": "reductions",
+      "refid": "group__reductions",
+      "title": "Reductions",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-inner-product",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, OutputType init)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputType thrust::inner_product",
+      "deleted": false,
+      "details": "<code>inner&#95;product</code> calculates an inner product of the ranges <code>[first1, last1)</code> and <code>[first2, first2 + (last1 - first1))</code>.\n\nSpecifically, this version of <code>inner&#95;product</code> computes the sum <code>init + (&#42;first1 &#42; &#42;first2) + (&#42;(first1+1) &#42; &#42;(first2+1)) + ... </code>\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code demonstrates how to use <code>inner&#95;product</code> to compute the dot product of two vectors using the <code>thrust::host</code> execution policy for parallelization.\n\n\n\n```cpp\n#include <thrust/inner_product.h>\n#include <thrust/execution_policy.h>\n...\nfloat vec1[3] = {1.0f, 2.0f, 5.0f};\nfloat vec2[3] = {4.0f, 1.0f, 5.0f};\n\nfloat result = thrust::inner_product(thrust::host, vec1, vec1 + 3, vec2, 0.0f);\n\n// result == 31.0f\n```",
+      "explicit": false,
+      "fullname": "transformed_reductions::inner_product",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 12,
+        "file": "thrust/inner_product.h",
+        "line": 83
+      },
+      "name": "inner_product",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first1",
+          "text": "The beginning of the first sequence. "
+        },
+        {
+          "name": "last1",
+          "text": "The end of the first sequence. "
+        },
+        {
+          "name": "first2",
+          "text": "The beginning of the second sequence. "
+        },
+        {
+          "name": "init",
+          "text": "Initial value of the result. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "first2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "init",
+          "type": "OutputType",
+          "typePlain": "OutputType"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::inner_product",
+      "refid": "group__transformed__reductions_1ga321192d85c5f510e52300ae762c7e995",
+      "returns": [
+        "The inner product of sequences <code>[first1, last1)</code> and <code>[first2, last2)</code> plus <code>init</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/inner_product\">https://en.cppreference.com/w/cpp/algorithm/inner_product</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputType",
+          "typePlain": "typename OutputType"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "OutputType",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/CopyAssignable\">Assignable</a>, and if <code>x</code> is an object of type <code>OutputType</code>, and <code>y</code> is an object of <code>InputIterator1's</code><code>value&#95;type</code>, and <code>z</code> is an object of <code>InputIterator2's</code><code>value&#95;type</code>, then <code>x + y &#42; z</code> is defined and is convertible to <code>OutputType</code>."
+        }
+      ],
+      "title": "inner_product",
+      "type": "__host__ __device__ OutputType",
+      "typePlain": "__host__ __device__ OutputType",
+      "url": "{{ site.baseurl }}/api/groups/group__transformed__reductions.html#function-inner-product",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-inner-product",
+      "argsString": "(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, OutputType init)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputType thrust::inner_product",
+      "deleted": false,
+      "details": "<code>inner&#95;product</code> calculates an inner product of the ranges <code>[first1, last1)</code> and <code>[first2, first2 + (last1 - first1))</code>.\n\nSpecifically, this version of <code>inner&#95;product</code> computes the sum <code>init + (&#42;first1 &#42; &#42;first2) + (&#42;(first1+1) &#42; &#42;(first2+1)) + ... </code>\n\nUnlike the C++ Standard Template Library function <code>std::inner&#95;product</code>, this version offers no guarantee on order of execution.\n\n\nThe following code demonstrates how to use <code>inner&#95;product</code> to compute the dot product of two vectors.\n\n\n\n```cpp\n#include <thrust/inner_product.h>\n...\nfloat vec1[3] = {1.0f, 2.0f, 5.0f};\nfloat vec2[3] = {4.0f, 1.0f, 5.0f};\n\nfloat result = thrust::inner_product(vec1, vec1 + 3, vec2, 0.0f);\n\n// result == 31.0f\n```",
+      "explicit": false,
+      "fullname": "transformed_reductions::inner_product",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 12,
+        "file": "thrust/inner_product.h",
+        "line": 130
+      },
+      "name": "inner_product",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first1",
+          "text": "The beginning of the first sequence. "
+        },
+        {
+          "name": "last1",
+          "text": "The end of the first sequence. "
+        },
+        {
+          "name": "first2",
+          "text": "The beginning of the second sequence. "
+        },
+        {
+          "name": "init",
+          "text": "Initial value of the result. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "first2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "init",
+          "type": "OutputType",
+          "typePlain": "OutputType"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::inner_product",
+      "refid": "group__transformed__reductions_1ga295676877375893891b3e06fac5be34a",
+      "returns": [
+        "The inner product of sequences <code>[first1, last1)</code> and <code>[first2, last2)</code> plus <code>init</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/inner_product\">https://en.cppreference.com/w/cpp/algorithm/inner_product</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputType",
+          "typePlain": "typename OutputType"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, "
+        },
+        {
+          "name": "OutputType",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/CopyAssignable\">Assignable</a>, and if <code>x</code> is an object of type <code>OutputType</code>, and <code>y</code> is an object of <code>InputIterator1's</code><code>value&#95;type</code>, and <code>z</code> is an object of <code>InputIterator2's</code><code>value&#95;type</code>, then <code>x + y &#42; z</code> is defined and is convertible to <code>OutputType</code>."
+        }
+      ],
+      "title": "inner_product",
+      "type": "OutputType",
+      "typePlain": "OutputType",
+      "url": "{{ site.baseurl }}/api/groups/group__transformed__reductions.html#function-inner-product",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-inner-product",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, OutputType init, BinaryFunction1 binary_op1, BinaryFunction2 binary_op2)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputType thrust::inner_product",
+      "deleted": false,
+      "details": "<code>inner&#95;product</code> calculates an inner product of the ranges <code>[first1, last1)</code> and <code>[first2, first2 + (last1 - first1))</code>.\n\nThis version of <code>inner&#95;product</code> is identical to the first, except that is uses two user-supplied function objects instead of <code>operator+</code> and <code>operator&#42;</code>.\n\nSpecifically, this version of <code>inner&#95;product</code> computes the sum <code>binary&#95;op1( init, binary&#95;op2(&#42;first1, &#42;first2) ), ... </code>\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\n\n```cpp\n#include <thrust/inner_product.h>\n#include <thrust/execution_policy.h>\n...\nfloat vec1[3] = {1.0f, 2.0f, 5.0f};\nfloat vec2[3] = {4.0f, 1.0f, 5.0f};\n\nfloat init = 0.0f;\nthrust::plus<float>       binary_op1;\nthrust::multiplies<float> binary_op2;\n\nfloat result = thrust::inner_product(thrust::host, vec1, vec1 + 3, vec2, init, binary_op1, binary_op2);\n\n// result == 31.0f\n```",
+      "explicit": false,
+      "fullname": "transformed_reductions::inner_product",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 12,
+        "file": "thrust/inner_product.h",
+        "line": 191
+      },
+      "name": "inner_product",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first1",
+          "text": "The beginning of the first sequence. "
+        },
+        {
+          "name": "last1",
+          "text": "The end of the first sequence. "
+        },
+        {
+          "name": "first2",
+          "text": "The beginning of the second sequence. "
+        },
+        {
+          "name": "init",
+          "text": "Initial value of the result. "
+        },
+        {
+          "name": "binary_op1",
+          "text": "Generalized addition operation. "
+        },
+        {
+          "name": "binary_op2",
+          "text": "Generalized multiplication operation. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "first2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "init",
+          "type": "OutputType",
+          "typePlain": "OutputType"
+        },
+        {
+          "name": "binary_op1",
+          "type": "BinaryFunction1",
+          "typePlain": "BinaryFunction1"
+        },
+        {
+          "name": "binary_op2",
+          "type": "BinaryFunction2",
+          "typePlain": "BinaryFunction2"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::inner_product",
+      "refid": "group__transformed__reductions_1ga13f18496e409c64a0cbf21e19c3bdad2",
+      "returns": [
+        "The inner product of sequences <code>[first1, last1)</code> and <code>[first2, last2)</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/inner_product\">https://en.cppreference.com/w/cpp/algorithm/inner_product</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputType",
+          "typePlain": "typename OutputType"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryFunction1",
+          "typePlain": "typename BinaryFunction1"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryFunction2",
+          "typePlain": "typename BinaryFunction2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator1's</code><code>value&#95;type</code> is convertible to <code>BinaryFunction2's</code><code>first&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>. and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>BinaryFunction2's</code><code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "OutputType",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/CopyAssignable\">Assignable</a>, and <code>OutputType</code> is convertible to <code>BinaryFunction1's</code><code>first&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryFunction1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/binary_function\">Binary Function</a>, and <code>BinaryFunction1's</code><code>return&#95;type</code> is convertible to <code>OutputType</code>. "
+        },
+        {
+          "name": "BinaryFunction2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/binary_function\">Binary Function</a>, and <code>BinaryFunction2's</code><code>return&#95;type</code> is convertible to <code>BinaryFunction1's</code><code>second&#95;argument&#95;type</code>."
+        }
+      ],
+      "title": "inner_product",
+      "type": "__host__ __device__ OutputType",
+      "typePlain": "__host__ __device__ OutputType",
+      "url": "{{ site.baseurl }}/api/groups/group__transformed__reductions.html#function-inner-product",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-inner-product",
+      "argsString": "(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, OutputType init, BinaryFunction1 binary_op1, BinaryFunction2 binary_op2)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputType thrust::inner_product",
+      "deleted": false,
+      "details": "<code>inner&#95;product</code> calculates an inner product of the ranges <code>[first1, last1)</code> and <code>[first2, first2 + (last1 - first1))</code>.\n\nThis version of <code>inner&#95;product</code> is identical to the first, except that is uses two user-supplied function objects instead of <code>operator+</code> and <code>operator&#42;</code>.\n\nSpecifically, this version of <code>inner&#95;product</code> computes the sum <code>binary&#95;op1( init, binary&#95;op2(&#42;first1, &#42;first2) ), ... </code>\n\nUnlike the C++ Standard Template Library function <code>std::inner&#95;product</code>, this version offers no guarantee on order of execution.\n\n\n\n```cpp\n#include <thrust/inner_product.h>\n...\nfloat vec1[3] = {1.0f, 2.0f, 5.0f};\nfloat vec2[3] = {4.0f, 1.0f, 5.0f};\n\nfloat init = 0.0f;\nthrust::plus<float>       binary_op1;\nthrust::multiplies<float> binary_op2;\n\nfloat result = thrust::inner_product(vec1, vec1 + 3, vec2, init, binary_op1, binary_op2);\n\n// result == 31.0f\n```",
+      "explicit": false,
+      "fullname": "transformed_reductions::inner_product",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 12,
+        "file": "thrust/inner_product.h",
+        "line": 250
+      },
+      "name": "inner_product",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first1",
+          "text": "The beginning of the first sequence. "
+        },
+        {
+          "name": "last1",
+          "text": "The end of the first sequence. "
+        },
+        {
+          "name": "first2",
+          "text": "The beginning of the second sequence. "
+        },
+        {
+          "name": "init",
+          "text": "Initial value of the result. "
+        },
+        {
+          "name": "binary_op1",
+          "text": "Generalized addition operation. "
+        },
+        {
+          "name": "binary_op2",
+          "text": "Generalized multiplication operation. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last1",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "first2",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "init",
+          "type": "OutputType",
+          "typePlain": "OutputType"
+        },
+        {
+          "name": "binary_op1",
+          "type": "BinaryFunction1",
+          "typePlain": "BinaryFunction1"
+        },
+        {
+          "name": "binary_op2",
+          "type": "BinaryFunction2",
+          "typePlain": "BinaryFunction2"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::inner_product",
+      "refid": "group__transformed__reductions_1gad9df36f7648745ca572037727b66b48d",
+      "returns": [
+        "The inner product of sequences <code>[first1, last1)</code> and <code>[first2, last2)</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/inner_product\">https://en.cppreference.com/w/cpp/algorithm/inner_product</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputType",
+          "typePlain": "typename OutputType"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryFunction1",
+          "typePlain": "typename BinaryFunction1"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryFunction2",
+          "typePlain": "typename BinaryFunction2"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator1's</code><code>value&#95;type</code> is convertible to <code>BinaryFunction2's</code><code>first&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>. and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>BinaryFunction2's</code><code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "OutputType",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/CopyAssignable\">Assignable</a>, and <code>OutputType</code> is convertible to <code>BinaryFunction1's</code><code>first&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryFunction1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/binary_function\">Binary Function</a>, and <code>BinaryFunction1's</code><code>return&#95;type</code> is convertible to <code>OutputType</code>. "
+        },
+        {
+          "name": "BinaryFunction2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/binary_function\">Binary Function</a>, and <code>BinaryFunction2's</code><code>return&#95;type</code> is convertible to <code>BinaryFunction1's</code><code>second&#95;argument&#95;type</code>."
+        }
+      ],
+      "title": "inner_product",
+      "type": "OutputType",
+      "typePlain": "OutputType",
+      "url": "{{ site.baseurl }}/api/groups/group__transformed__reductions.html#function-inner-product",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-transform-reduce",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, UnaryFunction unary_op, OutputType init, BinaryFunction binary_op)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputType thrust::transform_reduce",
+      "deleted": false,
+      "details": "<code>transform&#95;reduce</code> fuses the <code>transform</code> and <code>reduce</code> operations. <code>transform&#95;reduce</code> is equivalent to performing a transformation defined by <code>unary&#95;op</code> into a temporary sequence and then performing <code>reduce</code> on the transformed sequence. In most cases, fusing these two operations together is more efficient, since fewer memory reads and writes are required.\n\n<code>transform&#95;reduce</code> performs a reduction on the transformation of the sequence <code>[first, last)</code> according to <code>unary&#95;op</code>. Specifically, <code>unary&#95;op</code> is applied to each element of the sequence and then the result is reduced to a single value with <code>binary&#95;op</code> using the initial value <code>init</code>. Note that the transformation <code>unary&#95;op</code> is not applied to the initial value <code>init</code>. The order of reduction is not specified, so <code>binary&#95;op</code> must be both commutative and associative.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>transform&#95;reduce</code> to compute the maximum value of the absolute value of the elements of a range using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/transform_reduce.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n\ntemplate<typename T>\nstruct absolute_value : public unary_function<T,T>\n{\n  __host__ __device__ T operator()(const T &x) const\n  {\n    return x < T(0) ? -x : x;\n  }\n};\n\n...\n\nint data[6] = {-1, 0, -2, -2, 1, -3};\nint result = thrust::transform_reduce(thrust::host,\n                                      data, data + 6,\n                                      absolute_value<int>(),\n                                      0,\n                                      thrust::maximum<int>());\n// result == 3\n```",
+      "explicit": false,
+      "fullname": "transformed_reductions::transform_reduce",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 14,
+        "file": "thrust/transform_reduce.h",
+        "line": 109
+      },
+      "name": "transform_reduce",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "unary_op",
+          "text": "The function to apply to each element of the input sequence. "
+        },
+        {
+          "name": "init",
+          "text": "The result is initialized to this value. "
+        },
+        {
+          "name": "binary_op",
+          "text": "The reduction operation. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "unary_op",
+          "type": "UnaryFunction",
+          "typePlain": "UnaryFunction"
+        },
+        {
+          "name": "init",
+          "type": "OutputType",
+          "typePlain": "OutputType"
+        },
+        {
+          "name": "binary_op",
+          "type": "BinaryFunction",
+          "typePlain": "BinaryFunction"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::transform_reduce",
+      "refid": "group__transformed__reductions_1gaba339b23d412c93369720f2df77914ed",
+      "returns": [
+        "The result of the transformed reduction."
+      ],
+      "see": [
+        "<code>transform</code>",
+        "<code>reduce</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename UnaryFunction",
+          "typePlain": "typename UnaryFunction"
+        },
+        {
+          "name": "",
+          "type": "typename OutputType",
+          "typePlain": "typename OutputType"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryFunction",
+          "typePlain": "typename BinaryFunction"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>UnaryFunction's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "UnaryFunction",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/unary_function\">Unary Function</a>, and <code>UnaryFunction's</code><code>result&#95;type</code> is convertible to <code>OutputType</code>. "
+        },
+        {
+          "name": "OutputType",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/CopyAssignable\">Assignable</a>, and is convertible to <code>BinaryFunction's</code><code>first&#95;argument&#95;type</code> and <code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryFunction",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/binary_function\">Binary Function</a>, and <code>BinaryFunction's</code><code>result&#95;type</code> is convertible to <code>OutputType</code>."
+        }
+      ],
+      "title": "transform_reduce",
+      "type": "__host__ __device__ OutputType",
+      "typePlain": "__host__ __device__ OutputType",
+      "url": "{{ site.baseurl }}/api/groups/group__transformed__reductions.html#function-transform-reduce",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-transform-reduce",
+      "argsString": "(InputIterator first, InputIterator last, UnaryFunction unary_op, OutputType init, BinaryFunction binary_op)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputType thrust::transform_reduce",
+      "deleted": false,
+      "details": "<code>transform&#95;reduce</code> fuses the <code>transform</code> and <code>reduce</code> operations. <code>transform&#95;reduce</code> is equivalent to performing a transformation defined by <code>unary&#95;op</code> into a temporary sequence and then performing <code>reduce</code> on the transformed sequence. In most cases, fusing these two operations together is more efficient, since fewer memory reads and writes are required.\n\n<code>transform&#95;reduce</code> performs a reduction on the transformation of the sequence <code>[first, last)</code> according to <code>unary&#95;op</code>. Specifically, <code>unary&#95;op</code> is applied to each element of the sequence and then the result is reduced to a single value with <code>binary&#95;op</code> using the initial value <code>init</code>. Note that the transformation <code>unary&#95;op</code> is not applied to the initial value <code>init</code>. The order of reduction is not specified, so <code>binary&#95;op</code> must be both commutative and associative.\n\n\nThe following code snippet demonstrates how to use <code>transform&#95;reduce</code> to compute the maximum value of the absolute value of the elements of a range.\n\n\n\n```cpp\n#include <thrust/transform_reduce.h>\n#include <thrust/functional.h>\n\ntemplate<typename T>\nstruct absolute_value : public unary_function<T,T>\n{\n  __host__ __device__ T operator()(const T &x) const\n  {\n    return x < T(0) ? -x : x;\n  }\n};\n\n...\n\nint data[6] = {-1, 0, -2, -2, 1, -3};\nint result = thrust::transform_reduce(data, data + 6,\n                                      absolute_value<int>(),\n                                      0,\n                                      thrust::maximum<int>());\n// result == 3\n```",
+      "explicit": false,
+      "fullname": "transformed_reductions::transform_reduce",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 14,
+        "file": "thrust/transform_reduce.h",
+        "line": 181
+      },
+      "name": "transform_reduce",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "unary_op",
+          "text": "The function to apply to each element of the input sequence. "
+        },
+        {
+          "name": "init",
+          "text": "The result is initialized to this value. "
+        },
+        {
+          "name": "binary_op",
+          "text": "The reduction operation. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "unary_op",
+          "type": "UnaryFunction",
+          "typePlain": "UnaryFunction"
+        },
+        {
+          "name": "init",
+          "type": "OutputType",
+          "typePlain": "OutputType"
+        },
+        {
+          "name": "binary_op",
+          "type": "BinaryFunction",
+          "typePlain": "BinaryFunction"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::transform_reduce",
+      "refid": "group__transformed__reductions_1ga0d4232a9685675f488c3cc847111e48d",
+      "returns": [
+        "The result of the transformed reduction."
+      ],
+      "see": [
+        "<code>transform</code>",
+        "<code>reduce</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename UnaryFunction",
+          "typePlain": "typename UnaryFunction"
+        },
+        {
+          "name": "",
+          "type": "typename OutputType",
+          "typePlain": "typename OutputType"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryFunction",
+          "typePlain": "typename BinaryFunction"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>UnaryFunction's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "UnaryFunction",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/unary_function\">Unary Function</a>, and <code>UnaryFunction's</code><code>result&#95;type</code> is convertible to <code>OutputType</code>. "
+        },
+        {
+          "name": "OutputType",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/CopyAssignable\">Assignable</a>, and is convertible to <code>BinaryFunction's</code><code>first&#95;argument&#95;type</code> and <code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryFunction",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/binary_function\">Binary Function</a>, and <code>BinaryFunction's</code><code>result&#95;type</code> is convertible to <code>OutputType</code>."
+        }
+      ],
+      "title": "transform_reduce",
+      "type": "OutputType",
+      "typePlain": "OutputType",
+      "url": "{{ site.baseurl }}/api/groups/group__transformed__reductions.html#function-transform-reduce",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "transformed_reductions",
+  "refid": "group__transformed__reductions",
+  "static": false,
+  "strong": false,
+  "title": "Transformed Reductions",
+  "url": "{{ site.baseurl }}/api/groups/group__transformed__reductions.html",
+  "visibility": "public"
+}

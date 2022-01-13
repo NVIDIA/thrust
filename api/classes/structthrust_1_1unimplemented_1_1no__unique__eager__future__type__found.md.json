@@ -1,0 +1,72 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::unimplemented::no_unique_eager_future_type_found",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 77,
+    "bodyFile": "thrust/future.h",
+    "bodyStart": 77,
+    "column": 1,
+    "file": "thrust/future.h",
+    "line": 77
+  },
+  "name": "thrust::unimplemented::no_unique_eager_future_type_found",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust::unimplemented",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::unimplemented",
+    "qualifiedname": "thrust::unimplemented",
+    "refid": "namespacethrust_1_1unimplemented",
+    "title": "thrust::unimplemented",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1unimplemented.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust::unimplemented",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::unimplemented",
+      "qualifiedname": "thrust::unimplemented",
+      "refid": "namespacethrust_1_1unimplemented",
+      "title": "thrust::unimplemented",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1unimplemented.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::unimplemented::no_unique_eager_future_type_found",
+  "refid": "structthrust_1_1unimplemented_1_1no__unique__eager__future__type__found",
+  "static": false,
+  "strong": false,
+  "title": "thrust::unimplemented::no_unique_eager_future_type_found",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unimplemented_1_1no__unique__eager__future__type__found.html",
+  "visibility": "public"
+}

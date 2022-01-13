@@ -1,0 +1,326 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": false,
+      "name": "thrust::binary_function< Predicate::first_argument_type, Predicate::second_argument_type, bool >",
+      "publicTypes": [
+        {
+          "abstract": false,
+          "anchor": "#typedef-first-argument-type",
+          "brief": "The type of the function object's first argument. ",
+          "category": "types",
+          "const": false,
+          "definition": "thrust::binary_function< Argument1, Argument2, Result >::first_argument_type",
+          "explicit": false,
+          "fullname": "thrust::binary_function::first_argument_type",
+          "hasDetails": false,
+          "inline": false,
+          "kind": "typedef",
+          "language": "cpp",
+          "location": {
+            "bodyFile": "thrust/functional.h",
+            "bodyStart": 115,
+            "column": 21,
+            "file": "thrust/functional.h",
+            "line": 115
+          },
+          "name": "first_argument_type",
+          "override": false,
+          "qualifiedname": "thrust::binary_function::first_argument_type",
+          "refid": "structthrust_1_1binary__function_1a9b3cc1d4c5164dfc135269b9d0775eb1",
+          "static": false,
+          "strong": false,
+          "summary": "The type of the function object's first argument. ",
+          "title": "first_argument_type",
+          "type": "Argument1",
+          "typePlain": "Argument1",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1binary__function.html#typedef-first-argument-type",
+          "visibility": "public"
+        },
+        {
+          "abstract": false,
+          "anchor": "#typedef-second-argument-type",
+          "brief": "The type of the function object's second argument. ",
+          "category": "types",
+          "const": false,
+          "definition": "thrust::binary_function< Argument1, Argument2, Result >::second_argument_type",
+          "explicit": false,
+          "fullname": "thrust::binary_function::second_argument_type",
+          "hasDetails": false,
+          "inline": false,
+          "kind": "typedef",
+          "language": "cpp",
+          "location": {
+            "bodyFile": "thrust/functional.h",
+            "bodyStart": 120,
+            "column": 21,
+            "file": "thrust/functional.h",
+            "line": 120
+          },
+          "name": "second_argument_type",
+          "override": false,
+          "qualifiedname": "thrust::binary_function::second_argument_type",
+          "refid": "structthrust_1_1binary__function_1ae0ae5ce7917836da8a4c60ea1748816f",
+          "static": false,
+          "strong": false,
+          "summary": "The type of the function object's second argument. ",
+          "title": "second_argument_type",
+          "type": "Argument2",
+          "typePlain": "Argument2",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1binary__function.html#typedef-second-argument-type",
+          "visibility": "public"
+        },
+        {
+          "abstract": false,
+          "anchor": "#typedef-result-type",
+          "brief": "The type of the function object's result;. ",
+          "category": "types",
+          "const": false,
+          "definition": "thrust::binary_function< Argument1, Argument2, Result >::result_type",
+          "explicit": false,
+          "fullname": "thrust::binary_function::result_type",
+          "hasDetails": false,
+          "inline": false,
+          "kind": "typedef",
+          "language": "cpp",
+          "location": {
+            "bodyFile": "thrust/functional.h",
+            "bodyStart": 125,
+            "column": 21,
+            "file": "thrust/functional.h",
+            "line": 125
+          },
+          "name": "result_type",
+          "override": false,
+          "qualifiedname": "thrust::binary_function::result_type",
+          "refid": "structthrust_1_1binary__function_1ab5e983a91c8a78e7425306a0d338a522",
+          "static": false,
+          "strong": false,
+          "summary": "The type of the function object's result;. ",
+          "title": "result_type",
+          "type": "Result",
+          "typePlain": "Result",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1binary__function.html#typedef-result-type",
+          "visibility": "public"
+        }
+      ],
+      "refid": "structthrust_1_1binary__function",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1binary__function.html",
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1binary__negate.html\">binary&#95;negate</a></code> is a function object adaptor: it is an Adaptable Binary Predicate that represents the logical negation of some other Adaptable Binary Predicate. That is: if <code>f</code> is an object of class <code>binary&#95;negate&lt;AdaptablePredicate&gt;</code>, then there exists an object <code>pred</code> of class <code>AdaptableBinaryPredicate</code> such that <code>f(x,y)</code> always returns the same value as <code>!pred(x,y)</code>. There is rarely any reason to construct a <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1binary__negate.html\">binary&#95;negate</a></code> directly; it is almost always easier to use the helper function not2.",
+  "explicit": false,
+  "fullname": "thrust::binary_negate",
+  "hasAdditionalMembers": true,
+  "hasDetails": true,
+  "includes": "<thrust/functional.h>",
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 1578,
+    "bodyFile": "thrust/functional.h",
+    "bodyStart": 1557,
+    "column": 1,
+    "file": "thrust/functional.h",
+    "line": 1553
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "function_object_adaptors",
+    "kind": "group",
+    "language": "",
+    "name": "function_object_adaptors",
+    "qualifiedname": "function_object_adaptors",
+    "refid": "group__function__object__adaptors",
+    "title": "Function Object Adaptors",
+    "url": "{{ site.baseurl }}/api/groups/group__function__object__adaptors.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "language": "",
+      "name": "function_objects",
+      "qualifiedname": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "{{ site.baseurl }}/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_object_adaptors",
+      "kind": "group",
+      "language": "",
+      "name": "function_object_adaptors",
+      "qualifiedname": "function_object_adaptors",
+      "refid": "group__function__object__adaptors",
+      "title": "Function Object Adaptors",
+      "url": "{{ site.baseurl }}/api/groups/group__function__object__adaptors.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::binary_negate",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-binary-negate",
+      "argsString": "(Predicate p)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::binary_negate< Predicate >::binary_negate",
+      "deleted": false,
+      "details": "Constructor takes a <code>Predicate</code> object to negate. ",
+      "explicit": true,
+      "fullname": "thrust::binary_negate::binary_negate",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 1562,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1562,
+        "column": 12,
+        "file": "thrust/functional.h",
+        "line": 1562
+      },
+      "name": "binary_negate",
+      "override": false,
+      "paramList": [
+        {
+          "name": "p",
+          "text": "The <code>Predicate</code> object to negate. "
+        }
+      ],
+      "params": [
+        {
+          "name": "p",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::binary_negate::binary_negate",
+      "refid": "structthrust_1_1binary__negate_1a7942fecaf5a2ef270e75fc15dbff50c5",
+      "static": false,
+      "strong": false,
+      "title": "binary_negate",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1binary__negate.html#function-binary-negate",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(const typename Predicate::first_argument_type &x, const typename Predicate::second_argument_type &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ bool thrust::binary_negate< Predicate >::operator()",
+      "deleted": false,
+      "details": "Function call operator. The return value is <code>!pred(x,y)</code>. ",
+      "explicit": false,
+      "fullname": "thrust::binary_negate::operator()",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 1571,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1568,
+        "column": 8,
+        "file": "thrust/functional.h",
+        "line": 1568
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "x",
+          "type": "const typename Predicate::first_argument_type &",
+          "typePlain": "const typename Predicate::first_argument_type &"
+        },
+        {
+          "name": "y",
+          "type": "const typename Predicate::second_argument_type &",
+          "typePlain": "const typename Predicate::second_argument_type &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::binary_negate::operator()",
+      "refid": "structthrust_1_1binary__negate_1ae9a9abfafc55c3c893e3512a733accfc",
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ bool",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ bool",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1binary__negate.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::binary_negate",
+  "refid": "structthrust_1_1binary__negate",
+  "see": [
+    "<a href=\"https://en.cppreference.com/w/cpp/utility/functional/binary_negate\">https://en.cppreference.com/w/cpp/utility/functional/binary_negate</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename Predicate",
+      "typePlain": "typename Predicate"
+    }
+  ],
+  "title": "thrust::binary_negate",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1binary__negate.html",
+  "visibility": "public"
+}

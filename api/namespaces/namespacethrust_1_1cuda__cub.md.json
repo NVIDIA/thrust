@@ -1,0 +1,590 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::cuda_cub",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "language": "cpp",
+  "location": {
+    "column": 1,
+    "file": "thrust/system/cuda/error.h",
+    "line": 166
+  },
+  "name": "thrust::cuda_cub",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-malloc",
+      "argsString": "(std::size_t n)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ pointer< void > thrust::cuda_cub::malloc",
+      "deleted": false,
+      "details": "Allocates an area of memory available to Thrust's <code>cuda</code> system. ",
+      "explicit": false,
+      "fullname": "thrust::cuda_cub::malloc",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 36,
+        "file": "thrust/system/cuda/memory.h",
+        "line": 44
+      },
+      "name": "malloc",
+      "note": [
+        "The <code>cuda::pointer&lt;void&gt;</code> returned by this function must be deallocated with <code>cuda::free</code>. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "n",
+          "text": "Number of bytes to allocate. "
+        }
+      ],
+      "params": [
+        {
+          "name": "n",
+          "type": "std::size_t",
+          "typePlain": "std::size_t"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::cuda_cub::malloc",
+      "refid": "system_2cuda_2memory_8h_1a0adaa7f5c3eb4ab65ba97242a1419981",
+      "returns": [
+        "A <code>cuda::pointer&lt;void&gt;</code> pointing to the beginning of the newly allocated memory. A null <code>cuda::pointer&lt;void&gt;</code> is returned if an error occurs. "
+      ],
+      "see": [
+        "cuda::free ",
+        "std::malloc "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "malloc",
+      "type": "__host__ __device__ pointer< void >",
+      "typePlain": "__host__ __device__ pointer< void >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cuda__cub.html#function-malloc",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-malloc",
+      "argsString": "(std::size_t n)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ pointer< T > thrust::cuda_cub::malloc",
+      "deleted": false,
+      "details": "Allocates a typed area of memory available to Thrust's <code>cuda</code> system. ",
+      "explicit": false,
+      "fullname": "thrust::cuda_cub::malloc",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 36,
+        "file": "thrust/system/cuda/memory.h",
+        "line": 57
+      },
+      "name": "malloc",
+      "note": [
+        "The <code>cuda::pointer&lt;T&gt;</code> returned by this function must be deallocated with <code>cuda::free</code>. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "n",
+          "text": "Number of elements to allocate. "
+        }
+      ],
+      "params": [
+        {
+          "name": "n",
+          "type": "std::size_t",
+          "typePlain": "std::size_t"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::cuda_cub::malloc",
+      "refid": "system_2cuda_2memory_8h_1aadf7d3f0ca264302ee379a42e7b49064",
+      "returns": [
+        "A <code>cuda::pointer&lt;T&gt;</code> pointing to the beginning of the newly allocated elements. A null <code>cuda::pointer&lt;T&gt;</code> is returned if an error occurs. "
+      ],
+      "see": [
+        "cuda::free ",
+        "std::malloc "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "malloc",
+      "type": "__host__ __device__ pointer< T >",
+      "typePlain": "__host__ __device__ pointer< T >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cuda__cub.html#function-malloc",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-free",
+      "argsString": "(pointer< void > ptr)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::cuda_cub::free",
+      "deleted": false,
+      "details": "Deallocates an area of memory previously allocated by <code>cuda::malloc</code>. ",
+      "explicit": false,
+      "fullname": "thrust::cuda_cub::free",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 33,
+        "file": "thrust/system/cuda/memory.h",
+        "line": 65
+      },
+      "name": "free",
+      "override": false,
+      "paramList": [
+        {
+          "name": "ptr",
+          "text": "A <code>cuda::pointer&lt;void&gt;</code> pointing to the beginning of an area of memory previously allocated with <code>cuda::malloc</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "ptr",
+          "type": "pointer< void >",
+          "typePlain": "pointer< void >"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::cuda_cub::free",
+      "refid": "system_2cuda_2memory_8h_1a81bf400c5db03ad1689a0907b5856aab",
+      "see": [
+        "cuda::malloc ",
+        "std::free "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "free",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cuda__cub.html#function-free",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-allocator",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::cuda_cub::allocator = typedef thrust::mr::stateless_resource_allocator< T, thrust::system::cuda::memory_resource >",
+      "details": "<code>cuda::allocator</code> is the default allocator used by the <code>cuda</code> system's containers such as <code>cuda::vector</code> if no user-specified allocator is provided. <code>cuda::allocator</code> allocates (deallocates) storage with <code>cuda::malloc</code> (<code>cuda::free</code>). ",
+      "explicit": false,
+      "fullname": "thrust::cuda_cub::allocator",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/cuda/memory.h",
+        "bodyStart": 75,
+        "column": 1,
+        "file": "thrust/system/cuda/memory.h",
+        "line": 73
+      },
+      "name": "allocator",
+      "override": false,
+      "qualifiedname": "thrust::cuda_cub::allocator",
+      "refid": "system_2cuda_2memory_8h_1a887e73d6f3d98ef26b75f9581f5c102d",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "allocator",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html\">thrust::mr::stateless_resource_allocator</a>< T, <a href=\"{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1cuda.html#typedef-memory-resource\">thrust::system::cuda::memory_resource</a> >",
+      "typePlain": "thrust::mr::stateless_resource_allocator< T, thrust::system::cuda::memory_resource >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cuda__cub.html#using-allocator",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-universal-allocator",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::cuda_cub::universal_allocator = typedef thrust::mr::stateless_resource_allocator< T, thrust::system::cuda::universal_memory_resource >",
+      "details": "<code>cuda::universal&#95;allocator</code> allocates memory that can be used by the <code>cuda</code> system and host systems. ",
+      "explicit": false,
+      "fullname": "thrust::cuda_cub::universal_allocator",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/cuda/memory.h",
+        "bodyStart": 83,
+        "column": 1,
+        "file": "thrust/system/cuda/memory.h",
+        "line": 81
+      },
+      "name": "universal_allocator",
+      "override": false,
+      "qualifiedname": "thrust::cuda_cub::universal_allocator",
+      "refid": "system_2cuda_2memory_8h_1a166bcf0c6662ac9b1f1d25722dca6b58",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "universal_allocator",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html\">thrust::mr::stateless_resource_allocator</a>< T, <a href=\"{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1cuda.html#typedef-universal-memory-resource\">thrust::system::cuda::universal_memory_resource</a> >",
+      "typePlain": "thrust::mr::stateless_resource_allocator< T, thrust::system::cuda::universal_memory_resource >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cuda__cub.html#using-universal-allocator",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-pointer",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::cuda_cub::pointer = typedef thrust::pointer< T, thrust::cuda_cub::tag, thrust::tagged_reference<T, thrust::cuda_cub::tag> >",
+      "details": "<code>cuda::pointer</code> stores a pointer to an object allocated in memory accessible by the <code>cuda</code> system. This type provides type safety when dispatching algorithms on ranges resident in <code>cuda</code> memory.\n\n<code>cuda::pointer</code> has pointer semantics: it may be dereferenced and manipulated with pointer arithmetic.\n\n<code>cuda::pointer</code> can be created with the function <code>cuda::malloc</code>, or by explicitly calling its constructor with a raw pointer.\n\nThe raw pointer encapsulated by a <code>cuda::pointer</code> may be obtained by eiter its <code>get</code> member function or the <code>raw&#95;pointer&#95;cast</code> function.",
+      "explicit": false,
+      "fullname": "thrust::cuda_cub::pointer",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/cuda/pointer.h",
+        "bodyStart": 60,
+        "column": 1,
+        "file": "thrust/system/cuda/pointer.h",
+        "line": 56
+      },
+      "name": "pointer",
+      "note": [
+        "<code>cuda::pointer</code> is not a \"smart\" pointer; it is the programmer's responsibility to deallocate memory pointed to by <code>cuda::pointer</code>."
+      ],
+      "override": false,
+      "qualifiedname": "thrust::cuda_cub::pointer",
+      "refid": "cuda_2pointer_8h_1a7de6821581c9e82f1f68ad47f8a2e85d",
+      "see": [
+        "cuda::malloc ",
+        "cuda::free ",
+        "raw_pointer_cast "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T",
+          "text": "specifies the type of the pointee."
+        }
+      ],
+      "title": "pointer",
+      "type": "thrust::pointer< T, thrust::cuda_cub::tag, thrust::tagged_reference< T, thrust::cuda_cub::tag > >",
+      "typePlain": "thrust::pointer< T, thrust::cuda_cub::tag, thrust::tagged_reference< T, thrust::cuda_cub::tag > >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cuda__cub.html#using-pointer",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-universal-pointer",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::cuda_cub::universal_pointer = typedef thrust::pointer< T, thrust::cuda_cub::tag, typename std::add_lvalue_reference<T>::type >",
+      "details": "<code>cuda::universal&#95;pointer</code> stores a pointer to an object allocated in memory accessible by the <code>cuda</code> system and host systems.\n\n<code>cuda::universal&#95;pointer</code> has pointer semantics: it may be dereferenced and manipulated with pointer arithmetic.\n\n<code>cuda::universal&#95;pointer</code> can be created with <code>cuda::universal&#95;allocator</code> or by explicitly calling its constructor with a raw pointer.\n\nThe raw pointer encapsulated by a <code>cuda::universal&#95;pointer</code> may be obtained by eiter its <code>get</code> member function or the <code>raw&#95;pointer&#95;cast</code> function.",
+      "explicit": false,
+      "fullname": "thrust::cuda_cub::universal_pointer",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/cuda/pointer.h",
+        "bodyStart": 89,
+        "column": 1,
+        "file": "thrust/system/cuda/pointer.h",
+        "line": 85
+      },
+      "name": "universal_pointer",
+      "note": [
+        "<code>cuda::universal&#95;pointer</code> is not a \"smart\" pointer; it is the programmer's responsibility to deallocate memory pointed to by <code>cuda::universal&#95;pointer</code>."
+      ],
+      "override": false,
+      "qualifiedname": "thrust::cuda_cub::universal_pointer",
+      "refid": "cuda_2pointer_8h_1ab70c9cea36e452d6126ef3e1cc976b79",
+      "see": [
+        "cuda::universal_allocator ",
+        "raw_pointer_cast "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T",
+          "text": "specifies the type of the pointee."
+        }
+      ],
+      "title": "universal_pointer",
+      "type": "thrust::pointer< T, thrust::cuda_cub::tag, typename std::add_lvalue_reference< T >::type >",
+      "typePlain": "thrust::pointer< T, thrust::cuda_cub::tag, typename std::add_lvalue_reference< T >::type >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cuda__cub.html#using-universal-pointer",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-reference",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::cuda_cub::reference = typedef thrust::tagged_reference<T, thrust::cuda_cub::tag>",
+      "details": "<code>cuda::reference</code> is a wrapped reference to an object stored in memory accessible by the <code>cuda</code> system. <code>cuda::reference</code> is the type of the result of dereferencing a <code>cuda::pointer</code>.",
+      "explicit": false,
+      "fullname": "thrust::cuda_cub::reference",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/cuda/pointer.h",
+        "bodyStart": 100,
+        "column": 1,
+        "file": "thrust/system/cuda/pointer.h",
+        "line": 100
+      },
+      "name": "reference",
+      "override": false,
+      "qualifiedname": "thrust::cuda_cub::reference",
+      "refid": "cuda_2pointer_8h_1ac307ae776114c224ac1152a797b6ec82",
+      "see": [
+        "cuda::pointer "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T",
+          "text": "Specifies the type of the referenced object."
+        }
+      ],
+      "title": "reference",
+      "type": "thrust::tagged_reference< T, thrust::cuda_cub::tag >",
+      "typePlain": "thrust::tagged_reference< T, thrust::cuda_cub::tag >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cuda__cub.html#using-reference",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-vector",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::cuda_cub::vector = typedef thrust::detail::vector_base<T, Allocator>",
+      "details": "<code>cuda::vector</code> is a container that supports random access to elements, constant time removal of elements at the end, and linear time insertion and removal of elements at the beginning or in the middle. The number of elements in a <code>cuda::vector</code> may vary dynamically; memory management is automatic. The elements contained in a <code>cuda::vector</code> reside in memory accessible by the <code>cuda</code> system.",
+      "explicit": false,
+      "fullname": "thrust::cuda_cub::vector",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/cuda/vector.h",
+        "bodyStart": 51,
+        "column": 1,
+        "file": "thrust/system/cuda/vector.h",
+        "line": 51
+      },
+      "name": "vector",
+      "override": false,
+      "qualifiedname": "thrust::cuda_cub::vector",
+      "refid": "cuda_2vector_8h_1a248a84e9f5cb46d89f4a562b72103989",
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/container/vector\">https://en.cppreference.com/w/cpp/container/vector</a>",
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> For the documentation of the complete interface which is shared by <code>cuda::vector</code>",
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>",
+        "universal_vector "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "defval": "thrust::system::cuda::allocator<T>",
+          "defvalPlain": "thrust::system::cuda::allocator<T>",
+          "name": "",
+          "type": "typename Allocator",
+          "typePlain": "typename Allocator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T",
+          "text": "The element type of the <code>cuda::vector</code>. "
+        },
+        {
+          "name": "Allocator",
+          "text": "The allocator type of the <code>cuda::vector</code>. Defaults to <code>cuda::allocator</code>."
+        }
+      ],
+      "title": "vector",
+      "type": "thrust::detail::vector_base< T, Allocator >",
+      "typePlain": "thrust::detail::vector_base< T, Allocator >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cuda__cub.html#using-vector",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-universal-vector",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::cuda_cub::universal_vector = typedef thrust::detail::vector_base<T, Allocator>",
+      "details": "<code>cuda::universal&#95;vector</code> is a container that supports random access to elements, constant time removal of elements at the end, and linear time insertion and removal of elements at the beginning or in the middle. The number of elements in a <code>cuda::universal&#95;vector</code> may vary dynamically; memory management is automatic. The elements contained in a <code>cuda::universal&#95;vector</code> reside in memory accessible by the <code>cuda</code> system and host systems.",
+      "explicit": false,
+      "fullname": "thrust::cuda_cub::universal_vector",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/cuda/vector.h",
+        "bodyStart": 72,
+        "column": 1,
+        "file": "thrust/system/cuda/vector.h",
+        "line": 72
+      },
+      "name": "universal_vector",
+      "override": false,
+      "qualifiedname": "thrust::cuda_cub::universal_vector",
+      "refid": "cuda_2vector_8h_1ab665e19f5e7f29c2a5aba9814c48dca7",
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/container/vector\">https://en.cppreference.com/w/cpp/container/vector</a>",
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> For the documentation of the complete interface which is shared by <code>cuda::universal&#95;vector</code>",
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>",
+        "universal_vector "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "defval": "thrust::system::cuda::universal_allocator<T>",
+          "defvalPlain": "thrust::system::cuda::universal_allocator<T>",
+          "name": "",
+          "type": "typename Allocator",
+          "typePlain": "typename Allocator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T",
+          "text": "The element type of the <code>cuda::universal&#95;vector</code>. "
+        },
+        {
+          "name": "Allocator",
+          "text": "The allocator type of the <code>cuda::universal&#95;vector</code>. Defaults to <code>cuda::universal&#95;allocator</code>."
+        }
+      ],
+      "title": "universal_vector",
+      "type": "thrust::detail::vector_base< T, Allocator >",
+      "typePlain": "thrust::detail::vector_base< T, Allocator >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cuda__cub.html#using-universal-vector",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::cuda_cub",
+  "refid": "namespacethrust_1_1cuda__cub",
+  "static": false,
+  "strong": false,
+  "title": "thrust::cuda_cub",
+  "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cuda__cub.html",
+  "visibility": "public"
+}

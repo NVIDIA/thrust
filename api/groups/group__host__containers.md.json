@@ -1,0 +1,166 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "host_containers",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "container_classes",
+    "kind": "group",
+    "language": "",
+    "name": "container_classes",
+    "qualifiedname": "container_classes",
+    "refid": "group__container__classes",
+    "title": "Container Classes",
+    "url": "{{ site.baseurl }}/api/groups/group__container__classes.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "container_classes",
+      "kind": "group",
+      "language": "",
+      "name": "container_classes",
+      "qualifiedname": "container_classes",
+      "refid": "group__container__classes",
+      "title": "Container Classes",
+      "url": "{{ site.baseurl }}/api/groups/group__container__classes.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "host_containers",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "container_classes",
+    "kind": "group",
+    "language": "",
+    "name": "container_classes",
+    "qualifiedname": "container_classes",
+    "refid": "group__container__classes",
+    "title": "Container Classes",
+    "url": "{{ site.baseurl }}/api/groups/group__container__classes.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "container_classes",
+      "kind": "group",
+      "language": "",
+      "name": "container_classes",
+      "qualifiedname": "container_classes",
+      "refid": "group__container__classes",
+      "title": "Container Classes",
+      "url": "{{ site.baseurl }}/api/groups/group__container__classes.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "detail::vector_base< T, std::allocator< T > >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::host_vector",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::host_vector",
+      "qualifiedname": "thrust::host_vector",
+      "refid": "classthrust_1_1host__vector",
+      "title": "thrust::host_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-swap",
+      "argsString": "(host_vector< T, Alloc > &a, host_vector< T, Alloc > &b)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "void thrust::swap",
+      "deleted": false,
+      "details": "Exchanges the values of two vectors. <code>x</code> The first <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> of interest. <code>y</code> The second <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> of interest. ",
+      "explicit": false,
+      "fullname": "host_containers::swap",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "bodyEnd": 508,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 505,
+        "column": 8,
+        "file": "thrust/host_vector.h",
+        "line": 505
+      },
+      "name": "swap",
+      "override": false,
+      "params": [
+        {
+          "name": "a",
+          "type": "host_vector< T, Alloc > &",
+          "typePlain": "host_vector< T, Alloc > &"
+        },
+        {
+          "name": "b",
+          "type": "host_vector< T, Alloc > &",
+          "typePlain": "host_vector< T, Alloc > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::swap",
+      "refid": "group__host__containers_1ga2d69d9d0a30180fe96b24c84d997a376",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename Alloc",
+          "typePlain": "typename Alloc"
+        }
+      ],
+      "title": "swap",
+      "type": "void",
+      "typePlain": "void",
+      "url": "{{ site.baseurl }}/api/groups/group__host__containers.html#function-swap",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "host_containers",
+  "refid": "group__host__containers",
+  "static": false,
+  "strong": false,
+  "title": "Host Containers",
+  "url": "{{ site.baseurl }}/api/groups/group__host__containers.html",
+  "visibility": "public"
+}

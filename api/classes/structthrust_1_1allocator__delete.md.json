@@ -1,0 +1,610 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::allocator_delete",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 133,
+    "bodyFile": "thrust/allocate_unique.h",
+    "bodyStart": 73,
+    "column": 1,
+    "file": "thrust/allocate_unique.h",
+    "line": 72
+  },
+  "name": "thrust::allocator_delete",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "privateAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-alloc-",
+      "category": "attributes",
+      "const": false,
+      "definition": "allocator_type thrust::allocator_delete< T, Allocator, Uninitialized >::alloc_",
+      "explicit": false,
+      "fullname": "thrust::allocator_delete::alloc_",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 132,
+        "column": 18,
+        "file": "thrust/allocate_unique.h",
+        "line": 132
+      },
+      "name": "alloc_",
+      "override": false,
+      "qualifiedname": "thrust::allocator_delete::alloc_",
+      "refid": "structthrust_1_1allocator__delete_1a6937a41f2f39b556d9527f8b56badfba",
+      "static": false,
+      "strong": false,
+      "title": "alloc_",
+      "type": "allocator_type",
+      "typePlain": "allocator_type",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1allocator__delete.html#variable-alloc-",
+      "visibility": "private"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-allocator-delete",
+      "argsString": "(UAllocator &&other) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::allocator_delete< T, Allocator, Uninitialized >::allocator_delete",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::allocator_delete::allocator_delete",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 83,
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 81,
+        "column": 3,
+        "file": "thrust/allocate_unique.h",
+        "line": 81
+      },
+      "name": "allocator_delete",
+      "override": false,
+      "params": [
+        {
+          "name": "other",
+          "type": "UAllocator &&",
+          "typePlain": "UAllocator &&"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::allocator_delete::allocator_delete",
+      "refid": "structthrust_1_1allocator__delete_1a635982d2b91bdbc6b4851026f3aa9000",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename UAllocator",
+          "typePlain": "typename UAllocator"
+        }
+      ],
+      "title": "allocator_delete",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1allocator__delete.html#function-allocator-delete",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-allocator-delete",
+      "argsString": "(allocator_delete< U, UAllocator > const &other) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::allocator_delete< T, Allocator, Uninitialized >::allocator_delete",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::allocator_delete::allocator_delete",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 90,
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 86,
+        "column": 3,
+        "file": "thrust/allocate_unique.h",
+        "line": 86
+      },
+      "name": "allocator_delete",
+      "override": false,
+      "params": [
+        {
+          "name": "other",
+          "type": "allocator_delete< U, UAllocator > const &",
+          "typePlain": "allocator_delete< U, UAllocator > const &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::allocator_delete::allocator_delete",
+      "refid": "structthrust_1_1allocator__delete_1ae07011b401c52fb5babc5b6a96026c5a",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename U",
+          "typePlain": "typename U"
+        },
+        {
+          "name": "",
+          "type": "typename UAllocator",
+          "typePlain": "typename UAllocator"
+        }
+      ],
+      "title": "allocator_delete",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1allocator__delete.html#function-allocator-delete",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-allocator-delete",
+      "argsString": "(allocator_delete< U, UAllocator > &&other) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::allocator_delete< T, Allocator, Uninitialized >::allocator_delete",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::allocator_delete::allocator_delete",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 96,
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 92,
+        "column": 3,
+        "file": "thrust/allocate_unique.h",
+        "line": 92
+      },
+      "name": "allocator_delete",
+      "override": false,
+      "params": [
+        {
+          "name": "other",
+          "type": "allocator_delete< U, UAllocator > &&",
+          "typePlain": "allocator_delete< U, UAllocator > &&"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::allocator_delete::allocator_delete",
+      "refid": "structthrust_1_1allocator__delete_1a3fe7f4fa848bbc1f9f079322de0cdbba",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename U",
+          "typePlain": "typename U"
+        },
+        {
+          "name": "",
+          "type": "typename UAllocator",
+          "typePlain": "typename UAllocator"
+        }
+      ],
+      "title": "allocator_delete",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1allocator__delete.html#function-allocator-delete",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(allocator_delete< U, UAllocator > const &other) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "allocator_delete & thrust::allocator_delete< T, Allocator, Uninitialized >::operator=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::allocator_delete::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 105,
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 99,
+        "column": 20,
+        "file": "thrust/allocate_unique.h",
+        "line": 99
+      },
+      "name": "operator=",
+      "override": false,
+      "params": [
+        {
+          "name": "other",
+          "type": "allocator_delete< U, UAllocator > const &",
+          "typePlain": "allocator_delete< U, UAllocator > const &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::allocator_delete::operator=",
+      "refid": "structthrust_1_1allocator__delete_1a76644d01e33cb3813ec3d9699b1bfaec",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename U",
+          "typePlain": "typename U"
+        },
+        {
+          "name": "",
+          "type": "typename UAllocator",
+          "typePlain": "typename UAllocator"
+        }
+      ],
+      "title": "operator=",
+      "type": "allocator_delete &",
+      "typePlain": "allocator_delete &",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1allocator__delete.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(allocator_delete< U, UAllocator > &&other) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "allocator_delete & thrust::allocator_delete< T, Allocator, Uninitialized >::operator=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::allocator_delete::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 113,
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 107,
+        "column": 20,
+        "file": "thrust/allocate_unique.h",
+        "line": 107
+      },
+      "name": "operator=",
+      "override": false,
+      "params": [
+        {
+          "name": "other",
+          "type": "allocator_delete< U, UAllocator > &&",
+          "typePlain": "allocator_delete< U, UAllocator > &&"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::allocator_delete::operator=",
+      "refid": "structthrust_1_1allocator__delete_1a46e9f6b5e116cf48353edad771cdf649",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename U",
+          "typePlain": "typename U"
+        },
+        {
+          "name": "",
+          "type": "typename UAllocator",
+          "typePlain": "typename UAllocator"
+        }
+      ],
+      "title": "operator=",
+      "type": "allocator_delete &",
+      "typePlain": "allocator_delete &",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1allocator__delete.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(pointer p)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "void thrust::allocator_delete< T, Allocator, Uninitialized >::operator()",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::allocator_delete::operator()",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 120,
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 115,
+        "column": 8,
+        "file": "thrust/allocate_unique.h",
+        "line": 115
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "p",
+          "type": "pointer",
+          "typePlain": "pointer"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::allocator_delete::operator()",
+      "refid": "structthrust_1_1allocator__delete_1aea878e0b757beeafe59626c5d1de50bd",
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "void",
+      "typePlain": "void",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1allocator__delete.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-get-allocator",
+      "argsString": "() noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "allocator_type & thrust::allocator_delete< T, Allocator, Uninitialized >::get_allocator",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::allocator_delete::get_allocator",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 122,
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 122,
+        "column": 18,
+        "file": "thrust/allocate_unique.h",
+        "line": 122
+      },
+      "name": "get_allocator",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::allocator_delete::get_allocator",
+      "refid": "structthrust_1_1allocator__delete_1a97b3e5d92bd54c7958a7b153206fd180",
+      "static": false,
+      "strong": false,
+      "title": "get_allocator",
+      "type": "allocator_type &",
+      "typePlain": "allocator_type &",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1allocator__delete.html#function-get-allocator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-get-allocator",
+      "argsString": "() const noexcept",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "allocator_type const  & thrust::allocator_delete< T, Allocator, Uninitialized >::get_allocator",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::allocator_delete::get_allocator",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 123,
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 123,
+        "column": 24,
+        "file": "thrust/allocate_unique.h",
+        "line": 123
+      },
+      "name": "get_allocator",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::allocator_delete::get_allocator",
+      "refid": "structthrust_1_1allocator__delete_1a837382ee43e11d77444aee0fe0f10d34",
+      "static": false,
+      "strong": false,
+      "title": "get_allocator",
+      "type": "allocator_type const &",
+      "typePlain": "allocator_type const &",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1allocator__delete.html#function-get-allocator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-swap",
+      "argsString": "(allocator_delete &other) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "void thrust::allocator_delete< T, Allocator, Uninitialized >::swap",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::allocator_delete::swap",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 129,
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 125,
+        "column": 8,
+        "file": "thrust/allocate_unique.h",
+        "line": 125
+      },
+      "name": "swap",
+      "override": false,
+      "params": [
+        {
+          "name": "other",
+          "type": "allocator_delete &",
+          "typePlain": "allocator_delete &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::allocator_delete::swap",
+      "refid": "structthrust_1_1allocator__delete_1acd7fb6363e3ce19bfd7d6da43199db79",
+      "static": false,
+      "strong": false,
+      "title": "swap",
+      "type": "void",
+      "typePlain": "void",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1allocator__delete.html#function-swap",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-allocator-type",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::allocator_delete< T, Allocator, Uninitialized >::allocator_type =  typename std::remove_cv< typename std::remove_reference<Allocator>::type >::type::template rebind<T>::other",
+      "explicit": false,
+      "fullname": "thrust::allocator_delete::allocator_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 77,
+        "column": 3,
+        "file": "thrust/allocate_unique.h",
+        "line": 74
+      },
+      "name": "allocator_type",
+      "override": false,
+      "qualifiedname": "thrust::allocator_delete::allocator_type",
+      "refid": "structthrust_1_1allocator__delete_1a8220336763e9f30e948d67d9381e18d1",
+      "static": false,
+      "strong": false,
+      "title": "allocator_type",
+      "type": "typename std::remove_cv< typename std::remove_reference< Allocator >::type >::type::template rebind< T >::other",
+      "typePlain": "typename std::remove_cv< typename std::remove_reference< Allocator >::type >::type::template rebind< T >::other",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1allocator__delete.html#using-allocator-type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-pointer",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::allocator_delete< T, Allocator, Uninitialized >::pointer =  typename detail::allocator_traits<allocator_type>::pointer",
+      "explicit": false,
+      "fullname": "thrust::allocator_delete::pointer",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 78,
+        "column": 3,
+        "file": "thrust/allocate_unique.h",
+        "line": 78
+      },
+      "name": "pointer",
+      "override": false,
+      "qualifiedname": "thrust::allocator_delete::pointer",
+      "refid": "structthrust_1_1allocator__delete_1a46c5ac76870ec44626a2cf027e5868e5",
+      "static": false,
+      "strong": false,
+      "title": "pointer",
+      "type": "typename detail::allocator_traits< allocator_type >::pointer",
+      "typePlain": "typename detail::allocator_traits< allocator_type >::pointer",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1allocator__delete.html#using-pointer",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::allocator_delete",
+  "refid": "structthrust_1_1allocator__delete",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    },
+    {
+      "name": "",
+      "type": "typename Allocator",
+      "typePlain": "typename Allocator"
+    },
+    {
+      "defval": "false",
+      "defvalPlain": "false",
+      "name": "Uninitialized",
+      "type": "bool",
+      "typePlain": "bool"
+    }
+  ],
+  "title": "thrust::allocator_delete",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1allocator__delete.html",
+  "visibility": "public"
+}

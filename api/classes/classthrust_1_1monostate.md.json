@@ -1,0 +1,62 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "Used to represent an optional with no data; essentially a bool. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::monostate",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "includes": "<thrust/optional.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 170,
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 170,
+    "column": 1,
+    "file": "thrust/optional.h",
+    "line": 170
+  },
+  "name": "thrust::monostate",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::monostate",
+  "refid": "classthrust_1_1monostate",
+  "static": false,
+  "strong": false,
+  "summary": "Used to represent an optional with no data; essentially a bool. ",
+  "title": "thrust::monostate",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1monostate.html",
+  "visibility": "public"
+}

@@ -1,0 +1,96 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "placeholder_objects",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "function_objects",
+    "kind": "group",
+    "language": "",
+    "name": "function_objects",
+    "qualifiedname": "function_objects",
+    "refid": "group__function__objects",
+    "title": "Function Objects",
+    "url": "{{ site.baseurl }}/api/groups/group__function__objects.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "language": "",
+      "name": "function_objects",
+      "qualifiedname": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "{{ site.baseurl }}/api/groups/group__function__objects.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "placeholder_objects",
+  "namespaces": [
+    {
+      "anchor": "",
+      "brief": "Facilities for constructing simple functions inline. ",
+      "category": "namespaces",
+      "fullname": "thrust::placeholders",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::placeholders",
+      "qualifiedname": "thrust::placeholders",
+      "refid": "namespacethrust_1_1placeholders",
+      "summary": "Facilities for constructing simple functions inline. ",
+      "title": "thrust::placeholders",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1placeholders.html",
+      "visibility": "public"
+    }
+  ],
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "function_objects",
+    "kind": "group",
+    "language": "",
+    "name": "function_objects",
+    "qualifiedname": "function_objects",
+    "refid": "group__function__objects",
+    "title": "Function Objects",
+    "url": "{{ site.baseurl }}/api/groups/group__function__objects.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "language": "",
+      "name": "function_objects",
+      "qualifiedname": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "{{ site.baseurl }}/api/groups/group__function__objects.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "placeholder_objects",
+  "refid": "group__placeholder__objects",
+  "static": false,
+  "strong": false,
+  "title": "Placeholder Objects",
+  "url": "{{ site.baseurl }}/api/groups/group__placeholder__objects.html",
+  "visibility": "public"
+}

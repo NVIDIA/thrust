@@ -1,0 +1,19 @@
+{
+  "children": [
+    {
+      "anchor": "#page-md-thrust-cmake-readme",
+      "category": "pages",
+      "fullname": "::md_thrust_cmake_README",
+      "kind": "page",
+      "language": "",
+      "name": "md_thrust_cmake_README",
+      "qualifiedname": "md_thrust_cmake_README",
+      "refid": "md_thrust_cmake_README",
+      "title": "Using Thrust with CMake",
+      "url": "{{ site.baseurl }}/api/pages/md_thrust_cmake_readme.html#page-md-thrust-cmake-readme",
+      "visibility": "public"
+    }
+  ],
+  "name": "pages",
+  "title": "pages"
+}

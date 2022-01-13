@@ -1,0 +1,159 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "Lambda",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::tagged_deleter",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 262,
+    "bodyFile": "thrust/allocate_unique.h",
+    "bodyStart": 257,
+    "column": 1,
+    "file": "thrust/allocate_unique.h",
+    "line": 256
+  },
+  "name": "thrust::tagged_deleter",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-tagged-deleter",
+      "argsString": "(Lambda &&l)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::tagged_deleter< Pointer, Lambda >::tagged_deleter",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::tagged_deleter::tagged_deleter",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 259,
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 259,
+        "column": 3,
+        "file": "thrust/allocate_unique.h",
+        "line": 259
+      },
+      "name": "tagged_deleter",
+      "override": false,
+      "params": [
+        {
+          "name": "l",
+          "type": "Lambda &&",
+          "typePlain": "Lambda &&"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::tagged_deleter::tagged_deleter",
+      "refid": "structthrust_1_1tagged__deleter_1a581420f25177ad02fa7506723cbe6c2b",
+      "static": false,
+      "strong": false,
+      "title": "tagged_deleter",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1tagged__deleter.html#function-tagged-deleter",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-pointer",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::tagged_deleter< Pointer, Lambda >::pointer =  Pointer",
+      "explicit": false,
+      "fullname": "thrust::tagged_deleter::pointer",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/allocate_unique.h",
+        "bodyStart": 261,
+        "column": 3,
+        "file": "thrust/allocate_unique.h",
+        "line": 261
+      },
+      "name": "pointer",
+      "override": false,
+      "qualifiedname": "thrust::tagged_deleter::pointer",
+      "refid": "structthrust_1_1tagged__deleter_1a65bd3399b9232145837b177b2e487d70",
+      "static": false,
+      "strong": false,
+      "title": "pointer",
+      "type": "Pointer",
+      "typePlain": "Pointer",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1tagged__deleter.html#using-pointer",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::tagged_deleter",
+  "refid": "structthrust_1_1tagged__deleter",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename Pointer",
+      "typePlain": "typename Pointer"
+    },
+    {
+      "name": "",
+      "type": "typename Lambda",
+      "typePlain": "typename Lambda"
+    }
+  ],
+  "title": "thrust::tagged_deleter",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1tagged__deleter.html",
+  "visibility": "public"
+}

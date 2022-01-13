@@ -1,0 +1,444 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "detail::constant_iterator_base::type",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> is an iterator which represents a pointer into a range of constant values. This iterator is useful for creating a range filled with the same value without explicitly storing it in memory. Using <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> saves both memory capacity and bandwidth.\n\nThe following code snippet demonstrates how to create a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> whose <code>value&#95;type</code> is <code>int</code> and whose value is <code>10</code>.\n\n\n\n```cpp\n#include <thrust/iterator/constant_iterator.h>\n\nthrust::constant_iterator<int> iter(10);\n\n*iter;    // returns 10\niter[0];  // returns 10\niter[1];  // returns 10\niter[13]; // returns 10\n\n// and so on...\n```\n\nThis next example demonstrates how to use a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> with the <code>thrust::transform</code> function to increment all elements of a sequence by the same value. We will create a temporary <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> with the function <code>make&#95;constant&#95;iterator</code> function in order to avoid explicitly specifying its type:\n\n\n\n```cpp\n#include <thrust/iterator/constant_iterator.h>\n#include <thrust/transform.h>\n#include <thrust/functional.h>\n#include <thrust/device_vector.h>\n\nint main()\n{\n  thrust::device_vector<int> data(4);\n  data[0] = 3;\n  data[1] = 7;\n  data[2] = 2;\n  data[3] = 5;\n  \n  // add 10 to all values in data\n  thrust::transform(data.begin(), data.end(),\n                    thrust::make_constant_iterator(10),\n                    data.begin(),\n                    thrust::plus<int>());\n  \n  // data is now [13, 17, 12, 15]\n  \n  return 0;\n}\n```",
+  "explicit": false,
+  "fullname": "thrust::constant_iterator",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/iterator/constant_iterator.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 202,
+    "bodyFile": "thrust/iterator/constant_iterator.h",
+    "bodyStart": 100,
+    "column": 3,
+    "file": "thrust/iterator/constant_iterator.h",
+    "line": 98
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "fancyiterator",
+    "kind": "group",
+    "language": "",
+    "name": "fancyiterator",
+    "qualifiedname": "fancyiterator",
+    "refid": "group__fancyiterator",
+    "title": "Fancy Iterators",
+    "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterators",
+      "kind": "group",
+      "language": "",
+      "name": "iterators",
+      "qualifiedname": "iterators",
+      "refid": "group__iterators",
+      "title": "Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "fancyiterator",
+      "kind": "group",
+      "language": "",
+      "name": "fancyiterator",
+      "qualifiedname": "fancyiterator",
+      "refid": "group__fancyiterator",
+      "title": "Fancy Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::constant_iterator",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "privateFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-constant-iterator",
+      "argsString": "()",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::constant_iterator< Value, Incrementable, System >::constant_iterator",
+      "deleted": false,
+      "details": "Null constructor initializes this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a>'s</code> constant using its null constructor. ",
+      "explicit": false,
+      "fullname": "thrust::constant_iterator::constant_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 120,
+        "bodyFile": "thrust/iterator/constant_iterator.h",
+        "bodyStart": 119,
+        "column": 5,
+        "file": "thrust/iterator/constant_iterator.h",
+        "line": 119
+      },
+      "name": "constant_iterator",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::constant_iterator::constant_iterator",
+      "refid": "classthrust_1_1constant__iterator_1afe8f6d09d2fde3c58c45dd17d5b87a1a",
+      "static": false,
+      "strong": false,
+      "title": "constant_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html#function-constant-iterator",
+      "virtual": false,
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-constant-iterator",
+      "argsString": "(constant_iterator const &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::constant_iterator< Value, Incrementable, System >::constant_iterator",
+      "deleted": false,
+      "details": "Copy constructor copies the value of another <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> into this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code>.\n\n<code>rhs</code> The <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant_iterator</a> to copy. ",
+      "explicit": false,
+      "fullname": "thrust::constant_iterator::constant_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 129,
+        "bodyFile": "thrust/iterator/constant_iterator.h",
+        "bodyStart": 128,
+        "column": 5,
+        "file": "thrust/iterator/constant_iterator.h",
+        "line": 128
+      },
+      "name": "constant_iterator",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant_iterator</a> const &",
+          "typePlain": "constant_iterator const &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::constant_iterator::constant_iterator",
+      "refid": "classthrust_1_1constant__iterator_1a08480043bf4c77e6e8798ea143b22fcb",
+      "static": false,
+      "strong": false,
+      "title": "constant_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html#function-constant-iterator",
+      "virtual": false,
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-constant-iterator",
+      "argsString": "(constant_iterator< Value, Incrementable, OtherSystem > const &rhs, typename thrust::detail::enable_if_convertible< typename thrust::iterator_system< constant_iterator< Value, Incrementable, OtherSystem > >::type, typename thrust::iterator_system< super_t >::type >::type *=0)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::constant_iterator< Value, Incrementable, System >::constant_iterator",
+      "deleted": false,
+      "details": "Copy constructor copies the value of another <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> with related System type.",
+      "explicit": false,
+      "fullname": "thrust::constant_iterator::constant_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 143,
+        "bodyFile": "thrust/iterator/constant_iterator.h",
+        "bodyStart": 138,
+        "column": 5,
+        "file": "thrust/iterator/constant_iterator.h",
+        "line": 138
+      },
+      "name": "constant_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "rhs",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "rhs",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant_iterator</a>< Value, Incrementable, OtherSystem > const &",
+          "typePlain": "constant_iterator< Value, Incrementable, OtherSystem > const &"
+        },
+        {
+          "defval": "0",
+          "defvalPlain": "0",
+          "name": "",
+          "type": "typename thrust::detail::enable_if_convertible< typename thrust::iterator_system< <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant_iterator</a>< Value, Incrementable, OtherSystem > >::type, typename thrust::iterator_system< super_t >::type >::type *",
+          "typePlain": "typename thrust::detail::enable_if_convertible< typename thrust::iterator_system< constant_iterator< Value, Incrementable, OtherSystem > >::type, typename thrust::iterator_system< super_t >::type >::type *"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::constant_iterator::constant_iterator",
+      "refid": "classthrust_1_1constant__iterator_1a847c538b42f083ff7626b3cc1a43c998",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherSystem",
+          "typePlain": "typename OtherSystem"
+        }
+      ],
+      "title": "constant_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html#function-constant-iterator",
+      "virtual": false,
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-constant-iterator",
+      "argsString": "(value_type const &v, incrementable const &i=incrementable())",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::constant_iterator< Value, Incrementable, System >::constant_iterator",
+      "deleted": false,
+      "details": "This constructor receives a value to use as the constant value of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> and an index specifying the location of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> in a sequence.\n\n<code>v</code> The value of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a>'s</code> constant value. <code>i</code> The index of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> in a sequence. Defaults to the value returned by <code>Incrementable's</code> null constructor. For example, when <code>Incrementable == int</code>, <code>0</code>. ",
+      "explicit": false,
+      "fullname": "thrust::constant_iterator::constant_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 156,
+        "bodyFile": "thrust/iterator/constant_iterator.h",
+        "bodyStart": 155,
+        "column": 5,
+        "file": "thrust/iterator/constant_iterator.h",
+        "line": 155
+      },
+      "name": "constant_iterator",
+      "override": false,
+      "params": [
+        {
+          "name": "v",
+          "type": "value_type const &",
+          "typePlain": "value_type const &"
+        },
+        {
+          "defval": "incrementable()",
+          "defvalPlain": "incrementable()",
+          "name": "i",
+          "type": "incrementable const &",
+          "typePlain": "incrementable const &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::constant_iterator::constant_iterator",
+      "refid": "classthrust_1_1constant__iterator_1a3f19cf1b5c21a8e35de712e63b8c944d",
+      "static": false,
+      "strong": false,
+      "title": "constant_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html#function-constant-iterator",
+      "virtual": false,
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-constant-iterator",
+      "argsString": "(OtherValue const &v, OtherIncrementable const &i=incrementable())",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::constant_iterator< Value, Incrementable, System >::constant_iterator",
+      "deleted": false,
+      "details": "This constructor is templated to allow construction from a value type and incrementable type related this this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a>'s</code> respective types.\n\n<code>v</code> The value of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a>'s</code> constant value. <code>i</code> The index of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> in a sequence. Defaults to the value returned by <code>Incrementable's</code> null constructor. For example, when <code>Incrementable == int</code>, <code>0</code>. ",
+      "explicit": false,
+      "fullname": "thrust::constant_iterator::constant_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 169,
+        "bodyFile": "thrust/iterator/constant_iterator.h",
+        "bodyStart": 168,
+        "column": 5,
+        "file": "thrust/iterator/constant_iterator.h",
+        "line": 168
+      },
+      "name": "constant_iterator",
+      "override": false,
+      "params": [
+        {
+          "name": "v",
+          "type": "OtherValue const &",
+          "typePlain": "OtherValue const &"
+        },
+        {
+          "defval": "incrementable()",
+          "defvalPlain": "incrementable()",
+          "name": "i",
+          "type": "OtherIncrementable const &",
+          "typePlain": "OtherIncrementable const &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::constant_iterator::constant_iterator",
+      "refid": "classthrust_1_1constant__iterator_1a3b4e6c6492813be1a27f654aec62e992",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherValue",
+          "typePlain": "typename OtherValue"
+        },
+        {
+          "name": "",
+          "type": "typename OtherIncrementable",
+          "typePlain": "typename OtherIncrementable"
+        }
+      ],
+      "title": "constant_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html#function-constant-iterator",
+      "virtual": false,
+      "visibility": "private"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-value",
+      "argsString": "() const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ Value const  & thrust::constant_iterator< Value, Incrementable, System >::value",
+      "deleted": false,
+      "details": "This method returns the value of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a>'s</code> constant value. ",
+      "explicit": false,
+      "fullname": "thrust::constant_iterator::value",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 176,
+        "bodyFile": "thrust/iterator/constant_iterator.h",
+        "bodyStart": 175,
+        "column": 17,
+        "file": "thrust/iterator/constant_iterator.h",
+        "line": 175
+      },
+      "name": "value",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::constant_iterator::value",
+      "refid": "classthrust_1_1constant__iterator_1af71a109d418477b19a236478c05e027a",
+      "returns": [
+        "A <code>const</code> reference to this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a>'s</code> constant value. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "value",
+      "type": "__host__ __device__ Value const &",
+      "typePlain": "__host__ __device__ Value const &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html#function-value",
+      "virtual": false,
+      "visibility": "private"
+    }
+  ],
+  "qualifiedname": "thrust::constant_iterator",
+  "refid": "classthrust_1_1constant__iterator",
+  "see": [
+    "make_constant_iterator "
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename Value",
+      "typePlain": "typename Value"
+    },
+    {
+      "defval": "use_default",
+      "defvalPlain": "use_default",
+      "name": "",
+      "type": "typename Incrementable",
+      "typePlain": "typename Incrementable"
+    },
+    {
+      "defval": "use_default",
+      "defvalPlain": "use_default",
+      "name": "",
+      "type": "typename System",
+      "typePlain": "typename System"
+    }
+  ],
+  "title": "thrust::constant_iterator",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html",
+  "visibility": "public"
+}

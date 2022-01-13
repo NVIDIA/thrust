@@ -1,0 +1,120 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "reordering",
+  "groups": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "partitioning",
+      "kind": "group",
+      "language": "",
+      "name": "partitioning",
+      "qualifiedname": "partitioning",
+      "refid": "group__partitioning",
+      "title": "Partitioning",
+      "url": "{{ site.baseurl }}/api/groups/group__partitioning.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "stream_compaction",
+      "kind": "group",
+      "language": "",
+      "name": "stream_compaction",
+      "qualifiedname": "stream_compaction",
+      "refid": "group__stream__compaction",
+      "title": "Stream Compaction",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "shuffling",
+      "kind": "group",
+      "language": "",
+      "name": "shuffling",
+      "qualifiedname": "shuffling",
+      "refid": "group__shuffling",
+      "title": "Shuffling",
+      "url": "{{ site.baseurl }}/api/groups/group__shuffling.html",
+      "visibility": "public"
+    }
+  ],
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "algorithms",
+    "kind": "group",
+    "language": "",
+    "name": "algorithms",
+    "qualifiedname": "algorithms",
+    "refid": "group__algorithms",
+    "title": "Algorithms",
+    "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "reordering",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "algorithms",
+    "kind": "group",
+    "language": "",
+    "name": "algorithms",
+    "qualifiedname": "algorithms",
+    "refid": "group__algorithms",
+    "title": "Algorithms",
+    "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "reordering",
+  "refid": "group__reordering",
+  "static": false,
+  "strong": false,
+  "title": "Reordering",
+  "url": "{{ site.baseurl }}/api/groups/group__reordering.html",
+  "visibility": "public"
+}

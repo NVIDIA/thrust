@@ -1,0 +1,2267 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "partitioning",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "reordering",
+    "kind": "group",
+    "language": "",
+    "name": "reordering",
+    "qualifiedname": "reordering",
+    "refid": "group__reordering",
+    "title": "Reordering",
+    "url": "{{ site.baseurl }}/api/groups/group__reordering.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "reordering",
+      "kind": "group",
+      "language": "",
+      "name": "reordering",
+      "qualifiedname": "reordering",
+      "refid": "group__reordering",
+      "title": "Reordering",
+      "url": "{{ site.baseurl }}/api/groups/group__reordering.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "partitioning",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "reordering",
+    "kind": "group",
+    "language": "",
+    "name": "reordering",
+    "qualifiedname": "reordering",
+    "refid": "group__reordering",
+    "title": "Reordering",
+    "url": "{{ site.baseurl }}/api/groups/group__reordering.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "reordering",
+      "kind": "group",
+      "language": "",
+      "name": "reordering",
+      "qualifiedname": "reordering",
+      "refid": "group__reordering",
+      "title": "Reordering",
+      "url": "{{ site.baseurl }}/api/groups/group__reordering.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-partition",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ ForwardIterator thrust::partition",
+      "deleted": false,
+      "details": "<code>partition</code> reorders the elements <code>[first, last)</code> based on the function object <code>pred</code>, such that all of the elements that satisfy <code>pred</code> precede the elements that fail to satisfy it. The postcondition is that, for some iterator <code>middle</code> in the range <code>[first, last)</code>, <code>pred(&#42;i)</code> is <code>true</code> for every iterator <code>i</code> in the range <code>[first,middle)</code> and <code>false</code> for every iterator <code>i</code> in the range <code>[middle, last)</code>. The return value of <code>partition</code> is <code>middle</code>.\n\nNote that the relative order of elements in the two reordered sequences is not necessarily the same as it was in the original sequence. A different algorithm, <code>stable&#95;partition</code>, does guarantee to preserve the relative order.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>partition</code> to reorder a sequence so that even numbers precede odd numbers using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/partition.h>\n#include <thrust/execution_policy.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int &x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nint A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\nconst int N = sizeof(A)/sizeof(int);\nthrust::partition(thrust::host,\n                  A, A + N,\n                  is_even());\n// A is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}\n```",
+      "explicit": false,
+      "fullname": "partitioning::partition",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/partition.h",
+        "line": 99
+      },
+      "name": "partition",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence to reorder. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence to reorder. "
+        },
+        {
+          "name": "pred",
+          "text": "A function object which decides to which partition each element of the sequence <code>[first, last)</code> belongs. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::partition",
+      "refid": "group__partitioning_1gac5cdbb402c5473ca92e95bc73ecaf13c",
+      "returns": [
+        "An iterator referring to the first element of the second partition, that is, the sequence of the elements which do not satisfy <code>pred</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partition\">https://en.cppreference.com/w/cpp/algorithm/partition</a>",
+        "<code>stable&#95;partition</code>",
+        "<code>partition&#95;copy</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>, and <code>ForwardIterator</code> is mutable. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "partition",
+      "type": "__host__ __device__ ForwardIterator",
+      "typePlain": "__host__ __device__ ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__partitioning.html#function-partition",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-partition",
+      "argsString": "(ForwardIterator first, ForwardIterator last, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "ForwardIterator thrust::partition",
+      "deleted": false,
+      "details": "<code>partition</code> reorders the elements <code>[first, last)</code> based on the function object <code>pred</code>, such that all of the elements that satisfy <code>pred</code> precede the elements that fail to satisfy it. The postcondition is that, for some iterator <code>middle</code> in the range <code>[first, last)</code>, <code>pred(&#42;i)</code> is <code>true</code> for every iterator <code>i</code> in the range <code>[first,middle)</code> and <code>false</code> for every iterator <code>i</code> in the range <code>[middle, last)</code>. The return value of <code>partition</code> is <code>middle</code>.\n\nNote that the relative order of elements in the two reordered sequences is not necessarily the same as it was in the original sequence. A different algorithm, <code>stable&#95;partition</code>, does guarantee to preserve the relative order.\n\n\nThe following code snippet demonstrates how to use <code>partition</code> to reorder a sequence so that even numbers precede odd numbers.\n\n\n\n```cpp\n#include <thrust/partition.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int &x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nint A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\nconst int N = sizeof(A)/sizeof(int);\nthrust::partition(A, A + N,\n                   is_even());\n// A is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}\n```",
+      "explicit": false,
+      "fullname": "partitioning::partition",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/partition.h",
+        "line": 157
+      },
+      "name": "partition",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence to reorder. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence to reorder. "
+        },
+        {
+          "name": "pred",
+          "text": "A function object which decides to which partition each element of the sequence <code>[first, last)</code> belongs. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::partition",
+      "refid": "group__partitioning_1ga26eb205b71250a1d8a1f938c0f697c06",
+      "returns": [
+        "An iterator referring to the first element of the second partition, that is, the sequence of the elements which do not satisfy <code>pred</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partition\">https://en.cppreference.com/w/cpp/algorithm/partition</a>",
+        "<code>stable&#95;partition</code>",
+        "<code>partition&#95;copy</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>, and <code>ForwardIterator</code> is mutable. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "partition",
+      "type": "ForwardIterator",
+      "typePlain": "ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__partitioning.html#function-partition",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-partition",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last, InputIterator stencil, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ ForwardIterator thrust::partition",
+      "deleted": false,
+      "details": "<code>partition</code> reorders the elements <code>[first, last)</code> based on the function object <code>pred</code> applied to a stencil range <code>[stencil, stencil + (last - first))</code>, such that all of the elements whose corresponding stencil element satisfies <code>pred</code> precede all of the elements whose corresponding stencil element fails to satisfy it. The postcondition is that, for some iterator <code>middle</code> in the range <code>[first, last)</code>, <code>pred(&#42;stencil&#95;i)</code> is <code>true</code> for every iterator <code>stencil&#95;i</code> in the range <code>[stencil,stencil + (middle - first))</code> and <code>false</code> for every iterator <code>stencil&#95;i</code> in the range <code>[stencil + (middle - first), stencil + (last - first))</code>. The return value of <code>stable&#95;partition</code> is <code>middle</code>.\n\nNote that the relative order of elements in the two reordered sequences is not necessarily the same as it was in the original sequence. A different algorithm, <code>stable&#95;partition</code>, does guarantee to preserve the relative order.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>partition</code> to reorder a sequence so that even numbers precede odd numbers using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/partition.h>\n#include <thrust/execution_policy.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int &x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nint A[] = {0, 1, 0, 1, 0, 1, 0, 1, 0,  1};\nint S[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\nconst int N = sizeof(A)/sizeof(int);\nthrust::partition(thrust::host, A, A + N, S, is_even());\n// A is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}\n// S is unmodified\n```",
+      "explicit": false,
+      "fullname": "partitioning::partition",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/partition.h",
+        "line": 228
+      },
+      "name": "partition",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence to reorder. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence to reorder. "
+        },
+        {
+          "name": "stencil",
+          "text": "The beginning of the stencil sequence. "
+        },
+        {
+          "name": "pred",
+          "text": "A function object which decides to which partition each element of the sequence <code>[first, last)</code> belongs. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The ranges <code>[first,last)</code> and <code>[stencil, stencil + (last - first))</code> shall not overlap."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::partition",
+      "refid": "group__partitioning_1ga97b338cf36d6593d4327d577f1a7a8be",
+      "returns": [
+        "An iterator referring to the first element of the second partition, that is, the sequence of the elements whose stencil elements do not satisfy <code>pred</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partition\">https://en.cppreference.com/w/cpp/algorithm/partition</a>",
+        "<code>stable&#95;partition</code>",
+        "<code>partition&#95;copy</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator</code> is mutable. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "partition",
+      "type": "__host__ __device__ ForwardIterator",
+      "typePlain": "__host__ __device__ ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__partitioning.html#function-partition",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-partition",
+      "argsString": "(ForwardIterator first, ForwardIterator last, InputIterator stencil, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "ForwardIterator thrust::partition",
+      "deleted": false,
+      "details": "<code>partition</code> reorders the elements <code>[first, last)</code> based on the function object <code>pred</code> applied to a stencil range <code>[stencil, stencil + (last - first))</code>, such that all of the elements whose corresponding stencil element satisfies <code>pred</code> precede all of the elements whose corresponding stencil element fails to satisfy it. The postcondition is that, for some iterator <code>middle</code> in the range <code>[first, last)</code>, <code>pred(&#42;stencil&#95;i)</code> is <code>true</code> for every iterator <code>stencil&#95;i</code> in the range <code>[stencil,stencil + (middle - first))</code> and <code>false</code> for every iterator <code>stencil&#95;i</code> in the range <code>[stencil + (middle - first), stencil + (last - first))</code>. The return value of <code>stable&#95;partition</code> is <code>middle</code>.\n\nNote that the relative order of elements in the two reordered sequences is not necessarily the same as it was in the original sequence. A different algorithm, <code>stable&#95;partition</code>, does guarantee to preserve the relative order.\n\n\nThe following code snippet demonstrates how to use <code>partition</code> to reorder a sequence so that even numbers precede odd numbers.\n\n\n\n```cpp\n#include <thrust/partition.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int &x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nint A[] = {0, 1, 0, 1, 0, 1, 0, 1, 0,  1};\nint S[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\nconst int N = sizeof(A)/sizeof(int);\nthrust::partition(A, A + N, S, is_even());\n// A is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}\n// S is unmodified\n```",
+      "explicit": false,
+      "fullname": "partitioning::partition",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/partition.h",
+        "line": 294
+      },
+      "name": "partition",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence to reorder. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence to reorder. "
+        },
+        {
+          "name": "stencil",
+          "text": "The beginning of the stencil sequence. "
+        },
+        {
+          "name": "pred",
+          "text": "A function object which decides to which partition each element of the sequence <code>[first, last)</code> belongs. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The ranges <code>[first,last)</code> and <code>[stencil, stencil + (last - first))</code> shall not overlap."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::partition",
+      "refid": "group__partitioning_1ga73ee335b49c6ae3dcb019423e268a231",
+      "returns": [
+        "An iterator referring to the first element of the second partition, that is, the sequence of the elements whose stencil elements do not satisfy <code>pred</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partition\">https://en.cppreference.com/w/cpp/algorithm/partition</a>",
+        "<code>stable&#95;partition</code>",
+        "<code>partition&#95;copy</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator</code> is mutable. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "partition",
+      "type": "ForwardIterator",
+      "typePlain": "ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__partitioning.html#function-partition",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-partition-copy",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, OutputIterator1 out_true, OutputIterator2 out_false, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > thrust::partition_copy",
+      "deleted": false,
+      "details": "<code>partition&#95;copy</code> differs from <code>partition</code> only in that the reordered sequence is written to difference output sequences, rather than in place.\n\n<code>partition&#95;copy</code> copies the elements <code>[first, last)</code> based on the function object <code>pred</code>. All of the elements that satisfy <code>pred</code> are copied to the range beginning at <code>out&#95;true</code> and all the elements that fail to satisfy it are copied to the range beginning at <code>out&#95;false</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>partition&#95;copy</code> to separate a sequence into two output sequences of even and odd numbers using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/partition.h>\n#include <thrust/execution_policy.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int &x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nint A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\nint result[10];\nconst int N = sizeof(A)/sizeof(int);\nint *evens = result;\nint *odds  = result + 5;\nthrust::partition_copy(thrust::host, A, A + N, evens, odds, is_even());\n// A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}\n// result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}\n// evens points to {2, 4, 6, 8, 10}\n// odds points to {1, 3, 5, 7, 9}\n```",
+      "explicit": false,
+      "fullname": "partitioning::partition_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/partition.h",
+        "line": 374
+      },
+      "name": "partition_copy",
+      "note": [
+        "The relative order of elements in the two reordered sequences is not necessarily the same as it was in the original sequence. A different algorithm, <code>stable&#95;partition&#95;copy</code>, does guarantee to preserve the relative order."
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence to reorder. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence to reorder. "
+        },
+        {
+          "name": "out_true",
+          "text": "The destination of the resulting sequence of elements which satisfy <code>pred</code>. "
+        },
+        {
+          "name": "out_false",
+          "text": "The destination of the resulting sequence of elements which fail to satisfy <code>pred</code>. "
+        },
+        {
+          "name": "pred",
+          "text": "A function object which decides to which partition each element of the sequence <code>[first, last)</code> belongs. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "out_true",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "out_false",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The input range shall not overlap with either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::partition_copy",
+      "refid": "group__partitioning_1gae475b50225a3a722680a4f560e5864ff",
+      "returns": [
+        "A <code>pair</code> p such that <code>p.first</code> is the end of the output range beginning at <code>out&#95;true</code> and <code>p.second</code> is the end of the output range beginning at <code>out&#95;false</code>."
+      ],
+      "see": [
+        "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf</a>",
+        "<code>stable&#95;partition&#95;copy</code>",
+        "<code>partition</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code> and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1</code> and <code>OutputIterator2's</code><code>value&#95;types</code>. "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "partition_copy",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__partitioning.html#function-partition-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-partition-copy",
+      "argsString": "(InputIterator first, InputIterator last, OutputIterator1 out_true, OutputIterator2 out_false, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::pair< OutputIterator1, OutputIterator2 > thrust::partition_copy",
+      "deleted": false,
+      "details": "<code>partition&#95;copy</code> differs from <code>partition</code> only in that the reordered sequence is written to difference output sequences, rather than in place.\n\n<code>partition&#95;copy</code> copies the elements <code>[first, last)</code> based on the function object <code>pred</code>. All of the elements that satisfy <code>pred</code> are copied to the range beginning at <code>out&#95;true</code> and all the elements that fail to satisfy it are copied to the range beginning at <code>out&#95;false</code>.\n\n\nThe following code snippet demonstrates how to use <code>partition&#95;copy</code> to separate a sequence into two output sequences of even and odd numbers.\n\n\n\n```cpp\n#include <thrust/partition.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int &x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nint A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\nint result[10];\nconst int N = sizeof(A)/sizeof(int);\nint *evens = result;\nint *odds  = result + 5;\nthrust::partition_copy(A, A + N, evens, odds, is_even());\n// A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}\n// result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}\n// evens points to {2, 4, 6, 8, 10}\n// odds points to {1, 3, 5, 7, 9}\n```",
+      "explicit": false,
+      "fullname": "partitioning::partition_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/partition.h",
+        "line": 449
+      },
+      "name": "partition_copy",
+      "note": [
+        "The relative order of elements in the two reordered sequences is not necessarily the same as it was in the original sequence. A different algorithm, <code>stable&#95;partition&#95;copy</code>, does guarantee to preserve the relative order."
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence to reorder. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence to reorder. "
+        },
+        {
+          "name": "out_true",
+          "text": "The destination of the resulting sequence of elements which satisfy <code>pred</code>. "
+        },
+        {
+          "name": "out_false",
+          "text": "The destination of the resulting sequence of elements which fail to satisfy <code>pred</code>. "
+        },
+        {
+          "name": "pred",
+          "text": "A function object which decides to which partition each element of the sequence <code>[first, last)</code> belongs. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "out_true",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "out_false",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The input range shall not overlap with either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::partition_copy",
+      "refid": "group__partitioning_1ga16065e4555896cb66cb23d47b879554b",
+      "returns": [
+        "A <code>pair</code> p such that <code>p.first</code> is the end of the output range beginning at <code>out&#95;true</code> and <code>p.second</code> is the end of the output range beginning at <code>out&#95;false</code>."
+      ],
+      "see": [
+        "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf</a>",
+        "<code>stable&#95;partition&#95;copy</code>",
+        "<code>partition</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code> and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1</code> and <code>OutputIterator2's</code><code>value&#95;types</code>. "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "partition_copy",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__partitioning.html#function-partition-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-partition-copy",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 first, InputIterator1 last, InputIterator2 stencil, OutputIterator1 out_true, OutputIterator2 out_false, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > thrust::partition_copy",
+      "deleted": false,
+      "details": "<code>partition&#95;copy</code> differs from <code>partition</code> only in that the reordered sequence is written to difference output sequences, rather than in place.\n\n<code>partition&#95;copy</code> copies the elements <code>[first, last)</code> based on the function object <code>pred</code> which is applied to a range of stencil elements. All of the elements whose corresponding stencil element satisfies <code>pred</code> are copied to the range beginning at <code>out&#95;true</code> and all the elements whose stencil element fails to satisfy it are copied to the range beginning at <code>out&#95;false</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>partition&#95;copy</code> to separate a sequence into two output sequences of even and odd numbers using the <code>thrust::host</code> execution policy for parallelization.\n\n\n\n```cpp\n#include <thrust/partition.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\nint A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\nint S[] = {0, 1, 0, 1, 0, 1, 0, 1, 0,  1};\nint result[10];\nconst int N = sizeof(A)/sizeof(int);\nint *evens = result;\nint *odds  = result + 5;\nthrust::stable_partition_copy(thrust::host, A, A + N, S, evens, odds, thrust::identity<int>());\n// A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}\n// S remains {0, 1, 0, 1, 0, 1, 0, 1, 0,  1}\n// result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}\n// evens points to {2, 4, 6, 8, 10}\n// odds points to {1, 3, 5, 7, 9}\n```",
+      "explicit": false,
+      "fullname": "partitioning::partition_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/partition.h",
+        "line": 529
+      },
+      "name": "partition_copy",
+      "note": [
+        "The relative order of elements in the two reordered sequences is not necessarily the same as it was in the original sequence. A different algorithm, <code>stable&#95;partition&#95;copy</code>, does guarantee to preserve the relative order."
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence to reorder. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence to reorder. "
+        },
+        {
+          "name": "stencil",
+          "text": "The beginning of the stencil sequence. "
+        },
+        {
+          "name": "out_true",
+          "text": "The destination of the resulting sequence of elements which satisfy <code>pred</code>. "
+        },
+        {
+          "name": "out_false",
+          "text": "The destination of the resulting sequence of elements which fail to satisfy <code>pred</code>. "
+        },
+        {
+          "name": "pred",
+          "text": "A function object which decides to which partition each element of the sequence <code>[first, last)</code> belongs. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "out_true",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "out_false",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The input ranges shall not overlap with either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::partition_copy",
+      "refid": "group__partitioning_1gac042d84ed5bf56c9129ca9e3d1a8ee9b",
+      "returns": [
+        "A <code>pair</code> p such that <code>p.first</code> is the end of the output range beginning at <code>out&#95;true</code> and <code>p.second</code> is the end of the output range beginning at <code>out&#95;false</code>."
+      ],
+      "see": [
+        "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf</a>",
+        "<code>stable&#95;partition&#95;copy</code>",
+        "<code>partition</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1</code> and <code>OutputIterator2's</code><code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "partition_copy",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__partitioning.html#function-partition-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-partition-copy",
+      "argsString": "(InputIterator1 first, InputIterator1 last, InputIterator2 stencil, OutputIterator1 out_true, OutputIterator2 out_false, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::pair< OutputIterator1, OutputIterator2 > thrust::partition_copy",
+      "deleted": false,
+      "details": "<code>partition&#95;copy</code> differs from <code>partition</code> only in that the reordered sequence is written to difference output sequences, rather than in place.\n\n<code>partition&#95;copy</code> copies the elements <code>[first, last)</code> based on the function object <code>pred</code> which is applied to a range of stencil elements. All of the elements whose corresponding stencil element satisfies <code>pred</code> are copied to the range beginning at <code>out&#95;true</code> and all the elements whose stencil element fails to satisfy it are copied to the range beginning at <code>out&#95;false</code>.\n\n\nThe following code snippet demonstrates how to use <code>partition&#95;copy</code> to separate a sequence into two output sequences of even and odd numbers.\n\n\n\n```cpp\n#include <thrust/partition.h>\n#include <thrust/functional.h>\n...\nint A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\nint S[] = {0, 1, 0, 1, 0, 1, 0, 1, 0,  1};\nint result[10];\nconst int N = sizeof(A)/sizeof(int);\nint *evens = result;\nint *odds  = result + 5;\nthrust::stable_partition_copy(A, A + N, S, evens, odds, thrust::identity<int>());\n// A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}\n// S remains {0, 1, 0, 1, 0, 1, 0, 1, 0,  1}\n// result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}\n// evens points to {2, 4, 6, 8, 10}\n// odds points to {1, 3, 5, 7, 9}\n```",
+      "explicit": false,
+      "fullname": "partitioning::partition_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/partition.h",
+        "line": 603
+      },
+      "name": "partition_copy",
+      "note": [
+        "The relative order of elements in the two reordered sequences is not necessarily the same as it was in the original sequence. A different algorithm, <code>stable&#95;partition&#95;copy</code>, does guarantee to preserve the relative order."
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence to reorder. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence to reorder. "
+        },
+        {
+          "name": "stencil",
+          "text": "The beginning of the stencil sequence. "
+        },
+        {
+          "name": "out_true",
+          "text": "The destination of the resulting sequence of elements which satisfy <code>pred</code>. "
+        },
+        {
+          "name": "out_false",
+          "text": "The destination of the resulting sequence of elements which fail to satisfy <code>pred</code>. "
+        },
+        {
+          "name": "pred",
+          "text": "A function object which decides to which partition each element of the sequence <code>[first, last)</code> belongs. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "out_true",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "out_false",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The input ranges shall not overlap with either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::partition_copy",
+      "refid": "group__partitioning_1ga56f0fc3974c15416330fe0cffb746527",
+      "returns": [
+        "A <code>pair</code> p such that <code>p.first</code> is the end of the output range beginning at <code>out&#95;true</code> and <code>p.second</code> is the end of the output range beginning at <code>out&#95;false</code>."
+      ],
+      "see": [
+        "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf</a>",
+        "<code>stable&#95;partition&#95;copy</code>",
+        "<code>partition</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1</code> and <code>OutputIterator2's</code><code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "partition_copy",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__partitioning.html#function-partition-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-stable-partition",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ ForwardIterator thrust::stable_partition",
+      "deleted": false,
+      "details": "<code>stable&#95;partition</code> is much like <code>partition</code> : it reorders the elements in the range <code>[first, last)</code> based on the function object <code>pred</code>, such that all of the elements that satisfy <code>pred</code> precede all of the elements that fail to satisfy it. The postcondition is that, for some iterator <code>middle</code> in the range <code>[first, last)</code>, <code>pred(&#42;i)</code> is <code>true</code> for every iterator <code>i</code> in the range <code>[first,middle)</code> and <code>false</code> for every iterator <code>i</code> in the range <code>[middle, last)</code>. The return value of <code>stable&#95;partition</code> is <code>middle</code>.\n\n<code>stable&#95;partition</code> differs from <code>partition</code> in that <code>stable&#95;partition</code> is guaranteed to preserve relative order. That is, if <code>x</code> and <code>y</code> are elements in <code>[first, last)</code>, and <code>stencil&#95;x</code> and <code>stencil&#95;y</code> are the stencil elements in corresponding positions within <code>[stencil, stencil + (last - first))</code>, and <code>pred(stencil&#95;x) == pred(stencil&#95;y)</code>, and if <code>x</code> precedes <code>y</code>, then it will still be true after <code>stable&#95;partition</code> that <code>x</code> precedes <code>y</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>stable&#95;partition</code> to reorder a sequence so that even numbers precede odd numbers using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/partition.h>\n#include <thrust/execution_policy.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int &x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nint A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\nconst int N = sizeof(A)/sizeof(int);\nthrust::stable_partition(thrust::host,\n                         A, A + N,\n                         is_even());\n// A is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}\n```",
+      "explicit": false,
+      "fullname": "partitioning::stable_partition",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/partition.h",
+        "line": 674
+      },
+      "name": "stable_partition",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The first element of the sequence to reorder. "
+        },
+        {
+          "name": "last",
+          "text": "One position past the last element of the sequence to reorder. "
+        },
+        {
+          "name": "pred",
+          "text": "A function object which decides to which partition each element of the sequence <code>[first, last)</code> belongs. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::stable_partition",
+      "refid": "group__partitioning_1gaee5ac63d5c7eb5b6771f814c7aeca622",
+      "returns": [
+        "An iterator referring to the first element of the second partition, that is, the sequence of the elements which do not satisfy pred."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/stable_partition\">https://en.cppreference.com/w/cpp/algorithm/stable_partition</a>",
+        "<code>partition</code>",
+        "<code>stable&#95;partition&#95;copy</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>, and <code>ForwardIterator</code> is mutable. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "stable_partition",
+      "type": "__host__ __device__ ForwardIterator",
+      "typePlain": "__host__ __device__ ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__partitioning.html#function-stable-partition",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-stable-partition",
+      "argsString": "(ForwardIterator first, ForwardIterator last, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "ForwardIterator thrust::stable_partition",
+      "deleted": false,
+      "details": "<code>stable&#95;partition</code> is much like <code>partition</code> : it reorders the elements in the range <code>[first, last)</code> based on the function object <code>pred</code>, such that all of the elements that satisfy <code>pred</code> precede all of the elements that fail to satisfy it. The postcondition is that, for some iterator <code>middle</code> in the range <code>[first, last)</code>, <code>pred(&#42;i)</code> is <code>true</code> for every iterator <code>i</code> in the range <code>[first,middle)</code> and <code>false</code> for every iterator <code>i</code> in the range <code>[middle, last)</code>. The return value of <code>stable&#95;partition</code> is <code>middle</code>.\n\n<code>stable&#95;partition</code> differs from <code>partition</code> in that <code>stable&#95;partition</code> is guaranteed to preserve relative order. That is, if <code>x</code> and <code>y</code> are elements in <code>[first, last)</code>, and <code>stencil&#95;x</code> and <code>stencil&#95;y</code> are the stencil elements in corresponding positions within <code>[stencil, stencil + (last - first))</code>, and <code>pred(stencil&#95;x) == pred(stencil&#95;y)</code>, and if <code>x</code> precedes <code>y</code>, then it will still be true after <code>stable&#95;partition</code> that <code>x</code> precedes <code>y</code>.\n\n\nThe following code snippet demonstrates how to use <code>stable&#95;partition</code> to reorder a sequence so that even numbers precede odd numbers.\n\n\n\n```cpp\n#include <thrust/partition.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int &x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nint A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\nconst int N = sizeof(A)/sizeof(int);\nthrust::stable_partition(A, A + N,\n                          is_even());\n// A is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}\n```",
+      "explicit": false,
+      "fullname": "partitioning::stable_partition",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/partition.h",
+        "line": 735
+      },
+      "name": "stable_partition",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The first element of the sequence to reorder. "
+        },
+        {
+          "name": "last",
+          "text": "One position past the last element of the sequence to reorder. "
+        },
+        {
+          "name": "pred",
+          "text": "A function object which decides to which partition each element of the sequence <code>[first, last)</code> belongs. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::stable_partition",
+      "refid": "group__partitioning_1gaa462d317fb80b65e671a3690aa8be372",
+      "returns": [
+        "An iterator referring to the first element of the second partition, that is, the sequence of the elements which do not satisfy pred."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/stable_partition\">https://en.cppreference.com/w/cpp/algorithm/stable_partition</a>",
+        "<code>partition</code>",
+        "<code>stable&#95;partition&#95;copy</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>, and <code>ForwardIterator</code> is mutable. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "stable_partition",
+      "type": "ForwardIterator",
+      "typePlain": "ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__partitioning.html#function-stable-partition",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-stable-partition",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last, InputIterator stencil, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ ForwardIterator thrust::stable_partition",
+      "deleted": false,
+      "details": "<code>stable&#95;partition</code> is much like <code>partition:</code> it reorders the elements in the range <code>[first, last)</code> based on the function object <code>pred</code> applied to a stencil range <code>[stencil, stencil + (last - first))</code>, such that all of the elements whose corresponding stencil element satisfies <code>pred</code> precede all of the elements whose corresponding stencil element fails to satisfy it. The postcondition is that, for some iterator <code>middle</code> in the range <code>[first, last)</code>, <code>pred(&#42;stencil&#95;i)</code> is <code>true</code> for every iterator <code>stencil&#95;i</code> in the range <code>[stencil,stencil + (middle - first))</code> and <code>false</code> for every iterator <code>stencil&#95;i</code> in the range <code>[stencil + (middle - first), stencil + (last - first))</code>. The return value of <code>stable&#95;partition</code> is <code>middle</code>.\n\n<code>stable&#95;partition</code> differs from <code>partition</code> in that <code>stable&#95;partition</code> is guaranteed to preserve relative order. That is, if <code>x</code> and <code>y</code> are elements in <code>[first, last)</code>, such that <code>pred(x) == pred(y)</code>, and if <code>x</code> precedes <code>y</code>, then it will still be true after <code>stable&#95;partition</code> that <code>x</code> precedes <code>y</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>stable&#95;partition</code> to reorder a sequence so that even numbers precede odd numbers using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/partition.h>\n#include <thrust/execution_policy.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int &x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nint A[] = {0, 1, 0, 1, 0, 1, 0, 1, 0,  1};\nint S[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\nconst int N = sizeof(A)/sizeof(int);\nthrust::stable_partition(thrust::host, A, A + N, S, is_even());\n// A is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}\n// S is unmodified\n```",
+      "explicit": false,
+      "fullname": "partitioning::stable_partition",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/partition.h",
+        "line": 808
+      },
+      "name": "stable_partition",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The first element of the sequence to reorder. "
+        },
+        {
+          "name": "last",
+          "text": "One position past the last element of the sequence to reorder. "
+        },
+        {
+          "name": "stencil",
+          "text": "The beginning of the stencil sequence. "
+        },
+        {
+          "name": "pred",
+          "text": "A function object which decides to which partition each element of the sequence <code>[first, last)</code> belongs. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The range <code>[first, last)</code> shall not overlap with the range <code>[stencil, stencil + (last - first))</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::stable_partition",
+      "refid": "group__partitioning_1gacc3377878caab1ac1037daf718596fcb",
+      "returns": [
+        "An iterator referring to the first element of the second partition, that is, the sequence of the elements whose stencil elements do not satisfy <code>pred</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/stable_partition\">https://en.cppreference.com/w/cpp/algorithm/stable_partition</a>",
+        "<code>partition</code>",
+        "<code>stable&#95;partition&#95;copy</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator</code> is mutable. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "stable_partition",
+      "type": "__host__ __device__ ForwardIterator",
+      "typePlain": "__host__ __device__ ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__partitioning.html#function-stable-partition",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-stable-partition",
+      "argsString": "(ForwardIterator first, ForwardIterator last, InputIterator stencil, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "ForwardIterator thrust::stable_partition",
+      "deleted": false,
+      "details": "<code>stable&#95;partition</code> is much like <code>partition:</code> it reorders the elements in the range <code>[first, last)</code> based on the function object <code>pred</code> applied to a stencil range <code>[stencil, stencil + (last - first))</code>, such that all of the elements whose corresponding stencil element satisfies <code>pred</code> precede all of the elements whose corresponding stencil element fails to satisfy it. The postcondition is that, for some iterator <code>middle</code> in the range <code>[first, last)</code>, <code>pred(&#42;stencil&#95;i)</code> is <code>true</code> for every iterator <code>stencil&#95;i</code> in the range <code>[stencil,stencil + (middle - first))</code> and <code>false</code> for every iterator <code>stencil&#95;i</code> in the range <code>[stencil + (middle - first), stencil + (last - first))</code>. The return value of <code>stable&#95;partition</code> is <code>middle</code>.\n\n<code>stable&#95;partition</code> differs from <code>partition</code> in that <code>stable&#95;partition</code> is guaranteed to preserve relative order. That is, if <code>x</code> and <code>y</code> are elements in <code>[first, last)</code>, such that <code>pred(x) == pred(y)</code>, and if <code>x</code> precedes <code>y</code>, then it will still be true after <code>stable&#95;partition</code> that <code>x</code> precedes <code>y</code>.\n\n\nThe following code snippet demonstrates how to use <code>stable&#95;partition</code> to reorder a sequence so that even numbers precede odd numbers.\n\n\n\n```cpp\n#include <thrust/partition.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int &x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nint A[] = {0, 1, 0, 1, 0, 1, 0, 1, 0,  1};\nint S[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\nconst int N = sizeof(A)/sizeof(int);\nthrust::stable_partition(A, A + N, S, is_even());\n// A is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}\n// S is unmodified\n```",
+      "explicit": false,
+      "fullname": "partitioning::stable_partition",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/partition.h",
+        "line": 876
+      },
+      "name": "stable_partition",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The first element of the sequence to reorder. "
+        },
+        {
+          "name": "last",
+          "text": "One position past the last element of the sequence to reorder. "
+        },
+        {
+          "name": "stencil",
+          "text": "The beginning of the stencil sequence. "
+        },
+        {
+          "name": "pred",
+          "text": "A function object which decides to which partition each element of the sequence <code>[first, last)</code> belongs. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The range <code>[first, last)</code> shall not overlap with the range <code>[stencil, stencil + (last - first))</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::stable_partition",
+      "refid": "group__partitioning_1ga12fbf51ebfc80fd049ed0cbde2dd8ff8",
+      "returns": [
+        "An iterator referring to the first element of the second partition, that is, the sequence of the elements whose stencil elements do not satisfy <code>pred</code>."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/stable_partition\">https://en.cppreference.com/w/cpp/algorithm/stable_partition</a>",
+        "<code>partition</code>",
+        "<code>stable&#95;partition&#95;copy</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator</code> is mutable. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "stable_partition",
+      "type": "ForwardIterator",
+      "typePlain": "ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__partitioning.html#function-stable-partition",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-stable-partition-copy",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, OutputIterator1 out_true, OutputIterator2 out_false, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > thrust::stable_partition_copy",
+      "deleted": false,
+      "details": "<code>stable&#95;partition&#95;copy</code> differs from <code>stable&#95;partition</code> only in that the reordered sequence is written to different output sequences, rather than in place.\n\n<code>stable&#95;partition&#95;copy</code> copies the elements <code>[first, last)</code> based on the function object <code>pred</code>. All of the elements that satisfy <code>pred</code> are copied to the range beginning at <code>out&#95;true</code> and all the elements that fail to satisfy it are copied to the range beginning at <code>out&#95;false</code>.\n\n<code>stable&#95;partition&#95;copy</code> differs from <code>partition&#95;copy</code> in that <code>stable&#95;partition&#95;copy</code> is guaranteed to preserve relative order. That is, if <code>x</code> and <code>y</code> are elements in <code>[first, last)</code>, such that <code>pred(x) == pred(y)</code>, and if <code>x</code> precedes <code>y</code>, then it will still be true after <code>stable&#95;partition&#95;copy</code> that <code>x</code> precedes <code>y</code> in the output.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>stable&#95;partition&#95;copy</code> to reorder a sequence so that even numbers precede odd numbers using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/partition.h>\n#include <thrust/execution_policy.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int &x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nint A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\nint result[10];\nconst int N = sizeof(A)/sizeof(int);\nint *evens = result;\nint *odds  = result + 5;\nthrust::stable_partition_copy(thrust::host, A, A + N, evens, odds, is_even());\n// A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}\n// result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}\n// evens points to {2, 4, 6, 8, 10}\n// odds points to {1, 3, 5, 7, 9}\n```",
+      "explicit": false,
+      "fullname": "partitioning::stable_partition_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/partition.h",
+        "line": 958
+      },
+      "name": "stable_partition_copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The first element of the sequence to reorder. "
+        },
+        {
+          "name": "last",
+          "text": "One position past the last element of the sequence to reorder. "
+        },
+        {
+          "name": "out_true",
+          "text": "The destination of the resulting sequence of elements which satisfy <code>pred</code>. "
+        },
+        {
+          "name": "out_false",
+          "text": "The destination of the resulting sequence of elements which fail to satisfy <code>pred</code>. "
+        },
+        {
+          "name": "pred",
+          "text": "A function object which decides to which partition each element of the sequence <code>[first, last)</code> belongs. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "out_true",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "out_false",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The input ranges shall not overlap with either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::stable_partition_copy",
+      "refid": "group__partitioning_1ga3dfd70df0abf91f7bcef932b572a2ff4",
+      "returns": [
+        "A <code>pair</code> p such that <code>p.first</code> is the end of the output range beginning at <code>out&#95;true</code> and <code>p.second</code> is the end of the output range beginning at <code>out&#95;false</code>."
+      ],
+      "see": [
+        "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf</a>",
+        "<code>partition&#95;copy</code>",
+        "<code>stable&#95;partition</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code> and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1</code> and <code>OutputIterator2's</code><code>value&#95;types</code>. "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "stable_partition_copy",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__partitioning.html#function-stable-partition-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-stable-partition-copy",
+      "argsString": "(InputIterator first, InputIterator last, OutputIterator1 out_true, OutputIterator2 out_false, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::pair< OutputIterator1, OutputIterator2 > thrust::stable_partition_copy",
+      "deleted": false,
+      "details": "<code>stable&#95;partition&#95;copy</code> differs from <code>stable&#95;partition</code> only in that the reordered sequence is written to different output sequences, rather than in place.\n\n<code>stable&#95;partition&#95;copy</code> copies the elements <code>[first, last)</code> based on the function object <code>pred</code>. All of the elements that satisfy <code>pred</code> are copied to the range beginning at <code>out&#95;true</code> and all the elements that fail to satisfy it are copied to the range beginning at <code>out&#95;false</code>.\n\n<code>stable&#95;partition&#95;copy</code> differs from <code>partition&#95;copy</code> in that <code>stable&#95;partition&#95;copy</code> is guaranteed to preserve relative order. That is, if <code>x</code> and <code>y</code> are elements in <code>[first, last)</code>, such that <code>pred(x) == pred(y)</code>, and if <code>x</code> precedes <code>y</code>, then it will still be true after <code>stable&#95;partition&#95;copy</code> that <code>x</code> precedes <code>y</code> in the output.\n\n\nThe following code snippet demonstrates how to use <code>stable&#95;partition&#95;copy</code> to reorder a sequence so that even numbers precede odd numbers.\n\n\n\n```cpp\n#include <thrust/partition.h>\n...\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(const int &x)\n  {\n    return (x % 2) == 0;\n  }\n};\n...\nint A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\nint result[10];\nconst int N = sizeof(A)/sizeof(int);\nint *evens = result;\nint *odds  = result + 5;\nthrust::stable_partition_copy(A, A + N, evens, odds, is_even());\n// A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}\n// result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}\n// evens points to {2, 4, 6, 8, 10}\n// odds points to {1, 3, 5, 7, 9}\n```",
+      "explicit": false,
+      "fullname": "partitioning::stable_partition_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/partition.h",
+        "line": 1035
+      },
+      "name": "stable_partition_copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The first element of the sequence to reorder. "
+        },
+        {
+          "name": "last",
+          "text": "One position past the last element of the sequence to reorder. "
+        },
+        {
+          "name": "out_true",
+          "text": "The destination of the resulting sequence of elements which satisfy <code>pred</code>. "
+        },
+        {
+          "name": "out_false",
+          "text": "The destination of the resulting sequence of elements which fail to satisfy <code>pred</code>. "
+        },
+        {
+          "name": "pred",
+          "text": "A function object which decides to which partition each element of the sequence <code>[first, last)</code> belongs. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "out_true",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "out_false",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The input ranges shall not overlap with either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::stable_partition_copy",
+      "refid": "group__partitioning_1ga77e78917bca6dfe9deb999000f5dc3c6",
+      "returns": [
+        "A <code>pair</code> p such that <code>p.first</code> is the end of the output range beginning at <code>out&#95;true</code> and <code>p.second</code> is the end of the output range beginning at <code>out&#95;false</code>."
+      ],
+      "see": [
+        "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf</a>",
+        "<code>partition&#95;copy</code>",
+        "<code>stable&#95;partition</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code> and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1</code> and <code>OutputIterator2's</code><code>value&#95;types</code>. "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "stable_partition_copy",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__partitioning.html#function-stable-partition-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-stable-partition-copy",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 first, InputIterator1 last, InputIterator2 stencil, OutputIterator1 out_true, OutputIterator2 out_false, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > thrust::stable_partition_copy",
+      "deleted": false,
+      "details": "<code>stable&#95;partition&#95;copy</code> differs from <code>stable&#95;partition</code> only in that the reordered sequence is written to different output sequences, rather than in place.\n\n<code>stable&#95;partition&#95;copy</code> copies the elements <code>[first, last)</code> based on the function object <code>pred</code> which is applied to a range of stencil elements. All of the elements whose corresponding stencil element satisfies <code>pred</code> are copied to the range beginning at <code>out&#95;true</code> and all the elements whose stencil element fails to satisfy it are copied to the range beginning at <code>out&#95;false</code>.\n\n<code>stable&#95;partition&#95;copy</code> differs from <code>partition&#95;copy</code> in that <code>stable&#95;partition&#95;copy</code> is guaranteed to preserve relative order. That is, if <code>x</code> and <code>y</code> are elements in <code>[first, last)</code>, such that <code>pred(x) == pred(y)</code>, and if <code>x</code> precedes <code>y</code>, then it will still be true after <code>stable&#95;partition&#95;copy</code> that <code>x</code> precedes <code>y</code> in the output.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>stable&#95;partition&#95;copy</code> to reorder a sequence so that even numbers precede odd numbers using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/partition.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\nint A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\nint S[] = {0, 1, 0, 1, 0, 1, 0, 1, 0,  1};\nint result[10];\nconst int N = sizeof(A)/sizeof(int);\nint *evens = result;\nint *odds  = result + 5;\nthrust::stable_partition_copy(thrust::host, A, A + N, S, evens, odds, thrust::identity<int>());\n// A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}\n// S remains {0, 1, 0, 1, 0, 1, 0, 1, 0,  1}\n// result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}\n// evens points to {2, 4, 6, 8, 10}\n// odds points to {1, 3, 5, 7, 9}\n```",
+      "explicit": false,
+      "fullname": "partitioning::stable_partition_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/partition.h",
+        "line": 1116
+      },
+      "name": "stable_partition_copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The first element of the sequence to reorder. "
+        },
+        {
+          "name": "last",
+          "text": "One position past the last element of the sequence to reorder. "
+        },
+        {
+          "name": "stencil",
+          "text": "The beginning of the stencil sequence. "
+        },
+        {
+          "name": "out_true",
+          "text": "The destination of the resulting sequence of elements which satisfy <code>pred</code>. "
+        },
+        {
+          "name": "out_false",
+          "text": "The destination of the resulting sequence of elements which fail to satisfy <code>pred</code>. "
+        },
+        {
+          "name": "pred",
+          "text": "A function object which decides to which partition each element of the sequence <code>[first, last)</code> belongs. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "out_true",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "out_false",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The input ranges shall not overlap with either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::stable_partition_copy",
+      "refid": "group__partitioning_1gaa416b78f534acfbb7152cca334150bbc",
+      "returns": [
+        "A <code>pair</code> p such that <code>p.first</code> is the end of the output range beginning at <code>out&#95;true</code> and <code>p.second</code> is the end of the output range beginning at <code>out&#95;false</code>."
+      ],
+      "see": [
+        "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf</a>",
+        "<code>partition&#95;copy</code>",
+        "<code>stable&#95;partition</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1</code> and <code>OutputIterator2's</code><code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "stable_partition_copy",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__partitioning.html#function-stable-partition-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-stable-partition-copy",
+      "argsString": "(InputIterator1 first, InputIterator1 last, InputIterator2 stencil, OutputIterator1 out_true, OutputIterator2 out_false, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::pair< OutputIterator1, OutputIterator2 > thrust::stable_partition_copy",
+      "deleted": false,
+      "details": "<code>stable&#95;partition&#95;copy</code> differs from <code>stable&#95;partition</code> only in that the reordered sequence is written to different output sequences, rather than in place.\n\n<code>stable&#95;partition&#95;copy</code> copies the elements <code>[first, last)</code> based on the function object <code>pred</code> which is applied to a range of stencil elements. All of the elements whose corresponding stencil element satisfies <code>pred</code> are copied to the range beginning at <code>out&#95;true</code> and all the elements whose stencil element fails to satisfy it are copied to the range beginning at <code>out&#95;false</code>.\n\n<code>stable&#95;partition&#95;copy</code> differs from <code>partition&#95;copy</code> in that <code>stable&#95;partition&#95;copy</code> is guaranteed to preserve relative order. That is, if <code>x</code> and <code>y</code> are elements in <code>[first, last)</code>, such that <code>pred(x) == pred(y)</code>, and if <code>x</code> precedes <code>y</code>, then it will still be true after <code>stable&#95;partition&#95;copy</code> that <code>x</code> precedes <code>y</code> in the output.\n\n\nThe following code snippet demonstrates how to use <code>stable&#95;partition&#95;copy</code> to reorder a sequence so that even numbers precede odd numbers.\n\n\n\n```cpp\n#include <thrust/partition.h>\n#include <thrust/functional.h>\n...\nint A[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\nint S[] = {0, 1, 0, 1, 0, 1, 0, 1, 0,  1};\nint result[10];\nconst int N = sizeof(A)/sizeof(int);\nint *evens = result;\nint *odds  = result + 5;\nthrust::stable_partition_copy(A, A + N, S, evens, odds, thrust::identity<int>());\n// A remains {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}\n// S remains {0, 1, 0, 1, 0, 1, 0, 1, 0,  1}\n// result is now {2, 4, 6, 8, 10, 1, 3, 5, 7, 9}\n// evens points to {2, 4, 6, 8, 10}\n// odds points to {1, 3, 5, 7, 9}\n```",
+      "explicit": false,
+      "fullname": "partitioning::stable_partition_copy",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/partition.h",
+        "line": 1192
+      },
+      "name": "stable_partition_copy",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The first element of the sequence to reorder. "
+        },
+        {
+          "name": "last",
+          "text": "One position past the last element of the sequence to reorder. "
+        },
+        {
+          "name": "stencil",
+          "text": "The beginning of the stencil sequence. "
+        },
+        {
+          "name": "out_true",
+          "text": "The destination of the resulting sequence of elements which satisfy <code>pred</code>. "
+        },
+        {
+          "name": "out_false",
+          "text": "The destination of the resulting sequence of elements which fail to satisfy <code>pred</code>. "
+        },
+        {
+          "name": "pred",
+          "text": "A function object which decides to which partition each element of the sequence <code>[first, last)</code> belongs. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "out_true",
+          "type": "OutputIterator1",
+          "typePlain": "OutputIterator1"
+        },
+        {
+          "name": "out_false",
+          "type": "OutputIterator2",
+          "typePlain": "OutputIterator2"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The input ranges shall not overlap with either output range."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::stable_partition_copy",
+      "refid": "group__partitioning_1ga98b7bb5e36c237ae4931dd4d3ed19cd7",
+      "returns": [
+        "A <code>pair</code> p such that <code>p.first</code> is the end of the output range beginning at <code>out&#95;true</code> and <code>p.second</code> is the end of the output range beginning at <code>out&#95;false</code>."
+      ],
+      "see": [
+        "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf</a>",
+        "<code>partition&#95;copy</code>",
+        "<code>stable&#95;partition</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator1",
+          "typePlain": "typename OutputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator2",
+          "typePlain": "typename OutputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator1</code> and <code>OutputIterator2's</code><code>value&#95;types</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a>, and <code>InputIterator2's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator1",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "OutputIterator2",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "stable_partition_copy",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
+      "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
+      "url": "{{ site.baseurl }}/api/groups/group__partitioning.html#function-stable-partition-copy",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "partitioning",
+  "refid": "group__partitioning",
+  "static": false,
+  "strong": false,
+  "title": "Partitioning",
+  "url": "{{ site.baseurl }}/api/groups/group__partitioning.html",
+  "visibility": "public"
+}

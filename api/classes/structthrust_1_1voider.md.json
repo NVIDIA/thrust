@@ -1,0 +1,140 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::voider",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 41,
+    "bodyFile": "thrust/type_traits/void_t.h",
+    "bodyStart": 41,
+    "column": 11,
+    "file": "thrust/type_traits/void_t.h",
+    "line": 41
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "type_traits",
+    "kind": "group",
+    "language": "",
+    "name": "type_traits",
+    "qualifiedname": "type_traits",
+    "refid": "group__type__traits",
+    "title": "Type Traits",
+    "url": "{{ site.baseurl }}/api/groups/group__type__traits.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "utility",
+      "kind": "group",
+      "language": "",
+      "name": "utility",
+      "qualifiedname": "utility",
+      "refid": "group__utility",
+      "title": "Utility",
+      "url": "{{ site.baseurl }}/api/groups/group__utility.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "type_traits",
+      "kind": "group",
+      "language": "",
+      "name": "type_traits",
+      "qualifiedname": "type_traits",
+      "refid": "group__type__traits",
+      "title": "Type Traits",
+      "url": "{{ site.baseurl }}/api/groups/group__type__traits.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::voider",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-type",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::voider<... >::type =  void",
+      "explicit": false,
+      "fullname": "thrust::voider::type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/type_traits/void_t.h",
+        "bodyStart": 41,
+        "column": 24,
+        "file": "thrust/type_traits/void_t.h",
+        "line": 41
+      },
+      "name": "type",
+      "override": false,
+      "qualifiedname": "thrust::voider::type",
+      "refid": "structthrust_1_1voider_1a4d9b7c2dd0de8fa2ba2f9a6e3b75db10",
+      "static": false,
+      "strong": false,
+      "title": "type",
+      "type": "void",
+      "typePlain": "void",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1voider.html#using-type",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::voider",
+  "refid": "structthrust_1_1voider",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename...",
+      "typePlain": "typename..."
+    }
+  ],
+  "title": "thrust::voider",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1voider.html",
+  "visibility": "public"
+}

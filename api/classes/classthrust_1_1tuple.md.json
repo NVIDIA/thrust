@@ -1,0 +1,445 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "<code>tuple</code> is a class template that can be instantiated with up to ten arguments. Each template argument specifies the type of element in the <code>tuple</code>. Consequently, tuples are heterogeneous, fixed-size collections of values. An instantiation of <code>tuple</code> with two arguments is similar to an instantiation of <code>pair</code> with the same two arguments. Individual elements of a <code>tuple</code> may be accessed with the <code>get</code> function. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "\nThe following code snippet demonstrates how to create a new <code>tuple</code> object and inspect and modify the value of its elements.\n\n\n\n```cpp\n#include <thrust/tuple.h>\n#include <iostream>\n\nint main() {\n  // Create a tuple containing an `int`, a `float`, and a string.\n  thrust::tuple<int, float, const char*> t(13, 0.1f, \"thrust\");\n\n  // Individual members are accessed with the free function `get`.\n  std::cout << \"The first element's value is \" << thrust::get<0>(t) << std::endl;\n\n  // ... or the member function `get`.\n  std::cout << \"The second element's value is \" << t.get<1>() << std::endl;\n\n  // We can also modify elements with the same function.\n  thrust::get<0>(t) += 10;\n}\n```",
+  "explicit": false,
+  "fullname": "thrust::tuple",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/tuple.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 388,
+    "bodyFile": "thrust/tuple.h",
+    "bodyStart": 189,
+    "column": 3,
+    "file": "thrust/tuple.h",
+    "line": 183
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "tuple",
+    "kind": "group",
+    "language": "",
+    "name": "tuple",
+    "qualifiedname": "tuple",
+    "refid": "group__tuple",
+    "title": "Tuple",
+    "url": "{{ site.baseurl }}/api/groups/group__tuple.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "utility",
+      "kind": "group",
+      "language": "",
+      "name": "utility",
+      "qualifiedname": "utility",
+      "refid": "group__utility",
+      "title": "Utility",
+      "url": "{{ site.baseurl }}/api/groups/group__utility.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "tuple",
+      "kind": "group",
+      "language": "",
+      "name": "tuple",
+      "qualifiedname": "tuple",
+      "refid": "group__tuple",
+      "title": "Tuple",
+      "url": "{{ site.baseurl }}/api/groups/group__tuple.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::tuple",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-tuple",
+      "argsString": "(void)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::tuple< T0, T1, T2, T3, T4, T5, T6, T7, T8, T9 >::tuple",
+      "deleted": false,
+      "details": "<code>tuple's</code> no-argument constructor initializes each element. ",
+      "explicit": false,
+      "fullname": "thrust::tuple::tuple",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 204,
+        "bodyFile": "thrust/tuple.h",
+        "bodyStart": 204,
+        "column": 3,
+        "file": "thrust/tuple.h",
+        "line": 204
+      },
+      "name": "tuple",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::tuple::tuple",
+      "refid": "classthrust_1_1tuple_1a106e89a5d4143a6fe190e056106e228c",
+      "static": false,
+      "strong": false,
+      "title": "tuple",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1tuple.html#function-tuple",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-tuple",
+      "argsString": "(typename access_traits< T0 >::parameter_type t0)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::tuple< T0, T1, T2, T3, T4, T5, T6, T7, T8, T9 >::tuple",
+      "deleted": false,
+      "details": "<code>tuple's</code> one-argument constructor copy constructs the first element from the given parameter and intializes all other elements. ",
+      "explicit": false,
+      "fullname": "thrust::tuple::tuple",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 221,
+        "bodyFile": "thrust/tuple.h",
+        "bodyStart": 211,
+        "column": 3,
+        "file": "thrust/tuple.h",
+        "line": 211
+      },
+      "name": "tuple",
+      "override": false,
+      "paramList": [
+        {
+          "name": "t0",
+          "text": "The value to assign to this <code>tuple's</code> first element. "
+        }
+      ],
+      "params": [
+        {
+          "name": "t0",
+          "type": "typename access_traits< T0 >::parameter_type",
+          "typePlain": "typename access_traits< T0 >::parameter_type"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::tuple::tuple",
+      "refid": "classthrust_1_1tuple_1a28feaabdb58fcba398e67c1c4d442a35",
+      "static": false,
+      "strong": false,
+      "title": "tuple",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1tuple.html#function-tuple",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-tuple",
+      "argsString": "(typename access_traits< T0 >::parameter_type t0, typename access_traits< T1 >::parameter_type t1)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::tuple< T0, T1, T2, T3, T4, T5, T6, T7, T8, T9 >::tuple",
+      "deleted": false,
+      "details": "<code>tuple's</code> one-argument constructor copy constructs the first two elements from the given parameters and intializes all other elements. ",
+      "explicit": false,
+      "fullname": "thrust::tuple::tuple",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 240,
+        "bodyFile": "thrust/tuple.h",
+        "bodyStart": 230,
+        "column": 3,
+        "file": "thrust/tuple.h",
+        "line": 230
+      },
+      "name": "tuple",
+      "note": [
+        "<code>tuple's</code> constructor has ten variants of this form, the rest of which are ommitted here for brevity. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "t0",
+          "text": "The value to assign to this <code>tuple's</code> first element. "
+        },
+        {
+          "name": "t1",
+          "text": "The value to assign to this <code>tuple's</code> second element. "
+        }
+      ],
+      "params": [
+        {
+          "name": "t0",
+          "type": "typename access_traits< T0 >::parameter_type",
+          "typePlain": "typename access_traits< T0 >::parameter_type"
+        },
+        {
+          "name": "t1",
+          "type": "typename access_traits< T1 >::parameter_type",
+          "typePlain": "typename access_traits< T1 >::parameter_type"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::tuple::tuple",
+      "refid": "classthrust_1_1tuple_1ab2c879b11fc83a1db5e0450bf8436a75",
+      "static": false,
+      "strong": false,
+      "title": "tuple",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1tuple.html#function-tuple",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const thrust::pair< U1, U2 > &k)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ tuple & thrust::tuple< T0, T1, T2, T3, T4, T5, T6, T7, T8, T9 >::operator=",
+      "deleted": false,
+      "details": "This assignment operator allows assigning the first two elements of this <code>tuple</code> from a <code>pair</code>. ",
+      "explicit": false,
+      "fullname": "thrust::tuple::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 377,
+        "bodyFile": "thrust/tuple.h",
+        "bodyStart": 372,
+        "column": 9,
+        "file": "thrust/tuple.h",
+        "line": 372
+      },
+      "name": "operator=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "k",
+          "text": "A <code>pair</code> to assign from. "
+        }
+      ],
+      "params": [
+        {
+          "name": "k",
+          "type": "const <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< U1, U2 > &",
+          "typePlain": "const thrust::pair< U1, U2 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::tuple::operator=",
+      "refid": "classthrust_1_1tuple_1aeb06e474eb964dcc4e19dc6c512af7b0",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class U1",
+          "typePlain": "class U1"
+        },
+        {
+          "name": "",
+          "type": "class U2",
+          "typePlain": "class U2"
+        }
+      ],
+      "title": "operator=",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1tuple.html\">tuple</a> &",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ tuple &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1tuple.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-swap",
+      "argsString": "(tuple &t)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::tuple< T0, T1, T2, T3, T4, T5, T6, T7, T8, T9 >::swap",
+      "deleted": false,
+      "details": "<code>swap</code> swaps the elements of two <code>tuple</code>s.",
+      "explicit": false,
+      "fullname": "thrust::tuple::swap",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 387,
+        "bodyFile": "thrust/tuple.h",
+        "bodyStart": 384,
+        "column": 8,
+        "file": "thrust/tuple.h",
+        "line": 384
+      },
+      "name": "swap",
+      "override": false,
+      "paramList": [
+        {
+          "name": "t",
+          "text": "The other <code>tuple</code> with which to swap. "
+        }
+      ],
+      "params": [
+        {
+          "name": "t",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1tuple.html\">tuple</a> &",
+          "typePlain": "tuple &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::tuple::swap",
+      "refid": "classthrust_1_1tuple_1af34decc99b0841ead4148da560117183",
+      "static": false,
+      "strong": false,
+      "title": "swap",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1tuple.html#function-swap",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::tuple",
+  "refid": "classthrust_1_1tuple",
+  "see": [
+    "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">pair</a>",
+    "get ",
+    "make_tuple ",
+    "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1tuple__element.html\">tuple_element</a>",
+    "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1tuple__size.html\">tuple_size</a>",
+    "tie "
+  ],
+  "static": false,
+  "strong": false,
+  "summary": "tuple is a class template that can be instantiated with up to ten arguments. Each template argument specifies the type of element in the tuple. Consequently, tuples are heterogeneous, fixed-size collections of values. An instantiation of tuple with two arguments is similar to an instantiation of pair with the same two arguments. Individual elements of a tuple may be accessed with the get function. ",
+  "templateParams": [
+    {
+      "name": "",
+      "type": "class T0",
+      "typePlain": "class T0"
+    },
+    {
+      "name": "",
+      "type": "class T1",
+      "typePlain": "class T1"
+    },
+    {
+      "name": "",
+      "type": "class T2",
+      "typePlain": "class T2"
+    },
+    {
+      "name": "",
+      "type": "class T3",
+      "typePlain": "class T3"
+    },
+    {
+      "name": "",
+      "type": "class T4",
+      "typePlain": "class T4"
+    },
+    {
+      "name": "",
+      "type": "class T5",
+      "typePlain": "class T5"
+    },
+    {
+      "name": "",
+      "type": "class T6",
+      "typePlain": "class T6"
+    },
+    {
+      "name": "",
+      "type": "class T7",
+      "typePlain": "class T7"
+    },
+    {
+      "name": "",
+      "type": "class T8",
+      "typePlain": "class T8"
+    },
+    {
+      "name": "",
+      "type": "class T9",
+      "typePlain": "class T9"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "TN",
+      "text": "The type of the <code>N</code><code>tuple</code> element. Thrust's <code>tuple</code> type currently supports up to ten elements."
+    }
+  ],
+  "title": "thrust::tuple",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1tuple.html",
+  "visibility": "public"
+}

@@ -1,0 +1,165 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "derivedClasses": [
+    {
+      "external": false,
+      "name": "thrust::mr::allocator< T, device_ptr_memory_resource< device_memory_resource > >",
+      "refid": "classthrust_1_1mr_1_1allocator",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html",
+      "virtual": "non-virtual",
+      "visibility": "private"
+    },
+    {
+      "external": false,
+      "name": "thrust::mr::allocator< T, Upstream >",
+      "refid": "classthrust_1_1mr_1_1allocator",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html",
+      "virtual": "non-virtual",
+      "visibility": "private"
+    },
+    {
+      "external": false,
+      "name": "thrust::mr::validator2< Upstream, Bookkeeper >",
+      "refid": "structthrust_1_1mr_1_1validator2",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2.html",
+      "virtual": "non-virtual",
+      "visibility": "private"
+    },
+    {
+      "external": false,
+      "name": "thrust::mr::validator2< Upstream, Bookkeeper >",
+      "refid": "structthrust_1_1mr_1_1validator2",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2.html",
+      "virtual": "non-virtual",
+      "visibility": "private"
+    },
+    {
+      "external": false,
+      "name": "thrust::mr::allocator< T, MR >",
+      "refid": "classthrust_1_1mr_1_1allocator",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html",
+      "virtual": "non-virtual",
+      "visibility": "private"
+    },
+    {
+      "external": false,
+      "name": "thrust::mr::fancy_pointer_resource< Upstream, Pointer >",
+      "refid": "classthrust_1_1mr_1_1fancy__pointer__resource",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1fancy__pointer__resource.html",
+      "virtual": "non-virtual",
+      "visibility": "private"
+    },
+    {
+      "external": false,
+      "name": "thrust::mr::unsynchronized_pool_resource< Upstream >",
+      "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html",
+      "virtual": "non-virtual",
+      "visibility": "private"
+    },
+    {
+      "external": false,
+      "name": "thrust::mr::validator2< T, U >",
+      "refid": "structthrust_1_1mr_1_1validator2",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2.html",
+      "virtual": "non-virtual",
+      "visibility": "private"
+    },
+    {
+      "external": false,
+      "name": "thrust::mr::validator2< T, U >",
+      "refid": "structthrust_1_1mr_1_1validator2",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2.html",
+      "virtual": "non-virtual",
+      "visibility": "private"
+    },
+    {
+      "external": false,
+      "name": "thrust::mr::validator2< T, T >",
+      "refid": "structthrust_1_1mr_1_1validator2_3_01T_00_01T_01_4",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2_3_01t_00_01t_01_4.html",
+      "virtual": "non-virtual",
+      "visibility": "private"
+    }
+  ],
+  "explicit": false,
+  "fullname": "thrust::mr::validator",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 37,
+    "bodyFile": "thrust/mr/validator.h",
+    "bodyStart": 30,
+    "column": 1,
+    "file": "thrust/mr/validator.h",
+    "line": 29
+  },
+  "name": "thrust::mr::validator",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "<code>thrust::mr</code> is the namespace containing system agnostic types and functions for <code>memory&#95;resource</code> related functionalities. ",
+    "category": "namespaces",
+    "fullname": "thrust::mr",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::mr",
+    "qualifiedname": "thrust::mr",
+    "refid": "namespacethrust_1_1mr",
+    "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
+    "title": "thrust::mr",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1mr.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "<code>thrust::mr</code> is the namespace containing system agnostic types and functions for <code>memory&#95;resource</code> related functionalities. ",
+      "category": "namespaces",
+      "fullname": "thrust::mr",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::mr",
+      "qualifiedname": "thrust::mr",
+      "refid": "namespacethrust_1_1mr",
+      "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
+      "title": "thrust::mr",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1mr.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::mr::validator",
+  "refid": "structthrust_1_1mr_1_1validator",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename MR",
+      "typePlain": "typename MR"
+    }
+  ],
+  "title": "thrust::mr::validator",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator.html",
+  "visibility": "public"
+}

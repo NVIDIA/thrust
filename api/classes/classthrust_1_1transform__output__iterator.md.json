@@ -1,0 +1,188 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "detail::transform_output_iterator_base::type",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__output__iterator.html\">transform&#95;output&#95;iterator</a></code> is a special kind of output iterator which transforms a value written upon dereference. This iterator is useful for transforming an output from algorithms without explicitly storing the intermediate result in the memory and applying subsequent transformation, thereby avoiding wasting memory capacity and bandwidth. Using <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a></code> facilitates kernel fusion by deferring execution of transformation until the value is written while saving both memory capacity and bandwidth.\n\nThe following code snippet demonstrated how to create a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__output__iterator.html\">transform&#95;output&#95;iterator</a></code> which applies <code>sqrtf</code> to the assigning value.\n\n\n\n```cpp\n#include <thrust/iterator/transform_output_iterator.h>\n#include <thrust/device_vector.h>\n\n// note: functor inherits form unary function\n // note: functor inherits from unary_function\n struct square_root : public thrust::unary_function<float,float>\n {\n   __host__ __device__\n   float operator()(float x) const\n   {\n     return sqrtf(x);\n   }\n };\n \n int main()\n {\n   thrust::device_vector<float> v(4);\n\n   typedef thrust::device_vector<float>::iterator FloatIterator;\n   thrust::transform_output_iterator<square_root, FloatIterator> iter(v.begin(), square_root());\n\n   iter[0] =  1.0f;    // stores sqrtf( 1.0f) \n   iter[1] =  4.0f;    // stores sqrtf( 4.0f)\n   iter[2] =  9.0f;    // stores sqrtf( 9.0f)\n   iter[3] = 16.0f;    // stores sqrtf(16.0f)\n   // iter[4] is an out-of-bounds error\n                                                                                          \n   v[0]; // returns 1.0f;\n   v[1]; // returns 2.0f;\n   v[2]; // returns 3.0f;\n   v[3]; // returns 4.0f;\n                                                                                          \n }\n```",
+  "explicit": false,
+  "fullname": "thrust::transform_output_iterator",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/iterator/transform_output_iterator.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 136,
+    "bodyFile": "thrust/iterator/transform_output_iterator.h",
+    "bodyStart": 92,
+    "column": 3,
+    "file": "thrust/iterator/transform_output_iterator.h",
+    "line": 90
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "fancyiterator",
+    "kind": "group",
+    "language": "",
+    "name": "fancyiterator",
+    "qualifiedname": "fancyiterator",
+    "refid": "group__fancyiterator",
+    "title": "Fancy Iterators",
+    "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterators",
+      "kind": "group",
+      "language": "",
+      "name": "iterators",
+      "qualifiedname": "iterators",
+      "refid": "group__iterators",
+      "title": "Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "fancyiterator",
+      "kind": "group",
+      "language": "",
+      "name": "fancyiterator",
+      "qualifiedname": "fancyiterator",
+      "refid": "group__fancyiterator",
+      "title": "Fancy Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::transform_output_iterator",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "privateFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-transform-output-iterator",
+      "argsString": "(OutputIterator const &out, UnaryFunction fun)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::transform_output_iterator< UnaryFunction, OutputIterator >::transform_output_iterator",
+      "deleted": false,
+      "details": "This constructor takes as argument an <code>OutputIterator</code> and an <code>UnaryFunction</code> and copies them to a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__output__iterator.html\">transform&#95;output&#95;iterator</a></code>",
+      "explicit": false,
+      "fullname": "thrust::transform_output_iterator::transform_output_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 118,
+        "bodyFile": "thrust/iterator/transform_output_iterator.h",
+        "bodyStart": 116,
+        "column": 5,
+        "file": "thrust/iterator/transform_output_iterator.h",
+        "line": 116
+      },
+      "name": "transform_output_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "out",
+          "text": "An <code>OutputIterator</code> pointing to the output range whereto the result of <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__output__iterator.html\">transform&#95;output&#95;iterator</a>'s</code><code>UnaryFunction</code> will be written. "
+        },
+        {
+          "name": "fun",
+          "text": "An <code>UnaryFunction</code> used to transform the objects assigned to this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__output__iterator.html\">transform&#95;output&#95;iterator</a></code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "out",
+          "type": "OutputIterator const &",
+          "typePlain": "OutputIterator const &"
+        },
+        {
+          "name": "fun",
+          "type": "UnaryFunction",
+          "typePlain": "UnaryFunction"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::transform_output_iterator::transform_output_iterator",
+      "refid": "classthrust_1_1transform__output__iterator_1ad0bbd226677eac0353c63aa93f8076ac",
+      "static": false,
+      "strong": false,
+      "title": "transform_output_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1transform__output__iterator.html#function-transform-output-iterator",
+      "virtual": false,
+      "visibility": "private"
+    }
+  ],
+  "qualifiedname": "thrust::transform_output_iterator",
+  "refid": "classthrust_1_1transform__output__iterator",
+  "see": [
+    "make_transform_output_iterator "
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename UnaryFunction",
+      "typePlain": "typename UnaryFunction"
+    },
+    {
+      "name": "",
+      "type": "typename OutputIterator",
+      "typePlain": "typename OutputIterator"
+    }
+  ],
+  "title": "thrust::transform_output_iterator",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1transform__output__iterator.html",
+  "visibility": "public"
+}

@@ -1,0 +1,601 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "A <code>linear&#95;congruential&#95;engine</code> random number engine produces unsigned integer random numbers using a linear congruential random number generation algorithm. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "The generation algorithm has the form <code>x&#95;i = (a &#42; x&#95;{i-1} + c) mod m</code>.\n\n\nThe following code snippet shows examples of use of a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code> instance:\n\n\n\n```cpp\n#include <thrust/random/linear_congruential_engine.h>\n#include <iostream>\n\nint main(void)\n{\n  // create a minstd_rand object, which is an instance of linear_congruential_engine\n  thrust::minstd_rand rng1;\n\n  // output some random values to cout\n  std::cout << rng1() << std::endl;\n\n  // a random value is printed\n\n  // create a new minstd_rand from a seed\n  thrust::minstd_rand rng2(13);\n\n  // discard some random values\n  rng2.discard(13);\n\n  // stream the object to an iostream\n  std::cout << rng2 << std::endl;\n\n  // rng2's current state is printed\n\n  // print the minimum and maximum values that minstd_rand can produce\n  std::cout << thrust::minstd_rand::min << std::endl;\n  std::cout << thrust::minstd_rand::max << std::endl;\n\n  // the range of minstd_rand is printed\n\n  // save the state of rng2 to a different object\n  thrust::minstd_rand rng3 = rng2;\n\n  // compare rng2 and rng3\n  std::cout << (rng2 == rng3) << std::endl;\n\n  // 1 is printed\n\n  // re-seed rng2 with a different seed\n  rng2.seed(7);\n\n  // compare rng2 and rng3\n  std::cout << (rng2 == rng3) << std::endl;\n\n  // 0 is printed\n\n  return 0;\n}\n```",
+  "explicit": false,
+  "fullname": "thrust::random::linear_congruential_engine",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/random/linear_congruential_engine.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 205,
+    "bodyFile": "thrust/random/linear_congruential_engine.h",
+    "bodyStart": 113,
+    "column": 3,
+    "file": "thrust/random/linear_congruential_engine.h",
+    "line": 112
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "random_number_engine_templates",
+    "kind": "group",
+    "language": "",
+    "name": "random_number_engine_templates",
+    "qualifiedname": "random_number_engine_templates",
+    "refid": "group__random__number__engine__templates",
+    "title": "Random Number Engine Class Templates",
+    "url": "{{ site.baseurl }}/api/groups/group__random__number__engine__templates.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "random",
+      "kind": "group",
+      "language": "",
+      "name": "random",
+      "qualifiedname": "random",
+      "refid": "group__random",
+      "title": "Random Number Generation",
+      "url": "{{ site.baseurl }}/api/groups/group__random.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "random_number_engine_templates",
+      "kind": "group",
+      "language": "",
+      "name": "random_number_engine_templates",
+      "qualifiedname": "random_number_engine_templates",
+      "refid": "group__random__number__engine__templates",
+      "title": "Random Number Engine Class Templates",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__engine__templates.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::random::linear_congruential_engine",
+  "note": [
+    "Inexperienced users should not use this class template directly. Instead, use <code>minstd&#95;rand</code> or <code>minstd&#95;rand0</code>."
+  ],
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "<code>thrust::random</code> is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+    "category": "namespaces",
+    "fullname": "thrust::random",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::random",
+    "qualifiedname": "thrust::random",
+    "refid": "namespacethrust_1_1random",
+    "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+    "title": "thrust::random",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1random.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "<code>thrust::random</code> is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+      "category": "namespaces",
+      "fullname": "thrust::random",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::random",
+      "qualifiedname": "thrust::random",
+      "refid": "namespacethrust_1_1random",
+      "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+      "title": "thrust::random",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1random.html",
+      "visibility": "public"
+    }
+  ],
+  "publicAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-multiplier",
+      "category": "attributes",
+      "const": false,
+      "definition": "const result_type thrust::random::linear_congruential_engine< UIntType, a, c, m >::multiplier",
+      "details": "The multiplier used in the generation algorithm. ",
+      "explicit": false,
+      "fullname": "thrust::random::linear_congruential_engine::multiplier",
+      "hasDetails": true,
+      "initializer": "= a",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/linear_congruential_engine.h",
+        "bodyStart": 126,
+        "column": 30,
+        "file": "thrust/random/linear_congruential_engine.h",
+        "line": 126
+      },
+      "name": "multiplier",
+      "override": false,
+      "qualifiedname": "thrust::random::linear_congruential_engine::multiplier",
+      "refid": "classthrust_1_1random_1_1linear__congruential__engine_1ada6390e8c293f1b7aa86725e94c9f43f",
+      "static": true,
+      "strong": false,
+      "title": "multiplier",
+      "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "const result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#variable-multiplier",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-increment",
+      "category": "attributes",
+      "const": false,
+      "definition": "const result_type thrust::random::linear_congruential_engine< UIntType, a, c, m >::increment",
+      "details": "The increment used in the generation algorithm. ",
+      "explicit": false,
+      "fullname": "thrust::random::linear_congruential_engine::increment",
+      "hasDetails": true,
+      "initializer": "= c",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/linear_congruential_engine.h",
+        "bodyStart": 130,
+        "column": 30,
+        "file": "thrust/random/linear_congruential_engine.h",
+        "line": 130
+      },
+      "name": "increment",
+      "override": false,
+      "qualifiedname": "thrust::random::linear_congruential_engine::increment",
+      "refid": "classthrust_1_1random_1_1linear__congruential__engine_1a84b47db58a4b526a538c1ae02a798b44",
+      "static": true,
+      "strong": false,
+      "title": "increment",
+      "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "const result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#variable-increment",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-modulus",
+      "category": "attributes",
+      "const": false,
+      "definition": "const result_type thrust::random::linear_congruential_engine< UIntType, a, c, m >::modulus",
+      "details": "The modulus used in the generation algorithm. ",
+      "explicit": false,
+      "fullname": "thrust::random::linear_congruential_engine::modulus",
+      "hasDetails": true,
+      "initializer": "= m",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/linear_congruential_engine.h",
+        "bodyStart": 134,
+        "column": 30,
+        "file": "thrust/random/linear_congruential_engine.h",
+        "line": 134
+      },
+      "name": "modulus",
+      "override": false,
+      "qualifiedname": "thrust::random::linear_congruential_engine::modulus",
+      "refid": "classthrust_1_1random_1_1linear__congruential__engine_1a25e6830f41faa48f1f6abf9d3850db26",
+      "static": true,
+      "strong": false,
+      "title": "modulus",
+      "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "const result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#variable-modulus",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-min",
+      "category": "attributes",
+      "const": false,
+      "definition": "const result_type thrust::random::linear_congruential_engine< UIntType, a, c, m >::min",
+      "details": "The smallest value this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code> may potentially produce. ",
+      "explicit": false,
+      "fullname": "thrust::random::linear_congruential_engine::min",
+      "hasDetails": true,
+      "initializer": "= c == 0u ? 1u : 0u",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/linear_congruential_engine.h",
+        "bodyStart": 138,
+        "column": 30,
+        "file": "thrust/random/linear_congruential_engine.h",
+        "line": 138
+      },
+      "name": "min",
+      "override": false,
+      "qualifiedname": "thrust::random::linear_congruential_engine::min",
+      "refid": "classthrust_1_1random_1_1linear__congruential__engine_1abd2a955a6ac6901d2b6519a7679aa886",
+      "static": true,
+      "strong": false,
+      "title": "min",
+      "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "const result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#variable-min",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-max",
+      "category": "attributes",
+      "const": false,
+      "definition": "const result_type thrust::random::linear_congruential_engine< UIntType, a, c, m >::max",
+      "details": "The largest value this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code> may potentially produce. ",
+      "explicit": false,
+      "fullname": "thrust::random::linear_congruential_engine::max",
+      "hasDetails": true,
+      "initializer": "= m - 1u",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/linear_congruential_engine.h",
+        "bodyStart": 142,
+        "column": 30,
+        "file": "thrust/random/linear_congruential_engine.h",
+        "line": 142
+      },
+      "name": "max",
+      "override": false,
+      "qualifiedname": "thrust::random::linear_congruential_engine::max",
+      "refid": "classthrust_1_1random_1_1linear__congruential__engine_1a6faa2fa56eccbcba02971025614a4a22",
+      "static": true,
+      "strong": false,
+      "title": "max",
+      "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "const result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#variable-max",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-default-seed",
+      "category": "attributes",
+      "const": false,
+      "definition": "const result_type thrust::random::linear_congruential_engine< UIntType, a, c, m >::default_seed",
+      "details": "The default seed of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code>. ",
+      "explicit": false,
+      "fullname": "thrust::random::linear_congruential_engine::default_seed",
+      "hasDetails": true,
+      "initializer": "= 1u",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/linear_congruential_engine.h",
+        "bodyStart": 146,
+        "column": 30,
+        "file": "thrust/random/linear_congruential_engine.h",
+        "line": 146
+      },
+      "name": "default_seed",
+      "override": false,
+      "qualifiedname": "thrust::random::linear_congruential_engine::default_seed",
+      "refid": "classthrust_1_1random_1_1linear__congruential__engine_1a772115cd982a1b627a0c05a3f4689854",
+      "static": true,
+      "strong": false,
+      "title": "default_seed",
+      "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "const result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#variable-default-seed",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-linear-congruential-engine",
+      "argsString": "(result_type s=default_seed)",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__host__ __device__ thrust::random::linear_congruential_engine< UIntType, a, c, m >::linear_congruential_engine",
+      "deleted": false,
+      "details": "This constructor, which optionally accepts a seed, initializes a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code>.",
+      "explicit": true,
+      "fullname": "thrust::random::linear_congruential_engine::linear_congruential_engine",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 14,
+        "file": "thrust/random/linear_congruential_engine.h",
+        "line": 156
+      },
+      "name": "linear_congruential_engine",
+      "override": false,
+      "paramList": [
+        {
+          "name": "s",
+          "text": "The seed used to intialize this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a>'s</code> state. "
+        }
+      ],
+      "params": [
+        {
+          "defval": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#variable-default-seed\">default_seed</a>",
+          "defvalPlain": "default_seed",
+          "name": "s",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#typedef-result-type\">result_type</a>",
+          "typePlain": "result_type"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::linear_congruential_engine::linear_congruential_engine",
+      "refid": "classthrust_1_1random_1_1linear__congruential__engine_1a13a1bda235c30cb167d6dd61fb5d45cb",
+      "static": false,
+      "strong": false,
+      "title": "linear_congruential_engine",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#function-linear-congruential-engine",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-seed",
+      "argsString": "(result_type s=default_seed)",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__host__ __device__ void thrust::random::linear_congruential_engine< UIntType, a, c, m >::seed",
+      "deleted": false,
+      "details": "This method initializes this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a>'s</code> state, and optionally accepts a seed value.",
+      "explicit": false,
+      "fullname": "thrust::random::linear_congruential_engine::seed",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 10,
+        "file": "thrust/random/linear_congruential_engine.h",
+        "line": 164
+      },
+      "name": "seed",
+      "override": false,
+      "paramList": [
+        {
+          "name": "s",
+          "text": "The seed used to initializes this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a>'s</code> state. "
+        }
+      ],
+      "params": [
+        {
+          "defval": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#variable-default-seed\">default_seed</a>",
+          "defvalPlain": "default_seed",
+          "name": "s",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#typedef-result-type\">result_type</a>",
+          "typePlain": "result_type"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::linear_congruential_engine::seed",
+      "refid": "classthrust_1_1random_1_1linear__congruential__engine_1a5419643b5d4c5c9dd2d7bbba15fe5f07",
+      "static": false,
+      "strong": false,
+      "title": "seed",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#function-seed",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(void)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ result_type thrust::random::linear_congruential_engine< UIntType, a, c, m >::operator()",
+      "deleted": false,
+      "details": "This member function produces a new random value and updates this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a>'s</code> state. ",
+      "explicit": false,
+      "fullname": "thrust::random::linear_congruential_engine::operator()",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 17,
+        "file": "thrust/random/linear_congruential_engine.h",
+        "line": 172
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::linear_congruential_engine::operator()",
+      "refid": "classthrust_1_1random_1_1linear__congruential__engine_1a340a01ac38153b906715a9d26338b322",
+      "returns": [
+        "A new random number. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "__host__ __device__ result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-discard",
+      "argsString": "(unsigned long long z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::random::linear_congruential_engine< UIntType, a, c, m >::discard",
+      "deleted": false,
+      "details": "This member function advances this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a>'s</code> state a given number of times and discards the results.",
+      "explicit": false,
+      "fullname": "thrust::random::linear_congruential_engine::discard",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 10,
+        "file": "thrust/random/linear_congruential_engine.h",
+        "line": 181
+      },
+      "name": "discard",
+      "note": [
+        "This function is provided because an implementation may be able to accelerate it. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The number of random values to discard. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "unsigned long long",
+          "typePlain": "unsigned long long"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::linear_congruential_engine::discard",
+      "refid": "classthrust_1_1random_1_1linear__congruential__engine_1aec05b19d2a85d02f1ff437791ea4dd68",
+      "static": false,
+      "strong": false,
+      "title": "discard",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#function-discard",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-result-type",
+      "brief": "The type of the unsigned integer produced by this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code>. ",
+      "category": "types",
+      "const": false,
+      "definition": "thrust::random::linear_congruential_engine< UIntType, a, c, m >::result_type",
+      "explicit": false,
+      "fullname": "thrust::random::linear_congruential_engine::result_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/linear_congruential_engine.h",
+        "bodyStart": 120,
+        "column": 22,
+        "file": "thrust/random/linear_congruential_engine.h",
+        "line": 120
+      },
+      "name": "result_type",
+      "override": false,
+      "qualifiedname": "thrust::random::linear_congruential_engine::result_type",
+      "refid": "classthrust_1_1random_1_1linear__congruential__engine_1a4a8463352cc4f92da6d3f16df5f99722",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the unsigned integer produced by this linear_congruential_engine. ",
+      "title": "result_type",
+      "type": "UIntType",
+      "typePlain": "UIntType",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html#typedef-result-type",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::random::linear_congruential_engine",
+  "refid": "classthrust_1_1random_1_1linear__congruential__engine",
+  "see": [
+    "<a href=\"{{ site.baseurl }}/api/groups/group__predefined__random.html#typedef-minstd-rand\">thrust::random::minstd_rand</a>",
+    "<a href=\"{{ site.baseurl }}/api/groups/group__predefined__random.html#typedef-minstd-rand0\">thrust::random::minstd_rand0</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "summary": "A linear_congruential_engine random number engine produces unsigned integer random numbers using a linear congruential random number generation algorithm. ",
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename UIntType",
+      "typePlain": "typename UIntType"
+    },
+    {
+      "name": "a",
+      "type": "UIntType",
+      "typePlain": "UIntType"
+    },
+    {
+      "name": "c",
+      "type": "UIntType",
+      "typePlain": "UIntType"
+    },
+    {
+      "name": "m",
+      "type": "UIntType",
+      "typePlain": "UIntType"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "UIntType",
+      "text": "The type of unsigned integer to produce. "
+    },
+    {
+      "name": "a",
+      "text": "The multiplier used in the generation algorithm. "
+    },
+    {
+      "name": "c",
+      "text": "The increment used in the generation algorithm. "
+    },
+    {
+      "name": "m",
+      "text": "The modulus used in the generation algorithm."
+    }
+  ],
+  "title": "thrust::random::linear_congruential_engine",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html",
+  "visibility": "public"
+}

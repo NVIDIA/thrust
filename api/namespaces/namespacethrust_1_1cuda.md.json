@@ -1,0 +1,129 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "<code>thrust::cuda</code> is a top-level alias for <code>thrust::system::cuda</code>. ",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::cuda",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "language": "cpp",
+  "location": {
+    "column": 1,
+    "file": "thrust/system/cuda/error.h",
+    "line": 171
+  },
+  "name": "thrust::cuda",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-event",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::cuda::event = typedef unique_eager_event",
+      "explicit": false,
+      "fullname": "thrust::cuda::event",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/cuda/future.h",
+        "bodyStart": 45,
+        "column": 1,
+        "file": "thrust/system/cuda/future.h",
+        "line": 45
+      },
+      "name": "event",
+      "override": false,
+      "qualifiedname": "thrust::cuda::event",
+      "refid": "namespacethrust_1_1cuda_1ae90a377256febcf88f394fe45295432b",
+      "static": false,
+      "strong": false,
+      "title": "event",
+      "type": "unique_eager_event",
+      "typePlain": "unique_eager_event",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cuda.html#using-event",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-future",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::cuda::future = typedef unique_eager_future<T>",
+      "explicit": false,
+      "fullname": "thrust::cuda::future",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/system/cuda/future.h",
+        "bodyStart": 48,
+        "column": 13,
+        "file": "thrust/system/cuda/future.h",
+        "line": 48
+      },
+      "name": "future",
+      "override": false,
+      "qualifiedname": "thrust::cuda::future",
+      "refid": "namespacethrust_1_1cuda_1a47df79c91087c9276d4b09ecd9cdfe6f",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "future",
+      "type": "unique_eager_future< T >",
+      "typePlain": "unique_eager_future< T >",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cuda.html#using-future",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::cuda",
+  "refid": "namespacethrust_1_1cuda",
+  "static": false,
+  "strong": false,
+  "summary": "thrust::cuda is a top-level alias for thrust::system::cuda. ",
+  "title": "thrust::cuda",
+  "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cuda.html",
+  "visibility": "public"
+}

@@ -1,0 +1,109 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::execution_policy< DerivedPolicy >",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1device__execution__policy.html\">device&#95;execution&#95;policy</a></code> is the base class for all Thrust parallel execution policies which are derived from Thrust's default device backend system configured with the <code>THRUST&#95;DEVICE&#95;SYSTEM</code> macro.\n\nCustom user-defined backends which wish to inherit the functionality of Thrust's device backend system should derive a policy from this type in order to interoperate with Thrust algorithm dispatch.\n\nThe following code snippet demonstrates how to derive a standalone custom execution policy from <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1device__execution__policy.html\">thrust::device&#95;execution&#95;policy</a></code> to implement a backend which specializes <code>for&#95;each</code> while inheriting the behavior of every other algorithm from the device system:\n\n\n\n```cpp\n#include <thrust/execution_policy.h>\n#include <iostream>\n\n// define a type derived from thrust::device_execution_policy to distinguish our custom execution policy:\nstruct my_policy : thrust::device_execution_policy<my_policy> {};\n\n// overload for_each on my_policy\ntemplate<typename Iterator, typename Function>\nIterator for_each(my_policy, Iterator first, Iterator last, Function f)\n{\n  std::cout << \"Hello, world from for_each(my_policy)!\" << std::endl;\n\n  for(; first < last; ++first)\n  {\n    f(*first);\n  }\n\n  return first;\n}\n\nstruct ignore_argument\n{\n  void operator()(int) {}\n};\n\nint main()\n{\n  int data[4];\n\n  // dispatch thrust::for_each using our custom policy:\n  my_policy exec;\n  thrust::for_each(exec, data, data + 4, ignore_argument());\n\n  // dispatch thrust::transform whose behavior our policy inherits\n  thrust::transform(exec, data, data, + 4, data, thrust::identity<int>());\n\n  return 0;\n}\n```",
+  "explicit": false,
+  "fullname": "thrust::device_execution_policy",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/execution_policy.h>",
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 251,
+    "bodyFile": "thrust/execution_policy.h",
+    "bodyStart": 251,
+    "column": 3,
+    "file": "thrust/execution_policy.h",
+    "line": 249
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "execution_policies",
+    "kind": "group",
+    "language": "",
+    "name": "execution_policies",
+    "qualifiedname": "execution_policies",
+    "refid": "group__execution__policies",
+    "title": "Parallel Execution Policies",
+    "url": "{{ site.baseurl }}/api/groups/group__execution__policies.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "execution_policies",
+      "kind": "group",
+      "language": "",
+      "name": "execution_policies",
+      "qualifiedname": "execution_policies",
+      "refid": "group__execution__policies",
+      "title": "Parallel Execution Policies",
+      "url": "{{ site.baseurl }}/api/groups/group__execution__policies.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::device_execution_policy",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::device_execution_policy",
+  "refid": "structthrust_1_1device__execution__policy",
+  "see": [
+    "execution_policy ",
+    "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1host__execution__policy.html\">host_execution_policy</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename DerivedPolicy",
+      "typePlain": "typename DerivedPolicy"
+    }
+  ],
+  "title": "thrust::device_execution_policy",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1device__execution__policy.html",
+  "visibility": "public"
+}

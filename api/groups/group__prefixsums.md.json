@@ -1,0 +1,1313 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "prefixsums",
+  "groups": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "segmentedprefixsums",
+      "kind": "group",
+      "language": "",
+      "name": "segmentedprefixsums",
+      "qualifiedname": "segmentedprefixsums",
+      "refid": "group__segmentedprefixsums",
+      "title": "Segmented Prefix Sums",
+      "url": "{{ site.baseurl }}/api/groups/group__segmentedprefixsums.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "transformed_prefixsums",
+      "kind": "group",
+      "language": "",
+      "name": "transformed_prefixsums",
+      "qualifiedname": "transformed_prefixsums",
+      "refid": "group__transformed__prefixsums",
+      "title": "Transformed Prefix Sums",
+      "url": "{{ site.baseurl }}/api/groups/group__transformed__prefixsums.html",
+      "visibility": "public"
+    }
+  ],
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "algorithms",
+    "kind": "group",
+    "language": "",
+    "name": "algorithms",
+    "qualifiedname": "algorithms",
+    "refid": "group__algorithms",
+    "title": "Algorithms",
+    "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "prefixsums",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "algorithms",
+    "kind": "group",
+    "language": "",
+    "name": "algorithms",
+    "qualifiedname": "algorithms",
+    "refid": "group__algorithms",
+    "title": "Algorithms",
+    "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-inclusive-scan",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, OutputIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::inclusive_scan",
+      "deleted": false,
+      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. More precisely, <code>&#42;first</code> is assigned to <code>&#42;result</code> and the sum of <code>&#42;first</code> and <code>&#42;(first + 1)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>inclusive&#95;scan</code> assumes plus as the associative operator. \n\n When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::inclusive_scan(thrust::host, data, data + 6, data); // in-place scan\n\n// data is now {1, 1, 3, 5, 6, 9}\n```",
+      "explicit": false,
+      "fullname": "prefixsums::inclusive_scan",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/scan.h",
+        "line": 95
+      },
+      "name": "inclusive_scan",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input sequence. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the output sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        }
+      ],
+      "pre": [
+        "<code>first</code> may equal <code>result</code> but the range <code>[first, last)</code> and the range <code>[result, result + (last - first))</code> shall not overlap otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::inclusive_scan",
+      "refid": "group__prefixsums_1gafb24ad76101263038b0acaddc094d70a",
+      "returns": [
+        "The end of the output sequence."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partial_sum\">https://en.cppreference.com/w/cpp/algorithm/partial_sum</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>, and if <code>x</code> and <code>y</code> are objects of <code>OutputIterator's</code><code>value&#95;type</code>, then <code>x + y</code> is defined. If <code>T</code> is <code>OutputIterator's</code><code>value&#95;type</code>, then <code>T(0)</code> is defined."
+        }
+      ],
+      "title": "inclusive_scan",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__prefixsums.html#function-inclusive-scan",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-inclusive-scan",
+      "argsString": "(InputIterator first, InputIterator last, OutputIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::inclusive_scan",
+      "deleted": false,
+      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. More precisely, <code>&#42;first</code> is assigned to <code>&#42;result</code> and the sum of <code>&#42;first</code> and <code>&#42;(first + 1)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>inclusive&#95;scan</code> assumes plus as the associative operator. \n\n When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::inclusive_scan(data, data + 6, data); // in-place scan\n\n// data is now {1, 1, 3, 5, 6, 9}\n```",
+      "explicit": false,
+      "fullname": "prefixsums::inclusive_scan",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/scan.h",
+        "line": 148
+      },
+      "name": "inclusive_scan",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the input sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input sequence. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the output sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        }
+      ],
+      "pre": [
+        "<code>first</code> may equal <code>result</code> but the range <code>[first, last)</code> and the range <code>[result, result + (last - first))</code> shall not overlap otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::inclusive_scan",
+      "refid": "group__prefixsums_1gad57155adfbf01ba6660839aafe16ad71",
+      "returns": [
+        "The end of the output sequence."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partial_sum\">https://en.cppreference.com/w/cpp/algorithm/partial_sum</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>, and if <code>x</code> and <code>y</code> are objects of <code>OutputIterator's</code><code>value&#95;type</code>, then <code>x + y</code> is defined. If <code>T</code> is <code>OutputIterator's</code><code>value&#95;type</code>, then <code>T(0)</code> is defined."
+        }
+      ],
+      "title": "inclusive_scan",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__prefixsums.html#function-inclusive-scan",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-inclusive-scan",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, OutputIterator result, AssociativeOperator binary_op)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::inclusive_scan",
+      "deleted": false,
+      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::inclusive_scan(thrust::host, data, data + 10, data, binary_op); // in-place scan\n\n// data is now {-5, 0, 2, 2, 2, 4, 4, 4, 4, 8}\n```",
+      "explicit": false,
+      "fullname": "prefixsums::inclusive_scan",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/scan.h",
+        "line": 206
+      },
+      "name": "inclusive_scan",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input sequence. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the output sequence. "
+        },
+        {
+          "name": "binary_op",
+          "text": "The associatve operator used to 'sum' values. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "binary_op",
+          "type": "AssociativeOperator",
+          "typePlain": "AssociativeOperator"
+        }
+      ],
+      "pre": [
+        "<code>first</code> may equal <code>result</code> but the range <code>[first, last)</code> and the range <code>[result, result + (last - first))</code> shall not overlap otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::inclusive_scan",
+      "refid": "group__prefixsums_1gaaa5aa56f22c5e74e55ffdfebda8fbb62",
+      "returns": [
+        "The end of the output sequence."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partial_sum\">https://en.cppreference.com/w/cpp/algorithm/partial_sum</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename AssociativeOperator",
+          "typePlain": "typename AssociativeOperator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and <code>OutputIterator's</code><code>value&#95;type</code> is convertible to both <code>AssociativeOperator's</code><code>first&#95;argument&#95;type</code> and <code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "AssociativeOperator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/binary_function\">Binary Function</a> and <code>AssociativeOperator's</code><code>result&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "inclusive_scan",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__prefixsums.html#function-inclusive-scan",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-inclusive-scan",
+      "argsString": "(InputIterator first, InputIterator last, OutputIterator result, AssociativeOperator binary_op)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::inclusive_scan",
+      "deleted": false,
+      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code>\n\n\n\n```cpp\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::inclusive_scan(data, data + 10, data, binary_op); // in-place scan\n\n// data is now {-5, 0, 2, 2, 2, 4, 4, 4, 4, 8}\n```",
+      "explicit": false,
+      "fullname": "prefixsums::inclusive_scan",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/scan.h",
+        "line": 259
+      },
+      "name": "inclusive_scan",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the input sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input sequence. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the output sequence. "
+        },
+        {
+          "name": "binary_op",
+          "text": "The associatve operator used to 'sum' values. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "binary_op",
+          "type": "AssociativeOperator",
+          "typePlain": "AssociativeOperator"
+        }
+      ],
+      "pre": [
+        "<code>first</code> may equal <code>result</code> but the range <code>[first, last)</code> and the range <code>[result, result + (last - first))</code> shall not overlap otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::inclusive_scan",
+      "refid": "group__prefixsums_1ga7109170b96a48fab736e52b75f423464",
+      "returns": [
+        "The end of the output sequence."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partial_sum\">https://en.cppreference.com/w/cpp/algorithm/partial_sum</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename AssociativeOperator",
+          "typePlain": "typename AssociativeOperator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and <code>OutputIterator's</code><code>value&#95;type</code> is convertible to both <code>AssociativeOperator's</code><code>first&#95;argument&#95;type</code> and <code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "AssociativeOperator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/binary_function\">Binary Function</a> and <code>AssociativeOperator's</code><code>result&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "inclusive_scan",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__prefixsums.html#function-inclusive-scan",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-exclusive-scan",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, OutputIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::exclusive_scan",
+      "deleted": false,
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>0</code> is assigned to <code>&#42;result</code> and the sum of <code>0</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator and <code>0</code> as the initial value. When the input and output sequences are the same, the scan is performed in-place.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(thrust::host, data, data + 6, data); // in-place scan\n\n// data is now {0, 1, 1, 3, 5, 6}\n```",
+      "explicit": false,
+      "fullname": "prefixsums::exclusive_scan",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/scan.h",
+        "line": 315
+      },
+      "name": "exclusive_scan",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input sequence. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the output sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        }
+      ],
+      "pre": [
+        "<code>first</code> may equal <code>result</code> but the range <code>[first, last)</code> and the range <code>[result, result + (last - first))</code> shall not overlap otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::exclusive_scan",
+      "refid": "group__prefixsums_1ga0f1b7e1931f6ccd83c67c8cfde7c8144",
+      "returns": [
+        "The end of the output sequence."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partial_sum\">https://en.cppreference.com/w/cpp/algorithm/partial_sum</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>, and if <code>x</code> and <code>y</code> are objects of <code>OutputIterator's</code><code>value&#95;type</code>, then <code>x + y</code> is defined. If <code>T</code> is <code>OutputIterator's</code><code>value&#95;type</code>, then <code>T(0)</code> is defined."
+        }
+      ],
+      "title": "exclusive_scan",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__prefixsums.html#function-exclusive-scan",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-exclusive-scan",
+      "argsString": "(InputIterator first, InputIterator last, OutputIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::exclusive_scan",
+      "deleted": false,
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>0</code> is assigned to <code>&#42;result</code> and the sum of <code>0</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator and <code>0</code> as the initial value. When the input and output sequences are the same, the scan is performed in-place.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(data, data + 6, data); // in-place scan\n\n// data is now {0, 1, 1, 3, 5, 6}\n```",
+      "explicit": false,
+      "fullname": "prefixsums::exclusive_scan",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/scan.h",
+        "line": 362
+      },
+      "name": "exclusive_scan",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the input sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input sequence. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the output sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        }
+      ],
+      "pre": [
+        "<code>first</code> may equal <code>result</code> but the range <code>[first, last)</code> and the range <code>[result, result + (last - first))</code> shall not overlap otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::exclusive_scan",
+      "refid": "group__prefixsums_1ga333bd4f34742dcf68d3ac5a0933f67db",
+      "returns": [
+        "The end of the output sequence."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partial_sum\">https://en.cppreference.com/w/cpp/algorithm/partial_sum</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>, and if <code>x</code> and <code>y</code> are objects of <code>OutputIterator's</code><code>value&#95;type</code>, then <code>x + y</code> is defined. If <code>T</code> is <code>OutputIterator's</code><code>value&#95;type</code>, then <code>T(0)</code> is defined."
+        }
+      ],
+      "title": "exclusive_scan",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__prefixsums.html#function-exclusive-scan",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-exclusive-scan",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, OutputIterator result, T init)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::exclusive_scan",
+      "deleted": false,
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the sum of <code>init</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator but requires an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(thrust::host, data, data + 6, data, 4); // in-place scan\n\n// data is now {4, 5, 5, 7, 9, 10}\n```",
+      "explicit": false,
+      "fullname": "prefixsums::exclusive_scan",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/scan.h",
+        "line": 417
+      },
+      "name": "exclusive_scan",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input sequence. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the output sequence. "
+        },
+        {
+          "name": "init",
+          "text": "The initial value. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "init",
+          "type": "T",
+          "typePlain": "T"
+        }
+      ],
+      "pre": [
+        "<code>first</code> may equal <code>result</code> but the range <code>[first, last)</code> and the range <code>[result, result + (last - first))</code> shall not overlap otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::exclusive_scan",
+      "refid": "group__prefixsums_1ga7be5451c96d8f649c8c43208fcebb8c3",
+      "returns": [
+        "The end of the output sequence."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partial_sum\">https://en.cppreference.com/w/cpp/algorithm/partial_sum</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>, and if <code>x</code> and <code>y</code> are objects of <code>OutputIterator's</code><code>value&#95;type</code>, then <code>x + y</code> is defined. "
+        },
+        {
+          "name": "T",
+          "text": "is convertible to <code>OutputIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "exclusive_scan",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__prefixsums.html#function-exclusive-scan",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-exclusive-scan",
+      "argsString": "(InputIterator first, InputIterator last, OutputIterator result, T init)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::exclusive_scan",
+      "deleted": false,
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the sum of <code>init</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator but requires an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(data, data + 6, data, 4); // in-place scan\n\n// data is now {4, 5, 5, 7, 9, 10}\n```",
+      "explicit": false,
+      "fullname": "prefixsums::exclusive_scan",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/scan.h",
+        "line": 466
+      },
+      "name": "exclusive_scan",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the input sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input sequence. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the output sequence. "
+        },
+        {
+          "name": "init",
+          "text": "The initial value. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "init",
+          "type": "T",
+          "typePlain": "T"
+        }
+      ],
+      "pre": [
+        "<code>first</code> may equal <code>result</code> but the range <code>[first, last)</code> and the range <code>[result, result + (last - first))</code> shall not overlap otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::exclusive_scan",
+      "refid": "group__prefixsums_1ga3d973b51246f3d869339c08e3cbdc6fb",
+      "returns": [
+        "The end of the output sequence."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partial_sum\">https://en.cppreference.com/w/cpp/algorithm/partial_sum</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a>, and if <code>x</code> and <code>y</code> are objects of <code>OutputIterator's</code><code>value&#95;type</code>, then <code>x + y</code> is defined. "
+        },
+        {
+          "name": "T",
+          "text": "is convertible to <code>OutputIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "exclusive_scan",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__prefixsums.html#function-exclusive-scan",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-exclusive-scan",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator first, InputIterator last, OutputIterator result, T init, AssociativeOperator binary_op)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ OutputIterator thrust::exclusive_scan",
+      "deleted": false,
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the value <code>binary&#95;op(init, &#42;first)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of the function requires both an associative operator and an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::exclusive_scan(thrust::host, data, data + 10, data, 1, binary_op); // in-place scan\n\n// data is now {1, 1, 1, 2, 2, 2, 4, 4, 4, 4 }\n```",
+      "explicit": false,
+      "fullname": "prefixsums::exclusive_scan",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/scan.h",
+        "line": 532
+      },
+      "name": "exclusive_scan",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input sequence. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the output sequence. "
+        },
+        {
+          "name": "init",
+          "text": "The initial value. "
+        },
+        {
+          "name": "binary_op",
+          "text": "The associatve operator used to 'sum' values. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "init",
+          "type": "T",
+          "typePlain": "T"
+        },
+        {
+          "name": "binary_op",
+          "type": "AssociativeOperator",
+          "typePlain": "AssociativeOperator"
+        }
+      ],
+      "pre": [
+        "<code>first</code> may equal <code>result</code> but the range <code>[first, last)</code> and the range <code>[result, result + (last - first))</code> shall not overlap otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::exclusive_scan",
+      "refid": "group__prefixsums_1ga7576d394daa555d6d792d755f0037d63",
+      "returns": [
+        "The end of the output sequence."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partial_sum\">https://en.cppreference.com/w/cpp/algorithm/partial_sum</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename AssociativeOperator",
+          "typePlain": "typename AssociativeOperator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and <code>OutputIterator's</code><code>value&#95;type</code> is convertible to both <code>AssociativeOperator's</code><code>first&#95;argument&#95;type</code> and <code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "T",
+          "text": "is convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "AssociativeOperator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/binary_function\">Binary Function</a> and <code>AssociativeOperator's</code><code>result&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "exclusive_scan",
+      "type": "__host__ __device__ OutputIterator",
+      "typePlain": "__host__ __device__ OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__prefixsums.html#function-exclusive-scan",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-exclusive-scan",
+      "argsString": "(InputIterator first, InputIterator last, OutputIterator result, T init, AssociativeOperator binary_op)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "OutputIterator thrust::exclusive_scan",
+      "deleted": false,
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the value <code>binary&#95;op(init, &#42;first)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of the function requires both an associative operator and an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::exclusive_scan(data, data + 10, data, 1, binary_op); // in-place scan\n\n// data is now {1, 1, 1, 2, 2, 2, 4, 4, 4, 4 }\n```",
+      "explicit": false,
+      "fullname": "prefixsums::exclusive_scan",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/scan.h",
+        "line": 591
+      },
+      "name": "exclusive_scan",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the input sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input sequence. "
+        },
+        {
+          "name": "result",
+          "text": "The beginning of the output sequence. "
+        },
+        {
+          "name": "init",
+          "text": "The initial value. "
+        },
+        {
+          "name": "binary_op",
+          "text": "The associatve operator used to 'sum' values. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator",
+          "typePlain": "InputIterator"
+        },
+        {
+          "name": "result",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "init",
+          "type": "T",
+          "typePlain": "T"
+        },
+        {
+          "name": "binary_op",
+          "type": "AssociativeOperator",
+          "typePlain": "AssociativeOperator"
+        }
+      ],
+      "pre": [
+        "<code>first</code> may equal <code>result</code> but the range <code>[first, last)</code> and the range <code>[result, result + (last - first))</code> shall not overlap otherwise."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::exclusive_scan",
+      "refid": "group__prefixsums_1gaa3f981950f16c9dae693590b79a9ff90",
+      "returns": [
+        "The end of the output sequence."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partial_sum\">https://en.cppreference.com/w/cpp/algorithm/partial_sum</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator",
+          "typePlain": "typename InputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        },
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename AssociativeOperator",
+          "typePlain": "typename AssociativeOperator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator's</code><code>value&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "OutputIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/output_iterator\">Output Iterator</a> and <code>OutputIterator's</code><code>value&#95;type</code> is convertible to both <code>AssociativeOperator's</code><code>first&#95;argument&#95;type</code> and <code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "T",
+          "text": "is convertible to <code>OutputIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "AssociativeOperator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/binary_function\">Binary Function</a> and <code>AssociativeOperator's</code><code>result&#95;type</code> is convertible to <code>OutputIterator's</code><code>value&#95;type</code>."
+        }
+      ],
+      "title": "exclusive_scan",
+      "type": "OutputIterator",
+      "typePlain": "OutputIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__prefixsums.html#function-exclusive-scan",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "prefixsums",
+  "refid": "group__prefixsums",
+  "static": false,
+  "strong": false,
+  "title": "Prefix Sums",
+  "url": "{{ site.baseurl }}/api/groups/group__prefixsums.html",
+  "visibility": "public"
+}

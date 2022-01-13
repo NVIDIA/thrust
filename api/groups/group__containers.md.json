@@ -1,0 +1,111 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "containers",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "name": "containers",
+  "override": false,
+  "parent": null,
+  "publicClasses": [
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "detail::vector_base< T, thrust::device_allocator< T > >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::device_vector",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::device_vector",
+      "qualifiedname": "thrust::device_vector",
+      "refid": "classthrust_1_1device__vector",
+      "title": "thrust::device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-swap",
+      "argsString": "(device_vector< T, Alloc > &a, device_vector< T, Alloc > &b)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "void thrust::swap",
+      "deleted": false,
+      "details": "Exchanges the values of two vectors. <code>x</code> The first <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> of interest. <code>y</code> The second <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> of interest. ",
+      "explicit": false,
+      "fullname": "containers::swap",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "bodyEnd": 486,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 483,
+        "column": 8,
+        "file": "thrust/device_vector.h",
+        "line": 483
+      },
+      "name": "swap",
+      "override": false,
+      "params": [
+        {
+          "name": "a",
+          "type": "device_vector< T, Alloc > &",
+          "typePlain": "device_vector< T, Alloc > &"
+        },
+        {
+          "name": "b",
+          "type": "device_vector< T, Alloc > &",
+          "typePlain": "device_vector< T, Alloc > &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::swap",
+      "refid": "group__containers_1ga9b8fee20df6bdcd66e3dc378843d2893",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename Alloc",
+          "typePlain": "typename Alloc"
+        }
+      ],
+      "title": "swap",
+      "type": "void",
+      "typePlain": "void",
+      "url": "{{ site.baseurl }}/api/groups/group__containers.html#function-swap",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "containers",
+  "refid": "group__containers",
+  "static": false,
+  "strong": false,
+  "title": "Containers",
+  "url": "{{ site.baseurl }}/api/groups/group__containers.html",
+  "visibility": "public"
+}

@@ -1,0 +1,109 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "thrust::detail::optional_copy_assign_base< T >",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "derivedClasses": [
+    {
+      "external": false,
+      "name": "thrust::optional< T >",
+      "refid": "classthrust_1_1optional",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1optional.html",
+      "virtual": "non-virtual",
+      "visibility": "private"
+    }
+  ],
+  "explicit": false,
+  "fullname": "thrust::detail::optional_move_assign_base",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 633,
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 631,
+    "column": 1,
+    "file": "thrust/optional.h",
+    "line": 631
+  },
+  "name": "thrust::detail::optional_move_assign_base",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "\\exclude ",
+    "category": "namespaces",
+    "fullname": "thrust::detail",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::detail",
+    "qualifiedname": "thrust::detail",
+    "refid": "namespacethrust_1_1detail",
+    "summary": "\\exclude ",
+    "title": "thrust::detail",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "\\exclude ",
+      "category": "namespaces",
+      "fullname": "thrust::detail",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::detail",
+      "qualifiedname": "thrust::detail",
+      "refid": "namespacethrust_1_1detail",
+      "summary": "\\exclude ",
+      "title": "thrust::detail",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::detail::optional_move_assign_base",
+  "refid": "structthrust_1_1detail_1_1optional__move__assign__base",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "class T",
+      "typePlain": "class T"
+    },
+    {
+      "defval": "std::is_trivially_destructible< T >::value && std::is_trivially_move_constructible< T >::value && std::is_trivially_move_assignable< T >::value",
+      "defvalPlain": "std::is_trivially_destructible< T >::value && std::is_trivially_move_constructible< T >::value && std::is_trivially_move_assignable< T >::value",
+      "name": "",
+      "type": "bool",
+      "typePlain": "bool"
+    }
+  ],
+  "title": "thrust::detail::optional_move_assign_base",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__move__assign__base.html",
+  "visibility": "public"
+}

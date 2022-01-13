@@ -1,0 +1,1457 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "system_diagnostics",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "system",
+    "kind": "group",
+    "language": "",
+    "name": "system",
+    "qualifiedname": "system",
+    "refid": "group__system",
+    "title": "System",
+    "url": "{{ site.baseurl }}/api/groups/group__system.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "system",
+      "kind": "group",
+      "language": "",
+      "name": "system",
+      "qualifiedname": "system",
+      "refid": "group__system",
+      "title": "System",
+      "url": "{{ site.baseurl }}/api/groups/group__system.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "system_diagnostics",
+  "namespaces": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust::system::errc",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::system::errc",
+      "qualifiedname": "thrust::system::errc",
+      "refid": "namespacethrust_1_1system_1_1errc",
+      "title": "thrust::system::errc",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1errc.html",
+      "visibility": "public"
+    }
+  ],
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "system",
+    "kind": "group",
+    "language": "",
+    "name": "system",
+    "qualifiedname": "system",
+    "refid": "group__system",
+    "title": "System",
+    "url": "{{ site.baseurl }}/api/groups/group__system.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "system",
+      "kind": "group",
+      "language": "",
+      "name": "system",
+      "qualifiedname": "system",
+      "refid": "group__system",
+      "title": "System",
+      "url": "{{ site.baseurl }}/api/groups/group__system.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::false_type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::system::is_error_code_enum",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::system::is_error_code_enum",
+      "qualifiedname": "thrust::system::is_error_code_enum",
+      "refid": "structthrust_1_1system_1_1is__error__code__enum",
+      "title": "thrust::system::is_error_code_enum",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1system_1_1is__error__code__enum.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::false_type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::system::is_error_condition_enum",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::system::is_error_condition_enum",
+      "qualifiedname": "thrust::system::is_error_condition_enum",
+      "refid": "structthrust_1_1system_1_1is__error__condition__enum",
+      "title": "thrust::system::is_error_condition_enum",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1system_1_1is__error__condition__enum.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::true_type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::system::is_error_condition_enum< errc::errc_t >",
+      "kind": "struct",
+      "language": "cpp",
+      "name": "thrust::system::is_error_condition_enum< errc::errc_t >",
+      "qualifiedname": "thrust::system::is_error_condition_enum< errc::errc_t >",
+      "refid": "structthrust_1_1system_1_1is__error__condition__enum_3_01errc_1_1errc__t_01_4",
+      "title": "thrust::system::is_error_condition_enum< errc::errc_t >",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1system_1_1is__error__condition__enum_3_01errc_1_1errc__t_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "The class <code>error&#95;category</code> serves as a base class for types used to identify the source and encoding of a particular category of error code. Classes may be derived from <code>error&#95;category</code> to support categories of errors in addition to those defined in the C++ International Standard. ",
+      "category": "classes",
+      "fullname": "thrust::system::error_category",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::system::error_category",
+      "qualifiedname": "thrust::system::error_category",
+      "refid": "classthrust_1_1system_1_1error__category",
+      "summary": "The class error_category serves as a base class for types used to identify the source and encoding of a particular category of error code. Classes may be derived from error_category to support categories of errors in addition to those defined in the C++ International Standard. ",
+      "title": "thrust::system::error_category",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "The class <code>error&#95;code</code> describes an object used to hold error code values, such as those originating from the operating system or other low-level application program interfaces. ",
+      "category": "classes",
+      "fullname": "thrust::system::error_code",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::system::error_code",
+      "qualifiedname": "thrust::system::error_code",
+      "refid": "classthrust_1_1system_1_1error__code",
+      "summary": "The class error_code describes an object used to hold error code values, such as those originating from the operating system or other low-level application program interfaces. ",
+      "title": "thrust::system::error_code",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__code.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "The class <code>error&#95;condition</code> describes an object used to hold values identifying error conditions. ",
+      "category": "classes",
+      "fullname": "thrust::system::error_condition",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::system::error_condition",
+      "qualifiedname": "thrust::system::error_condition",
+      "refid": "classthrust_1_1system_1_1error__condition",
+      "summary": "The class error_condition describes an object used to hold values identifying error conditions. ",
+      "title": "thrust::system::error_condition",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__condition.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "std::runtime_error",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "brief": "The class <code>system&#95;error</code> describes an exception object used to report error conditions that have an associated <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__code.html\">error&#95;code</a></code>. Such error conditions typically originate from the operating system or other low-level application program interfaces. ",
+      "category": "classes",
+      "fullname": "thrust::system::system_error",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::system::system_error",
+      "qualifiedname": "thrust::system::system_error",
+      "refid": "classthrust_1_1system_1_1system__error",
+      "summary": "The class system_error describes an exception object used to report error conditions that have an associated error_code. Such error conditions typically originate from the operating system or other low-level application program interfaces. ",
+      "title": "thrust::system::system_error",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1system__error.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-generic-category",
+      "argsString": "(void)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "const error_category & thrust::system::generic_category",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "system_diagnostics::generic_category",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 29,
+        "file": "thrust/system/error_code.h",
+        "line": 209
+      },
+      "name": "generic_category",
+      "note": [
+        "The object's <code>default&#95;error&#95;condition</code> and <code>equivalent</code> virtual functions shall behave as specified for the class <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html\">error&#95;category</a></code>. The object's <code>name</code> virtual function shall return a pointer to the string <code>\"generic\"</code>. "
+      ],
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::generic_category",
+      "refid": "group__system__diagnostics_1ga5a246c25c45450d10bb6ce0da13d85b3",
+      "returns": [
+        "A reference to an object of a type derived from class <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html\">error&#95;category</a></code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "generic_category",
+      "type": "const error_category &",
+      "typePlain": "const error_category &",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-generic-category",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-system-category",
+      "argsString": "(void)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "const error_category & thrust::system::system_category",
+      "deleted": false,
+      "details": "\nIf the argument <code>ev</code> corresponds to a POSIX <code>errno</code> value <code>posv</code>, the function shall return <code>error&#95;condition(ev,generic&#95;category())</code>. Otherwise, the function shall return <code>error&#95;condition(ev,system&#95;category())</code>. What constitutes correspondence for any given operating system is unspecified. ",
+      "explicit": false,
+      "fullname": "system_diagnostics::system_category",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 29,
+        "file": "thrust/system/error_code.h",
+        "line": 223
+      },
+      "name": "system_category",
+      "note": [
+        "The object's <code>equivalent</code> virtual functions shall behave as specified for class <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html\">error&#95;category</a></code>. The object's <code>name</code> virtual function shall return a pointer to the string <code>\"system\"</code>. The object's <code>default&#95;error&#95;condition</code> virtual function shall behave as follows:"
+      ],
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::system_category",
+      "refid": "group__system__diagnostics_1ga6ae498a140655a211627cd71fdb595d0",
+      "returns": [
+        "A reference to an object of a type derived from class <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html\">error&#95;category</a></code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "system_category",
+      "type": "const error_category &",
+      "typePlain": "const error_category &",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-system-category",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-make-error-code",
+      "argsString": "(cuda::errc::errc_t e)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "error_code thrust::system::make_error_code",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "system_diagnostics::make_error_code",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 19,
+        "file": "thrust/system/cuda/error.h",
+        "line": 156
+      },
+      "name": "make_error_code",
+      "override": false,
+      "params": [
+        {
+          "name": "e",
+          "type": "cuda::errc::errc_t",
+          "typePlain": "cuda::errc::errc_t"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::make_error_code",
+      "refid": "group__system__diagnostics_1gacf560bb5ae3765f5eb1fa39d3640255b",
+      "returns": [
+        "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__code.html\">error&#95;code</a>(static&#95;cast&lt;int&gt;(e), cuda::error&#95;category())</code>",
+        "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__code.html\">error&#95;code</a>(static&#95;cast&lt;int&gt;(e), <a href=\"{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-generic-category\">generic&#95;category()</a>)</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "title": "make_error_code",
+      "type": "error_code",
+      "typePlain": "error_code",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-make-error-code",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator<",
+      "argsString": "(const error_code &lhs, const error_code &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "bool thrust::system::operator<",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "system_diagnostics::operator<",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 8,
+        "file": "thrust/system/error_code.h",
+        "line": 326
+      },
+      "name": "operator<",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const error_code &",
+          "typePlain": "const error_code &"
+        },
+        {
+          "name": "rhs",
+          "type": "const error_code &",
+          "typePlain": "const error_code &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::operator<",
+      "refid": "group__system__diagnostics_1ga77c6e455a675f6b94664459e1f9d2253",
+      "returns": [
+        "<code>lhs.category() &lt; rhs.category() || lhs.category() == rhs.category() && lhs.value() &lt; rhs.value()</code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator<",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-operator<",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator<<",
+      "argsString": "(std::basic_ostream< charT, traits > &os, const error_code &ec)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "std::basic_ostream< charT, traits > & thrust::system::operator<<",
+      "deleted": false,
+      "details": "Effects: <code>os &lt;&lt; ec.category().name() &lt;&lt; ':' &lt;&lt; ec.value()</code>. ",
+      "explicit": false,
+      "fullname": "system_diagnostics::operator<<",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 8,
+        "file": "thrust/system/error_code.h",
+        "line": 326
+      },
+      "name": "operator<<",
+      "override": false,
+      "params": [
+        {
+          "name": "os",
+          "type": "std::basic_ostream< charT, traits > &",
+          "typePlain": "std::basic_ostream< charT, traits > &"
+        },
+        {
+          "name": "ec",
+          "type": "const error_code &",
+          "typePlain": "const error_code &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::operator<<",
+      "refid": "group__system__diagnostics_1ga254745ff40f581153ebbaea09d39a703",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename charT",
+          "typePlain": "typename charT"
+        },
+        {
+          "name": "",
+          "type": "typename traits",
+          "typePlain": "typename traits"
+        }
+      ],
+      "title": "operator<<",
+      "type": "std::basic_ostream< charT, traits > &",
+      "typePlain": "std::basic_ostream< charT, traits > &",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-operator<<",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-make-error-condition",
+      "argsString": "(cuda::errc::errc_t e)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "error_condition thrust::system::make_error_condition",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "system_diagnostics::make_error_condition",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 24,
+        "file": "thrust/system/cuda/error.h",
+        "line": 162
+      },
+      "name": "make_error_condition",
+      "override": false,
+      "params": [
+        {
+          "name": "e",
+          "type": "cuda::errc::errc_t",
+          "typePlain": "cuda::errc::errc_t"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::make_error_condition",
+      "refid": "group__system__diagnostics_1ga04dc58bcab4b4558614b4188537f44d4",
+      "returns": [
+        "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__condition.html\">error&#95;condition</a>(static&#95;cast&lt;int&gt;(e), cuda::error&#95;category())</code>.",
+        "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__condition.html\">error&#95;condition</a>(static&#95;cast&lt;int&gt;(e), <a href=\"{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-generic-category\">generic&#95;category()</a>)</code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "make_error_condition",
+      "type": "error_condition",
+      "typePlain": "error_condition",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-make-error-condition",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator<",
+      "argsString": "(const error_condition &lhs, const error_condition &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "bool thrust::system::operator<",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "system_diagnostics::operator<",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 8,
+        "file": "thrust/system/error_code.h",
+        "line": 450
+      },
+      "name": "operator<",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const error_condition &",
+          "typePlain": "const error_condition &"
+        },
+        {
+          "name": "rhs",
+          "type": "const error_condition &",
+          "typePlain": "const error_condition &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::operator<",
+      "refid": "group__system__diagnostics_1ga1534a08dd66c4137efee36ddb2cc7f09",
+      "returns": [
+        "<code>lhs.category() &lt; rhs.category() || lhs.category() == rhs.category() && lhs.value() &lt; rhs.value()</code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator<",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-operator<",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const error_code &lhs, const error_code &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "bool thrust::system::operator==",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "system_diagnostics::operator==",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 13,
+        "file": "thrust/system/error_code.h",
+        "line": 458
+      },
+      "name": "operator==",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const error_code &",
+          "typePlain": "const error_code &"
+        },
+        {
+          "name": "rhs",
+          "type": "const error_code &",
+          "typePlain": "const error_code &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::operator==",
+      "refid": "group__system__diagnostics_1ga80740ab857f3f3ded5ebb2b4257bbd27",
+      "returns": [
+        "<code>lhs.category() == rhs.category() && lhs.value() == rhs.value()</code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator==",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const error_code &lhs, const error_condition &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "bool thrust::system::operator==",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "system_diagnostics::operator==",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 13,
+        "file": "thrust/system/error_code.h",
+        "line": 463
+      },
+      "name": "operator==",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const error_code &",
+          "typePlain": "const error_code &"
+        },
+        {
+          "name": "rhs",
+          "type": "const error_condition &",
+          "typePlain": "const error_condition &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::operator==",
+      "refid": "group__system__diagnostics_1ga92a3065a9c4bb790e3f40efb22560f55",
+      "returns": [
+        "<code>lhs.category().equivalent(lhs.value(), rhs) || rhs.category().equivalent(lhs,rhs.value())</code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator==",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const error_condition &lhs, const error_code &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "bool thrust::system::operator==",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "system_diagnostics::operator==",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 13,
+        "file": "thrust/system/error_code.h",
+        "line": 468
+      },
+      "name": "operator==",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const error_condition &",
+          "typePlain": "const error_condition &"
+        },
+        {
+          "name": "rhs",
+          "type": "const error_code &",
+          "typePlain": "const error_code &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::operator==",
+      "refid": "group__system__diagnostics_1gae7262a5915f79b141f4ebbc3b9485f9d",
+      "returns": [
+        "<code>rhs.category().equivalent(lhs.value(), lhs) || lhs.category().equivalent(rhs, lhs.value())</code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator==",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const error_condition &lhs, const error_condition &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "bool thrust::system::operator==",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "system_diagnostics::operator==",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 13,
+        "file": "thrust/system/error_code.h",
+        "line": 473
+      },
+      "name": "operator==",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const error_condition &",
+          "typePlain": "const error_condition &"
+        },
+        {
+          "name": "rhs",
+          "type": "const error_condition &",
+          "typePlain": "const error_condition &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::operator==",
+      "refid": "group__system__diagnostics_1gab6549b94fe86ed502c8c865add43fb77",
+      "returns": [
+        "<code>lhs.category() == rhs.category() && lhs.value() == rhs.value()</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator==",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const error_code &lhs, const error_code &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "bool thrust::system::operator!=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "system_diagnostics::operator!=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 13,
+        "file": "thrust/system/error_code.h",
+        "line": 478
+      },
+      "name": "operator!=",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const error_code &",
+          "typePlain": "const error_code &"
+        },
+        {
+          "name": "rhs",
+          "type": "const error_code &",
+          "typePlain": "const error_code &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::operator!=",
+      "refid": "group__system__diagnostics_1ga94389734c6391e17195f8f7adc3642d2",
+      "returns": [
+        "<code>!(lhs == rhs)</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator!=",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const error_code &lhs, const error_condition &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "bool thrust::system::operator!=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "system_diagnostics::operator!=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 13,
+        "file": "thrust/system/error_code.h",
+        "line": 483
+      },
+      "name": "operator!=",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const error_code &",
+          "typePlain": "const error_code &"
+        },
+        {
+          "name": "rhs",
+          "type": "const error_condition &",
+          "typePlain": "const error_condition &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::operator!=",
+      "refid": "group__system__diagnostics_1gaebaba0aae2b27efc652c0dc51ba10a11",
+      "returns": [
+        "<code>!(lhs == rhs)</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator!=",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const error_condition &lhs, const error_code &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "bool thrust::system::operator!=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "system_diagnostics::operator!=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 13,
+        "file": "thrust/system/error_code.h",
+        "line": 488
+      },
+      "name": "operator!=",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const error_condition &",
+          "typePlain": "const error_condition &"
+        },
+        {
+          "name": "rhs",
+          "type": "const error_code &",
+          "typePlain": "const error_code &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::operator!=",
+      "refid": "group__system__diagnostics_1ga39877e4c57f7292d957f21c1c9ab199a",
+      "returns": [
+        "<code>!(lhs == rhs)</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator!=",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const error_condition &lhs, const error_condition &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "bool thrust::system::operator!=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "system_diagnostics::operator!=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 13,
+        "file": "thrust/system/error_code.h",
+        "line": 493
+      },
+      "name": "operator!=",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const error_condition &",
+          "typePlain": "const error_condition &"
+        },
+        {
+          "name": "rhs",
+          "type": "const error_condition &",
+          "typePlain": "const error_condition &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::operator!=",
+      "refid": "group__system__diagnostics_1ga82b3841cd11043ae9453075fc2b5b50b",
+      "returns": [
+        "<code>!(lhs == rhs)</code>"
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator!=",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-system-error",
+      "argsString": "(error_code ec, const std::string &what_arg)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::system::system_error::system_error",
+      "deleted": false,
+      "details": "Constructs an object of class <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1system__error.html\">system&#95;error</a></code>. ",
+      "explicit": false,
+      "fullname": "system_diagnostics::system_error",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 12,
+        "file": "thrust/system/system_error.h",
+        "line": 100
+      },
+      "name": "system_error",
+      "override": false,
+      "paramList": [
+        {
+          "name": "ec",
+          "text": "The value returned by <code><a href=\"{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-code\">code()</a></code>. "
+        },
+        {
+          "name": "what_arg",
+          "text": "A string to include in the result returned by <code><a href=\"{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-what\">what()</a></code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "ec",
+          "type": "error_code",
+          "typePlain": "error_code"
+        },
+        {
+          "name": "what_arg",
+          "type": "const std::string &",
+          "typePlain": "const std::string &"
+        }
+      ],
+      "post": [
+        "<code><a href=\"{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-code\">code()</a> == ec</code>. ",
+        "<code>std::string(what()).find(what&#95;arg) != string::npos</code>. "
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::system_error::system_error",
+      "refid": "group__system__diagnostics_1ga904fc183c944873771b09befc075aa90",
+      "static": false,
+      "strong": false,
+      "title": "system_error",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-system-error",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-system-error",
+      "argsString": "(error_code ec, const char *what_arg)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::system::system_error::system_error",
+      "deleted": false,
+      "details": "Constructs an object of class <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1system__error.html\">system&#95;error</a></code>. ",
+      "explicit": false,
+      "fullname": "system_diagnostics::system_error",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 12,
+        "file": "thrust/system/system_error.h",
+        "line": 108
+      },
+      "name": "system_error",
+      "override": false,
+      "paramList": [
+        {
+          "name": "ec",
+          "text": "The value returned by <code><a href=\"{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-code\">code()</a></code>. "
+        },
+        {
+          "name": "what_arg",
+          "text": "A string to include in the result returned by <code><a href=\"{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-what\">what()</a></code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "ec",
+          "type": "error_code",
+          "typePlain": "error_code"
+        },
+        {
+          "name": "what_arg",
+          "type": "const char *",
+          "typePlain": "const char *"
+        }
+      ],
+      "post": [
+        "<code><a href=\"{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-code\">code()</a> == ec</code>. ",
+        "<code>std::string(what()).find(what&#95;arg) != string::npos</code>. "
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::system_error::system_error",
+      "refid": "group__system__diagnostics_1ga3944d88e877681b231c3c3eea6d6103b",
+      "static": false,
+      "strong": false,
+      "title": "system_error",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-system-error",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-system-error",
+      "argsString": "(error_code ec)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::system::system_error::system_error",
+      "deleted": false,
+      "details": "Constructs an object of class <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1system__error.html\">system&#95;error</a></code>. ",
+      "explicit": false,
+      "fullname": "system_diagnostics::system_error",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 12,
+        "file": "thrust/system/system_error.h",
+        "line": 114
+      },
+      "name": "system_error",
+      "override": false,
+      "paramList": [
+        {
+          "name": "ec",
+          "text": "The value returned by <code><a href=\"{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-code\">code()</a></code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "ec",
+          "type": "error_code",
+          "typePlain": "error_code"
+        }
+      ],
+      "post": [
+        "<code><a href=\"{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-code\">code()</a> == ec</code>. "
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::system_error::system_error",
+      "refid": "group__system__diagnostics_1gad54c94e0e309946bb02893475755410c",
+      "static": false,
+      "strong": false,
+      "title": "system_error",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-system-error",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-system-error",
+      "argsString": "(int ev, const error_category &ecat, const std::string &what_arg)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::system::system_error::system_error",
+      "deleted": false,
+      "details": "Constructs an object of class <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1system__error.html\">system&#95;error</a></code>. ",
+      "explicit": false,
+      "fullname": "system_diagnostics::system_error",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 12,
+        "file": "thrust/system/system_error.h",
+        "line": 123
+      },
+      "name": "system_error",
+      "override": false,
+      "paramList": [
+        {
+          "name": "ev",
+          "text": "The error value used to create an <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__code.html\">error&#95;code</a></code>. "
+        },
+        {
+          "name": "ecat",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html\">error&#95;category</a></code> used to create an <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__code.html\">error&#95;code</a></code>. "
+        },
+        {
+          "name": "what_arg",
+          "text": "A string to include in the result returned by <code><a href=\"{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-what\">what()</a></code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "ev",
+          "type": "int",
+          "typePlain": "int"
+        },
+        {
+          "name": "ecat",
+          "type": "const error_category &",
+          "typePlain": "const error_category &"
+        },
+        {
+          "name": "what_arg",
+          "type": "const std::string &",
+          "typePlain": "const std::string &"
+        }
+      ],
+      "post": [
+        "<code><a href=\"{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-code\">code()</a> == error&#95;code(ev, ecat)</code>. ",
+        "<code>std::string(what()).find(what&#95;arg) != string::npos</code>. "
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::system_error::system_error",
+      "refid": "group__system__diagnostics_1ga7d51392a856f45a1790386febd9df8ec",
+      "static": false,
+      "strong": false,
+      "title": "system_error",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-system-error",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-system-error",
+      "argsString": "(int ev, const error_category &ecat, const char *what_arg)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::system::system_error::system_error",
+      "deleted": false,
+      "details": "Constructs an object of class <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1system__error.html\">system&#95;error</a></code>. ",
+      "explicit": false,
+      "fullname": "system_diagnostics::system_error",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 12,
+        "file": "thrust/system/system_error.h",
+        "line": 132
+      },
+      "name": "system_error",
+      "override": false,
+      "paramList": [
+        {
+          "name": "ev",
+          "text": "The error value used to create an <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__code.html\">error&#95;code</a></code>. "
+        },
+        {
+          "name": "ecat",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html\">error&#95;category</a></code> used to create an <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__code.html\">error&#95;code</a></code>. "
+        },
+        {
+          "name": "what_arg",
+          "text": "A string to include in the result returned by <code><a href=\"{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-what\">what()</a></code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "ev",
+          "type": "int",
+          "typePlain": "int"
+        },
+        {
+          "name": "ecat",
+          "type": "const error_category &",
+          "typePlain": "const error_category &"
+        },
+        {
+          "name": "what_arg",
+          "type": "const char *",
+          "typePlain": "const char *"
+        }
+      ],
+      "post": [
+        "<code><a href=\"{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-code\">code()</a> == error&#95;code(ev, ecat)</code>. ",
+        "<code>std::string(what()).find(what&#95;arg) != string::npos</code>. "
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::system_error::system_error",
+      "refid": "group__system__diagnostics_1gae4dc4823c65a3df4a836800d0fd0df11",
+      "static": false,
+      "strong": false,
+      "title": "system_error",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-system-error",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-system-error",
+      "argsString": "(int ev, const error_category &ecat)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::system::system_error::system_error",
+      "deleted": false,
+      "details": "Constructs an object of class <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1system__error.html\">system&#95;error</a></code>. ",
+      "explicit": false,
+      "fullname": "system_diagnostics::system_error",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 12,
+        "file": "thrust/system/system_error.h",
+        "line": 139
+      },
+      "name": "system_error",
+      "override": false,
+      "paramList": [
+        {
+          "name": "ev",
+          "text": "The error value used to create an <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__code.html\">error&#95;code</a></code>. "
+        },
+        {
+          "name": "ecat",
+          "text": "The <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html\">error&#95;category</a></code> used to create an <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__code.html\">error&#95;code</a></code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "ev",
+          "type": "int",
+          "typePlain": "int"
+        },
+        {
+          "name": "ecat",
+          "type": "const error_category &",
+          "typePlain": "const error_category &"
+        }
+      ],
+      "post": [
+        "<code><a href=\"{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-code\">code()</a> == error&#95;code(ev, ecat)</code>. "
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::system_error::system_error",
+      "refid": "group__system__diagnostics_1gad1280f4c71392faa82ad167232c2f9aa",
+      "static": false,
+      "strong": false,
+      "title": "system_error",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-system-error",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-~system-error",
+      "argsString": "(void)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "virtual thrust::system::system_error::~system_error",
+      "deleted": false,
+      "details": "Destructor does not throw. ",
+      "explicit": false,
+      "fullname": "system_diagnostics::~system_error",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "bodyEnd": 143,
+        "bodyFile": "thrust/system/system_error.h",
+        "bodyStart": 143,
+        "column": 20,
+        "file": "thrust/system/system_error.h",
+        "line": 143
+      },
+      "name": "~system_error",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::system_error::~system_error",
+      "refid": "group__system__diagnostics_1ga75e888acf23bee7345082f8eeb24619c",
+      "static": false,
+      "strong": false,
+      "title": "~system_error",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-~system-error",
+      "virtual": true,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-code",
+      "argsString": "(void) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "const error_code & thrust::system::system_error::code",
+      "deleted": false,
+      "details": "Returns an object encoding the error. ",
+      "explicit": false,
+      "fullname": "system_diagnostics::code",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 29,
+        "file": "thrust/system/system_error.h",
+        "line": 149
+      },
+      "name": "code",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::system_error::code",
+      "refid": "group__system__diagnostics_1ga7842159aa5ca369920f38c319d799075",
+      "returns": [
+        "<code>ec</code> or <code>error&#95;code(ev, ecat)</code>, from the constructor, as appropriate. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "code",
+      "type": "const error_code &",
+      "typePlain": "const error_code &",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-code",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-what",
+      "argsString": "(void) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "const char * thrust::system::system_error::what",
+      "deleted": false,
+      "details": "Returns a human-readable string indicating the nature of the error. ",
+      "explicit": false,
+      "fullname": "system_diagnostics::what",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 23,
+        "file": "thrust/system/system_error.h",
+        "line": 155
+      },
+      "name": "what",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::system::system_error::what",
+      "refid": "group__system__diagnostics_1ga3ad393d381a73853d5beb70b07a142be",
+      "returns": [
+        "a string incorporating <code><a href=\"{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-code\">code()</a>.message()</code> and the arguments supplied in the constructor. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "what",
+      "type": "const char *",
+      "typePlain": "const char *",
+      "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-what",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "system_diagnostics",
+  "refid": "group__system__diagnostics",
+  "static": false,
+  "strong": false,
+  "title": "System Diagnostics",
+  "url": "{{ site.baseurl }}/api/groups/group__system__diagnostics.html",
+  "visibility": "public"
+}

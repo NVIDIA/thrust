@@ -1,0 +1,1083 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "fancyiterator",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "iterators",
+    "kind": "group",
+    "language": "",
+    "name": "iterators",
+    "qualifiedname": "iterators",
+    "refid": "group__iterators",
+    "title": "Iterators",
+    "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterators",
+      "kind": "group",
+      "language": "",
+      "name": "iterators",
+      "qualifiedname": "iterators",
+      "refid": "group__iterators",
+      "title": "Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "fancyiterator",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "iterators",
+    "kind": "group",
+    "language": "",
+    "name": "iterators",
+    "qualifiedname": "iterators",
+    "refid": "group__iterators",
+    "title": "Iterators",
+    "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterators",
+      "kind": "group",
+      "language": "",
+      "name": "iterators",
+      "qualifiedname": "iterators",
+      "refid": "group__iterators",
+      "title": "Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "detail::constant_iterator_base::type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::constant_iterator",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::constant_iterator",
+      "qualifiedname": "thrust::constant_iterator",
+      "refid": "classthrust_1_1constant__iterator",
+      "title": "thrust::constant_iterator",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "detail::counting_iterator_base::type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::counting_iterator",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::counting_iterator",
+      "qualifiedname": "thrust::counting_iterator",
+      "refid": "classthrust_1_1counting__iterator",
+      "title": "thrust::counting_iterator",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "detail::discard_iterator_base::type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::discard_iterator",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::discard_iterator",
+      "qualifiedname": "thrust::discard_iterator",
+      "refid": "classthrust_1_1discard__iterator",
+      "title": "thrust::discard_iterator",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "detail::iterator_adaptor_base::type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::iterator_adaptor",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::iterator_adaptor",
+      "qualifiedname": "thrust::iterator_adaptor",
+      "refid": "classthrust_1_1iterator__adaptor",
+      "title": "thrust::iterator_adaptor",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1iterator__adaptor.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::iterator_facade",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::iterator_facade",
+      "qualifiedname": "thrust::iterator_facade",
+      "refid": "classthrust_1_1iterator__facade",
+      "title": "thrust::iterator_facade",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1iterator__facade.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "thrust::iterator_core_access",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::iterator_core_access",
+      "qualifiedname": "thrust::iterator_core_access",
+      "refid": "classthrust_1_1iterator__core__access",
+      "title": "thrust::iterator_core_access",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1iterator__core__access.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::detail::permutation_iterator_base::type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::permutation_iterator",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::permutation_iterator",
+      "qualifiedname": "thrust::permutation_iterator",
+      "refid": "classthrust_1_1permutation__iterator",
+      "title": "thrust::permutation_iterator",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1permutation__iterator.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "detail::reverse_iterator_base::type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::reverse_iterator",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::reverse_iterator",
+      "qualifiedname": "thrust::reverse_iterator",
+      "refid": "classthrust_1_1reverse__iterator",
+      "title": "thrust::reverse_iterator",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "detail::transform_input_output_iterator_base::type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::transform_input_output_iterator",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::transform_input_output_iterator",
+      "qualifiedname": "thrust::transform_input_output_iterator",
+      "refid": "classthrust_1_1transform__input__output__iterator",
+      "title": "thrust::transform_input_output_iterator",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1transform__input__output__iterator.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "detail::transform_iterator_base::type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::transform_iterator",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::transform_iterator",
+      "qualifiedname": "thrust::transform_iterator",
+      "refid": "classthrust_1_1transform__iterator",
+      "title": "thrust::transform_iterator",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "detail::transform_output_iterator_base::type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::transform_output_iterator",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::transform_output_iterator",
+      "qualifiedname": "thrust::transform_output_iterator",
+      "refid": "classthrust_1_1transform__output__iterator",
+      "title": "thrust::transform_output_iterator",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1transform__output__iterator.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "detail::zip_iterator_base::type",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "thrust::zip_iterator",
+      "kind": "class",
+      "language": "cpp",
+      "name": "thrust::zip_iterator",
+      "qualifiedname": "thrust::zip_iterator",
+      "refid": "classthrust_1_1zip__iterator",
+      "title": "thrust::zip_iterator",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-make-constant-iterator",
+      "argsString": "(ValueT x, IndexT i=int())",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ constant_iterator< ValueT, IndexT > thrust::make_constant_iterator",
+      "deleted": false,
+      "details": "This version of <code>make&#95;constant&#95;iterator</code> creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> from values given for both value and index. The type of <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> may be inferred by the compiler from the types of its parameters.",
+      "explicit": false,
+      "fullname": "fancyiterator::make_constant_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "bodyEnd": 224,
+        "bodyFile": "thrust/iterator/constant_iterator.h",
+        "bodyStart": 221,
+        "column": 19,
+        "file": "thrust/iterator/constant_iterator.h",
+        "line": 221
+      },
+      "name": "make_constant_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The value of the returned <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a>'s</code> constant value. "
+        },
+        {
+          "name": "i",
+          "text": "The index of the returned <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> within a sequence. The type of this parameter defaults to <code>int</code>. In the default case, the value of this parameter is <code>0</code>."
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "ValueT",
+          "typePlain": "ValueT"
+        },
+        {
+          "defval": "int()",
+          "defvalPlain": "int()",
+          "name": "i",
+          "type": "IndexT",
+          "typePlain": "IndexT"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::make_constant_iterator",
+      "refid": "group__fancyiterator_1ga832a571f1e970c62f0a233547aac2645",
+      "returns": [
+        "A new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> with constant value & index as given by <code>x</code> & <code>i</code>."
+      ],
+      "see": [
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant_iterator</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ValueT",
+          "typePlain": "typename ValueT"
+        },
+        {
+          "name": "",
+          "type": "typename IndexT",
+          "typePlain": "typename IndexT"
+        }
+      ],
+      "title": "make_constant_iterator",
+      "type": "__host__ __device__ constant_iterator< ValueT, IndexT >",
+      "typePlain": "__host__ __device__ constant_iterator< ValueT, IndexT >",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html#function-make-constant-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-make-constant-iterator",
+      "argsString": "(V x)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ constant_iterator< V > thrust::make_constant_iterator",
+      "deleted": false,
+      "details": "This version of <code>make&#95;constant&#95;iterator</code> creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> using only a parameter for the desired constant value. The value of the returned <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a>'s</code> index is set to <code>0</code>.",
+      "explicit": false,
+      "fullname": "fancyiterator::make_constant_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "bodyEnd": 241,
+        "bodyFile": "thrust/iterator/constant_iterator.h",
+        "bodyStart": 238,
+        "column": 19,
+        "file": "thrust/iterator/constant_iterator.h",
+        "line": 238
+      },
+      "name": "make_constant_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The value of the returned <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a>'s</code> constant value. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "V",
+          "typePlain": "V"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::make_constant_iterator",
+      "refid": "group__fancyiterator_1ga205446936f9da381f20ee34828dd7c66",
+      "returns": [
+        "A new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant&#95;iterator</a></code> with constant value equal to <code>x</code> and index equal to <code>0</code>. "
+      ],
+      "see": [
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant_iterator</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename V",
+          "typePlain": "typename V"
+        }
+      ],
+      "title": "make_constant_iterator",
+      "type": "__host__ __device__ constant_iterator< V >",
+      "typePlain": "__host__ __device__ constant_iterator< V >",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html#function-make-constant-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-make-counting-iterator",
+      "argsString": "(Incrementable x)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ counting_iterator< Incrementable > thrust::make_counting_iterator",
+      "deleted": false,
+      "details": "<code>make&#95;counting&#95;iterator</code> creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting&#95;iterator</a></code> using an initial value for its <code>Incrementable</code> counter.",
+      "explicit": false,
+      "fullname": "fancyiterator::make_counting_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "bodyEnd": 237,
+        "bodyFile": "thrust/iterator/counting_iterator.h",
+        "bodyStart": 234,
+        "column": 19,
+        "file": "thrust/iterator/counting_iterator.h",
+        "line": 234
+      },
+      "name": "make_counting_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The initial value of the new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting&#95;iterator</a>'s</code> counter. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "Incrementable",
+          "typePlain": "Incrementable"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::make_counting_iterator",
+      "refid": "group__fancyiterator_1gaba5c1b2b52014fdb68097b56666d4630",
+      "returns": [
+        "A new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html\">counting&#95;iterator</a></code> whose counter has been initialized to <code>x</code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Incrementable",
+          "typePlain": "typename Incrementable"
+        }
+      ],
+      "title": "make_counting_iterator",
+      "type": "__host__ __device__ counting_iterator< Incrementable >",
+      "typePlain": "__host__ __device__ counting_iterator< Incrementable >",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html#function-make-counting-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-make-discard-iterator",
+      "argsString": "(discard_iterator<>::difference_type i=discard_iterator<>::difference_type(0))",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ discard_iterator thrust::make_discard_iterator",
+      "deleted": false,
+      "details": "<code>make&#95;discard&#95;iterator</code> creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html\">discard&#95;iterator</a></code> from an optional index parameter.",
+      "explicit": false,
+      "fullname": "fancyiterator::make_discard_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "bodyEnd": 163,
+        "bodyFile": "thrust/iterator/discard_iterator.h",
+        "bodyStart": 160,
+        "column": 2,
+        "file": "thrust/iterator/discard_iterator.h",
+        "line": 160
+      },
+      "name": "make_discard_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "i",
+          "text": "The index of the returned <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html\">discard&#95;iterator</a></code> within a range. In the default case, the value of this parameter is <code>0</code>."
+        }
+      ],
+      "params": [
+        {
+          "defval": "discard_iterator<>::difference_type(0)",
+          "defvalPlain": "discard_iterator<>::difference_type(0)",
+          "name": "i",
+          "type": "discard_iterator<>::difference_type",
+          "typePlain": "discard_iterator<>::difference_type"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::make_discard_iterator",
+      "refid": "group__fancyiterator_1ga9c95ea281f5a4a0e3c4ff345baaa3a16",
+      "returns": [
+        "A new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html\">discard&#95;iterator</a></code> with index as given by <code>i</code>."
+      ],
+      "see": [
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html\">constant_iterator</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "title": "make_discard_iterator",
+      "type": "__host__ __device__ discard_iterator",
+      "typePlain": "__host__ __device__ discard_iterator",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html#function-make-discard-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-make-permutation-iterator",
+      "argsString": "(ElementIterator e, IndexIterator i)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ permutation_iterator< ElementIterator, IndexIterator > thrust::make_permutation_iterator",
+      "deleted": false,
+      "details": "<code>make&#95;permutation&#95;iterator</code> creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1permutation__iterator.html\">permutation&#95;iterator</a></code> from an <code>ElementIterator</code> pointing to a range of elements to \"permute\" and an <code>IndexIterator</code> pointing to a range of indices defining an indexing scheme on the values.",
+      "explicit": false,
+      "fullname": "fancyiterator::make_permutation_iterator",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "bodyEnd": 207,
+        "bodyFile": "thrust/iterator/permutation_iterator.h",
+        "bodyStart": 204,
+        "column": 22,
+        "file": "thrust/iterator/permutation_iterator.h",
+        "line": 204
+      },
+      "name": "make_permutation_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "e",
+          "text": "An <code>ElementIterator</code> pointing to a range of values. "
+        },
+        {
+          "name": "i",
+          "text": "An <code>IndexIterator</code> pointing to an indexing scheme to use on <code>e</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "e",
+          "type": "ElementIterator",
+          "typePlain": "ElementIterator"
+        },
+        {
+          "name": "i",
+          "type": "IndexIterator",
+          "typePlain": "IndexIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::make_permutation_iterator",
+      "refid": "group__fancyiterator_1ga009cbf131b31838096a4c43bfeb5c6b2",
+      "returns": [
+        "A new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1permutation__iterator.html\">permutation&#95;iterator</a></code> which permutes the range <code>e</code> by <code>i</code>. "
+      ],
+      "see": [
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1permutation__iterator.html\">permutation_iterator</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ElementIterator",
+          "typePlain": "typename ElementIterator"
+        },
+        {
+          "name": "",
+          "type": "typename IndexIterator",
+          "typePlain": "typename IndexIterator"
+        }
+      ],
+      "title": "make_permutation_iterator",
+      "type": "__host__ __device__ permutation_iterator< ElementIterator, IndexIterator >",
+      "typePlain": "__host__ __device__ permutation_iterator< ElementIterator, IndexIterator >",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html#function-make-permutation-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-make-reverse-iterator",
+      "argsString": "(BidirectionalIterator x)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ reverse_iterator< BidirectionalIterator > thrust::make_reverse_iterator",
+      "deleted": false,
+      "details": "<code>make&#95;reverse&#95;iterator</code> creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html\">reverse&#95;iterator</a></code> from a <code>BidirectionalIterator</code> pointing to a range of elements to reverse.",
+      "explicit": false,
+      "fullname": "fancyiterator::make_reverse_iterator",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 18,
+        "file": "thrust/iterator/reverse_iterator.h",
+        "line": 225
+      },
+      "name": "make_reverse_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "A <code>BidirectionalIterator</code> pointing to a range to reverse. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "BidirectionalIterator",
+          "typePlain": "BidirectionalIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::make_reverse_iterator",
+      "refid": "group__fancyiterator_1ga9a7552d48bb0501b948cd17eeb49aaaf",
+      "returns": [
+        "A new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html\">reverse&#95;iterator</a></code> which reverses the range <code>x</code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename BidirectionalIterator",
+          "typePlain": "typename BidirectionalIterator"
+        }
+      ],
+      "title": "make_reverse_iterator",
+      "type": "__host__ __device__ reverse_iterator< BidirectionalIterator >",
+      "typePlain": "__host__ __device__ reverse_iterator< BidirectionalIterator >",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html#function-make-reverse-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-make-transform-input-output-iterator",
+      "argsString": "(Iterator io, InputFunction input_function, OutputFunction output_function)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "transform_input_output_iterator< InputFunction, OutputFunction, Iterator > __host__ __device__ thrust::make_transform_input_output_iterator",
+      "deleted": false,
+      "details": "<code>make&#95;transform&#95;input&#95;output&#95;iterator</code> creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__input__output__iterator.html\">transform&#95;input&#95;output&#95;iterator</a></code> from an <code>Iterator</code> a <code>InputFunction</code> and a <code>OutputFunction</code>",
+      "explicit": false,
+      "fullname": "fancyiterator::make_transform_input_output_iterator",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "bodyEnd": 153,
+        "bodyFile": "thrust/iterator/transform_input_output_iterator.h",
+        "bodyStart": 150,
+        "column": 1,
+        "file": "thrust/iterator/transform_input_output_iterator.h",
+        "line": 150
+      },
+      "name": "make_transform_input_output_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "io",
+          "text": "An <code>Iterator</code> pointing to where the input to <code>InputFunction</code> will be read from and the result of <code>OutputFunction</code> will be written to "
+        },
+        {
+          "name": "input_function",
+          "text": "An <code>InputFunction</code> to be executed on values read from the iterator "
+        },
+        {
+          "name": "output_function",
+          "text": "An <code>OutputFunction</code> to be executed on values written to the iterator "
+        }
+      ],
+      "params": [
+        {
+          "name": "io",
+          "type": "Iterator",
+          "typePlain": "Iterator"
+        },
+        {
+          "name": "input_function",
+          "type": "InputFunction",
+          "typePlain": "InputFunction"
+        },
+        {
+          "name": "output_function",
+          "type": "OutputFunction",
+          "typePlain": "OutputFunction"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::make_transform_input_output_iterator",
+      "refid": "group__fancyiterator_1gac2a0778aa8ed709a77cb885681521392",
+      "see": [
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__input__output__iterator.html\">transform_input_output_iterator</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputFunction",
+          "typePlain": "typename InputFunction"
+        },
+        {
+          "name": "",
+          "type": "typename OutputFunction",
+          "typePlain": "typename OutputFunction"
+        },
+        {
+          "name": "",
+          "type": "typename Iterator",
+          "typePlain": "typename Iterator"
+        }
+      ],
+      "title": "make_transform_input_output_iterator",
+      "type": "transform_input_output_iterator< InputFunction, OutputFunction, Iterator > __host__ __device__",
+      "typePlain": "transform_input_output_iterator< InputFunction, OutputFunction, Iterator > __host__ __device__",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html#function-make-transform-input-output-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-make-transform-iterator",
+      "argsString": "(Iterator it, AdaptableUnaryFunction fun)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ transform_iterator< AdaptableUnaryFunction, Iterator > thrust::make_transform_iterator",
+      "deleted": false,
+      "details": "<code>make&#95;transform&#95;iterator</code> creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a></code> from an <code>Iterator</code> and <code>AdaptableUnaryFunction</code>.",
+      "explicit": false,
+      "fullname": "fancyiterator::make_transform_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "bodyEnd": 346,
+        "bodyFile": "thrust/iterator/transform_iterator.h",
+        "bodyStart": 343,
+        "column": 1,
+        "file": "thrust/iterator/transform_iterator.h",
+        "line": 343
+      },
+      "name": "make_transform_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "it",
+          "text": "The <code>Iterator</code> pointing to the input range of the newly created <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a></code>. "
+        },
+        {
+          "name": "fun",
+          "text": "The <code>AdaptableUnaryFunction</code> used to transform the range pointed to by <code>it</code> in the newly created <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a></code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "it",
+          "type": "Iterator",
+          "typePlain": "Iterator"
+        },
+        {
+          "name": "fun",
+          "type": "AdaptableUnaryFunction",
+          "typePlain": "AdaptableUnaryFunction"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::make_transform_iterator",
+      "refid": "group__fancyiterator_1gab2f05c189b469454d0adebeb70f0cd6a",
+      "returns": [
+        "A new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform&#95;iterator</a></code> which transforms the range at <code>it</code> by <code>fun</code>. "
+      ],
+      "see": [
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html\">transform_iterator</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class AdaptableUnaryFunction",
+          "typePlain": "class AdaptableUnaryFunction"
+        },
+        {
+          "name": "",
+          "type": "class Iterator",
+          "typePlain": "class Iterator"
+        }
+      ],
+      "title": "make_transform_iterator",
+      "type": "__host__ __device__ transform_iterator< AdaptableUnaryFunction, Iterator >",
+      "typePlain": "__host__ __device__ transform_iterator< AdaptableUnaryFunction, Iterator >",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html#function-make-transform-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-make-transform-output-iterator",
+      "argsString": "(OutputIterator out, UnaryFunction fun)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "transform_output_iterator< UnaryFunction, OutputIterator > __host__ __device__ thrust::make_transform_output_iterator",
+      "deleted": false,
+      "details": "<code>make&#95;transform&#95;output&#95;iterator</code> creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__output__iterator.html\">transform&#95;output&#95;iterator</a></code> from an <code>OutputIterator</code> and <code>UnaryFunction</code>.",
+      "explicit": false,
+      "fullname": "fancyiterator::make_transform_output_iterator",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "bodyEnd": 153,
+        "bodyFile": "thrust/iterator/transform_output_iterator.h",
+        "bodyStart": 150,
+        "column": 1,
+        "file": "thrust/iterator/transform_output_iterator.h",
+        "line": 150
+      },
+      "name": "make_transform_output_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "out",
+          "text": "The <code>OutputIterator</code> pointing to the output range of the newly created <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__output__iterator.html\">transform&#95;output&#95;iterator</a></code>"
+        },
+        {
+          "name": "fun",
+          "text": "The <code>UnaryFunction</code> transform the object before assigning it to <code>out</code> by the newly created <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__output__iterator.html\">transform&#95;output&#95;iterator</a></code>"
+        }
+      ],
+      "params": [
+        {
+          "name": "out",
+          "type": "OutputIterator",
+          "typePlain": "OutputIterator"
+        },
+        {
+          "name": "fun",
+          "type": "UnaryFunction",
+          "typePlain": "UnaryFunction"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::make_transform_output_iterator",
+      "refid": "group__fancyiterator_1gad178702003ccdb45f10600a0c60cc297",
+      "see": [
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1transform__output__iterator.html\">transform_output_iterator</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename UnaryFunction",
+          "typePlain": "typename UnaryFunction"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIterator",
+          "typePlain": "typename OutputIterator"
+        }
+      ],
+      "title": "make_transform_output_iterator",
+      "type": "transform_output_iterator< UnaryFunction, OutputIterator > __host__ __device__",
+      "typePlain": "transform_output_iterator< UnaryFunction, OutputIterator > __host__ __device__",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html#function-make-transform-output-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-make-zip-iterator",
+      "argsString": "(thrust::tuple< Iterators... > t)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ zip_iterator< thrust::tuple< Iterators... > > thrust::make_zip_iterator",
+      "deleted": false,
+      "details": "<code>make&#95;zip&#95;iterator</code> creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip&#95;iterator</a></code> from a <code>tuple</code> of iterators.",
+      "explicit": false,
+      "fullname": "fancyiterator::make_zip_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 14,
+        "file": "thrust/iterator/zip_iterator.h",
+        "line": 233
+      },
+      "name": "make_zip_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "t",
+          "text": "The <code>tuple</code> of iterators to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "t",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1tuple.html\">thrust::tuple</a>< Iterators... >",
+          "typePlain": "thrust::tuple< Iterators... >"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::make_zip_iterator",
+      "refid": "group__fancyiterator_1gaf95142abd03fefd8aca9dea1c1b68719",
+      "returns": [
+        "A newly created <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip&#95;iterator</a></code> which zips the iterators encapsulated in <code>t</code>."
+      ],
+      "see": [
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip_iterator</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "Iterators",
+          "type": "typename...",
+          "typePlain": "typename..."
+        }
+      ],
+      "title": "make_zip_iterator",
+      "type": "__host__ __device__ zip_iterator< <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1tuple.html\">thrust::tuple</a>< Iterators... > >",
+      "typePlain": "__host__ __device__ zip_iterator< thrust::tuple< Iterators... > >",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html#function-make-zip-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-make-zip-iterator",
+      "argsString": "(Iterators... its)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ zip_iterator< thrust::tuple< Iterators... > > thrust::make_zip_iterator",
+      "deleted": false,
+      "details": "<code>make&#95;zip&#95;iterator</code> creates a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip&#95;iterator</a></code> from iterators.",
+      "explicit": false,
+      "fullname": "fancyiterator::make_zip_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 14,
+        "file": "thrust/iterator/zip_iterator.h",
+        "line": 246
+      },
+      "name": "make_zip_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "its",
+          "text": "The iterators to copy. "
+        }
+      ],
+      "params": [
+        {
+          "name": "its",
+          "type": "Iterators...",
+          "typePlain": "Iterators..."
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::make_zip_iterator",
+      "refid": "group__fancyiterator_1ga1db12a3d0d3bb9af0bde424a90d8c04b",
+      "returns": [
+        "A newly created <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip&#95;iterator</a></code> which zips the iterators."
+      ],
+      "see": [
+        "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html\">zip_iterator</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "Iterators",
+          "type": "typename...",
+          "typePlain": "typename..."
+        }
+      ],
+      "title": "make_zip_iterator",
+      "type": "__host__ __device__ zip_iterator< <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1tuple.html\">thrust::tuple</a>< Iterators... > >",
+      "typePlain": "__host__ __device__ zip_iterator< thrust::tuple< Iterators... > >",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html#function-make-zip-iterator",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "fancyiterator",
+  "refid": "group__fancyiterator",
+  "static": false,
+  "strong": false,
+  "title": "Fancy Iterators",
+  "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+  "visibility": "public"
+}

@@ -1,0 +1,4119 @@
+{
+  "children": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "CUB_NS_QUALIFIER",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "CUB_NS_QUALIFIER",
+      "qualifiedname": "CUB_NS_QUALIFIER",
+      "refid": "namespaceCUB__NS__QUALIFIER",
+      "title": "CUB_NS_QUALIFIER",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacecub__ns__qualifier.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "children": [
+        {
+          "anchor": "",
+          "category": "namespaces",
+          "fullname": "detail::constant_iterator_base",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "detail::constant_iterator_base",
+          "qualifiedname": "detail::constant_iterator_base",
+          "refid": "namespacedetail_1_1constant__iterator__base",
+          "title": "detail::constant_iterator_base",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacedetail_1_1constant__iterator__base.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "namespaces",
+          "fullname": "detail::counting_iterator_base",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "detail::counting_iterator_base",
+          "qualifiedname": "detail::counting_iterator_base",
+          "refid": "namespacedetail_1_1counting__iterator__base",
+          "title": "detail::counting_iterator_base",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacedetail_1_1counting__iterator__base.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "namespaces",
+          "fullname": "detail::discard_iterator_base",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "detail::discard_iterator_base",
+          "qualifiedname": "detail::discard_iterator_base",
+          "refid": "namespacedetail_1_1discard__iterator__base",
+          "title": "detail::discard_iterator_base",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacedetail_1_1discard__iterator__base.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "namespaces",
+          "fullname": "detail::iterator_adaptor_base",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "detail::iterator_adaptor_base",
+          "qualifiedname": "detail::iterator_adaptor_base",
+          "refid": "namespacedetail_1_1iterator__adaptor__base",
+          "title": "detail::iterator_adaptor_base",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacedetail_1_1iterator__adaptor__base.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "namespaces",
+          "fullname": "detail::normal_distribution_base",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "detail::normal_distribution_base",
+          "qualifiedname": "detail::normal_distribution_base",
+          "refid": "namespacedetail_1_1normal__distribution__base",
+          "title": "detail::normal_distribution_base",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacedetail_1_1normal__distribution__base.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "namespaces",
+          "fullname": "detail::reverse_iterator_base",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "detail::reverse_iterator_base",
+          "qualifiedname": "detail::reverse_iterator_base",
+          "refid": "namespacedetail_1_1reverse__iterator__base",
+          "title": "detail::reverse_iterator_base",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacedetail_1_1reverse__iterator__base.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "namespaces",
+          "fullname": "detail::transform_input_output_iterator_base",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "detail::transform_input_output_iterator_base",
+          "qualifiedname": "detail::transform_input_output_iterator_base",
+          "refid": "namespacedetail_1_1transform__input__output__iterator__base",
+          "title": "detail::transform_input_output_iterator_base",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacedetail_1_1transform__input__output__iterator__base.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "namespaces",
+          "fullname": "detail::transform_iterator_base",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "detail::transform_iterator_base",
+          "qualifiedname": "detail::transform_iterator_base",
+          "refid": "namespacedetail_1_1transform__iterator__base",
+          "title": "detail::transform_iterator_base",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacedetail_1_1transform__iterator__base.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "namespaces",
+          "fullname": "detail::transform_output_iterator_base",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "detail::transform_output_iterator_base",
+          "qualifiedname": "detail::transform_output_iterator_base",
+          "refid": "namespacedetail_1_1transform__output__iterator__base",
+          "title": "detail::transform_output_iterator_base",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacedetail_1_1transform__output__iterator__base.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "namespaces",
+          "fullname": "detail::zip_iterator_base",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "detail::zip_iterator_base",
+          "qualifiedname": "detail::zip_iterator_base",
+          "refid": "namespacedetail_1_1zip__iterator__base",
+          "title": "detail::zip_iterator_base",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacedetail_1_1zip__iterator__base.html",
+          "visibility": "public"
+        }
+      ],
+      "fullname": "detail",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "detail",
+      "qualifiedname": "detail",
+      "refid": "namespacedetail",
+      "title": "detail",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacedetail.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "children": [
+        {
+          "anchor": "",
+          "category": "namespaces",
+          "fullname": "std::conditional",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "std::conditional",
+          "qualifiedname": "std::conditional",
+          "refid": "namespacestd_1_1conditional",
+          "title": "std::conditional",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacestd_1_1conditional.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "std::hash< THRUST_NS_QUALIFIER::optional< T > >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "std::hash< THRUST_NS_QUALIFIER::optional< T > >",
+          "qualifiedname": "std::hash< THRUST_NS_QUALIFIER::optional< T > >",
+          "refid": "structstd_1_1hash_3_01THRUST__NS__QUALIFIER_1_1optional_3_01T_01_4_01_4",
+          "title": "std::hash< THRUST_NS_QUALIFIER::optional< T > >",
+          "url": "{{ site.baseurl }}/api/classes/structstd_1_1hash_3_01thrust__ns__qualifier_1_1optional_3_01t_01_4_01_4.html",
+          "visibility": "public"
+        }
+      ],
+      "fullname": "std",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "std",
+      "qualifiedname": "std",
+      "refid": "namespacestd",
+      "title": "std",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacestd.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "children": [
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::allocator_delete",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::allocator_delete",
+          "qualifiedname": "thrust::allocator_delete",
+          "refid": "structthrust_1_1allocator__delete",
+          "title": "thrust::allocator_delete",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1allocator__delete.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::array_allocator_delete",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::array_allocator_delete",
+          "qualifiedname": "thrust::array_allocator_delete",
+          "refid": "structthrust_1_1array__allocator__delete",
+          "title": "thrust::array_allocator_delete",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1array__allocator__delete.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "namespaces",
+          "children": [
+            {
+              "anchor": "",
+              "category": "namespaces",
+              "children": [
+                {
+                  "anchor": "",
+                  "category": "classes",
+                  "fullname": "thrust::async::exclusive_scan_detail::exclusive_scan_fn",
+                  "kind": "struct",
+                  "language": "cpp",
+                  "name": "thrust::async::exclusive_scan_detail::exclusive_scan_fn",
+                  "qualifiedname": "thrust::async::exclusive_scan_detail::exclusive_scan_fn",
+                  "refid": "structthrust_1_1async_1_1exclusive__scan__detail_1_1exclusive__scan__fn",
+                  "title": "thrust::async::exclusive_scan_detail::exclusive_scan_fn",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1async_1_1exclusive__scan__detail_1_1exclusive__scan__fn.html",
+                  "visibility": "public"
+                }
+              ],
+              "fullname": "thrust::async::exclusive_scan_detail",
+              "kind": "namespace",
+              "language": "cpp",
+              "name": "thrust::async::exclusive_scan_detail",
+              "qualifiedname": "thrust::async::exclusive_scan_detail",
+              "refid": "namespacethrust_1_1async_1_1exclusive__scan__detail",
+              "title": "thrust::async::exclusive_scan_detail",
+              "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1async_1_1exclusive__scan__detail.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "namespaces",
+              "children": [
+                {
+                  "anchor": "",
+                  "category": "classes",
+                  "fullname": "thrust::async::inclusive_scan_detail::inclusive_scan_fn",
+                  "kind": "struct",
+                  "language": "cpp",
+                  "name": "thrust::async::inclusive_scan_detail::inclusive_scan_fn",
+                  "qualifiedname": "thrust::async::inclusive_scan_detail::inclusive_scan_fn",
+                  "refid": "structthrust_1_1async_1_1inclusive__scan__detail_1_1inclusive__scan__fn",
+                  "title": "thrust::async::inclusive_scan_detail::inclusive_scan_fn",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1async_1_1inclusive__scan__detail_1_1inclusive__scan__fn.html",
+                  "visibility": "public"
+                }
+              ],
+              "fullname": "thrust::async::inclusive_scan_detail",
+              "kind": "namespace",
+              "language": "cpp",
+              "name": "thrust::async::inclusive_scan_detail",
+              "qualifiedname": "thrust::async::inclusive_scan_detail",
+              "refid": "namespacethrust_1_1async_1_1inclusive__scan__detail",
+              "title": "thrust::async::inclusive_scan_detail",
+              "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1async_1_1inclusive__scan__detail.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "namespaces",
+              "fullname": "thrust::async::unimplemented",
+              "kind": "namespace",
+              "language": "cpp",
+              "name": "thrust::async::unimplemented",
+              "qualifiedname": "thrust::async::unimplemented",
+              "refid": "namespacethrust_1_1async_1_1unimplemented",
+              "title": "thrust::async::unimplemented",
+              "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1async_1_1unimplemented.html",
+              "visibility": "public"
+            }
+          ],
+          "fullname": "thrust::async",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "thrust::async",
+          "qualifiedname": "thrust::async",
+          "refid": "namespacethrust_1_1async",
+          "title": "thrust::async",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1async.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "std::exception",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::bad_optional_access",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::bad_optional_access",
+          "qualifiedname": "thrust::bad_optional_access",
+          "refid": "classthrust_1_1bad__optional__access",
+          "title": "thrust::bad_optional_access",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1bad__optional__access.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "thrust::detail::iterator_category_with_system_and_traversal< std::bidirectional_iterator_tag, thrust::device_system_tag, thrust::bidirectional_traversal_tag >",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::bidirectional_device_iterator_tag",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::bidirectional_device_iterator_tag",
+          "qualifiedname": "thrust::bidirectional_device_iterator_tag",
+          "refid": "structthrust_1_1bidirectional__device__iterator__tag",
+          "title": "thrust::bidirectional_device_iterator_tag",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1bidirectional__device__iterator__tag.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::binary_function",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::binary_function",
+          "qualifiedname": "thrust::binary_function",
+          "refid": "structthrust_1_1binary__function",
+          "title": "thrust::binary_function",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1binary__function.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": false,
+              "name": "thrust::binary_function< Predicate::first_argument_type, Predicate::second_argument_type, bool >",
+              "refid": "structthrust_1_1binary__function",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1binary__function.html",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::binary_negate",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::binary_negate",
+          "qualifiedname": "thrust::binary_negate",
+          "refid": "structthrust_1_1binary__negate",
+          "title": "thrust::binary_negate",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1binary__negate.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::binary_traits",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::binary_traits",
+          "qualifiedname": "thrust::binary_traits",
+          "refid": "structthrust_1_1binary__traits",
+          "title": "thrust::binary_traits",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1binary__traits.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::bit_and",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::bit_and",
+          "qualifiedname": "thrust::bit_and",
+          "refid": "structthrust_1_1bit__and",
+          "title": "thrust::bit_and",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1bit__and.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::bit_and< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::bit_and< void >",
+          "qualifiedname": "thrust::bit_and< void >",
+          "refid": "structthrust_1_1bit__and_3_01void_01_4",
+          "title": "thrust::bit_and< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1bit__and_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::bit_or",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::bit_or",
+          "qualifiedname": "thrust::bit_or",
+          "refid": "structthrust_1_1bit__or",
+          "title": "thrust::bit_or",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1bit__or.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::bit_or< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::bit_or< void >",
+          "qualifiedname": "thrust::bit_or< void >",
+          "refid": "structthrust_1_1bit__or_3_01void_01_4",
+          "title": "thrust::bit_or< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1bit__or_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::bit_xor",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::bit_xor",
+          "qualifiedname": "thrust::bit_xor",
+          "refid": "structthrust_1_1bit__xor",
+          "title": "thrust::bit_xor",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1bit__xor.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::bit_xor< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::bit_xor< void >",
+          "qualifiedname": "thrust::bit_xor< void >",
+          "refid": "structthrust_1_1bit__xor_3_01void_01_4",
+          "title": "thrust::bit_xor< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1bit__xor_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::complex",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::complex",
+          "qualifiedname": "thrust::complex",
+          "refid": "structthrust_1_1complex",
+          "title": "thrust::complex",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1complex.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "<a href=\"https://en.cppreference.com/w/cpp/types/integral_constant\"><code>std::integral&#95;constant</code></a> whose value is <code>(... && Bs)</code>. ",
+          "category": "classes",
+          "fullname": "thrust::conjunction_value",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::conjunction_value",
+          "qualifiedname": "thrust::conjunction_value",
+          "refid": "structthrust_1_1conjunction__value",
+          "summary": "std::integral_constant whose value is (... && Bs). ",
+          "title": "thrust::conjunction_value",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1conjunction__value.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "detail::constant_iterator_base::type",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::constant_iterator",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::constant_iterator",
+          "qualifiedname": "thrust::constant_iterator",
+          "refid": "classthrust_1_1constant__iterator",
+          "title": "thrust::constant_iterator",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1constant__iterator.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "detail::counting_iterator_base::type",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::counting_iterator",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::counting_iterator",
+          "qualifiedname": "thrust::counting_iterator",
+          "refid": "classthrust_1_1counting__iterator",
+          "title": "thrust::counting_iterator",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1counting__iterator.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "<code>thrust::cpp</code> is a top-level alias for thrust::system::cpp. ",
+          "category": "namespaces",
+          "fullname": "thrust::cpp",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "thrust::cpp",
+          "qualifiedname": "thrust::cpp",
+          "refid": "namespacethrust_1_1cpp",
+          "summary": "thrust::cpp is a top-level alias for thrust::system::cpp. ",
+          "title": "thrust::cpp",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cpp.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "namespaces",
+          "fullname": "thrust::cub",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "thrust::cub",
+          "qualifiedname": "thrust::cub",
+          "refid": "namespacethrust_1_1cub",
+          "title": "thrust::cub",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cub.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "<code>thrust::cuda</code> is a top-level alias for <code>thrust::system::cuda</code>. ",
+          "category": "namespaces",
+          "fullname": "thrust::cuda",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "thrust::cuda",
+          "qualifiedname": "thrust::cuda",
+          "refid": "namespacethrust_1_1cuda",
+          "summary": "thrust::cuda is a top-level alias for thrust::system::cuda. ",
+          "title": "thrust::cuda",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cuda.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "namespaces",
+          "fullname": "thrust::cuda_cub",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "thrust::cuda_cub",
+          "qualifiedname": "thrust::cuda_cub",
+          "refid": "namespacethrust_1_1cuda__cub",
+          "title": "thrust::cuda_cub",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cuda__cub.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "\\exclude ",
+          "category": "namespaces",
+          "children": [
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "std::true_type",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::detail::conjunction",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::conjunction",
+              "qualifiedname": "thrust::detail::conjunction",
+              "refid": "structthrust_1_1detail_1_1conjunction",
+              "title": "thrust::detail::conjunction",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1conjunction.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "B",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::detail::conjunction< B >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::conjunction< B >",
+              "qualifiedname": "thrust::detail::conjunction< B >",
+              "refid": "structthrust_1_1detail_1_1conjunction_3_01B_01_4",
+              "title": "thrust::detail::conjunction< B >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1conjunction_3_01b_01_4.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "std::conditional::type",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::detail::conjunction< B, Bs... >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::conjunction< B, Bs... >",
+              "qualifiedname": "thrust::detail::conjunction< B, Bs... >",
+              "refid": "structthrust_1_1detail_1_1conjunction_3_01B_00_01Bs_8_8_8_01_4",
+              "title": "thrust::detail::conjunction< B, Bs... >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1conjunction_3_01b_00_01bs_8_8_8_01_4.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::detail::i_am_secret",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::i_am_secret",
+              "qualifiedname": "thrust::detail::i_am_secret",
+              "refid": "structthrust_1_1detail_1_1i__am__secret",
+              "title": "thrust::detail::i_am_secret",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1i__am__secret.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::detail::invoke_result_impl",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::invoke_result_impl",
+              "qualifiedname": "thrust::detail::invoke_result_impl",
+              "refid": "structthrust_1_1detail_1_1invoke__result__impl",
+              "title": "thrust::detail::invoke_result_impl",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1invoke__result__impl.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
+              "qualifiedname": "thrust::detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
+              "refid": "structthrust_1_1detail_1_1invoke__result__impl_3_01F_00_01decltype_07detail_1_1invoke_07std_1_1d451dd7dc5a7b7994ee40dec8cfe27460",
+              "title": "thrust::detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1invoke__result__impl_3_01f_00_01decltype_07detail_1_1invoke_07std_1.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "std::true_type",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::detail::is_nothrow_swappable",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::is_nothrow_swappable",
+              "qualifiedname": "thrust::detail::is_nothrow_swappable",
+              "refid": "structthrust_1_1detail_1_1is__nothrow__swappable",
+              "title": "thrust::detail::is_nothrow_swappable",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1is__nothrow__swappable.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "std::false_type",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::detail::is_optional_impl",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::is_optional_impl",
+              "qualifiedname": "thrust::detail::is_optional_impl",
+              "refid": "structthrust_1_1detail_1_1is__optional__impl",
+              "title": "thrust::detail::is_optional_impl",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1is__optional__impl.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "std::true_type",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::detail::is_optional_impl< optional< T > >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::is_optional_impl< optional< T > >",
+              "qualifiedname": "thrust::detail::is_optional_impl< optional< T > >",
+              "refid": "structthrust_1_1detail_1_1is__optional__impl_3_01optional_3_01T_01_4_01_4",
+              "title": "thrust::detail::is_optional_impl< optional< T > >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1is__optional__impl_3_01optional_3_01t_01_4_01_4.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "std::true_type",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::detail::is_swappable",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::is_swappable",
+              "qualifiedname": "thrust::detail::is_swappable",
+              "refid": "structthrust_1_1detail_1_1is__swappable",
+              "title": "thrust::detail::is_swappable",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1is__swappable.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "thrust::detail::optional_move_base< T >",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "derivedClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::detail::optional_move_assign_base< T, bool >",
+                  "refid": "structthrust_1_1detail_1_1optional__move__assign__base",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__move__assign__base.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                },
+                {
+                  "external": false,
+                  "name": "thrust::detail::optional_move_assign_base< T, false >",
+                  "refid": "structthrust_1_1detail_1_1optional__move__assign__base_3_01T_00_01false_01_4",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__move__assign__base_3_01t_00_01false_01_4.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "fullname": "thrust::detail::optional_copy_assign_base",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_copy_assign_base",
+              "qualifiedname": "thrust::detail::optional_copy_assign_base",
+              "refid": "structthrust_1_1detail_1_1optional__copy__assign__base",
+              "title": "thrust::detail::optional_copy_assign_base",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__copy__assign__base.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "thrust::detail::optional_move_base< T >",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::detail::optional_copy_assign_base< T, false >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_copy_assign_base< T, false >",
+              "qualifiedname": "thrust::detail::optional_copy_assign_base< T, false >",
+              "refid": "structthrust_1_1detail_1_1optional__copy__assign__base_3_01T_00_01false_01_4",
+              "title": "thrust::detail::optional_copy_assign_base< T, false >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "thrust::detail::optional_operations_base< T >",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "derivedClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::detail::optional_move_base< T, bool >",
+                  "refid": "structthrust_1_1detail_1_1optional__move__base",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__move__base.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                },
+                {
+                  "external": false,
+                  "name": "thrust::detail::optional_move_base< T, false >",
+                  "refid": "structthrust_1_1detail_1_1optional__move__base_3_01T_00_01false_01_4",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__move__base_3_01t_00_01false_01_4.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "fullname": "thrust::detail::optional_copy_base",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_copy_base",
+              "qualifiedname": "thrust::detail::optional_copy_base",
+              "refid": "structthrust_1_1detail_1_1optional__copy__base",
+              "title": "thrust::detail::optional_copy_base",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__copy__base.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "thrust::detail::optional_operations_base< T >",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::detail::optional_copy_base< T, false >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_copy_base< T, false >",
+              "qualifiedname": "thrust::detail::optional_copy_base< T, false >",
+              "refid": "structthrust_1_1detail_1_1optional__copy__base_3_01T_00_01false_01_4",
+              "title": "thrust::detail::optional_copy_base< T, false >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__copy__base_3_01t_00_01false_01_4.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "derivedClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::optional< T >",
+                  "refid": "classthrust_1_1optional",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1optional.html",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                }
+              ],
+              "fullname": "thrust::detail::optional_delete_assign_base",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_delete_assign_base",
+              "qualifiedname": "thrust::detail::optional_delete_assign_base",
+              "refid": "structthrust_1_1detail_1_1optional__delete__assign__base",
+              "title": "thrust::detail::optional_delete_assign_base",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__assign__base.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::detail::optional_delete_assign_base< T, false, false >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_delete_assign_base< T, false, false >",
+              "qualifiedname": "thrust::detail::optional_delete_assign_base< T, false, false >",
+              "refid": "structthrust_1_1detail_1_1optional__delete__assign__base_3_01T_00_01false_00_01false_01_4",
+              "title": "thrust::detail::optional_delete_assign_base< T, false, false >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__assign__base_3_01t_00_01false_00_01false_01_4.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::detail::optional_delete_assign_base< T, false, true >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_delete_assign_base< T, false, true >",
+              "qualifiedname": "thrust::detail::optional_delete_assign_base< T, false, true >",
+              "refid": "structthrust_1_1detail_1_1optional__delete__assign__base_3_01T_00_01false_00_01true_01_4",
+              "title": "thrust::detail::optional_delete_assign_base< T, false, true >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__assign__base_3_01t_00_01false_00_01true_01_4.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::detail::optional_delete_assign_base< T, true, false >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_delete_assign_base< T, true, false >",
+              "qualifiedname": "thrust::detail::optional_delete_assign_base< T, true, false >",
+              "refid": "structthrust_1_1detail_1_1optional__delete__assign__base_3_01T_00_01true_00_01false_01_4",
+              "title": "thrust::detail::optional_delete_assign_base< T, true, false >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__assign__base_3_01t_00_01true_00_01false_01_4.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "derivedClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::optional< T >",
+                  "refid": "classthrust_1_1optional",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1optional.html",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                }
+              ],
+              "fullname": "thrust::detail::optional_delete_ctor_base",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_delete_ctor_base",
+              "qualifiedname": "thrust::detail::optional_delete_ctor_base",
+              "refid": "structthrust_1_1detail_1_1optional__delete__ctor__base",
+              "title": "thrust::detail::optional_delete_ctor_base",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__ctor__base.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::detail::optional_delete_ctor_base< T, false, false >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_delete_ctor_base< T, false, false >",
+              "qualifiedname": "thrust::detail::optional_delete_ctor_base< T, false, false >",
+              "refid": "structthrust_1_1detail_1_1optional__delete__ctor__base_3_01T_00_01false_00_01false_01_4",
+              "title": "thrust::detail::optional_delete_ctor_base< T, false, false >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01false_01_4.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::detail::optional_delete_ctor_base< T, false, true >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_delete_ctor_base< T, false, true >",
+              "qualifiedname": "thrust::detail::optional_delete_ctor_base< T, false, true >",
+              "refid": "structthrust_1_1detail_1_1optional__delete__ctor__base_3_01T_00_01false_00_01true_01_4",
+              "title": "thrust::detail::optional_delete_ctor_base< T, false, true >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01true_01_4.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::detail::optional_delete_ctor_base< T, true, false >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_delete_ctor_base< T, true, false >",
+              "qualifiedname": "thrust::detail::optional_delete_ctor_base< T, true, false >",
+              "refid": "structthrust_1_1detail_1_1optional__delete__ctor__base_3_01T_00_01true_00_01false_01_4",
+              "title": "thrust::detail::optional_delete_ctor_base< T, true, false >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__delete__ctor__base_3_01t_00_01true_00_01false_01_4.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "thrust::detail::optional_copy_assign_base< T >",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "derivedClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::optional< T >",
+                  "refid": "classthrust_1_1optional",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1optional.html",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                }
+              ],
+              "fullname": "thrust::detail::optional_move_assign_base",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_move_assign_base",
+              "qualifiedname": "thrust::detail::optional_move_assign_base",
+              "refid": "structthrust_1_1detail_1_1optional__move__assign__base",
+              "title": "thrust::detail::optional_move_assign_base",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__move__assign__base.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "thrust::detail::optional_copy_assign_base< T >",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::detail::optional_move_assign_base< T, false >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_move_assign_base< T, false >",
+              "qualifiedname": "thrust::detail::optional_move_assign_base< T, false >",
+              "refid": "structthrust_1_1detail_1_1optional__move__assign__base_3_01T_00_01false_01_4",
+              "title": "thrust::detail::optional_move_assign_base< T, false >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__move__assign__base_3_01t_00_01false_01_4.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "thrust::detail::optional_copy_base< T >",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "derivedClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::detail::optional_copy_assign_base< T, bool >",
+                  "refid": "structthrust_1_1detail_1_1optional__copy__assign__base",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__copy__assign__base.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                },
+                {
+                  "external": false,
+                  "name": "thrust::detail::optional_copy_assign_base< T, false >",
+                  "refid": "structthrust_1_1detail_1_1optional__copy__assign__base_3_01T_00_01false_01_4",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "fullname": "thrust::detail::optional_move_base",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_move_base",
+              "qualifiedname": "thrust::detail::optional_move_base",
+              "refid": "structthrust_1_1detail_1_1optional__move__base",
+              "title": "thrust::detail::optional_move_base",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__move__base.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "thrust::detail::optional_copy_base< T >",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::detail::optional_move_base< T, false >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_move_base< T, false >",
+              "qualifiedname": "thrust::detail::optional_move_base< T, false >",
+              "refid": "structthrust_1_1detail_1_1optional__move__base_3_01T_00_01false_01_4",
+              "title": "thrust::detail::optional_move_base< T, false >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__move__base_3_01t_00_01false_01_4.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "thrust::detail::optional_storage_base< T >",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "derivedClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::detail::optional_copy_base< T, bool >",
+                  "refid": "structthrust_1_1detail_1_1optional__copy__base",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__copy__base.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                },
+                {
+                  "external": false,
+                  "name": "thrust::detail::optional_copy_base< T, false >",
+                  "refid": "structthrust_1_1detail_1_1optional__copy__base_3_01T_00_01false_01_4",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__copy__base_3_01t_00_01false_01_4.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "fullname": "thrust::detail::optional_operations_base",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_operations_base",
+              "qualifiedname": "thrust::detail::optional_operations_base",
+              "refid": "structthrust_1_1detail_1_1optional__operations__base",
+              "title": "thrust::detail::optional_operations_base",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__operations__base.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "children": [
+                {
+                  "anchor": "",
+                  "category": "classes",
+                  "fullname": "thrust::detail::optional_storage_base::dummy",
+                  "kind": "struct",
+                  "language": "cpp",
+                  "name": "thrust::detail::optional_storage_base::dummy",
+                  "qualifiedname": "thrust::detail::optional_storage_base::dummy",
+                  "refid": "structthrust_1_1detail_1_1optional__storage__base_1_1dummy",
+                  "title": "thrust::detail::optional_storage_base::dummy",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__storage__base_1_1dummy.html",
+                  "visibility": "public"
+                }
+              ],
+              "derivedClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::detail::optional_operations_base< T >",
+                  "refid": "structthrust_1_1detail_1_1optional__operations__base",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__operations__base.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "fullname": "thrust::detail::optional_storage_base",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_storage_base",
+              "qualifiedname": "thrust::detail::optional_storage_base",
+              "refid": "structthrust_1_1detail_1_1optional__storage__base",
+              "title": "thrust::detail::optional_storage_base",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__storage__base.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "children": [
+                {
+                  "anchor": "",
+                  "category": "classes",
+                  "fullname": "thrust::detail::optional_storage_base< T, true >::dummy",
+                  "kind": "struct",
+                  "language": "cpp",
+                  "name": "thrust::detail::optional_storage_base< T, true >::dummy",
+                  "qualifiedname": "thrust::detail::optional_storage_base< T, true >::dummy",
+                  "refid": "structthrust_1_1detail_1_1optional__storage__base_3_01T_00_01true_01_4_1_1dummy",
+                  "title": "thrust::detail::optional_storage_base< T, true >::dummy",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__storage__base_3_01t_00_01true_01_4_1_1dummy.html",
+                  "visibility": "public"
+                }
+              ],
+              "fullname": "thrust::detail::optional_storage_base< T, true >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::optional_storage_base< T, true >",
+              "qualifiedname": "thrust::detail::optional_storage_base< T, true >",
+              "refid": "structthrust_1_1detail_1_1optional__storage__base_3_01T_00_01true_01_4",
+              "title": "thrust::detail::optional_storage_base< T, true >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1optional__storage__base_3_01t_00_01true_01_4.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "namespaces",
+              "fullname": "thrust::detail::permutation_iterator_base",
+              "kind": "namespace",
+              "language": "cpp",
+              "name": "thrust::detail::permutation_iterator_base",
+              "qualifiedname": "thrust::detail::permutation_iterator_base",
+              "refid": "namespacethrust_1_1detail_1_1permutation__iterator__base",
+              "title": "thrust::detail::permutation_iterator_base",
+              "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail_1_1permutation__iterator__base.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::detail::returns_void_impl",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::returns_void_impl",
+              "qualifiedname": "thrust::detail::returns_void_impl",
+              "refid": "structthrust_1_1detail_1_1returns__void__impl",
+              "title": "thrust::detail::returns_void_impl",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1returns__void__impl.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "std::is_void< invoke_result_t< F, U... > >",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
+              "qualifiedname": "thrust::detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
+              "refid": "structthrust_1_1detail_1_1returns__void__impl_3_01F_00_01void__t_3_01invoke__result__t_3_01F_00_92d99556b5b7d67309a0911581ace58d",
+              "title": "thrust::detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1returns__void__impl_3_01f_00_01void__t_3_01invoke__result__t_3_01f_00_92d99556b5b7d67309a0911581ace58d.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::detail::voider",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::detail::voider",
+              "qualifiedname": "thrust::detail::voider",
+              "refid": "structthrust_1_1detail_1_1voider",
+              "title": "thrust::detail::voider",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1voider.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "namespaces",
+              "fullname": "thrust::detail::zip_detail",
+              "kind": "namespace",
+              "language": "cpp",
+              "name": "thrust::detail::zip_detail",
+              "qualifiedname": "thrust::detail::zip_detail",
+              "refid": "namespacethrust_1_1detail_1_1zip__detail",
+              "title": "thrust::detail::zip_detail",
+              "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail_1_1zip__detail.html",
+              "visibility": "public"
+            }
+          ],
+          "fullname": "thrust::detail",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "thrust::detail",
+          "qualifiedname": "thrust::detail",
+          "refid": "namespacethrust_1_1detail",
+          "summary": "\\exclude ",
+          "title": "thrust::detail",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": false,
+              "name": "thrust::mr::stateless_resource_allocator< T, device_ptr_memory_resource< device_memory_resource > >",
+              "refid": "classthrust_1_1mr_1_1stateless__resource__allocator",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            },
+            {
+              "external": false,
+              "name": "thrust::mr::allocator< T, Upstream >",
+              "refid": "classthrust_1_1mr_1_1allocator",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            },
+            {
+              "external": true,
+              "name": "thrust::mr::validator< MR >",
+              "virtual": "non-virtual",
+              "visibility": "private"
+            }
+          ],
+          "brief": "An allocator which creates new elements in memory accessible by devices. ",
+          "category": "classes",
+          "children": [
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::device_allocator::rebind",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::device_allocator::rebind",
+              "qualifiedname": "thrust::device_allocator::rebind",
+              "refid": "structthrust_1_1device__allocator_1_1rebind",
+              "title": "thrust::device_allocator::rebind",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1device__allocator_1_1rebind.html",
+              "visibility": "public"
+            }
+          ],
+          "fullname": "thrust::device_allocator",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::device_allocator",
+          "qualifiedname": "thrust::device_allocator",
+          "refid": "classthrust_1_1device__allocator",
+          "summary": "An allocator which creates new elements in memory accessible by devices. ",
+          "title": "thrust::device_allocator",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::execution_policy< DerivedPolicy >",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::device_execution_policy",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::device_execution_policy",
+          "qualifiedname": "thrust::device_execution_policy",
+          "refid": "structthrust_1_1device__execution__policy",
+          "title": "thrust::device_execution_policy",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1device__execution__policy.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "children": [
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::device_malloc_allocator::rebind",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::device_malloc_allocator::rebind",
+              "qualifiedname": "thrust::device_malloc_allocator::rebind",
+              "refid": "structthrust_1_1device__malloc__allocator_1_1rebind",
+              "title": "thrust::device_malloc_allocator::rebind",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1device__malloc__allocator_1_1rebind.html",
+              "visibility": "public"
+            }
+          ],
+          "fullname": "thrust::device_malloc_allocator",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::device_malloc_allocator",
+          "qualifiedname": "thrust::device_malloc_allocator",
+          "refid": "classthrust_1_1device__malloc__allocator",
+          "title": "thrust::device_malloc_allocator",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__malloc__allocator.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "children": [
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::device_new_allocator::rebind",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::device_new_allocator::rebind",
+              "qualifiedname": "thrust::device_new_allocator::rebind",
+              "refid": "structthrust_1_1device__new__allocator_1_1rebind",
+              "title": "thrust::device_new_allocator::rebind",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1device__new__allocator_1_1rebind.html",
+              "visibility": "public"
+            }
+          ],
+          "fullname": "thrust::device_new_allocator",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::device_new_allocator",
+          "qualifiedname": "thrust::device_new_allocator",
+          "refid": "classthrust_1_1device__new__allocator",
+          "title": "thrust::device_new_allocator",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__new__allocator.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "thrust::pointer< T, thrust::device_system_tag, thrust::device_reference< T >, thrust::device_ptr< T > >",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "brief": "<code>device&#95;ptr</code> is a pointer-like object which points to an object that resides in memory associated with the device system. ",
+          "category": "classes",
+          "fullname": "thrust::device_ptr",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::device_ptr",
+          "qualifiedname": "thrust::device_ptr",
+          "refid": "classthrust_1_1device__ptr",
+          "summary": "device_ptr is a pointer-like object which points to an object that resides in memory associated with the device system. ",
+          "title": "thrust::device_ptr",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": false,
+              "name": "thrust::mr::memory_resource< device_ptr< void > >",
+              "refid": "classthrust_1_1mr_1_1memory__resource",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::device_ptr_memory_resource",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::device_ptr_memory_resource",
+          "qualifiedname": "thrust::device_ptr_memory_resource",
+          "refid": "classthrust_1_1device__ptr__memory__resource",
+          "title": "thrust::device_ptr_memory_resource",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr__memory__resource.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "thrust::reference< T, thrust::device_ptr< T >, thrust::device_reference< T > >",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::device_reference",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::device_reference",
+          "qualifiedname": "thrust::device_reference",
+          "refid": "classthrust_1_1device__reference",
+          "title": "thrust::device_reference",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "detail::vector_base< T, thrust::device_allocator< T > >",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::device_vector",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::device_vector",
+          "qualifiedname": "thrust::device_vector",
+          "refid": "classthrust_1_1device__vector",
+          "title": "thrust::device_vector",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "detail::discard_iterator_base::type",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::discard_iterator",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::discard_iterator",
+          "qualifiedname": "thrust::discard_iterator",
+          "refid": "classthrust_1_1discard__iterator",
+          "title": "thrust::discard_iterator",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1discard__iterator.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "<a href=\"https://en.cppreference.com/w/cpp/types/integral_constant\"><code>std::integral&#95;constant</code></a> whose value is <code>(... || Bs)</code>. ",
+          "category": "classes",
+          "fullname": "thrust::disjunction_value",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::disjunction_value",
+          "qualifiedname": "thrust::disjunction_value",
+          "refid": "structthrust_1_1disjunction__value",
+          "summary": "std::integral_constant whose value is (... || Bs). ",
+          "title": "thrust::disjunction_value",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1disjunction__value.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::divides",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::divides",
+          "qualifiedname": "thrust::divides",
+          "refid": "structthrust_1_1divides",
+          "title": "thrust::divides",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1divides.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::divides< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::divides< void >",
+          "qualifiedname": "thrust::divides< void >",
+          "refid": "structthrust_1_1divides_3_01void_01_4",
+          "title": "thrust::divides< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1divides_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::equal_to",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::equal_to",
+          "qualifiedname": "thrust::equal_to",
+          "refid": "structthrust_1_1equal__to",
+          "title": "thrust::equal_to",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1equal__to.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::equal_to< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::equal_to< void >",
+          "qualifiedname": "thrust::equal_to< void >",
+          "refid": "structthrust_1_1equal__to_3_01void_01_4",
+          "title": "thrust::equal_to< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1equal__to_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "thrust::detail::iterator_category_with_system_and_traversal< std::forward_iterator_tag, thrust::device_system_tag, thrust::forward_traversal_tag >",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::forward_device_iterator_tag",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::forward_device_iterator_tag",
+          "qualifiedname": "thrust::forward_device_iterator_tag",
+          "refid": "structthrust_1_1forward__device__iterator__tag",
+          "title": "thrust::forward_device_iterator_tag",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1forward__device__iterator__tag.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::greater",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::greater",
+          "qualifiedname": "thrust::greater",
+          "refid": "structthrust_1_1greater",
+          "title": "thrust::greater",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1greater.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::greater< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::greater< void >",
+          "qualifiedname": "thrust::greater< void >",
+          "refid": "structthrust_1_1greater_3_01void_01_4",
+          "title": "thrust::greater< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1greater_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::greater_equal",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::greater_equal",
+          "qualifiedname": "thrust::greater_equal",
+          "refid": "structthrust_1_1greater__equal",
+          "title": "thrust::greater_equal",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1greater__equal.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::greater_equal< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::greater_equal< void >",
+          "qualifiedname": "thrust::greater_equal< void >",
+          "refid": "structthrust_1_1greater__equal_3_01void_01_4",
+          "title": "thrust::greater_equal< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1greater__equal_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::execution_policy< DerivedPolicy >",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::host_execution_policy",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::host_execution_policy",
+          "qualifiedname": "thrust::host_execution_policy",
+          "refid": "structthrust_1_1host__execution__policy",
+          "title": "thrust::host_execution_policy",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1host__execution__policy.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "detail::vector_base< T, std::allocator< T > >",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::host_vector",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::host_vector",
+          "qualifiedname": "thrust::host_vector",
+          "refid": "classthrust_1_1host__vector",
+          "title": "thrust::host_vector",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::identity",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::identity",
+          "qualifiedname": "thrust::identity",
+          "refid": "structthrust_1_1identity",
+          "title": "thrust::identity",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1identity.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::identity< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::identity< void >",
+          "qualifiedname": "thrust::identity< void >",
+          "refid": "structthrust_1_1identity_3_01void_01_4",
+          "title": "thrust::identity< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1identity_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "A tag type to tell optional to construct its value in-place. ",
+          "category": "classes",
+          "fullname": "thrust::in_place_t",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::in_place_t",
+          "qualifiedname": "thrust::in_place_t",
+          "refid": "structthrust_1_1in__place__t",
+          "summary": "A tag type to tell optional to construct its value in-place. ",
+          "title": "thrust::in_place_t",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1in__place__t.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "thrust::detail::iterator_category_with_system_and_traversal< std::input_iterator_tag, thrust::device_system_tag, thrust::single_pass_traversal_tag >",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::input_device_iterator_tag",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::input_device_iterator_tag",
+          "qualifiedname": "thrust::input_device_iterator_tag",
+          "refid": "structthrust_1_1input__device__iterator__tag",
+          "title": "thrust::input_device_iterator_tag",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1input__device__iterator__tag.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "detail::iterator_adaptor_base::type",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::iterator_adaptor",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::iterator_adaptor",
+          "qualifiedname": "thrust::iterator_adaptor",
+          "refid": "classthrust_1_1iterator__adaptor",
+          "title": "thrust::iterator_adaptor",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1iterator__adaptor.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::iterator_core_access",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::iterator_core_access",
+          "qualifiedname": "thrust::iterator_core_access",
+          "refid": "classthrust_1_1iterator__core__access",
+          "title": "thrust::iterator_core_access",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1iterator__core__access.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::iterator_difference",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::iterator_difference",
+          "qualifiedname": "thrust::iterator_difference",
+          "refid": "structthrust_1_1iterator__difference",
+          "title": "thrust::iterator_difference",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1iterator__difference.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::iterator_facade",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::iterator_facade",
+          "qualifiedname": "thrust::iterator_facade",
+          "refid": "classthrust_1_1iterator__facade",
+          "title": "thrust::iterator_facade",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1iterator__facade.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::iterator_pointer",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::iterator_pointer",
+          "qualifiedname": "thrust::iterator_pointer",
+          "refid": "structthrust_1_1iterator__pointer",
+          "title": "thrust::iterator_pointer",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1iterator__pointer.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::iterator_reference",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::iterator_reference",
+          "qualifiedname": "thrust::iterator_reference",
+          "refid": "structthrust_1_1iterator__reference",
+          "title": "thrust::iterator_reference",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1iterator__reference.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::iterator_system",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::iterator_system",
+          "qualifiedname": "thrust::iterator_system",
+          "refid": "structthrust_1_1iterator__system",
+          "title": "thrust::iterator_system",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1iterator__system.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "std::iterator_traits< T >",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::iterator_traits",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::iterator_traits",
+          "qualifiedname": "thrust::iterator_traits",
+          "refid": "structthrust_1_1iterator__traits",
+          "title": "thrust::iterator_traits",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::iterator_traversal",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::iterator_traversal",
+          "qualifiedname": "thrust::iterator_traversal",
+          "refid": "structthrust_1_1iterator__traversal",
+          "title": "thrust::iterator_traversal",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traversal.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::iterator_value",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::iterator_value",
+          "qualifiedname": "thrust::iterator_value",
+          "refid": "structthrust_1_1iterator__value",
+          "title": "thrust::iterator_value",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1iterator__value.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::less",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::less",
+          "qualifiedname": "thrust::less",
+          "refid": "structthrust_1_1less",
+          "title": "thrust::less",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1less.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::less< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::less< void >",
+          "qualifiedname": "thrust::less< void >",
+          "refid": "structthrust_1_1less_3_01void_01_4",
+          "title": "thrust::less< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1less_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::less_equal",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::less_equal",
+          "qualifiedname": "thrust::less_equal",
+          "refid": "structthrust_1_1less__equal",
+          "title": "thrust::less_equal",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1less__equal.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::less_equal< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::less_equal< void >",
+          "qualifiedname": "thrust::less_equal< void >",
+          "refid": "structthrust_1_1less__equal_3_01void_01_4",
+          "title": "thrust::less_equal< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1less__equal_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::logical_and",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::logical_and",
+          "qualifiedname": "thrust::logical_and",
+          "refid": "structthrust_1_1logical__and",
+          "title": "thrust::logical_and",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1logical__and.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::logical_and< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::logical_and< void >",
+          "qualifiedname": "thrust::logical_and< void >",
+          "refid": "structthrust_1_1logical__and_3_01void_01_4",
+          "title": "thrust::logical_and< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1logical__and_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::logical_not",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::logical_not",
+          "qualifiedname": "thrust::logical_not",
+          "refid": "structthrust_1_1logical__not",
+          "title": "thrust::logical_not",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1logical__not.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::logical_not< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::logical_not< void >",
+          "qualifiedname": "thrust::logical_not< void >",
+          "refid": "structthrust_1_1logical__not_3_01void_01_4",
+          "title": "thrust::logical_not< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1logical__not_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::logical_or",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::logical_or",
+          "qualifiedname": "thrust::logical_or",
+          "refid": "structthrust_1_1logical__or",
+          "title": "thrust::logical_or",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1logical__or.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::logical_or< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::logical_or< void >",
+          "qualifiedname": "thrust::logical_or< void >",
+          "refid": "structthrust_1_1logical__or_3_01void_01_4",
+          "title": "thrust::logical_or< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1logical__or_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::maximum",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::maximum",
+          "qualifiedname": "thrust::maximum",
+          "refid": "structthrust_1_1maximum",
+          "title": "thrust::maximum",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1maximum.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::maximum< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::maximum< void >",
+          "qualifiedname": "thrust::maximum< void >",
+          "refid": "structthrust_1_1maximum_3_01void_01_4",
+          "title": "thrust::maximum< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1maximum_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::minimum",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::minimum",
+          "qualifiedname": "thrust::minimum",
+          "refid": "structthrust_1_1minimum",
+          "title": "thrust::minimum",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1minimum.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::minimum< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::minimum< void >",
+          "qualifiedname": "thrust::minimum< void >",
+          "refid": "structthrust_1_1minimum_3_01void_01_4",
+          "title": "thrust::minimum< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1minimum_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::minus",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::minus",
+          "qualifiedname": "thrust::minus",
+          "refid": "structthrust_1_1minus",
+          "title": "thrust::minus",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1minus.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::minus< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::minus< void >",
+          "qualifiedname": "thrust::minus< void >",
+          "refid": "structthrust_1_1minus_3_01void_01_4",
+          "title": "thrust::minus< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1minus_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::modulus",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::modulus",
+          "qualifiedname": "thrust::modulus",
+          "refid": "structthrust_1_1modulus",
+          "title": "thrust::modulus",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1modulus.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::modulus< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::modulus< void >",
+          "qualifiedname": "thrust::modulus< void >",
+          "refid": "structthrust_1_1modulus_3_01void_01_4",
+          "title": "thrust::modulus< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1modulus_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "Used to represent an optional with no data; essentially a bool. ",
+          "category": "classes",
+          "fullname": "thrust::monostate",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::monostate",
+          "qualifiedname": "thrust::monostate",
+          "refid": "classthrust_1_1monostate",
+          "summary": "Used to represent an optional with no data; essentially a bool. ",
+          "title": "thrust::monostate",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1monostate.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "<code>thrust::mr</code> is the namespace containing system agnostic types and functions for <code>memory&#95;resource</code> related functionalities. ",
+          "category": "namespaces",
+          "children": [
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "thrust::mr::validator< MR >",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                }
+              ],
+              "category": "classes",
+              "children": [
+                {
+                  "anchor": "",
+                  "category": "classes",
+                  "fullname": "thrust::mr::allocator::rebind",
+                  "kind": "struct",
+                  "language": "cpp",
+                  "name": "thrust::mr::allocator::rebind",
+                  "qualifiedname": "thrust::mr::allocator::rebind",
+                  "refid": "structthrust_1_1mr_1_1allocator_1_1rebind",
+                  "title": "thrust::mr::allocator::rebind",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1allocator_1_1rebind.html",
+                  "visibility": "public"
+                }
+              ],
+              "fullname": "thrust::mr::allocator",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::mr::allocator",
+              "qualifiedname": "thrust::mr::allocator",
+              "refid": "classthrust_1_1mr_1_1allocator",
+              "title": "thrust::mr::allocator",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::mr::memory_resource< Upstream::pointer >",
+                  "refid": "classthrust_1_1mr_1_1memory__resource",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::mr::disjoint_synchronized_pool_resource",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::mr::disjoint_synchronized_pool_resource",
+              "qualifiedname": "thrust::mr::disjoint_synchronized_pool_resource",
+              "refid": "structthrust_1_1mr_1_1disjoint__synchronized__pool__resource",
+              "title": "thrust::mr::disjoint_synchronized_pool_resource",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1disjoint__synchronized__pool__resource.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::mr::memory_resource< Upstream::pointer >",
+                  "refid": "classthrust_1_1mr_1_1memory__resource",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                },
+                {
+                  "external": true,
+                  "name": "thrust::mr::validator2< Upstream, Bookkeeper >",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                }
+              ],
+              "category": "classes",
+              "children": [
+                {
+                  "anchor": "",
+                  "category": "classes",
+                  "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource::chunk_descriptor",
+                  "kind": "struct",
+                  "language": "cpp",
+                  "name": "thrust::mr::disjoint_unsynchronized_pool_resource::chunk_descriptor",
+                  "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource::chunk_descriptor",
+                  "refid": "structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor",
+                  "title": "thrust::mr::disjoint_unsynchronized_pool_resource::chunk_descriptor",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor.html",
+                  "visibility": "private"
+                },
+                {
+                  "anchor": "",
+                  "category": "classes",
+                  "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource::equal_pointers",
+                  "kind": "struct",
+                  "language": "cpp",
+                  "name": "thrust::mr::disjoint_unsynchronized_pool_resource::equal_pointers",
+                  "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource::equal_pointers",
+                  "refid": "structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers",
+                  "title": "thrust::mr::disjoint_unsynchronized_pool_resource::equal_pointers",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers.html",
+                  "visibility": "private"
+                },
+                {
+                  "anchor": "",
+                  "category": "classes",
+                  "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource::matching_alignment",
+                  "kind": "struct",
+                  "language": "cpp",
+                  "name": "thrust::mr::disjoint_unsynchronized_pool_resource::matching_alignment",
+                  "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource::matching_alignment",
+                  "refid": "structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment",
+                  "title": "thrust::mr::disjoint_unsynchronized_pool_resource::matching_alignment",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment.html",
+                  "visibility": "private"
+                },
+                {
+                  "anchor": "",
+                  "category": "classes",
+                  "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource::oversized_block_descriptor",
+                  "kind": "struct",
+                  "language": "cpp",
+                  "name": "thrust::mr::disjoint_unsynchronized_pool_resource::oversized_block_descriptor",
+                  "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource::oversized_block_descriptor",
+                  "refid": "structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor",
+                  "title": "thrust::mr::disjoint_unsynchronized_pool_resource::oversized_block_descriptor",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html",
+                  "visibility": "private"
+                },
+                {
+                  "anchor": "",
+                  "category": "classes",
+                  "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource::pool",
+                  "kind": "struct",
+                  "language": "cpp",
+                  "name": "thrust::mr::disjoint_unsynchronized_pool_resource::pool",
+                  "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource::pool",
+                  "refid": "structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1pool",
+                  "title": "thrust::mr::disjoint_unsynchronized_pool_resource::pool",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource_1_1pool.html",
+                  "visibility": "private"
+                }
+              ],
+              "fullname": "thrust::mr::disjoint_unsynchronized_pool_resource",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::mr::disjoint_unsynchronized_pool_resource",
+              "qualifiedname": "thrust::mr::disjoint_unsynchronized_pool_resource",
+              "refid": "classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource",
+              "title": "thrust::mr::disjoint_unsynchronized_pool_resource",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::mr::memory_resource< Pointer >",
+                  "refid": "classthrust_1_1mr_1_1memory__resource",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                },
+                {
+                  "external": true,
+                  "name": "thrust::mr::validator< Upstream >",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::mr::fancy_pointer_resource",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::mr::fancy_pointer_resource",
+              "qualifiedname": "thrust::mr::fancy_pointer_resource",
+              "refid": "classthrust_1_1mr_1_1fancy__pointer__resource",
+              "title": "thrust::mr::fancy_pointer_resource",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1fancy__pointer__resource.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "derivedClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::mr::new_delete_resource",
+                  "refid": "classthrust_1_1mr_1_1new__delete__resource",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1new__delete__resource.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                },
+                {
+                  "external": false,
+                  "name": "thrust::mr::polymorphic_adaptor_resource< Pointer >",
+                  "refid": "classthrust_1_1mr_1_1polymorphic__adaptor__resource",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1polymorphic__adaptor__resource.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "fullname": "thrust::mr::memory_resource",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::mr::memory_resource",
+              "qualifiedname": "thrust::mr::memory_resource",
+              "refid": "classthrust_1_1mr_1_1memory__resource",
+              "title": "thrust::mr::memory_resource",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::mr::memory_resource< void * >",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::mr::memory_resource< void * >",
+              "qualifiedname": "thrust::mr::memory_resource< void * >",
+              "refid": "classthrust_1_1mr_1_1memory__resource_3_01void_01_5_01_4",
+              "title": "thrust::mr::memory_resource< void * >",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource_3_01void_01_5_01_4.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::mr::memory_resource<>",
+                  "refid": "classthrust_1_1mr_1_1memory__resource",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::mr::new_delete_resource",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::mr::new_delete_resource",
+              "qualifiedname": "thrust::mr::new_delete_resource",
+              "refid": "classthrust_1_1mr_1_1new__delete__resource",
+              "title": "thrust::mr::new_delete_resource",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1new__delete__resource.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::mr::memory_resource< void * >",
+                  "refid": "classthrust_1_1mr_1_1memory__resource",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::mr::polymorphic_adaptor_resource",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::mr::polymorphic_adaptor_resource",
+              "qualifiedname": "thrust::mr::polymorphic_adaptor_resource",
+              "refid": "classthrust_1_1mr_1_1polymorphic__adaptor__resource",
+              "title": "thrust::mr::polymorphic_adaptor_resource",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1polymorphic__adaptor__resource.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::mr::pool_options",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::mr::pool_options",
+              "qualifiedname": "thrust::mr::pool_options",
+              "refid": "structthrust_1_1mr_1_1pool__options",
+              "title": "thrust::mr::pool_options",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1pool__options.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::mr::allocator< T, Upstream >",
+                  "refid": "classthrust_1_1mr_1_1allocator",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                },
+                {
+                  "external": true,
+                  "name": "thrust::mr::validator< MR >",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                }
+              ],
+              "category": "classes",
+              "children": [
+                {
+                  "anchor": "",
+                  "category": "classes",
+                  "fullname": "thrust::mr::stateless_resource_allocator::rebind",
+                  "kind": "struct",
+                  "language": "cpp",
+                  "name": "thrust::mr::stateless_resource_allocator::rebind",
+                  "qualifiedname": "thrust::mr::stateless_resource_allocator::rebind",
+                  "refid": "structthrust_1_1mr_1_1stateless__resource__allocator_1_1rebind",
+                  "title": "thrust::mr::stateless_resource_allocator::rebind",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1stateless__resource__allocator_1_1rebind.html",
+                  "visibility": "public"
+                }
+              ],
+              "fullname": "thrust::mr::stateless_resource_allocator",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::mr::stateless_resource_allocator",
+              "qualifiedname": "thrust::mr::stateless_resource_allocator",
+              "refid": "classthrust_1_1mr_1_1stateless__resource__allocator",
+              "title": "thrust::mr::stateless_resource_allocator",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::mr::memory_resource< Upstream::pointer >",
+                  "refid": "classthrust_1_1mr_1_1memory__resource",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::mr::synchronized_pool_resource",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::mr::synchronized_pool_resource",
+              "qualifiedname": "thrust::mr::synchronized_pool_resource",
+              "refid": "structthrust_1_1mr_1_1synchronized__pool__resource",
+              "title": "thrust::mr::synchronized_pool_resource",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1synchronized__pool__resource.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::mr::memory_resource< Upstream::pointer >",
+                  "refid": "classthrust_1_1mr_1_1memory__resource",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1memory__resource.html",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                },
+                {
+                  "external": true,
+                  "name": "thrust::mr::validator< Upstream >",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                }
+              ],
+              "category": "classes",
+              "children": [
+                {
+                  "anchor": "",
+                  "category": "classes",
+                  "fullname": "thrust::mr::unsynchronized_pool_resource::block_descriptor",
+                  "kind": "struct",
+                  "language": "cpp",
+                  "name": "thrust::mr::unsynchronized_pool_resource::block_descriptor",
+                  "qualifiedname": "thrust::mr::unsynchronized_pool_resource::block_descriptor",
+                  "refid": "structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1block__descriptor",
+                  "title": "thrust::mr::unsynchronized_pool_resource::block_descriptor",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1block__descriptor.html",
+                  "visibility": "private"
+                },
+                {
+                  "anchor": "",
+                  "category": "classes",
+                  "fullname": "thrust::mr::unsynchronized_pool_resource::chunk_descriptor",
+                  "kind": "struct",
+                  "language": "cpp",
+                  "name": "thrust::mr::unsynchronized_pool_resource::chunk_descriptor",
+                  "qualifiedname": "thrust::mr::unsynchronized_pool_resource::chunk_descriptor",
+                  "refid": "structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1chunk__descriptor",
+                  "title": "thrust::mr::unsynchronized_pool_resource::chunk_descriptor",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1chunk__descriptor.html",
+                  "visibility": "private"
+                },
+                {
+                  "anchor": "",
+                  "category": "classes",
+                  "fullname": "thrust::mr::unsynchronized_pool_resource::oversized_block_descriptor",
+                  "kind": "struct",
+                  "language": "cpp",
+                  "name": "thrust::mr::unsynchronized_pool_resource::oversized_block_descriptor",
+                  "qualifiedname": "thrust::mr::unsynchronized_pool_resource::oversized_block_descriptor",
+                  "refid": "structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1oversized__block__descriptor",
+                  "title": "thrust::mr::unsynchronized_pool_resource::oversized_block_descriptor",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1oversized__block__descriptor.html",
+                  "visibility": "private"
+                },
+                {
+                  "anchor": "",
+                  "category": "classes",
+                  "fullname": "thrust::mr::unsynchronized_pool_resource::pool",
+                  "kind": "struct",
+                  "language": "cpp",
+                  "name": "thrust::mr::unsynchronized_pool_resource::pool",
+                  "qualifiedname": "thrust::mr::unsynchronized_pool_resource::pool",
+                  "refid": "structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1pool",
+                  "title": "thrust::mr::unsynchronized_pool_resource::pool",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1unsynchronized__pool__resource_1_1pool.html",
+                  "visibility": "private"
+                }
+              ],
+              "fullname": "thrust::mr::unsynchronized_pool_resource",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::mr::unsynchronized_pool_resource",
+              "qualifiedname": "thrust::mr::unsynchronized_pool_resource",
+              "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource",
+              "title": "thrust::mr::unsynchronized_pool_resource",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "derivedClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::mr::allocator< T, device_ptr_memory_resource< device_memory_resource > >",
+                  "refid": "classthrust_1_1mr_1_1allocator",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                },
+                {
+                  "external": false,
+                  "name": "thrust::mr::allocator< T, Upstream >",
+                  "refid": "classthrust_1_1mr_1_1allocator",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                },
+                {
+                  "external": false,
+                  "name": "thrust::mr::validator2< Upstream, Bookkeeper >",
+                  "refid": "structthrust_1_1mr_1_1validator2",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2.html",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                },
+                {
+                  "external": false,
+                  "name": "thrust::mr::validator2< Upstream, Bookkeeper >",
+                  "refid": "structthrust_1_1mr_1_1validator2",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2.html",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                },
+                {
+                  "external": false,
+                  "name": "thrust::mr::allocator< T, MR >",
+                  "refid": "classthrust_1_1mr_1_1allocator",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                },
+                {
+                  "external": false,
+                  "name": "thrust::mr::fancy_pointer_resource< Upstream, Pointer >",
+                  "refid": "classthrust_1_1mr_1_1fancy__pointer__resource",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1fancy__pointer__resource.html",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                },
+                {
+                  "external": false,
+                  "name": "thrust::mr::unsynchronized_pool_resource< Upstream >",
+                  "refid": "classthrust_1_1mr_1_1unsynchronized__pool__resource",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1unsynchronized__pool__resource.html",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                },
+                {
+                  "external": false,
+                  "name": "thrust::mr::validator2< T, U >",
+                  "refid": "structthrust_1_1mr_1_1validator2",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2.html",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                },
+                {
+                  "external": false,
+                  "name": "thrust::mr::validator2< T, U >",
+                  "refid": "structthrust_1_1mr_1_1validator2",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2.html",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                },
+                {
+                  "external": false,
+                  "name": "thrust::mr::validator2< T, T >",
+                  "refid": "structthrust_1_1mr_1_1validator2_3_01T_00_01T_01_4",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2_3_01t_00_01t_01_4.html",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                }
+              ],
+              "fullname": "thrust::mr::validator",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::mr::validator",
+              "qualifiedname": "thrust::mr::validator",
+              "refid": "structthrust_1_1mr_1_1validator",
+              "title": "thrust::mr::validator",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "thrust::mr::validator< T >",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                },
+                {
+                  "external": true,
+                  "name": "thrust::mr::validator< U >",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                }
+              ],
+              "category": "classes",
+              "derivedClasses": [
+                {
+                  "external": false,
+                  "name": "thrust::mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >",
+                  "refid": "classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource",
+                  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1disjoint__unsynchronized__pool__resource.html",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                }
+              ],
+              "fullname": "thrust::mr::validator2",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::mr::validator2",
+              "qualifiedname": "thrust::mr::validator2",
+              "refid": "structthrust_1_1mr_1_1validator2",
+              "title": "thrust::mr::validator2",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "thrust::mr::validator< T >",
+                  "virtual": "non-virtual",
+                  "visibility": "private"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::mr::validator2< T, T >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::mr::validator2< T, T >",
+              "qualifiedname": "thrust::mr::validator2< T, T >",
+              "refid": "structthrust_1_1mr_1_1validator2_3_01T_00_01T_01_4",
+              "title": "thrust::mr::validator2< T, T >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1validator2_3_01t_00_01t_01_4.html",
+              "visibility": "public"
+            }
+          ],
+          "fullname": "thrust::mr",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "thrust::mr",
+          "qualifiedname": "thrust::mr",
+          "refid": "namespacethrust_1_1mr",
+          "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
+          "title": "thrust::mr",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1mr.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::multiplies",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::multiplies",
+          "qualifiedname": "thrust::multiplies",
+          "refid": "structthrust_1_1multiplies",
+          "title": "thrust::multiplies",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1multiplies.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::multiplies< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::multiplies< void >",
+          "qualifiedname": "thrust::multiplies< void >",
+          "refid": "structthrust_1_1multiplies_3_01void_01_4",
+          "title": "thrust::multiplies< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1multiplies_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::negate",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::negate",
+          "qualifiedname": "thrust::negate",
+          "refid": "structthrust_1_1negate",
+          "title": "thrust::negate",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1negate.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::negate< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::negate< void >",
+          "qualifiedname": "thrust::negate< void >",
+          "refid": "structthrust_1_1negate_3_01void_01_4",
+          "title": "thrust::negate< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1negate_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "<a href=\"https://en.cppreference.com/w/cpp/types/integral_constant\"><code>std::integral&#95;constant</code></a> whose value is <code>!Bs</code>. ",
+          "category": "classes",
+          "fullname": "thrust::negation_value",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::negation_value",
+          "qualifiedname": "thrust::negation_value",
+          "refid": "structthrust_1_1negation__value",
+          "summary": "std::integral_constant whose value is !Bs. ",
+          "title": "thrust::negation_value",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1negation__value.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::new_stream_t",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::new_stream_t",
+          "qualifiedname": "thrust::new_stream_t",
+          "refid": "structthrust_1_1new__stream__t",
+          "title": "thrust::new_stream_t",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1new__stream__t.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::not_equal_to",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::not_equal_to",
+          "qualifiedname": "thrust::not_equal_to",
+          "refid": "structthrust_1_1not__equal__to",
+          "title": "thrust::not_equal_to",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1not__equal__to.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::not_equal_to< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::not_equal_to< void >",
+          "qualifiedname": "thrust::not_equal_to< void >",
+          "refid": "structthrust_1_1not__equal__to_3_01void_01_4",
+          "title": "thrust::not_equal_to< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1not__equal__to_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "A tag type to represent an empty optional. ",
+          "category": "classes",
+          "children": [
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::nullopt_t::do_not_use",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::nullopt_t::do_not_use",
+              "qualifiedname": "thrust::nullopt_t::do_not_use",
+              "refid": "structthrust_1_1nullopt__t_1_1do__not__use",
+              "title": "thrust::nullopt_t::do_not_use",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1nullopt__t_1_1do__not__use.html",
+              "visibility": "public"
+            }
+          ],
+          "fullname": "thrust::nullopt_t",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::nullopt_t",
+          "qualifiedname": "thrust::nullopt_t",
+          "refid": "structthrust_1_1nullopt__t",
+          "summary": "A tag type to represent an empty optional. ",
+          "title": "thrust::nullopt_t",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1nullopt__t.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "std::numeric_limits< T >",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::numeric_limits",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::numeric_limits",
+          "qualifiedname": "thrust::numeric_limits",
+          "refid": "structthrust_1_1numeric__limits",
+          "title": "thrust::numeric_limits",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1numeric__limits.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "<code>thrust::omp</code> is a top-level alias for thrust::system::omp. ",
+          "category": "namespaces",
+          "fullname": "thrust::omp",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "thrust::omp",
+          "qualifiedname": "thrust::omp",
+          "refid": "namespacethrust_1_1omp",
+          "summary": "thrust::omp is a top-level alias for thrust::system::omp. ",
+          "title": "thrust::omp",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1omp.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "thrust::detail::optional_move_assign_base< T >",
+              "virtual": "non-virtual",
+              "visibility": "private"
+            },
+            {
+              "external": true,
+              "name": "thrust::detail::optional_delete_ctor_base< T >",
+              "virtual": "non-virtual",
+              "visibility": "private"
+            },
+            {
+              "external": true,
+              "name": "thrust::detail::optional_delete_assign_base< T >",
+              "virtual": "non-virtual",
+              "visibility": "private"
+            }
+          ],
+          "brief": "An optional object is an object that contains the storage for another object and manages the lifetime of this contained object, if any. ",
+          "category": "classes",
+          "fullname": "thrust::optional",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::optional",
+          "qualifiedname": "thrust::optional",
+          "refid": "classthrust_1_1optional",
+          "summary": "An optional object is an object that contains the storage for another object and manages the lifetime of this contained object, if any. ",
+          "title": "thrust::optional",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1optional.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "Specialization for when <code>T</code> is a reference. ",
+          "category": "classes",
+          "fullname": "thrust::optional< T & >",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::optional< T & >",
+          "qualifiedname": "thrust::optional< T & >",
+          "refid": "classthrust_1_1optional_3_01T_01_6_01_4",
+          "summary": "Specialization for when T is a reference. ",
+          "title": "thrust::optional< T & >",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1optional_3_01t_01_6_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "thrust::detail::iterator_category_with_system_and_traversal< std::output_iterator_tag, thrust::device_system_tag, thrust::single_pass_traversal_tag >",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::output_device_iterator_tag",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::output_device_iterator_tag",
+          "qualifiedname": "thrust::output_device_iterator_tag",
+          "refid": "structthrust_1_1output__device__iterator__tag",
+          "title": "thrust::output_device_iterator_tag",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1output__device__iterator__tag.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::pair",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::pair",
+          "qualifiedname": "thrust::pair",
+          "refid": "structthrust_1_1pair",
+          "title": "thrust::pair",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1pair.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": false,
+              "name": "thrust::mr::allocator< T, Upstream >",
+              "refid": "classthrust_1_1mr_1_1allocator",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            },
+            {
+              "external": true,
+              "name": "thrust::mr::validator< MR >",
+              "virtual": "non-virtual",
+              "visibility": "private"
+            }
+          ],
+          "category": "classes",
+          "children": [
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::per_device_allocator::rebind",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::per_device_allocator::rebind",
+              "qualifiedname": "thrust::per_device_allocator::rebind",
+              "refid": "structthrust_1_1per__device__allocator_1_1rebind",
+              "title": "thrust::per_device_allocator::rebind",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1per__device__allocator_1_1rebind.html",
+              "visibility": "public"
+            }
+          ],
+          "fullname": "thrust::per_device_allocator",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::per_device_allocator",
+          "qualifiedname": "thrust::per_device_allocator",
+          "refid": "classthrust_1_1per__device__allocator",
+          "title": "thrust::per_device_allocator",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1per__device__allocator.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "thrust::detail::permutation_iterator_base::type",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::permutation_iterator",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::permutation_iterator",
+          "qualifiedname": "thrust::permutation_iterator",
+          "refid": "classthrust_1_1permutation__iterator",
+          "title": "thrust::permutation_iterator",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1permutation__iterator.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "Facilities for constructing simple functions inline. ",
+          "category": "namespaces",
+          "fullname": "thrust::placeholders",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "thrust::placeholders",
+          "qualifiedname": "thrust::placeholders",
+          "refid": "namespacethrust_1_1placeholders",
+          "summary": "Facilities for constructing simple functions inline. ",
+          "title": "thrust::placeholders",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1placeholders.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::plus",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::plus",
+          "qualifiedname": "thrust::plus",
+          "refid": "structthrust_1_1plus",
+          "title": "thrust::plus",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1plus.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::plus< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::plus< void >",
+          "qualifiedname": "thrust::plus< void >",
+          "refid": "structthrust_1_1plus_3_01void_01_4",
+          "title": "thrust::plus< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1plus_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "false_type",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "brief": "Customization point that can be customized to indicate that an iterator type <code>Iterator</code> satisfies <a href=\"https://en.cppreference.com/w/cpp/named_req/ContiguousIterator\">ContiguousIterator</a>, aka it points to elements that are contiguous in memory. ",
+          "category": "classes",
+          "fullname": "thrust::proclaim_contiguous_iterator",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::proclaim_contiguous_iterator",
+          "qualifiedname": "thrust::proclaim_contiguous_iterator",
+          "refid": "structthrust_1_1proclaim__contiguous__iterator",
+          "summary": "Customization point that can be customized to indicate that an iterator type Iterator satisfies ContiguousIterator, aka it points to elements that are contiguous in memory. ",
+          "title": "thrust::proclaim_contiguous_iterator",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1proclaim__contiguous__iterator.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::project1st",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::project1st",
+          "qualifiedname": "thrust::project1st",
+          "refid": "structthrust_1_1project1st",
+          "title": "thrust::project1st",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1project1st.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::project1st< void, void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::project1st< void, void >",
+          "qualifiedname": "thrust::project1st< void, void >",
+          "refid": "structthrust_1_1project1st_3_01void_00_01void_01_4",
+          "title": "thrust::project1st< void, void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1project1st_3_01void_00_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::project2nd",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::project2nd",
+          "qualifiedname": "thrust::project2nd",
+          "refid": "structthrust_1_1project2nd",
+          "title": "thrust::project2nd",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1project2nd.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::project2nd< void, void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::project2nd< void, void >",
+          "qualifiedname": "thrust::project2nd< void, void >",
+          "refid": "structthrust_1_1project2nd_3_01void_00_01void_01_4",
+          "title": "thrust::project2nd< void, void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1project2nd_3_01void_00_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "<code>thrust::random</code> is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+          "category": "namespaces",
+          "children": [
+            {
+              "anchor": "",
+              "brief": "A <code>discard&#95;block&#95;engine</code> adapts an existing base random number engine and produces random values by discarding some of the values returned by its base engine. Each cycle of the compound engine begins by returning <code>r</code> values successively produced by the base engine and ends by discarding <code>p-r</code> such values. The engine's state is the state of its base engine followed by the number of calls to <code>operator()</code> that have occurred since the beginning of the current cycle. ",
+              "category": "classes",
+              "fullname": "thrust::random::discard_block_engine",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::random::discard_block_engine",
+              "qualifiedname": "thrust::random::discard_block_engine",
+              "refid": "classthrust_1_1random_1_1discard__block__engine",
+              "summary": "A discard_block_engine adapts an existing base random number engine and produces random values by discarding some of the values returned by its base engine. Each cycle of the compound engine begins by returning r values successively produced by the base engine and ends by discarding p-r such values. The engine's state is the state of its base engine followed by the number of calls to operator() that have occurred since the beginning of the current cycle. ",
+              "title": "thrust::random::discard_block_engine",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1discard__block__engine.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "brief": "A <code>linear&#95;congruential&#95;engine</code> random number engine produces unsigned integer random numbers using a linear congruential random number generation algorithm. ",
+              "category": "classes",
+              "fullname": "thrust::random::linear_congruential_engine",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::random::linear_congruential_engine",
+              "qualifiedname": "thrust::random::linear_congruential_engine",
+              "refid": "classthrust_1_1random_1_1linear__congruential__engine",
+              "summary": "A linear_congruential_engine random number engine produces unsigned integer random numbers using a linear congruential random number generation algorithm. ",
+              "title": "thrust::random::linear_congruential_engine",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__congruential__engine.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "brief": "A <code>linear&#95;feedback&#95;shift&#95;engine</code> random number engine produces unsigned integer random values using a linear feedback shift random number generation algorithm. ",
+              "category": "classes",
+              "fullname": "thrust::random::linear_feedback_shift_engine",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::random::linear_feedback_shift_engine",
+              "qualifiedname": "thrust::random::linear_feedback_shift_engine",
+              "refid": "classthrust_1_1random_1_1linear__feedback__shift__engine",
+              "summary": "A linear_feedback_shift_engine random number engine produces unsigned integer random values using a linear feedback shift random number generation algorithm. ",
+              "title": "thrust::random::linear_feedback_shift_engine",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "detail::normal_distribution_base::type",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "brief": "A <code>normal&#95;distribution</code> random number distribution produces floating point Normally distributed random numbers. ",
+              "category": "classes",
+              "fullname": "thrust::random::normal_distribution",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::random::normal_distribution",
+              "qualifiedname": "thrust::random::normal_distribution",
+              "refid": "classthrust_1_1random_1_1normal__distribution",
+              "summary": "A normal_distribution random number distribution produces floating point Normally distributed random numbers. ",
+              "title": "thrust::random::normal_distribution",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1normal__distribution.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "brief": "A <code>subtract&#95;with&#95;carry&#95;engine</code> random number engine produces unsigned integer random numbers using the subtract with carry algorithm of Marsaglia & Zaman. ",
+              "category": "classes",
+              "fullname": "thrust::random::subtract_with_carry_engine",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::random::subtract_with_carry_engine",
+              "qualifiedname": "thrust::random::subtract_with_carry_engine",
+              "refid": "classthrust_1_1random_1_1subtract__with__carry__engine",
+              "summary": "A subtract_with_carry_engine random number engine produces unsigned integer random numbers using the subtract with carry algorithm of Marsaglia & Zaman. ",
+              "title": "thrust::random::subtract_with_carry_engine",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1subtract__with__carry__engine.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "brief": "A <code>uniform&#95;int&#95;distribution</code> random number distribution produces signed or unsigned integer uniform random numbers from a given range. ",
+              "category": "classes",
+              "fullname": "thrust::random::uniform_int_distribution",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::random::uniform_int_distribution",
+              "qualifiedname": "thrust::random::uniform_int_distribution",
+              "refid": "classthrust_1_1random_1_1uniform__int__distribution",
+              "summary": "A uniform_int_distribution random number distribution produces signed or unsigned integer uniform random numbers from a given range. ",
+              "title": "thrust::random::uniform_int_distribution",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__int__distribution.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "brief": "A <code>uniform&#95;real&#95;distribution</code> random number distribution produces floating point uniform random numbers from a half-open interval. ",
+              "category": "classes",
+              "fullname": "thrust::random::uniform_real_distribution",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::random::uniform_real_distribution",
+              "qualifiedname": "thrust::random::uniform_real_distribution",
+              "refid": "classthrust_1_1random_1_1uniform__real__distribution",
+              "summary": "A uniform_real_distribution random number distribution produces floating point uniform random numbers from a half-open interval. ",
+              "title": "thrust::random::uniform_real_distribution",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1uniform__real__distribution.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "brief": "An <code>xor&#95;combine&#95;engine</code> adapts two existing base random number engines and produces random values by combining the values produced by each. ",
+              "category": "classes",
+              "fullname": "thrust::random::xor_combine_engine",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::random::xor_combine_engine",
+              "qualifiedname": "thrust::random::xor_combine_engine",
+              "refid": "classthrust_1_1random_1_1xor__combine__engine",
+              "summary": "An xor_combine_engine adapts two existing base random number engines and produces random values by combining the values produced by each. ",
+              "title": "thrust::random::xor_combine_engine",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1xor__combine__engine.html",
+              "visibility": "public"
+            }
+          ],
+          "fullname": "thrust::random",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "thrust::random",
+          "qualifiedname": "thrust::random",
+          "refid": "namespacethrust_1_1random",
+          "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+          "title": "thrust::random",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1random.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "thrust::detail::iterator_category_with_system_and_traversal< std::random_access_iterator_tag, thrust::device_system_tag, thrust::random_access_traversal_tag >",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::random_access_device_iterator_tag",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::random_access_device_iterator_tag",
+          "qualifiedname": "thrust::random_access_device_iterator_tag",
+          "refid": "structthrust_1_1random__access__device__iterator__tag",
+          "title": "thrust::random_access_device_iterator_tag",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1random__access__device__iterator__tag.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "<a href=\"https://en.cppreference.com/w/cpp/named_req/UnaryTypeTrait\">_UnaryTypeTrait_</a> that removes <a href=\"https://en.cppreference.com/w/cpp/language/cv\">const-volatile qualifiers</a> and <a href=\"https://en.cppreference.com/w/cpp/language/reference\">references</a> from <code>T</code>. Equivalent to <code>remove&#95;cv&#95;t&lt;remove&#95;reference&#95;t&lt;T&gt;&gt;</code>. ",
+          "category": "classes",
+          "fullname": "thrust::remove_cvref",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::remove_cvref",
+          "qualifiedname": "thrust::remove_cvref",
+          "refid": "structthrust_1_1remove__cvref",
+          "summary": "UnaryTypeTrait that removes const-volatile qualifiers and references from T. Equivalent to remove_cv_t<remove_reference_t<T>>. ",
+          "title": "thrust::remove_cvref",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1remove__cvref.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "detail::reverse_iterator_base::type",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::reverse_iterator",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::reverse_iterator",
+          "qualifiedname": "thrust::reverse_iterator",
+          "refid": "classthrust_1_1reverse__iterator",
+          "title": "thrust::reverse_iterator",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::square",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::square",
+          "qualifiedname": "thrust::square",
+          "refid": "structthrust_1_1square",
+          "title": "thrust::square",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1square.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::square< void >",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::square< void >",
+          "qualifiedname": "thrust::square< void >",
+          "refid": "structthrust_1_1square_3_01void_01_4",
+          "title": "thrust::square< void >",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1square_3_01void_01_4.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "<code>thrust::system</code> is the namespace which contains specific Thrust backend systems. It also contains functionality for reporting error conditions originating from the operating system or other low-level application program interfaces such as the CUDA runtime. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+          "category": "namespaces",
+          "children": [
+            {
+              "anchor": "",
+              "category": "namespaces",
+              "fullname": "thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE",
+              "kind": "namespace",
+              "language": "cpp",
+              "name": "thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE",
+              "qualifiedname": "thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE",
+              "refid": "namespacethrust_1_1system_1_1____THRUST__DEVICE__SYSTEM__NAMESPACE",
+              "title": "thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE",
+              "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1____thrust__device__system__namespace.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "namespaces",
+              "fullname": "thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE",
+              "kind": "namespace",
+              "language": "cpp",
+              "name": "thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE",
+              "qualifiedname": "thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE",
+              "refid": "namespacethrust_1_1system_1_1____THRUST__HOST__SYSTEM__NAMESPACE",
+              "title": "thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE",
+              "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1____thrust__host__system__namespace.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "namespaces",
+              "fullname": "thrust::system::cpp",
+              "kind": "namespace",
+              "language": "cpp",
+              "name": "thrust::system::cpp",
+              "qualifiedname": "thrust::system::cpp",
+              "refid": "namespacethrust_1_1system_1_1cpp",
+              "title": "thrust::system::cpp",
+              "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1cpp.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "brief": "<code>thrust::system::cuda</code> is the namespace containing functionality for allocating, manipulating, and deallocating memory available to Thrust's CUDA backend system. The identifiers are provided in a separate namespace underneath <code><a href=\"{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system.html\">thrust::system</a></code> for import convenience but are also aliased in the top-level <code><a href=\"{{ site.baseurl }}/api/namespaces/namespacethrust_1_1cuda.html\">thrust::cuda</a></code> namespace for easy access. ",
+              "category": "namespaces",
+              "children": [
+                {
+                  "anchor": "",
+                  "category": "namespaces",
+                  "fullname": "thrust::system::cuda::errc",
+                  "kind": "namespace",
+                  "language": "cpp",
+                  "name": "thrust::system::cuda::errc",
+                  "qualifiedname": "thrust::system::cuda::errc",
+                  "refid": "namespacethrust_1_1system_1_1cuda_1_1errc",
+                  "title": "thrust::system::cuda::errc",
+                  "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1cuda_1_1errc.html",
+                  "visibility": "public"
+                },
+                {
+                  "anchor": "",
+                  "category": "classes",
+                  "fullname": "thrust::system::cuda::ready_future",
+                  "kind": "struct",
+                  "language": "cpp",
+                  "name": "thrust::system::cuda::ready_future",
+                  "qualifiedname": "thrust::system::cuda::ready_future",
+                  "refid": "structthrust_1_1system_1_1cuda_1_1ready__future",
+                  "title": "thrust::system::cuda::ready_future",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1system_1_1cuda_1_1ready__future.html",
+                  "visibility": "public"
+                },
+                {
+                  "anchor": "",
+                  "category": "classes",
+                  "fullname": "thrust::system::cuda::unique_eager_future",
+                  "kind": "struct",
+                  "language": "cpp",
+                  "name": "thrust::system::cuda::unique_eager_future",
+                  "qualifiedname": "thrust::system::cuda::unique_eager_future",
+                  "refid": "structthrust_1_1system_1_1cuda_1_1unique__eager__future",
+                  "title": "thrust::system::cuda::unique_eager_future",
+                  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1system_1_1cuda_1_1unique__eager__future.html",
+                  "visibility": "public"
+                }
+              ],
+              "fullname": "thrust::system::cuda",
+              "kind": "namespace",
+              "language": "cpp",
+              "name": "thrust::system::cuda",
+              "qualifiedname": "thrust::system::cuda",
+              "refid": "namespacethrust_1_1system_1_1cuda",
+              "summary": "thrust::system::cuda is the namespace containing functionality for allocating, manipulating, and deallocating memory available to Thrust's CUDA backend system. The identifiers are provided in a separate namespace underneath thrust::system for import convenience but are also aliased in the top-level thrust::cuda namespace for easy access. ",
+              "title": "thrust::system::cuda",
+              "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1cuda.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "namespaces",
+              "fullname": "thrust::system::errc",
+              "kind": "namespace",
+              "language": "cpp",
+              "name": "thrust::system::errc",
+              "qualifiedname": "thrust::system::errc",
+              "refid": "namespacethrust_1_1system_1_1errc",
+              "title": "thrust::system::errc",
+              "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1errc.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "brief": "The class <code>error&#95;category</code> serves as a base class for types used to identify the source and encoding of a particular category of error code. Classes may be derived from <code>error&#95;category</code> to support categories of errors in addition to those defined in the C++ International Standard. ",
+              "category": "classes",
+              "fullname": "thrust::system::error_category",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::system::error_category",
+              "qualifiedname": "thrust::system::error_category",
+              "refid": "classthrust_1_1system_1_1error__category",
+              "summary": "The class error_category serves as a base class for types used to identify the source and encoding of a particular category of error code. Classes may be derived from error_category to support categories of errors in addition to those defined in the C++ International Standard. ",
+              "title": "thrust::system::error_category",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__category.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "brief": "The class <code>error&#95;code</code> describes an object used to hold error code values, such as those originating from the operating system or other low-level application program interfaces. ",
+              "category": "classes",
+              "fullname": "thrust::system::error_code",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::system::error_code",
+              "qualifiedname": "thrust::system::error_code",
+              "refid": "classthrust_1_1system_1_1error__code",
+              "summary": "The class error_code describes an object used to hold error code values, such as those originating from the operating system or other low-level application program interfaces. ",
+              "title": "thrust::system::error_code",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__code.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "brief": "The class <code>error&#95;condition</code> describes an object used to hold values identifying error conditions. ",
+              "category": "classes",
+              "fullname": "thrust::system::error_condition",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::system::error_condition",
+              "qualifiedname": "thrust::system::error_condition",
+              "refid": "classthrust_1_1system_1_1error__condition",
+              "summary": "The class error_condition describes an object used to hold values identifying error conditions. ",
+              "title": "thrust::system::error_condition",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__condition.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "thrust::detail::false_type",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::system::is_error_code_enum",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::system::is_error_code_enum",
+              "qualifiedname": "thrust::system::is_error_code_enum",
+              "refid": "structthrust_1_1system_1_1is__error__code__enum",
+              "title": "thrust::system::is_error_code_enum",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1system_1_1is__error__code__enum.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "thrust::detail::true_type",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::system::is_error_code_enum< cuda::errc::errc_t >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::system::is_error_code_enum< cuda::errc::errc_t >",
+              "qualifiedname": "thrust::system::is_error_code_enum< cuda::errc::errc_t >",
+              "refid": "structthrust_1_1system_1_1is__error__code__enum_3_01cuda_1_1errc_1_1errc__t_01_4",
+              "title": "thrust::system::is_error_code_enum< cuda::errc::errc_t >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1system_1_1is__error__code__enum_3_01cuda_1_1errc_1_1errc__t_01_4.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "thrust::detail::false_type",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::system::is_error_condition_enum",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::system::is_error_condition_enum",
+              "qualifiedname": "thrust::system::is_error_condition_enum",
+              "refid": "structthrust_1_1system_1_1is__error__condition__enum",
+              "title": "thrust::system::is_error_condition_enum",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1system_1_1is__error__condition__enum.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "thrust::detail::true_type",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "category": "classes",
+              "fullname": "thrust::system::is_error_condition_enum< errc::errc_t >",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::system::is_error_condition_enum< errc::errc_t >",
+              "qualifiedname": "thrust::system::is_error_condition_enum< errc::errc_t >",
+              "refid": "structthrust_1_1system_1_1is__error__condition__enum_3_01errc_1_1errc__t_01_4",
+              "title": "thrust::system::is_error_condition_enum< errc::errc_t >",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1system_1_1is__error__condition__enum_3_01errc_1_1errc__t_01_4.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "namespaces",
+              "fullname": "thrust::system::omp",
+              "kind": "namespace",
+              "language": "cpp",
+              "name": "thrust::system::omp",
+              "qualifiedname": "thrust::system::omp",
+              "refid": "namespacethrust_1_1system_1_1omp",
+              "title": "thrust::system::omp",
+              "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1omp.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "baseClasses": [
+                {
+                  "external": true,
+                  "name": "std::runtime_error",
+                  "virtual": "non-virtual",
+                  "visibility": "public"
+                }
+              ],
+              "brief": "The class <code>system&#95;error</code> describes an exception object used to report error conditions that have an associated <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1error__code.html\">error&#95;code</a></code>. Such error conditions typically originate from the operating system or other low-level application program interfaces. ",
+              "category": "classes",
+              "fullname": "thrust::system::system_error",
+              "kind": "class",
+              "language": "cpp",
+              "name": "thrust::system::system_error",
+              "qualifiedname": "thrust::system::system_error",
+              "refid": "classthrust_1_1system_1_1system__error",
+              "summary": "The class system_error describes an exception object used to report error conditions that have an associated error_code. Such error conditions typically originate from the operating system or other low-level application program interfaces. ",
+              "title": "thrust::system::system_error",
+              "url": "{{ site.baseurl }}/api/classes/classthrust_1_1system_1_1system__error.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "namespaces",
+              "fullname": "thrust::system::tbb",
+              "kind": "namespace",
+              "language": "cpp",
+              "name": "thrust::system::tbb",
+              "qualifiedname": "thrust::system::tbb",
+              "refid": "namespacethrust_1_1system_1_1tbb",
+              "title": "thrust::system::tbb",
+              "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system_1_1tbb.html",
+              "visibility": "public"
+            }
+          ],
+          "fullname": "thrust::system",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "thrust::system",
+          "qualifiedname": "thrust::system",
+          "refid": "namespacethrust_1_1system",
+          "summary": "thrust::system is the namespace which contains specific Thrust backend systems. It also contains functionality for reporting error conditions originating from the operating system or other low-level application program interfaces such as the CUDA runtime. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+          "title": "thrust::system",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1system.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "Lambda",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::tagged_deleter",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::tagged_deleter",
+          "qualifiedname": "thrust::tagged_deleter",
+          "refid": "structthrust_1_1tagged__deleter",
+          "title": "thrust::tagged_deleter",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1tagged__deleter.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "<code>thrust::tbb</code> is a top-level alias for thrust::system::tbb. ",
+          "category": "namespaces",
+          "fullname": "thrust::tbb",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "thrust::tbb",
+          "qualifiedname": "thrust::tbb",
+          "refid": "namespacethrust_1_1tbb",
+          "summary": "thrust::tbb is a top-level alias for thrust::system::tbb. ",
+          "title": "thrust::tbb",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1tbb.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "detail::transform_input_output_iterator_base::type",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::transform_input_output_iterator",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::transform_input_output_iterator",
+          "qualifiedname": "thrust::transform_input_output_iterator",
+          "refid": "classthrust_1_1transform__input__output__iterator",
+          "title": "thrust::transform_input_output_iterator",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1transform__input__output__iterator.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "detail::transform_iterator_base::type",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::transform_iterator",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::transform_iterator",
+          "qualifiedname": "thrust::transform_iterator",
+          "refid": "classthrust_1_1transform__iterator",
+          "title": "thrust::transform_iterator",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1transform__iterator.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "detail::transform_output_iterator_base::type",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::transform_output_iterator",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::transform_output_iterator",
+          "qualifiedname": "thrust::transform_output_iterator",
+          "refid": "classthrust_1_1transform__output__iterator",
+          "title": "thrust::transform_output_iterator",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1transform__output__iterator.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "brief": "<code>tuple</code> is a class template that can be instantiated with up to ten arguments. Each template argument specifies the type of element in the <code>tuple</code>. Consequently, tuples are heterogeneous, fixed-size collections of values. An instantiation of <code>tuple</code> with two arguments is similar to an instantiation of <code>pair</code> with the same two arguments. Individual elements of a <code>tuple</code> may be accessed with the <code>get</code> function. ",
+          "category": "classes",
+          "fullname": "thrust::tuple",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::tuple",
+          "qualifiedname": "thrust::tuple",
+          "refid": "classthrust_1_1tuple",
+          "summary": "tuple is a class template that can be instantiated with up to ten arguments. Each template argument specifies the type of element in the tuple. Consequently, tuples are heterogeneous, fixed-size collections of values. An instantiation of tuple with two arguments is similar to an instantiation of pair with the same two arguments. Individual elements of a tuple may be accessed with the get function. ",
+          "title": "thrust::tuple",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1tuple.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::tuple_element",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::tuple_element",
+          "qualifiedname": "thrust::tuple_element",
+          "refid": "structthrust_1_1tuple__element",
+          "title": "thrust::tuple_element",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1tuple__element.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::tuple_size",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::tuple_size",
+          "qualifiedname": "thrust::tuple_size",
+          "refid": "structthrust_1_1tuple__size",
+          "title": "thrust::tuple_size",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1tuple__size.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::unary_function",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::unary_function",
+          "qualifiedname": "thrust::unary_function",
+          "refid": "structthrust_1_1unary__function",
+          "title": "thrust::unary_function",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unary__function.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": false,
+              "name": "thrust::unary_function< Predicate::argument_type, bool >",
+              "refid": "structthrust_1_1unary__function",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unary__function.html",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::unary_negate",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::unary_negate",
+          "qualifiedname": "thrust::unary_negate",
+          "refid": "structthrust_1_1unary__negate",
+          "title": "thrust::unary_negate",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unary__negate.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::unary_traits",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::unary_traits",
+          "qualifiedname": "thrust::unary_traits",
+          "refid": "structthrust_1_1unary__traits",
+          "title": "thrust::unary_traits",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unary__traits.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "namespaces",
+          "children": [
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::unimplemented::no_unique_eager_event_type_found",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::unimplemented::no_unique_eager_event_type_found",
+              "qualifiedname": "thrust::unimplemented::no_unique_eager_event_type_found",
+              "refid": "structthrust_1_1unimplemented_1_1no__unique__eager__event__type__found",
+              "title": "thrust::unimplemented::no_unique_eager_event_type_found",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unimplemented_1_1no__unique__eager__event__type__found.html",
+              "visibility": "public"
+            },
+            {
+              "anchor": "",
+              "category": "classes",
+              "fullname": "thrust::unimplemented::no_unique_eager_future_type_found",
+              "kind": "struct",
+              "language": "cpp",
+              "name": "thrust::unimplemented::no_unique_eager_future_type_found",
+              "qualifiedname": "thrust::unimplemented::no_unique_eager_future_type_found",
+              "refid": "structthrust_1_1unimplemented_1_1no__unique__eager__future__type__found",
+              "title": "thrust::unimplemented::no_unique_eager_future_type_found",
+              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1unimplemented_1_1no__unique__eager__future__type__found.html",
+              "visibility": "public"
+            }
+          ],
+          "fullname": "thrust::unimplemented",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "thrust::unimplemented",
+          "qualifiedname": "thrust::unimplemented",
+          "refid": "namespacethrust_1_1unimplemented",
+          "title": "thrust::unimplemented",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1unimplemented.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "namespaces",
+          "fullname": "thrust::unique_eager_event_type_detail",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "thrust::unique_eager_event_type_detail",
+          "qualifiedname": "thrust::unique_eager_event_type_detail",
+          "refid": "namespacethrust_1_1unique__eager__event__type__detail",
+          "title": "thrust::unique_eager_event_type_detail",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1unique__eager__event__type__detail.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "namespaces",
+          "fullname": "thrust::unique_eager_future_type_detail",
+          "kind": "namespace",
+          "language": "cpp",
+          "name": "thrust::unique_eager_future_type_detail",
+          "qualifiedname": "thrust::unique_eager_future_type_detail",
+          "refid": "namespacethrust_1_1unique__eager__future__type__detail",
+          "title": "thrust::unique_eager_future_type_detail",
+          "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1unique__eager__future__type__detail.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::voider",
+          "kind": "struct",
+          "language": "cpp",
+          "name": "thrust::voider",
+          "qualifiedname": "thrust::voider",
+          "refid": "structthrust_1_1voider",
+          "title": "thrust::voider",
+          "url": "{{ site.baseurl }}/api/classes/structthrust_1_1voider.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "category": "classes",
+          "fullname": "thrust::zip_function",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::zip_function",
+          "qualifiedname": "thrust::zip_function",
+          "refid": "classthrust_1_1zip__function",
+          "title": "thrust::zip_function",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1zip__function.html",
+          "visibility": "public"
+        },
+        {
+          "anchor": "",
+          "baseClasses": [
+            {
+              "external": true,
+              "name": "detail::zip_iterator_base::type",
+              "virtual": "non-virtual",
+              "visibility": "public"
+            }
+          ],
+          "category": "classes",
+          "fullname": "thrust::zip_iterator",
+          "kind": "class",
+          "language": "cpp",
+          "name": "thrust::zip_iterator",
+          "qualifiedname": "thrust::zip_iterator",
+          "refid": "classthrust_1_1zip__iterator",
+          "title": "thrust::zip_iterator",
+          "url": "{{ site.baseurl }}/api/classes/classthrust_1_1zip__iterator.html",
+          "visibility": "public"
+        }
+      ],
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "Classes",
+  "title": "Classes"
+}

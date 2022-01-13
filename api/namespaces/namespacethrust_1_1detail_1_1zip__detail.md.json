@@ -1,0 +1,207 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::detail::zip_detail",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "language": "cpp",
+  "location": {
+    "column": 1,
+    "file": "thrust/zip_function.h",
+    "line": 32
+  },
+  "name": "thrust::detail::zip_detail",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "\\exclude ",
+    "category": "namespaces",
+    "fullname": "thrust::detail",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::detail",
+    "qualifiedname": "thrust::detail",
+    "refid": "namespacethrust_1_1detail",
+    "summary": "\\exclude ",
+    "title": "thrust::detail",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "\\exclude ",
+      "category": "namespaces",
+      "fullname": "thrust::detail",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::detail",
+      "qualifiedname": "thrust::detail",
+      "refid": "namespacethrust_1_1detail",
+      "summary": "\\exclude ",
+      "title": "thrust::detail",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-apply-impl",
+      "argsString": "(Function &&func, Tuple &&args, index_sequence< Is... >)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ decltype(auto) thrust::detail::zip_detail::apply_impl",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::detail::zip_detail::apply_impl",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 42,
+        "bodyFile": "thrust/zip_function.h",
+        "bodyStart": 39,
+        "column": 10,
+        "file": "thrust/zip_function.h",
+        "line": 39
+      },
+      "name": "apply_impl",
+      "override": false,
+      "params": [
+        {
+          "name": "func",
+          "type": "Function &&",
+          "typePlain": "Function &&"
+        },
+        {
+          "name": "args",
+          "type": "Tuple &&",
+          "typePlain": "Tuple &&"
+        },
+        {
+          "name": "",
+          "type": "<a href=\"{{ site.baseurl }}/api/groups/group__type__traits.html#using-index-sequence\">index_sequence</a>< Is... >",
+          "typePlain": "index_sequence< Is... >"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::detail::zip_detail::apply_impl",
+      "refid": "zip__function_8h_1a310f02aa9927a5acf8929773b8968889",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Function",
+          "typePlain": "typename Function"
+        },
+        {
+          "name": "",
+          "type": "typename Tuple",
+          "typePlain": "typename Tuple"
+        },
+        {
+          "name": "Is",
+          "type": "std::size_t...",
+          "typePlain": "std::size_t..."
+        }
+      ],
+      "title": "apply_impl",
+      "type": "__host__ __device__ decltype(auto)",
+      "typePlain": "__host__ __device__ decltype(auto)",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail_1_1zip__detail.html#function-apply-impl",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-apply",
+      "argsString": "(Function &&func, Tuple &&args)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ decltype(auto) thrust::detail::zip_detail::apply",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::detail::zip_detail::apply",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 50,
+        "bodyFile": "thrust/zip_function.h",
+        "bodyStart": 46,
+        "column": 10,
+        "file": "thrust/zip_function.h",
+        "line": 46
+      },
+      "name": "apply",
+      "override": false,
+      "params": [
+        {
+          "name": "func",
+          "type": "Function &&",
+          "typePlain": "Function &&"
+        },
+        {
+          "name": "args",
+          "type": "Tuple &&",
+          "typePlain": "Tuple &&"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::detail::zip_detail::apply",
+      "refid": "zip__function_8h_1a71325daaa201148736a4fbf7eec903b5",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Function",
+          "typePlain": "typename Function"
+        },
+        {
+          "name": "",
+          "type": "typename Tuple",
+          "typePlain": "typename Tuple"
+        }
+      ],
+      "title": "apply",
+      "type": "__host__ __device__ decltype(auto)",
+      "typePlain": "__host__ __device__ decltype(auto)",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail_1_1zip__detail.html#function-apply",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::detail::zip_detail",
+  "refid": "namespacethrust_1_1detail_1_1zip__detail",
+  "static": false,
+  "strong": false,
+  "title": "thrust::detail::zip_detail",
+  "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail_1_1zip__detail.html",
+  "visibility": "public"
+}

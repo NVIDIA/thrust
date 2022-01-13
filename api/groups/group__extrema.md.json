@@ -1,0 +1,1239 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "extrema",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "language": "",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "reductions",
+    "kind": "group",
+    "language": "",
+    "name": "reductions",
+    "qualifiedname": "reductions",
+    "refid": "group__reductions",
+    "title": "Reductions",
+    "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "reductions",
+      "kind": "group",
+      "language": "",
+      "name": "reductions",
+      "qualifiedname": "reductions",
+      "refid": "group__reductions",
+      "title": "Reductions",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "extrema",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "reductions",
+    "kind": "group",
+    "language": "",
+    "name": "reductions",
+    "qualifiedname": "reductions",
+    "refid": "group__reductions",
+    "title": "Reductions",
+    "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "language": "",
+      "name": "algorithms",
+      "qualifiedname": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "{{ site.baseurl }}/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "reductions",
+      "kind": "group",
+      "language": "",
+      "name": "reductions",
+      "qualifiedname": "reductions",
+      "refid": "group__reductions",
+      "title": "Reductions",
+      "url": "{{ site.baseurl }}/api/groups/group__reductions.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-min-element",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ ForwardIterator thrust::min_element",
+      "deleted": false,
+      "details": "<code>min&#95;element</code> finds the smallest element in the range <code>[first, last)</code>. It returns the first iterator <code>i</code> in <code>[first, last)</code> such that no other iterator in <code>[first, last)</code> points to a value smaller than <code>&#42;i</code>. The return value is <code>last</code> if and only if <code>[first, last)</code> is an empty range.\n\nThe two versions of <code>min&#95;element</code> differ in how they define whether one element is less than another. This version compares objects using <code>operator&lt;</code>. Specifically, this version of <code>min&#95;element</code> returns the first iterator <code>i</code> in <code>[first, last)</code> such that, for every iterator <code>j</code> in <code>[first, last)</code>, <code>&#42;j &lt; &#42;i</code> is <code>false</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\n\n```cpp\n#include <thrust/extrema.h>\n#include <thrust/execution_policy.h>\n...\nint data[6] = {1, 0, 2, 2, 1, 3};\nint *result = thrust::min_element(thrust::host, data, data + 6);\n\n// result is data + 1\n// *result is 0\n```",
+      "explicit": false,
+      "fullname": "extrema::min_element",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 17,
+        "file": "thrust/extrema.h",
+        "line": 227
+      },
+      "name": "min_element",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::min_element",
+      "refid": "group__extrema_1gab6f4900fa17fa2c6596eea628b6055b7",
+      "returns": [
+        "An iterator pointing to the smallest element of the range <code>[first, last)</code>, if it is not an empty range; <code>last</code>, otherwise."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/min_element\">https://en.cppreference.com/w/cpp/algorithm/min_element</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>."
+        }
+      ],
+      "title": "min_element",
+      "type": "__host__ __device__ ForwardIterator",
+      "typePlain": "__host__ __device__ ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__extrema.html#function-min-element",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-min-element",
+      "argsString": "(ForwardIterator first, ForwardIterator last)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "ForwardIterator thrust::min_element",
+      "deleted": false,
+      "details": "<code>min&#95;element</code> finds the smallest element in the range <code>[first, last)</code>. It returns the first iterator <code>i</code> in <code>[first, last)</code> such that no other iterator in <code>[first, last)</code> points to a value smaller than <code>&#42;i</code>. The return value is <code>last</code> if and only if <code>[first, last)</code> is an empty range.\n\nThe two versions of <code>min&#95;element</code> differ in how they define whether one element is less than another. This version compares objects using <code>operator&lt;</code>. Specifically, this version of <code>min&#95;element</code> returns the first iterator <code>i</code> in <code>[first, last)</code> such that, for every iterator <code>j</code> in <code>[first, last)</code>, <code>&#42;j &lt; &#42;i</code> is <code>false</code>.\n\n\n\n```cpp\n#include <thrust/extrema.h>\n...\nint data[6] = {1, 0, 2, 2, 1, 3};\nint *result = thrust::min_element(data, data + 6);\n\n// result is data + 1\n// *result is 0\n```",
+      "explicit": false,
+      "fullname": "extrema::min_element",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 17,
+        "file": "thrust/extrema.h",
+        "line": 264
+      },
+      "name": "min_element",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::min_element",
+      "refid": "group__extrema_1gaa9dcee5e36206a3ef7215a4b3984e002",
+      "returns": [
+        "An iterator pointing to the smallest element of the range <code>[first, last)</code>, if it is not an empty range; <code>last</code>, otherwise."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/min_element\">https://en.cppreference.com/w/cpp/algorithm/min_element</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>."
+        }
+      ],
+      "title": "min_element",
+      "type": "ForwardIterator",
+      "typePlain": "ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__extrema.html#function-min-element",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-min-element",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ ForwardIterator thrust::min_element",
+      "deleted": false,
+      "details": "<code>min&#95;element</code> finds the smallest element in the range <code>[first, last)</code>. It returns the first iterator <code>i</code> in <code>[first, last)</code> such that no other iterator in <code>[first, last)</code> points to a value smaller than <code>&#42;i</code>. The return value is <code>last</code> if and only if <code>[first, last)</code> is an empty range.\n\nThe two versions of <code>min&#95;element</code> differ in how they define whether one element is less than another. This version compares objects using a function object <code>comp</code>. Specifically, this version of <code>min&#95;element</code> returns the first iterator <code>i</code> in <code>[first, last)</code> such that, for every iterator <code>j</code> in <code>[first, last)</code>, <code>comp(&#42;j, &#42;i)</code> is <code>false</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>min&#95;element</code> to find the smallest element of a collection of key-value pairs using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/extrema.h>\n#include <thrust/execution_policy.h>\n...\n\nstruct key_value\n{\n  int key;\n  int value;\n};\n\nstruct compare_key_value\n{\n  __host__ __device__\n  bool operator()(key_value lhs, key_value rhs)\n  {\n    return lhs.key < rhs.key;\n  }\n};\n\n...\nkey_value data[4] = { {4,5}, {0,7}, {2,3}, {6,1} };\n\nkey_value *smallest = thrust::min_element(thrust::host, data, data + 4, compare_key_value());\n\n// smallest == data + 1\n// *smallest == {0,7}\n```",
+      "explicit": false,
+      "fullname": "extrema::min_element",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 17,
+        "file": "thrust/extrema.h",
+        "line": 330
+      },
+      "name": "min_element",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "comp",
+          "text": "A binary predicate used for comparison. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "comp",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::min_element",
+      "refid": "group__extrema_1ga63b3af65a8e214fe8509aa0755379572",
+      "returns": [
+        "An iterator pointing to the smallest element of the range <code>[first, last)</code>, if it is not an empty range; <code>last</code>, otherwise."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/min_element\">https://en.cppreference.com/w/cpp/algorithm/min_element</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to both <code>comp's</code><code>first&#95;argument&#95;type</code> and <code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "min_element",
+      "type": "__host__ __device__ ForwardIterator",
+      "typePlain": "__host__ __device__ ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__extrema.html#function-min-element",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-min-element",
+      "argsString": "(ForwardIterator first, ForwardIterator last, BinaryPredicate comp)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "ForwardIterator thrust::min_element",
+      "deleted": false,
+      "details": "<code>min&#95;element</code> finds the smallest element in the range <code>[first, last)</code>. It returns the first iterator <code>i</code> in <code>[first, last)</code> such that no other iterator in <code>[first, last)</code> points to a value smaller than <code>&#42;i</code>. The return value is <code>last</code> if and only if <code>[first, last)</code> is an empty range.\n\nThe two versions of <code>min&#95;element</code> differ in how they define whether one element is less than another. This version compares objects using a function object <code>comp</code>. Specifically, this version of <code>min&#95;element</code> returns the first iterator <code>i</code> in <code>[first, last)</code> such that, for every iterator <code>j</code> in <code>[first, last)</code>, <code>comp(&#42;j, &#42;i)</code> is <code>false</code>.\n\n\nThe following code snippet demonstrates how to use <code>min&#95;element</code> to find the smallest element of a collection of key-value pairs.\n\n\n\n```cpp\n#include <thrust/extrema.h>\n\nstruct key_value\n{\n  int key;\n  int value;\n};\n\nstruct compare_key_value\n{\n  __host__ __device__\n  bool operator()(key_value lhs, key_value rhs)\n  {\n    return lhs.key < rhs.key;\n  }\n};\n\n...\nkey_value data[4] = { {4,5}, {0,7}, {2,3}, {6,1} };\n\nkey_value *smallest = thrust::min_element(data, data + 4, compare_key_value());\n\n// smallest == data + 1\n// *smallest == {0,7}\n```",
+      "explicit": false,
+      "fullname": "extrema::min_element",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 17,
+        "file": "thrust/extrema.h",
+        "line": 389
+      },
+      "name": "min_element",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "comp",
+          "text": "A binary predicate used for comparison. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "comp",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::min_element",
+      "refid": "group__extrema_1ga90f5158cab04adeb3f1b8b5e4acdbbcc",
+      "returns": [
+        "An iterator pointing to the smallest element of the range <code>[first, last)</code>, if it is not an empty range; <code>last</code>, otherwise."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/min_element\">https://en.cppreference.com/w/cpp/algorithm/min_element</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to both <code>comp's</code><code>first&#95;argument&#95;type</code> and <code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "min_element",
+      "type": "ForwardIterator",
+      "typePlain": "ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__extrema.html#function-min-element",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-max-element",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ ForwardIterator thrust::max_element",
+      "deleted": false,
+      "details": "<code>max&#95;element</code> finds the largest element in the range <code>[first, last)</code>. It returns the first iterator <code>i</code> in <code>[first, last)</code> such that no other iterator in <code>[first, last)</code> points to a value larger than <code>&#42;i</code>. The return value is <code>last</code> if and only if <code>[first, last)</code> is an empty range.\n\nThe two versions of <code>max&#95;element</code> differ in how they define whether one element is greater than another. This version compares objects using <code>operator&lt;</code>. Specifically, this version of <code>max&#95;element</code> returns the first iterator <code>i</code> in <code>[first, last)</code> such that, for every iterator <code>j</code> in <code>[first, last)</code>, <code>&#42;i &lt; &#42;j</code> is <code>false</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\n\n```cpp\n#include <thrust/extrema.h>\n#include <thrust/execution_policy.h>\n...\nint data[6] = {1, 0, 2, 2, 1, 3};\nint *result = thrust::max_element(thrust::host, data, data + 6);\n\n// *result == 3\n```",
+      "explicit": false,
+      "fullname": "extrema::max_element",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 17,
+        "file": "thrust/extrema.h",
+        "line": 432
+      },
+      "name": "max_element",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::max_element",
+      "refid": "group__extrema_1ga61788a3dcc7aed6a32fb5bb81484a050",
+      "returns": [
+        "An iterator pointing to the largest element of the range <code>[first, last)</code>, if it is not an empty range; <code>last</code>, otherwise."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/max_element\">https://en.cppreference.com/w/cpp/algorithm/max_element</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "A",
+          "text": "Thrust backend system. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>."
+        }
+      ],
+      "title": "max_element",
+      "type": "__host__ __device__ ForwardIterator",
+      "typePlain": "__host__ __device__ ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__extrema.html#function-max-element",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-max-element",
+      "argsString": "(ForwardIterator first, ForwardIterator last)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "ForwardIterator thrust::max_element",
+      "deleted": false,
+      "details": "<code>max&#95;element</code> finds the largest element in the range <code>[first, last)</code>. It returns the first iterator <code>i</code> in <code>[first, last)</code> such that no other iterator in <code>[first, last)</code> points to a value larger than <code>&#42;i</code>. The return value is <code>last</code> if and only if <code>[first, last)</code> is an empty range.\n\nThe two versions of <code>max&#95;element</code> differ in how they define whether one element is greater than another. This version compares objects using <code>operator&lt;</code>. Specifically, this version of <code>max&#95;element</code> returns the first iterator <code>i</code> in <code>[first, last)</code> such that, for every iterator <code>j</code> in <code>[first, last)</code>, <code>&#42;i &lt; &#42;j</code> is <code>false</code>.\n\n\n\n```cpp\n#include <thrust/extrema.h>\n...\nint data[6] = {1, 0, 2, 2, 1, 3};\nint *result = thrust::max_element(data, data + 6);\n\n// *result == 3\n```",
+      "explicit": false,
+      "fullname": "extrema::max_element",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 17,
+        "file": "thrust/extrema.h",
+        "line": 468
+      },
+      "name": "max_element",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::max_element",
+      "refid": "group__extrema_1gabc0550e56644df298a6b7a5824f1a166",
+      "returns": [
+        "An iterator pointing to the largest element of the range <code>[first, last)</code>, if it is not an empty range; <code>last</code>, otherwise."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/max_element\">https://en.cppreference.com/w/cpp/algorithm/max_element</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>."
+        }
+      ],
+      "title": "max_element",
+      "type": "ForwardIterator",
+      "typePlain": "ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__extrema.html#function-max-element",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-max-element",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ ForwardIterator thrust::max_element",
+      "deleted": false,
+      "details": "<code>max&#95;element</code> finds the largest element in the range <code>[first, last)</code>. It returns the first iterator <code>i</code> in <code>[first, last)</code> such that no other iterator in <code>[first, last)</code> points to a value larger than <code>&#42;i</code>. The return value is <code>last</code> if and only if <code>[first, last)</code> is an empty range.\n\nThe two versions of <code>max&#95;element</code> differ in how they define whether one element is less than another. This version compares objects using a function object <code>comp</code>. Specifically, this version of <code>max&#95;element</code> returns the first iterator <code>i</code> in <code>[first, last)</code> such that, for every iterator <code>j</code> in <code>[first, last)</code>, <code>comp(&#42;i, &#42;j)</code> is <code>false</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>max&#95;element</code> to find the largest element of a collection of key-value pairs using the <code>thrust::host</code> execution policy for parallelization.\n\n\n\n```cpp\n#include <thrust/extrema.h>\n#include <thrust/execution_policy.h>\n...\n\nstruct key_value\n{\n  int key;\n  int value;\n};\n\nstruct compare_key_value\n{\n  __host__ __device__\n  bool operator()(key_value lhs, key_value rhs)\n  {\n    return lhs.key < rhs.key;\n  }\n};\n\n...\nkey_value data[4] = { {4,5}, {0,7}, {2,3}, {6,1} };\n\nkey_value *largest = thrust::max_element(thrust::host, data, data + 4, compare_key_value());\n\n// largest == data + 3\n// *largest == {6,1}\n```",
+      "explicit": false,
+      "fullname": "extrema::max_element",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 17,
+        "file": "thrust/extrema.h",
+        "line": 534
+      },
+      "name": "max_element",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "comp",
+          "text": "A binary predicate used for comparison. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "comp",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::max_element",
+      "refid": "group__extrema_1ga95135967da9f11bfe1c6a83436456d76",
+      "returns": [
+        "An iterator pointing to the largest element of the range <code>[first, last)</code>, if it is not an empty range; <code>last</code>, otherwise."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/max_element\">https://en.cppreference.com/w/cpp/algorithm/max_element</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to both <code>comp's</code><code>first&#95;argument&#95;type</code> and <code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "max_element",
+      "type": "__host__ __device__ ForwardIterator",
+      "typePlain": "__host__ __device__ ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__extrema.html#function-max-element",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-max-element",
+      "argsString": "(ForwardIterator first, ForwardIterator last, BinaryPredicate comp)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "ForwardIterator thrust::max_element",
+      "deleted": false,
+      "details": "<code>max&#95;element</code> finds the largest element in the range <code>[first, last)</code>. It returns the first iterator <code>i</code> in <code>[first, last)</code> such that no other iterator in <code>[first, last)</code> points to a value larger than <code>&#42;i</code>. The return value is <code>last</code> if and only if <code>[first, last)</code> is an empty range.\n\nThe two versions of <code>max&#95;element</code> differ in how they define whether one element is less than another. This version compares objects using a function object <code>comp</code>. Specifically, this version of <code>max&#95;element</code> returns the first iterator <code>i</code> in <code>[first, last)</code> such that, for every iterator <code>j</code> in <code>[first, last)</code>, <code>comp(&#42;i, &#42;j)</code> is <code>false</code>.\n\n\nThe following code snippet demonstrates how to use <code>max&#95;element</code> to find the largest element of a collection of key-value pairs.\n\n\n\n```cpp\n#include <thrust/extrema.h>\n\nstruct key_value\n{\n  int key;\n  int value;\n};\n\nstruct compare_key_value\n{\n  __host__ __device__\n  bool operator()(key_value lhs, key_value rhs)\n  {\n    return lhs.key < rhs.key;\n  }\n};\n\n...\nkey_value data[4] = { {4,5}, {0,7}, {2,3}, {6,1} };\n\nkey_value *largest = thrust::max_element(data, data + 4, compare_key_value());\n\n// largest == data + 3\n// *largest == {6,1}\n```",
+      "explicit": false,
+      "fullname": "extrema::max_element",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 17,
+        "file": "thrust/extrema.h",
+        "line": 593
+      },
+      "name": "max_element",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "comp",
+          "text": "A binary predicate used for comparison. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "comp",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::max_element",
+      "refid": "group__extrema_1gadd477c531dc4a4bf847f70ce73d01464",
+      "returns": [
+        "An iterator pointing to the largest element of the range <code>[first, last)</code>, if it is not an empty range; <code>last</code>, otherwise."
+      ],
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/algorithm/max_element\">https://en.cppreference.com/w/cpp/algorithm/max_element</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to both <code>comp's</code><code>first&#95;argument&#95;type</code> and <code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "max_element",
+      "type": "ForwardIterator",
+      "typePlain": "ForwardIterator",
+      "url": "{{ site.baseurl }}/api/groups/group__extrema.html#function-max-element",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-minmax-element",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< ForwardIterator, ForwardIterator > thrust::minmax_element",
+      "deleted": false,
+      "details": "<code>minmax&#95;element</code> finds the smallest and largest elements in the range <code>[first, last)</code>. It returns a pair of iterators <code>(imin, imax)</code> where <code>imin</code> is the same iterator returned by <code>min&#95;element</code> and <code>imax</code> is the same iterator returned by <code>max&#95;element</code>. This function is potentially more efficient than separate calls to <code>min&#95;element</code> and <code>max&#95;element</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\n\n```cpp\n#include <thrust/extrema.h>\n#include <thrust/execution_policy.h>\n...\nint data[6] = {1, 0, 2, 2, 1, 3};\nthrust::pair<int *, int *> result = thrust::minmax_element(thrust::host, data, data + 6);\n\n// result.first is data + 1\n// result.second is data + 5\n// *result.first is 0\n// *result.second is 3\n```",
+      "explicit": false,
+      "fullname": "extrema::minmax_element",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 14,
+        "file": "thrust/extrema.h",
+        "line": 634
+      },
+      "name": "minmax_element",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::minmax_element",
+      "refid": "group__extrema_1ga834400610b53b873496da0ce9b619ab0",
+      "returns": [
+        "A pair of iterator pointing to the smallest and largest elements of the range <code>[first, last)</code>, if it is not an empty range; <code>last</code>, otherwise."
+      ],
+      "see": [
+        "min_element ",
+        "max_element ",
+        "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>."
+        }
+      ],
+      "title": "minmax_element",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< ForwardIterator, ForwardIterator >",
+      "typePlain": "__host__ __device__ thrust::pair< ForwardIterator, ForwardIterator >",
+      "url": "{{ site.baseurl }}/api/groups/group__extrema.html#function-minmax-element",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-minmax-element",
+      "argsString": "(ForwardIterator first, ForwardIterator last)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::pair< ForwardIterator, ForwardIterator > thrust::minmax_element",
+      "deleted": false,
+      "details": "<code>minmax&#95;element</code> finds the smallest and largest elements in the range <code>[first, last)</code>. It returns a pair of iterators <code>(imin, imax)</code> where <code>imin</code> is the same iterator returned by <code>min&#95;element</code> and <code>imax</code> is the same iterator returned by <code>max&#95;element</code>. This function is potentially more efficient than separate calls to <code>min&#95;element</code> and <code>max&#95;element</code>.\n\n\n\n```cpp\n#include <thrust/extrema.h>\n...\nint data[6] = {1, 0, 2, 2, 1, 3};\nthrust::pair<int *, int *> result = thrust::minmax_element(data, data + 6);\n\n// result.first is data + 1\n// result.second is data + 5\n// *result.first is 0\n// *result.second is 3\n```",
+      "explicit": false,
+      "fullname": "extrema::minmax_element",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 14,
+        "file": "thrust/extrema.h",
+        "line": 668
+      },
+      "name": "minmax_element",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::minmax_element",
+      "refid": "group__extrema_1ga8664e0a8003d013bfce387f17622752d",
+      "returns": [
+        "A pair of iterator pointing to the smallest and largest elements of the range <code>[first, last)</code>, if it is not an empty range; <code>last</code>, otherwise."
+      ],
+      "see": [
+        "min_element ",
+        "max_element ",
+        "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>."
+        }
+      ],
+      "title": "minmax_element",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< ForwardIterator, ForwardIterator >",
+      "typePlain": "thrust::pair< ForwardIterator, ForwardIterator >",
+      "url": "{{ site.baseurl }}/api/groups/group__extrema.html#function-minmax-element",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-minmax-element",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::pair< ForwardIterator, ForwardIterator > thrust::minmax_element",
+      "deleted": false,
+      "details": "<code>minmax&#95;element</code> finds the smallest and largest elements in the range <code>[first, last)</code>. It returns a pair of iterators <code>(imin, imax)</code> where <code>imin</code> is the same iterator returned by <code>min&#95;element</code> and <code>imax</code> is the same iterator returned by <code>max&#95;element</code>. This function is potentially more efficient than separate calls to <code>min&#95;element</code> and <code>max&#95;element</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>minmax&#95;element</code> to find the smallest and largest elements of a collection of key-value pairs using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/extrema.h>\n#include <thrust/pair.h>\n#include <thrust/execution_policy.h>\n...\n\nstruct key_value\n{\n  int key;\n  int value;\n};\n\nstruct compare_key_value\n{\n  __host__ __device__\n  bool operator()(key_value lhs, key_value rhs)\n  {\n    return lhs.key < rhs.key;\n  }\n};\n\n...\nkey_value data[4] = { {4,5}, {0,7}, {2,3}, {6,1} };\n\nthrust::pair<key_value*,key_value*> extrema = thrust::minmax_element(thrust::host, data, data + 4, compare_key_value());\n\n// extrema.first   == data + 1\n// *extrema.first  == {0,7}\n// extrema.second  == data + 3\n// *extrema.second == {6,1}\n```",
+      "explicit": false,
+      "fullname": "extrema::minmax_element",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 14,
+        "file": "thrust/extrema.h",
+        "line": 733
+      },
+      "name": "minmax_element",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "comp",
+          "text": "A binary predicate used for comparison. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "comp",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::minmax_element",
+      "refid": "group__extrema_1gaab4eaec464e29e0ee5b21a597aafcda8",
+      "returns": [
+        "A pair of iterator pointing to the smallest and largest elements of the range <code>[first, last)</code>, if it is not an empty range; <code>last</code>, otherwise."
+      ],
+      "see": [
+        "min_element ",
+        "max_element ",
+        "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to both <code>comp's</code><code>first&#95;argument&#95;type</code> and <code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "minmax_element",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< ForwardIterator, ForwardIterator >",
+      "typePlain": "__host__ __device__ thrust::pair< ForwardIterator, ForwardIterator >",
+      "url": "{{ site.baseurl }}/api/groups/group__extrema.html#function-minmax-element",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-minmax-element",
+      "argsString": "(ForwardIterator first, ForwardIterator last, BinaryPredicate comp)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::pair< ForwardIterator, ForwardIterator > thrust::minmax_element",
+      "deleted": false,
+      "details": "<code>minmax&#95;element</code> finds the smallest and largest elements in the range <code>[first, last)</code>. It returns a pair of iterators <code>(imin, imax)</code> where <code>imin</code> is the same iterator returned by <code>min&#95;element</code> and <code>imax</code> is the same iterator returned by <code>max&#95;element</code>. This function is potentially more efficient than separate calls to <code>min&#95;element</code> and <code>max&#95;element</code>.\n\n\nThe following code snippet demonstrates how to use <code>minmax&#95;element</code> to find the smallest and largest elements of a collection of key-value pairs.\n\n\n\n```cpp\n#include <thrust/extrema.h>\n#include <thrust/pair.h>\n\nstruct key_value\n{\n  int key;\n  int value;\n};\n\nstruct compare_key_value\n{\n  __host__ __device__\n  bool operator()(key_value lhs, key_value rhs)\n  {\n    return lhs.key < rhs.key;\n  }\n};\n\n...\nkey_value data[4] = { {4,5}, {0,7}, {2,3}, {6,1} };\n\nthrust::pair<key_value*,key_value*> extrema = thrust::minmax_element(data, data + 4, compare_key_value());\n\n// extrema.first   == data + 1\n// *extrema.first  == {0,7}\n// extrema.second  == data + 3\n// *extrema.second == {6,1}\n```",
+      "explicit": false,
+      "fullname": "extrema::minmax_element",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 14,
+        "file": "thrust/extrema.h",
+        "line": 790
+      },
+      "name": "minmax_element",
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "The beginning of the sequence. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the sequence. "
+        },
+        {
+          "name": "comp",
+          "text": "A binary predicate used for comparison. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "comp",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::minmax_element",
+      "refid": "group__extrema_1ga709342df5762ec61236e5d1f1b8eecd5",
+      "returns": [
+        "A pair of iterator pointing to the smallest and largest elements of the range <code>[first, last)</code>, if it is not an empty range; <code>last</code>, otherwise."
+      ],
+      "see": [
+        "min_element ",
+        "max_element ",
+        "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to both <code>comp's</code><code>first&#95;argument&#95;type</code> and <code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "minmax_element",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< ForwardIterator, ForwardIterator >",
+      "typePlain": "thrust::pair< ForwardIterator, ForwardIterator >",
+      "url": "{{ site.baseurl }}/api/groups/group__extrema.html#function-minmax-element",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "extrema",
+  "refid": "group__extrema",
+  "static": false,
+  "strong": false,
+  "title": "Extrema",
+  "url": "{{ site.baseurl }}/api/groups/group__extrema.html",
+  "visibility": "public"
+}

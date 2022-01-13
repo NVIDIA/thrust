@@ -1,0 +1,563 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "thrust::pointer< T, thrust::device_system_tag, thrust::device_reference< T >, thrust::device_ptr< T > >",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "brief": "<code>device&#95;ptr</code> is a pointer-like object which points to an object that resides in memory associated with the device system. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> has pointer semantics: it may be dereferenced safely from anywhere, including the host, and may be manipulated with pointer arithmetic.\n\n<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> can be created with device_new, device_malloc, <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__malloc__allocator.html\">device_malloc_allocator</a>, <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html\">device_allocator</a>, or device_pointer_cast, or by explicitly calling its constructor with a raw pointer.\n\nThe raw pointer contained in a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> may be obtained via <code>get</code> member function or the raw_pointer_cast free function.\n\n<a href=\"{{ site.baseurl }}/api/groups/group__algorithms.html\">Algorithms</a> operating on <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> types will automatically be dispatched to the device system.",
+  "explicit": false,
+  "fullname": "thrust::device_ptr",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/device_ptr.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 168,
+    "bodyFile": "thrust/device_ptr.h",
+    "bodyStart": 71,
+    "column": 1,
+    "file": "thrust/device_ptr.h",
+    "line": 64
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "memory_management",
+    "kind": "group",
+    "language": "",
+    "name": "memory_management",
+    "qualifiedname": "memory_management",
+    "refid": "group__memory__management",
+    "title": "Memory Management",
+    "url": "{{ site.baseurl }}/api/groups/group__memory__management.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "memory_management",
+      "kind": "group",
+      "language": "",
+      "name": "memory_management",
+      "qualifiedname": "memory_management",
+      "refid": "group__memory__management",
+      "title": "Memory Management",
+      "url": "{{ site.baseurl }}/api/groups/group__memory__management.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::device_ptr",
+  "note": [
+    "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> is not a smart pointer; it is the programmer's responsibility to deallocate memory pointed to by <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code>."
+  ],
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "privateTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-super-t",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::device_ptr< T >::super_t =  thrust::pointer< T, thrust::device_system_tag, thrust::device_reference<T>, thrust::device_ptr<T> >",
+      "explicit": false,
+      "fullname": "thrust::device_ptr::super_t",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/device_ptr.h",
+        "bodyStart": 78,
+        "column": 5,
+        "file": "thrust/device_ptr.h",
+        "line": 73
+      },
+      "name": "super_t",
+      "override": false,
+      "qualifiedname": "thrust::device_ptr::super_t",
+      "refid": "classthrust_1_1device__ptr_1a9a806baf354ae45b21126f6df9c995f1",
+      "static": false,
+      "strong": false,
+      "title": "super_t",
+      "type": "thrust::pointer< T, thrust::device_system_tag, <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__reference.html\">thrust::device_reference</a>< T >, <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">thrust::device_ptr</a>< T > >",
+      "typePlain": "thrust::pointer< T, thrust::device_system_tag, thrust::device_reference< T >, thrust::device_ptr< T > >",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#using-super-t",
+      "visibility": "private"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-device-ptr",
+      "argsString": "()",
+      "brief": "Construct a null <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code>. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::device_ptr< T >::device_ptr",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::device_ptr::device_ptr",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 86,
+        "bodyFile": "thrust/device_ptr.h",
+        "bodyStart": 86,
+        "column": 5,
+        "file": "thrust/device_ptr.h",
+        "line": 86
+      },
+      "name": "device_ptr",
+      "override": false,
+      "params": [],
+      "post": [
+        "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-get\">get()</a> == nullptr</code>. "
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_ptr::device_ptr",
+      "refid": "classthrust_1_1device__ptr_1a6bfd5b09378e07114b33bc363796abf4",
+      "static": false,
+      "strong": false,
+      "summary": "Construct a null device_ptr. ",
+      "title": "device_ptr",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-device-ptr",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-ptr",
+      "argsString": "(std::nullptr_t ptr)",
+      "brief": "Construct a null <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code>. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::device_ptr< T >::device_ptr",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::device_ptr::device_ptr",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 95,
+        "bodyFile": "thrust/device_ptr.h",
+        "bodyStart": 95,
+        "column": 5,
+        "file": "thrust/device_ptr.h",
+        "line": 95
+      },
+      "name": "device_ptr",
+      "override": false,
+      "paramList": [
+        {
+          "name": "ptr",
+          "text": "A null pointer."
+        }
+      ],
+      "params": [
+        {
+          "name": "ptr",
+          "type": "std::nullptr_t",
+          "typePlain": "std::nullptr_t"
+        }
+      ],
+      "post": [
+        "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-get\">get()</a> == nullptr</code>. "
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_ptr::device_ptr",
+      "refid": "classthrust_1_1device__ptr_1a17a6e6a5574aa05ac28955d161dd9d18",
+      "static": false,
+      "strong": false,
+      "summary": "Construct a null device_ptr. ",
+      "title": "device_ptr",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-device-ptr",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-ptr",
+      "argsString": "(U *ptr)",
+      "brief": "Construct a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> from a raw pointer which is convertible to <code>T&#42;</code>. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::device_ptr< T >::device_ptr",
+      "deleted": false,
+      "explicit": true,
+      "fullname": "thrust::device_ptr::device_ptr",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 111,
+        "bodyFile": "thrust/device_ptr.h",
+        "bodyStart": 111,
+        "column": 14,
+        "file": "thrust/device_ptr.h",
+        "line": 111
+      },
+      "name": "device_ptr",
+      "override": false,
+      "paramList": [
+        {
+          "name": "ptr",
+          "text": "A raw pointer to a <code>U</code> in device memory to construct from."
+        }
+      ],
+      "params": [
+        {
+          "name": "ptr",
+          "type": "U *",
+          "typePlain": "U *"
+        }
+      ],
+      "post": [
+        "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-get\">get()</a> == nullptr</code>. "
+      ],
+      "pre": [
+        "<code>std::is&#95;convertible&#95;v&lt;U&#42;, T&#42;&gt; == true</code>.",
+        "<code>ptr</code> points to a location in device memory."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_ptr::device_ptr",
+      "refid": "classthrust_1_1device__ptr_1ad1f9cc00e679253aeb20af70190c61bb",
+      "static": false,
+      "strong": false,
+      "summary": "Construct a device_ptr from a raw pointer which is convertible to T*. ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename U",
+          "typePlain": "typename U"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "U",
+          "text": "A type whose pointer is convertible to <code>T&#42;</code>. "
+        }
+      ],
+      "title": "device_ptr",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-device-ptr",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-ptr",
+      "argsString": "(device_ptr< U > const &other)",
+      "brief": "Copy construct a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> from another <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> whose pointer type is convertible to <code>T&#42;</code>. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::device_ptr< T >::device_ptr",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::device_ptr::device_ptr",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 125,
+        "bodyFile": "thrust/device_ptr.h",
+        "bodyStart": 125,
+        "column": 5,
+        "file": "thrust/device_ptr.h",
+        "line": 125
+      },
+      "name": "device_ptr",
+      "override": false,
+      "paramList": [
+        {
+          "name": "other",
+          "text": "A <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> to a <code>U</code> to construct from."
+        }
+      ],
+      "params": [
+        {
+          "name": "other",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device_ptr</a>< U > const &",
+          "typePlain": "device_ptr< U > const &"
+        }
+      ],
+      "post": [
+        "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-get\">get()</a> == <a href=\"{{ site.baseurl }}/api/groups/group__tuple.html#function-get\">other.get()</a></code>. "
+      ],
+      "pre": [
+        "<code>std::is&#95;convertible&#95;v&lt;U&#42;, T&#42;&gt; == true</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_ptr::device_ptr",
+      "refid": "classthrust_1_1device__ptr_1a3261aac503e154bb9fbd2cab39463880",
+      "static": false,
+      "strong": false,
+      "summary": "Copy construct a device_ptr from another device_ptr whose pointer type is convertible to T*. ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename U",
+          "typePlain": "typename U"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "U",
+          "text": "A type whose pointer is convertible to <code>T&#42;</code>. "
+        }
+      ],
+      "title": "device_ptr",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-device-ptr",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(device_ptr< U > const &other)",
+      "brief": "Set this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> to point to the same object as another <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> whose pointer type is convertible to <code>T&#42;</code>. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ device_ptr & thrust::device_ptr< T >::operator=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::device_ptr::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 145,
+        "bodyFile": "thrust/device_ptr.h",
+        "bodyStart": 141,
+        "column": 16,
+        "file": "thrust/device_ptr.h",
+        "line": 141
+      },
+      "name": "operator=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "other",
+          "text": "A <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> to a <code>U</code> to assign from."
+        }
+      ],
+      "params": [
+        {
+          "name": "other",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device_ptr</a>< U > const &",
+          "typePlain": "device_ptr< U > const &"
+        }
+      ],
+      "post": [
+        "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-get\">get()</a> == <a href=\"{{ site.baseurl }}/api/groups/group__tuple.html#function-get\">other.get()</a></code>."
+      ],
+      "pre": [
+        "<code>std::is&#95;convertible&#95;v&lt;U&#42;, T&#42;&gt; == true</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_ptr::operator=",
+      "refid": "classthrust_1_1device__ptr_1a2cb7b68a3ff06513f73a99a7ff2fb167",
+      "returns": [
+        "<code>&#42;this</code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "summary": "Set this device_ptr to point to the same object as another device_ptr whose pointer type is convertible to T*. ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename U",
+          "typePlain": "typename U"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "U",
+          "text": "A type whose pointer is convertible to <code>T&#42;</code>. "
+        }
+      ],
+      "title": "operator=",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device_ptr</a> &",
+      "typePlain": "__host__ __device__ device_ptr &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(std::nullptr_t ptr)",
+      "brief": "Set this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> to null. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ device_ptr & thrust::device_ptr< T >::operator=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::device_ptr::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 160,
+        "bodyFile": "thrust/device_ptr.h",
+        "bodyStart": 156,
+        "column": 16,
+        "file": "thrust/device_ptr.h",
+        "line": 156
+      },
+      "name": "operator=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "ptr",
+          "text": "A null pointer."
+        }
+      ],
+      "params": [
+        {
+          "name": "ptr",
+          "type": "std::nullptr_t",
+          "typePlain": "std::nullptr_t"
+        }
+      ],
+      "post": [
+        "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-get\">get()</a> == nullptr</code>."
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_ptr::operator=",
+      "refid": "classthrust_1_1device__ptr_1a90a77c59b2e784d13d7039a4764ab5e4",
+      "returns": [
+        "<code>&#42;this</code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "summary": "Set this device_ptr to null. ",
+      "title": "operator=",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device_ptr</a> &",
+      "typePlain": "__host__ __device__ device_ptr &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-get",
+      "argsString": "() const",
+      "brief": "Return the raw pointer that this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> points to. ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ T * thrust::device_ptr< T >::get",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::device_ptr::get",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 7,
+        "file": "thrust/device_ptr.h",
+        "line": 166
+      },
+      "name": "get",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_ptr::get",
+      "refid": "classthrust_1_1device__ptr_1a8f170b60c601e35fc7e10ceda60b0070",
+      "static": false,
+      "strong": false,
+      "summary": "Return the raw pointer that this device_ptr points to. ",
+      "title": "get",
+      "type": "__host__ __device__ T *",
+      "typePlain": "__host__ __device__ T *",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-get",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::device_ptr",
+  "refid": "classthrust_1_1device__ptr",
+  "see": [
+    "device_new ",
+    "device_malloc ",
+    "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__malloc__allocator.html\">device_malloc_allocator</a>",
+    "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html\">device_allocator</a>",
+    "device_pointer_cast ",
+    "raw_pointer_cast "
+  ],
+  "static": false,
+  "strong": false,
+  "summary": "device_ptr is a pointer-like object which points to an object that resides in memory associated with the device system. ",
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    }
+  ],
+  "title": "thrust::device_ptr",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html",
+  "visibility": "public"
+}

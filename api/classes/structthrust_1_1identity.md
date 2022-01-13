@@ -1,0 +1,78 @@
+---
+title: thrust::identity
+parent: Generalized Identity Operations
+grand_parent: Predefined Function Objects
+nav_exclude: true
+has_children: true
+has_toc: false
+---
+
+# Struct `thrust::identity`
+
+<code>identity</code> is a Unary Function that represents the identity function: it takes a single argument <code>x</code>, and returns <code>x</code>.
+
+
+The following code snippet demonstrates that <code>identity</code> returns its argument.
+
+
+
+```cpp
+#include <thrust/functional.h>
+#include <assert.h>
+...
+int x = 137;
+thrust::identity<int> id;
+assert(x == id(x));
+```
+
+**Template Parameters**:
+**`T`**: No requirements on <code>T</code>.
+
+**See**:
+* <a href="https://en.cppreference.com/w/cpp/utility/functional/identity">https://en.cppreference.com/w/cpp/utility/functional/identity</a>
+* <a href="{{ site.baseurl }}/api/classes/structthrust_1_1unary__function.html">unary_function</a>
+
+<code class="doxybook">
+<span>#include <thrust/functional.h></span><br>
+<span>template &lt;typename T = void&gt;</span>
+<span>struct thrust::identity {</span>
+<span>public:</span><span class="doxybook-comment"><code>&nbsp;&nbsp;</code>
+/* The type of the function object's first argument.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="{{ site.baseurl }}/api/classes/structthrust_1_1identity.html#typedef-argument-type">argument&#95;type</a></b>;</span>
+<br>
+<span class="doxybook-comment"><code>&nbsp;&nbsp;</code>
+/* The type of the function object's result;.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="{{ site.baseurl }}/api/classes/structthrust_1_1identity.html#typedef-result-type">result&#95;type</a></b>;</span>
+<br>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ __device__ constexpr const T & </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/structthrust_1_1identity.html#function-operator()">operator()</a></b>(const T & x) const;</span>
+<span>};</span>
+</code>
+
+## Member Types
+
+<h3 id="typedef-argument-type">
+Typedef <code>thrust::identity::argument&#95;type</code>
+</h3>
+
+<code class="doxybook">
+<span>typedef T<b>argument_type</b>;</span></code>
+The type of the function object's first argument. 
+
+<h3 id="typedef-result-type">
+Typedef <code>thrust::identity::result&#95;type</code>
+</h3>
+
+<code class="doxybook">
+<span>typedef T<b>result_type</b>;</span></code>
+The type of the function object's result;. 
+
+
+## Member Functions
+
+<h3 id="function-operator()">
+Function <code>thrust::identity::operator()</code>
+</h3>
+
+<code class="doxybook">
+<span>__thrust_exec_check_disable__ __host__ __device__ constexpr const T & </span><span><b>operator()</b>(const T & x) const;</span></code>
+Function call operator. The return value is <code>x</code>. 
+
+

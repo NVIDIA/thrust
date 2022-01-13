@@ -1,0 +1,209 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::bit_or< void >",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "struct",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 1130,
+    "bodyFile": "thrust/functional.h",
+    "bodyStart": 1130,
+    "column": 11,
+    "file": "thrust/functional.h",
+    "line": 1130
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "bitwise_operations",
+    "kind": "group",
+    "language": "",
+    "name": "bitwise_operations",
+    "qualifiedname": "bitwise_operations",
+    "refid": "group__bitwise__operations",
+    "title": "Bitwise Operations",
+    "url": "{{ site.baseurl }}/api/groups/group__bitwise__operations.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "language": "",
+      "name": "function_objects",
+      "qualifiedname": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "{{ site.baseurl }}/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "language": "",
+      "name": "predefined_function_objects",
+      "qualifiedname": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "{{ site.baseurl }}/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "bitwise_operations",
+      "kind": "group",
+      "language": "",
+      "name": "bitwise_operations",
+      "qualifiedname": "bitwise_operations",
+      "refid": "group__bitwise__operations",
+      "title": "Bitwise Operations",
+      "url": "{{ site.baseurl }}/api/groups/group__bitwise__operations.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::bit_or< void >",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(T1 &&t1, T2 &&t2) const noexcept(noexcept(THRUST_FWD(t1)|THRUST_FWD(t2))) THRUST_TRAILING_RETURN(decltype(THRUST_FWD(t1)|THRUST_FWD(t2)))",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto thrust::bit_or< void >::operator()",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::bit_or< void >::operator()",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 1130,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1130,
+        "column": 135,
+        "file": "thrust/functional.h",
+        "line": 1130
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "t1",
+          "type": "T1 &&",
+          "typePlain": "T1 &&"
+        },
+        {
+          "name": "t2",
+          "type": "T2 &&",
+          "typePlain": "T2 &&"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::bit_or< void >::operator()",
+      "refid": "structthrust_1_1bit__or_3_01void_01_4_1a5f091f0545c93bf47043afa307ea6649",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        },
+        {
+          "name": "",
+          "type": "typename T2",
+          "typePlain": "typename T2"
+        }
+      ],
+      "title": "operator()",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1bit__or_3_01void_01_4.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-is-transparent",
+      "category": "types",
+      "const": false,
+      "definition": "using thrust::bit_or< void >::is_transparent =  void",
+      "explicit": false,
+      "fullname": "thrust::bit_or< void >::is_transparent",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "using",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1130,
+        "column": 27,
+        "file": "thrust/functional.h",
+        "line": 1130
+      },
+      "name": "is_transparent",
+      "override": false,
+      "qualifiedname": "thrust::bit_or< void >::is_transparent",
+      "refid": "structthrust_1_1bit__or_3_01void_01_4_1a6355f32b134c4170320acde569e1f859",
+      "static": false,
+      "strong": false,
+      "title": "is_transparent",
+      "type": "void",
+      "typePlain": "void",
+      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1bit__or_3_01void_01_4.html#using-is-transparent",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::bit_or< void >",
+  "refid": "structthrust_1_1bit__or_3_01void_01_4",
+  "static": false,
+  "strong": false,
+  "title": "thrust::bit_or< void >",
+  "url": "{{ site.baseurl }}/api/classes/structthrust_1_1bit__or_3_01void_01_4.html",
+  "visibility": "public"
+}

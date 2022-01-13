@@ -1,0 +1,638 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "A <code>linear&#95;feedback&#95;shift&#95;engine</code> random number engine produces unsigned integer random values using a linear feedback shift random number generation algorithm. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::random::linear_feedback_shift_engine",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/random/linear_feedback_shift_engine.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 168,
+    "bodyFile": "thrust/random/linear_feedback_shift_engine.h",
+    "bodyStart": 63,
+    "column": 3,
+    "file": "thrust/random/linear_feedback_shift_engine.h",
+    "line": 62
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "random_number_engine_templates",
+    "kind": "group",
+    "language": "",
+    "name": "random_number_engine_templates",
+    "qualifiedname": "random_number_engine_templates",
+    "refid": "group__random__number__engine__templates",
+    "title": "Random Number Engine Class Templates",
+    "url": "{{ site.baseurl }}/api/groups/group__random__number__engine__templates.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "random",
+      "kind": "group",
+      "language": "",
+      "name": "random",
+      "qualifiedname": "random",
+      "refid": "group__random",
+      "title": "Random Number Generation",
+      "url": "{{ site.baseurl }}/api/groups/group__random.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "random_number_engine_templates",
+      "kind": "group",
+      "language": "",
+      "name": "random_number_engine_templates",
+      "qualifiedname": "random_number_engine_templates",
+      "refid": "group__random__number__engine__templates",
+      "title": "Random Number Engine Class Templates",
+      "url": "{{ site.baseurl }}/api/groups/group__random__number__engine__templates.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::random::linear_feedback_shift_engine",
+  "note": [
+    "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a> is based on the Boost Template Library's linear_feedback_shift. "
+  ],
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "<code>thrust::random</code> is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+    "category": "namespaces",
+    "fullname": "thrust::random",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust::random",
+    "qualifiedname": "thrust::random",
+    "refid": "namespacethrust_1_1random",
+    "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+    "title": "thrust::random",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1random.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "<code>thrust::random</code> is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+      "category": "namespaces",
+      "fullname": "thrust::random",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust::random",
+      "qualifiedname": "thrust::random",
+      "refid": "namespacethrust_1_1random",
+      "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+      "title": "thrust::random",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1random.html",
+      "visibility": "public"
+    }
+  ],
+  "publicAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-word-size",
+      "category": "attributes",
+      "const": false,
+      "definition": "const size_t thrust::random::linear_feedback_shift_engine< UIntType, w, k, q, s >::word_size",
+      "details": "The word size of the produced values. ",
+      "explicit": false,
+      "fullname": "thrust::random::linear_feedback_shift_engine::word_size",
+      "hasDetails": true,
+      "initializer": "= w",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/linear_feedback_shift_engine.h",
+        "bodyStart": 76,
+        "column": 25,
+        "file": "thrust/random/linear_feedback_shift_engine.h",
+        "line": 76
+      },
+      "name": "word_size",
+      "override": false,
+      "qualifiedname": "thrust::random::linear_feedback_shift_engine::word_size",
+      "refid": "classthrust_1_1random_1_1linear__feedback__shift__engine_1ae7db48b457a6cb84231bb4358dff1d10",
+      "static": true,
+      "strong": false,
+      "title": "word_size",
+      "type": "const size_t",
+      "typePlain": "const size_t",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#variable-word-size",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-exponent1",
+      "category": "attributes",
+      "const": false,
+      "definition": "const size_t thrust::random::linear_feedback_shift_engine< UIntType, w, k, q, s >::exponent1",
+      "details": "A constant used in the generation algorithm. ",
+      "explicit": false,
+      "fullname": "thrust::random::linear_feedback_shift_engine::exponent1",
+      "hasDetails": true,
+      "initializer": "= k",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/linear_feedback_shift_engine.h",
+        "bodyStart": 80,
+        "column": 25,
+        "file": "thrust/random/linear_feedback_shift_engine.h",
+        "line": 80
+      },
+      "name": "exponent1",
+      "override": false,
+      "qualifiedname": "thrust::random::linear_feedback_shift_engine::exponent1",
+      "refid": "classthrust_1_1random_1_1linear__feedback__shift__engine_1ab06ee59e105f3ce38847b114bf433089",
+      "static": true,
+      "strong": false,
+      "title": "exponent1",
+      "type": "const size_t",
+      "typePlain": "const size_t",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#variable-exponent1",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-exponent2",
+      "category": "attributes",
+      "const": false,
+      "definition": "const size_t thrust::random::linear_feedback_shift_engine< UIntType, w, k, q, s >::exponent2",
+      "details": "A constant used in the generation algorithm. ",
+      "explicit": false,
+      "fullname": "thrust::random::linear_feedback_shift_engine::exponent2",
+      "hasDetails": true,
+      "initializer": "= q",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/linear_feedback_shift_engine.h",
+        "bodyStart": 84,
+        "column": 25,
+        "file": "thrust/random/linear_feedback_shift_engine.h",
+        "line": 84
+      },
+      "name": "exponent2",
+      "override": false,
+      "qualifiedname": "thrust::random::linear_feedback_shift_engine::exponent2",
+      "refid": "classthrust_1_1random_1_1linear__feedback__shift__engine_1ab1db6ecee0fb8df07fda7975070da47e",
+      "static": true,
+      "strong": false,
+      "title": "exponent2",
+      "type": "const size_t",
+      "typePlain": "const size_t",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#variable-exponent2",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-step-size",
+      "category": "attributes",
+      "const": false,
+      "definition": "const size_t thrust::random::linear_feedback_shift_engine< UIntType, w, k, q, s >::step_size",
+      "details": "The step size used in the generation algorithm. ",
+      "explicit": false,
+      "fullname": "thrust::random::linear_feedback_shift_engine::step_size",
+      "hasDetails": true,
+      "initializer": "= s",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/linear_feedback_shift_engine.h",
+        "bodyStart": 88,
+        "column": 25,
+        "file": "thrust/random/linear_feedback_shift_engine.h",
+        "line": 88
+      },
+      "name": "step_size",
+      "override": false,
+      "qualifiedname": "thrust::random::linear_feedback_shift_engine::step_size",
+      "refid": "classthrust_1_1random_1_1linear__feedback__shift__engine_1af561751a72a4fe3d0565745e2b96d13d",
+      "static": true,
+      "strong": false,
+      "title": "step_size",
+      "type": "const size_t",
+      "typePlain": "const size_t",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#variable-step-size",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-min",
+      "category": "attributes",
+      "const": false,
+      "definition": "const result_type thrust::random::linear_feedback_shift_engine< UIntType, w, k, q, s >::min",
+      "details": "The smallest value this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a></code> may potentially produce. ",
+      "explicit": false,
+      "fullname": "thrust::random::linear_feedback_shift_engine::min",
+      "hasDetails": true,
+      "initializer": "= 0",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/linear_feedback_shift_engine.h",
+        "bodyStart": 105,
+        "column": 30,
+        "file": "thrust/random/linear_feedback_shift_engine.h",
+        "line": 105
+      },
+      "name": "min",
+      "override": false,
+      "qualifiedname": "thrust::random::linear_feedback_shift_engine::min",
+      "refid": "classthrust_1_1random_1_1linear__feedback__shift__engine_1a57233c4a6a3c7d58ce4021fee860eadc",
+      "static": true,
+      "strong": false,
+      "title": "min",
+      "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "const result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#variable-min",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-max",
+      "category": "attributes",
+      "const": false,
+      "definition": "const result_type thrust::random::linear_feedback_shift_engine< UIntType, w, k, q, s >::max",
+      "details": "The largest value this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a></code> may potentially produce. ",
+      "explicit": false,
+      "fullname": "thrust::random::linear_feedback_shift_engine::max",
+      "hasDetails": true,
+      "initializer": "= wordmask",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/linear_feedback_shift_engine.h",
+        "bodyStart": 109,
+        "column": 30,
+        "file": "thrust/random/linear_feedback_shift_engine.h",
+        "line": 109
+      },
+      "name": "max",
+      "override": false,
+      "qualifiedname": "thrust::random::linear_feedback_shift_engine::max",
+      "refid": "classthrust_1_1random_1_1linear__feedback__shift__engine_1a674e7c57fcc4226c64571f69de274a4b",
+      "static": true,
+      "strong": false,
+      "title": "max",
+      "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "const result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#variable-max",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-default-seed",
+      "category": "attributes",
+      "const": false,
+      "definition": "const result_type thrust::random::linear_feedback_shift_engine< UIntType, w, k, q, s >::default_seed",
+      "details": "The default seed of this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a></code>. ",
+      "explicit": false,
+      "fullname": "thrust::random::linear_feedback_shift_engine::default_seed",
+      "hasDetails": true,
+      "initializer": "= 341u",
+      "inline": false,
+      "kind": "variable",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/linear_feedback_shift_engine.h",
+        "bodyStart": 113,
+        "column": 30,
+        "file": "thrust/random/linear_feedback_shift_engine.h",
+        "line": 113
+      },
+      "name": "default_seed",
+      "override": false,
+      "qualifiedname": "thrust::random::linear_feedback_shift_engine::default_seed",
+      "refid": "classthrust_1_1random_1_1linear__feedback__shift__engine_1ab0f7514b5bd59717bfca8f1158fc3d1e",
+      "static": true,
+      "strong": false,
+      "title": "default_seed",
+      "type": "const <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "const result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#variable-default-seed",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-linear-feedback-shift-engine",
+      "argsString": "(result_type value=default_seed)",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__host__ __device__ thrust::random::linear_feedback_shift_engine< UIntType, w, k, q, s >::linear_feedback_shift_engine",
+      "deleted": false,
+      "details": "This constructor, which optionally accepts a seed, initializes a new <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a></code>.",
+      "explicit": true,
+      "fullname": "thrust::random::linear_feedback_shift_engine::linear_feedback_shift_engine",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 14,
+        "file": "thrust/random/linear_feedback_shift_engine.h",
+        "line": 123
+      },
+      "name": "linear_feedback_shift_engine",
+      "override": false,
+      "paramList": [
+        {
+          "name": "value",
+          "text": "The seed used to intialize this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a>'s</code> state. "
+        }
+      ],
+      "params": [
+        {
+          "defval": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#variable-default-seed\">default_seed</a>",
+          "defvalPlain": "default_seed",
+          "name": "value",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#typedef-result-type\">result_type</a>",
+          "typePlain": "result_type"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::linear_feedback_shift_engine::linear_feedback_shift_engine",
+      "refid": "classthrust_1_1random_1_1linear__feedback__shift__engine_1af090b2cfd333972aad212c7d13efad8a",
+      "static": false,
+      "strong": false,
+      "title": "linear_feedback_shift_engine",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#function-linear-feedback-shift-engine",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-seed",
+      "argsString": "(result_type value=default_seed)",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__host__ __device__ void thrust::random::linear_feedback_shift_engine< UIntType, w, k, q, s >::seed",
+      "deleted": false,
+      "details": "This method initializes this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a>'s</code> state, and optionally accepts a seed value.",
+      "explicit": false,
+      "fullname": "thrust::random::linear_feedback_shift_engine::seed",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 10,
+        "file": "thrust/random/linear_feedback_shift_engine.h",
+        "line": 131
+      },
+      "name": "seed",
+      "override": false,
+      "paramList": [
+        {
+          "name": "value",
+          "text": "The seed used to initializes this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a>'s</code> state. "
+        }
+      ],
+      "params": [
+        {
+          "defval": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#variable-default-seed\">default_seed</a>",
+          "defvalPlain": "default_seed",
+          "name": "value",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#typedef-result-type\">result_type</a>",
+          "typePlain": "result_type"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::linear_feedback_shift_engine::seed",
+      "refid": "classthrust_1_1random_1_1linear__feedback__shift__engine_1a04f2a07c0332bdc995aa1306b077ce9e",
+      "static": false,
+      "strong": false,
+      "title": "seed",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#function-seed",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(void)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ result_type thrust::random::linear_feedback_shift_engine< UIntType, w, k, q, s >::operator()",
+      "deleted": false,
+      "details": "This member function produces a new random value and updates this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a>'s</code> state. ",
+      "explicit": false,
+      "fullname": "thrust::random::linear_feedback_shift_engine::operator()",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 17,
+        "file": "thrust/random/linear_feedback_shift_engine.h",
+        "line": 139
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "void",
+          "typePlain": "void"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::linear_feedback_shift_engine::operator()",
+      "refid": "classthrust_1_1random_1_1linear__feedback__shift__engine_1ac99f6f051ab949d1053c2179fcb695d0",
+      "returns": [
+        "A new random number. "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#typedef-result-type\">result_type</a>",
+      "typePlain": "__host__ __device__ result_type",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-discard",
+      "argsString": "(unsigned long long z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void thrust::random::linear_feedback_shift_engine< UIntType, w, k, q, s >::discard",
+      "deleted": false,
+      "details": "This member function advances this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a>'s</code> state a given number of times and discards the results.",
+      "explicit": false,
+      "fullname": "thrust::random::linear_feedback_shift_engine::discard",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 10,
+        "file": "thrust/random/linear_feedback_shift_engine.h",
+        "line": 148
+      },
+      "name": "discard",
+      "note": [
+        "This function is provided because an implementation may be able to accelerate it. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The number of random values to discard. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "unsigned long long",
+          "typePlain": "unsigned long long"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::random::linear_feedback_shift_engine::discard",
+      "refid": "classthrust_1_1random_1_1linear__feedback__shift__engine_1a534786016d9b995d3c76a3b611bfe0f5",
+      "static": false,
+      "strong": false,
+      "title": "discard",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#function-discard",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-result-type",
+      "brief": "The type of the unsigned integer produced by this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a></code>. ",
+      "category": "types",
+      "const": false,
+      "definition": "thrust::random::linear_feedback_shift_engine< UIntType, w, k, q, s >::result_type",
+      "explicit": false,
+      "fullname": "thrust::random::linear_feedback_shift_engine::result_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "language": "cpp",
+      "location": {
+        "bodyFile": "thrust/random/linear_feedback_shift_engine.h",
+        "bodyStart": 70,
+        "column": 22,
+        "file": "thrust/random/linear_feedback_shift_engine.h",
+        "line": 70
+      },
+      "name": "result_type",
+      "override": false,
+      "qualifiedname": "thrust::random::linear_feedback_shift_engine::result_type",
+      "refid": "classthrust_1_1random_1_1linear__feedback__shift__engine_1a0252973913caffeb711f2b2c9e0321ce",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the unsigned integer produced by this linear_feedback_shift_engine. ",
+      "title": "result_type",
+      "type": "UIntType",
+      "typePlain": "UIntType",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html#typedef-result-type",
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::random::linear_feedback_shift_engine",
+  "refid": "classthrust_1_1random_1_1linear__feedback__shift__engine",
+  "static": false,
+  "strong": false,
+  "summary": "A linear_feedback_shift_engine random number engine produces unsigned integer random values using a linear feedback shift random number generation algorithm. ",
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename UIntType",
+      "typePlain": "typename UIntType"
+    },
+    {
+      "name": "w",
+      "type": "size_t",
+      "typePlain": "size_t"
+    },
+    {
+      "name": "k",
+      "type": "size_t",
+      "typePlain": "size_t"
+    },
+    {
+      "name": "q",
+      "type": "size_t",
+      "typePlain": "size_t"
+    },
+    {
+      "name": "s",
+      "type": "size_t",
+      "typePlain": "size_t"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "UIntType",
+      "text": "The type of unsigned integer to produce. "
+    },
+    {
+      "name": "w",
+      "text": "The word size of the produced values (<code>w &lt;= sizeof(UIntType)</code>). "
+    },
+    {
+      "name": "k",
+      "text": "The k parameter of Tausworthe's 1965 algorithm. "
+    },
+    {
+      "name": "q",
+      "text": "The q exponent of Tausworthe's 1965 algorithm. "
+    },
+    {
+      "name": "s",
+      "text": "The step size of Tausworthe's 1965 algorithm."
+    }
+  ],
+  "title": "thrust::random::linear_feedback_shift_engine",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1random_1_1linear__feedback__shift__engine.html",
+  "visibility": "public"
+}

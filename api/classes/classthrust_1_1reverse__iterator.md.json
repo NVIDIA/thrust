@@ -1,0 +1,265 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "detail::reverse_iterator_base::type",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html\">reverse&#95;iterator</a></code> is an iterator which represents a pointer into a reversed view of a given range. In this way, <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html\">reverse&#95;iterator</a></code> allows backwards iteration through a bidirectional input range.\n\nIt is important to note that although <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html\">reverse&#95;iterator</a></code> is constructed from a given iterator, it points to the element preceding it. In this way, the past-the-end <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html\">reverse&#95;iterator</a></code> of a given range points to the element preceding the first element of the input range. By the same token, the first <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html\">reverse&#95;iterator</a></code> of a given range is constructed from a past-the-end iterator of the original range yet points to the last element of the input.\n\nThe following code snippet demonstrates how to create a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html\">reverse&#95;iterator</a></code> which represents a reversed view of the contents of a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code>.\n\n\n\n```cpp\n#include <thrust/iterator/reverse_iterator.h>\n#include <thrust/device_vector.h>\n...\nthrust::device_vector<float> v(4);\nv[0] = 0.0f;\nv[1] = 1.0f;\nv[2] = 2.0f;\nv[3] = 3.0f;\n\ntypedef thrust::device_vector<float>::iterator Iterator;\n\n// note that we point the iterator to the *end* of the device_vector\nthrust::reverse_iterator<Iterator> iter(values.end());\n\n*iter;   // returns 3.0f;\niter[0]; // returns 3.0f;\niter[1]; // returns 2.0f;\niter[2]; // returns 1.0f;\niter[3]; // returns 0.0f;\n\n// iter[4] is an out-of-bounds error\n```\n\nSince reversing a range is a common operation, containers like <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> have nested typedefs for declaration shorthand and methods for constructing reverse_iterators. The following code snippet is equivalent to the previous:\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n...\nthrust::device_vector<float> v(4);\nv[0] = 0.0f;\nv[1] = 1.0f;\nv[2] = 2.0f;\nv[3] = 3.0f;\n\n// we use the nested type reverse_iterator to refer to a reversed view of\n// a device_vector and the method rbegin() to create a reverse_iterator pointing\n// to the beginning of the reversed device_vector\nthrust::device_iterator<float>::reverse_iterator iter = values.rbegin();\n\n*iter;   // returns 3.0f;\niter[0]; // returns 3.0f;\niter[1]; // returns 2.0f;\niter[2]; // returns 1.0f;\niter[3]; // returns 0.0f;\n\n// iter[4] is an out-of-bounds error\n\n// similarly, rend() points to the end of the reversed sequence:\nassert(values.rend() == (iter + 4));\n```\n\nFinally, the following code snippet demonstrates how to use <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html\">reverse_iterator</a> to perform a reversed prefix sum operation on the contents of a <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>:\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <thrust/scan.h>\n...\nthrust::device_vector<int> v(5);\nv[0] = 0;\nv[1] = 1;\nv[2] = 2;\nv[3] = 3;\nv[4] = 4;\n\nthrust::device_vector<int> result(5);\n\n// exclusive scan v into result in reverse\nthrust::exclusive_scan(v.rbegin(), v.rend(), result.begin());\n\n// result is now {0, 4, 7, 9, 10}\n```",
+  "explicit": false,
+  "fullname": "thrust::reverse_iterator",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/iterator/reverse_iterator.h>",
+  "inline": false,
+  "kind": "class",
+  "language": "cpp",
+  "location": {
+    "bodyEnd": 214,
+    "bodyFile": "thrust/iterator/reverse_iterator.h",
+    "bodyStart": 146,
+    "column": 3,
+    "file": "thrust/iterator/reverse_iterator.h",
+    "line": 144
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "fancyiterator",
+    "kind": "group",
+    "language": "",
+    "name": "fancyiterator",
+    "qualifiedname": "fancyiterator",
+    "refid": "group__fancyiterator",
+    "title": "Fancy Iterators",
+    "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterators",
+      "kind": "group",
+      "language": "",
+      "name": "iterators",
+      "qualifiedname": "iterators",
+      "refid": "group__iterators",
+      "title": "Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__iterators.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "fancyiterator",
+      "kind": "group",
+      "language": "",
+      "name": "fancyiterator",
+      "qualifiedname": "fancyiterator",
+      "refid": "group__fancyiterator",
+      "title": "Fancy Iterators",
+      "url": "{{ site.baseurl }}/api/groups/group__fancyiterator.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::reverse_iterator",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "language": "cpp",
+    "name": "thrust",
+    "qualifiedname": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "language": "cpp",
+      "name": "thrust",
+      "qualifiedname": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-reverse-iterator",
+      "argsString": "()",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::reverse_iterator< BidirectionalIterator >::reverse_iterator",
+      "deleted": false,
+      "details": "Default constructor does nothing. ",
+      "explicit": false,
+      "fullname": "thrust::reverse_iterator::reverse_iterator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 162,
+        "bodyFile": "thrust/iterator/reverse_iterator.h",
+        "bodyStart": 162,
+        "column": 5,
+        "file": "thrust/iterator/reverse_iterator.h",
+        "line": 162
+      },
+      "name": "reverse_iterator",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::reverse_iterator::reverse_iterator",
+      "refid": "classthrust_1_1reverse__iterator_1a4b7c6ea6a4a8c964ecf08f6fb721f50b",
+      "static": false,
+      "strong": false,
+      "title": "reverse_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html#function-reverse-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-reverse-iterator",
+      "argsString": "(BidirectionalIterator x)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::reverse_iterator< BidirectionalIterator >::reverse_iterator",
+      "deleted": false,
+      "details": "<code>Constructor</code> accepts a <code>BidirectionalIterator</code> pointing to a range for this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html\">reverse&#95;iterator</a></code> to reverse.",
+      "explicit": true,
+      "fullname": "thrust::reverse_iterator::reverse_iterator",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 14,
+        "file": "thrust/iterator/reverse_iterator.h",
+        "line": 170
+      },
+      "name": "reverse_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "A <code>BidirectionalIterator</code> pointing to a range to reverse. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "BidirectionalIterator",
+          "typePlain": "BidirectionalIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::reverse_iterator::reverse_iterator",
+      "refid": "classthrust_1_1reverse__iterator_1a15aabd843416962672bf3714bfa414c7",
+      "static": false,
+      "strong": false,
+      "title": "reverse_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html#function-reverse-iterator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-reverse-iterator",
+      "argsString": "(reverse_iterator< OtherBidirectionalIterator > const &r)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::reverse_iterator< BidirectionalIterator >::reverse_iterator",
+      "deleted": false,
+      "details": "<code>Copy</code> constructor allows construction from a related compatible <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html\">reverse&#95;iterator</a></code>.",
+      "explicit": false,
+      "fullname": "thrust::reverse_iterator::reverse_iterator",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 5,
+        "file": "thrust/iterator/reverse_iterator.h",
+        "line": 179
+      },
+      "name": "reverse_iterator",
+      "override": false,
+      "paramList": [
+        {
+          "name": "r",
+          "text": "A <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html\">reverse&#95;iterator</a></code> to copy from. "
+        }
+      ],
+      "params": [
+        {
+          "name": "r",
+          "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html\">reverse_iterator</a>< OtherBidirectionalIterator > const &",
+          "typePlain": "reverse_iterator< OtherBidirectionalIterator > const &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::reverse_iterator::reverse_iterator",
+      "refid": "classthrust_1_1reverse__iterator_1a84b7a581d03915ca05b39def434c8bde",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename OtherBidirectionalIterator",
+          "typePlain": "typename OtherBidirectionalIterator"
+        }
+      ],
+      "title": "reverse_iterator",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html#function-reverse-iterator",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "qualifiedname": "thrust::reverse_iterator",
+  "refid": "classthrust_1_1reverse__iterator",
+  "see": [
+    "make_reverse_iterator "
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename BidirectionalIterator",
+      "typePlain": "typename BidirectionalIterator"
+    }
+  ],
+  "title": "thrust::reverse_iterator",
+  "url": "{{ site.baseurl }}/api/classes/classthrust_1_1reverse__iterator.html",
+  "visibility": "public"
+}
