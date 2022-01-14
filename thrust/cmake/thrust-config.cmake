@@ -37,14 +37,15 @@
 #   [ADVANCED]                       # Optionally mark options as advanced
 # )
 #
-# # Use a custom TBB, CUB, and/or OMP
+# # Use a custom TBB, CUB, libcudacxx, and/or OMP
 # # (Note that once set, these cannot be changed. This includes COMPONENT
 # # preloading and lazy lookups in thrust_create_target)
 # find_package(Thrust REQUIRED)
 # thrust_set_CUB_target(MyCUBTarget)  # MyXXXTarget contains an existing
 # thrust_set_TBB_target(MyTBBTarget)  # interface to XXX for Thrust to use.
+# thrust_set_libcudacxx_target(MyLibcudacxxTarget)
 # thrust_set_OMP_target(MyOMPTarget)
-# thrust_create_target(ThrustWithMyCUB DEVICE CUDA)
+# thrust_create_target(ThrustWithMyCUBAndLibcudacxx DEVICE CUDA)
 # thrust_create_target(ThrustWithMyTBB DEVICE TBB)
 # thrust_create_target(ThrustWithMyOMP DEVICE OMP)
 #
@@ -76,6 +77,9 @@
 # thrust_debug_target(TargetName "${THRUST_VERSION}")
 
 cmake_minimum_required(VERSION 3.15)
+
+# Minimum supported libcudacxx version:
+set(thrust_libcudacxx_version 1.8.0)
 
 ################################################################################
 # User variables and APIs. Users can rely on these:
@@ -346,14 +350,15 @@ function(thrust_debug_internal_targets)
 
   _thrust_debug_backend_targets(CPP "Thrust ${THRUST_VERSION}")
 
-  _thrust_debug_backend_targets(CUDA "CUB ${THRUST_CUB_VERSION}")
-  thrust_debug_target(CUB::CUB "${THRUST_CUB_VERSION}")
+  _thrust_debug_backend_targets(OMP "${THRUST_OMP_VERSION}")
+  thrust_debug_target(OpenMP::OpenMP_CXX "${THRUST_OMP_VERSION}")
 
   _thrust_debug_backend_targets(TBB "${THRUST_TBB_VERSION}")
   thrust_debug_target(TBB:tbb "${THRUST_TBB_VERSION}")
 
-  _thrust_debug_backend_targets(OMP "${THRUST_OMP_VERSION}")
-  thrust_debug_target(OpenMP::OpenMP_CXX "${THRUST_OMP_VERSION}")
+  _thrust_debug_backend_targets(CUDA "CUB ${THRUST_CUB_VERSION}")
+  thrust_debug_target(CUB::CUB "${THRUST_CUB_VERSION}")
+  thrust_debug_target(libcudacxx::libcudacxx "${THRUST_libcudacxx_VERSION}")
 endfunction()
 
 ################################################################################
@@ -434,18 +439,37 @@ function(_thrust_setup_system backend)
   endif()
 endfunction()
 
-# Use the provided cub_target for the CUDA backend. If Thrust::CUDA already
+# Use the provided cub_target for the CUDA backend. If Thrust::CUB already
 # exists, this call has no effect.
 function(thrust_set_CUB_target cub_target)
-  if (NOT TARGET Thrust::CUDA)
+  if (NOT TARGET Thrust::CUB)
     thrust_debug("Setting CUB target to ${cub_target}" internal)
     # Workaround cmake issue #20670 https://gitlab.kitware.com/cmake/cmake/-/issues/20670
-    set(THRUST_CUB_VERSION ${CUB_VERSION} CACHE INTERNAL "CUB version used by Thrust")
-    _thrust_declare_interface_alias(Thrust::CUDA _Thrust_CUDA)
-    target_link_libraries(_Thrust_CUDA INTERFACE Thrust::Thrust ${cub_target})
+    set(THRUST_CUB_VERSION ${CUB_VERSION} CACHE INTERNAL
+      "CUB version used by Thrust"
+      FORCE
+    )
+    _thrust_declare_interface_alias(Thrust::CUB _Thrust_CUB)
+    target_link_libraries(_Thrust_CUB INTERFACE ${cub_target})
     thrust_debug_target(${cub_target} "${THRUST_CUB_VERSION}" internal)
-    thrust_debug_target(Thrust::CUDA "CUB ${THRUST_CUB_VERSION}" internal)
-    _thrust_setup_system(CUDA)
+    thrust_debug_target(Thrust::CUB "CUB ${THRUST_CUB_VERSION}" internal)
+  endif()
+endfunction()
+
+# Use the provided libcudacxx_target for the CUDA backend. If Thrust::libcudacxx
+# already exists, this call has no effect.
+function(thrust_set_libcudacxx_target libcudacxx_target)
+  if (NOT TARGET Thrust::libcudacxx)
+    thrust_debug("Setting libcudacxx target to ${libcudacxx_target}" internal)
+    # Workaround cmake issue #20670 https://gitlab.kitware.com/cmake/cmake/-/issues/20670
+    set(THRUST_libcudacxx_VERSION ${libcudacxx_VERSION} CACHE INTERNAL
+      "libcudacxx version used by Thrust"
+      FORCE
+    )
+    _thrust_declare_interface_alias(Thrust::libcudacxx _Thrust_libcudacxx)
+    target_link_libraries(_Thrust_libcudacxx INTERFACE ${libcudacxx_target})
+    thrust_debug_target(${libcudacxx_target} "${THRUST_libcudacxx_VERSION}" internal)
+    thrust_debug_target(Thrust::libcudacxx "libcudacxx ${THRUST_libcudacxx_VERSION}" internal)
   endif()
 endfunction()
 
@@ -495,7 +519,7 @@ endfunction()
 # #20670 -- otherwise variables like CUB_VERSION, etc won't be in the caller's
 # scope.
 macro(_thrust_find_CUDA required)
-  if (NOT TARGET Thrust::CUDA)
+  if (NOT TARGET Thrust::CUB)
     thrust_debug("Searching for CUB ${required}" internal)
     find_package(CUB ${THRUST_VERSION} CONFIG
       ${_THRUST_QUIET_FLAG}
@@ -512,6 +536,16 @@ macro(_thrust_find_CUDA required)
     else()
       thrust_debug("CUB not found!" internal)
     endif()
+  endif()
+
+  if (NOT TARGET Thrust::CUDA)
+    _thrust_declare_interface_alias(Thrust::CUDA _Thrust_CUDA)
+    _thrust_setup_system(CUDA)
+    target_link_libraries(_Thrust_CUDA INTERFACE
+      Thrust::Thrust
+      Thrust::CUB
+    )
+    thrust_debug_target(Thrust::CUDA "" internal)
   endif()
 endmacro()
 
@@ -638,6 +672,38 @@ if (NOT TARGET Thrust::Thrust)
   unset(_THRUST_VERSION_INCLUDE_DIR CACHE) # Clear tmp variable from cache
   target_include_directories(_Thrust_Thrust INTERFACE "${_THRUST_INCLUDE_DIR}")
   thrust_debug_target(Thrust::Thrust "${THRUST_VERSION}" internal)
+endif()
+
+# Find libcudacxx prior to locating backend-specific deps. This ensures that CUB
+# finds the same package.
+if (NOT TARGET Thrust::libcudacxx)
+  thrust_debug("Searching for libcudacxx REQUIRED" internal)
+
+  # First do a non-required search for any co-packaged versions.
+  # These are preferred.
+  find_package(libcudacxx ${thrust_libcudacxx_version} CONFIG
+    ${_THRUST_QUIET_FLAG}
+    NO_DEFAULT_PATH # Only check the explicit HINTS below:
+    HINTS
+      "${_THRUST_INCLUDE_DIR}/dependencies/libcudacxx" # Source layout (GitHub)
+      "${_THRUST_INCLUDE_DIR}/../libcudacxx"           # Source layout (Perforce)
+      "${_THRUST_CMAKE_DIR}/.."                        # Install layout
+  )
+
+  # A second required search allows externally packaged to be used and fails if
+  # no suitable package exists.
+  find_package(libcudacxx ${thrust_libcudacxx_version} CONFIG
+    REQUIRED
+    ${_THRUST_QUIET_FLAG}
+  )
+
+  if (TARGET libcudacxx::libcudacxx)
+    thrust_set_libcudacxx_target(libcudacxx::libcudacxx)
+  else()
+    thrust_debug("Expected libcudacxx::libcudacxx target not found!" internal)
+  endif()
+
+  target_link_libraries(_Thrust_Thrust INTERFACE Thrust::libcudacxx)
 endif()
 
 # Handle find_package COMPONENT requests:

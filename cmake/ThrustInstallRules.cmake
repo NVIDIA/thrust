@@ -24,27 +24,35 @@ configure_file("${Thrust_SOURCE_DIR}/thrust/cmake/thrust-header-search.cmake.in"
 install(FILES "${Thrust_BINARY_DIR}/thrust/cmake/thrust-header-search.cmake"
   DESTINATION "${install_location}")
 
-# Depending on how Thrust is configured, CUB's CMake scripts may or may not be
-# included, so maintain a set of CUB install rules in both projects. By default
-# CUB headers are installed alongside Thrust -- this may be disabled by turning
-# off THRUST_INSTALL_CUB_HEADERS.
-option(THRUST_INSTALL_CUB_HEADERS "Include cub headers when installing." ON)
+# Depending on how Thrust is configured, libcudacxx and CUB's CMake scripts may
+# or may not be include()'d, so force include their install rules when requested.
+# By default, these projects are installed alongside Thrust. This is controlled by
+# THRUST_INSTALL_CUB_HEADERS and THRUST_INSTALL_LIBCUDACXX_HEADERS.
+option(THRUST_INSTALL_CUB_HEADERS "Include CUB headers when installing." ON)
 if (THRUST_INSTALL_CUB_HEADERS)
-  install(DIRECTORY "${Thrust_SOURCE_DIR}/dependencies/cub/cub"
-    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
-    FILES_MATCHING
-      PATTERN "*.cuh"
-  )
+  # Use a function to limit scope of the CUB_*_DIR vars:
+  function(_thrust_install_cub_headers)
+    # Fake these for the logic in CUBInstallRules.cmake:
+    set(CUB_SOURCE_DIR "${Thrust_SOURCE_DIR}/dependencies/cub/")
+    set(CUB_BINARY_DIR "${Thrust_BINARY_DIR}/cub-config/")
+    set(CUB_ENABLE_INSTALL_RULES ON)
+    set(CUB_IN_THRUST OFF)
+    include("${Thrust_SOURCE_DIR}/dependencies/cub/cmake/CubInstallRules.cmake")
+  endfunction()
 
-  # Need to configure a file to store THRUST_INSTALL_HEADER_INFIX
-  install(DIRECTORY "${Thrust_SOURCE_DIR}/dependencies/cub/cub/cmake/"
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/cub"
-    PATTERN cub-header-search EXCLUDE
-  )
-  set(install_location "${CMAKE_INSTALL_LIBDIR}/cmake/cub")
-  configure_file("${Thrust_SOURCE_DIR}/dependencies/cub/cub/cmake/cub-header-search.cmake.in"
-    "${Thrust_BINARY_DIR}/dependencies/cub/cub/cmake/cub-header-search.cmake"
-    @ONLY)
-  install(FILES "${Thrust_BINARY_DIR}/dependencies/cub/cub/cmake/cub-header-search.cmake"
-    DESTINATION "${install_location}")
+  _thrust_install_cub_headers()
+endif()
+
+option(THRUST_INSTALL_LIBCUDACXX_HEADERS "Include libcudacxx headers when installing." ON)
+if (THRUST_INSTALL_LIBCUDACXX_HEADERS)
+  # Use a function to limit scope of the libcudacxx_*_DIR vars:
+  function(_thrust_install_libcudacxx_headers)
+    # Fake these for the logic in libcudacxxInstallRules.cmake:
+    set(libcudacxx_SOURCE_DIR "${Thrust_SOURCE_DIR}/dependencies/libcudacxx/")
+    set(libcudacxx_BINARY_DIR "${Thrust_BINARY_DIR}/libcudacxx-config/")
+    set(libcudacxx_ENABLE_INSTALL_RULES ON)
+    include("${Thrust_SOURCE_DIR}/dependencies/libcudacxx/cmake/libcudacxxInstallRules.cmake")
+  endfunction()
+
+  _thrust_install_libcudacxx_headers()
 endif()
