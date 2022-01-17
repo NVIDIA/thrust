@@ -268,9 +268,6 @@ fi
 
 log "Configure Thrust and CUB..."
 
-# Clear out any stale CMake configs:
-rm -rf CMakeCache.txt CMakeFiles/
-
 echo_and_run_timed "Configure" cmake .. --log-level=VERBOSE ${CMAKE_FLAGS}
 configure_status=$?
 
