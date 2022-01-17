@@ -144,7 +144,7 @@ Additional usage examples can be found in the [`examples/`](examples/) and
 
 <a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=icc,CXX_VER=latest,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=icc,CXX_VER=latest,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/badge/icon?subject=NVCC%2011.5.1%20%2B%20ICC%20build%20and%20host%20tests'></a>
 
-<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=nvcxx,CXX_VER=21.11,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=nvhpc,SDK_VER=21.11-devel-cuda11.5/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=nvcxx,CXX_VER=21.11,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=nvhpc,SDK_VER=21.11-devel-cuda11.5/badge/icon?subject=NVC%2B%2B%2021.11%20build%20and%20host%20tests'></a>
+<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=nvcxx,CXX_VER=22.1,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=nvhpc,SDK_VER=22.1-devel-cuda11.5/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=nvcxx,CXX_VER=22.1,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=nvhpc,SDK_VER=22.1-devel-cuda11.5/badge/icon?subject=NVC%2B%2B%2022.1%20build%20and%20host%20tests'></a>
 
 ## Supported Compilers
 
