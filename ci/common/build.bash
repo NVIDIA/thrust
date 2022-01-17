@@ -254,6 +254,10 @@ ${CUDACXX} --version 2>&1 | sed -Ez '$ s/\n*$/\n/'
 
 echo
 
+cmake --version 2>&1 | sed -Ez '$ s/\n*$/\n/'
+
+echo
+
 if [[ "${BUILD_TYPE}" == "gpu" ]]; then
   nvidia-smi 2>&1 | sed -Ez '$ s/\n*$/\n/'
 fi
