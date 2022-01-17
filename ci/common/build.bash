@@ -239,7 +239,7 @@ source ${WORKSPACE}/ci/common/determine_build_parallelism.bash ${DETERMINE_PARAL
 
 log "Get environment..."
 
-env
+env | sort
 
 log "Check versions..."
 
