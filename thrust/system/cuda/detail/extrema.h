@@ -130,8 +130,11 @@ namespace __extrema {
       pair_type const &lhs_min = get<0>(lhs);
       pair_type const &rhs_max = get<1>(rhs);
       pair_type const &lhs_max = get<1>(lhs);
-      return thrust::make_tuple(arg_min_t(predicate)(lhs_min, rhs_min),
-                                arg_max_t(predicate)(lhs_max, rhs_max));
+
+      auto result = thrust::make_tuple(arg_min_t(predicate)(lhs_min, rhs_min),
+                                       arg_max_t(predicate)(lhs_max, rhs_max));
+
+      return result;
     }
 
     struct duplicate_tuple
