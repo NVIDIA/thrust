@@ -239,7 +239,7 @@ source ${WORKSPACE}/ci/common/determine_build_parallelism.bash ${DETERMINE_PARAL
 
 log "Get environment..."
 
-env
+env | sort
 
 log "Check versions..."
 
@@ -254,6 +254,10 @@ ${CUDACXX} --version 2>&1 | sed -Ez '$ s/\n*$/\n/'
 
 echo
 
+cmake --version 2>&1 | sed -Ez '$ s/\n*$/\n/'
+
+echo
+
 if [[ "${BUILD_TYPE}" == "gpu" ]]; then
   nvidia-smi 2>&1 | sed -Ez '$ s/\n*$/\n/'
 fi
@@ -263,9 +267,6 @@ fi
 ################################################################################
 
 log "Configure Thrust and CUB..."
-
-# Clear out any stale CMake configs:
-rm -rf CMakeCache.txt CMakeFiles/
 
 echo_and_run_timed "Configure" cmake .. --log-level=VERBOSE ${CMAKE_FLAGS}
 configure_status=$?
@@ -285,7 +286,12 @@ set -e
 
 log "Test Thrust and CUB..."
 
-echo_and_run_timed "Test" ctest ${CTEST_FLAGS} | tee ctest_log
+(
+  # Make sure test_status captures ctest, not tee:
+  # https://stackoverflow.com/a/999259/11130318
+  set -o pipefail
+  echo_and_run_timed "Test" ctest ${CTEST_FLAGS} | tee ctest_log
+)
 test_status=$?
 
 ################################################################################

@@ -60,7 +60,7 @@ REPOSITORY_PATH=$(realpath ${SCRIPT_PATH}/../..)
 # FLAGS - Process command line flags.
 ################################################################################
 
-IMAGE="gpuci/cccl:cuda11.3.1-devel-ubuntu20.04-gcc9"
+IMAGE="gpuci/cccl:cuda11.5.1-devel-ubuntu20.04-gcc9"
 
 LOCAL_IMAGE=0
 
@@ -195,8 +195,8 @@ fi
 
 NVIDIA_DOCKER_INSTALLED=$(docker info 2>&1 | grep -i runtime | grep -c nvidia)
 if [[ "${NVIDIA_DOCKER_INSTALLED}" == 0 ]]; then
-  echo "NVIDIA Docker not found, please install it: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installing-docker-ce"
-  exit -4
+  echo "NVIDIA Docker not found, the build may fail."
+  echo "Please install it if you encounter issues: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installing-docker-ce"
 fi
 
 if [[ "${LOCAL_IMAGE}" == 0 ]]; then
