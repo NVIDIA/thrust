@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-# Copyright (c) 2018-2020 NVIDIA Corporation
+# Copyright (c) 2018-2022 NVIDIA Corporation
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 # Released under the Apache License v2.0 with LLVM Exceptions.
 # See https://llvm.org/LICENSE.txt for license information.
@@ -73,19 +73,30 @@ export PATH=/usr/local/cuda/bin:${PATH}
 # Set home to the job's workspace.
 export HOME=${WORKSPACE}
 
-# Switch to the build directory.
 cd ${WORKSPACE}
-mkdir -p build
-cd build
 
 # Remove any old .ninja_log file so the PrintNinjaBuildTimes step is accurate:
-rm -f .ninja_log
+rm -f build/.ninja_log
 
 if [[ -z "${CMAKE_BUILD_TYPE}" ]]; then
   CMAKE_BUILD_TYPE="Release"
 fi
 
-CMAKE_BUILD_FLAGS="--"
+if [[ -z "${CMAKE_CONFIG_PRESET}" ]]; then
+  echo "CMAKE_CONFIG_PRESET is undefined."
+  cmake --list-presets
+  exit 1
+fi
+
+if [[ -z "${CMAKE_TEST_PRESET}" ]]; then
+  echo "CMAKE_TEST_PRESET is undefined."
+  ctest --list-presets
+  exit 1
+fi
+
+append CMAKE_FLAGS "--preset ${CMAKE_CONFIG_PRESET}"
+append CMAKE_BUILD_FLAGS "--"
+append CTEST_FLAGS "--preset ${CMAKE_TEST_PRESET}"
 
 # The Docker image sets up `${CXX}` and `${CUDACXX}`.
 append CMAKE_FLAGS "-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
@@ -114,6 +125,7 @@ else
   fi
   # We're using NVCC so we need to set the host compiler.
   append CMAKE_FLAGS "-DCMAKE_CXX_COMPILER='${CXX}'"
+  append CMAKE_FLAGS "-DCMAKE_CUDA_HOST_COMPILER='${CXX}'"
   append CMAKE_FLAGS "-G Ninja"
   # Don't stop on build failures.
   append CMAKE_BUILD_FLAGS "-k0"
@@ -123,106 +135,22 @@ if [[ -n "${PARALLEL_LEVEL}" ]]; then
   DETERMINE_PARALLELISM_FLAGS="-j ${PARALLEL_LEVEL}"
 fi
 
-# COVERAGE_PLAN options:
-# * Exhaustive
-# * Thorough
-# * Minimal
-if [[ -z "${COVERAGE_PLAN}" ]]; then
-  # `ci/local/build.bash` always sets a coverage plan, so we can assume we're
-  # in gpuCI if one was not set.
-  if [[ "${CXX_TYPE}" == "nvcxx" ]]; then
-    # Today, NVC++ builds take too long to do anything more than Minimal.
-    COVERAGE_PLAN="Minimal"
-  elif [[ "${BUILD_TYPE}" == "cpu" ]] && [[ "${BUILD_MODE}" == "branch" ]]; then
-    # Post-commit CPU CI builds.
-    COVERAGE_PLAN="Exhaustive"
-  elif [[ "${BUILD_TYPE}" == "cpu" ]]; then
-    # Pre-commit CPU CI builds.
-    COVERAGE_PLAN="Thorough"
-  elif [[ "${BUILD_TYPE}" == "gpu" ]]; then
-    # Pre- and post-commit GPU CI builds.
-    COVERAGE_PLAN="Minimal"
-  fi
+if [[ "${BUILD_TYPE}" == "cpu" ]] && [[ "${CXX_TYPE}" == "nvcxx" ]]; then
+  # If no GPU is automatically detected, NVC++ insists that you explicitly
+  # provide an architecture.
+  # TODO: This logic should really be moved into CMake, but it will be
+  # tricky to do that until CMake officially supports NVC++.
+  append CMAKE_FLAGS "-DTHRUST_ENABLE_COMPUTE_80=ON"
 fi
-
-case "${COVERAGE_PLAN}" in
-  Exhaustive)
-    append CMAKE_FLAGS "-DTHRUST_ENABLE_MULTICONFIG=ON"
-    append CMAKE_FLAGS "-DTHRUST_IGNORE_DEPRECATED_CPP_11=ON"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_ENABLE_DIALECT_ALL=ON"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_ENABLE_SYSTEM_CPP=ON"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_ENABLE_SYSTEM_TBB=ON"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_ENABLE_SYSTEM_OMP=ON"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_ENABLE_SYSTEM_CUDA=ON"
-    append CMAKE_FLAGS "-DTHRUST_INCLUDE_CUB_CMAKE=ON"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_WORKLOAD=LARGE"
-    ;;
-  Thorough)
-    # Build the legacy bench.cu. We'll probably want to remove this when we
-    # switch to the new, heavier thrust_benchmarks project.
-    append CMAKE_FLAGS "-DTHRUST_ENABLE_BENCHMARKS=ON"
-    append CMAKE_FLAGS "-DTHRUST_ENABLE_MULTICONFIG=ON"
-    append CMAKE_FLAGS "-DTHRUST_IGNORE_DEPRECATED_CPP_11=ON"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_ENABLE_DIALECT_ALL=ON"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_ENABLE_SYSTEM_CPP=ON"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_ENABLE_SYSTEM_TBB=ON"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_ENABLE_SYSTEM_OMP=ON"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_ENABLE_SYSTEM_CUDA=ON"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_WORKLOAD=SMALL"
-    append CMAKE_FLAGS "-DTHRUST_INCLUDE_CUB_CMAKE=ON"
-    append CMAKE_FLAGS "-DTHRUST_AUTO_DETECT_COMPUTE_ARCHS=ON"
-    if [[ "${CXX_TYPE}" != "nvcxx" ]]; then
-      # NVC++ can currently only target one compute architecture at a time.
-      append CMAKE_FLAGS "-DTHRUST_ENABLE_COMPUTE_50=ON"
-      append CMAKE_FLAGS "-DTHRUST_ENABLE_COMPUTE_60=ON"
-      append CMAKE_FLAGS "-DTHRUST_ENABLE_COMPUTE_70=ON"
-    fi
-    append CMAKE_FLAGS "-DTHRUST_ENABLE_COMPUTE_80=ON"
-    ;;
-  Minimal)
-    append CMAKE_FLAGS "-DTHRUST_ENABLE_MULTICONFIG=ON"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_ENABLE_DIALECT_LATEST=ON"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_ENABLE_SYSTEM_CPP=ON"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_ENABLE_SYSTEM_TBB=OFF"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_ENABLE_SYSTEM_OMP=OFF"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_ENABLE_SYSTEM_CUDA=ON"
-    append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_WORKLOAD=SMALL"
-    append CMAKE_FLAGS "-DTHRUST_INCLUDE_CUB_CMAKE=ON"
-    append CMAKE_FLAGS "-DTHRUST_AUTO_DETECT_COMPUTE_ARCHS=ON"
-    if [[ "${BUILD_TYPE}" == "cpu" ]] && [[ "${CXX_TYPE}" == "nvcxx" ]]; then
-      # If no GPU is automatically detected, NVC++ insists that you explicitly
-      # provide an architecture.
-      # TODO: This logic should really be moved into CMake, but it will be
-      # tricky to do that until CMake officially supports NVC++.
-      append CMAKE_FLAGS "-DTHRUST_ENABLE_COMPUTE_80=ON"
-    fi
-    ;;
-esac
 
 if [[ -n "${@}" ]]; then
   append CMAKE_BUILD_FLAGS "${@}"
-fi
 
-append CTEST_FLAGS "--output-on-failure"
-
-CTEST_EXCLUSION_REGEXES=()
-
-if [[ "${BUILD_TYPE}" == "cpu" ]]; then
-  CTEST_EXCLUSION_REGEXES+=("^cub" "^thrust.*cuda")
-fi
-
-if [[ -n "${CTEST_EXCLUSION_REGEXES[@]}" ]]; then
-  CTEST_EXCLUSION_REGEX=$(join_delimit "|" "${CTEST_EXCLUSION_REGEXES[@]}")
-  append CTEST_FLAGS "-E ${CTEST_EXCLUSION_REGEX}"
-fi
-
-if [[ -n "${@}" ]]; then
   CTEST_INCLUSION_REGEX=$(join_delimit "|" "${@}")
   append CTEST_FLAGS "-R ^${CTEST_INCLUSION_REGEX[@]}$"
 fi
 
 # Export variables so they'll show up in the logs when we report the environment.
-export COVERAGE_PLAN
 export CMAKE_FLAGS
 export CMAKE_BUILD_FLAGS
 export CTEST_FLAGS
@@ -268,7 +196,7 @@ fi
 
 log "Configure Thrust and CUB..."
 
-echo_and_run_timed "Configure" cmake .. --log-level=VERBOSE ${CMAKE_FLAGS}
+echo_and_run_timed "Configure" cmake --log-level=VERBOSE ${CMAKE_FLAGS}
 configure_status=$?
 
 log "Build Thrust and CUB..."
@@ -276,7 +204,7 @@ log "Build Thrust and CUB..."
 # ${PARALLEL_LEVEL} needs to be passed after we run
 # determine_build_parallelism.bash, so it can't be part of ${CMAKE_BUILD_FLAGS}.
 set +e # Don't stop on build failures.
-echo_and_run_timed "Build" cmake --build . ${CMAKE_BUILD_FLAGS} -j ${PARALLEL_LEVEL}
+echo_and_run_timed "Build" cmake --build build/ ${CMAKE_BUILD_FLAGS} -j ${PARALLEL_LEVEL}
 build_status=$?
 set -e
 
@@ -286,13 +214,10 @@ set -e
 
 log "Test Thrust and CUB..."
 
-(
-  # Make sure test_status captures ctest, not tee:
-  # https://stackoverflow.com/a/999259/11130318
-  set -o pipefail
-  echo_and_run_timed "Test" ctest ${CTEST_FLAGS} | tee ctest_log
-)
+set +e # Don't stop on test failures.
+echo_and_run_timed "Test" ctest ${CTEST_FLAGS} -O build/ctest_log
 test_status=$?
+set -e
 
 ################################################################################
 # COMPILE TIME INFO: Print the 20 longest running build steps (ninja only)
@@ -300,7 +225,7 @@ test_status=$?
 
 if [[ -f ".ninja_log" ]]; then
   log "Checking slowest build steps:"
-  echo_and_run "CompileTimeInfo" cmake -P ../cmake/PrintNinjaBuildTimes.cmake | head -n 23
+  echo_and_run "CompileTimeInfo" cmake -P cmake/PrintNinjaBuildTimes.cmake | head -n 23
 fi
 
 ################################################################################
@@ -309,7 +234,7 @@ fi
 
 if [[ -f "ctest_log" ]]; then
   log "Checking slowest test steps:"
-  echo_and_run "TestTimeInfo" cmake -DLOGFILE=ctest_log -P ../cmake/PrintCTestRunTimes.cmake | head -n 20
+  echo_and_run "TestTimeInfo" cmake -DLOGFILE=build/ctest_log -P cmake/PrintCTestRunTimes.cmake | head -n 20
 fi
 
 ################################################################################
@@ -324,5 +249,6 @@ echo "- Test Error Code: ${test_status}"
 if [[ "${configure_status}" != "0" ]] || \
    [[ "${build_status}" != "0" ]] || \
    [[ "${test_status}" != "0" ]]; then
+     cd build # Enter build directory for debugging convenience
      exit 1
 fi

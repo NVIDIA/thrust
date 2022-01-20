@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-# Copyright (c) 2018-2020 NVIDIA Corporation
+# Copyright (c) 2018-2022 NVIDIA Corporation
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 # Released under the Apache License v2.0 with LLVM Exceptions.
 # See https://llvm.org/LICENSE.txt for license information.
@@ -125,6 +125,14 @@ do
 done
 
 ################################################################################
+# CMake Presets - Select CMake Presets based on Coverage Plan
+################################################################################
+
+COVERAGE_PLAN_LOWERCASE=`echo "${COVERAGE_PLAN}" | awk '{print tolower($0)}'`
+CMAKE_CONFIG_PRESET=${COVERAGE_PLAN_LOWERCASE}
+CMAKE_TEST_PRESET=${COVERAGE_PLAN_LOWERCASE}-${BUILD_TYPE}
+
+################################################################################
 # PATHS - Setup paths for the container.
 ################################################################################
 
@@ -215,9 +223,11 @@ docker run --rm -it ${GPU_OPTS} \
   -v /etc/shadow:/etc/shadow:ro \
   -v /etc/gshadow:/etc/gshadow:ro \
   -e "WORKSPACE=${REPOSITORY_PATH_IN_CONTAINER}" \
+  -e "BUILD_TRIGGER=local" \
   -e "BUILD_TYPE=${BUILD_TYPE}" \
   -e "CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}" \
-  -e "COVERAGE_PLAN=${COVERAGE_PLAN}" \
+  -e "CMAKE_CONFIG_PRESET=${CMAKE_CONFIG_PRESET}" \
+  -e "CMAKE_TEST_PRESET=${CMAKE_TEST_PRESET}" \
   -e "PARALLEL_LEVEL=${PARALLEL_LEVEL}" \
   -w "${BUILD_PATH_IN_CONTAINER}" \
   "${IMAGE}" bash -c "${COMMAND}"

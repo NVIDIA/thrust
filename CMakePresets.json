@@ -1,0 +1,330 @@
+{
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21,
+    "patch": 0
+  },
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "description": "Basic Thrust config for building tests, etc.",
+      "binaryDir": "build",
+      "cacheVariables": {
+        "THRUST_ENABLE_MULTICONFIG": true,
+        "THRUST_ENABLE_EXAMPLES": true,
+        "THRUST_ENABLE_TESTING": true
+      }
+    },
+    {
+      "name": "base-mc-dialect_all",
+      "inherits": "base",
+      "hidden": true,
+      "description": "Builds all supported C++ dialects.",
+      "cacheVariables": {
+        "THRUST_IGNORE_DEPRECATED_CPP_11": true,
+        "THRUST_MULTICONFIG_ENABLE_DIALECT_ALL": true
+      }
+    },
+    {
+      "name": "base-mc-dialect_latest",
+      "inherits": "base",
+      "hidden": true,
+      "description": "Builds only the most recent supported C++ dialect.",
+      "cacheVariables": {
+        "THRUST_MULTICONFIG_ENABLE_DIALECT_LATEST": true
+      }
+    },
+    {
+      "name": "base-mc-systems_none",
+      "inherits": "base",
+      "hidden": true,
+      "description": "Base multiconfig with no systems enabled.",
+      "cacheVariables": {
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_CPP": false,
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_TBB": false,
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_OMP": false,
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_CUDA": false
+      }
+    },
+    {
+      "name": "base-mc-systems_cppcuda",
+      "inherits": "base-mc-systems_none",
+      "hidden": true,
+      "description": "Just cpp.cuda configs.",
+      "cacheVariables": {
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_CPP": true,
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_OMP": false,
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_TBB": false,
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_CUDA": true,
+        "THRUST_MULTICONFIG_WORKLOAD": "SMALL",
+        "THRUST_ENABLE_BENCHMARKS": true,
+        "THRUST_INCLUDE_CUB_CMAKE": true,
+        "CUB_ENABLE_EXAMPLES": true,
+        "CUB_ENABLE_TESTING": true,
+        "CUB_ENABLE_HEADER_TESTING": true
+      }
+    },
+    {
+      "name": "base-mc-systems_allcuda",
+      "inherits": "base-mc-systems_none",
+      "hidden": true,
+      "description": "all [host].cuda configs.",
+      "cacheVariables": {
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_CPP": true,
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_OMP": true,
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_TBB": true,
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_CUDA": true,
+        "THRUST_MULTICONFIG_WORKLOAD": "SMALL",
+        "THRUST_ENABLE_BENCHMARKS": true,
+        "THRUST_INCLUDE_CUB_CMAKE": true,
+        "CUB_ENABLE_EXAMPLES": true,
+        "CUB_ENABLE_TESTING": true,
+        "CUB_ENABLE_HEADER_TESTING": true
+      }
+    },
+    {
+      "name": "base-mc-systems_nocuda",
+      "inherits": "base-mc-systems_none",
+      "hidden": true,
+      "description": "All non-cuda configs.",
+      "cacheVariables": {
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_CPP": true,
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_OMP": true,
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_TBB": true,
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_CUDA": false,
+        "THRUST_MULTICONFIG_WORKLOAD": "LARGE"
+      }
+    },
+    {
+      "name": "base-mc-systems_all",
+      "inherits": "base-mc-systems_none",
+      "hidden": true,
+      "description": "All meaningful [host].[device] system configs",
+      "cacheVariables": {
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_CPP": true,
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_OMP": true,
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_TBB": true,
+        "THRUST_MULTICONFIG_ENABLE_SYSTEM_CUDA": true,
+        "THRUST_MULTICONFIG_WORKLOAD": "LARGE",
+        "THRUST_ENABLE_BENCHMARKS": true,
+        "THRUST_INCLUDE_CUB_CMAKE": true,
+        "CUB_ENABLE_EXAMPLES": true,
+        "CUB_ENABLE_TESTING": true,
+        "CUB_ENABLE_HEADER_TESTING": true
+      }
+    },
+    {
+      "name": "base-cuda-arch_all",
+      "hidden": true,
+      "description": "Enables all CUDA architectures.",
+      "cacheVariables": {
+        "THRUST_DISABLE_ARCH_BY_DEFAULT": false
+      }
+    },
+    {
+      "name": "base-cuda-arch_native",
+      "hidden": true,
+      "description": "Enables all detected CUDA architectures on the current system.",
+      "cacheVariables": {
+        "THRUST_DISABLE_ARCH_BY_DEFAULT": true,
+        "THRUST_AUTO_DETECT_COMPUTE_ARCHS": true
+      }
+    },
+    {
+      "name": "base-cuda-arch_modern",
+      "hidden": true,
+      "description": "Enables all CUDA major modern architectures + native.",
+      "cacheVariables": {
+        "THRUST_DISABLE_ARCH_BY_DEFAULT": true,
+        "THRUST_AUTO_DETECT_COMPUTE_ARCHS": true,
+        "THRUST_ENABLE_COMPUTE_50": true,
+        "THRUST_ENABLE_COMPUTE_60": true,
+        "THRUST_ENABLE_COMPUTE_70": true,
+        "THRUST_ENABLE_COMPUTE_80": true
+      }
+    },
+    {
+      "name": "minimal",
+      "description": "ci/local/build.bash's 'Minimal' coverage plan.",
+      "inherits": [
+        "base-mc-dialect_latest",
+        "base-mc-systems_cppcuda",
+        "base-cuda-arch_native"
+      ]
+    },
+    {
+      "name": "thorough",
+      "description": "ci/local/build.bash's 'Thorough' coverage plan.",
+      "inherits": [
+        "base-mc-dialect_all",
+        "base-mc-systems_allcuda",
+        "base-cuda-arch_modern"
+      ]
+    },
+    {
+      "name": "exhaustive",
+      "description": "ci/local/build.bash's 'Exhaustive' coverage plan.",
+      "inherits": [
+        "base-mc-dialect_all",
+        "base-mc-systems_all",
+        "base-cuda-arch_all"
+      ]
+    },
+    {
+      "name": "gpuci-main-gpu-cuda",
+      "inherits": [
+        "base-mc-dialect_all",
+        "base-mc-systems_allcuda",
+        "base-cuda-arch_native"
+      ]
+    },
+    {
+      "name": "gpuci-main-gpu-nvhpc",
+      "inherits": [
+        "base-mc-dialect_all",
+        "base-mc-systems_cppcuda",
+        "base-cuda-arch_native"
+      ]
+    },
+    {
+      "name": "gpuci-main-cpu-nocuda",
+      "inherits": [
+        "base-mc-dialect_all",
+        "base-mc-systems_nocuda"
+      ]
+    },
+    {
+      "name": "gpuci-main-cpu-cuda",
+      "inherits": [
+        "base-mc-dialect_all",
+        "base-mc-systems_allcuda",
+        "base-cuda-arch_all"
+      ]
+    },
+    {
+      "name": "gpuci-prb-gpu-cuda",
+      "inherits": [
+        "base-mc-dialect_latest",
+        "base-mc-systems_cppcuda",
+        "base-cuda-arch_native"
+      ]
+    },
+    {
+      "name": "gpuci-prb-gpu-nvhpc",
+      "inherits": [
+        "base-mc-dialect_latest",
+        "base-mc-systems_cppcuda",
+        "base-cuda-arch_native"
+      ]
+    },
+    {
+      "name": "gpuci-prb-cpu-nocuda",
+      "inherits": [
+        "base-mc-dialect_all",
+        "base-mc-systems_nocuda"
+      ]
+    },
+    {
+      "name": "gpuci-prb-cpu-cuda",
+      "inherits": [
+        "base-mc-dialect_all",
+        "base-mc-systems_allcuda",
+        "base-cuda-arch_modern"
+      ]
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    },
+    {
+      "name": "base-nocuda",
+      "inherits": "base",
+      "hidden": true,
+      "filter": {
+        "exclude": {
+          "name": "^thrust\\.[^.]+\\.cuda\\.|^cub\\."
+        }
+      }
+    },
+    {
+      "name": "minimal-gpu",
+      "configurePreset": "minimal",
+      "inherits": "base"
+    },
+    {
+      "name": "thorough-gpu",
+      "configurePreset": "thorough",
+      "inherits": "base"
+    },
+    {
+      "name": "exhaustive-gpu",
+      "configurePreset": "exhaustive",
+      "inherits": "base"
+    },    {
+      "name": "minimal-cpu",
+      "configurePreset": "minimal",
+      "inherits": "base-nocuda"
+    },
+    {
+      "name": "thorough-cpu",
+      "configurePreset": "thorough",
+      "inherits": "base-nocuda"
+    },
+    {
+      "name": "exhaustive-cpu",
+      "configurePreset": "exhaustive",
+      "inherits": "base-nocuda"
+    },
+    {
+      "name": "gpuci-main-gpu-cuda",
+      "configurePreset": "gpuci-main-gpu-cuda",
+      "inherits": "base"
+    },
+    {
+      "name": "gpuci-main-gpu-nvhpc",
+      "configurePreset": "gpuci-main-gpu-nvhpc",
+      "inherits": "base"
+    },
+    {
+      "name": "gpuci-main-cpu-cuda",
+      "configurePreset": "gpuci-main-cpu-cuda",
+      "inherits": "base-nocuda"
+    },
+    {
+      "name": "gpuci-main-cpu-nocuda",
+      "configurePreset": "gpuci-main-cpu-nocuda",
+      "inherits": "base-nocuda"
+    },
+    {
+      "name": "gpuci-prb-gpu-cuda",
+      "configurePreset": "gpuci-prb-gpu-cuda",
+      "inherits": "base"
+    },
+    {
+      "name": "gpuci-prb-gpu-nvhpc",
+      "configurePreset": "gpuci-prb-gpu-nvhpc",
+      "inherits": "base"
+    },
+    {
+      "name": "gpuci-prb-cpu-nocuda",
+      "configurePreset": "gpuci-prb-cpu-nocuda",
+      "inherits": "base-nocuda"
+    },
+    {
+      "name": "gpuci-prb-cpu-cuda",
+      "configurePreset": "gpuci-prb-cpu-cuda",
+      "inherits": "base-nocuda"
+    }
+  ]
+}

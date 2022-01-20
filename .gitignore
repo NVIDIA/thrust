@@ -4,3 +4,5 @@ doc/html
 discrete_voronoi.pgm
 *build*/
 .idea/
+.nv/
+
