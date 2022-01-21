@@ -94,6 +94,7 @@ function(thrust_add_test target_name_var test_name test_src thrust_target)
     "-DTHRUST_SOURCE=${Thrust_SOURCE_DIR}"
     -P "${Thrust_SOURCE_DIR}/cmake/ThrustRunTest.cmake"
   )
+  thrust_add_test_labels(${test_target})
 
   # Run OMP/TBB tests in serial. Multiple OMP processes will massively
   # oversubscribe the machine with GCC's OMP, and we want to test these with

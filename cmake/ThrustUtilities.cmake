@@ -23,3 +23,38 @@ function(thrust_enable_rdc_for_cuda_target target_name)
     )
   endif()
 endfunction()
+
+# Add a set of descriptive labels to a test. CTest will use these to print a
+# summary of time spent running each label's tests.
+#
+# This assumes that there's an executable target with the same name as the
+# test, and that the executable target has been configured with either
+# thrust_set_target_properties or thrust_clone_target_properties.
+#
+# Labels added are:
+# - "thrust"
+# - host system
+# - device system
+# - C++ dialect
+# - thrust.dialect
+# - host.device
+# - host.device.dialect
+function(thrust_add_test_labels test_name)
+  thrust_get_target_property(config_host ${test_name} HOST)
+  thrust_get_target_property(config_device ${test_name} DEVICE)
+  thrust_get_target_property(config_dialect ${test_name} DIALECT)
+
+  string(TOLOWER "${config_host}" config_host)
+  string(TOLOWER "${config_device}" config_device)
+  set(config_dialect "cpp${config_dialect}")
+  set(test_labels
+    thrust
+    ${config_host}
+    ${config_device}
+    ${config_dialect}
+    thrust.${config_dialect}
+    ${config_host}.${config_device}
+    ${config_host}.${config_device}.${config_dialect}
+  )
+  set_tests_properties(${test_name} PROPERTIES LABELS "${test_labels}")
+endfunction()
