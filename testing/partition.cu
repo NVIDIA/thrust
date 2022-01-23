@@ -21,6 +21,17 @@ void TestPartitionSimple(void)
     typedef typename Vector::value_type T;
     typedef typename Vector::iterator   Iterator;
 
+    // GCC 11.1.0 miscompiles and segfaults for certain versions of this test.
+    // It's not reproducible on other compilers, and the test passes when
+    // optimizations are disabled. It only affects 32-bit value types, and
+    // impacts all CPU host/device combinations tested.
+#if defined(THRUST_GCC_VERSION) && THRUST_GCC_VERSION == 110100
+    if (sizeof(T) == 4)
+    {
+      return;
+    }
+#endif
+
     Vector data(5);
     data[0] = 1; 
     data[1] = 2; 
@@ -321,6 +332,17 @@ struct TestPartitionStencil
 {
     void operator()(const size_t n)
     {
+        // GCC 11.1.0 miscompiles and segfaults for certain versions of this test.
+        // It's not reproducible on other compilers, and the test passes when
+        // optimizations are disabled. It only affects 32-bit value types, and
+        // impacts all CPU host/device combinations tested.
+        #if defined(THRUST_GCC_VERSION) && THRUST_GCC_VERSION == 110100
+        if (n == 0 && sizeof(T) == 4)
+        {
+          return;
+        }
+        #endif
+
         // setup ranges
         thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
         thrust::host_vector<T>   h_stencil = unittest::random_integers<T>(n);
@@ -689,6 +711,17 @@ struct TestStablePartition
 {
     void operator()(const size_t n)
     {
+        // GCC 11.1.0 miscompiles and segfaults for certain versions of this test.
+        // It's not reproducible on other compilers, and the test passes when
+        // optimizations are disabled. It only affects 32-bit value types, and
+        // impacts all CPU host/device combinations tested.
+        #if defined(THRUST_GCC_VERSION) && THRUST_GCC_VERSION == 110100
+        if (n == 0 && sizeof(T) == 4)
+        {
+          return;
+        }
+        #endif
+
         // setup ranges
         thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
         thrust::device_vector<T> d_data = h_data;
@@ -708,6 +741,17 @@ struct TestStablePartitionStencil
 {
     void operator()(const size_t n)
     {
+        // GCC 11.1.0 miscompiles and segfaults for certain versions of this test.
+        // It's not reproducible on other compilers, and the test passes when
+        // optimizations are disabled. It only affects 32-bit value types, and
+        // impacts all CPU host/device combinations tested.
+        #if defined(THRUST_GCC_VERSION) && THRUST_GCC_VERSION == 110100
+        if (n == 0 && sizeof(T) == 4)
+        {
+          return;
+        }
+        #endif
+
         // setup ranges
         thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
         thrust::host_vector<T>   h_stencil = unittest::random_integers<T>(n);
