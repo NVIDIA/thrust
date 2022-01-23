@@ -74,7 +74,7 @@ class feistel_bijection {
 
  private:
    // Perform 64 bit multiplication and save result in two 32 bit int
-   constexpr static __host__ __device__ void mulhilo( std::uint64_t a, std::uint64_t b, std::uint32_t& hi, std::uint32_t& lo )
+   static __host__ __device__ void mulhilo( std::uint64_t a, std::uint64_t b, std::uint32_t& hi, std::uint32_t& lo )
    {
        std::uint64_t product = a * b;
        hi = static_cast<std::uint32_t>( product >> 32 );
@@ -82,7 +82,7 @@ class feistel_bijection {
    }
 
   // Find the nearest power of two
-  constexpr static __host__ __device__ std::uint64_t get_cipher_bits(std::uint64_t m) {
+  static __host__ __device__ std::uint64_t get_cipher_bits(std::uint64_t m) {
     if (m <= 16) return 4;
     std::uint64_t i = 0;
     m--;
