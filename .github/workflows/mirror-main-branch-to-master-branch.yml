@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - "main"
+      - main
 
 jobs:
   mirror-main-branch-to-master-branch:
@@ -12,6 +12,6 @@ jobs:
       id: mirror
       uses: google/mirror-branch-action@v1.0
       with:
-        source: "main"
-        dest: "master"
+        source: main
+        dest: master
         github-token: ${{ secrets.GITHUB_TOKEN }}
