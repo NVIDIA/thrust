@@ -9,7 +9,7 @@
 # Thrust and CUB build script for gpuCI
 ################################################################################
 
-set -e
+set -e # Stop on errors.
 
 # append variable value
 # Appends ${value} to ${variable}, adding a space before ${value} if
@@ -65,7 +65,9 @@ function join_delimit {
 ################################################################################
 
 # Get the variables the Docker container set up for us: ${CXX}, ${CUDACXX}, etc.
+set +e # Don't stop on errors from /etc/cccl.bashrc.
 source /etc/cccl.bashrc
+set -e # Stop on errors.
 
 # Set path.
 export PATH=/usr/local/cuda/bin:${PATH}
