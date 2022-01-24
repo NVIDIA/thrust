@@ -16,7 +16,7 @@ jobs:
         run: ./docs/generate_markdown.bash --clean
       - name: Deploy generated documentation markdown to gh-pages branch
         uses: peaceiris/actions-gh-pages@v3
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feature/new-docs'
+        if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build_docs/github_pages
