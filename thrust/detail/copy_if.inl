@@ -14,8 +14,6 @@
  *  limitations under the License.
  */
 
-#pragma once
-
 #include <thrust/detail/config.h>
 #include <thrust/detail/copy_if.h>
 #include <thrust/iterator/iterator_traits.h>

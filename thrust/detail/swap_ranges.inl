@@ -14,7 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file swap_ranges.inl
+ *  \brief Inline file for swap_ranges.h.
+ */
 
 #include <thrust/detail/config.h>
 

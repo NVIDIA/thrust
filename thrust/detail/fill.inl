@@ -14,7 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file fill.inl
+ *  \brief Inline file for fill.h.
+ */
 
 #include <thrust/detail/config.h>
 

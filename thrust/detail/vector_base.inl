@@ -14,7 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file vector_base.inl
+ *  \brief Inline file for vector_base.h.
+ */
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/vector_base.h>

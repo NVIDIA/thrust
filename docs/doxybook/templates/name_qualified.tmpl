@@ -1,7 +1,0 @@
-{%- if exists("qualifiedname") -%}
-  {{- escape(qualifiedname) -}}
-{%- else if exists("name") -%}
-  {{- escape(name) -}}
-{%- else -%}
-  {{- escape(title) -}}
-{%- endif -%}

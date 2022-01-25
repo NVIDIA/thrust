@@ -1,24 +1,14 @@
-/*
- *  Copyright 2008-2021 NVIDIA Corporation
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+///////////////////////////////////////////////////////////////////////////////
+//  Copyright (c)      2018 NVIDIA Corporation
+//
+//  Distributed under the Boost Software License, Version 1.0. (See accompanying
+//  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+///////////////////////////////////////////////////////////////////////////////
 
-/*! \file
- *  \brief <a href="https://wg21.link/P1144">P1144</a>'s proposed
- *  \c std::is_trivially_relocatable, an extensible type trait indicating
- *  whether a type can be bitwise copied with a facility like
- *  <a href="https://en.cppreference.com/w/cpp/string/byte/memcpy"><tt>std::memcpy</tt></a>.
+/*! \file is_trivially_relocatable.h
+ *  \brief <a href="https://wg21.link/P1144R0">P1144R0</a>'s
+ *         \c is_trivially_relocatable, an extensible type trait indicating
+ *         whether a type can be bitwise copied (e.g. via \c memcpy).
  */
 
 #pragma once
@@ -34,17 +24,6 @@
 
 THRUST_NAMESPACE_BEGIN
 
-/*! \addtogroup utility
- *  \{
- */
-
-/*! \addtogroup type_traits Type Traits
- *  \{
- */
-
-/*! \cond
- */
-
 namespace detail
 {
 
@@ -53,22 +32,9 @@ struct is_trivially_relocatable_impl;
 
 } // namespace detail
 
-/*! \endcond
- */
-
-/*! \brief <a href="https://en.cppreference.com/w/cpp/named_req/UnaryTypeTrait"><i>UnaryTypeTrait</i></a>
- *  that returns \c true_type if \c T is
- *  <a href="https://wg21.link/P1144"><i>TriviallyRelocatable</i></a>,
- *  aka can be bitwise copied with a facility like
- *  <a href="https://en.cppreference.com/w/cpp/string/byte/memcpy"><tt>std::memcpy</tt></a>,
- *  and \c false_type otherwise.
- *
- * \see is_trivially_relocatable_v
- * \see is_trivially_relocatable_to
- * \see is_indirectly_trivially_relocatable_to
- * \see proclaim_trivially_relocatable
- * \see THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE
- */
+/// Unary metafunction returns \c true_type if \c T is \a TriviallyRelocatable, 
+/// e.g. can be bitwise copied (with a facility like \c memcpy), and
+/// \c false_type otherwise.
 template <typename T>
 #if THRUST_CPP_DIALECT >= 2011
 using is_trivially_relocatable =
@@ -82,35 +48,16 @@ struct is_trivially_relocatable :
 ;
 
 #if THRUST_CPP_DIALECT >= 2014
-/*! \brief <tt>constexpr bool</tt> that is \c true if \c T is
- *  <a href="https://wg21.link/P1144"><i>TriviallyRelocatable</i></a>,
- *  aka can be bitwise copied with a facility like
- *  <a href="https://en.cppreference.com/w/cpp/string/byte/memcpy"><tt>std::memcpy</tt></a>,
- *  and \c false otherwise.
- *
- * \see is_trivially_relocatable
- * \see is_trivially_relocatable_to
- * \see is_indirectly_trivially_relocatable_to
- * \see proclaim_trivially_relocatable
- * \see THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE
- */
+/// <code>constexpr bool</code> that is \c true if \c T is
+/// \a TriviallyRelocatable e.g. can be copied bitwise (with a facility like
+/// \c memcpy), and \c false otherwise.
 template <typename T>
 constexpr bool is_trivially_relocatable_v = is_trivially_relocatable<T>::value;
 #endif
 
-/*! \brief <a href="https://en.cppreference.com/w/cpp/named_req/BinaryTypeTrait"><i>BinaryTypeTrait</i></a>
- *  that returns \c true_type if \c From is
- *  <a href="https://wg21.link/P1144"><i>TriviallyRelocatable</i></a>,
- *  to \c To, aka can be bitwise copied with a facility like
- *  <a href="https://en.cppreference.com/w/cpp/string/byte/memcpy"><tt>std::memcpy</tt></a>,
- *  and \c false_type otherwise.
- *
- * \see is_trivially_relocatable_to_v
- * \see is_trivially_relocatable
- * \see is_indirectly_trivially_relocatable_to
- * \see proclaim_trivially_relocatable
- * \see THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE
- */
+/// Unary metafunction returns \c true_type if \c From is \a TriviallyRelocatable
+/// to \c To, e.g. can be bitwise copied (with a facility like \c memcpy), and
+/// \c false_type otherwise.
 template <typename From, typename To>
 #if THRUST_CPP_DIALECT >= 2011
 using is_trivially_relocatable_to =
@@ -127,37 +74,17 @@ struct is_trivially_relocatable_to :
 ;
 
 #if THRUST_CPP_DIALECT >= 2014
-/*! \brief <tt>constexpr bool</tt> that is \c true if \c From is
- *  <a href="https://wg21.link/P1144"><i>TriviallyRelocatable</i></a>,
- *  to \c To, aka can be bitwise copied with a facility like
- *  <a href="https://en.cppreference.com/w/cpp/string/byte/memcpy"><tt>std::memcpy</tt></a>,
- *  and \c false otherwise.
- *
- * \see is_trivially_relocatable_to
- * \see is_trivially_relocatable
- * \see is_indirectly_trivially_relocatable_to
- * \see proclaim_trivially_relocatable
- * \see THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE
- */
+/// <code>constexpr bool</code> that is \c true if \c From is 
+/// \a TriviallyRelocatable to \c To, e.g. can be copied bitwise (with a
+/// facility like \c memcpy), and \c false otherwise.
 template <typename From, typename To>
 constexpr bool is_trivially_relocatable_to_v
   = is_trivially_relocatable_to<From, To>::value;
 #endif
 
-/*! \brief <a href="https://en.cppreference.com/w/cpp/named_req/BinaryTypeTrait"><i>BinaryTypeTrait</i></a>
- *  that returns \c true_type if the element type of \c FromIterator is
- *  <a href="https://wg21.link/P1144"><i>TriviallyRelocatable</i></a>,
- *  to the element type of \c ToIterator, aka can be bitwise copied with a
- *  facility like
- *  <a href="https://en.cppreference.com/w/cpp/string/byte/memcpy"><tt>std::memcpy</tt></a>,
- *  and \c false_type otherwise.
- *
- * \see is_indirectly_trivially_relocatable_to_v
- * \see is_trivially_relocatable
- * \see is_trivially_relocatable_to
- * \see proclaim_trivially_relocatable
- * \see THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE
- */
+/// Unary metafunction that returns \c true_type if the element type of
+/// \c FromIterator is \a TriviallyRelocatable to the element type of
+/// \c ToIterator, and \c false_type otherwise.
 template <typename FromIterator, typename ToIterator>
 #if THRUST_CPP_DIALECT >= 2011
 using is_indirectly_trivially_relocatable_to =
@@ -179,50 +106,22 @@ struct is_indirectly_trivially_relocatable_to :
 ;
 
 #if THRUST_CPP_DIALECT >= 2014
-/*! \brief <tt>constexpr bool</tt> that is \c true if the element type of
- *  \c FromIterator is
- *  <a href="https://wg21.link/P1144"><i>TriviallyRelocatable</i></a>,
- *  to the element type of \c ToIterator, aka can be bitwise copied with a
- *  facility like
- *  <a href="https://en.cppreference.com/w/cpp/string/byte/memcpy"><tt>std::memcpy</tt></a>,
- *  and \c false otherwise.
- *
- * \see is_indirectly_trivially_relocatable_to
- * \see is_trivially_relocatable
- * \see is_trivially_relocatable_to
- * \see proclaim_trivially_relocatable
- * \see THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE
- */
+/// <code>constexpr bool</code> that is \c true if the element type of
+/// \c FromIterator is \a TriviallyRelocatable to the element type of
+/// \c ToIterator, and \c false otherwise.
 template <typename FromIterator, typename ToIterator>
-constexpr bool is_indirectly_trivially_relocate_to_v
+constexpr bool is_trivial_relocatable_sequence_copy_v
   = is_indirectly_trivially_relocatable_to<FromIterator, ToIterator>::value;
 #endif
 
-/*! \brief <a href="http://eel.is/c++draft/namespace.std#def:customization_point"><i>customization point</i></a>
- *  that can be specialized customized to indicate that a type \c T is
- *  <a href="https://wg21.link/P1144"><i>TriviallyRelocatable</i></a>,
- *  aka it can be bitwise copied with a facility like
- *  <a href="https://en.cppreference.com/w/cpp/string/byte/memcpy"><tt>std::memcpy</tt></a>.
- *
- * \see is_indirectly_trivially_relocatable_to
- * \see is_trivially_relocatable
- * \see is_trivially_relocatable_to
- * \see THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE
- */
+/// Customization point that can be customized to indicate that a type \c T is
+/// \a TriviallyRelocatable, e.g. can be copied bitwise (with a facility like
+/// \c memcpy).
 template <typename T>
 struct proclaim_trivially_relocatable : false_type {};
 
-/*! \brief Declares that the type \c T is
- *  <a href="https://wg21.link/P1144"><i>TriviallyRelocatable</i></a>,
- *  aka it can be bitwise copied with a facility like
- *  <a href="https://en.cppreference.com/w/cpp/string/byte/memcpy"><tt>std::memcpy</tt></a>,
- *  by specializing \c proclaim_trivially_relocatable.
- *
- * \see is_indirectly_trivially_relocatable_to
- * \see is_trivially_relocatable
- * \see is_trivially_relocatable_to
- * \see proclaim_trivially_relocatable
- */
+/// Declares that the type \c T is \a TriviallyRelocatable by specializing
+/// `thrust::proclaim_trivially_relocatable`.
 #define THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(T)                              \
   THRUST_NAMESPACE_BEGIN                                                      \
   template <>                                                                 \
@@ -232,9 +131,6 @@ struct proclaim_trivially_relocatable : false_type {};
   /**/
 
 ///////////////////////////////////////////////////////////////////////////////
-
-/*! \cond
- */
 
 namespace detail
 {
@@ -352,15 +248,4 @@ THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(double2)
 THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(double3)
 THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(double4)
 #endif
-
-/*! \endcond
- */
-
-///////////////////////////////////////////////////////////////////////////////
-
-/*! \} // type traits
- */
-
-/*! \} // utility
- */
 

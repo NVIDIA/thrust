@@ -46,7 +46,7 @@ namespace detail
 //! \endcond
 
 /*! \addtogroup memory_resources Memory Resources
- *  \ingroup memory_management
+ *  \ingroup memory_management_classes
  *  \{
  */
 

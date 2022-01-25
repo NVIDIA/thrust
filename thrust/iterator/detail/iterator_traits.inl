@@ -14,7 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file iterator_traits.inl
+ *  \brief Inline file for iterator_traits.h.
+ */
 
 #include <thrust/detail/config.h>
 
@@ -77,7 +80,7 @@ struct iterator_system_impl<
   : detail::iterator_category_to_system<
       typename iterator_traits<Iterator>::iterator_category
     >
-{};
+{}; 
 
 } // namespace detail
 

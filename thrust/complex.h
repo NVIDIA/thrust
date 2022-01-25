@@ -62,12 +62,9 @@ THRUST_NAMESPACE_BEGIN
  *  \{
  */
 
-/*! \cond
- */
-
 namespace detail
 {
-
+  
 template <typename T, std::size_t Align>
 struct complex_storage;
 
@@ -84,9 +81,9 @@ struct complex_storage;
     || (   (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC)                 \
         && (THRUST_GCC_VERSION < 40600))
   // C++03 implementation for MSVC and GCC <= 4.5.
-  //
+  // 
   // We have to implement `aligned_type` with specializations for MSVC
-  // and GCC 4.2 and older because they require literals as arguments to
+  // and GCC 4.2 and older because they require literals as arguments to 
   // their alignment attribute.
 
   #if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC)
@@ -117,7 +114,7 @@ struct complex_storage;
   {
     T x; T y;
   };
-
+  
   THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(1);
   THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(2);
   THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(4);
@@ -139,17 +136,14 @@ struct complex_storage;
 
 } // end namespace detail
 
-/*! \endcond
- */
-
-/*! \p complex is the Thrust equivalent to <tt>std::complex</tt>. It is
- *  functionally identical to it, but can also be used in device code which
- *  <tt>std::complex</tt> currently cannot.
- *
- *  \tparam T The type used to hold the real and imaginary parts. Should be
- *  <tt>float</tt> or <tt>double</tt>. Others types are not supported.
- *
- */
+  /*! \p complex is the Thrust equivalent to <tt>std::complex</tt>. It is
+   *  functionally identical to it, but can also be used in device code which
+   *  <tt>std::complex</tt> currently cannot.
+   *
+   *  \tparam T The type used to hold the real and imaginary parts. Should be
+   *  <tt>float</tt> or <tt>double</tt>. Others types are not supported.
+   *
+   */
 template <typename T>
 struct complex
 {

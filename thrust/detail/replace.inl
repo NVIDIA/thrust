@@ -14,7 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file replace.inl
+ *  \brief Inline file for replace.h.
+ */
 
 #include <thrust/detail/config.h>
 #include <thrust/replace.h>

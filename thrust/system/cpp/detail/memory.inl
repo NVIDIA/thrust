@@ -14,8 +14,6 @@
  *  limitations under the License.
  */
 
-#pragma once
-
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/memory.h>
 #include <thrust/system/cpp/detail/malloc_and_free.h>

@@ -14,7 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file scan.inl
+ *  \brief Inline file for scan.h.
+ */
 
 #include <thrust/detail/config.h>
 #include <thrust/scan.h>
@@ -40,7 +43,7 @@ __host__ __device__
 {
   using thrust::system::detail::generic::inclusive_scan;
   return inclusive_scan(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, result);
-} // end inclusive_scan()
+} // end inclusive_scan() 
 
 
 __thrust_exec_check_disable__

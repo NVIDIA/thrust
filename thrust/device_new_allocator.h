@@ -14,8 +14,9 @@
  *  limitations under the License.
  */
 
-/*! \file 
- *  \brief An allocator which allocates storage with \p device_new.
+
+/*! \file device_new_allocator.h
+ *  \brief An allocator which allocates storage with \p device_new
  */
 
 #pragma once
@@ -30,7 +31,7 @@
 
 THRUST_NAMESPACE_BEGIN
 
-/*! \addtogroup allocators Allocators
+/*! \addtogroup memory_management_classes Memory Management Classes
  *  \ingroup memory_management
  *  \{
  */
@@ -163,7 +164,7 @@ template<typename T>
     inline bool operator!=(device_new_allocator const &a) {return !operator==(a); }
 }; // end device_new_allocator
 
-/*! \} // allocators
+/*! \}
  */
 
 THRUST_NAMESPACE_END

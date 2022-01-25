@@ -14,7 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file partition.inl
+ *  \brief Inline file for partition.h.
+ */
 
 #include <thrust/detail/config.h>
 #include <thrust/partition.h>

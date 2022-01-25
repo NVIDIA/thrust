@@ -14,8 +14,6 @@
  *  limitations under the License.
  */
 
-#pragma once
-
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/system/tbb/memory.h>

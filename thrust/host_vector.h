@@ -198,9 +198,7 @@ template<typename T, typename Alloc = std::allocator<T> >
     host_vector &operator=(const std::vector<OtherT,OtherAlloc> &v)
     { Parent::operator=(v); return *this;}
 
-    /*! Copy construct from a \p vector_base whose element type is convertible
-     *  to \c T.
-     *
+    /*! Copy construct from a \p vector_base of related type..
      *  \param v The \p vector_base to copy.
      */
     template<typename OtherT, typename OtherAlloc>
@@ -208,8 +206,7 @@ template<typename T, typename Alloc = std::allocator<T> >
     host_vector(const detail::vector_base<OtherT,OtherAlloc> &v)
       :Parent(v) {}
 
-    /*! Assign a \p vector_base whose element type is convertible to \c T.
-     *
+    /*! Assign a \p vector_base of related type.
      *  \param v The \p vector_base to copy.
      */
     template<typename OtherT, typename OtherAlloc>

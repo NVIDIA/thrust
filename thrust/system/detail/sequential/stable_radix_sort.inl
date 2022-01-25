@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2021 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,9 +14,9 @@
  *  limitations under the License.
  */
 
-#pragma once
-
 #include <thrust/detail/config.h>
+
+#include <limits>
 
 #include <thrust/copy.h>
 #include <thrust/functional.h>
@@ -26,8 +26,6 @@
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/cstdint.h>
 #include <thrust/scatter.h>
-
-#include <limits>
 
 THRUST_NAMESPACE_BEGIN
 namespace system
@@ -244,9 +242,9 @@ void radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
 
   const unsigned int NumHistograms = (8 * sizeof(EncodedType) + (RadixBits - 1)) / RadixBits;
   const unsigned int HistogramSize =  1 << RadixBits;
-
+  
   const EncodedType BitMask = static_cast<EncodedType>((1 << RadixBits) - 1);
-
+  
   Encoder encode;
 
   // storage for histograms
@@ -254,10 +252,10 @@ void radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
 
   // see which passes can be eliminated
   bool skip_shuffle[NumHistograms] = {false};
-
+  
   // false if most recent data is stored in (keys1,vals1)
   bool flip = false;
-
+    
   // compute histograms
   for(size_t i = 0; i < N; i++)
   {
@@ -288,7 +286,7 @@ void radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
     }
   }
 
-  // shuffle keys and (optionally) values
+  // shuffle keys and (optionally) values 
   for(unsigned int i = 0; i < NumHistograms; i++)
   {
     const EncodedType BitShift = static_cast<EncodedType>(RadixBits * i);
@@ -317,11 +315,11 @@ void radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
           radix_shuffle_n<RadixBits>(exec, keys1, N, keys2, BitShift, histograms[i]);
         }
       }
-
+        
       flip = (flip) ? false : true;
     }
   }
-
+ 
   // ensure final values are in (keys1,vals1)
   if(flip)
   {
@@ -562,9 +560,9 @@ void stable_radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
   typedef typename thrust::iterator_value<RandomAccessIterator>::type KeyType;
 
   size_t N = last - first;
-
+  
   thrust::detail::temporary_array<KeyType, DerivedPolicy> temp(exec, N);
-
+  
   radix_sort_detail::radix_sort(exec, first, temp.begin(), N);
 }
 
@@ -582,7 +580,7 @@ void stable_radix_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type ValueType;
 
   size_t N = last1 - first1;
-
+  
   thrust::detail::temporary_array<KeyType, DerivedPolicy>   temp1(exec, N);
   thrust::detail::temporary_array<ValueType, DerivedPolicy> temp2(exec, N);
 

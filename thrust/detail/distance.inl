@@ -14,7 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file distance.inl
+ *  \brief Inline file for distance.h
+ */
 
 #include <thrust/advance.h>
 #include <thrust/detail/config.h>

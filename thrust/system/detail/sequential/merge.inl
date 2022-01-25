@@ -14,8 +14,6 @@
  *  limitations under the License.
  */
 
-#pragma once
-
 #include <thrust/detail/config.h>
 #include <thrust/system/detail/sequential/merge.h>
 #include <thrust/detail/copy.h>

@@ -14,8 +14,6 @@
  *  limitations under the License.
  */
 
-#pragma once
-
 #include <thrust/detail/config.h>
 #include <thrust/tabulate.h>
 #include <thrust/iterator/iterator_traits.h>

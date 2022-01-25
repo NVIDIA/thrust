@@ -14,7 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file device_malloc.inl
+ *  \brief Inline file for device_malloc.h.
+ */
 
 #include <thrust/detail/config.h>
 #include <thrust/device_malloc.h>

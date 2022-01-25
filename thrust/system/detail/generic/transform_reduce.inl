@@ -14,8 +14,6 @@
  *  limitations under the License.
  */
 
-#pragma once
-
 #include <thrust/detail/config.h>
 #include <thrust/system/detail/generic/transform_reduce.h>
 #include <thrust/reduce.h>
@@ -31,8 +29,8 @@ namespace generic
 
 
 template<typename DerivedPolicy,
-         typename InputIterator,
-         typename UnaryFunction,
+         typename InputIterator, 
+         typename UnaryFunction, 
          typename OutputType,
          typename BinaryFunction>
 __host__ __device__

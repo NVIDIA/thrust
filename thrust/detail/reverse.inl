@@ -14,7 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file reverse.inl
+ *  \brief Inline file for reverse.h.
+ */
 
 #include <thrust/detail/config.h>
 #include <thrust/reverse.h>

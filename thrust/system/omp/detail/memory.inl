@@ -14,13 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
-
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/system/omp/memory.h>
 #include <thrust/system/cpp/memory.h>
-
 #include <limits>
 
 THRUST_NAMESPACE_BEGIN

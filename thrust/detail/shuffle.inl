@@ -14,7 +14,9 @@
  *  limitations under the License.
  */
 
-#pragma once
+/*! \file shuffle.inl
+ *  \brief Inline file for shuffle.h.
+ */
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/cpp11_required.h>
