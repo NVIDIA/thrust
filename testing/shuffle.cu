@@ -1,6 +1,5 @@
 #include <thrust/detail/config.h>
 
-#if THRUST_CPP_DIALECT >= 2011
 #include <map>
 #include <limits>
 #include <thrust/random.h>
@@ -383,7 +382,7 @@ void TestFunctionIsBijection(size_t m) {
   thrust::system::detail::generic::feistel_bijection host_f(m, host_g);
   thrust::system::detail::generic::feistel_bijection device_f(m, device_g);
 
-  if (host_f.nearest_power_of_two() >= std::numeric_limits<T>::max() || m == 0) {
+  if (static_cast<double>(host_f.nearest_power_of_two()) >= static_cast<double>(std::numeric_limits<T>::max()) || m == 0) {
     return;
   }
 
@@ -410,17 +409,17 @@ DECLARE_VARIABLE_UNITTEST(TestFunctionIsBijection);
 void TestBijectionLength() {
   thrust::default_random_engine g(0xD5);
 
-  uint64_t m = 3;
+  uint64_t m = 31;
   thrust::system::detail::generic::feistel_bijection f(m, g);
-  ASSERT_EQUAL(f.nearest_power_of_two(), uint64_t(4));
+  ASSERT_EQUAL(f.nearest_power_of_two(), uint64_t(32));
 
-  m = 2;
+  m = 32;
   f = thrust::system::detail::generic::feistel_bijection(m, g);
-  ASSERT_EQUAL(f.nearest_power_of_two(), uint64_t(2));
+  ASSERT_EQUAL(f.nearest_power_of_two(), uint64_t(32));
 
-  m = 0;
+  m = 1;
   f = thrust::system::detail::generic::feistel_bijection(m, g);
-  ASSERT_EQUAL(f.nearest_power_of_two(), uint64_t(1));
+  ASSERT_EQUAL(f.nearest_power_of_two(), uint64_t(16));
 }
 DECLARE_UNITTEST(TestBijectionLength);
 
@@ -515,7 +514,7 @@ void TestShuffleEvenSpacingBetweenOccurances() {
   thrust::host_vector<T> h_results;
   Vector sequence(shuffle_size);
   thrust::sequence(sequence.begin(), sequence.end(), 0);
-  thrust::default_random_engine g(0xD5);
+  thrust::default_random_engine g(0xD6);
   for (auto i = 0ull; i < num_samples; i++) {
     thrust::shuffle(sequence.begin(), sequence.end(), g);
     thrust::host_vector<T> tmp(sequence.begin(), sequence.end());
@@ -561,7 +560,7 @@ void TestShuffleEvenDistribution() {
   const uint64_t shuffle_sizes[] = {10, 100, 500};
   thrust::default_random_engine g(0xD5);
   for (auto shuffle_size : shuffle_sizes) {
-    if(shuffle_size > std::numeric_limits<T>::max())
+    if(shuffle_size > (uint64_t)std::numeric_limits<T>::max())
       continue;
     const uint64_t num_samples = shuffle_size == 500 ? 1000 : 200;
 
@@ -601,4 +600,3 @@ void TestShuffleEvenDistribution() {
   }
 }
 DECLARE_INTEGRAL_VECTOR_UNITTEST(TestShuffleEvenDistribution);
-#endif
