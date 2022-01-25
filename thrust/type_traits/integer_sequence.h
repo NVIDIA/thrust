@@ -98,7 +98,7 @@ template <std::size_t... Is>
 using index_sequence = integer_sequence<std::size_t, Is...>;
 #endif
 
-#if THRUST_CPP_DIALECT >= 2014
+#if THRUST_CPP_DIALECT < 2014
 /*! \cond
  */
 
