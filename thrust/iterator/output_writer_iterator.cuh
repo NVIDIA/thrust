@@ -19,7 +19,7 @@
 
 #include <thrust/iterator/iterator_adaptor.h>
 
-namespace thrust {
+THRUST_NAMESPACE_BEGIN
 namespace detail {
 
 // Proxy reference that calls BinaryFunction with Iterator value and the rhs of assignment operator
@@ -80,13 +80,13 @@ struct is_proxy_reference<output_writer_iterator_proxy<BinaryFunction, Iterator>
  *   }
  * };
  *
- * thrust::device_vector<int> v(1, 0x0000);
+ * thrust::device_vector<int> v(1, 0x00000000);
  * auto result_begin = thrust::make_output_writer_iterator(thrust::make_counting_iterator(0),
  *                                                 set_bits_field{v.data().get()});
  * auto value = thrust::make_transform_iterator(thrust::make_counting_iterator(0),
  *   [] __device__ (int x) {   return x%2; });
  * thrust::copy(thrust::device, value, value+32, result_begin);
- * int(v[0]); // returns 0xaaaaaaaa;
+ * assert(v[0] == 0xaaaaaaaa);
  * @endcode
  *
  *
@@ -137,4 +137,4 @@ make_output_writer_iterator(Iterator out, BinaryFunction fun)
 {
   return output_writer_iterator<BinaryFunction, Iterator>(out, fun);
 }  // end make_output_writer_iterator
-}  // namespace thrust
+THRUST_NAMESPACE_END
