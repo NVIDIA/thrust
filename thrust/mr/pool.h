@@ -14,10 +14,9 @@
  *  limitations under the License.
  */
 
-/*! \file 
- *  \brief A caching and pooling memory resource adaptor which uses a single
- *  upstream resource for memory allocation, and embeds bookkeeping information
- *  in allocated blocks.
+/*! \file pool.h
+ *  \brief A caching and pooling memory resource adaptor which uses a single upstream resource for memory allocation,
+ *      and embeds bookkeeping information in allocated blocks.
  */
 
 #pragma once
@@ -39,7 +38,7 @@ namespace mr
 {
 
 /** \addtogroup memory_resources Memory Resources
- *  \ingroup memory_management
+ *  \ingroup memory_management_classes
  *  \{
  */
 
@@ -499,7 +498,7 @@ public:
     }
 };
 
-/*! \} // memory_resources
+/*! \}
  */
 
 } // end mr

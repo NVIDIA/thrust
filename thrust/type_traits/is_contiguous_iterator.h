@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2021 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,10 +14,10 @@
  *  limitations under the License.
  */
 
-/*! \file
- *  \brief An extensible type trait for determining if an iterator satisifies the
- *  <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>
- *  requirements (aka is pointer-like).
+/*! \file is_contiguous_iterator.h
+ *  \brief An extensible type trait for determining if an iterator satisifies
+ *         the <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>
+ *         requirements (e.g. is pointer-like).
  */
 
 #pragma once
@@ -40,17 +40,6 @@
 
 THRUST_NAMESPACE_BEGIN
 
-/*! \addtogroup utility
- *  \{
- */
-
-/*! \addtogroup type_traits Type Traits
- *  \{
- */
-
-/*! \cond
- */
-
 namespace detail
 {
 
@@ -59,19 +48,10 @@ struct is_contiguous_iterator_impl;
 
 } // namespace detail
 
-/*! \endcond
- */
-
-/*! \brief <a href="https://en.cppreference.com/w/cpp/named_req/UnaryTypeTrait"><i>UnaryTypeTrait</i></a>
- *  that returns \c true_type if \c Iterator satisfies
- *  <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>,
- *  aka it points to elements that are contiguous in memory, and \c false_type
- *  otherwise.
- *
- * \see is_contiguous_iterator_v
- * \see proclaim_contiguous_iterator
- * \see THRUST_PROCLAIM_CONTIGUOUS_ITERATOR
- */
+/// Unary metafunction returns \c true_type if \c Iterator satisfies
+/// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>,
+/// e.g. it points to elements that are contiguous in memory, and \c false_type
+/// otherwise.
 template <typename Iterator>
 #if THRUST_CPP_DIALECT >= 2011
 using is_contiguous_iterator =
@@ -85,37 +65,24 @@ struct is_contiguous_iterator :
 ;
 
 #if THRUST_CPP_DIALECT >= 2014
-/*! \brief <tt>constexpr bool</tt> that is \c true if \c Iterator satisfies
- *  <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>,
- *  aka it points to elements that are contiguous in memory, and \c false
- *  otherwise.
- *
- * \see is_contiguous_iterator
- * \see proclaim_contiguous_iterator
- * \see THRUST_PROCLAIM_CONTIGUOUS_ITERATOR
- */
+/// <code>constexpr bool</code> that is \c true if \c Iterator satisfies
+/// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>,
+/// e.g. it points to elements that are contiguous in memory, and \c false
+/// otherwise.
 template <typename Iterator>
 constexpr bool is_contiguous_iterator_v = is_contiguous_iterator<Iterator>::value;
 #endif
 
-/*! \brief Customization point that can be customized to indicate that an
- *  iterator type \c Iterator satisfies
- *  <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>,
- *  aka it points to elements that are contiguous in memory.
- *
- * \see is_contiguous_iterator
- * \see THRUST_PROCLAIM_CONTIGUOUS_ITERATOR
- */
+/// Customization point that can be customized to indicate that an iterator
+/// type \c Iterator satisfies
+/// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>,
+/// e.g. it points to elements that are contiguous in memory.
 template <typename Iterator>
 struct proclaim_contiguous_iterator : false_type {};
 
-/*! \brief Declares that the iterator \c Iterator is
- *  <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>
- *  by specializing \c proclaim_contiguous_iterator.
- *
- * \see is_contiguous_iterator
- * \see proclaim_contiguous_iterator
- */
+/// Declares that the iterator \c Iterator is
+/// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>
+/// by specializing `thrust::proclaim_contiguous_iterator`.
 #define THRUST_PROCLAIM_CONTIGUOUS_ITERATOR(Iterator)                         \
   THRUST_NAMESPACE_BEGIN                                                      \
   template <>                                                                 \
@@ -124,8 +91,7 @@ struct proclaim_contiguous_iterator : false_type {};
   THRUST_NAMESPACE_END                                                        \
   /**/
 
-/*! \cond
- */
+///////////////////////////////////////////////////////////////////////////////
 
 namespace detail
 {
@@ -199,6 +165,7 @@ template <typename Iterator>
 struct is_msvc_contiguous_iterator : false_type {};
 #endif
 
+
 template <typename Iterator>
 struct is_contiguous_iterator_impl
   : integral_constant<
@@ -213,17 +180,6 @@ struct is_contiguous_iterator_impl
 {};
 
 } // namespace detail
-
-/*! \endcond
- */
-
-///////////////////////////////////////////////////////////////////////////////
-
-/*! \} // type traits
- */
-
-/*! \} // utility
- */
 
 THRUST_NAMESPACE_END
 

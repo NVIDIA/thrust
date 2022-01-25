@@ -14,8 +14,6 @@
  *  limitations under the License.
  */
 
-#pragma once
-
 #include <thrust/detail/config.h>
 #include <thrust/functional.h>
 #include <thrust/system/detail/generic/replace.h>
@@ -56,7 +54,7 @@ template<typename Predicate, typename NewType, typename OutputType>
   {
     return pred(y) ? new_value : x;
   } // end operator()()
-
+  
   Predicate pred;
   NewType new_value;
 }; // end new_value_if

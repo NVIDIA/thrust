@@ -14,9 +14,8 @@
  *  limitations under the License.
  */
 
-/*! \file 
- *  \brief A type used by the pooling resource adaptors to fine-tune their
- *  behavior.
+/*! \file pool_options.h
+ *  \brief \p pool_options is a type used by the pooling resource adaptors to fine-tune their behavior.
  */
 
 #pragma once
@@ -32,7 +31,7 @@ THRUST_NAMESPACE_BEGIN
 namespace mr
 {
 
-/*! \addtogroup memory_resources Memory Resources
+/*! \addtogroup memory_management_classes Memory Management Classes
  *  \ingroup memory_management
  *  \{
  */
@@ -120,7 +119,7 @@ struct pool_options
     }
 };
 
-/*! \} // memory_resources
+/*! \}
  */
 
 } // end mr

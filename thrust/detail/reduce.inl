@@ -14,7 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file reduce.inl
+ *  \brief Inline file for reduce.h.
+ */
 
 #include <thrust/detail/config.h>
 
@@ -79,7 +82,7 @@ template<typename DerivedPolicy,
 __host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
-                InputIterator1 keys_first,
+                InputIterator1 keys_first, 
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
                 OutputIterator1 keys_output,
@@ -100,7 +103,7 @@ template<typename DerivedPolicy,
 __host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
-                InputIterator1 keys_first,
+                InputIterator1 keys_first, 
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
                 OutputIterator1 keys_output,
@@ -123,7 +126,7 @@ template<typename DerivedPolicy,
 __host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
-                InputIterator1 keys_first,
+                InputIterator1 keys_first, 
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
                 OutputIterator1 keys_output,
@@ -190,7 +193,7 @@ template<typename InputIterator1,
          typename OutputIterator1,
          typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(InputIterator1 keys_first,
+  reduce_by_key(InputIterator1 keys_first, 
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
                 OutputIterator1 keys_output,
@@ -218,7 +221,7 @@ template<typename InputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(InputIterator1 keys_first,
+  reduce_by_key(InputIterator1 keys_first, 
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
                 OutputIterator1 keys_output,
@@ -248,7 +251,7 @@ template<typename InputIterator1,
          typename BinaryPredicate,
          typename BinaryFunction>
   thrust::pair<OutputIterator1,OutputIterator2>
-  reduce_by_key(InputIterator1 keys_first,
+  reduce_by_key(InputIterator1 keys_first, 
                 InputIterator1 keys_last,
                 InputIterator2 values_first,
                 OutputIterator1 keys_output,

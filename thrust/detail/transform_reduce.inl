@@ -14,7 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file transform_reduce.inl
+ *  \brief Inline file for transform_reduce.h.
+ */
 
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_traits.h>
@@ -27,8 +30,8 @@ THRUST_NAMESPACE_BEGIN
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy,
-         typename InputIterator,
-         typename UnaryFunction,
+         typename InputIterator, 
+         typename UnaryFunction, 
          typename OutputType,
          typename BinaryFunction>
 __host__ __device__
@@ -44,8 +47,8 @@ __host__ __device__
 } // end transform_reduce()
 
 
-template<typename InputIterator,
-         typename UnaryFunction,
+template<typename InputIterator, 
+         typename UnaryFunction, 
          typename OutputType,
          typename BinaryFunction>
   OutputType transform_reduce(InputIterator first,

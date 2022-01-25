@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2021 NVIDIA Corporation
+ *  Copyright 2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,10 +14,6 @@
  *  limitations under the License.
  */
 
-/*! \file
- *  \brief A type trait that determines if a type is an \a ExecutionPolicy.
- */
-
 #pragma once
 
 #include <thrust/detail/config.h>
@@ -27,18 +23,8 @@
 
 THRUST_NAMESPACE_BEGIN
 
-/*! \addtogroup utility
- *  \{
- */
-
-/*! \addtogroup type_traits Type Traits
- *  \{
- */
-
-/*! \brief <a href="https://en.cppreference.com/w/cpp/named_req/UnaryTypeTrait"><i>UnaryTypeTrait</i></a>
- *  that returns \c true_type if \c T is an \a ExecutionPolicy and \c false_type
- *  otherwise.
- */
+/// Unary metafunction that is \c true if \c T is an \a ExecutionPolicy and
+/// \c false otherwise.
 template <typename T>
 #if THRUST_CPP_DIALECT >= 2011
 using is_execution_policy =
@@ -51,19 +37,13 @@ struct is_execution_policy :
 #endif
 ;
 
+/// <CODE>constexpr bool</CODE> that is \c true if \c T is an \a ExecutionPolicy
+/// and \c false otherwise.
 #if THRUST_CPP_DIALECT >= 2014
-/*! \brief <tt>constexpr bool</tt> that is \c true if \c T is an
- *  \a ExecutionPolicy and \c false otherwise.
- */
 template <typename T>
 constexpr bool is_execution_policy_v = is_execution_policy<T>::value;
 #endif
 
-/*! \} // type traits
- */
-
-/*! \} // utility
- */
-
 THRUST_NAMESPACE_END
+
 

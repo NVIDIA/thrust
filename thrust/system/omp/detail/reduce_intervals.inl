@@ -14,7 +14,6 @@
  *  limitations under the License.
  */
 
-#pragma once
 
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/detail/reduce_intervals.h>

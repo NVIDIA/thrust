@@ -14,7 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file count.inl
+ *  \brief Inline file for count.h.
+ */
 
 #include <thrust/detail/config.h>
 #include <thrust/count.h>

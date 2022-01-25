@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file
+/*! \file new.h
  *  \brief Global operator new-based memory resource.
  */
 
@@ -29,7 +29,7 @@ namespace mr
 {
 
 /** \addtogroup memory_resources Memory Resources
- *  \ingroup memory_management
+ *  \ingroup memory_management_classes
  *  \{
  */
 
@@ -81,7 +81,7 @@ public:
     }
 };
 
-/*! \} // memory_resources
+/*! \}
  */
 
 } // end mr

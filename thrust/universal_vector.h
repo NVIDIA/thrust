@@ -14,7 +14,8 @@
  *  limitations under the License.
  */
 
-/*! \file
+
+/*! \file universal_vector.h
  *  \brief A dynamically-sizable array of elements which resides in memory
  *         accessible to both hosts and devices.
  */
@@ -31,7 +32,8 @@
 
 THRUST_NAMESPACE_BEGIN
 
-/*! \addtogroup containers Containers
+/** \addtogroup memory_resources Memory Resources
+ *  \ingroup memory_management_classes
  *  \{
  */
 
@@ -49,7 +51,7 @@ THRUST_NAMESPACE_BEGIN
  */
 using thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::universal_vector;
 
-/*! \} // containers
+/*! \}
  */
 
 THRUST_NAMESPACE_END

@@ -14,7 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file device_delete.inl
+ *  \brief Inline file for device_delete.h.
+ */
 
 #include <thrust/detail/config.h>
 #include <thrust/device_delete.h>

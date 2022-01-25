@@ -14,7 +14,11 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file mismatch.inl
+ *  \brief Inline file for mismatch.h
+ */
+
 
 #include <thrust/detail/config.h>
 #include <thrust/mismatch.h>

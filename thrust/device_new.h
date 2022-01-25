@@ -30,7 +30,7 @@
 THRUST_NAMESPACE_BEGIN
 
 /*!
- *  \addtogroup memory_management Memory Management
+ *  \addtogroup allocation_functions Allocation Functions
  *  \{
  */
 
@@ -78,7 +78,7 @@ template <typename T>
 template <typename T>
   device_ptr<T> device_new(const size_t n = 1);
 
-/*! \} // memory_management
+/*! \}
  */
 
 THRUST_NAMESPACE_END

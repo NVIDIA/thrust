@@ -14,7 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file for_each.inl
+ *  \brief Inline file for for_each.h.
+ */
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/function.h>
@@ -72,7 +75,7 @@ RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &,
   }
 
   return first + n;
-} // end for_each_n()
+} // end for_each_n() 
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator,

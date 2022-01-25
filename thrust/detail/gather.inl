@@ -14,7 +14,10 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file gather.inl
+ *  \brief Inline file for gather.h.
+ */
 
 #include <thrust/detail/config.h>
 
@@ -93,9 +96,9 @@ template<typename InputIterator,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator>::type        System1;
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type System2;
-  typedef typename thrust::iterator_system<OutputIterator>::type       System3;
+  typedef typename thrust::iterator_system<InputIterator>::type        System1; 
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type System2; 
+  typedef typename thrust::iterator_system<OutputIterator>::type       System3; 
 
   System1 system1;
   System2 system2;
@@ -117,10 +120,10 @@ template<typename InputIterator1,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type       System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type       System2;
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type System3;
-  typedef typename thrust::iterator_system<OutputIterator>::type       System4;
+  typedef typename thrust::iterator_system<InputIterator1>::type       System1; 
+  typedef typename thrust::iterator_system<InputIterator2>::type       System2; 
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type System3; 
+  typedef typename thrust::iterator_system<OutputIterator>::type       System4; 
 
   System1 system1;
   System2 system2;
@@ -145,10 +148,10 @@ template<typename InputIterator1,
 {
   using thrust::system::detail::generic::select_system;
 
-  typedef typename thrust::iterator_system<InputIterator1>::type       System1;
-  typedef typename thrust::iterator_system<InputIterator2>::type       System2;
-  typedef typename thrust::iterator_system<RandomAccessIterator>::type System3;
-  typedef typename thrust::iterator_system<OutputIterator>::type       System4;
+  typedef typename thrust::iterator_system<InputIterator1>::type       System1; 
+  typedef typename thrust::iterator_system<InputIterator2>::type       System2; 
+  typedef typename thrust::iterator_system<RandomAccessIterator>::type System3; 
+  typedef typename thrust::iterator_system<OutputIterator>::type       System4; 
 
   System1 system1;
   System2 system2;

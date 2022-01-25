@@ -14,8 +14,6 @@
  *  limitations under the License.
  */
 
-#pragma once
-
 #include <thrust/detail/config.h>
 #include <thrust/system/detail/sequential/copy.h>
 #include <thrust/detail/type_traits.h>
