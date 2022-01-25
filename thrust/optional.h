@@ -2089,7 +2089,7 @@ template <class Opt, class F,
                                               *std::declval<Opt>())),
           detail::enable_if_t<std::is_void<Ret>::value> * = nullptr>
 __host__ __device__
-constexpr optional<monostate> optional_map_impl(Opt &&opt, F &&f)
+auto optional_map_impl(Opt &&opt, F &&f) -> optional<monostate>
 {
   if (opt.has_value()) {
     detail::invoke(std::forward<F>(f), *std::forward<Opt>(opt));
