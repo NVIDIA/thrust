@@ -238,6 +238,8 @@ ctest
 ```
 
 By default, a serial `CPP` host system, `CUDA` accelerated device system, and
-C++14 standard are used. This can be changed in CMake. More information on
-configuring your Thrust build and creating a pull request can be found in
-[CONTRIBUTING.md](CONTRIBUTING.md).
+C++14 standard are used. This can be changed during configuration -- see
+[CMake Options](CONTRIBUTING.md#cmake-options) for details.
+
+More information on configuring your Thrust build and creating a pull request
+can be found in [CONTRIBUTING.md](CONTRIBUTING.md).
