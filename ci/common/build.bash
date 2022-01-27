@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-# Copyright (c) 2018-2020 NVIDIA Corporation
+# Copyright (c) 2018-2022 NVIDIA Corporation
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 # Released under the Apache License v2.0 with LLVM Exceptions.
 # See https://llvm.org/LICENSE.txt for license information.
@@ -75,6 +75,9 @@ export PATH=/usr/local/cuda/bin:${PATH}
 # Set home to the job's workspace.
 export HOME=${WORKSPACE}
 
+# Per-process memory util logs:
+MEMMON_LOG=${WORKSPACE}/build/memmon_log
+
 # Switch to the build directory.
 cd ${WORKSPACE}
 mkdir -p build
@@ -121,8 +124,29 @@ else
   append CMAKE_BUILD_FLAGS "-k0"
 fi
 
+DETERMINE_PARALLELISM_FLAGS=""
+
+# Used to limit the number of default build threads. Any build/link
+# steps that exceed this limit will cause this script to report a
+# failure. Tune this using the memmon logs printed after each run.
+#
+# Build steps that take more memory than this limit should
+# be split into multiple steps/translation units. Any temporary
+# increases to this threshold should be reverted ASAP. The goal
+# to do decrease this as much as possible and not increase it.
+if [[ -z "${MIN_MEMORY_PER_THREAD}" ]]; then
+  if [[ "${CXX_TYPE}" == "nvcxx" ]]; then
+      MIN_MEMORY_PER_THREAD=3.0 # GiB
+  elif [[ "${CXX_TYPE}" == "icc" ]]; then
+      MIN_MEMORY_PER_THREAD=2.5 # GiB
+  else
+      MIN_MEMORY_PER_THREAD=2.0 # GiB
+  fi
+fi
+append DETERMINE_PARALLELISM_FLAGS "--min-memory-per-thread ${MIN_MEMORY_PER_THREAD}"
+
 if [[ -n "${PARALLEL_LEVEL}" ]]; then
-  DETERMINE_PARALLELISM_FLAGS="-j ${PARALLEL_LEVEL}"
+  append DETERMINE_PARALLELISM_FLAGS "-j ${PARALLEL_LEVEL}"
 fi
 
 # COVERAGE_PLAN options:
@@ -278,8 +302,22 @@ log "Build Thrust and CUB..."
 # ${PARALLEL_LEVEL} needs to be passed after we run
 # determine_build_parallelism.bash, so it can't be part of ${CMAKE_BUILD_FLAGS}.
 set +e # Don't stop on build failures.
+
+# Monitor memory usage. Thresholds in GiB:
+python3 ${WORKSPACE}/ci/common/memmon.py \
+	--log-threshold 0.0 \
+	--fail-threshold ${MIN_MEMORY_PER_THREAD} \
+	--log-file ${MEMMON_LOG} \
+        &
+memmon_pid=$!
+
 echo_and_run_timed "Build" cmake --build . ${CMAKE_BUILD_FLAGS} -j ${PARALLEL_LEVEL}
 build_status=$?
+
+# Stop memmon:
+kill -s SIGINT ${memmon_pid}
+
+# Re-enable exit on failure:
 set -e
 
 ################################################################################
@@ -315,16 +353,41 @@ if [[ -f "ctest_log" ]]; then
 fi
 
 ################################################################################
+# MEMORY_USAGE
+################################################################################
+
+memmon_status=0
+if [[ -f "${MEMMON_LOG}" ]]; then
+  log "Checking memmon logfile: ${MEMMON_LOG}"
+
+  if [[ -n "$(grep -E "^FAIL" ${MEMMON_LOG})" ]]; then
+    log "error: Some build steps exceeded MIN_MEMORY_PER_THREAD (${MIN_MEMORY_PER_THREAD} GiB):"
+    grep -E "^FAIL" ${MEMMON_LOG}
+    memmon_status=1
+  else
+    log "Top memory usage per build step (all less than limit of ${MIN_MEMORY_PER_THREAD} GiB):"
+    if [[ -s ${MEMMON_LOG} ]]; then
+      # Not empty:
+      head -n5 ${MEMMON_LOG}
+    else
+      echo "None detected above logging threshold."
+    fi
+  fi
+fi
+
+################################################################################
 # SUMMARY - Print status of each step and exit with failure if needed.
 ################################################################################
 
 log "Summary:"
 echo "- Configure Error Code: ${configure_status}"
 echo "- Build Error Code: ${build_status}"
+echo "- Build Memory Check: ${memmon_status}"
 echo "- Test Error Code: ${test_status}"
 
 if [[ "${configure_status}" != "0" ]] || \
    [[ "${build_status}" != "0" ]] || \
+   [[ "${memmon_status}" != "0" ]] || \
    [[ "${test_status}" != "0" ]]; then
      exit 1
 fi
