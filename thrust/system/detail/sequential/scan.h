@@ -54,6 +54,8 @@ __host__ __device__
 
   // Use the input iterator's value type per https://wg21.link/P0571
   using ValueType = typename thrust::iterator_value<InputIterator>::type;
+  // Use for explicit type conversion
+  using OutputType = typename thrust::iterator_value<OutputIterator>::type;
 
   // wrap binary_op
   thrust::detail::wrapped_function<
@@ -65,10 +67,13 @@ __host__ __device__
   {
     ValueType sum = *first;
 
+    //*result = static_cast<OutputType>(*first);
     *result = *first;
 
     for(++first, ++result; first != last; ++first, ++result)
       *result = sum = wrapped_binary_op(sum,*first);
+      //*result = wrapped_binary_op(sum,*first);
+      //sum = wrapped_binary_op(sum,*first);
   }
 
   return result;
@@ -93,10 +98,14 @@ __host__ __device__
 
   // Use the initial value type per https://wg21.link/P0571
   using ValueType = InitialValueType;
+  // Use for explicit type conversion
+  using InputType = typename thrust::iterator_value<InputIterator>::type;
+  // Use for explicit type conversion
+  using OutputType = typename thrust::iterator_value<OutputIterator>::type;
 
   if(first != last)
   {
-    ValueType tmp = *first;  // temporary value allows in-situ scan
+    ValueType tmp = static_cast<ValueType>(*first);  // temporary value allows in-situ scan
     ValueType sum = init;
 
     *result = sum;
@@ -104,7 +113,7 @@ __host__ __device__
 
     for(++first, ++result; first != last; ++first, ++result)
     {
-      tmp = *first;
+      tmp = static_cast<ValueType>(*first);
       *result = sum;
       sum = binary_op(sum, tmp);
     }

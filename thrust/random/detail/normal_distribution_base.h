@@ -65,7 +65,7 @@ template<typename RealType>
       }
 
       // Convert to floating point in [0,0.5)
-      RealType p = u*S1 + S2;
+      RealType p = static_cast<RealType>(u*S1 + S2);
 
       // Apply inverse error function
       return mean + stddev * S3 * erfcinv(2 * p);

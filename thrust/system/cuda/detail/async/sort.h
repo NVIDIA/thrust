@@ -302,9 +302,9 @@ invoke_radix_sort(
     tmp_ptr
   , tmp_size
   , keys
-  , n
+  , static_cast<int>(n)
   , 0
-  , sizeof(T) * 8
+  , (sizeof(T) * 8
   , stream
   , THRUST_DEBUG_SYNC_FLAG
   );
@@ -328,7 +328,7 @@ invoke_radix_sort(
     tmp_ptr
   , tmp_size
   , keys
-  , n
+  , static_cast<int>(n)
   , 0
   , sizeof(T) * 8
   , stream
