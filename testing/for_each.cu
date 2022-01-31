@@ -199,7 +199,7 @@ void TestForEach(const size_t n)
     thrust::host_vector<T> h_input = unittest::random_integers<T>(n);
 
     for(size_t i = 0; i < n; i++)
-        h_input[i] =  ((size_t) h_input[i]) % output_size;
+        h_input[i] =  static_cast<T>(((size_t) h_input[i]) % output_size);
     
     thrust::device_vector<T> d_input = h_input;
 
@@ -232,7 +232,7 @@ void TestForEachN(const size_t n)
     thrust::host_vector<T> h_input = unittest::random_integers<T>(n);
 
     for(size_t i = 0; i < n; i++)
-        h_input[i] =  ((size_t) h_input[i]) % output_size;
+        h_input[i] =  static_cast<T>(((size_t) h_input[i]) % output_size);
     
     thrust::device_vector<T> d_input = h_input;
 
@@ -280,6 +280,7 @@ void _TestForEachWithLargeTypes(void)
     thrust::host_vector< FixedVector<T,N> > h_data(n);
 
     for(size_t i = 0; i < h_data.size(); i++)
+        //h_data[i] = static_cast<T>(FixedVector<T,N>(i));
         h_data[i] = FixedVector<T,N>(i);
 
     thrust::device_vector< FixedVector<T,N> > d_data = h_data;
@@ -321,6 +322,7 @@ void _TestForEachNWithLargeTypes(void)
     thrust::host_vector< FixedVector<T,N> > h_data(n);
 
     for(size_t i = 0; i < h_data.size(); i++)
+        //h_data[i] = static_cast<T>(FixedVector<T,N>(i));
         h_data[i] = FixedVector<T,N>(i);
 
     thrust::device_vector< FixedVector<T,N> > d_data = h_data;
