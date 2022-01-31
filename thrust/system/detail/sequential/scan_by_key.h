@@ -117,7 +117,7 @@ __host__ __device__
     // first one is init
     *result = next;
 
-    next = binary_op(next, temp_value);
+    next = static_cast<ValueType>(binary_op(next, temp_value));
 
     for(++first1, ++first2, ++result;
         first1 != last1;
@@ -132,7 +132,7 @@ __host__ __device__
         next = init;  // reset sum
 
       *result = next;  
-      next = binary_op(next, temp_value);
+      next = static_cast<ValueType>(binary_op(next, temp_value));
 
       temp_key = key;
     }
