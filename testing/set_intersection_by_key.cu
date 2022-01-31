@@ -243,7 +243,7 @@ void TestSetIntersectionByKeyMultiset(const size_t n)
   {
     int temp = static_cast<int>(*i);
     temp %= 13;
-    *i = temp;
+    *i = static_cast<T>(temp);
   }
 
   thrust::host_vector<T> h_a_key(vec.begin(), vec.begin() + n);

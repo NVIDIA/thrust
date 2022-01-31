@@ -325,7 +325,10 @@ template<typename UnaryFunction>
     // mstack adding static_cast 
     //thrust::get<1>(t) = static_cast<this_type>(f(thrust::get<0>(t)));
     //thrust::get<1>(t) = f(static_cast<this_type>(thrust::get<0>(t)));
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
     thrust::get<1>(t) = f(thrust::get<0>(t));
+#pragma GCC diagnostic pop
   }
 };
 
