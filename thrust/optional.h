@@ -2041,6 +2041,8 @@ inline constexpr optional<T> make_optional(std::initializer_list<U> il,
 template <class T> optional(T)->optional<T>;
 #endif
 
+// Doxygen chokes on the trailing return types used below.
+#if !defined(THRUST_DOXYGEN)
 /// \exclude
 namespace detail {
 #ifdef THRUST_OPTIONAL_CPP14
@@ -2100,6 +2102,7 @@ auto optional_map_impl(Opt &&opt, F &&f) -> optional<monostate>
 }
 #endif
 } // namespace detail
+#endif // !defined(THRUST_DOXYGEN)
 
 /// Specialization for when `T` is a reference. `optional<T&>` acts similarly
 /// to a `T*`, but provides more operations and shows intent more clearly.
