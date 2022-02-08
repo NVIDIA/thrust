@@ -1,4 +1,99 @@
-# Thrust 1.15.0
+# Thrust 1.16.0
+
+## Summary
+
+Thrust 1.16.0 provides a new “nosync” hint for the CUDA backend, as well as
+numerous bugfixes and stability improvements.
+
+### New `thrust::cuda::par_nosync` Execution Policy
+
+Most of Thrust’s parallel algorithms are fully synchronous and will block the
+calling CPU thread until all work is completed. This design avoids many pitfalls
+associated with asynchronous GPU programming, resulting in simpler and
+less-error prone usage for new CUDA developers. Unfortunately, this improvement
+in user experience comes at a performance cost that often frustrates more
+experienced CUDA programmers.
+
+Prior to this release, the only synchronous-to-asynchronous migration path for
+existing Thrust codebases involved significant refactoring, replacing calls
+to `thrust` algorithms with a limited set of `future`-based `thrust::async`
+algorithms or lower-level CUB kernels. The new `thrust::cuda::par_nosync`
+execution policy provides a new, less-invasive entry point for asynchronous
+computation.
+
+`par_nosync` is a hint to the Thrust execution engine that any non-essential
+internal synchronizations should be skipped and that an explicit synchronization
+will be performed by the caller before accessing results.
+
+While some Thrust algorithms require internal synchronization to safely compute
+their results, many do not. For example, multiple `thrust::for_each` invocations
+can be launched without waiting for earlier calls to complete:
+
+```cpp
+// Queue three `for_each` kernels:
+thrust::for_each(thrust::cuda::par_nosync, vec1.begin(), vec1.end(), Op{});
+thrust::for_each(thrust::cuda::par_nosync, vec2.begin(), vec2.end(), Op{});
+thrust::for_each(thrust::cuda::par_nosync, vec3.begin(), vec3.end(), Op{});
+
+// Do other work while kernels execute:
+do_something();
+
+// Must explictly synchronize before accessing `for_each` results:
+cudaDeviceSynchronize();
+```
+
+Thanks to @fkallen for this contribution.
+
+## Deprecation Notices
+
+### CUDA Dynamic Parallelism Support
+
+**A future version of Thrust will remove support for CUDA Dynamic Parallelism
+(CDP).**
+
+This will only affect calls to Thrust algorithms made from CUDA device-side code
+that currently launches a kernel; such calls will instead execute sequentially
+on the calling GPU thread instead of launching a device-wide kernel.
+
+## Breaking Changes
+
+- Thrust 1.14.0 included a change that aliased the `cub` namespace
+  to `thrust::cub`. This has caused issues with ambiguous namespaces for
+  projects that declare `using namespace thrust;` from the global namespace. We
+  recommend against this practice.
+- NVIDIA/thrust#1572: Removed several unnecessary header includes. Downstream
+  projects may need to update their includes if they were relying on this
+  behavior.
+
+## New Features
+
+- NVIDIA/thrust#1568: Add `thrust::cuda::par_nosync` policy. Thanks to @fkallen
+  for this contribution.
+
+## Enhancements
+
+- NVIDIA/thrust#1511: Use CUB’s new `DeviceMergeSort` API and remove Thrust’s
+  internal implementation.
+- NVIDIA/thrust#1566: Improved performance of `thrust::shuffle`. Thanks to
+  @djns99 for this contribution.
+- NVIDIA/thrust#1584: Support user-defined `CMAKE_INSTALL_INCLUDEDIR` values in
+  Thrust’s CMake install rules. Thanks to @robertmaynard for this contribution.
+
+## Bug Fixes
+
+- NVIDIA/thrust#1496: Fix some issues affecting `icc` builds.
+- NVIDIA/thrust#1552: Fix some collisions with the `min`/`max`  macros defined
+  in `windows.h`.
+- NVIDIA/thrust#1582: Fix issue with function type alias on 32-bit MSVC builds.
+- NVIDIA/thrust#1591: Workaround issue affecting compilation with `nvc++`.
+- NVIDIA/thrust#1597: Fix some collisions with the `small` macro defined
+  in `windows.h`.
+- NVIDIA/thrust#1599, NVIDIA/thrust#1603: Fix some issues with version handling
+  in Thrust’s CMake packages.
+- NVIDIA/thrust#1614: Clarify that scan algorithm results are non-deterministic
+  for pseudo-associative operators (e.g. floating-point addition).
+
+# Thrust 1.15.0 (NVIDIA HPC SDK 22.1, CUDA Toolkit 11.6)
 
 ## Summary
 
@@ -50,6 +145,13 @@ Several bugfixes are also included: The `tuple_size` and `tuple_element` helpers
 now support cv-qualified types. `scan_by_key` uses less memory.
 `thrust::iterator_traits` is better integrated with `std::iterator_traits`.
 See below for more details and references.
+
+## Breaking Changes
+
+- Thrust 1.14.0 included a change that aliased the `cub` namespace
+  to `thrust::cub`. This has caused issues with ambiguous namespaces for
+  projects that declare `using namespace thrust;` from the global namespace. We
+  recommend against this practice.
 
 ## New Features
 
