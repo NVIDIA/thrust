@@ -15,7 +15,7 @@
 // Hacky way to build a string, but it works on all tested platforms.
 #define THRUST_MACRO_CHECK(MACRO, HEADER)                                      \
   THRUST_MACRO_CHECK_IMPL(Identifier MACRO should not be used from Thrust      \
-                            headers due to conflicts with HEADER.)
+                          headers due to conflicts with HEADER macros.)
 
 // Use raw platform checks instead of the THRUST_HOST_COMPILER macros since we
 // don't want to #include any headers other than the one being tested.
@@ -45,11 +45,13 @@
 #define I THRUST_MACRO_CHECK('I', complex.h)
 
 // windows.h conflicts
-// Disabling for now; we use min/max in many places, but since most
-// projects build with NOMINMAX this doesn't seem to be high priority to fix.
+#define small THRUST_MACRO_CHECK('small', windows.h)
+// We can't enable these checks without breaking some builds -- some standard
+// library implementations unconditionally `#undef` these macros, which then
+// causes random failures later.
+// Leaving these commented out as a warning: Here be dragons.
 //#define min(...) THRUST_MACRO_CHECK('min', windows.h)
 //#define max(...) THRUST_MACRO_CHECK('max', windows.h)
-#define small THRUST_MACRO_CHECK('small', windows.h)
 
 // termios.h conflicts (NVIDIA/thrust#1547)
 #define B0 THRUST_MACRO_CHECK("B0", termios.h)
