@@ -107,7 +107,7 @@ class feistel_bijection {
 
   __host__ __device__ round_state do_round(const round_state state,
                                            const std::uint64_t round) const {
-    const std::uint32_t new_left = state.right & left_side_mask;
+    const std::uint32_t new_left = static_cast<std::uint32_t>(state.right & left_side_mask);
     const std::uint32_t round_function_res =
         state.left ^ round_function(state.right, key[round]);
     if (right_side_bits != left_side_bits) {

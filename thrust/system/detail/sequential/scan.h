@@ -67,7 +67,7 @@ __host__ __device__
   {
     ValueType sum = *first;
 
-    //*result = static_cast<OutputType>(*first);
+    *result = static_cast<ValueType>(*first);
     *result = *first;
 
     for(++first, ++result; first != last; ++first, ++result)
@@ -109,13 +109,13 @@ __host__ __device__
     ValueType sum = init;
 
     *result = sum;
-    sum = binary_op(sum, tmp);
+    sum = static_cast<ValueType>(binary_op(sum, tmp));
 
     for(++first, ++result; first != last; ++first, ++result)
     {
       tmp = static_cast<ValueType>(*first);
       *result = sum;
-      sum = binary_op(sum, tmp);
+      sum = static_cast<ValueType>(binary_op(sum, tmp));
     }
   }
 
