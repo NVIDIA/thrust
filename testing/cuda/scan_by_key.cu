@@ -47,7 +47,7 @@ void TestScanByKeyDevice(ExecutionPolicy exec)
   thrust::host_vector<int>   h_vals = unittest::random_integers<int>(n);
   for(size_t i = 0; i < n; i++)
   {
-    h_vals[i] = i % 10;
+    h_vals[i] = static_cast<int>(i % 10);
   }
   thrust::device_vector<int> d_vals = h_vals;
   

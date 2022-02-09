@@ -281,7 +281,7 @@ void _TestForEachWithLargeTypes(void)
 
     for(size_t i = 0; i < h_data.size(); i++)
         //h_data[i] = static_cast<T>(FixedVector<T,N>(i));
-        h_data[i] = FixedVector<T,N>(i);
+        h_data[i] = FixedVector<T,N>(static_cast<int>(i));
 
     thrust::device_vector< FixedVector<T,N> > d_data = h_data;
    
