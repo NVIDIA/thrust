@@ -349,7 +349,8 @@ template <class HT, class TT>
 
   template <class HT2, class TT2>
   inline __host__ __device__
-  cons( const cons<HT2, TT2>& u ) : head(u.head), tail(u.tail) {}
+  cons( const cons<HT2, TT2>& u ) : head(static_cast<HT>(u.head)), tail(u.tail) {}
+  //cons( const cons<HT2, TT2>& u ) : head(u.head), tail(u.tail) {}
 
 #if THRUST_CPP_DIALECT >= 2011
   cons(const cons &) = default;
@@ -459,7 +460,8 @@ template <class HT>
 
   template <class HT2>
   inline __host__ __device__
-  cons( const cons<HT2, null_type>& u ) : head(u.head) {}
+  cons( const cons<HT2, null_type>& u ) : head(static_cast<HT>(u.head)) {}
+  //cons( const cons<HT2, null_type>& u ) : head(u.head) {}
 
 #if THRUST_CPP_DIALECT >= 2011
   cons(const cons &) = default;

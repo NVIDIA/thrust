@@ -201,6 +201,8 @@ template<typename Generator>
     T &lvalue = const_cast<T&>(x);
 
     // this assigns correctly whether x is a true reference or proxy
+    // mstack problem area
+    // lvalue = static_cast<T&>(gen());
     lvalue = gen();
   }
 

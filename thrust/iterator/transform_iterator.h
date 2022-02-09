@@ -312,7 +312,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
       // convert to their value type before calling m_f. Note that this
       // disallows non-constant operations through m_f.
       typename thrust::iterator_value<Iterator>::type const& x = *this->base();
-      return m_f(x);
+      return static_cast<typename super_t::reference>(m_f(x));
     }
 
     THRUST_DISABLE_MSVC_WARNING_END(4172)
