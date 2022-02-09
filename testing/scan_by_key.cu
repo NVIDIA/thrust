@@ -376,7 +376,7 @@ void TestInclusiveScanByKey(const size_t n)
 
     thrust::host_vector<T>   h_vals = unittest::random_integers<int>(n);
     for(size_t i = 0; i < n; i++)
-        h_vals[i] = static_cast<int>(i % 10);
+        h_vals[i] = static_cast<T>(i % 10);
     thrust::device_vector<T> d_vals = h_vals;
 
     thrust::host_vector<T>   h_output(n);
@@ -406,7 +406,7 @@ void TestExclusiveScanByKey(const size_t n)
     thrust::host_vector<T>   h_vals = unittest::random_integers<int>(n);
     for(size_t i = 0; i < n; i++)
     {
-        h_vals[i] = static_cast<int>(i % 10);
+        h_vals[i] = static_cast<T>(i % 10);
     }
     thrust::device_vector<T> d_vals = h_vals;
 
@@ -443,7 +443,7 @@ void TestInclusiveScanByKeyInPlace(const size_t n)
     thrust::host_vector<T>   h_vals = unittest::random_integers<int>(n);
     for(size_t i = 0; i < n; i++)
     {
-        h_vals[i] = static_cast<int>(i % 10);
+        h_vals[i] = static_cast<T>(i % 10);
     }
     thrust::device_vector<T> d_vals = h_vals;
 

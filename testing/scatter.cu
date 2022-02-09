@@ -98,7 +98,7 @@ void TestScatter(const size_t n)
     thrust::host_vector<unsigned int> h_map = unittest::random_integers<unsigned int>(n);
 
     for(size_t i = 0; i < n; i++)
-        h_map[i] =  h_map[i] % output_size;
+        h_map[i] =  h_map[i] % static_cast<unsigned int>(output_size);
     
     thrust::device_vector<unsigned int> d_map = h_map;
 
@@ -124,7 +124,7 @@ void TestScatterToDiscardIterator(const size_t n)
     thrust::host_vector<unsigned int> h_map = unittest::random_integers<unsigned int>(n);
 
     for(size_t i = 0; i < n; i++)
-        h_map[i] =  h_map[i] % output_size;
+        h_map[i] =  h_map[i] % static_cast<unsigned int>(output_size);
     
     thrust::device_vector<unsigned int> d_map = h_map;
 
@@ -241,7 +241,7 @@ void TestScatterIf(const size_t n)
     thrust::host_vector<unsigned int> h_map = unittest::random_integers<unsigned int>(n);
 
     for(size_t i = 0; i < n; i++)
-        h_map[i] =  h_map[i] % output_size;
+        h_map[i] =  h_map[i] % static_cast<unsigned int>(output_size);
     
     thrust::device_vector<unsigned int> d_map = h_map;
 
@@ -267,7 +267,7 @@ void TestScatterIfToDiscardIterator(const size_t n)
     thrust::host_vector<unsigned int> h_map = unittest::random_integers<unsigned int>(n);
 
     for(size_t i = 0; i < n; i++)
-        h_map[i] =  h_map[i] % output_size;
+        h_map[i] =  h_map[i] % static_cast<unsigned int>(output_size);
     
     thrust::device_vector<unsigned int> d_map = h_map;
 
