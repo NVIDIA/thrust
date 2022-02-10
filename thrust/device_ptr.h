@@ -92,7 +92,7 @@ class device_ptr
      *  \post <tt>get() == nullptr</tt>.
      */
     __host__ __device__
-    device_ptr(std::nullptr_t ptr) : super_t(ptr) {}
+    device_ptr(std::nullptr_t) : super_t(nullptr) {}
 
     /*! \brief Construct a \c device_ptr from a raw pointer which is
      *  convertible to \c T*.
@@ -153,9 +153,9 @@ class device_ptr
      *  \return \c *this.
      */
     __host__ __device__
-    device_ptr& operator=(std::nullptr_t ptr)
+    device_ptr& operator=(std::nullptr_t)
     {
-      super_t::operator=(ptr);
+      super_t::operator=(nullptr);
       return *this;
     }
 

@@ -34,8 +34,8 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 template<typename Element, typename Tag, typename Reference, typename Derived>
   __host__ __device__
   pointer<Element,Tag,Reference,Derived>
-    ::pointer(std::nullptr_t np)
-      : super_t(static_cast<Element*>(np))
+    ::pointer(std::nullptr_t)
+      : super_t(static_cast<Element*>(nullptr))
 {} // end pointer::pointer
 
 
@@ -180,30 +180,30 @@ operator<<(std::basic_ostream<charT, traits> &os,
 // `std::unique_ptr`.
 template <typename Element, typename Tag, typename Reference, typename Derived>
 __host__ __device__
-bool operator==(std::nullptr_t np, pointer<Element, Tag, Reference, Derived> p)
+bool operator==(std::nullptr_t, pointer<Element, Tag, Reference, Derived> p)
 {
-  return np == p.get();
+  return nullptr == p.get();
 }
 
 template <typename Element, typename Tag, typename Reference, typename Derived>
 __host__ __device__
-bool operator==(pointer<Element, Tag, Reference, Derived> p, std::nullptr_t np)
+bool operator==(pointer<Element, Tag, Reference, Derived> p, std::nullptr_t)
 {
-  return np == p.get();
+  return nullptr == p.get();
 }
 
 template <typename Element, typename Tag, typename Reference, typename Derived>
 __host__ __device__
-bool operator!=(std::nullptr_t np, pointer<Element, Tag, Reference, Derived> p)
+bool operator!=(std::nullptr_t, pointer<Element, Tag, Reference, Derived> p)
 {
-  return !(np == p);
+  return !(nullptr == p);
 }
 
 template <typename Element, typename Tag, typename Reference, typename Derived>
 __host__ __device__
-bool operator!=(pointer<Element, Tag, Reference, Derived> p, std::nullptr_t np)
+bool operator!=(pointer<Element, Tag, Reference, Derived> p, std::nullptr_t)
 {
-  return !(np == p);
+  return !(nullptr == p);
 }
 
 THRUST_NAMESPACE_END

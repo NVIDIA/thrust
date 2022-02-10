@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file 
+/*! \file
  *  \brief A pointer to a variable which resides in memory associated with a
  *  system.
  */
@@ -235,19 +235,19 @@ operator<<(std::basic_ostream<charT, traits> &os,
 // `std::unique_ptr`.
 template <typename Element, typename Tag, typename Reference, typename Derived>
 __host__ __device__
-bool operator==(std::nullptr_t np, pointer<Element, Tag, Reference, Derived> p);
+bool operator==(std::nullptr_t, pointer<Element, Tag, Reference, Derived> p);
 
 template <typename Element, typename Tag, typename Reference, typename Derived>
 __host__ __device__
-bool operator==(pointer<Element, Tag, Reference, Derived> p, std::nullptr_t np);
+bool operator==(pointer<Element, Tag, Reference, Derived> p, std::nullptr_t);
 
 template <typename Element, typename Tag, typename Reference, typename Derived>
 __host__ __device__
-bool operator!=(std::nullptr_t np, pointer<Element, Tag, Reference, Derived> p);
+bool operator!=(std::nullptr_t, pointer<Element, Tag, Reference, Derived> p);
 
 template <typename Element, typename Tag, typename Reference, typename Derived>
 __host__ __device__
-bool operator!=(pointer<Element, Tag, Reference, Derived> p, std::nullptr_t np);
+bool operator!=(pointer<Element, Tag, Reference, Derived> p, std::nullptr_t);
 
 THRUST_NAMESPACE_END
 
