@@ -69,6 +69,16 @@ unique_copy(
     OutputIterator                                              result,
     BinaryPredicate                                             binary_pred);
 
+template <typename DerivedPolicy,
+          typename ForwardIterator,
+          typename BinaryPredicate>
+__host__ __device__ typename thrust::iterator_traits<ForwardIterator>::difference_type
+unique_count(
+    const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+    ForwardIterator                                             first,
+    ForwardIterator                                             last,
+    BinaryPredicate                                             binary_pred);
+
 namespace cuda_cub {
 
 // XXX  it should be possible to unify unique & unique_by_key into a single
@@ -792,6 +802,36 @@ unique(execution_policy<Derived> &policy,
 {
   typedef typename iterator_traits<InputIt>::value_type input_type;
   return cuda_cub::unique(policy, first, last, equal_to<input_type>());
+}
+
+
+template <typename BinaryPred>
+struct zip_adj_not_predicate {
+  template <typename TupleType>
+  bool __host__ __device__ operator()(TupleType&& tuple) {
+      return !binary_pred(thrust::get<0>(tuple), thrust::get<1>(tuple));
+  }
+  
+  BinaryPred binary_pred;
+};
+
+
+__thrust_exec_check_disable__
+template <class Derived,
+          class InputIt,
+          class BinaryPred>
+typename thrust::iterator_traits<InputIt>::difference_type __host__ __device__
+unique_count(execution_policy<Derived> &policy,
+       InputIt                    first,
+       InputIt                    last,
+       BinaryPred                 binary_pred)
+{
+  if (first == last) {
+    return 0;
+  }
+  auto size = last - first;
+  auto it = thrust::make_zip_iterator(thrust::make_tuple(first, first + 1));
+  return 1 + thrust::count_if(policy, it, it + (size - 1), zip_adj_not_predicate<BinaryPred>{binary_pred});
 }
 
 }    // namespace cuda_cub
