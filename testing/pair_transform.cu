@@ -20,7 +20,8 @@ struct add_pairs
   __host__ __device__
     Pair1 operator()(const Pair1 &x, const Pair2 &y)
   {
-    return thrust::make_pair(x.first + y.first, x.second + y.second);
+    return thrust::make_pair(x.first + static_cast<decltype(x.first)>(y.first),
+                             x.second + static_cast<decltype(x.second)>(y.second));
   } // end operator()
 }; // end add_pairs
 

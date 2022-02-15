@@ -53,6 +53,7 @@ __host__ __device__
 {
   using KeyType = typename thrust::iterator_traits<InputIterator1>::value_type;
   using ValueType = typename thrust::iterator_traits<InputIterator2>::value_type;
+  using OutputType = typename thrust::iterator_traits<OutputIterator>::value_type;
 
   // wrap binary_op
   thrust::detail::wrapped_function<
@@ -65,7 +66,7 @@ __host__ __device__
     KeyType   prev_key   = *first1;
     ValueType prev_value = *first2;
 
-    *result = prev_value;
+    *result = static_cast<ValueType>(prev_value);
 
     for(++first1, ++first2, ++result;
         first1 != last1;
@@ -73,11 +74,18 @@ __host__ __device__
     {
       KeyType key = *first1;
 
-      if(binary_pred(prev_key, key))
-        *result = prev_value = wrapped_binary_op(prev_value,*first2);
-      else
-        *result = prev_value = *first2;
-
+      if(binary_pred(prev_key, key)) {
+        //*result = static_cast<OutputType>(prev_value) = wrapped_binary_op(prev_value,*first2);
+        //*result = prev_value = wrapped_binary_op(prev_value,*first2);
+        *result =  static_cast<OutputType>(wrapped_binary_op(prev_value,*first2));
+        prev_value = static_cast<ValueType>(wrapped_binary_op(prev_value,*first2));
+      }
+      else {
+        //*result = static_cast<OutputType>(prev_value) = *first2;
+        //*result = prev_value = *first2;
+        *result = static_cast<OutputType>(*first2);
+        prev_value = static_cast<ValueType>(*first2);
+      }
       prev_key = key;
     }
   }
@@ -117,7 +125,7 @@ __host__ __device__
     // first one is init
     *result = next;
 
-    next = binary_op(next, temp_value);
+    next = static_cast<ValueType>(binary_op(next, temp_value));
 
     for(++first1, ++first2, ++result;
         first1 != last1;
@@ -132,7 +140,7 @@ __host__ __device__
         next = init;  // reset sum
 
       *result = next;  
-      next = binary_op(next, temp_value);
+      next = static_cast<ValueType>(binary_op(next, temp_value));
 
       temp_key = key;
     }

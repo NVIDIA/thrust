@@ -24,7 +24,7 @@ struct TestSortByKeyVariableBits
     {
         thrust::host_vector<T>   h_keys = unittest::random_integers<T>(n);
    
-        const T mask = (1 << num_bits) - 1;
+        const T mask = static_cast<T>((1 << num_bits) - 1);
         for(size_t i = 0; i < n; i++)
             h_keys[i] &= mask;
 

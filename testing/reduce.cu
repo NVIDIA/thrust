@@ -11,7 +11,7 @@ template<typename T>
   __host__ __device__
   T operator()(T lhs, T rhs) const
   {
-    return ((lhs % 10) + (rhs % 10)) % 10;
+    return static_cast<T>(((lhs % 10) + (rhs % 10)) % 10);
   }
 };
 

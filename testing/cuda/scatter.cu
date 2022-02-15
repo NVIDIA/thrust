@@ -24,7 +24,7 @@ void TestScatterDevice(ExecutionPolicy exec)
   
   for(size_t i = 0; i < n; i++)
   {
-    h_map[i] =  h_map[i] % output_size;
+    h_map[i] = h_map[i] % static_cast<unsigned int>(output_size);
   }
   
   thrust::device_vector<unsigned int> d_map = h_map;
@@ -82,7 +82,7 @@ void TestScatterIfDevice(ExecutionPolicy exec)
   
   for(size_t i = 0; i < n; i++)
   {
-    h_map[i] =  h_map[i] % output_size;
+    h_map[i] = h_map[i] % static_cast<unsigned int>(output_size);
   }
   
   thrust::device_vector<unsigned int> d_map = h_map;

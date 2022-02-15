@@ -94,6 +94,7 @@ class feistel_bijection {
   }
 
   static constexpr std::uint32_t num_rounds = 24;
+
   std::uint64_t right_side_bits;
   std::uint64_t left_side_bits;
   std::uint64_t right_side_mask;

@@ -950,7 +950,7 @@ T reduce_n_impl(execution_policy<Derived>& policy,
     >::Dispatch),
     num_items,
     (NULL, tmp_size, first, reinterpret_cast<T*>(NULL),
-        num_items_fixed, binary_op, init, stream,
+        static_cast<int>(num_items_fixed), binary_op, init, stream,
         THRUST_DEBUG_SYNC_FLAG));
   cuda_cub::throw_on_error(status, "after reduction step 1");
 
@@ -978,7 +978,7 @@ T reduce_n_impl(execution_policy<Derived>& policy,
     >::Dispatch),
     num_items,
     (tmp_ptr, tmp_size, first, ret_ptr,
-        num_items_fixed, binary_op, init, stream,
+        static_cast<int>(num_items_fixed), binary_op, init, stream,
         THRUST_DEBUG_SYNC_FLAG));
   cuda_cub::throw_on_error(status, "after reduction step 2");
 

@@ -77,7 +77,7 @@ struct compute_sequence_value<T, typename std::enable_if<std::is_arithmetic<T>::
   __host__ __device__
   T operator()(std::size_t i) const
   {
-    return init + step * static_cast<T>(i);
+    return static_cast<T>(init + step * static_cast<T>(i));
   }
 };
 }

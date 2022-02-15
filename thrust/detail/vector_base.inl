@@ -202,7 +202,7 @@ template<typename T, typename Alloc>
                       IteratorOrIntegralType value,
                       true_type)
 {
-  fill_init(n,value);
+  fill_init(n,static_cast<T>(value));
 } // end vector_base::init_dispatch()
 
 template<typename T, typename Alloc>

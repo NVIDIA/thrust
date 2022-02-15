@@ -62,7 +62,7 @@ struct estimate_pi : public thrust::unary_function<unsigned int,float>
     sum *= 4.0f;
 
     // divide by N
-    return sum / N;
+    return sum / static_cast<float>(N);
   }
 };
 
@@ -76,7 +76,7 @@ int main(void)
                                             estimate_pi(),
                                             0.0f,
                                             thrust::plus<float>());
-  estimate /= M;
+  estimate /= static_cast<float>(M);
 
   std::cout << "pi is around " << estimate << std::endl;
 
