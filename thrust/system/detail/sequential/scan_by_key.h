@@ -66,7 +66,7 @@ __host__ __device__
     KeyType   prev_key   = *first1;
     ValueType prev_value = *first2;
 
-    *result = static_cast<OutputType>(prev_value);
+    *result = static_cast<ValueType>(prev_value);
 
     for(++first1, ++first2, ++result;
         first1 != last1;
