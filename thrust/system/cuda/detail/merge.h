@@ -170,7 +170,7 @@ namespace __merge {
       Size partition_idx = blockDim.x * blockIdx.x + threadIdx.x;
       if (partition_idx < num_partitions)
       {
-        Size partition_at = thrust::min(partition_idx * items_per_tile,
+        Size partition_at = (thrust::min)(partition_idx * items_per_tile,
                                         keys1_count + keys2_count);
         Size partition_diag = merge_path(keys1,
                                          keys2,
@@ -463,7 +463,7 @@ namespace __merge {
         Size partition_end = merge_partitions[tile_idx + 1];
 
         Size diag0 = ITEMS_PER_TILE * tile_idx;
-        Size diag1 = thrust::min(keys1_count + keys2_count, diag0 + ITEMS_PER_TILE);
+        Size diag1 = (thrust::min)(keys1_count + keys2_count, diag0 + ITEMS_PER_TILE);
 
         // compute bounding box for keys1 & keys2
         //
@@ -847,7 +847,7 @@ namespace __merge {
                                     debug_sync);
     cuda_cub::throw_on_error(status, "merge: failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
+    status = cuda_cub::synchronize_optional(policy);
     cuda_cub::throw_on_error(status, "merge: failed to synchronize");
 
     return thrust::make_pair(keys_result + count, items_result + count);

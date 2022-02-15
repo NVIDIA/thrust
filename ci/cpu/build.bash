@@ -12,4 +12,3 @@
 export PARALLEL_LEVEL=${PARALLEL_LEVEL:-4}
 
 source ${WORKSPACE}/ci/common/build.bash
-

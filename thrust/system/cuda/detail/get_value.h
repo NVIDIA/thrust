@@ -66,7 +66,7 @@ inline __host__ __device__
   // because it would result in a compiler warning, either about falling off
   // the end of a non-void function, or about result_type's default constructor
   // being a host-only function.
-  #ifdef __NVCOMPILER_CUDA__
+  #ifdef _NVHPC_CUDA
   if (THRUST_IS_HOST_CODE) {
     return war_nvbugs_881631::host_path(exec, ptr);
   } else {

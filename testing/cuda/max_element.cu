@@ -67,7 +67,15 @@ void TestMaxElementDeviceDevice()
 DECLARE_UNITTEST(TestMaxElementDeviceDevice);
 
 
-void TestMaxElementCudaStreams()
+void TestMaxElementDeviceNoSync()
+{
+  TestMaxElementDevice(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestMaxElementDeviceNoSync);
+
+
+template<typename ExecutionPolicy>
+void TestMaxElementCudaStreams(ExecutionPolicy policy)
 {
   typedef thrust::device_vector<int> Vector;
   typedef Vector::value_type T;
@@ -83,15 +91,28 @@ void TestMaxElementCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  ASSERT_EQUAL( *thrust::max_element(thrust::cuda::par.on(s), data.begin(), data.end()), 5);
-  ASSERT_EQUAL( thrust::max_element(thrust::cuda::par.on(s), data.begin(), data.end()) - data.begin(), 1);
+  auto streampolicy = policy.on(s);
+
+  ASSERT_EQUAL( *thrust::max_element(streampolicy, data.begin(), data.end()), 5);
+  ASSERT_EQUAL( thrust::max_element(streampolicy, data.begin(), data.end()) - data.begin(), 1);
   
-  ASSERT_EQUAL( *thrust::max_element(thrust::cuda::par.on(s), data.begin(), data.end(), thrust::greater<T>()), 1);
-  ASSERT_EQUAL( thrust::max_element(thrust::cuda::par.on(s), data.begin(), data.end(), thrust::greater<T>()) - data.begin(), 2);
+  ASSERT_EQUAL( *thrust::max_element(streampolicy, data.begin(), data.end(), thrust::greater<T>()), 1);
+  ASSERT_EQUAL( thrust::max_element(streampolicy, data.begin(), data.end(), thrust::greater<T>()) - data.begin(), 2);
 
   cudaStreamDestroy(s);
 }
-DECLARE_UNITTEST(TestMaxElementCudaStreams);
+
+void TestMaxElementCudaStreamsSync(){
+  TestMaxElementCudaStreams(thrust::cuda::par);
+}
+DECLARE_UNITTEST(TestMaxElementCudaStreamsSync);
+
+
+void TestMaxElementCudaStreamsNoSync(){
+  TestMaxElementCudaStreams(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestMaxElementCudaStreamsNoSync);
+
 
 void TestMaxElementDevicePointer()
 {

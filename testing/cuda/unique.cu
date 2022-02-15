@@ -94,7 +94,15 @@ void TestUniqueDeviceDevice()
 DECLARE_UNITTEST(TestUniqueDeviceDevice);
 
 
-void TestUniqueCudaStreams()
+void TestUniqueDeviceNoSync()
+{
+  TestUniqueDevice(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestUniqueDeviceNoSync);
+
+
+template<typename ExecutionPolicy>
+void TestUniqueCudaStreams(ExecutionPolicy policy)
 {
   typedef thrust::device_vector<int> Vector;
   typedef Vector::value_type T;
@@ -116,8 +124,10 @@ void TestUniqueCudaStreams()
 
   cudaStream_t s;
   cudaStreamCreate(&s);
+
+  auto streampolicy = policy.on(s);
   
-  new_last = thrust::unique(thrust::cuda::par.on(s), data.begin(), data.end());
+  new_last = thrust::unique(streampolicy, data.begin(), data.end());
   cudaStreamSynchronize(s);
 
   ASSERT_EQUAL(new_last - data.begin(), 7);
@@ -129,7 +139,7 @@ void TestUniqueCudaStreams()
   ASSERT_EQUAL(data[5], 31);
   ASSERT_EQUAL(data[6], 37);
 
-  new_last = thrust::unique(thrust::cuda::par.on(s), data.begin(), new_last, is_equal_div_10_unique<T>());
+  new_last = thrust::unique(streampolicy, data.begin(), new_last, is_equal_div_10_unique<T>());
   cudaStreamSynchronize(s);
 
   ASSERT_EQUAL(new_last - data.begin(), 3);
@@ -139,7 +149,19 @@ void TestUniqueCudaStreams()
 
   cudaStreamDestroy(s);
 }
-DECLARE_UNITTEST(TestUniqueCudaStreams);
+
+void TestUniqueCudaStreamsSync()
+{
+  TestUniqueCudaStreams(thrust::cuda::par);
+}
+DECLARE_UNITTEST(TestUniqueCudaStreamsSync);
+
+
+void TestUniqueCudaStreamsNoSync()
+{
+  TestUniqueCudaStreams(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestUniqueCudaStreamsNoSync);
 
 
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3>
@@ -227,7 +249,15 @@ void TestUniqueCopyDeviceDevice()
 DECLARE_UNITTEST(TestUniqueCopyDeviceDevice);
 
 
-void TestUniqueCopyCudaStreams()
+void TestUniqueCopyDeviceNoSync()
+{
+  TestUniqueCopyDevice(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestUniqueCopyDeviceNoSync);
+
+
+template<typename ExecutionPolicy>
+void TestUniqueCopyCudaStreams(ExecutionPolicy policy)
 {
   typedef thrust::device_vector<int> Vector;
   typedef Vector::value_type T;
@@ -251,8 +281,10 @@ void TestUniqueCopyCudaStreams()
 
   cudaStream_t s;
   cudaStreamCreate(&s);
+
+  auto streampolicy = policy.on(s);
   
-  new_last = thrust::unique_copy(thrust::cuda::par.on(s), data.begin(), data.end(), output.begin());
+  new_last = thrust::unique_copy(streampolicy, data.begin(), data.end(), output.begin());
   cudaStreamSynchronize(s);
 
   ASSERT_EQUAL(new_last - output.begin(), 7);
@@ -264,7 +296,7 @@ void TestUniqueCopyCudaStreams()
   ASSERT_EQUAL(output[5], 31);
   ASSERT_EQUAL(output[6], 37);
 
-  new_last = thrust::unique_copy(thrust::cuda::par.on(s), output.begin(), new_last, data.begin(), is_equal_div_10_unique<T>());
+  new_last = thrust::unique_copy(streampolicy, output.begin(), new_last, data.begin(), is_equal_div_10_unique<T>());
   cudaStreamSynchronize(s);
 
   ASSERT_EQUAL(new_last - data.begin(), 3);
@@ -274,5 +306,17 @@ void TestUniqueCopyCudaStreams()
 
   cudaStreamDestroy(s);
 }
-DECLARE_UNITTEST(TestUniqueCopyCudaStreams);
+
+void TestUniqueCopyCudaStreamsSync()
+{
+  TestUniqueCopyCudaStreams(thrust::cuda::par);
+}
+DECLARE_UNITTEST(TestUniqueCopyCudaStreamsSync);
+
+
+void TestUniqueCopyCudaStreamsNoSync()
+{
+  TestUniqueCopyCudaStreams(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestUniqueCopyCudaStreamsNoSync);
 

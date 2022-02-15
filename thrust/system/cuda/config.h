@@ -32,7 +32,7 @@
 // older releases. This header will always pull in version info:
 #include <cub/util_namespace.cuh>
 
-#if defined(__CUDACC__) || defined(__NVCOMPILER_CUDA__)
+#if defined(__CUDACC__) || defined(_NVHPC_CUDA)
 #  if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__>= 350 && defined(__CUDACC_RDC__))
 #    define __THRUST_HAS_CUDART__ 1
 #    define THRUST_RUNTIME_FUNCTION __host__ __device__ __forceinline__

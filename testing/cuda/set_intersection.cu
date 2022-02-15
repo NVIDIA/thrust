@@ -59,7 +59,15 @@ void TestSetIntersectionDeviceDevice()
 DECLARE_UNITTEST(TestSetIntersectionDeviceDevice);
 
 
-void TestSetIntersectionCudaStreams()
+void TestSetIntersectionDeviceNoSync()
+{
+  TestSetIntersectionDevice(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestSetIntersectionDeviceNoSync);
+
+
+template<typename ExecutionPolicy>
+void TestSetIntersectionCudaStreams(ExecutionPolicy policy)
 {
   typedef thrust::device_vector<int> Vector;
   typedef Vector::iterator Iterator;
@@ -77,7 +85,9 @@ void TestSetIntersectionCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  Iterator end = thrust::set_intersection(thrust::cuda::par.on(s),
+  auto streampolicy = policy.on(s);
+
+  Iterator end = thrust::set_intersection(streampolicy,
                                           a.begin(), a.end(),
                                           b.begin(), b.end(),
                                           result.begin());
@@ -88,5 +98,17 @@ void TestSetIntersectionCudaStreams()
 
   cudaStreamDestroy(s);
 }
-DECLARE_UNITTEST(TestSetIntersectionCudaStreams);
+
+void TestSetIntersectionCudaStreamsSync()
+{
+  TestSetIntersectionCudaStreams(thrust::cuda::par);
+}
+DECLARE_UNITTEST(TestSetIntersectionCudaStreamsSync);
+
+
+void TestSetIntersectionCudaStreamsNoSync()
+{
+  TestSetIntersectionCudaStreams(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestSetIntersectionCudaStreamsNoSync);
 

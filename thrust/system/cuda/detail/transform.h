@@ -233,7 +233,7 @@ namespace __transform {
                            num_items);
 
     cuda_cub::throw_on_error(
-      cuda_cub::synchronize(policy)
+      cuda_cub::synchronize_optional(policy)
     , "transform: failed to synchronize"
     );
 
@@ -279,7 +279,7 @@ namespace __transform {
                            num_items);
 
     cuda_cub::throw_on_error(
-      cuda_cub::synchronize(policy)
+      cuda_cub::synchronize_optional(policy)
     , "transform: failed to synchronize"
     );
 
