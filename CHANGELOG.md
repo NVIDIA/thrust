@@ -146,18 +146,14 @@ now support cv-qualified types. `scan_by_key` uses less memory.
 `thrust::iterator_traits` is better integrated with `std::iterator_traits`.
 See below for more details and references.
 
-<<<<<<< HEAD
-## Breaking Changes
+### Breaking Changes
 
 - Thrust 1.14.0 included a change that aliased the `cub` namespace
   to `thrust::cub`. This has caused issues with ambiguous namespaces for
   projects that declare `using namespace thrust;` from the global namespace. We
   recommend against this practice.
 
-## New Features
-=======
 ### New Features
->>>>>>> 703a44e8... Re-apply PR with the new documentation framework.
 
 - NVIDIA/thrust#1464: Add preprocessor hooks that allow `thrust::` to be wrapped
   in an external namespace, and support cases when CUB is wrapped in an external
