@@ -53,7 +53,7 @@ int main() {
 }
 ```
 
-[See it on Godbolt](https://godbolt.org/z/v3fdoE){: .btn }
+[See it on Godbolt](https://godbolt.org/z/v3fdoE)
 
 This example demonstrates computing the sum of some random numbers in parallel:
 
@@ -78,7 +78,7 @@ int main() {
 }
 ```
 
-[See it on Godbolt](https://godbolt.org/z/119jxj){: .btn }
+[See it on Godbolt](https://godbolt.org/z/119jxj)
 
 This example show how to perform such a reduction asynchronously:
 
@@ -115,7 +115,7 @@ int main() {
 }
 ```
 
-[See it on Godbolt](https://godbolt.org/z/rsdedW){: .btn }
+[See it on Godbolt](https://godbolt.org/z/rsdedW)
 
 ## Getting The Thrust Source Code
 
