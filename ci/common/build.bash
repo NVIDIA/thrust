@@ -300,6 +300,9 @@ if [[ "${BUILD_TYPE}" == "gpu" ]]; then
   nvidia-smi 2>&1 | sed -Ez '$ s/\n*$/\n/'
 fi
 
+# Set sccache statistics to zero to capture clean run.
+sccache --zero-stats
+
 ################################################################################
 # BUILD - Build Thrust and CUB examples and tests.
 ################################################################################
