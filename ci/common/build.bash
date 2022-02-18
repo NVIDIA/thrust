@@ -69,12 +69,18 @@ set +e # Don't stop on errors from /etc/cccl.bashrc.
 source /etc/cccl.bashrc
 set -e # Stop on errors.
 
-# Set sccache S3 bucket variables
-SCCACHE_S3_KEY_PREFIX=thrust-aarch64 # [aarch64]
-SCCACHE_S3_KEY_PREFIX=thrust-linux64 # [linux64]
-SCCACHE_BUCKET=rapids-sccache
-SCCACHE_REGION=us-west-2
-SCCACHE_IDLE_TIMEOUT=32768
+# Configure sccache
+if [[ "${BUILD_MODE}" == "pull-request" || "${BUILD_MODE}" == "branch" ]]; then
+  # gpuCI builds cache in S3.
+  # Change to 'thrust-aarch64' if we add aarch64 builds to gpuCI:
+  export SCCACHE_S3_KEY_PREFIX=thrust-linux64 # [linux64]
+  export SCCACHE_BUCKET=rapids-sccache
+  export SCCACHE_REGION=us-west-2
+  export SCCACHE_IDLE_TIMEOUT=32768
+else
+  # local builds cache locally
+  export SCCACHE_DIR="${WORKSPACE}/build-sccache"
+fi
 
 # Set sccache compiler flags
 export CMAKE_CUDA_COMPILER_LAUNCHER="sccache"
