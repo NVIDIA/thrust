@@ -70,8 +70,8 @@ source /etc/cccl.bashrc
 set -e # Stop on errors.
 
 # Set sccache S3 bucket variables
-SCCACHE_S3_KEY_PREFIX=libcudf-aarch64 # [aarch64]
-SCCACHE_S3_KEY_PREFIX=libcudf-linux64 # [linux64]
+SCCACHE_S3_KEY_PREFIX=thrust-aarch64 # [aarch64]
+SCCACHE_S3_KEY_PREFIX=thrust-linux64 # [linux64]
 SCCACHE_BUCKET=rapids-sccache
 SCCACHE_REGION=us-west-2
 SCCACHE_IDLE_TIMEOUT=32768
