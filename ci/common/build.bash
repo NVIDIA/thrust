@@ -306,6 +306,8 @@ if [[ "${BUILD_TYPE}" == "gpu" ]]; then
   nvidia-smi 2>&1 | sed -Ez '$ s/\n*$/\n/'
 fi
 
+echo
+
 # Set sccache statistics to zero to capture clean run.
 sccache --zero-stats
 
@@ -356,6 +358,17 @@ log "Test Thrust and CUB..."
 test_status=$?
 
 ################################################################################
+# COMPILATION STATS
+################################################################################
+
+# Get sccache stats after the compile is completed
+COMPILE_REQUESTS=$(sccache -s | grep "Compile requests \+ [0-9]\+$" | awk '{ print $NF }')
+CACHE_HITS=$(sccache -s | grep "Cache hits \+ [0-9]\+$" | awk '{ print $NF }')
+HIT_RATE=$(echo - | awk "{printf \"%.2f\n\", $CACHE_HITS / $COMPILE_REQUESTS * 100}")
+log "sccache stats (${HIT_RATE}% hit):"
+sccache -s
+
+################################################################################
 # COMPILE TIME INFO: Print the 20 longest running build steps (ninja only)
 ################################################################################
 
@@ -372,13 +385,6 @@ if [[ -f "ctest_log" ]]; then
   log "Checking slowest test steps:"
   echo_and_run "TestTimeInfo" cmake -DLOGFILE=ctest_log -P ../cmake/PrintCTestRunTimes.cmake | head -n 20
 fi
-
-# Get sccache stats after the compile is completed
-COMPILE_REQUESTS=$(sccache -s | grep "Compile requests \+ [0-9]\+$" | awk '{ print $NF }')
-CACHE_HITS=$(sccache -s | grep "Cache hits \+ [0-9]\+$" | awk '{ print $NF }')
-HIT_RATE=$(echo - | awk "{printf \"%.2f\n\", $CACHE_HITS / $COMPILE_REQUESTS * 100}")
-MSG="${MSG}<br/>sccache hit rate ${HIT_RATE} %"
-echo "$MSG"
 
 ################################################################################
 # MEMORY_USAGE
