@@ -69,12 +69,17 @@ set +e # Don't stop on errors from /etc/cccl.bashrc.
 source /etc/cccl.bashrc
 set -e # Stop on errors.
 
-# Set sccache variables
+# Set sccache S3 bucket variables
 SCCACHE_S3_KEY_PREFIX=libcudf-aarch64 # [aarch64]
 SCCACHE_S3_KEY_PREFIX=libcudf-linux64 # [linux64]
 SCCACHE_BUCKET=rapids-sccache
 SCCACHE_REGION=us-west-2
 SCCACHE_IDLE_TIMEOUT=32768
+
+# Set sccache compiler flags
+export CMAKE_CUDA_COMPILER_LAUNCHER="sccache"
+export CMAKE_CXX_COMPILER_LAUNCHER="sccache"
+export CMAKE_C_COMPILER_LAUNCHER="sccache"
 
 # Set path.
 export PATH=/usr/local/cuda/bin:${PATH}
@@ -98,11 +103,6 @@ if [[ -z "${CMAKE_BUILD_TYPE}" ]]; then
 fi
 
 CMAKE_BUILD_FLAGS="--"
-
-# Overwrite docker image '${CXX}' and `${CUDACXX}` in favor of sccache
-CXX=/usr/bin/sccache
-CUDACXX=/usr/bin/sccache
-CMAKE=/usr/bin/sccache
 
 # The Docker image sets up `${CXX}` and `${CUDACXX}`.
 append CMAKE_FLAGS "-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
@@ -292,7 +292,7 @@ ${CUDACXX} --version 2>&1 | sed -Ez '$ s/\n*$/\n/'
 
 echo
 
-${CMAKE} --version 2>&1 | sed -Ez '$ s/\n*$/\n/'
+cmake --version 2>&1 | sed -Ez '$ s/\n*$/\n/'
 
 echo
 
@@ -300,16 +300,13 @@ if [[ "${BUILD_TYPE}" == "gpu" ]]; then
   nvidia-smi 2>&1 | sed -Ez '$ s/\n*$/\n/'
 fi
 
-# Set sccache statistics to zero to capture clean run.
-sccache --zero-stats
-
 ################################################################################
 # BUILD - Build Thrust and CUB examples and tests.
 ################################################################################
 
 log "Configure Thrust and CUB..."
 
-echo_and_run_timed "Configure" ${CMAKE} .. --log-level=VERBOSE ${CMAKE_FLAGS}
+echo_and_run_timed "Configure" cmake .. --log-level=VERBOSE ${CMAKE_FLAGS}
 configure_status=$?
 
 log "Build Thrust and CUB..."
@@ -326,7 +323,7 @@ python3 ${WORKSPACE}/ci/common/memmon.py \
         &
 memmon_pid=$!
 
-echo_and_run_timed "Build" ${CMAKE} --build . ${CMAKE_BUILD_FLAGS} -j ${PARALLEL_LEVEL}
+echo_and_run_timed "Build" cmake --build . ${CMAKE_BUILD_FLAGS} -j ${PARALLEL_LEVEL}
 build_status=$?
 
 # Stop memmon:
@@ -355,7 +352,7 @@ test_status=$?
 
 if [[ -f ".ninja_log" ]]; then
   log "Checking slowest build steps:"
-  echo_and_run "CompileTimeInfo" ${CMAKE} -P ../cmake/PrintNinjaBuildTimes.cmake | head -n 23
+  echo_and_run "CompileTimeInfo" cmake -P ../cmake/PrintNinjaBuildTimes.cmake | head -n 23
 fi
 
 ################################################################################
@@ -364,7 +361,7 @@ fi
 
 if [[ -f "ctest_log" ]]; then
   log "Checking slowest test steps:"
-  echo_and_run "TestTimeInfo" ${CMAKE} -DLOGFILE=ctest_log -P ../cmake/PrintCTestRunTimes.cmake | head -n 20
+  echo_and_run "TestTimeInfo" cmake -DLOGFILE=ctest_log -P ../cmake/PrintCTestRunTimes.cmake | head -n 20
 fi
 
 # Get sccache stats after the compile is completed
@@ -372,6 +369,7 @@ COMPILE_REQUESTS=$(sccache -s | grep "Compile requests \+ [0-9]\+$" | awk '{ pri
 CACHE_HITS=$(sccache -s | grep "Cache hits \+ [0-9]\+$" | awk '{ print $NF }')
 HIT_RATE=$(echo - | awk "{printf \"%.2f\n\", $CACHE_HITS / $COMPILE_REQUESTS * 100}")
 MSG="${MSG}<br/>sccache hit rate ${HIT_RATE} %"
+echo "$MSG"
 
 ################################################################################
 # MEMORY_USAGE
