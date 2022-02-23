@@ -69,6 +69,31 @@ set +e # Don't stop on errors from /etc/cccl.bashrc.
 source /etc/cccl.bashrc
 set -e # Stop on errors.
 
+# Configure sccache.
+if [[ "${CXX_TYPE}" == "nvcxx" ]]; then
+  log "Disabling sccache (nvcxx not supported)"
+  unset ENABLE_SCCACHE
+elif [[ "${BUILD_MODE}" == "pull-request" || "${BUILD_MODE}" == "branch" ]]; then
+  # gpuCI builds cache in S3.
+  export ENABLE_SCCACHE="gpuCI"
+  # Change to 'thrust-aarch64' if we add aarch64 builds to gpuCI:
+  export SCCACHE_S3_KEY_PREFIX=thrust-linux64 # [linux64]
+  export SCCACHE_BUCKET=rapids-sccache
+  export SCCACHE_REGION=us-west-2
+  export SCCACHE_IDLE_TIMEOUT=32768
+else
+  export ENABLE_SCCACHE="local"
+  # local builds cache locally
+  export SCCACHE_DIR="${WORKSPACE}/build-sccache"
+fi
+
+# Set sccache compiler flags
+if [[ -n "${ENABLE_SCCACHE}" ]]; then
+  export CMAKE_CUDA_COMPILER_LAUNCHER="sccache"
+  export CMAKE_CXX_COMPILER_LAUNCHER="sccache"
+  export CMAKE_C_COMPILER_LAUNCHER="sccache"
+fi
+
 # Set path.
 export PATH=/usr/local/cuda/bin:${PATH}
 
@@ -282,10 +307,16 @@ echo
 
 cmake --version 2>&1 | sed -Ez '$ s/\n*$/\n/'
 
-echo
-
 if [[ "${BUILD_TYPE}" == "gpu" ]]; then
+  echo
   nvidia-smi 2>&1 | sed -Ez '$ s/\n*$/\n/'
+fi
+
+if [[ -n "${ENABLE_SCCACHE}" ]]; then
+  echo
+  # Set sccache statistics to zero to capture clean run.
+  sccache --version
+  sccache --zero-stats | grep location
 fi
 
 ################################################################################
@@ -333,6 +364,19 @@ log "Test Thrust and CUB..."
   echo_and_run_timed "Test" ctest ${CTEST_FLAGS} | tee ctest_log
 )
 test_status=$?
+
+################################################################################
+# COMPILATION STATS
+################################################################################
+
+if [[ -n "${ENABLE_SCCACHE}" ]]; then
+  # Get sccache stats after the compile is completed
+  COMPILE_REQUESTS=$(sccache -s | grep "Compile requests \+ [0-9]\+$" | awk '{ print $NF }')
+  CACHE_HITS=$(sccache -s | grep "Cache hits \+ [0-9]\+$" | awk '{ print $NF }')
+  HIT_RATE=$(echo - | awk "{printf \"%.2f\n\", $CACHE_HITS / $COMPILE_REQUESTS * 100}")
+  log "sccache stats (${HIT_RATE}% hit):"
+  sccache -s
+fi
 
 ################################################################################
 # COMPILE TIME INFO: Print the 20 longest running build steps (ninja only)
