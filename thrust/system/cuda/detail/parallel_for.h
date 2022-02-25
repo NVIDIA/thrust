@@ -31,11 +31,11 @@
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <thrust/system/cuda/config.h>
 
+#include <thrust/thread_group_size.h>
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/detail/type_traits/result_of_adaptable_function.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
-#include <thrust/system/cuda/detail/par_to_seq.h>
 
 THRUST_NAMESPACE_BEGIN
 
@@ -61,9 +61,8 @@ namespace __parallel_for {
   template <class F>
   struct Tuning<sm30, F>
   {
-    typedef PtxPolicy<256, 2> type;
+    typedef PtxPolicy<thrust::thread_group_size<F>::value, 2> type;
   };
-
 
   template <class F,
             class Size>

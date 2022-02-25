@@ -31,6 +31,7 @@
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <thrust/system/cuda/config.h>
 
+#include <thrust/thread_group_size.h>
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/detail/type_traits/result_of_adaptable_function.h>
 #include <thrust/system/cuda/detail/parallel_for.h>
@@ -39,7 +40,6 @@
 THRUST_NAMESPACE_BEGIN
 
 namespace cuda_cub {
-
 
 namespace __transform {
 
@@ -87,6 +87,8 @@ namespace __transform {
       if (pred(raw_reference_cast(stencil[idx])))
         output[idx] = op(raw_reference_cast(input[idx]));
     }
+
+    using thread_group_size = thrust::thread_group_size<TransformOp>;
   }; // struct unary_transform_stencil_f
 
   template <class InputIt,
@@ -118,6 +120,8 @@ namespace __transform {
       if (pred(raw_reference_cast(input[idx])))
         output[idx] = op(raw_reference_cast(input[idx]));
     }
+
+    using thread_group_size = thrust::thread_group_size<TransformOp>;
   }; // struct unary_transform_f
 
   template <class InputIt1,
@@ -156,6 +160,8 @@ namespace __transform {
         output[idx] = op(raw_reference_cast(input1[idx]),
                          raw_reference_cast(input2[idx]));
     }
+
+    using thread_group_size = thrust::thread_group_size<TransformOp>;
   }; // struct binary_transform_stencil_f
 
   template <class InputIt1,
@@ -196,6 +202,8 @@ namespace __transform {
         output[idx] = op(raw_reference_cast(input1[idx]),
                          raw_reference_cast(input2[idx]));
     }
+
+    using thread_group_size = thrust::thread_group_size<TransformOp>;
   }; // struct binary_transform_f
 
   template <class Policy,
