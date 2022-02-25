@@ -44,6 +44,9 @@ void test_predefined_friend_function();
  *
  *  It does many things.
  *
+ *  \tparam T A template parameter.
+ *  \tparam U Another template parameter.
+ *
  *  \see test_function
  */
 template <typename T, typename U>
@@ -141,6 +144,11 @@ class test_derived_class : test_class<int, double>
 
 /*! \brief \c test_function is a function intended to exercise and test Doxybook
  *  rendering.
+ *
+ *  \tparam T A template parameter.
+ *
+ *  \param a A function parameter.
+ *  \param b A function parameter.
  */
 template <typename T>
 void test_function(T const& a, test_class<T, T const>&& b);
