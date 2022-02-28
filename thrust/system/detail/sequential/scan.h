@@ -67,7 +67,7 @@ __host__ __device__
   {
     ValueType sum = *first;
 
-    *result = static_cast<OutputType>(*first);
+    *result = static_cast<ValueType>(*first);
     *result = *first;
 
     for(++first, ++result; first != last; ++first, ++result)
