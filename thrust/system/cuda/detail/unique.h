@@ -41,6 +41,7 @@
 #include <thrust/functional.h>
 #include <thrust/detail/mpl/math.h>
 #include <thrust/detail/minmax.h>
+#include <thrust/advance.h>
 #include <thrust/distance.h>
 
 #include <cub/util_math.cuh>
@@ -818,20 +819,20 @@ struct zip_adj_not_predicate {
 
 __thrust_exec_check_disable__
 template <class Derived,
-          class InputIt,
+          class ForwardIt,
           class BinaryPred>
-typename thrust::iterator_traits<InputIt>::difference_type __host__ __device__
+typename thrust::iterator_traits<ForwardIt>::difference_type __host__ __device__
 unique_count(execution_policy<Derived> &policy,
-       InputIt                    first,
-       InputIt                    last,
+       ForwardIt                  first,
+       ForwardIt                  last,
        BinaryPred                 binary_pred)
 {
   if (first == last) {
     return 0;
   }
-  auto size = last - first;
-  auto it = thrust::make_zip_iterator(thrust::make_tuple(first, first + 1));
-  return 1 + thrust::count_if(policy, it, it + (size - 1), zip_adj_not_predicate<BinaryPred>{binary_pred});
+  auto size = thrust::distance(first, last);
+  auto it = thrust::make_zip_iterator(thrust::make_tuple(first, thrust::next(first)));
+  return 1 + thrust::count_if(policy, it, thrust::next(it, size - 1), zip_adj_not_predicate<BinaryPred>{binary_pred});
 }
 
 }    // namespace cuda_cub
