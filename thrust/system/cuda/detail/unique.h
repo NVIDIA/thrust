@@ -769,15 +769,15 @@ unique_copy(execution_policy<Derived> &policy,
 
 __thrust_exec_check_disable__
 template <class Derived,
-          class InputIt,
+          class ForwardIt,
           class BinaryPred>
-InputIt __host__ __device__
+ForwardIt __host__ __device__
 unique(execution_policy<Derived> &policy,
-       InputIt                    first,
-       InputIt                    last,
+       ForwardIt                  first,
+       ForwardIt                  last,
        BinaryPred                 binary_pred)
 {
-  InputIt ret = first;
+  ForwardIt ret = first;
   if (__THRUST_HAS_CUDART__)
   {
     ret = cuda_cub::unique_copy(policy, first, last, first, binary_pred);
@@ -795,13 +795,13 @@ unique(execution_policy<Derived> &policy,
 }
 
 template <class Derived,
-          class InputIt>
-InputIt __host__ __device__
+          class ForwardIt>
+ForwardIt __host__ __device__
 unique(execution_policy<Derived> &policy,
-       InputIt                    first,
-       InputIt                    last)
+       ForwardIt                  first,
+       ForwardIt                  last)
 {
-  typedef typename iterator_traits<InputIt>::value_type input_type;
+  typedef typename iterator_traits<ForwardIt>::value_type input_type;
   return cuda_cub::unique(policy, first, last, equal_to<input_type>());
 }
 
