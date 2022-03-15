@@ -39,6 +39,9 @@ complex<typename detail::promoted_numerical_type<T0, T1>::type>
 pow(const complex<T0>& x, const T1& y)
 {
   typedef typename detail::promoted_numerical_type<T0, T1>::type T;
+  if (x.imag() == 0.0) {
+    return pow(x.real(), y);
+  }
   return exp(log(complex<T>(x)) * T(y));
 }
 
