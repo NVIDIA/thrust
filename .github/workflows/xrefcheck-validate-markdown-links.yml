@@ -15,4 +15,4 @@ jobs:
     - uses: serokell/xrefcheck-action@v1
       with:
         xrefcheck-version: 0.2
-        xrefcheck-args: --mode local-only
+        xrefcheck-args: --ignored dependencies
