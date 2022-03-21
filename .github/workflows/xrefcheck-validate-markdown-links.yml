@@ -1,5 +1,10 @@
 name: Check bad links
 
+on:
+  push:
+    branches: [ '*' ]
+  pull_request:
+    branches: [ '*' ]
 
 jobs:
   xrefcheck:
