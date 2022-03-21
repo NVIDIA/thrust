@@ -1,3 +1,5 @@
+name: Check bad links
+
 
 jobs:
   xrefcheck:
