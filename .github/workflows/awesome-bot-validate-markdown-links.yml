@@ -1,0 +1,21 @@
+name: Runs awesome_bot to check markdown files for bad links
+
+on:
+  push:
+    branches: [ '*' ]
+  pull_request:
+    branches: [ '*' ]
+
+jobs:
+  run-awesome-bot:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby 2.6
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6.x
+    - name: Run awesome_bot
+      run: |
+        gem install awesome_bot
+        awesome_bot README.md,`find docs -name "*.md"` --allow-dupe --allow-redirect --base-url https://github.com/NVIDIA/thrust/tree/main/docs
