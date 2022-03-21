@@ -1,0 +1,11 @@
+
+jobs:
+  xrefcheck:
+    name: Check links
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: serokell/xrefcheck-action@v1
+      with:
+        xrefcheck-version: 0.2
+        xrefcheck-args: --mode local-only
