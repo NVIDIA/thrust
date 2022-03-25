@@ -320,3 +320,128 @@ void TestUniqueCopyCudaStreamsNoSync()
 }
 DECLARE_UNITTEST(TestUniqueCopyCudaStreamsNoSync);
 
+
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2>
+__global__
+void unique_count_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 result)
+{
+  *result = thrust::unique_count(exec, first, last);
+}
+
+
+template<typename ExecutionPolicy, typename Iterator1, typename BinaryPredicate, typename Iterator2>
+__global__
+void unique_count_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, BinaryPredicate pred, Iterator2 result)
+{
+  *result = thrust::unique_count(exec, first, last, pred);
+}
+
+
+template<typename ExecutionPolicy>
+void TestUniqueCountDevice(ExecutionPolicy exec)
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef Vector::value_type T;
+
+  Vector data(10);
+  data[0] = 11; 
+  data[1] = 11; 
+  data[2] = 12;
+  data[3] = 20; 
+  data[4] = 29; 
+  data[5] = 21; 
+  data[6] = 21; 
+  data[7] = 31; 
+  data[8] = 31; 
+  data[9] = 37; 
+  
+  Vector output(1, -1);
+  
+  unique_count_kernel<<<1,1>>>(exec, data.begin(), data.end(), output.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
+  ASSERT_EQUAL(output[0], 7);
+
+  unique_count_kernel<<<1,1>>>(exec, data.begin(), data.end(), is_equal_div_10_unique<T>(), output.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
+  ASSERT_EQUAL(output[0], 3);
+}
+
+
+void TestUniqueCountDeviceSeq()
+{
+  TestUniqueCountDevice(thrust::seq);
+}
+DECLARE_UNITTEST(TestUniqueCountDeviceSeq);
+
+
+void TestUniqueCountDeviceDevice()
+{
+  TestUniqueCountDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestUniqueCountDeviceDevice);
+
+
+void TestUniqueCountDeviceNoSync()
+{
+  TestUniqueCountDevice(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestUniqueCountDeviceNoSync);
+
+
+template<typename ExecutionPolicy>
+void TestUniqueCountCudaStreams(ExecutionPolicy policy)
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef Vector::value_type T;
+
+  Vector data(10);
+  data[0] = 11; 
+  data[1] = 11; 
+  data[2] = 12;
+  data[3] = 20; 
+  data[4] = 29; 
+  data[5] = 21; 
+  data[6] = 21; 
+  data[7] = 31; 
+  data[8] = 31; 
+  data[9] = 37;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  auto streampolicy = policy.on(s);
+  
+  int result = thrust::unique_count(streampolicy, data.begin(), data.end());
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL(result, 7);
+
+  result = thrust::unique_count(streampolicy, data.begin(), data.end(), is_equal_div_10_unique<T>());
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL(result, 3);
+
+  cudaStreamDestroy(s);
+}
+
+void TestUniqueCountCudaStreamsSync()
+{
+  TestUniqueCountCudaStreams(thrust::cuda::par);
+}
+DECLARE_UNITTEST(TestUniqueCountCudaStreamsSync);
+
+
+void TestUniqueCountCudaStreamsNoSync()
+{
+  TestUniqueCountCudaStreams(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestUniqueCountCudaStreamsNoSync);
+
