@@ -163,7 +163,7 @@ public:
    *  \param other The \p tagged_reference to swap with.
    */
   __host__ __device__
-  void swap(derived_type& other)
+  void swap(derived_type other)
   {
     // Avoid default-constructing a system; instead, just use a null pointer
     // for dispatch. This assumes that `get_value` will not access any system
@@ -372,7 +372,7 @@ private:
 
   template <typename System>
   __host__ __device__
-  void swap(System* system, derived_type& other)
+  void swap(System* system, derived_type other)
   {
     using thrust::system::detail::generic::select_system;
     using thrust::system::detail::generic::iter_swap;
@@ -509,9 +509,37 @@ class tagged_reference<void const, Tag> {};
  */
 template <typename Element, typename Tag>
 __host__ __device__
-void swap(tagged_reference<Element, Tag>& x, tagged_reference<Element, Tag>& y)
+void swap(tagged_reference<Element, Tag> x, tagged_reference<Element, Tag> y)
 {
   x.swap(y);
+}
+
+/*! Exchanges the values of two objects referred to by a \p tagged_reference and a regular reference.
+ *
+ *  \param x The \p tagged_reference of interest.
+ *  \param y The regular reference of interest.
+ */
+template <typename Element, typename Tag>
+__host__ __device__
+void swap(Element& x, tagged_reference<Element, Tag> y)
+{
+  Element tmp = x;
+  x = y;
+  y = tmp;
+}
+
+/*! Exchanges the values of two objects referred to by a regular reference and a \p tagged_reference.
+ *
+ *  \param x The regular reference of interest.
+ *  \param y The \p tagged_reference of interest.
+ */
+template <typename Element, typename Tag>
+__host__ __device__
+void swap(tagged_reference<Element, Tag> x, Element& y)
+{
+  Element tmp = x;
+  x = y;
+  y = tmp;
 }
 
 THRUST_NAMESPACE_END

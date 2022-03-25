@@ -330,7 +330,7 @@ template<typename T>
      *  \p other The other \p device_reference with which to swap.
      */
     __host__ __device__
-    void swap(device_reference &other);
+    void swap(device_reference other);
 
     /*! Prefix increment operator increments the object referenced by this
      *  \p device_reference.
@@ -962,9 +962,35 @@ template<typename T>
  */
 template<typename T>
 __host__ __device__
-void swap(device_reference<T>& x, device_reference<T>& y)
+void swap(device_reference<T> x, device_reference<T> y)
 {
   x.swap(y);
+}
+
+/*! swaps the value of a \p device_reference with a regular reference.
+ *  \p x The \p device_reference of interest.
+ *  \p y The regular reference of interest.
+ */
+template<typename T>
+__host__ __device__
+void swap(device_reference<T> x, T &y)
+{
+  T tmp = x;
+  x = y;
+  y = tmp;
+}
+
+/*! swaps the value of a regular reference with a \p device_reference.
+ *  \p x The regular reference of interest.
+ *  \p y The \p device_reference of interest.
+ */
+template<typename T>
+__host__ __device__
+void swap(T &x, device_reference<T> y)
+{
+  T tmp = x;
+  x = y;
+  y = tmp;
 }
 
 // declare these methods for the purpose of Doxygenating them

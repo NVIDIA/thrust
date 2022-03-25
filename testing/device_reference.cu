@@ -208,6 +208,7 @@ DECLARE_UNITTEST(TestDeviceReferenceManipulation);
 
 void TestDeviceReferenceSwap(void)
 {
+  using std::swap;
   typedef int T;
 
   thrust::device_vector<T> v(2);
@@ -218,14 +219,37 @@ void TestDeviceReferenceSwap(void)
   ref2 = 13;
 
   // test thrust::swap()
-  thrust::swap(ref1, ref2);
+  swap(ref1, ref2);
   ASSERT_EQUAL(13, ref1);
   ASSERT_EQUAL(7, ref2);
 
+  // test thrust::swap(device_reference<T>, device_reference<T>)
+  swap(v.front(), v.back());
+  ASSERT_EQUAL(7, v.front());
+  ASSERT_EQUAL(13, v.back());
+
   // test .swap()
   ref1.swap(ref2);
-  ASSERT_EQUAL(7, ref1);
-  ASSERT_EQUAL(13, ref2);
+  ASSERT_EQUAL(13, ref1);
+  ASSERT_EQUAL(7, ref2);
+
+  // test .swap(device_reference<T>)
+  v.front().swap(v.back());
+  ASSERT_EQUAL(7, v.front());
+  ASSERT_EQUAL(13, v.back());
+
+  // test thrust::swap(device_reference<T>, T&)
+  T val = 29;
+  swap(v.front(), val);
+  ASSERT_EQUAL(7, val);
+  ASSERT_EQUAL(29, v.front());
+  ASSERT_EQUAL(13, v.back());
+
+  // test thrust::swap(T&, device_reference<T>)
+  swap(val, v.back());
+  ASSERT_EQUAL(13, val);
+  ASSERT_EQUAL(29, v.front());
+  ASSERT_EQUAL(7, v.back());
 }
 DECLARE_UNITTEST(TestDeviceReferenceSwap);
 
