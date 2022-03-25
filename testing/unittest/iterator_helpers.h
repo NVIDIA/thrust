@@ -1,6 +1,6 @@
 #pragma once
 
-#include <iterator>
+#include <thrust/iterator/iterator_traits.h>
 
 
 // Wraps an existing iterator into a forward iterator,
@@ -8,11 +8,15 @@
 template <typename Iterator>
 struct forward_iterator_wrapper {
     // LegacyIterator requirements
-    using reference = typename Iterator::reference;
-    using pointer = typename Iterator::pointer;
-    using value_type = typename Iterator::value_type;
-    using difference_type = typename Iterator::difference_type;
+    using reference = typename thrust::iterator_traits<Iterator>::reference;
+    using pointer = typename thrust::iterator_traits<Iterator>::pointer;
+    using value_type = typename thrust::iterator_traits<Iterator>::value_type;
+    using difference_type = typename thrust::iterator_traits<Iterator>::difference_type;
     using iterator_category = std::forward_iterator_tag;
+    using base_iterator_category = typename thrust::iterator_traits<Iterator>::iterator_category;
+    static_assert(
+        std::is_convertible<base_iterator_category, std::forward_iterator_tag>::value, 
+        "Cannot create forward_iterator_wrapper around an iterator that is not itself at least a forward iterator");
 
     __host__ __device__ reference operator*() const {
         return *wrapped;
@@ -24,12 +28,12 @@ struct forward_iterator_wrapper {
     }
 
     // LegacyInputIterator
-    __host__ __device__ bool operator==(const forward_iterator_wrapper& other) {
-        return wrapped == other.wrapped;
+    friend __host__ __device__ bool operator==(const forward_iterator_wrapper& a, const forward_iterator_wrapper& b) {
+        return a.wrapped == b.wrapped;
     }
 
-    __host__ __device__ bool operator!=(const forward_iterator_wrapper& other) {
-        return !(*this == other);
+    friend __host__ __device__ bool operator!=(const forward_iterator_wrapper& a, const forward_iterator_wrapper& b) {
+        return !(a == b);
     }
 
     __host__ __device__ forward_iterator_wrapper operator++(int) {
@@ -37,8 +41,14 @@ struct forward_iterator_wrapper {
         ++(*this);
         return cpy;
     }
-    
-    __host__ __device__ pointer operator->() const {
+
+    template <typename It = Iterator>
+    __host__ __device__ typename std::enable_if<std::is_pointer<It>::value, pointer>::type operator->() const {
+        return wrapped;
+    }
+
+    template <typename It = Iterator>
+    __host__ __device__ typename std::enable_if<!std::is_pointer<It>::value, pointer>::type operator->() const {
         return wrapped.operator->();
     }
 
