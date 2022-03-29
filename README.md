@@ -5,7 +5,7 @@
 <th><b><a href="https://godbolt.org/z/rsdedW">Godbolt</a></b></th>
 <th><b><a href="https://nvidia.github.io/thrust">Documentation</a></b></th>
 </tr></table>
-
+  
 Thrust is the C++ parallel algorithms library which inspired the introduction
   of parallel algorithms to the C++ Standard Library.
 Thrust's **high-level** interface greatly enhances programmer **productivity**
