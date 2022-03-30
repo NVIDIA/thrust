@@ -1,8 +1,23 @@
 # Parse version information from version.h:
 unset(_THRUST_VERSION_INCLUDE_DIR CACHE) # Clear old result to force search
+
+# Find CMAKE_INSTALL_INCLUDEDIR=@CMAKE_INSTALL_INCLUDEDIR@ directory"
+set(search_dir "${CMAKE_CURRENT_LIST_DIR}/../../../")
+while(TRUE)
+  if(search_dir STREQUAL "/")
+    message(FATAL_ERROR "Unable to find the assoicated thrust install directory")
+    break()
+  endif()
+  if(EXISTS "${search_dir}/@CMAKE_INSTALL_INCLUDEDIR@")
+    break()
+  endif()
+  get_filename_component(search_dir ${search_dir} DIRECTORY)
+endwhile()
+
+
 find_path(_THRUST_VERSION_INCLUDE_DIR thrust/version.h
   NO_DEFAULT_PATH # Only search explicit paths below:
   PATHS
-    "${CMAKE_CURRENT_LIST_DIR}/../../../@CMAKE_INSTALL_INCLUDEDIR@"
+    "${search_dir}/@CMAKE_INSTALL_INCLUDEDIR@" # Install tree
 )
 set_property(CACHE _THRUST_VERSION_INCLUDE_DIR PROPERTY TYPE INTERNAL)
