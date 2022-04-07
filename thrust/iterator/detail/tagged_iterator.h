@@ -68,7 +68,7 @@ template<typename Iterator, typename Tag>
  *          equivalent to \p iter.
  */
 template <typename Tag, typename Iterator>
-inline auto make_tagged_iterator(Iterator iter)
+inline auto make_tagged_iterator(Iterator iter) -> tagged_iterator<Iterator, Tag>
 {
   return tagged_iterator<Iterator, Tag>(iter);
 }
