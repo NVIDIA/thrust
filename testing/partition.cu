@@ -712,22 +712,14 @@ struct TestPartitionCopyStencilToDiscardIterator
 VariableUnitTest<TestPartitionCopyStencilToDiscardIterator, PartitionTypes> TestPartitionCopyStencilToDiscardIteratorInstance;
 
 
+// GCC 11 miscompiles and segfaults in this tests.
+#ifndef WAIVE_GCC11_FAILURES
+
 template <typename T>
 struct TestStablePartition
 {
     void operator()(const size_t n)
     {
-        // GCC 11 miscompiles and segfaults for certain versions of this test.
-        // It's not reproducible on other compilers, and the test passes when
-        // optimizations are disabled. It only affects 32-bit value types, and
-        // impacts all CPU host/device combinations tested.
-#ifdef WAIVE_GCC11_FAILURES
-        if (n == 0 && sizeof(T) == 4)
-        {
-          return;
-        }
-#endif
-
         // setup ranges
         thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
         thrust::device_vector<T> d_data = h_data;
@@ -741,23 +733,17 @@ struct TestStablePartition
 };
 VariableUnitTest<TestStablePartition, PartitionTypes> TestStablePartitionInstance;
 
+#endif // WAIVE_GCC11_FAILURES
+
+
+// GCC 11 miscompiles and segfaults in this tests.
+#ifndef WAIVE_GCC11_FAILURES
 
 template <typename T>
 struct TestStablePartitionStencil
 {
     void operator()(const size_t n)
     {
-        // GCC 11 miscompiles and segfaults for certain versions of this test.
-        // It's not reproducible on other compilers, and the test passes when
-        // optimizations are disabled. It only affects 32-bit value types, and
-        // impacts all CPU host/device combinations tested.
-#ifdef WAIVE_GCC11_FAILURES
-        if (n == 0 && sizeof(T) == 4)
-        {
-          return;
-        }
-#endif
-
         // setup ranges
         thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
         thrust::host_vector<T>   h_stencil = unittest::random_integers<T>(n);
@@ -772,6 +758,8 @@ struct TestStablePartitionStencil
     }
 };
 VariableUnitTest<TestStablePartitionStencil, PartitionTypes> TestStablePartitionStencilInstance;
+
+#endif // WAIVE_GCC11_FAILURES
 
 
 template <typename T>
