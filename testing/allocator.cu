@@ -63,9 +63,12 @@ DECLARE_VARIABLE_UNITTEST(TestAllocatorCustomCopyConstruct);
 template <typename T>
 struct my_allocator_with_custom_destroy
 {
-  typedef T         value_type;
-  typedef T &       reference;
-  typedef const T & const_reference;
+  // This is only used with thrust::cpp::vector:
+  using system_type = thrust::cpp::tag;
+
+  using value_type = T;
+  using reference = T &;
+  using const_reference = const T &;
 
   static bool g_state;
 
@@ -120,12 +123,14 @@ bool my_allocator_with_custom_destroy<T>::g_state = false;
 template <typename T>
 void TestAllocatorCustomDestroy(size_t n)
 {
+  my_allocator_with_custom_destroy<T>::g_state = false;
+
   {
     thrust::cpp::vector<T, my_allocator_with_custom_destroy<T> > vec(n);
   } // destroy everything
 
-  if (0 < n)
-    ASSERT_EQUAL(true, my_allocator_with_custom_destroy<T>::g_state);
+  // state should only be true when there are values to destroy:
+  ASSERT_EQUAL(n > 0, my_allocator_with_custom_destroy<T>::g_state);
 }
 DECLARE_VARIABLE_UNITTEST(TestAllocatorCustomDestroy);
 
