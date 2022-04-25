@@ -134,3 +134,89 @@ void test_is_contiguous_iterator_vectors()
 }
 DECLARE_VECTOR_UNITTEST(test_is_contiguous_iterator_vectors);
 
+template <typename IteratorT, typename PointerT, bool ExpectPointer>
+struct check_unwrapped_iterator
+{
+  using unwrapped_t = typename std::remove_reference<
+    decltype(thrust::detail::try_unwrap_contiguous_iterator(
+      std::declval<IteratorT>()))>::type;
+
+  using result =
+    typename std::conditional<ExpectPointer,
+                              std::is_same<unwrapped_t, PointerT>,
+                              std::is_same<unwrapped_t, IteratorT>>::type;
+
+  static constexpr bool value = result::value;
+};
+
+template <typename T>
+void test_try_unwrap_contiguous_iterator()
+{
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<T *,
+                                                 T *,
+                                                 true>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<T *,
+                                                 T *,
+                                                 false>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<T const *,
+                                                 T const *,
+                                                 true>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<T const *,
+                                                 T const *,
+                                                 false>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<thrust::device_ptr<T>,
+                                                 T *,
+                                                 true>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<thrust::device_ptr<T const>,
+                                                 T const *,
+                                                 true>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<typename std::vector<T>::iterator,
+                                                 T *,
+                                                 true>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<typename std::vector<T>::reverse_iterator,
+                                                 T *,
+                                                 false>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<typename std::array<T, 1>::iterator,
+                                                 T *,
+                                                 true>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<typename std::array<T const, 1>::iterator,
+                                                 T const *,
+                                                 true>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<typename std::list<T>::iterator,
+                                                 T *,
+                                                 false>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<typename std::deque<T>::iterator,
+                                                 T *,
+                                                 false>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<typename std::set<T>::iterator,
+                                                 T *,
+                                                 false>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<typename std::multiset<T>::iterator,
+                                                 T *,
+                                                 false>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<typename std::map<T, T>::iterator,
+                                                 std::pair<T const, T> *,
+                                                 false>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<typename std::multimap<T, T>::iterator,
+                                                 std::pair<T const, T> *,
+                                                 false>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<typename std::unordered_set<T>::iterator,
+                                                 T *,
+                                                 false>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<typename std::unordered_multiset<T>::iterator,
+                                                 T *,
+                                                 false>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<typename std::unordered_map<T, T>::iterator,
+                                                 std::pair<T const, T> *,
+                                                 false>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<typename std::unordered_multimap<T, T>::iterator,
+                                                 std::pair<T const, T> *,
+                                                 false>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<std::istream_iterator<T>,
+                                                 T *,
+                                                 false>::value));
+  THRUST_STATIC_ASSERT((check_unwrapped_iterator<std::ostream_iterator<T>,
+                                                 void,
+                                                 false>::value));
+}
+DECLARE_GENERIC_UNITTEST(test_try_unwrap_contiguous_iterator);
