@@ -1,6 +1,11 @@
-#include <unittest/unittest.h>
-#include <thrust/reduce.h>
+#include <thrust/equal.h>
 #include <thrust/execution_policy.h>
+#include <thrust/iterator/counting_iterator.h>
+#include <thrust/iterator/transform_iterator.h>
+#include <thrust/reduce.h>
+#include <unittest/unittest.h>
+
+#include <cstdint>
 
 
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Iterator5>
@@ -286,3 +291,106 @@ void TestReduceByKeyCudaStreamsNoSync()
 }
 DECLARE_UNITTEST(TestReduceByKeyCudaStreamsNoSync);
 
+
+// Maps indices to key ids
+class div_op : public thrust::unary_function<std::int64_t, std::int64_t>
+{
+  std::int64_t m_divisor;
+
+public:
+  __host__ div_op(std::int64_t divisor)
+    : m_divisor(divisor)
+  {}
+
+  __host__ __device__
+  std::int64_t operator()(std::int64_t x) const
+  {
+    return x / m_divisor;
+  }
+};
+
+// Produces unique sequence for key
+class mod_op : public thrust::unary_function<std::int64_t, std::int64_t>
+{
+  std::int64_t m_divisor;
+
+public:
+  __host__ mod_op(std::int64_t divisor)
+    : m_divisor(divisor)
+  {}
+
+  __host__ __device__
+  std::int64_t operator()(std::int64_t x) const
+  {
+    // div: 2          
+    // idx: 0 1   2 3   4 5 
+    // key: 0 0 | 1 1 | 2 2 
+    // mod: 0 1 | 0 1 | 0 1
+    // ret: 0 1   1 2   2 3
+    return (x % m_divisor) + (x / m_divisor);
+  }
+};
+
+
+void TestReduceByKeyWithBigIndexesHelper(int magnitude)
+{
+  const std::int64_t key_size_magnitude = 8;
+  ASSERT_EQUAL(true, key_size_magnitude < magnitude);
+
+  const std::int64_t num_items       = 1ll << magnitude;
+  const std::int64_t num_unique_keys = 1ll << key_size_magnitude;
+
+  // Size of each key group
+  const std::int64_t key_size = num_items / num_unique_keys;
+
+  using counting_it      = thrust::counting_iterator<std::int64_t>;
+  using transform_key_it = thrust::transform_iterator<div_op, counting_it>;
+  using transform_val_it = thrust::transform_iterator<mod_op, counting_it>;
+
+  counting_it count_begin(0ll);
+  counting_it count_end = count_begin + num_items;
+  ASSERT_EQUAL(static_cast<std::int64_t>(thrust::distance(count_begin, count_end)),
+               num_items);
+
+  transform_key_it keys_begin(count_begin, div_op{key_size});
+  transform_key_it keys_end(count_end, div_op{key_size});
+
+  transform_val_it values_begin(count_begin, mod_op{key_size});
+
+  thrust::device_vector<std::int64_t> output_keys(num_unique_keys);
+  thrust::device_vector<std::int64_t> output_values(num_unique_keys);
+
+  // example:
+  //  items:        6
+  //  unique_keys:  2
+  //  key_size:     3
+  //  keys:         0 0 0 | 1 1 1 
+  //  values:       0 1 2 | 1 2 3
+  //  result:       3       6     = sum(range(key_size)) + key_size * key_id
+  thrust::reduce_by_key(keys_begin,
+                        keys_end,
+                        values_begin,
+                        output_keys.begin(),
+                        output_values.begin());
+
+  ASSERT_EQUAL(
+    true,
+    thrust::equal(output_keys.begin(), output_keys.end(), count_begin));
+
+  thrust::host_vector<std::int64_t> result = output_values;
+
+  const std::int64_t sum = (key_size - 1) * key_size / 2;
+  for (std::int64_t key_id = 0; key_id < num_unique_keys; key_id++)
+  {
+    ASSERT_EQUAL(result[key_id], sum + key_id * key_size);
+  }
+}
+
+void TestReduceByKeyWithBigIndexes()
+{
+  TestReduceByKeyWithBigIndexesHelper(30);
+  TestReduceByKeyWithBigIndexesHelper(31);
+  TestReduceByKeyWithBigIndexesHelper(32);
+  TestReduceByKeyWithBigIndexesHelper(33);
+}
+DECLARE_UNITTEST(TestReduceByKeyWithBigIndexes);
