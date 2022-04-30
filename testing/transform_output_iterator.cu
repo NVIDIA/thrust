@@ -48,7 +48,8 @@ void TestMakeTransformOutputIterator(void)
     Vector output(4);
     
     // initialize input
-    thrust::sequence(input.begin(), input.end(), 1);
+    // mstack adding static_cast
+    thrust::sequence(input.begin(), input.end(), static_cast<T>(1));
    
     thrust::copy(input.begin(), input.end(),
                  thrust::make_transform_output_iterator(output.begin(), UnaryFunction()));

@@ -201,6 +201,8 @@ template<typename Generator>
     T &lvalue = const_cast<T&>(x);
 
     // this assigns correctly whether x is a true reference or proxy
+    // mstack problem area
+    // lvalue = static_cast<T&>(gen());
     lvalue = gen();
   }
 
@@ -321,7 +323,14 @@ template<typename UnaryFunction>
   >::type
     operator()(Tuple t)
   {
+    typedef typename thrust::tuple_element<1,decltype(t)>::type this_type;
+    // mstack adding static_cast 
+    //thrust::get<1>(t) = static_cast<this_type>(f(thrust::get<0>(t)));
+    //thrust::get<1>(t) = f(static_cast<this_type>(thrust::get<0>(t)));
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
     thrust::get<1>(t) = f(thrust::get<0>(t));
+#pragma GCC diagnostic pop
   }
 };
 

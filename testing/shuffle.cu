@@ -448,7 +448,8 @@ void TestShuffleKeyPosition() {
   double expected_average_position = static_cast<double>(m - 1) / 2;
   double chi_squared = 0.0;
   for (auto j = 0ull; j < m; j++) {
-    double average_position = static_cast<double>(index_sum[j]) / num_samples;
+    double average_position = static_cast<double>(index_sum[j]) / 
+                              static_cast<double>(num_samples);
     chi_squared += std::pow(expected_average_position - average_position, 2) /
                    expected_average_position;
   }
@@ -495,9 +496,11 @@ void TestShuffleUniformPermutation() {
   ASSERT_EQUAL(permutation_counts.size(), total_permutations);
 
   double chi_squared = 0.0;
-  double expected_count = static_cast<double>(num_samples) / total_permutations;
+  double expected_count = static_cast<double>(num_samples) / 
+      static_cast<double>(total_permutations);
   for (auto kv : permutation_counts) {
-    chi_squared += std::pow(expected_count - kv.second, 2) / expected_count;
+    chi_squared += std::pow(expected_count - static_cast<double>(kv.second), 2)/
+                   expected_count;
   }
   double p_score = CephesFunctions::cephes_igamc(
       (double)(total_permutations - 1) / 2.0, chi_squared / 2.0);
@@ -576,7 +579,8 @@ void TestShuffleEvenDistribution() {
       }
     }
 
-    const double expected_occurances = (double)num_samples / shuffle_size;
+    const double expected_occurances = static_cast<double>(num_samples) / 
+                                       static_cast<double>(shuffle_size);
     for (uint64_t i = 0; i < shuffle_size; i++) {
       double chi_squared_pos = 0.0;
       double chi_squared_num = 0.0;

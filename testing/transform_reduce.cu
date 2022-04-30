@@ -120,7 +120,9 @@ void TestTransformReduceCountingIterator(void)
 
     thrust::counting_iterator<T, space> first(1);
 
-    T result = thrust::transform_reduce(first, first + 3, thrust::negate<short>(), 0, thrust::plus<short>());
+    // mstack adding static_cast<T>
+    //T result = thrust::transform_reduce(first, first + 3, thrust::negate<short>(), 0, thrust::plus<short>());
+    T result = static_cast<T>(thrust::transform_reduce(first, first + 3, thrust::negate<short>(), 0, thrust::plus<short>()));
 
     ASSERT_EQUAL(result, -6);
 }

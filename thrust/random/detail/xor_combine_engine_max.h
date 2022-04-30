@@ -287,14 +287,14 @@ template<typename Engine1, size_t s1, typename Engine2, size_t s2, typename resu
     math::min<
       result_type,
       result_type(Engine1::max - Engine1::min),
-      two_to_the_power<result_type, w-s1>::value - 1 
+      two_to_the_power<result_type, static_cast<result_type>(w-s1)>::value - 1 
     >::value;
 
   static const result_type m2 =
     math::min<
       result_type,
       result_type(Engine2::max - Engine2::min),
-      two_to_the_power<result_type, w-s2>::value - 1
+      two_to_the_power<result_type, static_cast<result_type>(w-s2)>::value - 1
     >::value;
 
   static const result_type s = s1 - s2;

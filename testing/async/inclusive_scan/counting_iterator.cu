@@ -33,7 +33,7 @@ struct test_counting_iterator
 {
   void operator()(std::size_t num_values) const
   {
-    num_values = unittest::truncate_to_max_representable<T>(num_values);
+    num_values = static_cast<std::size_t>(unittest::truncate_to_max_representable<T>(num_values));
     testing::async::test_policy_overloads<invoker<T>>::run(num_values);
   }
 };

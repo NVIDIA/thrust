@@ -229,7 +229,7 @@ int main(void)
   }
 
   display_time(t);
-  std::cout <<"  ( " <<  seeds.size() / (1e6 * t.elapsed()) << " MPixel/s ) " << std::endl;
+  std::cout <<"  ( " <<  static_cast<double>(seeds.size()) / (1e6 * t.elapsed()) << " MPixel/s ) " << std::endl;
   
   std::cout << "[Device to Host Copy]" << std::endl;
   t.restart();

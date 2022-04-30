@@ -72,6 +72,9 @@ typename thrust::detail::enable_if<
 >::type
 iter_assign(OutputIterator dst, InputIterator src)
 {
+  using OutputType = typename thrust::iterator_traits<OutputIterator>::value_type;
+
+  //*dst = static_cast<OutputType>(*src);
   *dst = *src;
 }
 
@@ -84,9 +87,11 @@ typename thrust::detail::disable_if<
 >::type
 iter_assign(OutputIterator dst, InputIterator src)
 {
+  //using OutputType = typename thrust::iterator_traits<OutputIterator>::value_type;
   typedef typename thrust::iterator_value<InputIterator>::type value_type;
 
   // insert a temporary and hope for the best
+  //*dst = static_cast<OutputType>(*src);
   *dst = static_cast<value_type>(*src);
 }
 

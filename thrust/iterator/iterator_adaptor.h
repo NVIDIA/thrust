@@ -204,6 +204,7 @@ template<typename Derived,
       // counting_iterator will pick eg. diff_t=int64 when base=int32.
       // Explicitly cast to avoid static conversion warnings.
       m_iterator = static_cast<base_type>(m_iterator + n);
+      //m_iterator = m_iterator + static_cast<base_type>(n);
     }
 
     __thrust_exec_check_disable__
