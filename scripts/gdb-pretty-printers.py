@@ -107,12 +107,46 @@ class ThrustVectorPrinter(gdb.printing.PrettyPrinter):
         return 'array'
 
 
+class ThrustReferencePrinter(gdb.printing.PrettyPrinter):
+    "Print a thrust::device_reference"
+
+    def __init__(self, val):
+        self.val = val
+        self.pointer = val['ptr']['m_iterator']
+        self.type = self.pointer.dereference().type
+        sizeof = self.type.sizeof
+        self.buffer = gdb.parse_and_eval('(void*)malloc(%s)' % sizeof)
+        device_addr = hex(self.pointer)
+        buffer_addr = hex(self.buffer)
+        status = gdb.parse_and_eval('(cudaError)cudaMemcpy(%s, %s, %d, cudaMemcpyDeviceToHost)' % (
+            buffer_addr, device_addr, sizeof))
+        if status != 0:
+            raise gdb.MemoryError('memcpy from device failed: %s' % status)
+        self.buffer_val = gdb.parse_and_eval(
+            hex(self.buffer)).cast(self.pointer.type).dereference()
+
+    def __del__(self):
+        gdb.parse_and_eval('(void)free(%s)' % hex(self.buffer)).fetch_lazy()
+
+    def children(self):
+        return []
+
+    def to_string(self):
+        typename = str(self.val.type)
+        return ('(%s) @%s: %s' % (typename, self.pointer, self.buffer_val))
+
+    def display_hint(self):
+        return None
+
+
 def lookup_thrust_type(val):
     if not str(val.type.unqualified()).startswith('thrust::'):
         return None
     suffix = str(val.type.unqualified())[8:]
     if suffix.startswith('host_vector') or suffix.startswith('device_vector'):
         return ThrustVectorPrinter(val)
+    elif int(gdb.VERSION.split(".")[0]) >= 10 and suffix.startswith('device_reference'):
+        return ThrustReferencePrinter(val)
     return None
 
 
