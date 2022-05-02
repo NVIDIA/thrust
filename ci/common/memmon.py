@@ -100,4 +100,11 @@ for line in proc.stdout:
         com = match.group(2)
         if com in entries and entries[com] > mem:
             continue
+        if mem >= args.fail_threshold:
+            # Print a notice immediately -- this helps identify the failures
+            # as they happen, since `com` may not provide enough info.
+            print("memmon.py failure: Build step exceed memory threshold:\n"
+                  "  - Threshold: %3.1f GiB\n"
+                  "  - Usage:     %3.1f GiB\n"
+                  "  - Command:   %s" % (args.fail_threshold, mem, com))
         entries[com] = mem

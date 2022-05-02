@@ -405,7 +405,7 @@ if [[ -f "${MEMMON_LOG}" ]]; then
   log "Checking memmon logfile: ${MEMMON_LOG}"
 
   if [[ -n "$(grep -E "^FAIL" ${MEMMON_LOG})" ]]; then
-    log "error: Some build steps exceeded MIN_MEMORY_PER_THREAD (${MIN_MEMORY_PER_THREAD} GiB):"
+    log "error: Some build steps exceeded memory threshold (${MIN_MEMORY_PER_THREAD} GiB):"
     grep -E "^FAIL" ${MEMMON_LOG}
     memmon_status=1
   else
@@ -424,14 +424,16 @@ fi
 ################################################################################
 
 log "Summary:"
+echo "Warnings:"
+# Not currently a failure; sccache makes these unreliable and intermittent:
+echo "- Build Memory Check: ${memmon_status}"
+echo "Failures:"
 echo "- Configure Error Code: ${configure_status}"
 echo "- Build Error Code: ${build_status}"
-echo "- Build Memory Check: ${memmon_status}"
 echo "- Test Error Code: ${test_status}"
 
 if [[ "${configure_status}" != "0" ]] || \
    [[ "${build_status}" != "0" ]] || \
-   [[ "${memmon_status}" != "0" ]] || \
    [[ "${test_status}" != "0" ]]; then
      exit 1
 fi
