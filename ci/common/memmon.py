@@ -39,21 +39,23 @@ args, unused = parser.parse_known_args()
 
 entries = {}
 
+
 def signal_handler(sig, frame):
     # Sort by mem:
-    sortentries = sorted(entries.items(), key=lambda x:x[1], reverse=True)
+    sortentries = sorted(entries.items(), key=lambda x: x[1], reverse=True)
 
     lf = open(args.log_file, "w")
 
     for com, mem in sortentries:
-        status="PASS"
+        status = "PASS"
         if mem >= args.fail_threshold:
-            status="FAIL"
-        line = "%4s | %3.1f GiB | %s\n"%(status, mem, com)
+            status = "FAIL"
+        line = "%4s | %3.1f GiB | %s\n" % (status, mem, com)
         lf.write(line)
 
     lf.close()
     sys.exit(0)
+
 
 signal.signal(signal.SIGINT, signal_handler)
 
@@ -71,6 +73,7 @@ proc = Popen(["top", "-b", "-w", "512"],
 
 regex = re.compile("^\\s*([0-9.]+[kmgtp]?)\\s+(.+)\\s*$")
 
+
 # Convert a memory string from top into floating point GiB
 def parse_mem(mem_str):
     if mem_str[-1] == "k":
@@ -81,10 +84,11 @@ def parse_mem(mem_str):
         return float(mem_str[:-1])
     elif mem_str[-1] == "t":
         return float(mem_str[:-1]) * 1024
-    elif mem_str[-1] == "p": # please no
+    elif mem_str[-1] == "p":  # please no
         return float(mem_str[:-1]) * 1024 * 1024
     # bytes:
     return float(mem_str) / (1024 * 1024 * 1024)
+
 
 for line in proc.stdout:
     line = line.decode()
