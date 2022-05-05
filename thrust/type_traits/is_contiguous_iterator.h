@@ -23,10 +23,13 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
 
 #include <iterator>
+#include <type_traits>
+#include <utility>
 
 #if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC && _MSC_VER < 1916 // MSVC 2017 version 15.9
   #include <vector>
@@ -211,6 +214,69 @@ struct is_contiguous_iterator_impl
       || proclaim_contiguous_iterator<Iterator>::value
     >
 {};
+
+// Type traits for contiguous iterators:
+template <typename Iterator>
+struct contiguous_iterator_traits
+{
+  static_assert(thrust::is_contiguous_iterator<Iterator>::value,
+                "contiguous_iterator_traits requires a contiguous iterator.");
+
+  using raw_pointer = typename thrust::detail::pointer_traits<
+    decltype(&*std::declval<Iterator>())>::raw_pointer;
+};
+
+template <typename Iterator>
+using contiguous_iterator_raw_pointer_t =
+  typename contiguous_iterator_traits<Iterator>::raw_pointer;
+
+// Converts a contiguous iterator to a raw pointer:
+template <typename Iterator>
+__host__ __device__
+contiguous_iterator_raw_pointer_t<Iterator>
+contiguous_iterator_raw_pointer_cast(Iterator it)
+{
+  static_assert(thrust::is_contiguous_iterator<Iterator>::value,
+                "contiguous_iterator_raw_pointer_cast called with "
+                "non-contiguous iterator.");
+  return thrust::raw_pointer_cast(&*it);
+}
+
+// Implementation for non-contiguous iterators -- passthrough.
+template <typename Iterator,
+          bool IsContiguous = thrust::is_contiguous_iterator<Iterator>::value>
+struct try_unwrap_contiguous_iterator_impl
+{
+  using type = Iterator;
+
+  static __host__ __device__ type get(Iterator it) { return it; }
+};
+
+// Implementation for contiguous iterators -- unwraps to raw pointer.
+template <typename Iterator>
+struct try_unwrap_contiguous_iterator_impl<Iterator, true /*is_contiguous*/>
+{
+  using type = contiguous_iterator_raw_pointer_t<Iterator>;
+
+  static __host__ __device__ type get(Iterator it)
+  {
+    return contiguous_iterator_raw_pointer_cast(it);
+  }
+};
+
+template <typename Iterator>
+using try_unwrap_contiguous_iterator_return_t =
+  typename try_unwrap_contiguous_iterator_impl<Iterator>::type;
+
+// Casts to a raw pointer if iterator is marked as contiguous, otherwise returns
+// the input iterator.
+template <typename Iterator>
+__host__ __device__
+try_unwrap_contiguous_iterator_return_t<Iterator>
+try_unwrap_contiguous_iterator(Iterator it)
+{
+  return try_unwrap_contiguous_iterator_impl<Iterator>::get(it);
+}
 
 } // namespace detail
 
