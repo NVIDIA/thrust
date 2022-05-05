@@ -243,7 +243,8 @@ contiguous_iterator_raw_pointer_cast(Iterator it)
 }
 
 // Implementation for non-contiguous iterators -- passthrough.
-template <typename Iterator, bool IsContiguous>
+template <typename Iterator,
+          bool IsContiguous = thrust::is_contiguous_iterator<Iterator>::value>
 struct try_unwrap_contiguous_iterator_impl
 {
   using type = Iterator;
@@ -265,9 +266,7 @@ struct try_unwrap_contiguous_iterator_impl<Iterator, true /*is_contiguous*/>
 
 template <typename Iterator>
 using try_unwrap_contiguous_iterator_return_t =
-  typename try_unwrap_contiguous_iterator_impl<
-    Iterator,
-    thrust::is_contiguous_iterator<Iterator>::value>::type;
+  typename try_unwrap_contiguous_iterator_impl<Iterator>::type;
 
 // Casts to a raw pointer if iterator is marked as contiguous, otherwise returns
 // the input iterator.
@@ -276,9 +275,7 @@ __host__ __device__
 try_unwrap_contiguous_iterator_return_t<Iterator>
 try_unwrap_contiguous_iterator(Iterator it)
 {
-  return try_unwrap_contiguous_iterator_impl<
-    Iterator,
-    thrust::is_contiguous_iterator<Iterator>::value>::get(it);
+  return try_unwrap_contiguous_iterator_impl<Iterator>::get(it);
 }
 
 } // namespace detail
