@@ -1,5 +1,4 @@
 #include <unittest/unittest.h>
-#include <unittest/iterator_helpers.h>
 #include <thrust/unique.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/discard_iterator.h>
@@ -164,13 +163,11 @@ void TestUniqueSimple(void)
     data[8] = 31; 
     data[9] = 37; 
 
-    forward_iterator_wrapper<typename Vector::iterator> new_last;
-    const auto begin = make_forward_iterator_wrapper(data.begin());
-    const auto end = make_forward_iterator_wrapper(data.end());
+    typename Vector::iterator new_last;
     
-    new_last = thrust::unique(begin, end);
+    new_last = thrust::unique(data.begin(), data.end());
 
-    ASSERT_EQUAL(thrust::distance(begin, new_last), 7);
+    ASSERT_EQUAL(new_last - data.begin(), 7);
     ASSERT_EQUAL(data[0], 11);
     ASSERT_EQUAL(data[1], 12);
     ASSERT_EQUAL(data[2], 20);
@@ -179,9 +176,9 @@ void TestUniqueSimple(void)
     ASSERT_EQUAL(data[5], 31);
     ASSERT_EQUAL(data[6], 37);
 
-    new_last = thrust::unique(begin, new_last, is_equal_div_10_unique<T>());
+    new_last = thrust::unique(data.begin(), new_last, is_equal_div_10_unique<T>());
 
-    ASSERT_EQUAL(thrust::distance(begin, new_last), 3);
+    ASSERT_EQUAL(new_last - data.begin(), 3);
     ASSERT_EQUAL(data[0], 11);
     ASSERT_EQUAL(data[1], 20);
     ASSERT_EQUAL(data[2], 31);
@@ -330,16 +327,11 @@ void TestUniqueCountSimple(void)
     data[8] = 31;
     data[9] = 37;
 
-    int count = thrust::unique_count(
-        make_forward_iterator_wrapper(data.begin()),
-        make_forward_iterator_wrapper(data.end()));
+    int count = thrust::unique_count(data.begin(), data.end());
 
     ASSERT_EQUAL(count, 7);
 
-    int div_10_count = thrust::unique_count(
-        make_forward_iterator_wrapper(data.begin()),
-        make_forward_iterator_wrapper(data.end()),
-        is_equal_div_10_unique<T>());
+    int div_10_count = thrust::unique_count(data.begin(), data.end(), is_equal_div_10_unique<T>());
 
     ASSERT_EQUAL(div_10_count, 3);
 }
