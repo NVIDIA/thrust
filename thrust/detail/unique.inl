@@ -327,6 +327,67 @@ template<typename InputIterator1,
   return thrust::unique_by_key_copy(select_system(system1,system2,system3,system4), keys_first, keys_last, values_first, keys_output, values_output, binary_pred);
 } // end unique_by_key_copy()
 
+__thrust_exec_check_disable__
+template <typename DerivedPolicy,
+          typename ForwardIterator,
+          typename BinaryPredicate>
+__host__ __device__
+    typename thrust::iterator_traits<ForwardIterator>::difference_type
+    unique_count(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                 ForwardIterator first,
+                 ForwardIterator last,
+                 BinaryPredicate binary_pred)
+{
+  using thrust::system::detail::generic::unique_count;
+  return unique_count(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last, binary_pred);
+} // end unique_count()
+
+__thrust_exec_check_disable__
+template <typename DerivedPolicy,
+          typename ForwardIterator>
+__host__ __device__
+    typename thrust::iterator_traits<ForwardIterator>::difference_type
+    unique_count(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
+                 ForwardIterator first,
+                 ForwardIterator last)
+{
+  using thrust::system::detail::generic::unique_count;
+  return unique_count(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), first, last);
+} // end unique_count()
+
+__thrust_exec_check_disable__
+template <typename ForwardIterator,
+          typename BinaryPredicate>
+__host__ __device__
+    typename thrust::iterator_traits<ForwardIterator>::difference_type
+    unique_count(ForwardIterator first,
+                 ForwardIterator last,
+                 BinaryPredicate binary_pred)
+{
+  using thrust::system::detail::generic::select_system;
+
+  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+
+  System system;
+
+  return thrust::unique_count(select_system(system), first, last, binary_pred);
+} // end unique_count()
+
+__thrust_exec_check_disable__
+template <typename ForwardIterator>
+__host__ __device__
+    typename thrust::iterator_traits<ForwardIterator>::difference_type
+    unique_count(ForwardIterator first,
+                 ForwardIterator last)
+{
+  using thrust::system::detail::generic::select_system;
+
+  typedef typename thrust::iterator_system<ForwardIterator>::type System;
+
+  System system;
+
+  return thrust::unique_count(select_system(system), first, last);
+} // end unique_count()
 
 THRUST_NAMESPACE_END
 
