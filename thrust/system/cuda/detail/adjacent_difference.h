@@ -60,7 +60,7 @@ namespace cuda_cub {
 
 namespace __adjacent_difference {
 
-  template <bool InPlace,
+  template <bool MayAlias,
             class InputIt,
             class OutputIt,
             class BinaryOp>
@@ -79,20 +79,20 @@ namespace __adjacent_difference {
       return cudaSuccess;
     }
 
-    constexpr bool in_place  = InPlace;
+    constexpr bool may_alias = MayAlias;
     constexpr bool read_left = true;
 
     using Dispatch32 = cub::DispatchAdjacentDifference<InputIt,
                                                        OutputIt,
                                                        BinaryOp,
                                                        thrust::detail::int32_t,
-                                                       in_place,
+                                                       may_alias,
                                                        read_left>;
     using Dispatch64 = cub::DispatchAdjacentDifference<InputIt,
                                                        OutputIt,
                                                        BinaryOp,
                                                        thrust::detail::int64_t,
-                                                       in_place,
+                                                       may_alias,
                                                        read_left>;
 
     cudaError_t status;
@@ -125,15 +125,15 @@ namespace __adjacent_difference {
             bool debug_sync,
             thrust::detail::integral_constant<bool, false> /* comparable */)
   {
-    constexpr bool in_place = true;
-    return doit_step<in_place>(d_temp_storage,
-                               temp_storage_bytes,
-                               first,
-                               result,
-                               binary_op,
-                               num_items,
-                               stream,
-                               debug_sync);
+    constexpr bool may_alias = true;
+    return doit_step<may_alias>(d_temp_storage,
+                                temp_storage_bytes,
+                                first,
+                                result,
+                                binary_op,
+                                num_items,
+                                stream,
+                                debug_sync);
   }
 
   template <class InputIt,
@@ -155,26 +155,26 @@ namespace __adjacent_difference {
     // `num_items`. In the latter case, we use an optimized version.
     if (first != result)
     {
-      constexpr bool in_place = false;
-      return doit_step<in_place>(d_temp_storage,
-                                 temp_storage_bytes,
-                                 first,
-                                 result,
-                                 binary_op,
-                                 num_items,
-                                 stream,
-                                 debug_sync);
+      constexpr bool may_alias = false;
+      return doit_step<may_alias>(d_temp_storage,
+                                  temp_storage_bytes,
+                                  first,
+                                  result,
+                                  binary_op,
+                                  num_items,
+                                  stream,
+                                  debug_sync);
     }
 
-    constexpr bool in_place = true;
-    return doit_step<in_place>(d_temp_storage,
-                               temp_storage_bytes,
-                               first,
-                               result,
-                               binary_op,
-                               num_items,
-                               stream,
-                               debug_sync);
+    constexpr bool may_alias = true;
+    return doit_step<may_alias>(d_temp_storage,
+                                temp_storage_bytes,
+                                first,
+                                result,
+                                binary_op,
+                                num_items,
+                                stream,
+                                debug_sync);
   }
 
   template <typename Derived,
