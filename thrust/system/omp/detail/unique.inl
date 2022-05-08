@@ -61,7 +61,6 @@ template<typename DerivedPolicy,
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
-__host__ __device__
   typename thrust::iterator_traits<ForwardIterator>::difference_type
     unique_count(execution_policy<DerivedPolicy> &exec,
                  ForwardIterator first,

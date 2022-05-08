@@ -821,7 +821,8 @@ __thrust_exec_check_disable__
 template <class Derived,
           class ForwardIt,
           class BinaryPred>
-typename thrust::iterator_traits<ForwardIt>::difference_type __host__ __device__
+typename thrust::iterator_traits<ForwardIt>::difference_type
+__host__ __device__
 unique_count(execution_policy<Derived> &policy,
        ForwardIt                  first,
        ForwardIt                  last,
