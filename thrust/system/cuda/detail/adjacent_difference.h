@@ -197,10 +197,13 @@ namespace __adjacent_difference {
     using UnwrapInputIt = thrust::detail::try_unwrap_contiguous_iterator_return_t<InputIt>;
     using UnwrapOutputIt = thrust::detail::try_unwrap_contiguous_iterator_return_t<OutputIt>;
 
+    using InputValueT = thrust::iterator_value_t<UnwrapInputIt>;
+    using OutputValueT = thrust::iterator_value_t<UnwrapOutputIt>;
+
     constexpr bool can_compare_iterators =
-      is_contiguous_iterator<UnwrapInputIt>::value &&
-      is_contiguous_iterator<UnwrapOutputIt>::value &&
-      thrust::detail::is_same<UnwrapInputIt, UnwrapOutputIt>::value;
+      std::is_pointer<UnwrapInputIt>::value &&
+      std::is_pointer<UnwrapOutputIt>::value &&
+      std::is_same<InputValueT, OutputValueT>::value;
 
     auto first_unwrap = thrust::detail::try_unwrap_contiguous_iterator(first);
     auto result_unwrap = thrust::detail::try_unwrap_contiguous_iterator(result);
