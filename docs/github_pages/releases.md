@@ -8,7 +8,9 @@ nav_order: 3
 
 | Version         | Included In                               |
 |-----------------|-------------------------------------------|
-| 1.15.0          | TBD                                       |
+| 1.17.0          | TBD                                       |
+| 1.16.0          | TBD                                       |
+| 1.15.0          | NVIDIA HPC SDK 22.1 & CUDA Toolkit 11.6   |
 | 1.14.0          | NVIDIA HPC SDK 21.9                       |
 | 1.13.1          | CUDA Toolkit 11.5                         |
 | 1.13.1          | CUDA Toolkit 11.5                         |

@@ -1,5 +1,46 @@
 # Changelog
 
+## Thrust 1.17.0
+
+### Summary
+
+Thrust 1.17.0 is the final minor release of the 1.X series. This release
+provides GDB pretty-printers for device vectors/references, a new `unique_count`
+algorithm, and an easier way to create tagged Thrust iterators. Several
+documentation fixes are included, which can be found on the new Thrust
+documentation site at https://nvidia.github.io/thrust. We'll be migrating
+existing documentation sources to this new location over the next few months.
+
+### New Features
+
+- NVIDIA/thrust#1586: Add new `thrust::make_tagged_iterator` convenience
+  function. Thanks to @karthikeyann for this contribution.
+- NVIDIA/thrust#1619: Add `unique_count` algorithm. Thanks to @upsj for this
+  contribution.
+- NVIDIA/thrust#1631: Add GDB pretty-printers for device vectors/references
+  to `scripts/gdb-pretty-printers.py`. Thanks to @upsj for this contribution.
+
+### Bug Fixes
+
+- NVIDIA/thrust#1671: Fixed `reduce_by_key` when called with 2^31 elements.
+
+### Other Enhancements
+
+- NVIDIA/thrust#1512: Use CUB to implement `adjacent_difference`.
+- NVIDIA/thrust#1555: Use CUB to implement `scan_by_key`.
+- NVIDIA/thrust#1611: Add new doxybook-based Thrust documentation
+  at https://nvidia.github.io/thrust.
+- NVIDIA/thrust#1639: Fixed broken link in documentation. Thanks to @jrhemstad
+  for this contribution.
+- NVIDIA/thrust#1644: Increase contrast of search input text in new doc site.
+  Thanks to @bdice for this contribution.
+- NVIDIA/thrust#1647: Add `__forceinline__` annotations to a functor wrapper.
+  Thanks to @mkuron for this contribution.
+- NVIDIA/thrust#1660: Fixed typo in documentation example for
+  `permutation_iterator`.
+- NVIDIA/thrust#1669: Add a new `explicit_cuda_stream.cu` example that shows how
+  to use explicit CUDA streams and `par`/`par_nosync` execution policies.
+
 ## Thrust 1.16.0
 
 ### Summary
