@@ -37,15 +37,14 @@
 #   [ADVANCED]                       # Optionally mark options as advanced
 # )
 #
-# # Use a custom TBB, CUB, libcudacxx, and/or OMP
+# # Use a custom TBB, CUB, and/or OMP
 # # (Note that once set, these cannot be changed. This includes COMPONENT
 # # preloading and lazy lookups in thrust_create_target)
 # find_package(Thrust REQUIRED)
 # thrust_set_CUB_target(MyCUBTarget)  # MyXXXTarget contains an existing
 # thrust_set_TBB_target(MyTBBTarget)  # interface to XXX for Thrust to use.
-# thrust_set_libcudacxx_target(MyLibcudacxxTarget)
 # thrust_set_OMP_target(MyOMPTarget)
-# thrust_create_target(ThrustWithMyCUBAndLibcudacxx DEVICE CUDA)
+# thrust_create_target(ThrustWithMyCUB DEVICE CUDA)
 # thrust_create_target(ThrustWithMyTBB DEVICE TBB)
 # thrust_create_target(ThrustWithMyOMP DEVICE OMP)
 #
@@ -460,9 +459,10 @@ function(thrust_set_CUB_target cub_target)
   endif()
 endfunction()
 
-# Use the provided libcudacxx_target for the CUDA backend. If Thrust::libcudacxx
-# already exists, this call has no effect.
-function(thrust_set_libcudacxx_target libcudacxx_target)
+# Internal use only -- libcudacxx must be found during the initial
+# `find_package(Thrust)` call and cannot be set afterwards. See README.md in
+# this directory for details on using a specific libcudacxx target.
+function(_thrust_set_libcudacxx_target libcudacxx_target)
   if (NOT TARGET Thrust::libcudacxx)
     thrust_debug("Setting libcudacxx target to ${libcudacxx_target}" internal)
     # Workaround cmake issue #20670 https://gitlab.kitware.com/cmake/cmake/-/issues/20670
@@ -712,7 +712,7 @@ if (NOT TARGET Thrust::libcudacxx)
   )
 
   if (TARGET libcudacxx::libcudacxx)
-    thrust_set_libcudacxx_target(libcudacxx::libcudacxx)
+    _thrust_set_libcudacxx_target(libcudacxx::libcudacxx)
   else()
     thrust_debug("Expected libcudacxx::libcudacxx target not found!" internal)
   endif()
