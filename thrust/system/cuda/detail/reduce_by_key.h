@@ -29,25 +29,26 @@
 #include <thrust/detail/config.h>
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-#include <thrust/system/cuda/config.h>
-#include <thrust/detail/type_traits.h>
 
+#include <thrust/detail/alignment.h>
 #include <thrust/detail/cstdint.h>
-#include <thrust/detail/temporary_array.h>
-#include <thrust/system/cuda/detail/util.h>
+#include <thrust/detail/minmax.h>
+#include <thrust/detail/mpl/math.h>
 #include <thrust/detail/raw_reference_cast.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
-#include <cub/device/device_reduce.cuh>
-#include <thrust/system/cuda/detail/par_to_seq.h>
+#include <thrust/detail/type_traits.h>
+#include <thrust/distance.h>
+#include <thrust/functional.h>
+#include <thrust/pair.h>
+#include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/get_value.h>
-#include <thrust/pair.h>
-#include <thrust/functional.h>
-#include <thrust/detail/mpl/math.h>
-#include <thrust/detail/minmax.h>
-#include <thrust/distance.h>
-#include <thrust/detail/alignment.h>
+#include <thrust/system/cuda/detail/par_to_seq.h>
+#include <thrust/system/cuda/detail/util.h>
 
+#include <cub/device/device_reduce.cuh>
 #include <cub/util_math.cuh>
 
 THRUST_NAMESPACE_BEGIN
@@ -1122,34 +1123,26 @@ reduce_by_key(execution_policy<Derived> &policy,
               BinaryPred                 binary_pred,
               BinaryOp                   binary_op)
 {
-  pair<KeyOutputIt, ValOutputIt> ret = thrust::make_pair(keys_output, values_output);
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __reduce_by_key::reduce_by_key(policy,
-                                         keys_first,
-                                         keys_last,
-                                         values_first,
-                                         keys_output,
-                                         values_output,
-                                         binary_pred,
-                                         binary_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::reduce_by_key(cvt_to_seq(derived_cast(policy)),
-                                keys_first,
-                                keys_last,
-                                values_first,
-                                keys_output,
-                                values_output,
-                                binary_pred,
-                                binary_op);
-#endif
-  }
+  auto ret = thrust::make_pair(keys_output, values_output);
+  THRUST_CDP_DISPATCH((ret = __reduce_by_key::reduce_by_key(policy,
+                                                            keys_first,
+                                                            keys_last,
+                                                            values_first,
+                                                            keys_output,
+                                                            values_output,
+                                                            binary_pred,
+                                                            binary_op);),
+                      (ret =
+                         thrust::reduce_by_key(cvt_to_seq(derived_cast(policy)),
+                                               keys_first,
+                                               keys_last,
+                                               values_first,
+                                               keys_output,
+                                               values_output,
+                                               binary_pred,
+                                               binary_op);));
   return ret;
 }
-
 
 template <class Derived,
           class KeyInputIt,

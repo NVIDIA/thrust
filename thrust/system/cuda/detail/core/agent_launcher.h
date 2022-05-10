@@ -536,8 +536,6 @@ namespace core {
       return max_blocks_per_sm_impl(k, plan.block_threads);
     }
 
-
-
     template<class K>
     THRUST_RUNTIME_FUNCTION
     void print_info(K k) const

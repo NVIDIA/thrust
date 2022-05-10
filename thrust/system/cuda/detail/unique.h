@@ -29,21 +29,20 @@
 #include <thrust/detail/config.h>
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+
+#include <thrust/advance.h>
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/minmax.h>
+#include <thrust/distance.h>
+#include <thrust/functional.h>
 #include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
+#include <thrust/system/cuda/detail/core/agent_launcher.h>
+#include <thrust/system/cuda/detail/get_value.h>
+#include <thrust/system/cuda/detail/par_to_seq.h>
+#include <thrust/system/cuda/detail/util.h>
 
 #include <cub/device/device_select.cuh>
-#include <thrust/system/cuda/detail/core/agent_launcher.h>
-#include <thrust/system/cuda/detail/par_to_seq.h>
-#include <thrust/detail/cstdint.h>
-#include <thrust/detail/temporary_array.h>
-#include <thrust/system/cuda/detail/util.h>
-#include <thrust/system/cuda/detail/get_value.h>
-#include <thrust/functional.h>
-#include <thrust/detail/mpl/math.h>
-#include <thrust/detail/minmax.h>
-#include <thrust/advance.h>
-#include <thrust/distance.h>
-
 #include <cub/util_math.cuh>
 
 THRUST_NAMESPACE_BEGIN
@@ -730,26 +729,14 @@ unique_copy(execution_policy<Derived> &policy,
             OutputIt                   result,
             BinaryPred                 binary_pred)
 {
-  OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __unique::unique(policy,
-                           first,
-                           last,
-                           result,
-                           binary_pred);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::unique_copy(cvt_to_seq(derived_cast(policy)),
-                              first,
-                              last,
-                              result,
-                              binary_pred);
-#endif
-  }
-  return ret;
+  THRUST_CDP_DISPATCH(
+    (result = __unique::unique(policy, first, last, result, binary_pred);),
+    (result = thrust::unique_copy(cvt_to_seq(derived_cast(policy)),
+                                  first,
+                                  last,
+                                  result,
+                                  binary_pred);));
+  return result;
 }
 
 template <class Derived,
@@ -778,19 +765,12 @@ unique(execution_policy<Derived> &policy,
        BinaryPred                 binary_pred)
 {
   ForwardIt ret = first;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = cuda_cub::unique_copy(policy, first, last, first, binary_pred);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::unique(cvt_to_seq(derived_cast(policy)),
-                         first,
-                         last,
-                         binary_pred);
-#endif
-  }
+  THRUST_CDP_DISPATCH(
+    (ret = cuda_cub::unique_copy(policy, first, last, first, binary_pred);),
+    (ret = thrust::unique(cvt_to_seq(derived_cast(policy)),
+                          first,
+                          last,
+                          binary_pred);));
   return ret;
 }
 

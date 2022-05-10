@@ -29,24 +29,25 @@
 #include <thrust/detail/config.h>
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-#include <thrust/system/cuda/config.h>
 
-#include <thrust/detail/cstdint.h>
-#include <thrust/detail/temporary_array.h>
-#include <thrust/system/cuda/detail/util.h>
-#include <thrust/detail/raw_reference_cast.h>
-#include <thrust/detail/type_traits/iterator/is_output_iterator.h>
-#include <cub/device/device_reduce.cuh>
-#include <thrust/system/cuda/detail/par_to_seq.h>
-#include <thrust/system/cuda/detail/get_value.h>
-#include <thrust/system/cuda/detail/dispatch.h>
-#include <thrust/system/cuda/detail/make_unsigned_special.h>
-#include <thrust/functional.h>
-#include <thrust/system/cuda/detail/core/agent_launcher.h>
-#include <thrust/detail/minmax.h>
-#include <thrust/distance.h>
 #include <thrust/detail/alignment.h>
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/minmax.h>
+#include <thrust/detail/raw_reference_cast.h>
+#include <thrust/detail/temporary_array.h>
+#include <thrust/detail/type_traits/iterator/is_output_iterator.h>
+#include <thrust/distance.h>
+#include <thrust/functional.h>
+#include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
+#include <thrust/system/cuda/detail/core/agent_launcher.h>
+#include <thrust/system/cuda/detail/dispatch.h>
+#include <thrust/system/cuda/detail/get_value.h>
+#include <thrust/system/cuda/detail/make_unsigned_special.h>
+#include <thrust/system/cuda/detail/par_to_seq.h>
+#include <thrust/system/cuda/detail/util.h>
 
+#include <cub/device/device_reduce.cuh>
 #include <cub/util_math.cuh>
 
 THRUST_NAMESPACE_BEGIN
@@ -195,6 +196,9 @@ namespace __reduce {
     struct Plan : core::AgentPlan
     {
       cub::GridMappingStrategy grid_mapping;
+
+      THRUST_RUNTIME_FUNCTION
+      Plan() {}
 
       template <class P>
       THRUST_RUNTIME_FUNCTION
@@ -1018,14 +1022,18 @@ T reduce_n(execution_policy<Derived>& policy,
            T                          init,
            BinaryOp                   binary_op)
 {
-  if (__THRUST_HAS_CUDART__)
-    return thrust::cuda_cub::detail::reduce_n_impl(
-      policy, first, num_items, init, binary_op);
-
-  #if !__THRUST_HAS_CUDART__
-    return thrust::reduce(
-      cvt_to_seq(derived_cast(policy)), first, first + num_items, init, binary_op);
-  #endif
+  THRUST_CDP_DISPATCH((init =
+                         thrust::cuda_cub::detail::reduce_n_impl(policy,
+                                                                 first,
+                                                                 num_items,
+                                                                 init,
+                                                                 binary_op);),
+                      (init = thrust::reduce(cvt_to_seq(derived_cast(policy)),
+                                             first,
+                                             first + num_items,
+                                             init,
+                                             binary_op);));
+  return init;
 }
 
 template <class Derived, class InputIt, class T, class BinaryOp>

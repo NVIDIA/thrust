@@ -29,20 +29,20 @@ j * Copyright (c) 2016, NVIDIA CORPORATION.  All rights reserved.
 #include <thrust/detail/config.h>
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+
 #include <thrust/detail/cstdint.h>
 #include <thrust/detail/temporary_array.h>
-#include <thrust/system/cuda/detail/util.h>
-
-#include <thrust/system/cuda/detail/execution_policy.h>
-#include <thrust/system/cuda/detail/util.h>
-#include <thrust/system/cuda/detail/core/agent_launcher.h>
-#include <thrust/system/cuda/detail/core/util.h>
-#include <thrust/system/cuda/detail/par_to_seq.h>
-#include <thrust/merge.h>
-#include <thrust/extrema.h>
-#include <thrust/pair.h>
 #include <thrust/detail/mpl/math.h>
 #include <thrust/distance.h>
+#include <thrust/extrema.h>
+#include <thrust/merge.h>
+#include <thrust/pair.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
+#include <thrust/system/cuda/detail/core/agent_launcher.h>
+#include <thrust/system/cuda/detail/core/util.h>
+#include <thrust/system/cuda/detail/execution_policy.h>
+#include <thrust/system/cuda/detail/util.h>
+#include <thrust/system/cuda/detail/par_to_seq.h>
 
 
 THRUST_NAMESPACE_BEGIN
@@ -876,38 +876,28 @@ merge(execution_policy<Derived>& policy,
       CompareOp                  compare_op)
 
 {
-  ResultIt ret = result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    typedef typename thrust::iterator_value<KeysIt1>::type keys_type;
-    //
-    keys_type* null_ = NULL;
-    //
-    ret = __merge::merge<thrust::detail::false_type>(policy,
-                                                     keys1_first,
-                                                     keys1_last,
-                                                     keys2_first,
-                                                     keys2_last,
-                                                     null_,
-                                                     null_,
-                                                     result,
-                                                     null_,
-                                                     compare_op)
-              .first;
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::merge(cvt_to_seq(derived_cast(policy)),
-                        keys1_first,
-                        keys1_last,
-                        keys2_first,
-                        keys2_last,
-                        result,
-                        compare_op);
-#endif
-  }
-  return ret;
+  THRUST_CDP_DISPATCH((using keys_type  = thrust::iterator_value_t<KeysIt1>;
+                       keys_type *null_ = nullptr;
+                       auto tmp =
+                         __merge::merge<thrust::detail::false_type>(policy,
+                                                                    keys1_first,
+                                                                    keys1_last,
+                                                                    keys2_first,
+                                                                    keys2_last,
+                                                                    null_,
+                                                                    null_,
+                                                                    result,
+                                                                    null_,
+                                                                    compare_op);
+                       result = tmp.first;),
+                      (result = thrust::merge(cvt_to_seq(derived_cast(policy)),
+                                              keys1_first,
+                                              keys1_last,
+                                              keys2_first,
+                                              keys2_last,
+                                              result,
+                                              compare_op);));
+  return result;
 }
 
 template <class Derived, class KeysIt1, class KeysIt2, class ResultIt>
@@ -950,10 +940,9 @@ merge_by_key(execution_policy<Derived> &policy,
              ItemsOutputIt              items_result,
              CompareOp                  compare_op)
 {
-  pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
-  if (__THRUST_HAS_CUDART__)
-  {
-    return __merge::merge<thrust::detail::true_type>(policy,
+  auto ret = thrust::make_pair(keys_result, items_result);
+  THRUST_CDP_DISPATCH(
+    (ret = __merge::merge<thrust::detail::true_type>(policy,
                                                      keys1_first,
                                                      keys1_last,
                                                      keys2_first,
@@ -962,23 +951,17 @@ merge_by_key(execution_policy<Derived> &policy,
                                                      items2_first,
                                                      keys_result,
                                                      items_result,
-                                                     compare_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::merge_by_key(cvt_to_seq(derived_cast(policy)),
-                               keys1_first,
-                               keys1_last,
-                               keys2_first,
-                               keys2_last,
-                               items1_first,
-                               items2_first,
-                               keys_result,
-                               items_result,
-                               compare_op);
-#endif
-  }
+                                                     compare_op);),
+    (ret = thrust::merge_by_key(cvt_to_seq(derived_cast(policy)),
+                                keys1_first,
+                                keys1_last,
+                                keys2_first,
+                                keys2_last,
+                                items1_first,
+                                items2_first,
+                                keys_result,
+                                items_result,
+                                compare_op);));
   return ret;
 }
 

@@ -36,6 +36,7 @@
 #include <thrust/distance.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
 #include <thrust/system/cuda/detail/dispatch.h>
 
 #include <cub/device/device_scan.cuh>
@@ -220,26 +221,18 @@ OutputIt inclusive_scan_n(thrust::cuda_cub::execution_policy<Derived> &policy,
                           OutputIt result,
                           ScanOp scan_op)
 {
-  OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = thrust::cuda_cub::detail::inclusive_scan_n_impl(policy,
-                                                          first,
-                                                          num_items,
-                                                          result,
-                                                          scan_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::inclusive_scan(cvt_to_seq(derived_cast(policy)),
-                                 first,
-                                 first + num_items,
-                                 result,
-                                 scan_op);
-#endif
-  }
-  return ret;
+  THRUST_CDP_DISPATCH(
+    (result = thrust::cuda_cub::detail::inclusive_scan_n_impl(policy,
+                                                              first,
+                                                              num_items,
+                                                              result,
+                                                              scan_op);),
+    (result = thrust::inclusive_scan(cvt_to_seq(derived_cast(policy)),
+                                     first,
+                                     first + num_items,
+                                     result,
+                                     scan_op);));
+  return result;
 }
 
 template <typename Derived, typename InputIt, typename OutputIt, typename ScanOp>
@@ -288,28 +281,20 @@ OutputIt exclusive_scan_n(thrust::cuda_cub::execution_policy<Derived> &policy,
                           T init,
                           ScanOp scan_op)
 {
-  OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = thrust::cuda_cub::detail::exclusive_scan_n_impl(policy,
-                                                          first,
-                                                          num_items,
-                                                          result,
-                                                          init,
-                                                          scan_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::exclusive_scan(cvt_to_seq(derived_cast(policy)),
-                                 first,
-                                 first + num_items,
-                                 result,
-                                 init,
-                                 scan_op);
-#endif
-  }
-  return ret;
+  THRUST_CDP_DISPATCH(
+    (result = thrust::cuda_cub::detail::exclusive_scan_n_impl(policy,
+                                                              first,
+                                                              num_items,
+                                                              result,
+                                                              init,
+                                                              scan_op);),
+    (result = thrust::exclusive_scan(cvt_to_seq(derived_cast(policy)),
+                                     first,
+                                     first + num_items,
+                                     result,
+                                     init,
+                                     scan_op);));
+  return result;
 }
 
 template <typename Derived,

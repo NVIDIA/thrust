@@ -352,14 +352,9 @@ namespace core {
     };
 
     template <class Agent>
-    typename get_plan<Agent>::type THRUST_RUNTIME_FUNCTION
-    get_agent_plan(int ptx_version)
+    THRUST_RUNTIME_FUNCTION
+    typename get_plan<Agent>::type get_agent_plan(int ptx_version)
     {
-      // Use one path, with Agent::ptx_plan, for device code where device-side
-      // kernel launches are supported. The other path, with
-      // get_agent_plan_impl::get(version), is for host code and for device
-      // code without device-side kernel launches.
-#ifdef __THRUST_HAS_CUDART__
       NV_IF_TARGET(
         NV_IS_DEVICE,
         (
@@ -369,9 +364,6 @@ namespace core {
           return plan_type{ptx_plan{}};
         ), // NV_IS_HOST:
         ( return get_agent_plan_impl<Agent, sm_list>::get(ptx_version); ));
-#else
-      return get_agent_plan_impl<Agent, sm_list>::get(ptx_version);
-#endif
     }
 
 // XXX keep this dead-code for now as a gentle reminder
@@ -456,7 +448,7 @@ namespace core {
   /////////////////////////
 
   THRUST_RUNTIME_FUNCTION
-  int get_sm_count()
+  inline int get_sm_count()
   {
     int dev_id;
     cuda_cub::throw_on_error(cudaGetDevice(&dev_id),
@@ -474,8 +466,8 @@ namespace core {
     return i32value;
   }
 
-  size_t THRUST_RUNTIME_FUNCTION
-  get_max_shared_memory_per_block()
+  THRUST_RUNTIME_FUNCTION
+  inline size_t get_max_shared_memory_per_block()
   {
     int dev_id;
     cuda_cub::throw_on_error(cudaGetDevice(&dev_id),
@@ -494,8 +486,8 @@ namespace core {
     return static_cast<size_t>(i32value);
   }
 
-  size_t THRUST_RUNTIME_FUNCTION
-  virtual_shmem_size(size_t shmem_per_block)
+  THRUST_RUNTIME_FUNCTION
+  inline size_t virtual_shmem_size(size_t shmem_per_block)
   {
     size_t max_shmem_per_block = core::get_max_shared_memory_per_block();
     if (shmem_per_block > max_shmem_per_block)
@@ -504,8 +496,8 @@ namespace core {
       return 0;
   }
 
-  size_t THRUST_RUNTIME_FUNCTION
-  vshmem_size(size_t shmem_per_block, size_t num_blocks)
+  THRUST_RUNTIME_FUNCTION
+  inline size_t vshmem_size(size_t shmem_per_block, size_t num_blocks)
   {
     size_t max_shmem_per_block = core::get_max_shared_memory_per_block();
     if (shmem_per_block > max_shmem_per_block)
@@ -622,16 +614,16 @@ namespace core {
     __host__ __device__ operator T const &() const { return value_; }
   };
 
-  cuda_optional<int> THRUST_RUNTIME_FUNCTION
-  get_ptx_version()
+  THRUST_RUNTIME_FUNCTION
+  inline cuda_optional<int> get_ptx_version()
   {
     int ptx_version = 0;
     cudaError_t status = cub::PtxVersion(ptx_version);
     return cuda_optional<int>(ptx_version, status);
   }
 
-  cudaError_t THRUST_RUNTIME_FUNCTION
-  sync_stream(cudaStream_t stream)
+  THRUST_RUNTIME_FUNCTION
+  inline cudaError_t sync_stream(cudaStream_t stream)
   {
     return cub::SyncStream(stream);
   }
