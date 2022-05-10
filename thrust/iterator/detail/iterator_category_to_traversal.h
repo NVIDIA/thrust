@@ -88,23 +88,23 @@ template <typename Category>
 
 template<typename Category>
   struct category_to_traversal
-      // check for host system
+      // check for device system
     : eval_if<
         or_<
-          is_convertible<Category, thrust::input_host_iterator_tag>,
-          is_convertible<Category, thrust::output_host_iterator_tag>
+          is_convertible<Category, thrust::input_device_iterator_tag>,
+          is_convertible<Category, thrust::output_device_iterator_tag>
         >::value,
 
-        host_system_category_to_traversal<Category>,
+        device_system_category_to_traversal<Category>,
 
-        // check for device system
+        // check for host system
         eval_if<
           or_<
-            is_convertible<Category, thrust::input_device_iterator_tag>,
-            is_convertible<Category, thrust::output_device_iterator_tag>
+            is_convertible<Category, thrust::input_host_iterator_tag>,
+            is_convertible<Category, thrust::output_host_iterator_tag>
           >::value,
 
-          device_system_category_to_traversal<Category>,
+          host_system_category_to_traversal<Category>,
 
           // unknown category
           detail::identity_<void>
