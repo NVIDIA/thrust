@@ -98,6 +98,12 @@ DECLARE_UNITTEST(TestAdjacentDifferenceCudaStreams);
 
 struct detect_wrong_difference
 {
+    using difference_type = void;
+    using value_type = void;
+    using pointer = void;
+    using reference = void;
+    using iterator_category = std::output_iterator_tag;
+
     bool * flag;
 
     __host__ __device__ detect_wrong_difference operator++() const { return *this; }

@@ -497,7 +497,7 @@ endfunction()
 macro(_thrust_find_CUDA required)
   if (NOT TARGET Thrust::CUDA)
     thrust_debug("Searching for CUB ${required}" internal)
-    find_package(CUB CONFIG
+    find_package(CUB ${THRUST_VERSION} CONFIG
       ${_THRUST_QUIET_FLAG}
       ${required}
       NO_DEFAULT_PATH # Only check the explicit HINTS below:

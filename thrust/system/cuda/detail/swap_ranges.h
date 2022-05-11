@@ -93,7 +93,7 @@ swap_ranges(execution_policy<Derived> &policy,
                          num_items);
 
   cuda_cub::throw_on_error(
-    cuda_cub::synchronize(policy)
+    cuda_cub::synchronize_optional(policy)
   , "swap_ranges: failed to synchronize"
   );
 

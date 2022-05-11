@@ -14,13 +14,15 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <thrust/detail/config.h>
 #include <thrust/detail/allocator/temporary_allocator.h>
 #include <thrust/detail/temporary_buffer.h>
 #include <thrust/system/detail/bad_alloc.h>
 #include <cassert>
 
-#if (defined(__NVCOMPILER_CUDA__) || defined(__CUDA_ARCH__)) && \
+#if (defined(_NVHPC_CUDA) || defined(__CUDA_ARCH__)) && \
     THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 #include <thrust/system/cuda/detail/terminate.h>
 #endif

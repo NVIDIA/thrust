@@ -6,10 +6,6 @@ ifeq ($(OS),Linux)
   LIBRARIES += m
 endif
 
-# Disable our THRUST_DEPRECATED and CUB_DEPRECATED macros for internal
-# builds, since we need to build and test our deprecated APIs with -Werror.
-CUDACC_FLAGS += -DTHRUST_IGNORE_DEPRECATED_API
-
 include $(ROOTDIR)/thrust/internal/build/common_compiler.mk
 
 # Add /bigobj to Windows build flag to workaround building Thrust with debug

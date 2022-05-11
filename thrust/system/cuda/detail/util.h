@@ -68,6 +68,25 @@ stream(execution_policy<Derived> &policy)
   return get_stream(derived_cast(policy));
 }
 
+
+// Fallback implementation of the customization point.
+template <class Derived>
+__host__ __device__
+bool
+must_perform_optional_stream_synchronization(execution_policy<Derived> &)
+{
+  return true;
+}
+
+// Entry point/interface.
+template <class Derived>
+__host__ __device__ bool
+must_perform_optional_synchronization(execution_policy<Derived> &policy)
+{
+  return must_perform_optional_stream_synchronization(derived_cast(policy));
+}
+
+
 // Fallback implementation of the customization point.
 __thrust_exec_check_disable__
 template <class Derived>
@@ -103,6 +122,50 @@ cudaError_t
 synchronize(Policy &policy)
 {
   return synchronize_stream(derived_cast(policy));
+}
+
+// Fallback implementation of the customization point.
+__thrust_exec_check_disable__
+template <class Derived>
+__host__ __device__
+cudaError_t
+synchronize_stream_optional(execution_policy<Derived> &policy)
+{
+  cudaError_t result;
+  if (THRUST_IS_HOST_CODE) {
+    #if THRUST_INCLUDE_HOST_CODE
+      if(must_perform_optional_synchronization(policy)){
+        cudaStreamSynchronize(stream(policy));
+        result = cudaGetLastError();
+      }else{
+        result = cudaSuccess;
+      }
+    #endif
+  } else {
+    #if THRUST_INCLUDE_DEVICE_CODE
+      #if __THRUST_HAS_CUDART__
+        if(must_perform_optional_synchronization(policy)){
+          cub::detail::device_synchronize();
+          result = cudaGetLastError();
+        }else{
+          result = cudaSuccess;
+        }
+      #else
+        THRUST_UNUSED_VAR(policy);
+        result = cudaSuccess;
+      #endif
+    #endif
+  }
+  return result;
+}
+
+// Entry point/interface.
+template <class Policy>
+__host__ __device__
+cudaError_t
+synchronize_optional(Policy &policy)
+{
+  return synchronize_stream_optional(derived_cast(policy));
 }
 
 template <class Type>

@@ -296,6 +296,19 @@ void TestNot1(void)
 }
 DECLARE_INTEGRAL_VECTOR_UNITTEST(TestNot1);
 
+
+// GCC 11 fails to build this test case with a spurious error in a
+// very specific scenario:
+// - GCC 11
+// - CPP system for both host and device
+// - C++11 dialect
+#if !(defined(THRUST_GCC_VERSION) &&				\
+      THRUST_GCC_VERSION >= 110000 &&				\
+      THRUST_GCC_VERSION < 120000 &&				\
+      THRUST_HOST_SYSTEM == THRUST_HOST_SYSTEM_CPP &&		\
+      THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CPP &&	\
+      THRUST_CPP_DIALECT == 2011)
+
 template <class Vector>
 void TestNot2(void)
 {
@@ -320,5 +333,7 @@ void TestNot2(void)
     ASSERT_EQUAL(output[4], 1);
 }
 DECLARE_VECTOR_UNITTEST(TestNot2);
+
+#endif // Weird GCC11 failure case
 
 THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END

@@ -95,6 +95,50 @@ void TestUniqueCopyDispatchImplicit()
 DECLARE_UNITTEST(TestUniqueCopyDispatchImplicit);
 
 
+template <typename ForwardIterator>
+typename thrust::iterator_traits<ForwardIterator>::difference_type
+    unique_count(my_system &system,
+                 ForwardIterator,
+                 ForwardIterator)
+{
+    system.validate_dispatch();
+    return 0;
+}
+
+void TestUniqueCountDispatchExplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    my_system sys(0);
+    thrust::unique_count(sys, vec.begin(), vec.begin());
+
+    ASSERT_EQUAL(true, sys.is_valid());
+}
+DECLARE_UNITTEST(TestUniqueCountDispatchExplicit);
+
+
+template <typename ForwardIterator>
+typename thrust::iterator_traits<ForwardIterator>::difference_type
+    unique_count(my_tag,
+                 ForwardIterator,
+                 ForwardIterator)
+{
+    return 13;
+}
+
+void TestUniqueCountDispatchImplicit()
+{
+    thrust::device_vector<int> vec(1);
+
+    auto result = thrust::unique_count(
+        thrust::retag<my_tag>(vec.begin()),
+        thrust::retag<my_tag>(vec.begin()));
+
+    ASSERT_EQUAL(13, result);
+}
+DECLARE_UNITTEST(TestUniqueCountDispatchImplicit);
+
+
 template<typename T>
 struct is_equal_div_10_unique
 {
@@ -266,3 +310,48 @@ struct TestUniqueCopyToDiscardIterator
 VariableUnitTest<TestUniqueCopyToDiscardIterator, IntegralTypes> TestUniqueCopyToDiscardIteratorInstance;
 
 
+template <typename Vector>
+void TestUniqueCountSimple(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector data(10);
+    data[0] = 11;
+    data[1] = 11;
+    data[2] = 12;
+    data[3] = 20;
+    data[4] = 29;
+    data[5] = 21;
+    data[6] = 21;
+    data[7] = 31;
+    data[8] = 31;
+    data[9] = 37;
+
+    int count = thrust::unique_count(data.begin(), data.end());
+
+    ASSERT_EQUAL(count, 7);
+
+    int div_10_count = thrust::unique_count(data.begin(), data.end(), is_equal_div_10_unique<T>());
+
+    ASSERT_EQUAL(div_10_count, 3);
+}
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestUniqueCountSimple);
+
+template <typename T>
+struct TestUniqueCount
+{
+    void operator()(const size_t n)
+    {
+        thrust::host_vector<T> h_data = unittest::random_integers<bool>(n);
+        thrust::device_vector<T> d_data = h_data;
+
+        int h_count{};
+        int d_count{};
+
+        h_count = thrust::unique_count(h_data.begin(), h_data.end());
+        d_count = thrust::unique_count(d_data.begin(), d_data.end());
+
+        ASSERT_EQUAL(h_count, d_count);
+    }
+};
+VariableUnitTest<TestUniqueCount, IntegralTypes> TestUniqueCountInstance;

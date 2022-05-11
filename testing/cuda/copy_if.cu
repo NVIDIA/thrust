@@ -95,7 +95,14 @@ void TestCopyIfDeviceDevice()
 DECLARE_UNITTEST(TestCopyIfDeviceDevice);
 
 
-void TestCopyIfCudaStreams()
+void TestCopyIfDeviceNoSync()
+{
+  TestCopyIfDevice(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestCopyIfDeviceNoSync);
+
+template<typename ExecutionPolicy>
+void TestCopyIfCudaStreams(ExecutionPolicy policy)
 {
   typedef thrust::device_vector<int> Vector;
 
@@ -111,7 +118,7 @@ void TestCopyIfCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  Vector::iterator end = thrust::copy_if(thrust::cuda::par.on(s),
+  Vector::iterator end = thrust::copy_if(policy.on(s),
                                          data.begin(), 
                                          data.end(), 
                                          result.begin(),
@@ -124,7 +131,16 @@ void TestCopyIfCudaStreams()
 
   cudaStreamDestroy(s);
 }
-DECLARE_UNITTEST(TestCopyIfCudaStreams);
+
+void TestCopyIfCudaStreamsSync(){
+  TestCopyIfCudaStreams(thrust::cuda::par);
+}
+DECLARE_UNITTEST(TestCopyIfCudaStreamsSync);
+
+void TestCopyIfCudaStreamsNoSync(){
+  TestCopyIfCudaStreams(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestCopyIfCudaStreamsNoSync);
 
 
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Predicate, typename Iterator4>
@@ -205,7 +221,15 @@ void TestCopyIfStencilDeviceDevice()
 DECLARE_UNITTEST(TestCopyIfStencilDeviceDevice);
 
 
-void TestCopyIfStencilCudaStreams()
+void TestCopyIfStencilDeviceNoSync()
+{
+  TestCopyIfStencilDevice(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestCopyIfStencilDeviceNoSync);
+
+
+template<typename ExecutionPolicy>
+void TestCopyIfStencilCudaStreams(ExecutionPolicy policy)
 {
   typedef thrust::device_vector<int> Vector;
   typedef Vector::value_type T;
@@ -229,7 +253,7 @@ void TestCopyIfStencilCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  Vector::iterator end = thrust::copy_if(thrust::cuda::par.on(s),
+  Vector::iterator end = thrust::copy_if(policy.on(s),
                                          data.begin(), 
                                          data.end(),
                                          stencil.begin(),
@@ -243,5 +267,17 @@ void TestCopyIfStencilCudaStreams()
 
   cudaStreamDestroy(s);
 }
-DECLARE_UNITTEST(TestCopyIfStencilCudaStreams);
+
+void TestCopyIfStencilCudaStreamsSync()
+{
+  TestCopyIfStencilCudaStreams(thrust::cuda::par);
+}
+DECLARE_UNITTEST(TestCopyIfStencilCudaStreamsSync);
+
+
+void TestCopyIfStencilCudaStreamsNoSync()
+{
+  TestCopyIfStencilCudaStreams(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestCopyIfStencilCudaStreamsNoSync);
 
