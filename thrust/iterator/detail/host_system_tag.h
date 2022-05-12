@@ -27,4 +27,13 @@ THRUST_NAMESPACE_BEGIN
 
 typedef thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::tag host_system_tag;
 
+namespace detail {
+
+template <>
+struct is_system_tag<host_system_tag>
+  : true_type
+{};
+
+}
+
 THRUST_NAMESPACE_END
