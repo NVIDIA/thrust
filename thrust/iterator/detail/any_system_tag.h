@@ -25,7 +25,7 @@ THRUST_NAMESPACE_BEGIN
 struct any_system_tag
   : thrust::execution_policy<any_system_tag>
 {
-  // allow any_system_tag to convert to any type at all
+  // allow any_system_tag to convert to any system tag type
   template<typename T,
            typename detail::enable_if<detail::is_system_tag<T>::value, int>::type = 0>
   operator T () const {return T();}
