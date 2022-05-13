@@ -18,16 +18,28 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/execution_policy.h>
+#include <thrust/detail/type_traits.h>
 
 THRUST_NAMESPACE_BEGIN
 
 struct any_system_tag
   : thrust::execution_policy<any_system_tag>
 {
-  // allow any_system_tag to convert to any type at all
-  // XXX make this safer using enable_if<is_tag<T>> upon c++11
-  template<typename T> operator T () const {return T();}
+  // allow any_system_tag to convert to any system tag type
+  template<typename T,
+           typename detail::enable_if<detail::is_system_tag<T>::value, int>::type = 0>
+  operator T () const {return T();}
 };
+
+namespace detail {
+
+template <>
+struct is_system_tag<any_system_tag>
+  : true_type
+{};
+
+}
+
 
 THRUST_NAMESPACE_END
 
