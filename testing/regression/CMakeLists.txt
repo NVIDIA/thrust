@@ -1,7 +1,3 @@
-if ("thrust" IN_LIST THRUST_TARGETS)
-  thrust_add_test(test_target "regression.gh_902__iterator_category_to_system_returns_wrong_tag" "gh_902__iterator_category_to_system_returns_wrong_tag.cu" "thrust")
-endif()
-
 #
 # Disabled as these test names are too long for CMAKE_OBJECT_PATH_MAX.
 # We should integrate these with the other unit tests.

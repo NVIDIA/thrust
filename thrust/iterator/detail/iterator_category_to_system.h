@@ -55,7 +55,7 @@ template<typename Category>
           >::value,
 
           detail::identity_<thrust::host_system_tag>,
-        
+
           // unknown system
           detail::identity_<void>
         > // if device
