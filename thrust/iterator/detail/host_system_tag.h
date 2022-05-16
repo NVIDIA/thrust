@@ -27,6 +27,7 @@ THRUST_NAMESPACE_BEGIN
 
 typedef thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::tag host_system_tag;
 
+#if THRUST_HOST_SYSTEM != THRUST_DEVICE_SYSTEM
 namespace detail {
 
 template <>
@@ -35,5 +36,6 @@ struct is_system_tag<host_system_tag>
 {};
 
 }
+#endif
 
 THRUST_NAMESPACE_END
