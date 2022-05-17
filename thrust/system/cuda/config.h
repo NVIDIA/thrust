@@ -33,7 +33,7 @@
 #include <cub/util_namespace.cuh>
 
 #if defined(__CUDACC__) || defined(_NVHPC_CUDA)
-#  if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__>= 350 && defined(__CUDACC_RDC__))
+#  if !defined(__CUDA_ARCH__) || defined(__CUDACC_RDC__)
 #    define __THRUST_HAS_CUDART__ 1
 #    define THRUST_RUNTIME_FUNCTION __host__ __device__ __forceinline__
 #  else
@@ -45,9 +45,17 @@
 #  define THRUST_RUNTIME_FUNCTION __host__ __forceinline__
 #endif
 
+// These definitions were intended for internal use only and are now obsolete.
+// If you relied on them, consider porting your code to use the functionality
+// in libcu++'s <nv/target> header.
+// For a temporary workaround, define THRUST_PROVIDE_LEGACY_ARCH_MACROS to make
+// them available again. These should be considered deprecated and will be
+// fully removed in a future version.
+#ifdef THRUST_PROVIDE_LEGACY_ARCH_MACROS
 #ifdef __CUDA_ARCH__
 #define THRUST_DEVICE_CODE
-#endif
+#endif // __CUDA_ARCH__
+#endif // THRUST_PROVIDE_LEGACY_ARCH_MACROS
 
 #ifdef THRUST_AGENT_ENTRY_NOINLINE
 #define THRUST_AGENT_ENTRY_INLINE_ATTR __noinline__

@@ -18,6 +18,8 @@
 
 #include <thrust/detail/config.h>
 
+#include <nv/target>
+
 THRUST_NAMESPACE_BEGIN
 namespace detail
 {
@@ -43,18 +45,18 @@ template<typename BaseAllocator>
     __host__ __device__
     void deallocate(typename super_t::pointer p, typename super_t::size_type n)
     {
-#ifndef __CUDA_ARCH__
-      try
-      {
+      NV_IF_TARGET(NV_IS_HOST, (
+        try
+        {
+          super_t::deallocate(p, n);
+        } // end try
+        catch(...)
+        {
+          // catch anything
+        } // end catch
+      ), (
         super_t::deallocate(p, n);
-      } // end try
-      catch(...)
-      {
-        // catch anything
-      } // end catch
-#else
-      super_t::deallocate(p, n);
-#endif
+      ));
     } // end deallocate()
 
     inline __host__ __device__

@@ -24,6 +24,8 @@
 #include <cstring>
 #include <thrust/system/detail/sequential/general_copy.h>
 
+#include <nv/target>
+
 THRUST_NAMESPACE_BEGIN
 namespace system
 {
@@ -40,16 +42,14 @@ __host__ __device__
                     T *result)
 {
   T* return_value = NULL;
-  if (THRUST_IS_HOST_CODE) {
-    #if THRUST_INCLUDE_HOST_CODE
-      std::memmove(result, first, n * sizeof(T));
-      return_value = result + n;
-    #endif
-  } else {
-    #if THRUST_INCLUDE_DEVICE_CODE
-      return_value = thrust::system::detail::sequential::general_copy_n(first, n, result);
-    #endif
-  }
+
+  NV_IF_TARGET(NV_IS_HOST, (
+    std::memmove(result, first, n * sizeof(T));
+    return_value = result + n;
+  ), ( // NV_IS_DEVICE:
+    return_value = thrust::system::detail::sequential::general_copy_n(first, n, result);
+  ));
+
   return return_value;
 } // end trivial_copy_n()
 

@@ -101,7 +101,7 @@ find_package(Thrust 1.9.10.1 EXACT)
 
 would only match the 1.9.10.1 release.
 
-#### Using a Specific TBB or OpenMP Environment
+#### Using an Explicit TBB or OpenMP CMake Target
 
 When `thrust_create_target` is called, it will lazily load the requested
 systems on-demand through internal `find_package` calls. If a project already
@@ -112,9 +112,20 @@ thrust_set_TBB_target(MyTBBTarget)
 thrust_set_OMP_target(MyOMPTarget)
 ```
 
-These functions must be called **before** `thrust_create_target`, and will
-have no effect if the dependency is loaded as a
-`find_package(Thrust COMPONENT [...])` component.
+These functions must be called **before** the corresponding system is loaded
+through `thrust_create_target` or `find_package(Thrust COMPONENT [OMP|TBB])`.
+
+#### Using an Explicit libcu++ CMake Target
+
+In contrast to the optional TBB/OMP dependencies, there is no
+`thrust_set_libcudacxx_target` function that specifies an explicit libcu++
+target. This is because libcu++ is always required and must be found during the
+initial `find_target(Thrust)` call that defines these functions.
+
+To force Thrust to use a specific libcu++ target, ensure that either the
+`Thrust::libcudacxx` or `libcudacxx::libcudacxx` targets are defined prior to
+the first invocation of `find_package(Thrust)`. Thrust will automatically use
+these, giving preference to the `Thrust::libcudacxx` target.
 
 #### Testing for Systems
 

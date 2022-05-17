@@ -77,6 +77,9 @@
 
 cmake_minimum_required(VERSION 3.15)
 
+# Minimum supported libcudacxx version:
+set(thrust_libcudacxx_version 1.8.0)
+
 ################################################################################
 # User variables and APIs. Users can rely on these:
 #
@@ -85,19 +88,21 @@ cmake_minimum_required(VERSION 3.15)
 set(THRUST_HOST_SYSTEM_OPTIONS
   CPP OMP TBB
   CACHE INTERNAL "Valid Thrust host systems."
+  FORCE
 )
 set(THRUST_DEVICE_SYSTEM_OPTIONS
   CUDA CPP OMP TBB
   CACHE INTERNAL "Valid Thrust device systems"
+  FORCE
 )
 
 # Workaround cmake issue #20670 https://gitlab.kitware.com/cmake/cmake/-/issues/20670
-set(THRUST_VERSION ${${CMAKE_FIND_PACKAGE_NAME}_VERSION} CACHE INTERNAL "")
-set(THRUST_VERSION_MAJOR ${${CMAKE_FIND_PACKAGE_NAME}_VERSION_MAJOR} CACHE INTERNAL "")
-set(THRUST_VERSION_MINOR ${${CMAKE_FIND_PACKAGE_NAME}_VERSION_MINOR} CACHE INTERNAL "")
-set(THRUST_VERSION_PATCH ${${CMAKE_FIND_PACKAGE_NAME}_VERSION_PATCH} CACHE INTERNAL "")
-set(THRUST_VERSION_TWEAK ${${CMAKE_FIND_PACKAGE_NAME}_VERSION_TWEAK} CACHE INTERNAL "")
-set(THRUST_VERSION_COUNT ${${CMAKE_FIND_PACKAGE_NAME}_VERSION_COUNT} CACHE INTERNAL "")
+set(THRUST_VERSION ${${CMAKE_FIND_PACKAGE_NAME}_VERSION} CACHE INTERNAL "" FORCE)
+set(THRUST_VERSION_MAJOR ${${CMAKE_FIND_PACKAGE_NAME}_VERSION_MAJOR} CACHE INTERNAL "" FORCE)
+set(THRUST_VERSION_MINOR ${${CMAKE_FIND_PACKAGE_NAME}_VERSION_MINOR} CACHE INTERNAL "" FORCE)
+set(THRUST_VERSION_PATCH ${${CMAKE_FIND_PACKAGE_NAME}_VERSION_PATCH} CACHE INTERNAL "" FORCE)
+set(THRUST_VERSION_TWEAK ${${CMAKE_FIND_PACKAGE_NAME}_VERSION_TWEAK} CACHE INTERNAL "" FORCE)
+set(THRUST_VERSION_COUNT ${${CMAKE_FIND_PACKAGE_NAME}_VERSION_COUNT} CACHE INTERNAL "" FORCE)
 
 function(thrust_create_target target_name)
   thrust_debug("Assembling target ${target_name}. Options: ${ARGN}" internal)
@@ -109,7 +114,7 @@ function(thrust_create_target target_name)
     IGNORE_DEPRECATED_COMPILER
     IGNORE_DEPRECATED_CPP_11
     IGNORE_DEPRECATED_CPP_DIALECT
-    )
+  )
   set(keys
     DEVICE
     DEVICE_OPTION
@@ -117,13 +122,13 @@ function(thrust_create_target target_name)
     HOST
     HOST_OPTION
     HOST_OPTION_DOC
-    )
+  )
   cmake_parse_arguments(TCT "${options}" "${keys}" "" ${ARGN})
   if (TCT_UNPARSED_ARGUMENTS)
     message(AUTHOR_WARNING
       "Unrecognized arguments passed to thrust_create_target: "
       ${TCT_UNPARSED_ARGUMENTS}
-      )
+    )
   endif()
 
   # Check that the main Thrust internal target is available
@@ -133,7 +138,7 @@ function(thrust_create_target target_name)
     message(AUTHOR_WARNING
       "The `thrust_create_target` function was called outside the scope of the "
       "thrust targets. Call find_package again to recreate targets."
-      )
+    )
   endif()
 
   _thrust_set_if_undefined(TCT_HOST CPP)
@@ -145,12 +150,14 @@ function(thrust_create_target target_name)
 
   if (NOT TCT_HOST IN_LIST THRUST_HOST_SYSTEM_OPTIONS)
     message(FATAL_ERROR
-      "Requested HOST=${TCT_HOST}; must be one of ${THRUST_HOST_SYSTEM_OPTIONS}")
+      "Requested HOST=${TCT_HOST}; must be one of ${THRUST_HOST_SYSTEM_OPTIONS}"
+    )
   endif()
 
   if (NOT TCT_DEVICE IN_LIST THRUST_DEVICE_SYSTEM_OPTIONS)
     message(FATAL_ERROR
-      "Requested DEVICE=${TCT_DEVICE}; must be one of ${THRUST_DEVICE_SYSTEM_OPTIONS}")
+      "Requested DEVICE=${TCT_DEVICE}; must be one of ${THRUST_DEVICE_SYSTEM_OPTIONS}"
+    )
   endif()
 
   if (TCT_FROM_OPTIONS)
@@ -172,7 +179,7 @@ function(thrust_create_target target_name)
 
   # We can just create an INTERFACE IMPORTED target here instead of going
   # through _thrust_declare_interface_alias as long as we aren't hanging any
-  # Thrust/CUB include paths on ${target_name}.
+  # Thrust/CUB include paths directly on ${target_name}.
   add_library(${target_name} INTERFACE IMPORTED)
   target_link_libraries(${target_name}
     INTERFACE
@@ -346,14 +353,15 @@ function(thrust_debug_internal_targets)
 
   _thrust_debug_backend_targets(CPP "Thrust ${THRUST_VERSION}")
 
-  _thrust_debug_backend_targets(CUDA "CUB ${THRUST_CUB_VERSION}")
-  thrust_debug_target(CUB::CUB "${THRUST_CUB_VERSION}")
+  _thrust_debug_backend_targets(OMP "${THRUST_OMP_VERSION}")
+  thrust_debug_target(OpenMP::OpenMP_CXX "${THRUST_OMP_VERSION}")
 
   _thrust_debug_backend_targets(TBB "${THRUST_TBB_VERSION}")
   thrust_debug_target(TBB:tbb "${THRUST_TBB_VERSION}")
 
-  _thrust_debug_backend_targets(OMP "${THRUST_OMP_VERSION}")
-  thrust_debug_target(OpenMP::OpenMP_CXX "${THRUST_OMP_VERSION}")
+  _thrust_debug_backend_targets(CUDA "CUB ${THRUST_CUB_VERSION}")
+  thrust_debug_target(CUB::CUB "${THRUST_CUB_VERSION}")
+  thrust_debug_target(libcudacxx::libcudacxx "${THRUST_libcudacxx_VERSION}")
 endfunction()
 
 ################################################################################
@@ -434,18 +442,38 @@ function(_thrust_setup_system backend)
   endif()
 endfunction()
 
-# Use the provided cub_target for the CUDA backend. If Thrust::CUDA already
+# Use the provided cub_target for the CUDA backend. If Thrust::CUB already
 # exists, this call has no effect.
 function(thrust_set_CUB_target cub_target)
-  if (NOT TARGET Thrust::CUDA)
+  if (NOT TARGET Thrust::CUB)
     thrust_debug("Setting CUB target to ${cub_target}" internal)
     # Workaround cmake issue #20670 https://gitlab.kitware.com/cmake/cmake/-/issues/20670
-    set(THRUST_CUB_VERSION ${CUB_VERSION} CACHE INTERNAL "CUB version used by Thrust")
-    _thrust_declare_interface_alias(Thrust::CUDA _Thrust_CUDA)
-    target_link_libraries(_Thrust_CUDA INTERFACE Thrust::Thrust ${cub_target})
+    set(THRUST_CUB_VERSION ${CUB_VERSION} CACHE INTERNAL
+      "CUB version used by Thrust"
+      FORCE
+    )
+    _thrust_declare_interface_alias(Thrust::CUB _Thrust_CUB)
+    target_link_libraries(_Thrust_CUB INTERFACE ${cub_target})
     thrust_debug_target(${cub_target} "${THRUST_CUB_VERSION}" internal)
-    thrust_debug_target(Thrust::CUDA "CUB ${THRUST_CUB_VERSION}" internal)
-    _thrust_setup_system(CUDA)
+    thrust_debug_target(Thrust::CUB "CUB ${THRUST_CUB_VERSION}" internal)
+  endif()
+endfunction()
+
+# Internal use only -- libcudacxx must be found during the initial
+# `find_package(Thrust)` call and cannot be set afterwards. See README.md in
+# this directory for details on using a specific libcudacxx target.
+function(_thrust_set_libcudacxx_target libcudacxx_target)
+  if (NOT TARGET Thrust::libcudacxx)
+    thrust_debug("Setting libcudacxx target to ${libcudacxx_target}" internal)
+    # Workaround cmake issue #20670 https://gitlab.kitware.com/cmake/cmake/-/issues/20670
+    set(THRUST_libcudacxx_VERSION ${libcudacxx_VERSION} CACHE INTERNAL
+      "libcudacxx version used by Thrust"
+      FORCE
+    )
+    _thrust_declare_interface_alias(Thrust::libcudacxx _Thrust_libcudacxx)
+    target_link_libraries(_Thrust_libcudacxx INTERFACE ${libcudacxx_target})
+    thrust_debug_target(${libcudacxx_target} "${THRUST_libcudacxx_VERSION}" internal)
+    thrust_debug_target(Thrust::libcudacxx "libcudacxx ${THRUST_libcudacxx_VERSION}" internal)
   endif()
 endfunction()
 
@@ -455,7 +483,10 @@ function(thrust_set_TBB_target tbb_target)
   if (NOT TARGET Thrust::TBB)
     thrust_debug("Setting TBB target to ${tbb_target}" internal)
     # Workaround cmake issue #20670 https://gitlab.kitware.com/cmake/cmake/-/issues/20670
-    set(THRUST_TBB_VERSION ${TBB_VERSION} CACHE INTERNAL "TBB version used by Thrust")
+    set(THRUST_TBB_VERSION ${TBB_VERSION} CACHE INTERNAL
+      "TBB version used by Thrust"
+      FORCE
+    )
     _thrust_declare_interface_alias(Thrust::TBB _Thrust_TBB)
     target_link_libraries(_Thrust_TBB INTERFACE Thrust::Thrust ${tbb_target})
     thrust_debug_target(${tbb_target} "${THRUST_TBB_VERSION}" internal)
@@ -470,7 +501,10 @@ function(thrust_set_OMP_target omp_target)
   if (NOT TARGET Thrust::OMP)
     thrust_debug("Setting OMP target to ${omp_target}" internal)
     # Workaround cmake issue #20670 https://gitlab.kitware.com/cmake/cmake/-/issues/20670
-    set(THRUST_OMP_VERSION ${OpenMP_CXX_VERSION} CACHE INTERNAL "OpenMP version used by Thrust")
+    set(THRUST_OMP_VERSION ${OpenMP_CXX_VERSION} CACHE INTERNAL
+      "OpenMP version used by Thrust"
+      FORCE
+    )
     _thrust_declare_interface_alias(Thrust::OMP _Thrust_OMP)
     target_link_libraries(_Thrust_OMP INTERFACE Thrust::Thrust ${omp_target})
     thrust_debug_target(${omp_target} "${THRUST_OMP_VERSION}" internal)
@@ -495,7 +529,7 @@ endfunction()
 # #20670 -- otherwise variables like CUB_VERSION, etc won't be in the caller's
 # scope.
 macro(_thrust_find_CUDA required)
-  if (NOT TARGET Thrust::CUDA)
+  if (NOT TARGET Thrust::CUB)
     thrust_debug("Searching for CUB ${required}" internal)
     find_package(CUB ${THRUST_VERSION} CONFIG
       ${_THRUST_QUIET_FLAG}
@@ -512,6 +546,16 @@ macro(_thrust_find_CUDA required)
     else()
       thrust_debug("CUB not found!" internal)
     endif()
+  endif()
+
+  if (NOT TARGET Thrust::CUDA)
+    _thrust_declare_interface_alias(Thrust::CUDA _Thrust_CUDA)
+    _thrust_setup_system(CUDA)
+    target_link_libraries(_Thrust_CUDA INTERFACE
+      Thrust::Thrust
+      Thrust::CUB
+    )
+    thrust_debug_target(Thrust::CUDA "" internal)
   endif()
 endmacro()
 
@@ -619,14 +663,17 @@ endmacro()
 #
 
 if (${CMAKE_FIND_PACKAGE_NAME}_FIND_QUIETLY)
-  set(_THRUST_QUIET ON CACHE INTERNAL "Quiet mode enabled for Thrust find_package calls.")
-  set(_THRUST_QUIET_FLAG "QUIET" CACHE INTERNAL "")
+  set(_THRUST_QUIET ON CACHE INTERNAL "Quiet mode enabled for Thrust find_package calls." FORCE)
+  set(_THRUST_QUIET_FLAG "QUIET" CACHE INTERNAL "" FORCE)
 else()
   unset(_THRUST_QUIET CACHE)
   unset(_THRUST_QUIET_FLAG CACHE)
 endif()
 
-set(_THRUST_CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}" CACHE INTERNAL "Location of thrust-config.cmake")
+set(_THRUST_CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}" CACHE INTERNAL
+  "Location of thrust-config.cmake"
+  FORCE
+)
 
 # Internal target that actually holds the Thrust interface. Used by all other Thrust targets.
 if (NOT TARGET Thrust::Thrust)
@@ -634,10 +681,43 @@ if (NOT TARGET Thrust::Thrust)
   # Pull in the include dir detected by thrust-config-version.cmake
   set(_THRUST_INCLUDE_DIR "${_THRUST_VERSION_INCLUDE_DIR}"
     CACHE INTERNAL "Location of Thrust headers."
+    FORCE
   )
   unset(_THRUST_VERSION_INCLUDE_DIR CACHE) # Clear tmp variable from cache
   target_include_directories(_Thrust_Thrust INTERFACE "${_THRUST_INCLUDE_DIR}")
   thrust_debug_target(Thrust::Thrust "${THRUST_VERSION}" internal)
+endif()
+
+# Find libcudacxx prior to locating backend-specific deps. This ensures that CUB
+# finds the same package.
+if (NOT TARGET Thrust::libcudacxx)
+  thrust_debug("Searching for libcudacxx REQUIRED" internal)
+
+  # First do a non-required search for any co-packaged versions.
+  # These are preferred.
+  find_package(libcudacxx ${thrust_libcudacxx_version} CONFIG
+    ${_THRUST_QUIET_FLAG}
+    NO_DEFAULT_PATH # Only check the explicit HINTS below:
+    HINTS
+      "${_THRUST_INCLUDE_DIR}/dependencies/libcudacxx" # Source layout (GitHub)
+      "${_THRUST_INCLUDE_DIR}/../libcudacxx"           # Source layout (Perforce)
+      "${_THRUST_CMAKE_DIR}/.."                        # Install layout
+  )
+
+  # A second required search allows externally packaged to be used and fails if
+  # no suitable package exists.
+  find_package(libcudacxx ${thrust_libcudacxx_version} CONFIG
+    REQUIRED
+    ${_THRUST_QUIET_FLAG}
+  )
+
+  if (TARGET libcudacxx::libcudacxx)
+    _thrust_set_libcudacxx_target(libcudacxx::libcudacxx)
+  else()
+    thrust_debug("Expected libcudacxx::libcudacxx target not found!" internal)
+  endif()
+
+  target_link_libraries(_Thrust_Thrust INTERFACE Thrust::libcudacxx)
 endif()
 
 # Handle find_package COMPONENT requests:

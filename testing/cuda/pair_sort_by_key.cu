@@ -6,16 +6,11 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3>
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2>
 __global__
-void stable_sort_by_key_kernel(ExecutionPolicy exec, Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_first, Iterator3 is_supported)
+void stable_sort_by_key_kernel(ExecutionPolicy exec, Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_first)
 {
-#if (__CUDA_ARCH__ >= 200)
-  *is_supported = true;
   thrust::stable_sort_by_key(exec, keys_first, keys_last, values_first);
-#else
-  *is_supported = false;
-#endif
 }
 
 
@@ -51,21 +46,16 @@ void TestPairStableSortByKeyDevice(ExecutionPolicy exec)
   thrust::device_vector<P>   d_pairs = h_pairs;
   thrust::device_vector<int> d_values = h_values;
 
-  thrust::device_vector<bool> is_supported(1);
-
   // sort on the device
-  stable_sort_by_key_kernel<<<1,1>>>(exec, d_pairs.begin(), d_pairs.end(), d_values.begin(), is_supported.begin());
+  stable_sort_by_key_kernel<<<1,1>>>(exec, d_pairs.begin(), d_pairs.end(), d_values.begin());
   cudaError_t const err = cudaDeviceSynchronize();
   ASSERT_EQUAL(cudaSuccess, err);
 
-  if(is_supported[0])
-  {
-    // sort on the host
-    thrust::stable_sort_by_key(h_pairs.begin(), h_pairs.end(), h_values.begin());
+  // sort on the host
+  thrust::stable_sort_by_key(h_pairs.begin(), h_pairs.end(), h_values.begin());
 
-    ASSERT_EQUAL_QUIET(h_pairs,  d_pairs);
-    ASSERT_EQUAL(h_values, d_values);
-  }
+  ASSERT_EQUAL_QUIET(h_pairs,  d_pairs);
+  ASSERT_EQUAL(h_values, d_values);
 };
 
 
