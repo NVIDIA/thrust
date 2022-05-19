@@ -17,7 +17,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/type_traits.h>
 
 THRUST_NAMESPACE_BEGIN
 
@@ -66,11 +65,6 @@ const DerivedPolicy &derived_cast(const execution_policy_base<DerivedPolicy> &x)
 {
   return static_cast<const DerivedPolicy&>(x);
 }
-
-template <class>
-struct is_system_tag
-  : false_type
-{};
 
 } // end detail
 
