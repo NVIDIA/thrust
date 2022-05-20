@@ -3,8 +3,6 @@
 # 3.18.3 for C++17 + CUDA
 cmake_minimum_required(VERSION 3.15)
 
-message(FATAL_ERROR "Testing build failure notifications...")
-
 # Remove this when we use the new CUDA_ARCHITECTURES properties with both
 # nvcc and nvc++.
 if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.18)
