@@ -5,9 +5,11 @@
 
 SDK_TYPE:
   - cuda
+  - nvhpc
 
 SDK_VER:
-  - 11.5.1-devel
+  - 11.7.0-devel
+  - 22.3-devel-cuda11.6
 
 OS_TYPE:
   - ubuntu
@@ -16,7 +18,26 @@ OS_VER:
   - 20.04
 
 CXX_TYPE:
+  - nvcxx
   - gcc
 
 CXX_VER:
-  - 9
+  - 11
+  - 22.3
+
+exclude:
+  # Excludes by `SDK_TYPE`.
+  - CXX_TYPE: gcc
+    SDK_TYPE: nvhpc
+  - CXX_TYPE: nvcxx
+    SDK_TYPE: cuda
+  # Excludes by `SDK_VER`.
+  - SDK_TYPE: cuda
+    SDK_VER: 22.3-devel-cuda11.6
+  - SDK_TYPE: nvhpc
+    SDK_VER: 11.7.0-devel
+  # Excludes by `CXX_VER`.
+  - CXX_TYPE: nvcxx
+    CXX_VER: 11
+  - CXX_TYPE: gcc
+    CXX_VER: 22.3
