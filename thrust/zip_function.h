@@ -34,6 +34,7 @@ namespace zip_detail {
 // Add workaround for decltype(auto) on C++11-only compilers:
 #if THRUST_CPP_DIALECT >= 2014
 
+__thrust_exec_check_disable__
 template <typename Function, typename Tuple, std::size_t... Is>
 __host__ __device__
 decltype(auto) apply_impl(Function&& func, Tuple&& args, index_sequence<Is...>)
@@ -51,6 +52,7 @@ decltype(auto) apply(Function&& func, Tuple&& args)
 
 #else // THRUST_CPP_DIALECT
 
+__thrust_exec_check_disable__
 template <typename Function, typename Tuple, std::size_t... Is>
 __host__ __device__
 auto apply_impl(Function&& func, Tuple&& args, index_sequence<Is...>)
