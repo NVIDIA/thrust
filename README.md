@@ -141,6 +141,7 @@ the [CMake Package Manager](https://github.com/cpm-cmake/CPM.cmake).
 
 For non-CMake projects, compile with:
 - The Thrust include path (`-I<thrust repo root>`)
+- The libcu++ include path (`-I<thrust repo root>/dependencies/libcudacxx/`)
 - The CUB include path, if using the CUDA device system (`-I<thrust repo root>/dependencies/cub/`)
 - By default, the CPP host system and CUDA device system are used.
   These can be changed using compiler definitions:
