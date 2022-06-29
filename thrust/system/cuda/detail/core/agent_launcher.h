@@ -512,12 +512,7 @@ namespace core {
 
     THRUST_RUNTIME_FUNCTION void sync() const
     {
-      if (debug_sync)
-      {
-        NV_IF_TARGET(NV_IS_HOST,
-                     (cudaStreamSynchronize(stream);),
-                     (cub::detail::device_synchronize();));
-      }
+      CubDebug(cub::detail::DebugSyncStream(stream, this->debug_sync));
     }
 
     template<class K>
@@ -535,8 +530,6 @@ namespace core {
     {
       return max_blocks_per_sm_impl(k, plan.block_threads);
     }
-
-
 
     template<class K>
     THRUST_RUNTIME_FUNCTION

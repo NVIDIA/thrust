@@ -29,20 +29,22 @@
 #include <thrust/detail/config.h>
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-#include <thrust/system/cuda/detail/util.h>
 
+#include <thrust/detail/alignment.h>
 #include <thrust/detail/cstdint.h>
+#include <thrust/detail/mpl/math.h>
 #include <thrust/detail/temporary_array.h>
-#include <thrust/system/cuda/detail/execution_policy.h>
-#include <thrust/system/cuda/detail/core/agent_launcher.h>
-#include <thrust/system/cuda/detail/par_to_seq.h>
-#include <thrust/system/cuda/detail/get_value.h>
+#include <thrust/distance.h>
 #include <thrust/extrema.h>
 #include <thrust/pair.h>
 #include <thrust/set_operations.h>
-#include <thrust/detail/mpl/math.h>
-#include <thrust/distance.h>
-#include <thrust/detail/alignment.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
+#include <thrust/system/cuda/detail/core/agent_launcher.h>
+#include <thrust/system/cuda/detail/execution_policy.h>
+#include <thrust/system/cuda/detail/get_value.h>
+#include <thrust/system/cuda/detail/par_to_seq.h>
+#include <thrust/system/cuda/detail/util.h>
+
 
 THRUST_NAMESPACE_BEGIN
 
@@ -1363,38 +1365,30 @@ set_difference(execution_policy<Derived> &policy,
                OutputIt                   result,
                CompareOp                  compare)
 {
-  OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    typename thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
-    //
-    ret = __set_operations::set_operations<thrust::detail::false_type>(
-              policy,
-              items1_first,
-              items1_last,
-              items2_first,
-              items2_last,
-              null_,
-              null_,
-              result,
-              null_,
-              compare,
-              __set_operations::serial_set_difference())
-              .first;
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::set_difference(cvt_to_seq(derived_cast(policy)),
-                                 items1_first,
-                                 items1_last,
-                                 items2_first,
-                                 items2_last,
-                                 result,
-                                 compare);
-#endif
-  }
-  return ret;
+  THRUST_CDP_DISPATCH(
+    (using items1_t  = thrust::iterator_value_t<ItemsIt1>;
+     items1_t *null_ = nullptr;
+     auto tmp = __set_operations::set_operations<thrust::detail::false_type>(
+       policy,
+       items1_first,
+       items1_last,
+       items2_first,
+       items2_last,
+       null_,
+       null_,
+       result,
+       null_,
+       compare,
+       __set_operations::serial_set_difference());
+     result = tmp.first;),
+    (result = thrust::set_difference(cvt_to_seq(derived_cast(policy)),
+                                     items1_first,
+                                     items1_last,
+                                     items2_first,
+                                     items2_last,
+                                     result,
+                                     compare);));
+  return result;
 }
 
 template <class Derived,
@@ -1437,38 +1431,30 @@ set_intersection(execution_policy<Derived> &policy,
                  OutputIt                   result,
                  CompareOp                  compare)
 {
-  OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    typename thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
-    //
-    ret = __set_operations::set_operations<thrust::detail::false_type>(
-              policy,
-              items1_first,
-              items1_last,
-              items2_first,
-              items2_last,
-              null_,
-              null_,
-              result,
-              null_,
-              compare,
-              __set_operations::serial_set_intersection())
-              .first;
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::set_intersection(cvt_to_seq(derived_cast(policy)),
-                                   items1_first,
-                                   items1_last,
-                                   items2_first,
-                                   items2_last,
-                                   result,
-                                   compare);
-#endif
-  }
-  return ret;
+  THRUST_CDP_DISPATCH(
+    (using items1_t  = thrust::iterator_value_t<ItemsIt1>;
+     items1_t *null_ = NULL;
+     auto tmp = __set_operations::set_operations<thrust::detail::false_type>(
+       policy,
+       items1_first,
+       items1_last,
+       items2_first,
+       items2_last,
+       null_,
+       null_,
+       result,
+       null_,
+       compare,
+       __set_operations::serial_set_intersection());
+     result = tmp.first;),
+    (result = thrust::set_intersection(cvt_to_seq(derived_cast(policy)),
+                                       items1_first,
+                                       items1_last,
+                                       items2_first,
+                                       items2_last,
+                                       result,
+                                       compare);));
+  return result;
 }
 
 template <class Derived,
@@ -1511,40 +1497,31 @@ set_symmetric_difference(execution_policy<Derived> &policy,
                          OutputIt                   result,
                          CompareOp                  compare)
 {
-  OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    typename thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
-    //
-    ret = __set_operations::set_operations<thrust::detail::false_type>(
-              policy,
-              items1_first,
-              items1_last,
-              items2_first,
-              items2_last,
-              null_,
-              null_,
-              result,
-              null_,
-              compare,
-              __set_operations::serial_set_symmetric_difference())
-              .first;
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::set_symmetric_difference(cvt_to_seq(derived_cast(policy)),
-                                           items1_first,
-                                           items1_last,
-                                           items2_first,
-                                           items2_last,
-                                           result,
-                                           compare);
-#endif
-  }
-  return ret;
+  THRUST_CDP_DISPATCH(
+    (using items1_t  = thrust::iterator_value_t<ItemsIt1>;
+     items1_t *null_ = nullptr;
+     auto tmp = __set_operations::set_operations<thrust::detail::false_type>(
+       policy,
+       items1_first,
+       items1_last,
+       items2_first,
+       items2_last,
+       null_,
+       null_,
+       result,
+       null_,
+       compare,
+       __set_operations::serial_set_symmetric_difference());
+     result = tmp.first;),
+    (result = thrust::set_symmetric_difference(cvt_to_seq(derived_cast(policy)),
+                                               items1_first,
+                                               items1_last,
+                                               items2_first,
+                                               items2_last,
+                                               result,
+                                               compare);));
+  return result;
 }
-
 
 template <class Derived,
           class ItemsIt1,
@@ -1585,40 +1562,31 @@ set_union(execution_policy<Derived> &policy,
           OutputIt                   result,
           CompareOp                  compare)
 {
-  OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    typename thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
-    //
-    ret = __set_operations::set_operations<thrust::detail::false_type>(
-              policy,
-              items1_first,
-              items1_last,
-              items2_first,
-              items2_last,
-              null_,
-              null_,
-              result,
-              null_,
-              compare,
-              __set_operations::serial_set_union())
-              .first;
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::set_union(cvt_to_seq(derived_cast(policy)),
-                            items1_first,
-                            items1_last,
-                            items2_first,
-                            items2_last,
-                            result,
-                            compare);
-#endif
-  }
-  return ret;
+  THRUST_CDP_DISPATCH(
+    (using items1_t  = thrust::iterator_value_t<ItemsIt1>;
+     items1_t *null_ = nullptr;
+     auto tmp = __set_operations::set_operations<thrust::detail::false_type>(
+       policy,
+       items1_first,
+       items1_last,
+       items2_first,
+       items2_last,
+       null_,
+       null_,
+       result,
+       null_,
+       compare,
+       __set_operations::serial_set_union());
+     result = tmp.first;),
+    (result = thrust::set_union(cvt_to_seq(derived_cast(policy)),
+                                items1_first,
+                                items1_last,
+                                items2_first,
+                                items2_last,
+                                result,
+                                compare);));
+  return result;
 }
-
 
 template <class Derived,
           class ItemsIt1,
@@ -1672,37 +1640,30 @@ set_difference_by_key(execution_policy<Derived> &policy,
                       ItemsOutputIt              items_result,
                       CompareOp                  compare_op)
 {
-  pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __set_operations::set_operations<thrust::detail::true_type>(
-        policy,
-        keys1_first,
-        keys1_last,
-        keys2_first,
-        keys2_last,
-        items1_first,
-        items2_first,
-        keys_result,
-        items_result,
-        compare_op,
-        __set_operations::serial_set_difference());
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::set_difference_by_key(cvt_to_seq(derived_cast(policy)),
-                                        keys1_first,
-                                        keys1_last,
-                                        keys2_first,
-                                        keys2_last,
-                                        items1_first,
-                                        items2_first,
-                                        keys_result,
-                                        items_result,
-                                        compare_op);
-#endif
-  }
+  auto ret = thrust::make_pair(keys_result, items_result);
+  THRUST_CDP_DISPATCH(
+    (ret = __set_operations::set_operations<thrust::detail::true_type>(
+       policy,
+       keys1_first,
+       keys1_last,
+       keys2_first,
+       keys2_last,
+       items1_first,
+       items2_first,
+       keys_result,
+       items_result,
+       compare_op,
+       __set_operations::serial_set_difference());),
+    (ret = thrust::set_difference_by_key(cvt_to_seq(derived_cast(policy)),
+                                         keys1_first,
+                                         keys1_last,
+                                         keys2_first,
+                                         keys2_last,
+                                         items1_first,
+                                         items2_first,
+                                         keys_result,
+                                         items_result,
+                                         compare_op);));
   return ret;
 }
 
@@ -1759,36 +1720,29 @@ set_intersection_by_key(execution_policy<Derived> &policy,
                         ItemsOutputIt              items_result,
                         CompareOp                  compare_op)
 {
-  pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __set_operations::set_operations<thrust::detail::true_type>(
-        policy,
-        keys1_first,
-        keys1_last,
-        keys2_first,
-        keys2_last,
-        items1_first,
-        items1_first,
-        keys_result,
-        items_result,
-        compare_op,
-        __set_operations::serial_set_intersection());
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::set_intersection_by_key(cvt_to_seq(derived_cast(policy)),
-                                          keys1_first,
-                                          keys1_last,
-                                          keys2_first,
-                                          keys2_last,
-                                          items1_first,
-                                          keys_result,
-                                          items_result,
-                                          compare_op);
-#endif
-  }
+  auto ret = thrust::make_pair(keys_result, items_result);
+  THRUST_CDP_DISPATCH(
+    (ret = __set_operations::set_operations<thrust::detail::true_type>(
+       policy,
+       keys1_first,
+       keys1_last,
+       keys2_first,
+       keys2_last,
+       items1_first,
+       items1_first,
+       keys_result,
+       items_result,
+       compare_op,
+       __set_operations::serial_set_intersection());),
+    (ret = thrust::set_intersection_by_key(cvt_to_seq(derived_cast(policy)),
+                                           keys1_first,
+                                           keys1_last,
+                                           keys2_first,
+                                           keys2_last,
+                                           items1_first,
+                                           keys_result,
+                                           items_result,
+                                           compare_op);));
   return ret;
 }
 
@@ -1844,37 +1798,31 @@ set_symmetric_difference_by_key(execution_policy<Derived> &policy,
                                 ItemsOutputIt              items_result,
                                 CompareOp                  compare_op)
 {
-  pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __set_operations::set_operations<thrust::detail::true_type>(
-        policy,
-        keys1_first,
-        keys1_last,
-        keys2_first,
-        keys2_last,
-        items1_first,
-        items2_first,
-        keys_result,
-        items_result,
-        compare_op,
-        __set_operations::serial_set_symmetric_difference());
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::set_symmetric_difference_by_key(cvt_to_seq(derived_cast(policy)),
-                                                  keys1_first,
-                                                  keys1_last,
-                                                  keys2_first,
-                                                  keys2_last,
-                                                  items1_first,
-                                                  items2_first,
-                                                  keys_result,
-                                                  items_result,
-                                                  compare_op);
-#endif
-  }
+  auto ret = thrust::make_pair(keys_result, items_result);
+  THRUST_CDP_DISPATCH(
+    (ret = __set_operations::set_operations<thrust::detail::true_type>(
+       policy,
+       keys1_first,
+       keys1_last,
+       keys2_first,
+       keys2_last,
+       items1_first,
+       items2_first,
+       keys_result,
+       items_result,
+       compare_op,
+       __set_operations::serial_set_symmetric_difference());),
+    (ret =
+       thrust::set_symmetric_difference_by_key(cvt_to_seq(derived_cast(policy)),
+                                               keys1_first,
+                                               keys1_last,
+                                               keys2_first,
+                                               keys2_last,
+                                               items1_first,
+                                               items2_first,
+                                               keys_result,
+                                               items_result,
+                                               compare_op);));
   return ret;
 }
 
@@ -1932,37 +1880,30 @@ set_union_by_key(execution_policy<Derived> &policy,
                  ItemsOutputIt              items_result,
                  CompareOp                  compare_op)
 {
-  pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __set_operations::set_operations<thrust::detail::true_type>(
-        policy,
-        keys1_first,
-        keys1_last,
-        keys2_first,
-        keys2_last,
-        items1_first,
-        items2_first,
-        keys_result,
-        items_result,
-        compare_op,
-        __set_operations::serial_set_union());
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::set_union_by_key(cvt_to_seq(derived_cast(policy)),
-                                   keys1_first,
-                                   keys1_last,
-                                   keys2_first,
-                                   keys2_last,
-                                   items1_first,
-                                   items2_first,
-                                   keys_result,
-                                   items_result,
-                                   compare_op);
-#endif
-  }
+  auto ret = thrust::make_pair(keys_result, items_result);
+  THRUST_CDP_DISPATCH(
+    (ret = __set_operations::set_operations<thrust::detail::true_type>(
+       policy,
+       keys1_first,
+       keys1_last,
+       keys2_first,
+       keys2_last,
+       items1_first,
+       items2_first,
+       keys_result,
+       items_result,
+       compare_op,
+       __set_operations::serial_set_union());),
+    (ret = thrust::set_union_by_key(cvt_to_seq(derived_cast(policy)),
+                                    keys1_first,
+                                    keys1_last,
+                                    keys2_first,
+                                    keys2_last,
+                                    items1_first,
+                                    items2_first,
+                                    keys_result,
+                                    items_result,
+                                    compare_op);));
   return ret;
 }
 

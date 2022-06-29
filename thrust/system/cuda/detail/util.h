@@ -206,10 +206,12 @@ terminate()
 __host__  __device__
 inline void throw_on_error(cudaError_t status)
 {
-#if __THRUST_HAS_CUDART__
   // Clear the global CUDA error state which may have been set by the last
   // call. Otherwise, errors may "leak" to unrelated kernel launches.
+#ifdef THRUST_RDC_ENABLED
   cudaGetLastError();
+#else
+  NV_IF_TARGET(NV_IS_HOST, (cudaGetLastError();));
 #endif
 
   if (cudaSuccess != status)
@@ -217,7 +219,7 @@ inline void throw_on_error(cudaError_t status)
 
     // Can't use #if inside NV_IF_TARGET, use a temp macro to hoist the device
     // instructions out of the target logic.
-#if __THRUST_HAS_CUDART__
+#ifdef THRUST_RDC_ENABLED
 
 #define THRUST_TEMP_DEVICE_CODE \
   printf("Thrust CUDA backend error: %s: %s\n", \
@@ -247,17 +249,19 @@ inline void throw_on_error(cudaError_t status)
 __host__ __device__
 inline void throw_on_error(cudaError_t status, char const *msg)
 {
-#if __THRUST_HAS_CUDART__
   // Clear the global CUDA error state which may have been set by the last
   // call. Otherwise, errors may "leak" to unrelated kernel launches.
+#ifdef THRUST_RDC_ENABLED
   cudaGetLastError();
+#else
+  NV_IF_TARGET(NV_IS_HOST, (cudaGetLastError();));
 #endif
 
   if (cudaSuccess != status)
   {
     // Can't use #if inside NV_IF_TARGET, use a temp macro to hoist the device
     // instructions out of the target logic.
-#if __THRUST_HAS_CUDART__
+#ifdef THRUST_RDC_ENABLED
 
 #define THRUST_TEMP_DEVICE_CODE \
   printf("Thrust CUDA backend error: %s: %s: %s\n", \

@@ -29,19 +29,20 @@
 #include <thrust/detail/config.h>
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-#include <thrust/system/cuda/config.h>
 
+#include <thrust/detail/alignment.h>
 #include <thrust/detail/cstdint.h>
+#include <thrust/detail/function.h>
 #include <thrust/detail/temporary_array.h>
-#include <thrust/system/cuda/detail/util.h>
-#include <cub/device/device_select.cuh>
+#include <thrust/distance.h>
+#include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/core/util.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
-#include <thrust/detail/function.h>
-#include <thrust/distance.h>
-#include <thrust/detail/alignment.h>
+#include <thrust/system/cuda/detail/util.h>
 
+#include <cub/device/device_select.cuh>
 #include <cub/util_math.cuh>
 
 THRUST_NAMESPACE_BEGIN
@@ -598,17 +599,17 @@ namespace __copy_if {
             class Predicate,
             class Size,
             class NumSelectedOutIt>
-  static cudaError_t THRUST_RUNTIME_FUNCTION
-  doit_step(void *           d_temp_storage,
-            size_t &         temp_storage_bytes,
-            ItemsIt          items,
-            StencilIt        stencil,
-            OutputIt         output_it,
-            Predicate        predicate,
-            NumSelectedOutIt num_selected_out,
-            Size             num_items,
-            cudaStream_t     stream,
-            bool             debug_sync)
+  THRUST_RUNTIME_FUNCTION
+  static cudaError_t doit_step(void *           d_temp_storage,
+                               size_t &         temp_storage_bytes,
+                               ItemsIt          items,
+                               StencilIt        stencil,
+                               OutputIt         output_it,
+                               Predicate        predicate,
+                               NumSelectedOutIt num_selected_out,
+                               Size             num_items,
+                               cudaStream_t     stream,
+                               bool             debug_sync)
   {
     if (num_items == 0)
       return cudaSuccess;
@@ -789,28 +790,19 @@ copy_if(execution_policy<Derived> &policy,
         OutputIterator             result,
         Predicate                  pred)
 {
-  OutputIterator ret = result;
-
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __copy_if::copy_if(policy,
-                             first,
-                             last,
-                             __copy_if::no_stencil_tag(),
-                             result,
-                             pred);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::copy_if(cvt_to_seq(derived_cast(policy)),
-                          first,
-                          last,
-                          result,
-                          pred);
-#endif
-  }
-  return ret;
+  THRUST_CDP_DISPATCH((result = __copy_if::copy_if(policy,
+                                                   first,
+                                                   last,
+                                                   __copy_if::no_stencil_tag(),
+                                                   result,
+                                                   pred);),
+                      (result =
+                         thrust::copy_if(cvt_to_seq(derived_cast(policy)),
+                                         first,
+                                         last,
+                                         result,
+                                         pred);));
+  return result;
 } // func copy_if
 
 __thrust_exec_check_disable__
@@ -827,29 +819,15 @@ copy_if(execution_policy<Derived> &policy,
         OutputIterator             result,
         Predicate                  pred)
 {
-  OutputIterator ret = result;
-
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __copy_if::copy_if(policy,
-                             first,
-                             last,
-                             stencil,
-                             result,
-                             pred);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::copy_if(cvt_to_seq(derived_cast(policy)),
-                          first,
-                          last,
-                          stencil,
-                          result,
-                          pred);
-#endif
-  }
-  return ret;
+  THRUST_CDP_DISPATCH(
+    (result = __copy_if::copy_if(policy, first, last, stencil, result, pred);),
+    (result = thrust::copy_if(cvt_to_seq(derived_cast(policy)),
+                              first,
+                              last,
+                              stencil,
+                              result,
+                              pred);));
+  return result;
 }    // func copy_if
 
 }    // namespace cuda_cub

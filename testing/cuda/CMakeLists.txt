@@ -6,6 +6,10 @@ file(GLOB test_srcs
 
 # These tests always build with RDC, so make sure that the sm_XX flags are
 # compatible. See note in ThrustCudaConfig.cmake.
+# TODO once we're using CUDA_ARCHITECTURES, we can setup non-rdc fallback
+# tests to build for non-rdc arches. But for now, all files in a given directory
+# must build with the same `CMAKE_CUDA_FLAGS` due to CMake constraints around
+# how CUDA_FLAGS works.
 set(CMAKE_CUDA_FLAGS "${THRUST_CUDA_FLAGS_BASE} ${THRUST_CUDA_FLAGS_RDC}")
 
 foreach(thrust_target IN LISTS THRUST_TARGETS)
@@ -18,11 +22,11 @@ foreach(thrust_target IN LISTS THRUST_TARGETS)
     get_filename_component(test_name "${test_src}" NAME_WLE)
     string(PREPEND test_name "cuda.")
 
-    thrust_add_test(test_target ${test_name} "${test_src}" ${thrust_target})
-
-    # All in testing/cuda will test device-side launch (aka calling parallel
-    # algorithms from device code), which requires the CUDA device-side runtime,
-    # which requires RDC, so these always need to be built with RDC.
-    thrust_enable_rdc_for_cuda_target(${test_target})
+    # Create two targets, one with RDC enabled, the other without. This tests
+    # both device-side behaviors -- the CDP kernel launch with RDC, and the
+    # serial fallback path without RDC.
+    thrust_add_test(seq_test_target ${test_name}.cdp_0 "${test_src}" ${thrust_target})
+    thrust_add_test(cdp_test_target ${test_name}.cdp_1 "${test_src}" ${thrust_target})
+    thrust_enable_rdc_for_cuda_target(${cdp_test_target})
   endforeach()
 endforeach()

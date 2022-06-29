@@ -29,12 +29,14 @@
 #include <thrust/detail/config.h>
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+
 #include <thrust/detail/cstdint.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/functional.h>
 #include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
 #include <thrust/system/cuda/detail/dispatch.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/system/cuda/detail/util.h>
@@ -260,27 +262,18 @@ adjacent_difference(execution_policy<Derived> &policy,
                     OutputIt                   result,
                     BinaryOp                   binary_op)
 {
-  OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __adjacent_difference::adjacent_difference(policy,
-        first,
-        last,
-        result,
-        binary_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::adjacent_difference(cvt_to_seq(derived_cast(policy)),
-                                      first,
-                                      last,
-                                      result,
-                                      binary_op);
-#endif
-  }
-
-  return ret;
+  THRUST_CDP_DISPATCH(
+    (result = __adjacent_difference::adjacent_difference(policy,
+                                                         first,
+                                                         last,
+                                                         result,
+                                                         binary_op);),
+    (result = thrust::adjacent_difference(cvt_to_seq(derived_cast(policy)),
+                                          first,
+                                          last,
+                                          result,
+                                          binary_op);));
+  return result;
 }
 
 template <class Derived,

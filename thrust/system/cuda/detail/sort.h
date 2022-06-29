@@ -29,26 +29,29 @@
 #include <thrust/detail/config.h>
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-#include <thrust/detail/cstdint.h>
-#include <thrust/detail/temporary_array.h>
-#include <thrust/system/cuda/detail/util.h>
+#include <thrust/distance.h>
+#include <thrust/extrema.h>
+#include <thrust/sequence.h>
+#include <thrust/sort.h>
+
 #include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/core/util.h>
-#include <cub/device/device_radix_sort.cuh>
-#include <cub/device/device_merge_sort.cuh>
-
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
-#include <thrust/detail/trivial_sequence.h>
-#include <thrust/detail/integer_math.h>
-#include <thrust/extrema.h>
-#include <thrust/sort.h>
-#include <thrust/distance.h>
-#include <thrust/sequence.h>
+#include <thrust/system/cuda/detail/util.h>
+
 #include <thrust/detail/alignment.h>
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/integer_math.h>
+#include <thrust/detail/temporary_array.h>
+#include <thrust/detail/trivial_sequence.h>
+
 #include <thrust/type_traits/is_contiguous_iterator.h>
 
+#include <cub/device/device_radix_sort.cuh>
+#include <cub/device/device_merge_sort.cuh>
 
 THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
@@ -515,18 +518,15 @@ sort(execution_policy<Derived>& policy,
      ItemsIt                    last,
      CompareOp                  compare_op)
 {
-  if (__THRUST_HAS_CUDART__)
-  {
-    typedef typename thrust::iterator_value<ItemsIt>::type item_type;
-    __smart_sort::smart_sort<thrust::detail::false_type, thrust::detail::false_type>(
-        policy, first, last, (item_type*)NULL, compare_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    thrust::sort(cvt_to_seq(derived_cast(policy)), first, last, compare_op);
-#endif
-  }
+  THRUST_CDP_DISPATCH(
+    (using item_t = thrust::iterator_value_t<ItemsIt>; item_t *null_ = nullptr;
+     __smart_sort::smart_sort<thrust::detail::false_type,
+                              thrust::detail::false_type>(policy,
+                                                          first,
+                                                          last,
+                                                          null_,
+                                                          compare_op);),
+    (thrust::sort(cvt_to_seq(derived_cast(policy)), first, last, compare_op);));
 }
 
 __thrust_exec_check_disable__
@@ -537,18 +537,18 @@ stable_sort(execution_policy<Derived>& policy,
             ItemsIt                    last,
             CompareOp                  compare_op)
 {
-  if (__THRUST_HAS_CUDART__)
-  {
-    typedef typename thrust::iterator_value<ItemsIt>::type item_type;
-    __smart_sort::smart_sort<thrust::detail::false_type, thrust::detail::true_type>(
-        policy, first, last, (item_type*)NULL, compare_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    thrust::stable_sort(cvt_to_seq(derived_cast(policy)), first, last, compare_op);
-#endif
-  }
+  THRUST_CDP_DISPATCH(
+    (using item_t = thrust::iterator_value_t<ItemsIt>; item_t *null_ = nullptr;
+     __smart_sort::smart_sort<thrust::detail::false_type,
+                              thrust::detail::true_type>(policy,
+                                                         first,
+                                                         last,
+                                                         null_,
+                                                         compare_op);),
+    (thrust::stable_sort(cvt_to_seq(derived_cast(policy)),
+                         first,
+                         last,
+                         compare_op);));
 }
 
 __thrust_exec_check_disable__
@@ -560,18 +560,18 @@ sort_by_key(execution_policy<Derived>& policy,
             ValuesIt                   values,
             CompareOp                  compare_op)
 {
-  if (__THRUST_HAS_CUDART__)
-  {
-    __smart_sort::smart_sort<thrust::detail::true_type, thrust::detail::false_type>(
-        policy, keys_first, keys_last, values, compare_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    thrust::sort_by_key(
-        cvt_to_seq(derived_cast(policy)), keys_first, keys_last, values, compare_op);
-#endif
-  }
+  THRUST_CDP_DISPATCH(
+    (__smart_sort::smart_sort<thrust::detail::true_type,
+                              thrust::detail::false_type>(policy,
+                                                          keys_first,
+                                                          keys_last,
+                                                          values,
+                                                          compare_op);),
+    (thrust::sort_by_key(cvt_to_seq(derived_cast(policy)),
+                         keys_first,
+                         keys_last,
+                         values,
+                         compare_op);));
 }
 
 __thrust_exec_check_disable__
@@ -586,18 +586,18 @@ stable_sort_by_key(execution_policy<Derived> &policy,
             ValuesIt                   values,
             CompareOp                  compare_op)
 {
-  if (__THRUST_HAS_CUDART__)
-  {
-    __smart_sort::smart_sort<thrust::detail::true_type, thrust::detail::true_type>(
-        policy, keys_first, keys_last, values, compare_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    thrust::stable_sort_by_key(
-        cvt_to_seq(derived_cast(policy)), keys_first, keys_last, values, compare_op);
-#endif
-  }
+  THRUST_CDP_DISPATCH(
+    (__smart_sort::smart_sort<thrust::detail::true_type,
+                              thrust::detail::true_type>(policy,
+                                                         keys_first,
+                                                         keys_last,
+                                                         values,
+                                                         compare_op);),
+    (thrust::stable_sort_by_key(cvt_to_seq(derived_cast(policy)),
+                                keys_first,
+                                keys_last,
+                                values,
+                                compare_op);));
 }
 
 // API with default comparator

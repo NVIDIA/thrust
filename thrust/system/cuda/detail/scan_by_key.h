@@ -38,9 +38,12 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/detail/cstdint.h>
+#include <thrust/detail/minmax.h>
+#include <thrust/detail/mpl/math.h>
 #include <thrust/detail/temporary_array.h>
 
 #include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
 #include <thrust/system/cuda/detail/dispatch.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/system/cuda/detail/util.h>
@@ -305,29 +308,23 @@ inclusive_scan_by_key(execution_policy<Derived> &policy,
                       ScanOp                     scan_op)
 {
   ValOutputIt ret = value_result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = thrust::cuda_cub::detail::inclusive_scan_by_key_n(
-      policy,
-      key_first,
-      value_first,
-      value_result,
-      thrust::distance(key_first, key_last),
-      binary_pred,
-      scan_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::inclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
-                                        key_first,
-                                        key_last,
-                                        value_first,
-                                        value_result,
-                                        binary_pred,
-                                        scan_op);
-#endif
-  }
+  THRUST_CDP_DISPATCH(
+    (ret = thrust::cuda_cub::detail::inclusive_scan_by_key_n(
+       policy,
+       key_first,
+       value_first,
+       value_result,
+       thrust::distance(key_first, key_last),
+       binary_pred,
+       scan_op);),
+    (ret = thrust::inclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
+                                         key_first,
+                                         key_last,
+                                         value_first,
+                                         value_result,
+                                         binary_pred,
+                                         scan_op);));
+
   return ret;
 }
 
@@ -396,31 +393,24 @@ exclusive_scan_by_key(execution_policy<Derived> &policy,
                       ScanOp                     scan_op)
 {
   ValOutputIt ret = value_result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = thrust::cuda_cub::detail::exclusive_scan_by_key_n(
-      policy,
-      key_first,
-      value_first,
-      value_result,
-      thrust::distance(key_first, key_last),
-      init,
-      binary_pred,
-      scan_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::exclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
-                                        key_first,
-                                        key_last,
-                                        value_first,
-                                        value_result,
-                                        init,
-                                        binary_pred,
-                                        scan_op);
-#endif
-  }
+  THRUST_CDP_DISPATCH(
+    (ret = thrust::cuda_cub::detail::exclusive_scan_by_key_n(
+       policy,
+       key_first,
+       value_first,
+       value_result,
+       thrust::distance(key_first, key_last),
+       init,
+       binary_pred,
+       scan_op);),
+    (ret = thrust::exclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
+                                         key_first,
+                                         key_last,
+                                         value_first,
+                                         value_result,
+                                         init,
+                                         binary_pred,
+                                         scan_op);));
   return ret;
 }
 
