@@ -29,8 +29,11 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/core/alignment.h>
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
-#include <cassert>
 
+#include <nv/target>
+
+#include <cassert>
+#include <cstddef>
 
 THRUST_NAMESPACE_BEGIN
 
@@ -39,7 +42,8 @@ namespace launcher {
 
   struct triple_chevron
   {
-    typedef size_t Size;
+    using Size = std::size_t;
+
     dim3 const grid;
     dim3 const block;
     Size const shared_mem;
@@ -55,67 +59,73 @@ namespace launcher {
           shared_mem(shared_mem_),
           stream(stream_) {}
 
-    template<class K, class... Args>
-    cudaError_t __host__
-    doit_host(K k, Args const&... args) const
+    template <class K, class... Args>
+    __host__
+    cudaError_t doit_host(K k, Args const&... args) const
     {
       k<<<grid, block, shared_mem, stream>>>(args...);
       return cudaPeekAtLastError();
     }
 
-    template<class T>
-    size_t __device__
-    align_up(size_t offset) const
+    template <class T>
+    __device__
+    Size align_up(Size offset) const
     {
-      size_t alignment = alignment_of<T>::value;
+      Size alignment = alignment_of<T>::value;
       return alignment * ((offset + (alignment - 1))/ alignment);
     }
 
-    size_t __device__ argument_pack_size(size_t size) const { return size; }
+    __device__
+    Size argument_pack_size(Size size) const { return size; }
+
     template <class Arg, class... Args>
-    size_t __device__
-    argument_pack_size(size_t size, Arg const& arg, Args const&... args) const
+    __device__
+    Size argument_pack_size(Size size,
+                            Arg const& arg,
+                            Args const&... args) const
     {
       size = align_up<Arg>(size);
       return argument_pack_size(size + sizeof(Arg), args...);
     }
 
     template <class Arg>
-    size_t __device__ copy_arg(char* buffer, size_t offset, Arg arg) const
+    __device__
+    Size copy_arg(char* buffer, Size offset, Arg arg) const
     {
       offset = align_up<Arg>(offset);
-      for (int i = 0; i != sizeof(Arg); ++i)
-        buffer[offset+i] = *((char*)&arg + i);
+      for (int i = 0; i != static_cast<int>(sizeof(Arg)); ++i)
+      {
+        buffer[offset + i] = *(reinterpret_cast<char *>(&arg) + i);
+      }
       return offset + sizeof(Arg);
     }
 
     __device__
-    void fill_arguments(char*, size_t) const
-    {}
+    void fill_arguments(char*, Size) const {}
 
-    template<class Arg, class... Args>
+    template <class Arg, class... Args>
     __device__
-    void fill_arguments(char* buffer,
-                     size_t offset,
-                     Arg const& arg,
-                     Args const& ... args) const
+    void fill_arguments(char *     buffer,
+                        Size     offset,
+                        Arg const &arg,
+                        Args const &...args) const
     {
       fill_arguments(buffer, copy_arg(buffer, offset, arg), args...);
     }
 
-    template<class K, class... Args>
-    cudaError_t __device__
-    doit_device(K k, Args const&... args) const
+    template <class K, class... Args>
+    __device__
+    cudaError_t doit_device(K k, Args const&... args) const
     {
-      const size_t size = argument_pack_size(0,args...);
+      const Size size = argument_pack_size(0,args...);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, args...);
       return launch_device(k, param_buffer);
     }
 
     template <class K>
-    cudaError_t __device__
-    launch_device(K k, void* buffer) const
+    __device__
+    cudaError_t launch_device(K k, void* buffer) const
     {
       return cudaLaunchDevice((void*)k,
                               buffer,
