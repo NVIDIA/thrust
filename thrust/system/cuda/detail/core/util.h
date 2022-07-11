@@ -85,11 +85,11 @@ namespace core {
     // to obtain an AgentPlan that best matches the current device.
     struct AgentPlan
     {
-      int block_threads;
-      int items_per_thread;
-      int items_per_tile;
-      int shared_memory_size;
-      int grid_size;
+      int block_threads{};
+      int items_per_thread{};
+      int items_per_tile{};
+      int shared_memory_size{};
+      int grid_size{};
 
       THRUST_RUNTIME_FUNCTION
       AgentPlan() {}
