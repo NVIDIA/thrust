@@ -684,7 +684,7 @@ if (NOT TARGET Thrust::Thrust)
     FORCE
   )
   unset(_THRUST_VERSION_INCLUDE_DIR CACHE) # Clear tmp variable from cache
-  target_include_directories(_Thrust_Thrust INTERFACE "${_THRUST_INCLUDE_DIR}")
+  target_include_directories(_Thrust_Thrust SYSTEM INTERFACE "${_THRUST_INCLUDE_DIR}")
   thrust_debug_target(Thrust::Thrust "${THRUST_VERSION}" internal)
 endif()
 
