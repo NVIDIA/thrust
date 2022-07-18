@@ -6,7 +6,7 @@
 # Released under the Apache License v2.0 with LLVM Exceptions.
 # See https://llvm.org/LICENSE.txt for license information.
 
-help_text = """%(prog)s [reference.json compare.json | reference_dir/ compare_dir/]
+help_text = """%(prog)s
 
 This script:
 
@@ -37,7 +37,8 @@ parser.add_argument('--log-file', type=str, dest='log_file', default='memmon_log
                     help='Output file for log entries.')
 args, unused = parser.parse_known_args()
 
-entries = {}
+entries = {} # High water memory log, { command string : max memory usage }
+logged = {} # Same, but last printed memory value
 
 
 def signal_handler(sig, frame):
@@ -98,13 +99,20 @@ for line in proc.stdout:
         if mem < args.log_threshold and mem < args.fail_threshold:
             continue
         com = match.group(2)
-        if com in entries and entries[com] > mem:
+
+        mem_prev = entries[com] if com in entries else 0.0
+        if mem_prev > mem:
             continue
-        if mem >= args.fail_threshold:
+        entries[com] = mem
+
+        mem_prev_log = logged[com] if com in logged else 0.0
+
+        if mem >= args.fail_threshold and abs(mem - mem_prev_log) > 0.2:
             # Print a notice immediately -- this helps identify the failures
             # as they happen, since `com` may not provide enough info.
+            # These are only printed for increases of 0.2
+            logged[com] = mem
             print("memmon.py failure: Build step exceed memory threshold:\n"
                   "  - Threshold: %3.1f GiB\n"
                   "  - Usage:     %3.1f GiB\n"
                   "  - Command:   %s" % (args.fail_threshold, mem, com))
-        entries[com] = mem
