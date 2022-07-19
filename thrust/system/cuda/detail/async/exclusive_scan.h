@@ -106,8 +106,7 @@ async_exclusive_scan_n(execution_policy<DerivedPolicy>& policy,
                                   op,
                                   init_value,
                                   n_fixed,
-                                  nullptr,
-                                  THRUST_DEBUG_SYNC_FLAG));
+                                  nullptr));
     thrust::cuda_cub::throw_on_error(status,
                                      "after determining tmp storage "
                                      "requirements for exclusive_scan");
@@ -153,8 +152,7 @@ async_exclusive_scan_n(execution_policy<DerivedPolicy>& policy,
                                   op,
                                   init_value,
                                   n_fixed,
-                                  user_raw_stream,
-                                  THRUST_DEBUG_SYNC_FLAG));
+                                  user_raw_stream));
     thrust::cuda_cub::throw_on_error(status,
                                      "after dispatching exclusive_scan kernel");
   }

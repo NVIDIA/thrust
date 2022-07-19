@@ -26,11 +26,21 @@
  ******************************************************************************/
 #pragma once
 
+
+#ifdef THRUST_DEBUG_SYNC
+#define THRUST_DEBUG_SYNC_FLAG true
+#define CUB_DEBUG_SYNC
+#else
+#define THRUST_DEBUG_SYNC_FLAG false
+#endif
+
+
 #include <thrust/detail/config.h>
 
 // We don't directly include <cub/version.cuh> since it doesn't exist in
 // older releases. This header will always pull in version info:
 #include <cub/util_namespace.cuh>
+#include <cub/util_debug.cuh>
 
 #include <cub/detail/detect_cuda_runtime.cuh>
 
@@ -97,12 +107,6 @@
 #define THRUST_AGENT_ENTRY(ARGS) THRUST_FUNCTION static void entry(THRUST_STRIP_PARENS(THRUST_ARGS ARGS))
 #else
 #define THRUST_AGENT_ENTRY(...) THRUST_AGENT_ENTRY_INLINE_ATTR __device__ static void entry(__VA_ARGS__)
-#endif
-
-#ifdef THRUST_DEBUG_SYNC
-#define THRUST_DEBUG_SYNC_FLAG true
-#else
-#define THRUST_DEBUG_SYNC_FLAG false
 #endif
 
 #ifndef THRUST_IGNORE_CUB_VERSION_CHECK

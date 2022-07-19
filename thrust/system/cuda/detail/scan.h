@@ -88,8 +88,7 @@ OutputIt inclusive_scan_n_impl(thrust::cuda_cub::execution_policy<Derived> &poli
                                  scan_op,
                                  cub::NullType{},
                                  num_items_fixed,
-                                 stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 stream));
     thrust::cuda_cub::throw_on_error(status,
                                      "after determining tmp storage "
                                      "requirements for inclusive_scan");
@@ -112,8 +111,7 @@ OutputIt inclusive_scan_n_impl(thrust::cuda_cub::execution_policy<Derived> &poli
                                  scan_op,
                                  cub::NullType{},
                                  num_items_fixed,
-                                 stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 stream));
     thrust::cuda_cub::throw_on_error(status,
                                      "after dispatching inclusive_scan kernel");
     thrust::cuda_cub::throw_on_error(thrust::cuda_cub::synchronize_optional(policy),
@@ -167,8 +165,7 @@ OutputIt exclusive_scan_n_impl(thrust::cuda_cub::execution_policy<Derived> &poli
                                  scan_op,
                                  InputValueT(init),
                                  num_items_fixed,
-                                 stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 stream));
     thrust::cuda_cub::throw_on_error(status,
                                      "after determining tmp storage "
                                      "requirements for exclusive_scan");
@@ -191,8 +188,7 @@ OutputIt exclusive_scan_n_impl(thrust::cuda_cub::execution_policy<Derived> &poli
                                  scan_op,
                                  InputValueT(init),
                                  num_items_fixed,
-                                 stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 stream));
     thrust::cuda_cub::throw_on_error(status,
                                      "after dispatching exclusive_scan kernel");
     thrust::cuda_cub::throw_on_error(thrust::cuda_cub::synchronize_optional(policy),

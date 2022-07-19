@@ -160,8 +160,7 @@ namespace __extrema {
             Size         num_items,
             ReductionOp  reduction_op,
             OutputIt     output_it,
-            cudaStream_t stream,
-            bool         debug_sync)
+            cudaStream_t stream)
   {
     using core::AgentPlan;
     using core::AgentLauncher;
@@ -194,7 +193,7 @@ namespace __extrema {
       }
       char *vshmem_ptr = vshmem_size > 0 ? (char*)d_temp_storage : NULL;
 
-      reduce_agent ra(reduce_plan, num_items, stream, vshmem_ptr, "reduce_agent: single_tile only", debug_sync);
+      reduce_agent ra(reduce_plan, num_items, stream, vshmem_ptr, "reduce_agent: single_tile only");
       ra.launch(input_it, output_it, num_items, reduction_op);
       CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
     }
@@ -274,7 +273,7 @@ namespace __extrema {
         typedef AgentLauncher<__reduce::DrainAgent<Size> > drain_agent;
         AgentPlan drain_plan = drain_agent::get_plan();
         drain_plan.grid_size = 1;
-        drain_agent da(drain_plan, stream, "__reduce::drain_agent", debug_sync);
+        drain_agent da(drain_plan, stream, "__reduce::drain_agent");
         da.launch(queue, num_items);
         CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
       }
@@ -284,7 +283,7 @@ namespace __extrema {
       }
 
       reduce_plan.grid_size = reduce_grid_size;
-      reduce_agent ra(reduce_plan, stream, vshmem_ptr, "reduce_agent: regular size reduce", debug_sync);
+      reduce_agent ra(reduce_plan, stream, vshmem_ptr, "reduce_agent: regular size reduce");
       ra.launch(input_it,
                 d_block_reductions,
                 num_items,
@@ -299,7 +298,7 @@ namespace __extrema {
         reduce_agent_single;
 
       reduce_plan.grid_size = 1;
-      reduce_agent_single ra1(reduce_plan, stream, vshmem_ptr, "reduce_agent: single tile reduce", debug_sync);
+      reduce_agent_single ra1(reduce_plan, stream, vshmem_ptr, "reduce_agent: single tile reduce");
 
       ra1.launch(d_block_reductions, output_it, reduce_grid_size, reduction_op);
       CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
@@ -324,13 +323,11 @@ namespace __extrema {
   {
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     THRUST_INDEX_TYPE_DISPATCH(status, doit_step<T>, num_items,
         (NULL, temp_storage_bytes, first, num_items_fixed,
-            binary_op, reinterpret_cast<T*>(NULL), stream,
-            debug_sync));
+            binary_op, reinterpret_cast<T*>(NULL), stream));
     cuda_cub::throw_on_error(status, "extrema failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(T*), temp_storage_bytes};
@@ -358,8 +355,7 @@ namespace __extrema {
 
     THRUST_INDEX_TYPE_DISPATCH(status, doit_step<T>, num_items,
         (allocations[1], temp_storage_bytes, first,
-            num_items_fixed, binary_op, d_result, stream,
-            debug_sync));
+            num_items_fixed, binary_op, d_result, stream));
     cuda_cub::throw_on_error(status, "extrema failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);

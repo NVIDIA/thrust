@@ -685,8 +685,7 @@ namespace __merge {
             KeysOutputIt  keys_result,
             ItemsOutputIt items_result,
             CompareOp     compare_op,
-            cudaStream_t  stream,
-            bool          debug_sync)
+            cudaStream_t  stream)
   {
     if (num_keys1 + num_keys2 == 0)
       return cudaErrorNotSupported;
@@ -745,7 +744,7 @@ namespace __merge {
     {
       Size num_partitions = num_tiles + 1;
 
-      partition_agent(partition_plan, num_partitions, stream, "partition agent", debug_sync)
+      partition_agent(partition_plan, num_partitions, stream, "partition agent")
           .launch(keys1,
                   keys2,
                   num_keys1,
@@ -757,7 +756,7 @@ namespace __merge {
       CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
     }
 
-    merge_agent(merge_plan, num_keys1 + num_keys2, stream, vshmem_ptr, "merge agent", debug_sync)
+    merge_agent(merge_plan, num_keys1 + num_keys2, stream, vshmem_ptr, "merge agent")
         .launch(keys1,
                 keys2,
                 items1,
@@ -809,7 +808,6 @@ namespace __merge {
 
     size_t       storage_size = 0;
     cudaStream_t stream       = cuda_cub::stream(policy);
-    bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = doit_step<MERGE_ITEMS>(NULL,
@@ -823,8 +821,7 @@ namespace __merge {
                                     keys_result,
                                     items_result,
                                     compare_op,
-                                    stream,
-                                    debug_sync);
+                                    stream);
     cuda_cub::throw_on_error(status, "merge: failed on 1st step");
 
     // Allocate temporary storage.
@@ -843,8 +840,7 @@ namespace __merge {
                                     keys_result,
                                     items_result,
                                     compare_op,
-                                    stream,
-                                    debug_sync);
+                                    stream);
     cuda_cub::throw_on_error(status, "merge: failed on 2nd step");
 
     status = cuda_cub::synchronize_optional(policy);

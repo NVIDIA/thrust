@@ -73,8 +73,7 @@ namespace __adjacent_difference {
             OutputIt result,
             BinaryOp binary_op,
             std::size_t num_items,
-            cudaStream_t stream,
-            bool debug_sync)
+            cudaStream_t stream)
   {
     if (num_items == 0)
     {
@@ -108,8 +107,7 @@ namespace __adjacent_difference {
                                  result,
                                  num_items_fixed,
                                  binary_op,
-                                 stream,
-                                 debug_sync));
+                                 stream));
     return status;
   }
 
@@ -124,7 +122,6 @@ namespace __adjacent_difference {
             BinaryOp binary_op,
             std::size_t num_items,
             cudaStream_t stream,
-            bool debug_sync,
             thrust::detail::integral_constant<bool, false> /* comparable */)
   {
     constexpr bool may_alias = true;
@@ -134,8 +131,7 @@ namespace __adjacent_difference {
                                 result,
                                 binary_op,
                                 num_items,
-                                stream,
-                                debug_sync);
+                                stream);
   }
 
   template <class InputIt,
@@ -149,7 +145,6 @@ namespace __adjacent_difference {
             BinaryOp binary_op,
             std::size_t num_items,
             cudaStream_t stream,
-            bool debug_sync,
             thrust::detail::integral_constant<bool, true> /* comparable */)
   {
     // The documentation states that pointers might be equal but can't alias in
@@ -164,8 +159,7 @@ namespace __adjacent_difference {
                                   result,
                                   binary_op,
                                   num_items,
-                                  stream,
-                                  debug_sync);
+                                  stream);
     }
 
     constexpr bool may_alias = true;
@@ -175,8 +169,7 @@ namespace __adjacent_difference {
                                 result,
                                 binary_op,
                                 num_items,
-                                stream,
-                                debug_sync);
+                                stream);
   }
 
   template <typename Derived,
@@ -194,7 +187,6 @@ namespace __adjacent_difference {
       static_cast<std::size_t>(thrust::distance(first, last));
     std::size_t storage_size = 0;
     cudaStream_t stream = cuda_cub::stream(policy);
-    const bool debug_sync = THRUST_DEBUG_SYNC_FLAG;
 
     using UnwrapInputIt = thrust::detail::try_unwrap_contiguous_iterator_return_t<InputIt>;
     using UnwrapOutputIt = thrust::detail::try_unwrap_contiguous_iterator_return_t<OutputIt>;
@@ -219,7 +211,6 @@ namespace __adjacent_difference {
                                    binary_op,
                                    num_items,
                                    stream,
-                                   debug_sync,
                                    comparable);
     cuda_cub::throw_on_error(status, "adjacent_difference failed on 1st step");
 
@@ -234,7 +225,6 @@ namespace __adjacent_difference {
                        binary_op,
                        num_items,
                        stream,
-                       debug_sync,
                        comparable);
     cuda_cub::throw_on_error(status, "adjacent_difference failed on 2nd step");
 

@@ -126,8 +126,7 @@ ValuesOutIt inclusive_scan_by_key_n(
                                  scan_op,
                                  cub::NullType{},
                                  num_items_fixed,
-                                 stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 stream));
     thrust::cuda_cub::throw_on_error(status,
                                      "after determining tmp storage "
                                      "requirements for inclusive_scan_by_key");
@@ -153,8 +152,7 @@ ValuesOutIt inclusive_scan_by_key_n(
                                  scan_op,
                                  cub::NullType{},
                                  num_items_fixed,
-                                 stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 stream));
 
     thrust::cuda_cub::throw_on_error(
       status, "after dispatching inclusive_scan_by_key kernel");
@@ -239,8 +237,7 @@ ValuesOutIt exclusive_scan_by_key_n(
                                  scan_op,
                                  init_value,
                                  num_items_fixed,
-                                 stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 stream));
     thrust::cuda_cub::throw_on_error(status,
                                      "after determining tmp storage "
                                      "requirements for exclusive_scan_by_key");
@@ -266,8 +263,7 @@ ValuesOutIt exclusive_scan_by_key_n(
                                  scan_op,
                                  init_value,
                                  num_items_fixed,
-                                 stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 stream));
 
     thrust::cuda_cub::throw_on_error(
       status, "after dispatching exclusive_scan_by_key kernel");
