@@ -211,7 +211,6 @@ auto async_stable_sort_n(
     , n
     , comp
     , nullptr // Null stream, just for sizing.
-    , THRUST_DEBUG_SYNC_FLAG
     )
   , "after merge sort sizing"
   );
@@ -276,7 +275,6 @@ auto async_stable_sort_n(
     , n
     , comp
     , e.stream().native_handle()
-    , THRUST_DEBUG_SYNC_FLAG
     )
   , "after merge sort sizing"
   );
@@ -306,7 +304,6 @@ invoke_radix_sort(
   , 0
   , sizeof(T) * 8
   , stream
-  , THRUST_DEBUG_SYNC_FLAG
   );
 }
 
@@ -332,7 +329,6 @@ invoke_radix_sort(
   , 0
   , sizeof(T) * 8
   , stream
-  , THRUST_DEBUG_SYNC_FLAG
   );
 }
 

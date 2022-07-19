@@ -1132,8 +1132,7 @@ namespace __set_operations {
             std::size_t *  output_count,
             CompareOp      compare_op,
             SetOp          set_op,
-            cudaStream_t   stream,
-            bool           debug_sync)
+            cudaStream_t   stream)
   {
     Size keys_total = num_keys1 + num_keys2;
     if (keys_total == 0)
@@ -1205,11 +1204,11 @@ namespace __set_operations {
     pair<Size, Size> *partitions = (pair<Size, Size> *)allocations[1];
     char *vshmem_ptr = vshmem_storage > 0 ? (char *)allocations[2] : NULL;
 
-    init_agent ia(init_plan, num_tiles, stream, "set_op::init_agent", debug_sync);
+    init_agent ia(init_plan, num_tiles, stream, "set_op::init_agent");
     ia.launch(tile_state, num_tiles);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 
-    partition_agent pa(partition_plan, num_tiles+1, stream, "set_op::partition agent", debug_sync);
+    partition_agent pa(partition_plan, num_tiles+1, stream, "set_op::partition agent");
     pa.launch(keys1,
               keys2,
               num_keys1,
@@ -1220,7 +1219,7 @@ namespace __set_operations {
               tile_size);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 
-    set_op_agent sa(set_op_plan, keys_total, stream, vshmem_ptr, "set_op::set_op_agent", debug_sync);
+    set_op_agent sa(set_op_plan, keys_total, stream, vshmem_ptr, "set_op::set_op_agent");
     sa.launch(keys1,
               keys2,
               values1,
@@ -1273,7 +1272,6 @@ namespace __set_operations {
 
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     THRUST_DOUBLE_INDEX_TYPE_DISPATCH(status, doit_step<HAS_VALUES>,
@@ -1290,8 +1288,7 @@ namespace __set_operations {
                                    reinterpret_cast<std::size_t*>(NULL),
                                    compare_op,
                                    set_op,
-                                   stream,
-                                   debug_sync));
+                                   stream));
     cuda_cub::throw_on_error(status, "set_operations failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(std::size_t), temp_storage_bytes};
@@ -1333,8 +1330,7 @@ namespace __set_operations {
                                    d_output_count,
                                    compare_op,
                                    set_op,
-                                   stream,
-                                   debug_sync));
+                                   stream));
     cuda_cub::throw_on_error(status, "set_operations failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);

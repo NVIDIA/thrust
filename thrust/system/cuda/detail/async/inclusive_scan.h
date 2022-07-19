@@ -101,8 +101,7 @@ async_inclusive_scan_n(execution_policy<DerivedPolicy>& policy,
                                   op,
                                   cub::NullType{},
                                   n_fixed,
-                                  nullptr,
-                                  THRUST_DEBUG_SYNC_FLAG));
+                                  nullptr));
     thrust::cuda_cub::throw_on_error(status,
                                      "after determining tmp storage "
                                      "requirements for inclusive_scan");
@@ -148,8 +147,7 @@ async_inclusive_scan_n(execution_policy<DerivedPolicy>& policy,
                                  op,
                                  cub::NullType{},
                                  n_fixed,
-                                 user_raw_stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 user_raw_stream));
     thrust::cuda_cub::throw_on_error(status,
                                      "after dispatching inclusive_scan kernel");
   }

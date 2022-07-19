@@ -622,8 +622,7 @@ namespace __partition {
             Predicate        predicate,
             NumSelectedOutIt num_selected_out,
             Size             num_items,
-            cudaStream_t     stream,
-            bool             debug_sync)
+            cudaStream_t     stream)
   {
     using core::AgentLauncher;
     using core::AgentPlan;
@@ -681,11 +680,11 @@ namespace __partition {
     status = tile_status.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
-    init_agent ia(init_plan, num_tiles, stream, "partition::init_agent", debug_sync);
+    init_agent ia(init_plan, num_tiles, stream, "partition::init_agent");
 
     char *vshmem_ptr = vshmem_storage > 0 ? (char *)allocations[1] : NULL;
 
-    partition_agent pa(partition_plan, num_items, stream, vshmem_ptr, "partition::partition_agent", debug_sync);
+    partition_agent pa(partition_plan, num_items, stream, vshmem_ptr, "partition::partition_agent");
 
     ia.launch(tile_status, num_tiles, num_selected_out);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
@@ -725,7 +724,6 @@ namespace __partition {
     size_type    num_items          = static_cast<size_type>(thrust::distance(first, last));
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = doit_step(NULL,
@@ -737,8 +735,7 @@ namespace __partition {
                        predicate,
                        reinterpret_cast<size_type*>(NULL),
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "partition failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
@@ -775,8 +772,7 @@ namespace __partition {
                        predicate,
                        d_num_selected_out,
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "partition failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);

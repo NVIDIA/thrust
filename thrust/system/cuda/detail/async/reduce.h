@@ -88,7 +88,6 @@ unique_eager_future<remove_cvref_t<T>> async_reduce_n(
     , op
     , init
     , nullptr // Null stream, just for sizing.
-    , THRUST_DEBUG_SYNC_FLAG
     )
   , "after reduction sizing"
   );
@@ -170,7 +169,6 @@ unique_eager_future<remove_cvref_t<T>> async_reduce_n(
     , op
     , init
     , fp.future.stream().native_handle()
-    , THRUST_DEBUG_SYNC_FLAG
     )
   , "after reduction launch"
   );
@@ -240,7 +238,6 @@ unique_eager_event async_reduce_into_n(
     , op
     , init
     , nullptr // Null stream, just for sizing.
-    , THRUST_DEBUG_SYNC_FLAG
     )
   , "after reduction sizing"
   );
@@ -304,7 +301,6 @@ unique_eager_event async_reduce_into_n(
     , op
     , init
     , e.stream().native_handle()
-    , THRUST_DEBUG_SYNC_FLAG
     )
   , "after reduction launch"
   );

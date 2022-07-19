@@ -608,8 +608,7 @@ namespace __copy_if {
                                Predicate        predicate,
                                NumSelectedOutIt num_selected_out,
                                Size             num_items,
-                               cudaStream_t     stream,
-                               bool             debug_sync)
+                               cudaStream_t     stream)
   {
     if (num_items == 0)
       return cudaSuccess;
@@ -670,11 +669,11 @@ namespace __copy_if {
     status = tile_status.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
-    init_agent ia(init_plan, num_tiles, stream, "copy_if::init_agent", debug_sync);
+    init_agent ia(init_plan, num_tiles, stream, "copy_if::init_agent");
 
     char *vshmem_ptr = vshmem_size > 0 ? (char*)allocations[1] : NULL;
 
-    copy_if_agent pa(copy_if_plan, num_items, stream, vshmem_ptr, "copy_if::partition_agent", debug_sync);
+    copy_if_agent pa(copy_if_plan, num_items, stream, vshmem_ptr, "copy_if::partition_agent");
 
     ia.launch(tile_status, num_tiles, num_selected_out);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
@@ -709,7 +708,6 @@ namespace __copy_if {
     size_type    num_items          = static_cast<size_type>(thrust::distance(first, last));
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     if (num_items == 0)
       return output;
@@ -723,8 +721,7 @@ namespace __copy_if {
                        predicate,
                        reinterpret_cast<size_type*>(NULL),
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "copy_if failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
@@ -760,8 +757,7 @@ namespace __copy_if {
                        predicate,
                        d_num_selected_out,
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "copy_if failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);

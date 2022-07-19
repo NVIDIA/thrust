@@ -880,8 +880,7 @@ namespace __reduce_by_key {
             EqualityOp      equality_op,
             ReductionOp     reduction_op,
             Size            num_items,
-            cudaStream_t    stream,
-            bool            debug_sync)
+            cudaStream_t    stream)
   {
     using core::AgentPlan;
     using core::AgentLauncher;
@@ -938,7 +937,7 @@ namespace __reduce_by_key {
     status = tile_state.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
-    init_agent ia(init_plan, num_tiles, stream, "reduce_by_key::init_agent", debug_sync);
+    init_agent ia(init_plan, num_tiles, stream, "reduce_by_key::init_agent");
     ia.launch(tile_state, num_tiles, num_runs_output_it);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 
@@ -948,8 +947,7 @@ namespace __reduce_by_key {
                              num_items,
                              stream,
                              vshmem_ptr,
-                             "reduce_by_keys::reduce_by_key_agent",
-                             debug_sync);
+                             "reduce_by_keys::reduce_by_key_agent");
     rbka.launch(keys_input_it,
                 values_input_it,
                 keys_output_it,
@@ -985,7 +983,6 @@ namespace __reduce_by_key {
   {
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     if (num_items == 0)
     {
@@ -1003,8 +1000,7 @@ namespace __reduce_by_key {
                        equality_op,
                        reduction_op,
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "reduce_by_key failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(Size), temp_storage_bytes};
@@ -1041,8 +1037,7 @@ namespace __reduce_by_key {
                        equality_op,
                        reduction_op,
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "reduce_by_key failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);

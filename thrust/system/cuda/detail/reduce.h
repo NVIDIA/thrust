@@ -703,8 +703,7 @@ namespace __reduce {
             T            init,
             ReductionOp  reduction_op,
             OutputIt     output_it,
-            cudaStream_t stream,
-            bool         debug_sync)
+            cudaStream_t stream)
   {
     using core::AgentPlan;
     using core::AgentLauncher;
@@ -737,7 +736,7 @@ namespace __reduce {
       }
       char *vshmem_ptr = vshmem_size > 0 ? (char*)d_temp_storage : NULL;
 
-      reduce_agent ra(reduce_plan, num_items, stream, vshmem_ptr, "reduce_agent: single_tile only", debug_sync);
+      reduce_agent ra(reduce_plan, num_items, stream, vshmem_ptr, "reduce_agent: single_tile only");
       ra.launch(input_it, output_it, num_items, reduction_op, init);
       CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
     }
@@ -817,7 +816,7 @@ namespace __reduce {
         typedef AgentLauncher<DrainAgent<Size> > drain_agent;
         AgentPlan drain_plan = drain_agent::get_plan();
         drain_plan.grid_size = 1;
-        drain_agent da(drain_plan, stream, "__reduce::drain_agent", debug_sync);
+        drain_agent da(drain_plan, stream, "__reduce::drain_agent");
         da.launch(queue, num_items);
         CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
       }
@@ -827,7 +826,7 @@ namespace __reduce {
       }
 
       reduce_plan.grid_size = reduce_grid_size;
-      reduce_agent ra(reduce_plan, stream, vshmem_ptr, "reduce_agent: regular size reduce", debug_sync);
+      reduce_agent ra(reduce_plan, stream, vshmem_ptr, "reduce_agent: regular size reduce");
       ra.launch(input_it,
                 d_block_reductions,
                 num_items,
@@ -842,7 +841,7 @@ namespace __reduce {
         reduce_agent_single;
 
       reduce_plan.grid_size = 1;
-      reduce_agent_single ra1(reduce_plan, stream, vshmem_ptr, "reduce_agent: single tile reduce", debug_sync);
+      reduce_agent_single ra1(reduce_plan, stream, vshmem_ptr, "reduce_agent: single tile reduce");
 
       ra1.launch(d_block_reductions, output_it, reduce_grid_size, reduction_op, init);
       CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
@@ -869,7 +868,6 @@ namespace __reduce {
 
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = doit_step(NULL,
@@ -879,8 +877,7 @@ namespace __reduce {
                        init,
                        binary_op,
                        reinterpret_cast<T*>(NULL),
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "reduce failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(T*), temp_storage_bytes};
@@ -913,8 +910,7 @@ namespace __reduce {
                        init,
                        binary_op,
                        d_result,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "reduce failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);
@@ -954,8 +950,7 @@ T reduce_n_impl(execution_policy<Derived>& policy,
     >::Dispatch),
     num_items,
     (NULL, tmp_size, first, reinterpret_cast<T*>(NULL),
-        num_items_fixed, binary_op, init, stream,
-        THRUST_DEBUG_SYNC_FLAG));
+        num_items_fixed, binary_op, init, stream));
   cuda_cub::throw_on_error(status, "after reduction step 1");
 
   // Allocate temporary storage.
@@ -982,8 +977,7 @@ T reduce_n_impl(execution_policy<Derived>& policy,
     >::Dispatch),
     num_items,
     (tmp_ptr, tmp_size, first, ret_ptr,
-        num_items_fixed, binary_op, init, stream,
-        THRUST_DEBUG_SYNC_FLAG));
+        num_items_fixed, binary_op, init, stream));
   cuda_cub::throw_on_error(status, "after reduction step 2");
 
   // Synchronize the stream and get the value.

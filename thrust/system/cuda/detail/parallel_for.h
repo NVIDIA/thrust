@@ -132,12 +132,10 @@ namespace __parallel_for {
     using core::AgentLauncher;
     using core::AgentPlan;
 
-    bool debug_sync = THRUST_DEBUG_SYNC_FLAG;
-
     typedef AgentLauncher<ParallelForAgent<F, Size> > parallel_for_agent;
     AgentPlan parallel_for_plan = parallel_for_agent::get_plan(stream);
 
-    parallel_for_agent pfa(parallel_for_plan, num_items, stream, "transform::agent", debug_sync);
+    parallel_for_agent pfa(parallel_for_plan, num_items, stream, "transform::agent");
     pfa.launch(f, num_items);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 

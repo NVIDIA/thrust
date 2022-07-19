@@ -375,7 +375,6 @@ namespace core {
     size_t          count;
     cudaStream_t    stream;
     char const*     name;
-    bool            debug_sync;
     unsigned int    grid;
     char*           vshmem;
     bool            has_shmem;
@@ -397,13 +396,11 @@ namespace core {
     AgentLauncher(AgentPlan    plan_,
                   Size         count_,
                   cudaStream_t stream_,
-                  char const*  name_,
-                  bool         debug_sync_)
+                  char const*  name_)
         : plan(plan_),
           count((size_t)count_),
           stream(stream_),
           name(name_),
-          debug_sync(debug_sync_),
           grid(static_cast<unsigned int>((count + plan.items_per_tile - 1) / plan.items_per_tile)),
           vshmem(NULL),
           has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size),
@@ -418,13 +415,11 @@ namespace core {
                   Size         count_,
                   cudaStream_t stream_,
                   char*        vshmem,
-                  char const*  name_,
-                  bool         debug_sync_)
+                  char const*  name_)
         : plan(plan_),
           count((size_t)count_),
           stream(stream_),
           name(name_),
-          debug_sync(debug_sync_),
           grid(static_cast<unsigned int>((count + plan.items_per_tile - 1) / plan.items_per_tile)),
           vshmem(vshmem),
           has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size),
@@ -436,13 +431,11 @@ namespace core {
     THRUST_RUNTIME_FUNCTION
     AgentLauncher(AgentPlan    plan_,
                   cudaStream_t stream_,
-                  char const*  name_,
-                  bool         debug_sync_)
+                  char const*  name_)
         : plan(plan_),
           count(0),
           stream(stream_),
           name(name_),
-          debug_sync(debug_sync_),
           grid(plan.grid_size),
           vshmem(NULL),
           has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size),
@@ -455,13 +448,11 @@ namespace core {
     AgentLauncher(AgentPlan    plan_,
                   cudaStream_t stream_,
                   char*        vshmem,
-                  char const*  name_,
-                  bool         debug_sync_)
+                  char const*  name_)
         : plan(plan_),
           count(0),
           stream(stream_),
           name(name_),
-          debug_sync(debug_sync_),
           grid(plan.grid_size),
           vshmem(vshmem),
           has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size),
@@ -512,7 +503,7 @@ namespace core {
 
     THRUST_RUNTIME_FUNCTION void sync() const
     {
-      CubDebug(cub::detail::DebugSyncStream(stream, this->debug_sync));
+      CubDebug(cub::detail::DebugSyncStream(stream));
     }
 
     template<class K>
@@ -535,38 +526,39 @@ namespace core {
     THRUST_RUNTIME_FUNCTION
     void print_info(K k) const
     {
-      if (debug_sync)
+      #if THRUST_DEBUG_SYNC_FLAG 
+      cuda_optional<int> occ = max_sm_occupancy(k);
+      core::cuda_optional<int> ptx_version = core::get_ptx_version();
+      if (count > 0)
       {
-        cuda_optional<int> occ = max_sm_occupancy(k);
-        core::cuda_optional<int> ptx_version = core::get_ptx_version();
-        if (count > 0)
-        {
-          _CubLog("Invoking %s<<<%u, %d, %d, %lld>>>(), %llu items total, %d items per thread, %d SM occupancy, %d vshmem size, %d ptx_version \n",
-                  name,
-                  grid,
-                  plan.block_threads,
-                  (has_shmem ? (int)plan.shared_memory_size : 0),
-                  (long long)stream,
-                  (long long)count,
-                  plan.items_per_thread,
-                  (int)occ,
-                  (!has_shmem ? (int)plan.shared_memory_size : 0),
-                  (int)ptx_version);
-        }
-        else
-        {
-          _CubLog("Invoking %s<<<%u, %d, %d, %lld>>>(), %d items per thread, %d SM occupancy, %d vshmem size, %d ptx_version\n",
-                  name,
-                  grid,
-                  plan.block_threads,
-                  (has_shmem ? (int)plan.shared_memory_size : 0),
-                  (long long)stream,
-                  plan.items_per_thread,
-                  (int)occ,
-                  (!has_shmem ? (int)plan.shared_memory_size : 0),
-                  (int)ptx_version);
-        }
+        _CubLog("Invoking %s<<<%u, %d, %d, %lld>>>(), %llu items total, %d items per thread, %d SM occupancy, %d vshmem size, %d ptx_version \n",
+                name,
+                grid,
+                plan.block_threads,
+                (has_shmem ? (int)plan.shared_memory_size : 0),
+                (long long)stream,
+                (long long)count,
+                plan.items_per_thread,
+                (int)occ,
+                (!has_shmem ? (int)plan.shared_memory_size : 0),
+                (int)ptx_version);
       }
+      else
+      {
+        _CubLog("Invoking %s<<<%u, %d, %d, %lld>>>(), %d items per thread, %d SM occupancy, %d vshmem size, %d ptx_version\n",
+                name,
+                grid,
+                plan.block_threads,
+                (has_shmem ? (int)plan.shared_memory_size : 0),
+                (long long)stream,
+                plan.items_per_thread,
+                (int)occ,
+                (!has_shmem ? (int)plan.shared_memory_size : 0),
+                (int)ptx_version);
+      }
+      #else
+      (void)k;
+      #endif
     }
 
     ////////////////////
