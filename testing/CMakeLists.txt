@@ -144,8 +144,8 @@ foreach(thrust_target IN LISTS THRUST_TARGETS)
 
     thrust_add_test(test_target ${test_name} "${test_src}" ${thrust_target})
 
-    if (THRUST_ENABLE_TESTS_WITH_RDC AND ("CUDA" STREQUAL "${config_device}"))
-      thrust_enable_rdc_for_cuda_target(${test_target})
+    if ("CUDA" STREQUAL "${config_device}")
+      thrust_set_rdc_state(${test_target} ${THRUST_ENABLE_TESTS_WITH_RDC})
     endif()
   endforeach()
 endforeach()

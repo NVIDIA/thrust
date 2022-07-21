@@ -26,7 +26,8 @@ foreach(thrust_target IN LISTS THRUST_TARGETS)
     # both device-side behaviors -- the CDP kernel launch with RDC, and the
     # serial fallback path without RDC.
     thrust_add_test(seq_test_target ${test_name}.cdp_0 "${test_src}" ${thrust_target})
+    thrust_set_rdc_state(${seq_test_target} OFF)
     thrust_add_test(cdp_test_target ${test_name}.cdp_1 "${test_src}" ${thrust_target})
-    thrust_enable_rdc_for_cuda_target(${cdp_test_target})
+    thrust_set_rdc_state(${cdp_test_target} ON)
   endforeach()
 endforeach()

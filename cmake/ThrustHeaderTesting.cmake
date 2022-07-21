@@ -7,11 +7,34 @@
 # Meta target for all configs' header builds:
 add_custom_target(thrust.all.headers)
 
+function(thrust_add_header_test target_name srcs thrust_target)
+  thrust_get_target_property(config_host ${thrust_target} HOST)
+  thrust_get_target_property(config_device ${thrust_target} DEVICE)
+  set(config_systems ${config_host} ${config_device})
+
+  add_library(${target_name} OBJECT ${srcs})
+  target_link_libraries(${target_name} PUBLIC ${thrust_target})
+
+  # Wrap Thrust/CUB in a custom namespace to check proper use of ns macros:
+  target_compile_definitions(${target_name} PRIVATE
+    "THRUST_WRAPPED_NAMESPACE=wrapped_thrust"
+    "CUB_WRAPPED_NAMESPACE=wrapped_cub"
+  )
+  thrust_clone_target_properties(${target_name} ${thrust_target})
+
+  # Disable macro checks on TBB; the TBB atomic implementation uses `I` and
+  # our checks will issue false errors.
+  if ("TBB" IN_LIST config_systems)
+    target_compile_definitions(${target_name}
+      PRIVATE THRUST_IGNORE_MACRO_CHECKS
+    )
+  endif()
+endfunction()
+
 foreach(thrust_target IN LISTS THRUST_TARGETS)
   thrust_get_target_property(config_host ${thrust_target} HOST)
   thrust_get_target_property(config_device ${thrust_target} DEVICE)
   thrust_get_target_property(config_prefix ${thrust_target} PREFIX)
-  set(config_systems ${config_host} ${config_device})
 
   string(TOLOWER "${config_host}" host_lower)
   string(TOLOWER "${config_device}" device_lower)
@@ -115,22 +138,22 @@ foreach(thrust_target IN LISTS THRUST_TARGETS)
     list(APPEND headertest_srcs "${headertest_src}")
   endforeach()
 
-  set(headertest_target ${config_prefix}.headers)
-  add_library(${headertest_target} OBJECT ${headertest_srcs})
-  target_link_libraries(${headertest_target} PUBLIC ${thrust_target})
-  # Wrap Thrust/CUB in a custom namespace to check proper use of ns macros:
-  target_compile_definitions(${headertest_target} PRIVATE
-    "THRUST_WRAPPED_NAMESPACE=wrapped_thrust"
-    "CUB_WRAPPED_NAMESPACE=wrapped_cub"
-  )
-  thrust_clone_target_properties(${headertest_target} ${thrust_target})
+  if ("CUDA" STREQUAL "${config_device}")
+    set(headertest_target ${config_prefix}.headers) # metatarget
+    add_custom_target(${headertest_target})
 
-  # Disable macro checks on TBB; the TBB atomic implementation uses `I` and
-  # our checks will issue false errors.
-  if ("TBB" IN_LIST config_systems)
-    target_compile_definitions(${headertest_target}
-      PRIVATE THRUST_IGNORE_MACRO_CHECKS
-    )
+    set(headertest_rdc_target ${config_prefix}.headers.rdc)
+    thrust_add_header_test(${headertest_rdc_target} "${headertest_srcs}" ${thrust_target})
+    thrust_set_rdc_state(${headertest_rdc_target} ON)
+    add_dependencies(${headertest_target} ${headertest_rdc_target})
+
+    set(headertest_no_rdc_target ${config_prefix}.headers.no_rdc)
+    thrust_add_header_test(${headertest_no_rdc_target} "${headertest_srcs}" ${thrust_target})
+    thrust_set_rdc_state(${headertest_no_rdc_target} OFF)
+    add_dependencies(${headertest_target} ${headertest_no_rdc_target})
+  else()
+    set(headertest_target ${config_prefix}.headers)
+    thrust_add_header_test(${headertest_target} "${headertest_srcs}" ${thrust_target})
   endif()
 
   add_dependencies(thrust.all.headers ${headertest_target})

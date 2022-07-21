@@ -51,9 +51,7 @@ function(thrust_add_async_test_dir algo_name)
       string(PREPEND test_name async.${algo_name}.)
 
       thrust_add_test(test_target ${test_name} "${test_src}" ${thrust_target})
-      if(THRUST_ENABLE_TESTS_WITH_RDC)
-        thrust_enable_rdc_for_cuda_target(${test_target})
-      endif()
+      thrust_set_rdc_state(${test_target} ${THRUST_ENABLE_TESTS_WITH_RDC})
 
       add_dependencies(${algo_config_meta_target} ${test_target})
     endforeach()

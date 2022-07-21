@@ -105,9 +105,8 @@ function(thrust_add_example target_name_var example_name example_src thrust_targ
   endif()
   add_dependencies(${example_meta_target} ${example_target})
 
-  if ("CUDA" STREQUAL "${config_device}" AND
-      THRUST_ENABLE_EXAMPLES_WITH_RDC)
-    thrust_enable_rdc_for_cuda_target(${example_target})
+  if ("CUDA" STREQUAL "${config_device}")
+    thrust_set_rdc_state(${example_target} ${THRUST_ENABLE_EXAMPLES_WITH_RDC})
   endif()
 
   # Get the name of FileCheck input by stripping out the config name.

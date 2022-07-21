@@ -24,6 +24,10 @@ foreach(thrust_target IN LISTS THRUST_TARGETS)
   target_include_directories(${bench_target} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
   thrust_clone_target_properties(${bench_target} ${thrust_target})
 
+  if ("CUDA" STREQUAL "${config_device}")
+    thrust_set_rdc_state(${bench_target} OFF)
+  endif()
+
   add_dependencies(thrust.all.bench ${bench_target})
   add_dependencies(${config_prefix}.all ${bench_target})
 endforeach()
