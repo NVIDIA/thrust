@@ -309,6 +309,7 @@ void TestExclusiveScanByKeyInPlace(const size_t n)
   }
   thrust::device_vector<T> d_vals = h_vals;
 
+  // in-place scans: in/out values aliasing
   thrust::host_vector<T> h_output   = h_vals;
   thrust::device_vector<T> d_output = d_vals;
   thrust::exclusive_scan_by_key(h_keys.begin(),
@@ -322,6 +323,19 @@ void TestExclusiveScanByKeyInPlace(const size_t n)
                                 d_output.begin(),
                                 (T)11);
   ASSERT_EQUAL(d_output, h_output);
+
+  // in-place scans: in/out keys aliasing
+  thrust::exclusive_scan_by_key(h_keys.begin(),
+                                h_keys.end(),
+                                h_vals.begin(),
+                                h_keys.begin(),
+                                (T)11);
+  thrust::exclusive_scan_by_key(d_keys.begin(),
+                                d_keys.end(),
+                                d_vals.begin(),
+                                d_keys.begin(),
+                                (T)11);
+  ASSERT_EQUAL(d_keys, h_keys);
 }
 DECLARE_VARIABLE_UNITTEST(TestExclusiveScanByKeyInPlace);
 
