@@ -786,13 +786,13 @@ copy_if(execution_policy<Derived> &policy,
         OutputIterator             result,
         Predicate                  pred)
 {
-  THRUST_CDP_DISPATCH((result = __copy_if::copy_if(policy,
+  THRUST_CDP_DISPATCH((return __copy_if::copy_if(policy,
                                                    first,
                                                    last,
                                                    __copy_if::no_stencil_tag(),
                                                    result,
                                                    pred);),
-                      (result =
+                      (return
                          thrust::copy_if(cvt_to_seq(derived_cast(policy)),
                                          first,
                                          last,
@@ -816,8 +816,8 @@ copy_if(execution_policy<Derived> &policy,
         Predicate                  pred)
 {
   THRUST_CDP_DISPATCH(
-    (result = __copy_if::copy_if(policy, first, last, stencil, result, pred);),
-    (result = thrust::copy_if(cvt_to_seq(derived_cast(policy)),
+    (return __copy_if::copy_if(policy, first, last, stencil, result, pred);),
+    (return thrust::copy_if(cvt_to_seq(derived_cast(policy)),
                               first,
                               last,
                               stencil,
