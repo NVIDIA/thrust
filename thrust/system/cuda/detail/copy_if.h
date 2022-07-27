@@ -798,7 +798,6 @@ copy_if(execution_policy<Derived> &policy,
                                          last,
                                          result,
                                          pred);));
-  return result;
 } // func copy_if
 
 __thrust_exec_check_disable__
@@ -823,7 +822,6 @@ copy_if(execution_policy<Derived> &policy,
                               stencil,
                               result,
                               pred);));
-  return result;
 }    // func copy_if
 
 }    // namespace cuda_cub
