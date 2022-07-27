@@ -46,7 +46,7 @@
 
 // seq_impl unused.
 #define THRUST_CDP_DISPATCH(par_impl, seq_impl)                                \
-  NV_IF_TARGET(NV_ANY_TARGET, par_impl)
+  NV_IF_TARGET(NV_ANY_TARGET, par_impl, par_impl)
 
 #else // THRUST_RDC_ENABLED
 
