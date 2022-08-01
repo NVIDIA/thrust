@@ -946,7 +946,7 @@ T reduce_n_impl(execution_policy<Derived>& policy,
   THRUST_INDEX_TYPE_DISPATCH2(status,
     cub::DeviceReduce::Reduce,
     (cub::DispatchReduce<
-        InputIt, T*, Size, BinaryOp
+        InputIt, T*, Size, BinaryOp, T
     >::Dispatch),
     num_items,
     (NULL, tmp_size, first, reinterpret_cast<T*>(NULL),
@@ -973,7 +973,7 @@ T reduce_n_impl(execution_policy<Derived>& policy,
   THRUST_INDEX_TYPE_DISPATCH2(status,
     cub::DeviceReduce::Reduce,
     (cub::DispatchReduce<
-        InputIt, T*, Size, BinaryOp
+        InputIt, T*, Size, BinaryOp, T
     >::Dispatch),
     num_items,
     (tmp_ptr, tmp_size, first, ret_ptr,
