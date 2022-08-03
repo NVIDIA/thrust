@@ -60,16 +60,19 @@ OutputIt inclusive_scan_n_impl(thrust::cuda_cub::execution_policy<Derived> &poli
                                OutputIt result,
                                ScanOp scan_op)
 {
+  using AccumT = typename thrust::iterator_traits<InputIt>::value_type;
   using Dispatch32 = cub::DispatchScan<InputIt,
                                        OutputIt,
                                        ScanOp,
                                        cub::NullType,
-                                       thrust::detail::int32_t>;
+                                       thrust::detail::int32_t,
+                                       AccumT>;
   using Dispatch64 = cub::DispatchScan<InputIt,
                                        OutputIt,
                                        ScanOp,
                                        cub::NullType,
-                                       thrust::detail::int64_t>;
+                                       thrust::detail::int64_t,
+                                       AccumT>;
 
   cudaStream_t stream = thrust::cuda_cub::stream(policy);
   cudaError_t status;
@@ -141,12 +144,14 @@ OutputIt exclusive_scan_n_impl(thrust::cuda_cub::execution_policy<Derived> &poli
                                        OutputIt,
                                        ScanOp,
                                        InputValueT,
-                                       thrust::detail::int32_t>;
+                                       thrust::detail::int32_t,
+                                       InitValueT>;
   using Dispatch64 = cub::DispatchScan<InputIt,
                                        OutputIt,
                                        ScanOp,
                                        InputValueT,
-                                       thrust::detail::int64_t>;
+                                       thrust::detail::int64_t,
+                                       InitValueT>;
 
   cudaStream_t stream = thrust::cuda_cub::stream(policy);
   cudaError_t status;

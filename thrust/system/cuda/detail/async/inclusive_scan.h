@@ -72,16 +72,19 @@ async_inclusive_scan_n(execution_policy<DerivedPolicy>& policy,
                        OutputIt out,
                        BinaryOp op)
 {
+  using AccumT = typename thrust::iterator_traits<ForwardIt>::value_type;
   using Dispatch32 = cub::DispatchScan<ForwardIt,
                                        OutputIt,
                                        BinaryOp,
                                        cub::NullType,
-                                       thrust::detail::int32_t>;
+                                       thrust::detail::int32_t,
+                                       AccumT>;
   using Dispatch64 = cub::DispatchScan<ForwardIt,
                                        OutputIt,
                                        BinaryOp,
                                        cub::NullType,
-                                       thrust::detail::int64_t>;
+                                       thrust::detail::int64_t,
+                                       AccumT>;
 
   auto const device_alloc = get_async_device_allocator(policy);
   unique_eager_event ev;

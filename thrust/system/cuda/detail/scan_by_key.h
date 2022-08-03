@@ -87,6 +87,7 @@ ValuesOutIt inclusive_scan_by_key_n(
     thrust::detail::try_unwrap_contiguous_iterator_return_t<ValuesInIt>;
   using ValuesOutUnwrapIt =
     thrust::detail::try_unwrap_contiguous_iterator_return_t<ValuesOutIt>;
+  using AccumT = typename thrust::iterator_traits<ValuesInUnwrapIt>::value_type;
 
   auto keys_unwrap = thrust::detail::try_unwrap_contiguous_iterator(keys);
   auto values_unwrap = thrust::detail::try_unwrap_contiguous_iterator(values);
@@ -98,14 +99,16 @@ ValuesOutIt inclusive_scan_by_key_n(
                                             EqualityOpT,
                                             ScanOpT,
                                             cub::NullType,
-                                            thrust::detail::int32_t>;
+                                            thrust::detail::int32_t,
+                                            AccumT>;
   using Dispatch64 = cub::DispatchScanByKey<KeysInUnwrapIt,
                                             ValuesInUnwrapIt,
                                             ValuesOutUnwrapIt,
                                             EqualityOpT,
                                             ScanOpT,
                                             cub::NullType,
-                                            thrust::detail::int64_t>;
+                                            thrust::detail::int64_t,
+                                            AccumT>;
 
   cudaStream_t stream = thrust::cuda_cub::stream(policy);
   cudaError_t status{};
@@ -209,14 +212,16 @@ ValuesOutIt exclusive_scan_by_key_n(
                                             EqualityOpT,
                                             ScanOpT,
                                             InitValueT,
-                                            thrust::detail::int32_t>;
+                                            thrust::detail::int32_t,
+                                            InitValueT>;
   using Dispatch64 = cub::DispatchScanByKey<KeysInUnwrapIt,
                                             ValuesInUnwrapIt,
                                             ValuesOutUnwrapIt,
                                             EqualityOpT,
                                             ScanOpT,
                                             InitValueT,
-                                            thrust::detail::int64_t>;
+                                            thrust::detail::int64_t,
+                                            InitValueT>;
 
   cudaStream_t stream = thrust::cuda_cub::stream(policy);
   cudaError_t status{};

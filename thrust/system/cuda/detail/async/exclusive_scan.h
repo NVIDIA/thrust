@@ -79,12 +79,14 @@ async_exclusive_scan_n(execution_policy<DerivedPolicy>& policy,
                                        OutputIt,
                                        BinaryOp,
                                        InputValueT,
-                                       thrust::detail::int32_t>;
+                                       thrust::detail::int32_t,
+                                       InitialValueType>;
   using Dispatch64 = cub::DispatchScan<ForwardIt,
                                        OutputIt,
                                        BinaryOp,
                                        InputValueT,
-                                       thrust::detail::int64_t>;
+                                       thrust::detail::int64_t,
+                                       InitialValueType>;
 
   InputValueT init_value(init);
 
