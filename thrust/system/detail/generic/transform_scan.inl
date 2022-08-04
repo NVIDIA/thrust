@@ -49,11 +49,7 @@ __host__ __device__
 {
   // Use the input iterator's value type per https://wg21.link/P0571
   using InputType = typename thrust::iterator_value<InputIterator>::type;
-#if THRUST_CPP_DIALECT < 2017
-  using ResultType = typename std::result_of<UnaryFunction(InputType)>::type;
-#else
-  using ResultType = std::invoke_result_t<UnaryFunction, InputType>;
-#endif
+  using ResultType = thrust::detail::invoke_result_t<UnaryFunction, InputType>;
   using ValueType = typename std::remove_reference<ResultType>::type;
 
   thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _first(first, unary_op);
