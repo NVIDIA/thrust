@@ -30,8 +30,9 @@
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <iterator>
-#include <thrust/system/cuda/detail/scan.h>
+#include <thrust/detail/type_traits.h>
 #include <thrust/distance.h>
+#include <thrust/system/cuda/detail/scan.h>
 
 THRUST_NAMESPACE_BEGIN
 
@@ -52,12 +53,7 @@ transform_inclusive_scan(execution_policy<Derived> &policy,
 {
   // Use the transformed input iterator's value type per https://wg21.link/P0571
   using input_type = typename thrust::iterator_value<InputIt>::type;
-#if THRUST_CPP_DIALECT < 2017
-  using result_type = typename std::result_of<TransformOp(input_type)>::type;
-#else
-  using result_type = std::invoke_result_t<TransformOp, input_type>;
-#endif
-
+  using result_type = thrust::detail::invoke_result_t<TransformOp, input_type>;
   using value_type = typename std::remove_reference<result_type>::type;
 
   typedef typename iterator_traits<InputIt>::difference_type size_type;
