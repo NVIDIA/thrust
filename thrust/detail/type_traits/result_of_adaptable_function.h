@@ -35,7 +35,7 @@ struct result_of_adaptable_function
 private:
   template <typename Sig> struct impl;
 
-  template <typename F, typename...Args>
+  template <typename F, typename... Args>
   struct impl<F(Args...)>
   {
     using type = invoke_result_t<F, Args...>;
