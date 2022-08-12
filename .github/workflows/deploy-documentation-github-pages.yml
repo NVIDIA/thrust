@@ -3,7 +3,10 @@ name: Deploy Documentation GitHub Pages
 on:
   push:
     branches:
-      - feature/new-docs
+      - "main"
+
+  # Trigger on request.
+  workflow_dispatch:
 
 jobs:
   deploy-documentation-github-pages:
@@ -11,7 +14,7 @@ jobs:
     container: gpuci/cccl:cuda11.5.1-devel-ubuntu20.04-gcc9
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Generate documentation markdown
         run: ./docs/generate_markdown.bash --clean
       - name: Deploy generated documentation markdown to gh-pages branch
