@@ -44,11 +44,27 @@
 
 #if defined(CUB_DETAIL_CDPv1)
 
+// Special case for NVCC -- need to inform the device path about the kernels
+// that are launched from the host path.
+#if defined(__CUDACC__) && defined(__CUDA_ARCH__)
+
+// seq_impl only used on platforms that do not support device synchronization.
+#define THRUST_CDP_DISPATCH(par_impl, seq_impl)                                \
+  if (false)                                                                   \
+  { /* Without this, the device pass won't compile any kernels. */             \
+    NV_IF_TARGET(NV_ANY_TARGET, par_impl);                                     \
+  }                                                                            \
+  NV_DISPATCH_TARGET(NV_PROVIDES_SM_90, seq_impl, NV_ANY_TARGET, par_impl)
+
+#else // NVCC device pass
+
 // seq_impl only used on platforms that do not support device synchronization.
 #define THRUST_CDP_DISPATCH(par_impl, seq_impl)                                \
   NV_DISPATCH_TARGET(NV_PROVIDES_SM_90, seq_impl, NV_ANY_TARGET, par_impl)
 
-#else // CDPv1 unavailable, force seq on device:
+#endif // NVCC device pass
+
+#else // CDPv1 unavailable. Always fallback to serial on device:
 
 // Special case for NVCC -- need to inform the device path about the kernels
 // that are launched from the host path.
