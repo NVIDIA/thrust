@@ -86,7 +86,7 @@ cmake --build . -j <num jobs>   # invokes make (or ninja, etc)
 ctest
 ```
 
-See [CMake Options](./setup/cmake_options.md) for details on customizing the build. To
+See [CMake Options](../setup/cmake_options.md) for details on customizing the build. To
 enable CUB tests and examples, set the `THRUST_INCLUDE_CUB_CMAKE` option to
 `ON`. Additional CMake options for CUB are listed
 [here](https://github.com/NVIDIA/cub/blob/main/CONTRIBUTING.md#cmake-options).

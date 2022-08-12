@@ -53,7 +53,7 @@ int main() {
 }
 ```
 
-[See it on Godbolt](https://godbolt.org/z/v3fdoE){: .btn }
+[See it on Godbolt](https://godbolt.org/z/v3fdoE)
 
 This example demonstrates computing the sum of some random numbers in parallel:
 
@@ -78,7 +78,7 @@ int main() {
 }
 ```
 
-[See it on Godbolt](https://godbolt.org/z/119jxj){: .btn }
+[See it on Godbolt](https://godbolt.org/z/119jxj)
 
 This example show how to perform such a reduction asynchronously:
 
@@ -115,7 +115,7 @@ int main() {
 }
 ```
 
-[See it on Godbolt](https://godbolt.org/z/rsdedW){: .btn }
+[See it on Godbolt](https://godbolt.org/z/rsdedW)
 
 ## Getting The Thrust Source Code
 
@@ -141,6 +141,7 @@ the [CMake Package Manager](https://github.com/cpm-cmake/CPM.cmake).
 
 For non-CMake projects, compile with:
 - The Thrust include path (`-I<thrust repo root>`)
+- The libcu++ include path (`-I<thrust repo root>/dependencies/libcudacxx/`)
 - The CUB include path, if using the CUDA device system (`-I<thrust repo root>/dependencies/cub/`)
 - By default, the CPP host system and CUDA device system are used.
   These can be changed using compiler definitions:
@@ -205,9 +206,9 @@ Thrust is distributed under the [Apache License v2.0 with LLVM Exceptions];
 
 ## CI Status
 
-<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-gpu-build/CXX_TYPE=gcc,CXX_VER=9,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-gpu-build/CXX_TYPE=gcc,CXX_VER=9,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/badge/icon?subject=NVCC%2011.5.1%20%2B%20GCC%207%20build%20and%20device%20tests'></a>
+<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-gpu-build/CXX_TYPE=gcc,CXX_VER=9,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-gpu-build/CXX_TYPE=gcc,CXX_VER=9,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/badge/icon?subject=NVCC%2011.5.1%20%2B%20GCC%209%20build%20and%20device%20tests'></a>
 
-<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=11,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=11,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/badge/icon?subject=NVCC%2011.5.1%20%2B%20GCC%2010%20build%20and%20host%20tests'></a>
+<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=11,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=11,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/badge/icon?subject=NVCC%2011.5.1%20%2B%20GCC%2011%20build%20and%20host%20tests'></a>
 
 <a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=10,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=10,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/badge/icon?subject=NVCC%2011.5.1%20%2B%20GCC%2010%20build%20and%20host%20tests'></a>
 
@@ -221,7 +222,7 @@ Thrust is distributed under the [Apache License v2.0 with LLVM Exceptions];
 
 <a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=5,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=5,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/badge/icon?subject=NVCC%2011.5.1%20%2B%20GCC%205%20build%20and%20host%20tests'></a>
 
-<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=clang,CXX_VER=12,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=clang,CXX_VER=12,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/badge/icon?subject=NVCC%2011.5.1%20%2B%20Clang%2011%20build%20and%20host%20tests'></a>
+<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=clang,CXX_VER=12,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=clang,CXX_VER=12,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/badge/icon?subject=NVCC%2011.5.1%20%2B%20Clang%2012%20build%20and%20host%20tests'></a>
 
 <a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=clang,CXX_VER=11,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=clang,CXX_VER=11,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/badge/icon?subject=NVCC%2011.5.1%20%2B%20Clang%2011%20build%20and%20host%20tests'></a>
 
@@ -235,7 +236,7 @@ Thrust is distributed under the [Apache License v2.0 with LLVM Exceptions];
 
 <a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=icc,CXX_VER=latest,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=icc,CXX_VER=latest,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.5.1-devel/badge/icon?subject=NVCC%2011.5.1%20%2B%20ICC%20build%20and%20host%20tests'></a>
 
-<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=nvcxx,CXX_VER=21.11,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=nvhpc,SDK_VER=21.11-devel-cuda11.5/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=nvcxx,CXX_VER=21.11,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=nvhpc,SDK_VER=21.11-devel-cuda11.5/badge/icon?subject=NVC%2B%2B%2021.11%20build%20and%20host%20tests'></a>
+<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=nvcxx,CXX_VER=22.1,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=nvhpc,SDK_VER=22.1-devel-cuda11.5/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=nvcxx,CXX_VER=22.1,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=nvhpc,SDK_VER=22.1-devel-cuda11.5/badge/icon?subject=NVC%2B%2B%2022.1%20build%20and%20host%20tests'></a>
 
 
 

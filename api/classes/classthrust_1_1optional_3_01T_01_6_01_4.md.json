@@ -15,12 +15,12 @@
   "kind": "class",
   "language": "cpp",
   "location": {
-    "bodyEnd": 2869,
+    "bodyEnd": 2857,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 2126,
+    "bodyStart": 2114,
     "column": 12,
     "file": "thrust/optional.h",
-    "line": 2126
+    "line": 2114
   },
   "name": "thrust::optional< T & >",
   "override": false,
@@ -67,10 +67,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2868,
+        "bodyStart": 2856,
         "column": 5,
         "file": "thrust/optional.h",
-        "line": 2868
+        "line": 2856
       },
       "name": "m_value",
       "override": false,
@@ -104,12 +104,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2154,
+        "bodyEnd": 2142,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2147,
+        "bodyStart": 2135,
         "column": 20,
         "file": "thrust/optional.h",
-        "line": 2147
+        "line": 2135
       },
       "name": "and_then",
       "override": false,
@@ -160,12 +160,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2168,
+        "bodyEnd": 2156,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2161,
+        "bodyStart": 2149,
         "column": 20,
         "file": "thrust/optional.h",
-        "line": 2161
+        "line": 2149
       },
       "name": "and_then",
       "override": false,
@@ -213,12 +213,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2182,
+        "bodyEnd": 2170,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2175,
+        "bodyStart": 2163,
         "column": 18,
         "file": "thrust/optional.h",
-        "line": 2175
+        "line": 2163
       },
       "name": "and_then",
       "override": false,
@@ -266,12 +266,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2197,
+        "bodyEnd": 2185,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2190,
+        "bodyStart": 2178,
         "column": 18,
         "file": "thrust/optional.h",
-        "line": 2190
+        "line": 2178
       },
       "name": "and_then",
       "override": false,
@@ -320,12 +320,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2283,
+        "bodyEnd": 2271,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2281,
+        "bodyStart": 2269,
         "column": 20,
         "file": "thrust/optional.h",
-        "line": 2281
+        "line": 2269
       },
       "name": "map",
       "override": false,
@@ -376,12 +376,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2292,
+        "bodyEnd": 2280,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2290,
+        "bodyStart": 2278,
         "column": 20,
         "file": "thrust/optional.h",
-        "line": 2290
+        "line": 2278
       },
       "name": "map",
       "override": false,
@@ -429,12 +429,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2301,
+        "bodyEnd": 2289,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2299,
+        "bodyStart": 2287,
         "column": 18,
         "file": "thrust/optional.h",
-        "line": 2299
+        "line": 2287
       },
       "name": "map",
       "override": false,
@@ -482,12 +482,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2310,
+        "bodyEnd": 2298,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2308,
+        "bodyStart": 2296,
         "column": 18,
         "file": "thrust/optional.h",
-        "line": 2308
+        "line": 2296
       },
       "name": "map",
       "override": false,
@@ -536,12 +536,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2384,
+        "bodyEnd": 2372,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2378,
+        "bodyStart": 2366,
         "column": 15,
         "file": "thrust/optional.h",
-        "line": 2378
+        "line": 2366
       },
       "name": "or_else",
       "override": false,
@@ -597,12 +597,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2384,
+        "bodyEnd": 2372,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2378,
+        "bodyStart": 2366,
         "column": 15,
         "file": "thrust/optional.h",
-        "line": 2378
+        "line": 2366
       },
       "name": "or_else",
       "override": false,
@@ -657,12 +657,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2406,
+        "bodyEnd": 2394,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2400,
+        "bodyStart": 2388,
         "column": 12,
         "file": "thrust/optional.h",
-        "line": 2400
+        "line": 2388
       },
       "name": "or_else",
       "override": false,
@@ -717,12 +717,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2414,
+        "bodyEnd": 2402,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2412,
+        "bodyStart": 2400,
         "column": 24,
         "file": "thrust/optional.h",
-        "line": 2412
+        "line": 2400
       },
       "name": "or_else",
       "override": false,
@@ -777,12 +777,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2427,
+        "bodyEnd": 2415,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2421,
+        "bodyStart": 2409,
         "column": 12,
         "file": "thrust/optional.h",
-        "line": 2421
+        "line": 2409
       },
       "name": "or_else",
       "override": false,
@@ -837,12 +837,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2435,
+        "bodyEnd": 2423,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2433,
+        "bodyStart": 2421,
         "column": 24,
         "file": "thrust/optional.h",
-        "line": 2433
+        "line": 2421
       },
       "name": "or_else",
       "override": false,
@@ -897,12 +897,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2448,
+        "bodyEnd": 2436,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2442,
+        "bodyStart": 2430,
         "column": 12,
         "file": "thrust/optional.h",
-        "line": 2442
+        "line": 2430
       },
       "name": "or_else",
       "override": false,
@@ -957,12 +957,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2448,
+        "bodyEnd": 2436,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2442,
+        "bodyStart": 2430,
         "column": 12,
         "file": "thrust/optional.h",
-        "line": 2442
+        "line": 2430
       },
       "name": "or_else",
       "override": false,
@@ -1018,12 +1018,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2472,
+        "bodyEnd": 2460,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2469,
+        "bodyStart": 2457,
         "column": 5,
         "file": "thrust/optional.h",
-        "line": 2469
+        "line": 2457
       },
       "name": "map_or",
       "override": false,
@@ -1081,12 +1081,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2481,
+        "bodyEnd": 2469,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2478,
+        "bodyStart": 2466,
         "column": 5,
         "file": "thrust/optional.h",
-        "line": 2478
+        "line": 2466
       },
       "name": "map_or",
       "override": false,
@@ -1144,12 +1144,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2490,
+        "bodyEnd": 2478,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2487,
+        "bodyStart": 2475,
         "column": 5,
         "file": "thrust/optional.h",
-        "line": 2487
+        "line": 2475
       },
       "name": "map_or",
       "override": false,
@@ -1207,12 +1207,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2500,
+        "bodyEnd": 2488,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2497,
+        "bodyStart": 2485,
         "column": 5,
         "file": "thrust/optional.h",
-        "line": 2497
+        "line": 2485
       },
       "name": "map_or",
       "override": false,
@@ -1271,12 +1271,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2518,
+        "bodyEnd": 2506,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2515,
+        "bodyStart": 2503,
         "column": 27,
         "file": "thrust/optional.h",
-        "line": 2515
+        "line": 2503
       },
       "name": "map_or_else",
       "override": false,
@@ -1334,12 +1334,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2529,
+        "bodyEnd": 2517,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2526,
+        "bodyStart": 2514,
         "column": 27,
         "file": "thrust/optional.h",
-        "line": 2526
+        "line": 2514
       },
       "name": "map_or_else",
       "override": false,
@@ -1397,12 +1397,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2540,
+        "bodyEnd": 2528,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2537,
+        "bodyStart": 2525,
         "column": 27,
         "file": "thrust/optional.h",
-        "line": 2537
+        "line": 2525
       },
       "name": "map_or_else",
       "override": false,
@@ -1460,12 +1460,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2552,
+        "bodyEnd": 2540,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2549,
+        "bodyStart": 2537,
         "column": 27,
         "file": "thrust/optional.h",
-        "line": 2549
+        "line": 2537
       },
       "name": "map_or_else",
       "override": false,
@@ -1522,12 +1522,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2562,
+        "bodyEnd": 2550,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2559,
+        "bodyStart": 2547,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 2559
+        "line": 2547
       },
       "name": "conjunction",
       "override": false,
@@ -1576,12 +1576,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2570,
+        "bodyEnd": 2558,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2568,
+        "bodyStart": 2556,
         "column": 24,
         "file": "thrust/optional.h",
-        "line": 2568
+        "line": 2556
       },
       "name": "disjunction",
       "override": false,
@@ -1624,12 +1624,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2577,
+        "bodyEnd": 2565,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2575,
+        "bodyStart": 2563,
         "column": 22,
         "file": "thrust/optional.h",
-        "line": 2575
+        "line": 2563
       },
       "name": "disjunction",
       "override": false,
@@ -1670,12 +1670,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2584,
+        "bodyEnd": 2572,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2582,
+        "bodyStart": 2570,
         "column": 24,
         "file": "thrust/optional.h",
-        "line": 2582
+        "line": 2570
       },
       "name": "disjunction",
       "override": false,
@@ -1716,12 +1716,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2592,
+        "bodyEnd": 2580,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2590,
+        "bodyStart": 2578,
         "column": 22,
         "file": "thrust/optional.h",
-        "line": 2590
+        "line": 2578
       },
       "name": "disjunction",
       "override": false,
@@ -1762,12 +1762,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2600,
+        "bodyEnd": 2588,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2598,
+        "bodyStart": 2586,
         "column": 24,
         "file": "thrust/optional.h",
-        "line": 2598
+        "line": 2586
       },
       "name": "disjunction",
       "override": false,
@@ -1808,12 +1808,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2607,
+        "bodyEnd": 2595,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2605,
+        "bodyStart": 2593,
         "column": 22,
         "file": "thrust/optional.h",
-        "line": 2605
+        "line": 2593
       },
       "name": "disjunction",
       "override": false,
@@ -1854,12 +1854,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2614,
+        "bodyEnd": 2602,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2612,
+        "bodyStart": 2600,
         "column": 24,
         "file": "thrust/optional.h",
-        "line": 2612
+        "line": 2600
       },
       "name": "disjunction",
       "override": false,
@@ -1900,12 +1900,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2622,
+        "bodyEnd": 2610,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2620,
+        "bodyStart": 2608,
         "column": 22,
         "file": "thrust/optional.h",
-        "line": 2620
+        "line": 2608
       },
       "name": "disjunction",
       "override": false,
@@ -1946,12 +1946,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2633,
+        "bodyEnd": 2621,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2629,
+        "bodyStart": 2617,
         "column": 12,
         "file": "thrust/optional.h",
-        "line": 2629
+        "line": 2617
       },
       "name": "take",
       "override": false,
@@ -1986,12 +1986,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2642,
+        "bodyEnd": 2630,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2638,
+        "bodyStart": 2626,
         "column": 12,
         "file": "thrust/optional.h",
-        "line": 2638
+        "line": 2626
       },
       "name": "take",
       "override": false,
@@ -2026,12 +2026,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2651,
+        "bodyEnd": 2639,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2647,
+        "bodyStart": 2635,
         "column": 12,
         "file": "thrust/optional.h",
-        "line": 2647
+        "line": 2635
       },
       "name": "take",
       "override": false,
@@ -2066,12 +2066,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2661,
+        "bodyEnd": 2649,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2657,
+        "bodyStart": 2645,
         "column": 12,
         "file": "thrust/optional.h",
-        "line": 2657
+        "line": 2645
       },
       "name": "take",
       "override": false,
@@ -2107,12 +2107,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2670,
+        "bodyEnd": 2658,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2670,
+        "bodyStart": 2658,
         "column": 13,
         "file": "thrust/optional.h",
-        "line": 2670
+        "line": 2658
       },
       "name": "optional",
       "override": false,
@@ -2147,12 +2147,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2675,
+        "bodyEnd": 2663,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2675,
+        "bodyStart": 2663,
         "column": 13,
         "file": "thrust/optional.h",
-        "line": 2675
+        "line": 2663
       },
       "name": "optional",
       "override": false,
@@ -2196,7 +2196,7 @@
       "location": {
         "column": 15,
         "file": "thrust/optional.h",
-        "line": 2682
+        "line": 2670
       },
       "name": "optional",
       "override": false,
@@ -2240,7 +2240,7 @@
       "location": {
         "column": 15,
         "file": "thrust/optional.h",
-        "line": 2689
+        "line": 2677
       },
       "name": "optional",
       "override": false,
@@ -2282,12 +2282,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2700,
+        "bodyEnd": 2688,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2698,
+        "bodyStart": 2686,
         "column": 13,
         "file": "thrust/optional.h",
-        "line": 2698
+        "line": 2686
       },
       "name": "optional",
       "override": false,
@@ -2344,12 +2344,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2706,
+        "bodyEnd": 2694,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2706,
+        "bodyStart": 2694,
         "column": 22,
         "file": "thrust/optional.h",
-        "line": 2706
+        "line": 2694
       },
       "name": "optional",
       "override": false,
@@ -2399,7 +2399,7 @@
       "location": {
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 2710
+        "line": 2698
       },
       "name": "~optional",
       "override": false,
@@ -2435,12 +2435,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2720,
+        "bodyEnd": 2708,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2717,
+        "bodyStart": 2705,
         "column": 12,
         "file": "thrust/optional.h",
-        "line": 2717
+        "line": 2705
       },
       "name": "operator=",
       "override": false,
@@ -2484,7 +2484,7 @@
       "location": {
         "column": 12,
         "file": "thrust/optional.h",
-        "line": 2727
+        "line": 2715
       },
       "name": "operator=",
       "override": false,
@@ -2526,12 +2526,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2742,
+        "bodyEnd": 2730,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2738,
+        "bodyStart": 2726,
         "column": 12,
         "file": "thrust/optional.h",
-        "line": 2738
+        "line": 2726
       },
       "name": "operator=",
       "override": false,
@@ -2589,12 +2589,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2754,
+        "bodyEnd": 2742,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2751,
+        "bodyStart": 2739,
         "column": 12,
         "file": "thrust/optional.h",
-        "line": 2751
+        "line": 2739
       },
       "name": "operator=",
       "override": false,
@@ -2643,12 +2643,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2769,
+        "bodyEnd": 2757,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2763,
+        "bodyStart": 2751,
         "column": 5,
         "file": "thrust/optional.h",
-        "line": 2763
+        "line": 2751
       },
       "name": "emplace",
       "override": false,
@@ -2697,12 +2697,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2779,
+        "bodyEnd": 2767,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2779,
+        "bodyStart": 2767,
         "column": 8,
         "file": "thrust/optional.h",
-        "line": 2779
+        "line": 2767
       },
       "name": "swap",
       "override": false,
@@ -2742,12 +2742,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2787,
+        "bodyEnd": 2775,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2787,
+        "bodyStart": 2775,
         "column": 21,
         "file": "thrust/optional.h",
-        "line": 2787
+        "line": 2775
       },
       "name": "operator->",
       "override": false,
@@ -2784,12 +2784,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2793,
+        "bodyEnd": 2781,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2793,
+        "bodyStart": 2781,
         "column": 17,
         "file": "thrust/optional.h",
-        "line": 2793
+        "line": 2781
       },
       "name": "operator->",
       "override": false,
@@ -2823,12 +2823,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2800,
+        "bodyEnd": 2788,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2800,
+        "bodyStart": 2788,
         "column": 17,
         "file": "thrust/optional.h",
-        "line": 2800
+        "line": 2788
       },
       "name": "operator*",
       "override": false,
@@ -2865,12 +2865,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2806,
+        "bodyEnd": 2794,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2806,
+        "bodyStart": 2794,
         "column": 21,
         "file": "thrust/optional.h",
-        "line": 2806
+        "line": 2794
       },
       "name": "operator*",
       "override": false,
@@ -2904,12 +2904,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2812,
+        "bodyEnd": 2800,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2812,
+        "bodyStart": 2800,
         "column": 18,
         "file": "thrust/optional.h",
-        "line": 2812
+        "line": 2800
       },
       "name": "has_value",
       "override": false,
@@ -2946,12 +2946,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2819,
+        "bodyEnd": 2807,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2817,
+        "bodyStart": 2805,
         "column": 22,
         "file": "thrust/optional.h",
-        "line": 2817
+        "line": 2805
       },
       "name": "operator bool",
       "override": false,
@@ -2985,12 +2985,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2830,
+        "bodyEnd": 2818,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2826,
+        "bodyStart": 2814,
         "column": 17,
         "file": "thrust/optional.h",
-        "line": 2826
+        "line": 2814
       },
       "name": "value",
       "override": false,
@@ -3027,12 +3027,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2838,
+        "bodyEnd": 2826,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2834,
+        "bodyStart": 2822,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 2834
+        "line": 2822
       },
       "name": "value",
       "override": false,
@@ -3066,12 +3066,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2850,
+        "bodyEnd": 2838,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2845,
+        "bodyStart": 2833,
         "column": 15,
         "file": "thrust/optional.h",
-        "line": 2845
+        "line": 2833
       },
       "name": "value_or",
       "override": false,
@@ -3121,12 +3121,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2861,
+        "bodyEnd": 2849,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2856,
+        "bodyStart": 2844,
         "column": 17,
         "file": "thrust/optional.h",
-        "line": 2856
+        "line": 2844
       },
       "name": "value_or",
       "override": false,
@@ -3174,12 +3174,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2865,
+        "bodyEnd": 2853,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2865,
+        "bodyStart": 2853,
         "column": 8,
         "file": "thrust/optional.h",
-        "line": 2865
+        "line": 2853
       },
       "name": "reset",
       "override": false,
@@ -3213,10 +3213,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2664,
+        "bodyStart": 2652,
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 2664
+        "line": 2652
       },
       "name": "value_type",
       "override": false,

@@ -4110,6 +4110,30 @@ has_toc: false
 <span>&nbsp;&nbsp;OutputIterator2 values_result,</span>
 <span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span>
 <br>
+<span>template &lt;typename DerivedPolicy,</span>
+<span>&nbsp;&nbsp;typename ForwardIterator,</span>
+<span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
+<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html">thrust::iterator_traits</a>< ForwardIterator >::difference_type </span><span><b><a href="{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-count">unique&#95;count</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>&nbsp;&nbsp;ForwardIterator first,</span>
+<span>&nbsp;&nbsp;ForwardIterator last,</span>
+<span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span>
+<br>
+<span>template &lt;typename DerivedPolicy,</span>
+<span>&nbsp;&nbsp;typename ForwardIterator&gt;</span>
+<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html">thrust::iterator_traits</a>< ForwardIterator >::difference_type </span><span><b><a href="{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-count">unique&#95;count</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>&nbsp;&nbsp;ForwardIterator first,</span>
+<span>&nbsp;&nbsp;ForwardIterator last);</span>
+<br>
+<span>template &lt;typename ForwardIterator,</span>
+<span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
+<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html">thrust::iterator_traits</a>< ForwardIterator >::difference_type </span><span><b><a href="{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-count">unique&#95;count</a></b>(ForwardIterator first,</span>
+<span>&nbsp;&nbsp;ForwardIterator last,</span>
+<span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span>
+<br>
+<span>template &lt;typename ForwardIterator&gt;</span>
+<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html">thrust::iterator_traits</a>< ForwardIterator >::difference_type </span><span><b><a href="{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-count">unique&#95;count</a></b>(ForwardIterator first,</span>
+<span>&nbsp;&nbsp;ForwardIterator last);</span>
+<br>
 <span>template &lt;typename Function&gt;</span>
 <span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/classthrust_1_1zip__function.html">zip_function</a>< typename std::decay< Function >::type > </span><span><b><a href="{{ site.baseurl }}/api/groups/group__function__object__adaptors.html#function-make-zip-function">make&#95;zip&#95;function</a></b>(Function && fun);</span>
 <span>} /* namespace thrust */</span>
@@ -18481,6 +18505,8 @@ Function <code>thrust::inclusive&#95;scan</code>
 
 <code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
 
@@ -18536,6 +18562,8 @@ Function <code>thrust::inclusive&#95;scan</code>
 
 <code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 
 The following code snippet demonstrates how to use <code>inclusive&#95;scan</code>
 
@@ -18586,6 +18614,8 @@ Function <code>thrust::inclusive&#95;scan</code>
 <code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. When the input and output sequences are the same, the scan is performed in-place.
 
 <code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -18642,6 +18672,8 @@ Function <code>thrust::inclusive&#95;scan</code>
 
 <code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 
 The following code snippet demonstrates how to use <code>inclusive&#95;scan</code>
 
@@ -18690,6 +18722,8 @@ Function <code>thrust::exclusive&#95;scan</code>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result);</span></code>
 <code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>0</code> is assigned to <code>&#42;result</code> and the sum of <code>0</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator and <code>0</code> as the initial value. When the input and output sequences are the same, the scan is performed in-place.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -18742,6 +18776,8 @@ Function <code>thrust::exclusive&#95;scan</code>
 <span>&nbsp;&nbsp;OutputIterator result);</span></code>
 <code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>0</code> is assigned to <code>&#42;result</code> and the sum of <code>0</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator and <code>0</code> as the initial value. When the input and output sequences are the same, the scan is performed in-place.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 
 The following code snippet demonstrates how to use <code>exclusive&#95;scan</code>
 
@@ -18790,6 +18826,8 @@ Function <code>thrust::exclusive&#95;scan</code>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
 <span>&nbsp;&nbsp;T init);</span></code>
 <code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the sum of <code>init</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator but requires an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -18845,6 +18883,8 @@ Function <code>thrust::exclusive&#95;scan</code>
 <span>&nbsp;&nbsp;T init);</span></code>
 <code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the sum of <code>init</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator but requires an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 
 The following code snippet demonstrates how to use <code>exclusive&#95;scan</code>
 
@@ -18897,6 +18937,8 @@ Function <code>thrust::exclusive&#95;scan</code>
 <span>&nbsp;&nbsp;T init,</span>
 <span>&nbsp;&nbsp;AssociativeOperator binary_op);</span></code>
 <code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the value <code>binary&#95;op(init, &#42;first)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of the function requires both an associative operator and an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -18960,6 +19002,8 @@ Function <code>thrust::exclusive&#95;scan</code>
 <span>&nbsp;&nbsp;AssociativeOperator binary_op);</span></code>
 <code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the value <code>binary&#95;op(init, &#42;first)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of the function requires both an associative operator and an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 
 The following code snippet demonstrates how to use <code>exclusive&#95;scan</code>
 
@@ -19019,6 +19063,8 @@ Function <code>thrust::inclusive&#95;scan&#95;by&#95;key</code>
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href="{{ site.baseurl }}/api/classes/structthrust_1_1equal__to.html">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.
 
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -19082,6 +19128,8 @@ This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code><a 
 
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 
 The following code snippet demonstrates how to use <code>inclusive&#95;scan&#95;by&#95;key</code>
 
@@ -19141,6 +19189,8 @@ Function <code>thrust::inclusive&#95;scan&#95;by&#95;key</code>
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.
 
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -19211,6 +19261,8 @@ This version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the binary p
 
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 
 The following code snippet demonstrates how to use <code>inclusive&#95;scan&#95;by&#95;key</code>
 
@@ -19277,6 +19329,8 @@ Function <code>thrust::inclusive&#95;scan&#95;by&#95;key</code>
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.
 
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the associative operator <code>binary&#95;op</code> to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -19350,6 +19404,8 @@ Function <code>thrust::inclusive&#95;scan&#95;by&#95;key</code>
 
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the associative operator <code>binary&#95;op</code> to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
 
 
@@ -19420,6 +19476,8 @@ This version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code>plu
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href="{{ site.baseurl }}/api/classes/structthrust_1_1equal__to.html">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 Refer to the most general form of <code>exclusive&#95;scan&#95;by&#95;key</code> for additional details.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
@@ -19476,6 +19534,8 @@ This version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code>plu
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href="{{ site.baseurl }}/api/classes/structthrust_1_1equal__to.html">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 Refer to the most general form of <code>exclusive&#95;scan&#95;by&#95;key</code> for additional details.
 
 
@@ -19526,6 +19586,8 @@ Function <code>thrust::exclusive&#95;scan&#95;by&#95;key</code>
 <code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive key-value or 'segmented' prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate exclusive scan operation is computed. Refer to the code sample below for example usage.
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -19587,6 +19649,8 @@ Function <code>thrust::exclusive&#95;scan&#95;by&#95;key</code>
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 
 The following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code>
 
@@ -19647,6 +19711,8 @@ Function <code>thrust::exclusive&#95;scan&#95;by&#95;key</code>
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>binary&#95;pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -19715,6 +19781,8 @@ This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <c
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>binary&#95;pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 
 The following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code>
 
@@ -19782,6 +19850,8 @@ This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <c
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>binary&#95;pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the associative operator <code>binary&#95;op</code> to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -19864,6 +19934,8 @@ This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <c
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>binary&#95;pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the associative operator <code>binary&#95;op</code> to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 
 The following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code>
@@ -27434,6 +27506,202 @@ A pair of iterators at end of the ranges <code>[keys&#95;result, keys&#95;result
 * unique_copy 
 * unique_by_key 
 * reduce_by_key 
+
+<h3 id="function-unique-count">
+Function <code>thrust::unique&#95;count</code>
+</h3>
+
+<code class="doxybook">
+<span>template &lt;typename DerivedPolicy,</span>
+<span>&nbsp;&nbsp;typename ForwardIterator,</span>
+<span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
+<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html">thrust::iterator_traits</a>< ForwardIterator >::difference_type </span><span><b>unique_count</b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>&nbsp;&nbsp;ForwardIterator first,</span>
+<span>&nbsp;&nbsp;ForwardIterator last,</span>
+<span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span></code>
+<code>unique&#95;count</code> counts runs of equal elements in the range <code>[first, last)</code> with the same value,
+
+This version of <code>unique&#95;count</code> uses the function object <code>binary&#95;pred</code> to test for equality.
+
+The algorithm's execution is parallelized as determined by <code>exec</code>.
+
+
+The following code snippet demonstrates how to use <code>unique&#95;count</code> to determine a number of runs of equal elements using the <code>thrust::host</code> execution policy for parallelization:
+
+
+
+```cpp
+#include <thrust/unique.h>
+#include <thrust/execution_policy.h>
+...
+const int N = 7;
+int A[N] = {1, 3, 3, 3, 2, 2, 1};
+int count = thrust::unique_count(thrust::host, A, A + N, thrust::equal_to<int>());
+// count is now 4
+```
+
+**Template Parameters**:
+* **`DerivedPolicy`** The name of the derived execution policy. 
+* **`ForwardIterator`** is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. 
+* **`BinaryPredicate`** is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
+
+**Function Parameters**:
+* **`exec`** The execution policy to use for parallelization. 
+* **`first`** The beginning of the input range. 
+* **`last`** The end of the input range. 
+* **`binary_pred`** The binary predicate used to determine equality. 
+
+**Returns**:
+The number of runs of equal elements in <code>[first, new&#95;last)</code>
+
+**See**:
+* unique_copy 
+* unique_by_key_copy 
+* reduce_by_key_copy 
+
+<h3 id="function-unique-count">
+Function <code>thrust::unique&#95;count</code>
+</h3>
+
+<code class="doxybook">
+<span>template &lt;typename DerivedPolicy,</span>
+<span>&nbsp;&nbsp;typename ForwardIterator&gt;</span>
+<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html">thrust::iterator_traits</a>< ForwardIterator >::difference_type </span><span><b>unique_count</b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>&nbsp;&nbsp;ForwardIterator first,</span>
+<span>&nbsp;&nbsp;ForwardIterator last);</span></code>
+<code>unique&#95;count</code> counts runs of equal elements in the range <code>[first, last)</code> with the same value,
+
+This version of <code>unique&#95;count</code> uses <code>operator==</code> to test for equality.
+
+The algorithm's execution is parallelized as determined by <code>exec</code>.
+
+
+The following code snippet demonstrates how to use <code>unique&#95;count</code> to determine the number of runs of equal elements using the <code>thrust::host</code> execution policy for parallelization:
+
+
+
+```cpp
+#include <thrust/unique.h>
+#include <thrust/execution_policy.h>
+...
+const int N = 7;
+int A[N] = {1, 3, 3, 3, 2, 2, 1};
+int count = thrust::unique_count(thrust::host, A, A + N);
+// count is now 4
+```
+
+**Template Parameters**:
+* **`DerivedPolicy`** The name of the derived execution policy. 
+* **`ForwardIterator`** is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. 
+* **`BinaryPredicate`** is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
+
+**Function Parameters**:
+* **`exec`** The execution policy to use for parallelization. 
+* **`first`** The beginning of the input range. 
+* **`last`** The end of the input range. 
+* **`binary_pred`** The binary predicate used to determine equality. 
+
+**Returns**:
+The number of runs of equal elements in <code>[first, new&#95;last)</code>
+
+**See**:
+* unique_copy 
+* unique_by_key_copy 
+* reduce_by_key_copy 
+
+<h3 id="function-unique-count">
+Function <code>thrust::unique&#95;count</code>
+</h3>
+
+<code class="doxybook">
+<span>template &lt;typename ForwardIterator,</span>
+<span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
+<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html">thrust::iterator_traits</a>< ForwardIterator >::difference_type </span><span><b>unique_count</b>(ForwardIterator first,</span>
+<span>&nbsp;&nbsp;ForwardIterator last,</span>
+<span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span></code>
+<code>unique&#95;count</code> counts runs of equal elements in the range <code>[first, last)</code> with the same value,
+
+This version of <code>unique&#95;count</code> uses the function object <code>binary&#95;pred</code> to test for equality.
+
+
+The following code snippet demonstrates how to use <code>unique&#95;count</code> to determine the number of runs of equal elements:
+
+
+
+```cpp
+#include <thrust/unique.h>
+#include <thrust/execution_policy.h>
+...
+const int N = 7;
+int A[N] = {1, 3, 3, 3, 2, 2, 1};
+int count = thrust::unique_count(A, A + N, thrust::equal_to<int>());
+// count is now 4
+```
+
+**Template Parameters**:
+* **`DerivedPolicy`** The name of the derived execution policy. 
+* **`ForwardIterator`** is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. 
+* **`BinaryPredicate`** is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
+
+**Function Parameters**:
+* **`exec`** The execution policy to use for parallelization. 
+* **`first`** The beginning of the input range. 
+* **`last`** The end of the input range. 
+* **`binary_pred`** The binary predicate used to determine equality. 
+
+**Returns**:
+The number of runs of equal elements in <code>[first, new&#95;last)</code>
+
+**See**:
+* unique_copy 
+* unique_by_key_copy 
+* reduce_by_key_copy 
+
+<h3 id="function-unique-count">
+Function <code>thrust::unique&#95;count</code>
+</h3>
+
+<code class="doxybook">
+<span>template &lt;typename ForwardIterator&gt;</span>
+<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html">thrust::iterator_traits</a>< ForwardIterator >::difference_type </span><span><b>unique_count</b>(ForwardIterator first,</span>
+<span>&nbsp;&nbsp;ForwardIterator last);</span></code>
+<code>unique&#95;count</code> counts runs of equal elements in the range <code>[first, last)</code> with the same value,
+
+This version of <code>unique&#95;count</code> uses <code>operator==</code> to test for equality.
+
+
+The following code snippet demonstrates how to use <code>unique&#95;count</code> to determine the number of runs of equal elements:
+
+
+
+```cpp
+#include <thrust/unique.h>
+#include <thrust/execution_policy.h>
+...
+const int N = 7;
+int A[N] = {1, 3, 3, 3, 2, 2, 1};
+int count = thrust::unique_count(thrust::host, A, A + N);
+// count is now 4
+```
+
+**Template Parameters**:
+* **`DerivedPolicy`** The name of the derived execution policy. 
+* **`ForwardIterator`** is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. 
+* **`BinaryPredicate`** is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
+
+**Function Parameters**:
+* **`exec`** The execution policy to use for parallelization. 
+* **`first`** The beginning of the input range. 
+* **`last`** The end of the input range. 
+* **`binary_pred`** The binary predicate used to determine equality. 
+
+**Returns**:
+The number of runs of equal elements in <code>[first, new&#95;last)</code>
+
+**See**:
+* unique_copy 
+* unique_by_key_copy 
+* reduce_by_key_copy 
 
 <h3 id="function-make-zip-function">
 Function <code>thrust::make&#95;zip&#95;function</code>

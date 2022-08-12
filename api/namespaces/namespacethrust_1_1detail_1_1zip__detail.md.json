@@ -71,7 +71,7 @@
       "category": "functions",
       "const": false,
       "default": false,
-      "definition": "__host__ __device__ decltype(auto) thrust::detail::zip_detail::apply_impl",
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ decltype(auto) thrust::detail::zip_detail::apply_impl",
       "deleted": false,
       "explicit": false,
       "fullname": "thrust::detail::zip_detail::apply_impl",
@@ -80,12 +80,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 42,
+        "bodyEnd": 43,
         "bodyFile": "thrust/zip_function.h",
-        "bodyStart": 39,
+        "bodyStart": 40,
         "column": 10,
         "file": "thrust/zip_function.h",
-        "line": 39
+        "line": 40
       },
       "name": "apply_impl",
       "override": false,
@@ -108,7 +108,7 @@
       ],
       "pureVirtual": false,
       "qualifiedname": "thrust::detail::zip_detail::apply_impl",
-      "refid": "zip__function_8h_1a310f02aa9927a5acf8929773b8968889",
+      "refid": "zip__function_8h_1a1434434e5cdfb6d13dccf11285e97bab",
       "static": false,
       "strong": false,
       "templateParams": [
@@ -129,8 +129,8 @@
         }
       ],
       "title": "apply_impl",
-      "type": "__host__ __device__ decltype(auto)",
-      "typePlain": "__host__ __device__ decltype(auto)",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ decltype(auto)",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ decltype(auto)",
       "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail_1_1zip__detail.html#function-apply-impl",
       "virtual": false,
       "visibility": "public"
@@ -151,12 +151,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 50,
+        "bodyEnd": 51,
         "bodyFile": "thrust/zip_function.h",
-        "bodyStart": 46,
+        "bodyStart": 47,
         "column": 10,
         "file": "thrust/zip_function.h",
-        "line": 46
+        "line": 47
       },
       "name": "apply",
       "override": false,

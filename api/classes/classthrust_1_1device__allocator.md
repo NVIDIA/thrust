@@ -68,19 +68,19 @@ An allocator which creates new elements in memory accessible by devices.
 /* Inherited from <code><b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html">thrust::mr::allocator&lt; T, Upstream &gt;</a></b></code> */</span><span>&nbsp;&nbsp;template &lt;typename U&gt;</span>
 <span>&nbsp;&nbsp;struct <b><a href="{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1allocator_1_1rebind.html">rebind</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html#function-device-allocator">device&#95;allocator</a></b>();</span>
+<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html#function-device-allocator">device&#95;allocator</a></b>();</span>
 <br>
 <span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html#function-device-allocator">device&#95;allocator</a></b>(const <a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html">device_allocator</a> & other);</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;typename U&gt;</span>
-<span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html#function-device-allocator">device&#95;allocator</a></b>(const <a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html">device_allocator</a>< U > & other);</span>
+<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html#function-device-allocator">device&#95;allocator</a></b>(const <a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html">device_allocator</a>< U > & other);</span>
 <br>
 <span>&nbsp;&nbsp;<a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html">device_allocator</a> & </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html#function-operator=">operator=</a></b>(const <a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html">device_allocator</a> &) = default;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html#function-~device-allocator">~device&#95;allocator</a></b>();</span>
+<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html#function-~device-allocator">~device&#95;allocator</a></b>();</span>
 <br>
 <span class="doxybook-comment"><code>&nbsp;&nbsp;</code>
-/* Inherited from <code><b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html">thrust::mr::stateless&#95;resource&#95;allocator&lt; T, device&#95;ptr&#95;memory&#95;resource&lt; device&#95;memory&#95;resource &gt; &gt;</a></b></code> */</span><span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html#function-stateless-resource-allocator">stateless&#95;resource&#95;allocator</a></b>();</span>
+/* Inherited from <code><b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html">thrust::mr::stateless&#95;resource&#95;allocator&lt; T, device&#95;ptr&#95;memory&#95;resource&lt; device&#95;memory&#95;resource &gt; &gt;</a></b></code> */</span><span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html#function-stateless-resource-allocator">stateless&#95;resource&#95;allocator</a></b>();</span>
 <br>
 <span class="doxybook-comment"><code>&nbsp;&nbsp;</code>
 /* Inherited from <code><b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html">thrust::mr::stateless&#95;resource&#95;allocator&lt; T, device&#95;ptr&#95;memory&#95;resource&lt; device&#95;memory&#95;resource &gt; &gt;</a></b></code> */</span><span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html#function-stateless-resource-allocator">stateless&#95;resource&#95;allocator</a></b>(const <a href="{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a> & other);</span>
@@ -129,7 +129,7 @@ Function <code>thrust::device&#95;allocator::device&#95;allocator</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ </span><span><b>device_allocator</b>();</span></code>
+<span>__host__ __device__ </span><span><b>device_allocator</b>();</span></code>
 Default constructor has no effect. 
 
 <h3 id="function-device-allocator">
@@ -146,7 +146,7 @@ Function <code>thrust::device&#95;allocator::device&#95;allocator</code>
 
 <code class="doxybook">
 <span>template &lt;typename U&gt;</span>
-<span>__host__ </span><span><b>device_allocator</b>(const <a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html">device_allocator</a>< U > & other);</span></code>
+<span>__host__ __device__ </span><span><b>device_allocator</b>(const <a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html">device_allocator</a>< U > & other);</span></code>
 Constructor from other <code><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__allocator.html">device&#95;allocator</a></code> has no effect. 
 
 <h3 id="function-operator=">
@@ -160,7 +160,7 @@ Function <code>thrust::device&#95;allocator::~device&#95;allocator</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ </span><span><b>~device_allocator</b>();</span></code>
+<span>__host__ __device__ </span><span><b>~device_allocator</b>();</span></code>
 Destructor has no effect. 
 
 

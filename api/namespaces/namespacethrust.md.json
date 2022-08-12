@@ -355,10 +355,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 177,
+        "bodyStart": 178,
         "column": 29,
         "file": "thrust/optional.h",
-        "line": 177
+        "line": 178
       },
       "name": "in_place",
       "override": false,
@@ -390,10 +390,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 814,
+        "bodyStart": 799,
         "column": 28,
         "file": "thrust/optional.h",
-        "line": 814
+        "line": 799
       },
       "name": "nullopt",
       "override": false,
@@ -424,10 +424,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/type_traits/is_contiguous_iterator.h",
-        "bodyStart": 98,
+        "bodyStart": 101,
         "column": 16,
         "file": "thrust/type_traits/is_contiguous_iterator.h",
-        "line": 98
+        "line": 101
       },
       "name": "is_contiguous_iterator_v",
       "override": false,
@@ -22130,12 +22130,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1782,
+        "bodyEnd": 1767,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1778,
+        "bodyStart": 1763,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1778
+        "line": 1763
       },
       "name": "operator==",
       "override": false,
@@ -22193,12 +22193,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1791,
+        "bodyEnd": 1776,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1787,
+        "bodyStart": 1772,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1787
+        "line": 1772
       },
       "name": "operator!=",
       "override": false,
@@ -22256,12 +22256,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1799,
+        "bodyEnd": 1784,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1796,
+        "bodyStart": 1781,
         "column": 18,
         "file": "thrust/optional.h",
-        "line": 1796
+        "line": 1781
       },
       "name": "operator<",
       "override": false,
@@ -22319,12 +22319,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1807,
+        "bodyEnd": 1792,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1804,
+        "bodyStart": 1789,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1804
+        "line": 1789
       },
       "name": "operator>",
       "override": false,
@@ -22382,12 +22382,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1815,
+        "bodyEnd": 1800,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1812,
+        "bodyStart": 1797,
         "column": 18,
         "file": "thrust/optional.h",
-        "line": 1812
+        "line": 1797
       },
       "name": "operator<=",
       "override": false,
@@ -22445,12 +22445,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1823,
+        "bodyEnd": 1808,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1820,
+        "bodyStart": 1805,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1820
+        "line": 1805
       },
       "name": "operator>=",
       "override": false,
@@ -22509,12 +22509,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1833,
+        "bodyEnd": 1818,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1831,
+        "bodyStart": 1816,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1831
+        "line": 1816
       },
       "name": "operator==",
       "override": false,
@@ -22567,12 +22567,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1840,
+        "bodyEnd": 1825,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1838,
+        "bodyStart": 1823,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1838
+        "line": 1823
       },
       "name": "operator==",
       "override": false,
@@ -22625,12 +22625,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1847,
+        "bodyEnd": 1832,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1845,
+        "bodyStart": 1830,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1845
+        "line": 1830
       },
       "name": "operator!=",
       "override": false,
@@ -22683,12 +22683,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1854,
+        "bodyEnd": 1839,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1852,
+        "bodyStart": 1837,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1852
+        "line": 1837
       },
       "name": "operator!=",
       "override": false,
@@ -22741,12 +22741,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1861,
+        "bodyEnd": 1846,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1859,
+        "bodyStart": 1844,
         "column": 18,
         "file": "thrust/optional.h",
-        "line": 1859
+        "line": 1844
       },
       "name": "operator<",
       "override": false,
@@ -22799,12 +22799,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1868,
+        "bodyEnd": 1853,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1866,
+        "bodyStart": 1851,
         "column": 18,
         "file": "thrust/optional.h",
-        "line": 1866
+        "line": 1851
       },
       "name": "operator<",
       "override": false,
@@ -22857,12 +22857,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1875,
+        "bodyEnd": 1860,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1873,
+        "bodyStart": 1858,
         "column": 18,
         "file": "thrust/optional.h",
-        "line": 1873
+        "line": 1858
       },
       "name": "operator<=",
       "override": false,
@@ -22915,12 +22915,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1882,
+        "bodyEnd": 1867,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1880,
+        "bodyStart": 1865,
         "column": 18,
         "file": "thrust/optional.h",
-        "line": 1880
+        "line": 1865
       },
       "name": "operator<=",
       "override": false,
@@ -22973,12 +22973,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1889,
+        "bodyEnd": 1874,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1887,
+        "bodyStart": 1872,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1887
+        "line": 1872
       },
       "name": "operator>",
       "override": false,
@@ -23031,12 +23031,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1896,
+        "bodyEnd": 1881,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1894,
+        "bodyStart": 1879,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1894
+        "line": 1879
       },
       "name": "operator>",
       "override": false,
@@ -23089,12 +23089,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1903,
+        "bodyEnd": 1888,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1901,
+        "bodyStart": 1886,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1901
+        "line": 1886
       },
       "name": "operator>=",
       "override": false,
@@ -23147,12 +23147,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1910,
+        "bodyEnd": 1895,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1908,
+        "bodyStart": 1893,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1908
+        "line": 1893
       },
       "name": "operator>=",
       "override": false,
@@ -23206,12 +23206,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1922,
+        "bodyEnd": 1907,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1920,
+        "bodyStart": 1905,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1920
+        "line": 1905
       },
       "name": "operator==",
       "override": false,
@@ -23269,12 +23269,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1929,
+        "bodyEnd": 1914,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1927,
+        "bodyStart": 1912,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1927
+        "line": 1912
       },
       "name": "operator==",
       "override": false,
@@ -23332,12 +23332,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1936,
+        "bodyEnd": 1921,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1934,
+        "bodyStart": 1919,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1934
+        "line": 1919
       },
       "name": "operator!=",
       "override": false,
@@ -23395,12 +23395,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1943,
+        "bodyEnd": 1928,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1941,
+        "bodyStart": 1926,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1941
+        "line": 1926
       },
       "name": "operator!=",
       "override": false,
@@ -23458,12 +23458,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1950,
+        "bodyEnd": 1935,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1948,
+        "bodyStart": 1933,
         "column": 18,
         "file": "thrust/optional.h",
-        "line": 1948
+        "line": 1933
       },
       "name": "operator<",
       "override": false,
@@ -23521,12 +23521,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1957,
+        "bodyEnd": 1942,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1955,
+        "bodyStart": 1940,
         "column": 18,
         "file": "thrust/optional.h",
-        "line": 1955
+        "line": 1940
       },
       "name": "operator<",
       "override": false,
@@ -23584,12 +23584,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1964,
+        "bodyEnd": 1949,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1962,
+        "bodyStart": 1947,
         "column": 18,
         "file": "thrust/optional.h",
-        "line": 1962
+        "line": 1947
       },
       "name": "operator<=",
       "override": false,
@@ -23647,12 +23647,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1971,
+        "bodyEnd": 1956,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1969,
+        "bodyStart": 1954,
         "column": 18,
         "file": "thrust/optional.h",
-        "line": 1969
+        "line": 1954
       },
       "name": "operator<=",
       "override": false,
@@ -23710,12 +23710,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1978,
+        "bodyEnd": 1963,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1976,
+        "bodyStart": 1961,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1976
+        "line": 1961
       },
       "name": "operator>",
       "override": false,
@@ -23773,12 +23773,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1985,
+        "bodyEnd": 1970,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1983,
+        "bodyStart": 1968,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1983
+        "line": 1968
       },
       "name": "operator>",
       "override": false,
@@ -23836,12 +23836,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1992,
+        "bodyEnd": 1977,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1990,
+        "bodyStart": 1975,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1990
+        "line": 1975
       },
       "name": "operator>=",
       "override": false,
@@ -23899,12 +23899,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 1999,
+        "bodyEnd": 1984,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 1997,
+        "bodyStart": 1982,
         "column": 23,
         "file": "thrust/optional.h",
-        "line": 1997
+        "line": 1982
       },
       "name": "operator>=",
       "override": false,
@@ -23962,12 +23962,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2010,
+        "bodyEnd": 1995,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2007,
+        "bodyStart": 1992,
         "column": 6,
         "file": "thrust/optional.h",
-        "line": 2007
+        "line": 1992
       },
       "name": "swap",
       "override": false,
@@ -24033,12 +24033,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2024,
+        "bodyEnd": 2009,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2022,
+        "bodyStart": 2007,
         "column": 27,
         "file": "thrust/optional.h",
-        "line": 2022
+        "line": 2007
       },
       "name": "make_optional",
       "override": false,
@@ -24098,12 +24098,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2031,
+        "bodyEnd": 2016,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2029,
+        "bodyStart": 2014,
         "column": 27,
         "file": "thrust/optional.h",
-        "line": 2029
+        "line": 2014
       },
       "name": "make_optional",
       "override": false,
@@ -24154,12 +24154,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2038,
+        "bodyEnd": 2023,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2035,
+        "bodyStart": 2020,
         "column": 27,
         "file": "thrust/optional.h",
-        "line": 2035
+        "line": 2020
       },
       "name": "make_optional",
       "override": false,
@@ -24222,7 +24222,7 @@
       "location": {
         "column": 13,
         "file": "thrust/optional.h",
-        "line": 2041
+        "line": 2026
       },
       "name": "optional",
       "override": false,
@@ -32666,7 +32666,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator thrust::inclusive_scan",
       "deleted": false,
-      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. More precisely, <code>&#42;first</code> is assigned to <code>&#42;result</code> and the sum of <code>&#42;first</code> and <code>&#42;(first + 1)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>inclusive&#95;scan</code> assumes plus as the associative operator. \n\n When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::inclusive_scan(thrust::host, data, data + 6, data); // in-place scan\n\n// data is now {1, 1, 3, 5, 6, 9}\n```",
+      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. More precisely, <code>&#42;first</code> is assigned to <code>&#42;result</code> and the sum of <code>&#42;first</code> and <code>&#42;(first + 1)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>inclusive&#95;scan</code> assumes plus as the associative operator. \n\n When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::inclusive_scan(thrust::host, data, data + 6, data); // in-place scan\n\n// data is now {1, 1, 3, 5, 6, 9}\n```",
       "explicit": false,
       "fullname": "thrust::inclusive_scan",
       "hasDetails": true,
@@ -32676,7 +32676,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 95
+        "line": 99
       },
       "name": "inclusive_scan",
       "override": false,
@@ -32781,7 +32781,7 @@
       "default": false,
       "definition": "OutputIterator thrust::inclusive_scan",
       "deleted": false,
-      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. More precisely, <code>&#42;first</code> is assigned to <code>&#42;result</code> and the sum of <code>&#42;first</code> and <code>&#42;(first + 1)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>inclusive&#95;scan</code> assumes plus as the associative operator. \n\n When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::inclusive_scan(data, data + 6, data); // in-place scan\n\n// data is now {1, 1, 3, 5, 6, 9}\n```",
+      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. More precisely, <code>&#42;first</code> is assigned to <code>&#42;result</code> and the sum of <code>&#42;first</code> and <code>&#42;(first + 1)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>inclusive&#95;scan</code> assumes plus as the associative operator. \n\n When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::inclusive_scan(data, data + 6, data); // in-place scan\n\n// data is now {1, 1, 3, 5, 6, 9}\n```",
       "explicit": false,
       "fullname": "thrust::inclusive_scan",
       "hasDetails": true,
@@ -32791,7 +32791,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 148
+        "line": 156
       },
       "name": "inclusive_scan",
       "override": false,
@@ -32878,7 +32878,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator thrust::inclusive_scan",
       "deleted": false,
-      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::inclusive_scan(thrust::host, data, data + 10, data, binary_op); // in-place scan\n\n// data is now {-5, 0, 2, 2, 2, 4, 4, 4, 4, 8}\n```",
+      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::inclusive_scan(thrust::host, data, data + 10, data, binary_op); // in-place scan\n\n// data is now {-5, 0, 2, 2, 2, 4, 4, 4, 4, 8}\n```",
       "explicit": false,
       "fullname": "thrust::inclusive_scan",
       "hasDetails": true,
@@ -32888,7 +32888,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 206
+        "line": 218
       },
       "name": "inclusive_scan",
       "override": false,
@@ -33011,7 +33011,7 @@
       "default": false,
       "definition": "OutputIterator thrust::inclusive_scan",
       "deleted": false,
-      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code>\n\n\n\n```cpp\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::inclusive_scan(data, data + 10, data, binary_op); // in-place scan\n\n// data is now {-5, 0, 2, 2, 2, 4, 4, 4, 4, 8}\n```",
+      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code>\n\n\n\n```cpp\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::inclusive_scan(data, data + 10, data, binary_op); // in-place scan\n\n// data is now {-5, 0, 2, 2, 2, 4, 4, 4, 4, 8}\n```",
       "explicit": false,
       "fullname": "thrust::inclusive_scan",
       "hasDetails": true,
@@ -33021,7 +33021,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 259
+        "line": 275
       },
       "name": "inclusive_scan",
       "override": false,
@@ -33126,7 +33126,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator thrust::exclusive_scan",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>0</code> is assigned to <code>&#42;result</code> and the sum of <code>0</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator and <code>0</code> as the initial value. When the input and output sequences are the same, the scan is performed in-place.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(thrust::host, data, data + 6, data); // in-place scan\n\n// data is now {0, 1, 1, 3, 5, 6}\n```",
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>0</code> is assigned to <code>&#42;result</code> and the sum of <code>0</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator and <code>0</code> as the initial value. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(thrust::host, data, data + 6, data); // in-place scan\n\n// data is now {0, 1, 1, 3, 5, 6}\n```",
       "explicit": false,
       "fullname": "thrust::exclusive_scan",
       "hasDetails": true,
@@ -33136,7 +33136,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 315
+        "line": 335
       },
       "name": "exclusive_scan",
       "override": false,
@@ -33241,7 +33241,7 @@
       "default": false,
       "definition": "OutputIterator thrust::exclusive_scan",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>0</code> is assigned to <code>&#42;result</code> and the sum of <code>0</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator and <code>0</code> as the initial value. When the input and output sequences are the same, the scan is performed in-place.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(data, data + 6, data); // in-place scan\n\n// data is now {0, 1, 1, 3, 5, 6}\n```",
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>0</code> is assigned to <code>&#42;result</code> and the sum of <code>0</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator and <code>0</code> as the initial value. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(data, data + 6, data); // in-place scan\n\n// data is now {0, 1, 1, 3, 5, 6}\n```",
       "explicit": false,
       "fullname": "thrust::exclusive_scan",
       "hasDetails": true,
@@ -33251,7 +33251,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 362
+        "line": 386
       },
       "name": "exclusive_scan",
       "override": false,
@@ -33338,7 +33338,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator thrust::exclusive_scan",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the sum of <code>init</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator but requires an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(thrust::host, data, data + 6, data, 4); // in-place scan\n\n// data is now {4, 5, 5, 7, 9, 10}\n```",
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the sum of <code>init</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator but requires an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(thrust::host, data, data + 6, data, 4); // in-place scan\n\n// data is now {4, 5, 5, 7, 9, 10}\n```",
       "explicit": false,
       "fullname": "thrust::exclusive_scan",
       "hasDetails": true,
@@ -33348,7 +33348,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 417
+        "line": 445
       },
       "name": "exclusive_scan",
       "override": false,
@@ -33471,7 +33471,7 @@
       "default": false,
       "definition": "OutputIterator thrust::exclusive_scan",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the sum of <code>init</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator but requires an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(data, data + 6, data, 4); // in-place scan\n\n// data is now {4, 5, 5, 7, 9, 10}\n```",
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the sum of <code>init</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator but requires an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(data, data + 6, data, 4); // in-place scan\n\n// data is now {4, 5, 5, 7, 9, 10}\n```",
       "explicit": false,
       "fullname": "thrust::exclusive_scan",
       "hasDetails": true,
@@ -33481,7 +33481,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 466
+        "line": 498
       },
       "name": "exclusive_scan",
       "override": false,
@@ -33586,7 +33586,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator thrust::exclusive_scan",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the value <code>binary&#95;op(init, &#42;first)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of the function requires both an associative operator and an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::exclusive_scan(thrust::host, data, data + 10, data, 1, binary_op); // in-place scan\n\n// data is now {1, 1, 1, 2, 2, 2, 4, 4, 4, 4 }\n```",
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the value <code>binary&#95;op(init, &#42;first)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of the function requires both an associative operator and an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::exclusive_scan(thrust::host, data, data + 10, data, 1, binary_op); // in-place scan\n\n// data is now {1, 1, 1, 2, 2, 2, 4, 4, 4, 4 }\n```",
       "explicit": false,
       "fullname": "thrust::exclusive_scan",
       "hasDetails": true,
@@ -33596,7 +33596,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 532
+        "line": 568
       },
       "name": "exclusive_scan",
       "override": false,
@@ -33737,7 +33737,7 @@
       "default": false,
       "definition": "OutputIterator thrust::exclusive_scan",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the value <code>binary&#95;op(init, &#42;first)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of the function requires both an associative operator and an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::exclusive_scan(data, data + 10, data, 1, binary_op); // in-place scan\n\n// data is now {1, 1, 1, 2, 2, 2, 4, 4, 4, 4 }\n```",
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the value <code>binary&#95;op(init, &#42;first)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of the function requires both an associative operator and an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::exclusive_scan(data, data + 10, data, 1, binary_op); // in-place scan\n\n// data is now {1, 1, 1, 2, 2, 2, 4, 4, 4, 4 }\n```",
       "explicit": false,
       "fullname": "thrust::exclusive_scan",
       "hasDetails": true,
@@ -33747,7 +33747,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 591
+        "line": 631
       },
       "name": "exclusive_scan",
       "override": false,
@@ -33870,7 +33870,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator thrust::inclusive_scan_by_key",
       "deleted": false,
-      "details": "<code>inclusive&#95;scan&#95;by&#95;key</code> computes an inclusive key-value or 'segmented' prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate inclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1equal__to.html\">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan&#95;by&#95;key</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\n\nthrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, data, data); // in-place scan\n\n// data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};\n```",
+      "details": "<code>inclusive&#95;scan&#95;by&#95;key</code> computes an inclusive key-value or 'segmented' prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate inclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1equal__to.html\">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan&#95;by&#95;key</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\n\nthrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, data, data); // in-place scan\n\n// data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};\n```",
       "explicit": false,
       "fullname": "thrust::inclusive_scan_by_key",
       "hasDetails": true,
@@ -33880,7 +33880,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 666
+        "line": 710
       },
       "name": "inclusive_scan_by_key",
       "override": false,
@@ -34005,7 +34005,7 @@
       "default": false,
       "definition": "OutputIterator thrust::inclusive_scan_by_key",
       "deleted": false,
-      "details": "<code>inclusive&#95;scan&#95;by&#95;key</code> computes an inclusive key-value or 'segmented' prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate inclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1equal__to.html\">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan&#95;by&#95;key</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\n\nthrust::inclusive_scan_by_key(keys, keys + 10, data, data); // in-place scan\n\n// data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};\n```",
+      "details": "<code>inclusive&#95;scan&#95;by&#95;key</code> computes an inclusive key-value or 'segmented' prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate inclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1equal__to.html\">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan&#95;by&#95;key</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\n\nthrust::inclusive_scan_by_key(keys, keys + 10, data, data); // in-place scan\n\n// data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};\n```",
       "explicit": false,
       "fullname": "thrust::inclusive_scan_by_key",
       "hasDetails": true,
@@ -34015,7 +34015,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 726
+        "line": 774
       },
       "name": "inclusive_scan_by_key",
       "override": false,
@@ -34122,7 +34122,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator thrust::inclusive_scan_by_key",
       "deleted": false,
-      "details": "<code>inclusive&#95;scan&#95;by&#95;key</code> computes an inclusive key-value or 'segmented' prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate inclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan&#95;by&#95;key</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\n\nthrust::equal_to<int> binary_pred;\n\nthrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, data, data, binary_pred); // in-place scan\n\n// data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};\n```",
+      "details": "<code>inclusive&#95;scan&#95;by&#95;key</code> computes an inclusive key-value or 'segmented' prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate inclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan&#95;by&#95;key</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\n\nthrust::equal_to<int> binary_pred;\n\nthrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, data, data, binary_pred); // in-place scan\n\n// data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};\n```",
       "explicit": false,
       "fullname": "thrust::inclusive_scan_by_key",
       "hasDetails": true,
@@ -34132,7 +34132,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 800
+        "line": 852
       },
       "name": "inclusive_scan_by_key",
       "override": false,
@@ -34275,7 +34275,7 @@
       "default": false,
       "definition": "OutputIterator thrust::inclusive_scan_by_key",
       "deleted": false,
-      "details": "<code>inclusive&#95;scan&#95;by&#95;key</code> computes an inclusive key-value or 'segmented' prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate inclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan&#95;by&#95;key</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n\nint data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\n\nthrust::equal_to<int> binary_pred;\n\nthrust::inclusive_scan_by_key(keys, keys + 10, data, data, binary_pred); // in-place scan\n\n// data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};\n```",
+      "details": "<code>inclusive&#95;scan&#95;by&#95;key</code> computes an inclusive key-value or 'segmented' prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate inclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan&#95;by&#95;key</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n\nint data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\n\nthrust::equal_to<int> binary_pred;\n\nthrust::inclusive_scan_by_key(keys, keys + 10, data, data, binary_pred); // in-place scan\n\n// data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};\n```",
       "explicit": false,
       "fullname": "thrust::inclusive_scan_by_key",
       "hasDetails": true,
@@ -34285,7 +34285,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 867
+        "line": 923
       },
       "name": "inclusive_scan_by_key",
       "override": false,
@@ -34410,7 +34410,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator thrust::inclusive_scan_by_key",
       "deleted": false,
-      "details": "<code>inclusive&#95;scan&#95;by&#95;key</code> computes an inclusive key-value or 'segmented' prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate inclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the associative operator <code>binary&#95;op</code> to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan&#95;by&#95;key</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\n\nthrust::equal_to<int> binary_pred;\nthrust::plus<int>     binary_op;\n\nthrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, data, data, binary_pred, binary_op); // in-place scan\n\n// data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};\n```",
+      "details": "<code>inclusive&#95;scan&#95;by&#95;key</code> computes an inclusive key-value or 'segmented' prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate inclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the associative operator <code>binary&#95;op</code> to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan&#95;by&#95;key</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\n\nthrust::equal_to<int> binary_pred;\nthrust::plus<int>     binary_op;\n\nthrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, data, data, binary_pred, binary_op); // in-place scan\n\n// data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};\n```",
       "explicit": false,
       "fullname": "thrust::inclusive_scan_by_key",
       "hasDetails": true,
@@ -34420,7 +34420,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 948
+        "line": 1008
       },
       "name": "inclusive_scan_by_key",
       "override": false,
@@ -34581,7 +34581,7 @@
       "default": false,
       "definition": "OutputIterator thrust::inclusive_scan_by_key",
       "deleted": false,
-      "details": "<code>inclusive&#95;scan&#95;by&#95;key</code> computes an inclusive key-value or 'segmented' prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate inclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the associative operator <code>binary&#95;op</code> to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan&#95;by&#95;key</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n\nint data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\n\nthrust::equal_to<int> binary_pred;\nthrust::plus<int>     binary_op;\n\nthrust::inclusive_scan_by_key(keys, keys + 10, data, data, binary_pred, binary_op); // in-place scan\n\n// data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};\n```",
+      "details": "<code>inclusive&#95;scan&#95;by&#95;key</code> computes an inclusive key-value or 'segmented' prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate inclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nThis version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the associative operator <code>binary&#95;op</code> to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan&#95;by&#95;key</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n\nint data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\n\nthrust::equal_to<int> binary_pred;\nthrust::plus<int>     binary_op;\n\nthrust::inclusive_scan_by_key(keys, keys + 10, data, data, binary_pred, binary_op); // in-place scan\n\n// data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};\n```",
       "explicit": false,
       "fullname": "thrust::inclusive_scan_by_key",
       "hasDetails": true,
@@ -34591,7 +34591,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 1022
+        "line": 1086
       },
       "name": "inclusive_scan_by_key",
       "override": false,
@@ -34734,7 +34734,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator thrust::exclusive_scan_by_key",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive segmented prefix\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>0</code> to initialize the exclusive scan operation.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1equal__to.html\">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.\n\nRefer to the most general form of <code>exclusive&#95;scan&#95;by&#95;key</code> for additional details.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n...\n\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\nint vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\n\nthrust::exclusive_scan_by_key(thrust::host, key, key + 10, vals, vals); // in-place scan\n\n// vals is now {0, 1, 2, 0, 1, 0, 0, 1, 2, 3};\n```",
+      "details": "<code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive segmented prefix\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>0</code> to initialize the exclusive scan operation.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1equal__to.html\">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nRefer to the most general form of <code>exclusive&#95;scan&#95;by&#95;key</code> for additional details.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n...\n\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\nint vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\n\nthrust::exclusive_scan_by_key(thrust::host, key, key + 10, vals, vals); // in-place scan\n\n// vals is now {0, 1, 2, 0, 1, 0, 0, 1, 2, 3};\n```",
       "explicit": false,
       "fullname": "thrust::exclusive_scan_by_key",
       "hasDetails": true,
@@ -34744,7 +34744,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 1082
+        "line": 1150
       },
       "name": "exclusive_scan_by_key",
       "override": false,
@@ -34847,7 +34847,7 @@
       "default": false,
       "definition": "OutputIterator thrust::exclusive_scan_by_key",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive segmented prefix\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>0</code> to initialize the exclusive scan operation.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1equal__to.html\">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.\n\nRefer to the most general form of <code>exclusive&#95;scan&#95;by&#95;key</code> for additional details.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code>.\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\nint vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\n\nthrust::exclusive_scan_by_key(key, key + 10, vals, vals); // in-place scan\n\n// vals is now {0, 1, 2, 0, 1, 0, 0, 1, 2, 3};\n```",
+      "details": "<code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive segmented prefix\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>0</code> to initialize the exclusive scan operation.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1equal__to.html\">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nRefer to the most general form of <code>exclusive&#95;scan&#95;by&#95;key</code> for additional details.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code>.\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\nint vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\n\nthrust::exclusive_scan_by_key(key, key + 10, vals, vals); // in-place scan\n\n// vals is now {0, 1, 2, 0, 1, 0, 0, 1, 2, 3};\n```",
       "explicit": false,
       "fullname": "thrust::exclusive_scan_by_key",
       "hasDetails": true,
@@ -34857,7 +34857,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 1133
+        "line": 1205
       },
       "name": "exclusive_scan_by_key",
       "override": false,
@@ -34946,7 +34946,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator thrust::exclusive_scan_by_key",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive key-value or 'segmented' prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate exclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\n\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\nint vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\n\nint init = 5;\n\nthrust::exclusive_scan_by_key(thrust::host, key, key + 10, vals, vals, init); // in-place scan\n\n// vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};\n```",
+      "details": "<code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive key-value or 'segmented' prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate exclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\n\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\nint vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\n\nint init = 5;\n\nthrust::exclusive_scan_by_key(thrust::host, key, key + 10, vals, vals, init); // in-place scan\n\n// vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};\n```",
       "explicit": false,
       "fullname": "thrust::exclusive_scan_by_key",
       "hasDetails": true,
@@ -34956,7 +34956,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 1191
+        "line": 1267
       },
       "name": "exclusive_scan_by_key",
       "override": false,
@@ -35077,7 +35077,7 @@
       "default": false,
       "definition": "OutputIterator thrust::exclusive_scan_by_key",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive key-value or 'segmented' prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate exclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\nint vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\n\nint init = 5;\n\nthrust::exclusive_scan_by_key(key, key + 10, vals, vals, init); // in-place scan\n\n// vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};\n```",
+      "details": "<code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive key-value or 'segmented' prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate exclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\nint vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\n\nint init = 5;\n\nthrust::exclusive_scan_by_key(key, key + 10, vals, vals, init); // in-place scan\n\n// vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};\n```",
       "explicit": false,
       "fullname": "thrust::exclusive_scan_by_key",
       "hasDetails": true,
@@ -35087,7 +35087,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 1243
+        "line": 1323
       },
       "name": "exclusive_scan_by_key",
       "override": false,
@@ -35194,7 +35194,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator thrust::exclusive_scan_by_key",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive key-value or 'segmented' prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate exclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>binary&#95;pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\n\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\nint vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\n\nint init = 5;\n\nthrust::equal_to<int> binary_pred;\n\nthrust::exclusive_scan_by_key(thrust::host, key, key + 10, vals, vals, init, binary_pred); // in-place scan\n\n// vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};\n```",
+      "details": "<code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive key-value or 'segmented' prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate exclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>binary&#95;pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\n\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\nint vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\n\nint init = 5;\n\nthrust::equal_to<int> binary_pred;\n\nthrust::exclusive_scan_by_key(thrust::host, key, key + 10, vals, vals, init, binary_pred); // in-place scan\n\n// vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};\n```",
       "explicit": false,
       "fullname": "thrust::exclusive_scan_by_key",
       "hasDetails": true,
@@ -35204,7 +35204,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 1311
+        "line": 1395
       },
       "name": "exclusive_scan_by_key",
       "override": false,
@@ -35339,7 +35339,7 @@
       "default": false,
       "definition": "OutputIterator thrust::exclusive_scan_by_key",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive key-value or 'segmented' prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate exclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>binary&#95;pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\nint vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\n\nint init = 5;\n\nthrust::equal_to<int> binary_pred;\n\nthrust::exclusive_scan_by_key(key, key + 10, vals, vals, init, binary_pred); // in-place scan\n\n// vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};\n```",
+      "details": "<code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive key-value or 'segmented' prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate exclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>binary&#95;pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\nint vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\n\nint init = 5;\n\nthrust::equal_to<int> binary_pred;\n\nthrust::exclusive_scan_by_key(key, key + 10, vals, vals, init, binary_pred); // in-place scan\n\n// vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};\n```",
       "explicit": false,
       "fullname": "thrust::exclusive_scan_by_key",
       "hasDetails": true,
@@ -35349,7 +35349,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 1373
+        "line": 1461
       },
       "name": "exclusive_scan_by_key",
       "override": false,
@@ -35470,7 +35470,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator thrust::exclusive_scan_by_key",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive key-value or 'segmented' prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate exclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>binary&#95;pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the associative operator <code>binary&#95;op</code> to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\n\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\nint vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\n\nint init = 5;\n\nthrust::equal_to<int> binary_pred;\nthrust::plus<int>     binary_op;\n\nthrust::exclusive_scan_by_key(thrust::host, key, key + 10, vals, vals, init, binary_pred, binary_op); // in-place scan\n\n// vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};\n```",
+      "details": "<code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive key-value or 'segmented' prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate exclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>binary&#95;pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the associative operator <code>binary&#95;op</code> to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\n\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\nint vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\n\nint init = 5;\n\nthrust::equal_to<int> binary_pred;\nthrust::plus<int>     binary_op;\n\nthrust::exclusive_scan_by_key(thrust::host, key, key + 10, vals, vals, init, binary_pred, binary_op); // in-place scan\n\n// vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};\n```",
       "explicit": false,
       "fullname": "thrust::exclusive_scan_by_key",
       "hasDetails": true,
@@ -35480,7 +35480,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 1461
+        "line": 1553
       },
       "name": "exclusive_scan_by_key",
       "override": false,
@@ -35659,7 +35659,7 @@
       "default": false,
       "definition": "OutputIterator thrust::exclusive_scan_by_key",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive key-value or 'segmented' prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate exclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>binary&#95;pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the associative operator <code>binary&#95;op</code> to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\nint vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\n\nint init = 5;\n\nthrust::equal_to<int> binary_pred;\nthrust::plus<int>     binary_op;\n\nthrust::exclusive_scan_by_key(key, key + 10, vals, vals, init, binary_pred, binary_op); // in-place scan\n\n// vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};\n```",
+      "details": "<code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive key-value or 'segmented' prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate exclusive scan operation is computed. Refer to the code sample below for example usage.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>binary&#95;pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.\n\nThis version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the associative operator <code>binary&#95;op</code> to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n\nint keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};\nint vals[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};\n\nint init = 5;\n\nthrust::equal_to<int> binary_pred;\nthrust::plus<int>     binary_op;\n\nthrust::exclusive_scan_by_key(key, key + 10, vals, vals, init, binary_pred, binary_op); // in-place scan\n\n// vals is now {5, 6, 7, 5, 6, 5, 5, 6, 7, 8};\n```",
       "explicit": false,
       "fullname": "thrust::exclusive_scan_by_key",
       "hasDetails": true,
@@ -35669,7 +35669,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 1542
+        "line": 1638
       },
       "name": "exclusive_scan_by_key",
       "override": false,
@@ -50131,7 +50131,7 @@
       "location": {
         "column": 17,
         "file": "thrust/unique.h",
-        "line": 79
+        "line": 80
       },
       "name": "unique",
       "override": false,
@@ -50226,7 +50226,7 @@
       "location": {
         "column": 17,
         "file": "thrust/unique.h",
-        "line": 120
+        "line": 121
       },
       "name": "unique",
       "override": false,
@@ -50303,7 +50303,7 @@
       "location": {
         "column": 17,
         "file": "thrust/unique.h",
-        "line": 172
+        "line": 173
       },
       "name": "unique",
       "override": false,
@@ -50416,7 +50416,7 @@
       "location": {
         "column": 17,
         "file": "thrust/unique.h",
-        "line": 218
+        "line": 219
       },
       "name": "unique",
       "override": false,
@@ -50511,7 +50511,7 @@
       "location": {
         "column": 16,
         "file": "thrust/unique.h",
-        "line": 279
+        "line": 280
       },
       "name": "unique_copy",
       "override": false,
@@ -50627,7 +50627,7 @@
       "location": {
         "column": 16,
         "file": "thrust/unique.h",
-        "line": 333
+        "line": 334
       },
       "name": "unique_copy",
       "override": false,
@@ -50725,7 +50725,7 @@
       "location": {
         "column": 16,
         "file": "thrust/unique.h",
-        "line": 388
+        "line": 389
       },
       "name": "unique_copy",
       "override": false,
@@ -50859,7 +50859,7 @@
       "location": {
         "column": 16,
         "file": "thrust/unique.h",
-        "line": 437
+        "line": 438
       },
       "name": "unique_copy",
       "override": false,
@@ -50975,7 +50975,7 @@
       "location": {
         "column": 3,
         "file": "thrust/unique.h",
-        "line": 502
+        "line": 503
       },
       "name": "unique_by_key",
       "override": false,
@@ -51092,7 +51092,7 @@
       "location": {
         "column": 3,
         "file": "thrust/unique.h",
-        "line": 559
+        "line": 560
       },
       "name": "unique_by_key",
       "override": false,
@@ -51191,7 +51191,7 @@
       "location": {
         "column": 5,
         "file": "thrust/unique.h",
-        "line": 623
+        "line": 624
       },
       "name": "unique_by_key",
       "override": false,
@@ -51326,7 +51326,7 @@
       "location": {
         "column": 3,
         "file": "thrust/unique.h",
-        "line": 681
+        "line": 682
       },
       "name": "unique_by_key",
       "override": false,
@@ -51443,7 +51443,7 @@
       "location": {
         "column": 5,
         "file": "thrust/unique.h",
-        "line": 749
+        "line": 750
       },
       "name": "unique_by_key_copy",
       "override": false,
@@ -51596,7 +51596,7 @@
       "location": {
         "column": 3,
         "file": "thrust/unique.h",
-        "line": 811
+        "line": 812
       },
       "name": "unique_by_key_copy",
       "override": false,
@@ -51731,7 +51731,7 @@
       "location": {
         "column": 5,
         "file": "thrust/unique.h",
-        "line": 884
+        "line": 885
       },
       "name": "unique_by_key_copy",
       "override": false,
@@ -51902,7 +51902,7 @@
       "location": {
         "column": 3,
         "file": "thrust/unique.h",
-        "line": 951
+        "line": 952
       },
       "name": "unique_by_key_copy",
       "override": false,
@@ -52038,6 +52038,422 @@
     },
     {
       "abstract": false,
+      "anchor": "#function-unique-count",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate binary_pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::iterator_traits< ForwardIterator >::difference_type thrust::unique_count",
+      "deleted": false,
+      "details": "<code>unique&#95;count</code> counts runs of equal elements in the range <code>[first, last)</code> with the same value,\n\nThis version of <code>unique&#95;count</code> uses the function object <code>binary&#95;pred</code> to test for equality.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;count</code> to determine a number of runs of equal elements using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1};\nint count = thrust::unique_count(thrust::host, A, A + N, thrust::equal_to<int>());\n// count is now 4\n```",
+      "explicit": false,
+      "fullname": "thrust::unique_count",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 5,
+        "file": "thrust/unique.h",
+        "line": 1001
+      },
+      "name": "unique_count",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_count",
+      "refid": "group__stream__compaction_1ga17c527c27c10d1bf67814181d30d66ef",
+      "returns": [
+        "The number of runs of equal elements in <code>[first, new&#95;last)</code>"
+      ],
+      "see": [
+        "unique_copy ",
+        "unique_by_key_copy ",
+        "reduce_by_key_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "unique_count",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">thrust::iterator_traits</a>< ForwardIterator >::difference_type",
+      "typePlain": "__host__ __device__ thrust::iterator_traits< ForwardIterator >::difference_type",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-count",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-count",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::iterator_traits< ForwardIterator >::difference_type thrust::unique_count",
+      "deleted": false,
+      "details": "<code>unique&#95;count</code> counts runs of equal elements in the range <code>[first, last)</code> with the same value,\n\nThis version of <code>unique&#95;count</code> uses <code>operator==</code> to test for equality.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;count</code> to determine the number of runs of equal elements using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1};\nint count = thrust::unique_count(thrust::host, A, A + N);\n// count is now 4\n```",
+      "explicit": false,
+      "fullname": "thrust::unique_count",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 5,
+        "file": "thrust/unique.h",
+        "line": 1047
+      },
+      "name": "unique_count",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_count",
+      "refid": "group__stream__compaction_1ga6f75f3371cf91c3ac81d2c6f9a2fdee8",
+      "returns": [
+        "The number of runs of equal elements in <code>[first, new&#95;last)</code>"
+      ],
+      "see": [
+        "unique_copy ",
+        "unique_by_key_copy ",
+        "reduce_by_key_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "unique_count",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">thrust::iterator_traits</a>< ForwardIterator >::difference_type",
+      "typePlain": "__host__ __device__ thrust::iterator_traits< ForwardIterator >::difference_type",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-count",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-count",
+      "argsString": "(ForwardIterator first, ForwardIterator last, BinaryPredicate binary_pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::iterator_traits< ForwardIterator >::difference_type thrust::unique_count",
+      "deleted": false,
+      "details": "<code>unique&#95;count</code> counts runs of equal elements in the range <code>[first, last)</code> with the same value,\n\nThis version of <code>unique&#95;count</code> uses the function object <code>binary&#95;pred</code> to test for equality.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;count</code> to determine the number of runs of equal elements:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1};\nint count = thrust::unique_count(A, A + N, thrust::equal_to<int>());\n// count is now 4\n```",
+      "explicit": false,
+      "fullname": "thrust::unique_count",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 5,
+        "file": "thrust/unique.h",
+        "line": 1089
+      },
+      "name": "unique_count",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_count",
+      "refid": "group__stream__compaction_1gaf93e0693e7768a0cd968a6278501b063",
+      "returns": [
+        "The number of runs of equal elements in <code>[first, new&#95;last)</code>"
+      ],
+      "see": [
+        "unique_copy ",
+        "unique_by_key_copy ",
+        "reduce_by_key_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "unique_count",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">thrust::iterator_traits</a>< ForwardIterator >::difference_type",
+      "typePlain": "__host__ __device__ thrust::iterator_traits< ForwardIterator >::difference_type",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-count",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-count",
+      "argsString": "(ForwardIterator first, ForwardIterator last)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::iterator_traits< ForwardIterator >::difference_type thrust::unique_count",
+      "deleted": false,
+      "details": "<code>unique&#95;count</code> counts runs of equal elements in the range <code>[first, last)</code> with the same value,\n\nThis version of <code>unique&#95;count</code> uses <code>operator==</code> to test for equality.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;count</code> to determine the number of runs of equal elements:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1};\nint count = thrust::unique_count(thrust::host, A, A + N);\n// count is now 4\n```",
+      "explicit": false,
+      "fullname": "thrust::unique_count",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "column": 5,
+        "file": "thrust/unique.h",
+        "line": 1130
+      },
+      "name": "unique_count",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_count",
+      "refid": "group__stream__compaction_1ga2aa6edabfabf1613ca8ccc9fdf211ffa",
+      "returns": [
+        "The number of runs of equal elements in <code>[first, new&#95;last)</code>"
+      ],
+      "see": [
+        "unique_copy ",
+        "unique_by_key_copy ",
+        "reduce_by_key_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "unique_count",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">thrust::iterator_traits</a>< ForwardIterator >::difference_type",
+      "typePlain": "__host__ __device__ thrust::iterator_traits< ForwardIterator >::difference_type",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-count",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
       "anchor": "#function-make-zip-function",
       "argsString": "(Function &&fun)",
       "category": "functions",
@@ -52053,12 +52469,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 200,
+        "bodyEnd": 202,
         "bodyFile": "thrust/zip_function.h",
-        "bodyStart": 196,
+        "bodyStart": 198,
         "column": 1,
         "file": "thrust/zip_function.h",
-        "line": 196
+        "line": 198
       },
       "name": "make_zip_function",
       "override": false,
@@ -53220,10 +53636,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/type_traits/is_contiguous_iterator.h",
-        "bodyStart": 85,
+        "bodyStart": 88,
         "column": 1,
         "file": "thrust/type_traits/is_contiguous_iterator.h",
-        "line": 77
+        "line": 80
       },
       "name": "is_contiguous_iterator",
       "override": false,

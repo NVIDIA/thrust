@@ -39,12 +39,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 603,
+    "bodyEnd": 588,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 601,
+    "bodyStart": 586,
     "column": 1,
     "file": "thrust/optional.h",
-    "line": 601
+    "line": 586
   },
   "name": "thrust::detail::optional_copy_assign_base",
   "override": false,

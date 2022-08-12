@@ -14,12 +14,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 804,
+    "bodyEnd": 789,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 800,
+    "bodyStart": 785,
     "column": 1,
     "file": "thrust/optional.h",
-    "line": 800
+    "line": 785
   },
   "name": "thrust::nullopt_t",
   "override": false,
@@ -83,12 +83,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 803,
+        "bodyEnd": 788,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 803,
+        "bodyStart": 788,
         "column": 22,
         "file": "thrust/optional.h",
-        "line": 803
+        "line": 788
       },
       "name": "nullopt_t",
       "override": false,

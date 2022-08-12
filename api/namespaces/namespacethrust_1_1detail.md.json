@@ -195,32 +195,6 @@
     },
     {
       "anchor": "",
-      "category": "classes",
-      "fullname": "thrust::detail::invoke_result_impl",
-      "kind": "struct",
-      "language": "cpp",
-      "name": "thrust::detail::invoke_result_impl",
-      "qualifiedname": "thrust::detail::invoke_result_impl",
-      "refid": "structthrust_1_1detail_1_1invoke__result__impl",
-      "title": "thrust::detail::invoke_result_impl",
-      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1invoke__result__impl.html",
-      "visibility": "public"
-    },
-    {
-      "anchor": "",
-      "category": "classes",
-      "fullname": "thrust::detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
-      "kind": "struct",
-      "language": "cpp",
-      "name": "thrust::detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
-      "qualifiedname": "thrust::detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
-      "refid": "structthrust_1_1detail_1_1invoke__result__impl_3_01F_00_01decltype_07detail_1_1invoke_07std_1_1d451dd7dc5a7b7994ee40dec8cfe27460",
-      "title": "thrust::detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
-      "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1invoke__result__impl_3_01f_00_01decltype_07detail_1_1invoke_07std_1.html",
-      "visibility": "public"
-    },
-    {
-      "anchor": "",
       "baseClasses": [
         {
           "external": true,
@@ -1083,12 +1057,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 246,
+        "bodyEnd": 247,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 241,
+        "bodyStart": 242,
         "column": 16,
         "file": "thrust/optional.h",
-        "line": 241
+        "line": 242
       },
       "name": "invoke",
       "override": false,
@@ -1158,12 +1132,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 257,
+        "bodyEnd": 258,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 252,
+        "bodyStart": 253,
         "column": 16,
         "file": "thrust/optional.h",
-        "line": 252
+        "line": 253
       },
       "name": "invoke",
       "override": false,
@@ -1209,156 +1183,6 @@
       "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#function-invoke",
       "virtual": false,
       "visibility": "public"
-    },
-    {
-      "abstract": false,
-      "anchor": "#function-optional-map-impl",
-      "argsString": "(Opt &&opt, F &&f)",
-      "category": "functions",
-      "const": false,
-      "default": false,
-      "definition": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto thrust::detail::optional_map_impl",
-      "deleted": false,
-      "explicit": false,
-      "fullname": "thrust::detail::optional_map_impl",
-      "hasDetails": true,
-      "inline": false,
-      "kind": "function",
-      "language": "cpp",
-      "location": {
-        "bodyEnd": 2057,
-        "bodyFile": "thrust/optional.h",
-        "bodyStart": 2053,
-        "column": 16,
-        "file": "thrust/optional.h",
-        "line": 2053
-      },
-      "name": "optional_map_impl",
-      "override": false,
-      "params": [
-        {
-          "name": "opt",
-          "type": "Opt &&",
-          "typePlain": "Opt &&"
-        },
-        {
-          "name": "f",
-          "type": "F &&",
-          "typePlain": "F &&"
-        }
-      ],
-      "pureVirtual": false,
-      "qualifiedname": "thrust::detail::optional_map_impl",
-      "refid": "namespacethrust_1_1detail_1a4fecc2c5338d886730cefd6c4e08d8a7",
-      "static": false,
-      "strong": false,
-      "templateParams": [
-        {
-          "name": "",
-          "type": "class Opt",
-          "typePlain": "class Opt"
-        },
-        {
-          "name": "",
-          "type": "class F",
-          "typePlain": "class F"
-        },
-        {
-          "defval": "decltype(detail::invoke(std::declval<F>(),                                              *std::declval<Opt>()))",
-          "defvalPlain": "decltype(detail::invoke(std::declval<F>(),                                              *std::declval<Opt>()))",
-          "name": "",
-          "type": "class Ret",
-          "typePlain": "class Ret"
-        },
-        {
-          "defval": "nullptr",
-          "defvalPlain": "nullptr",
-          "name": "",
-          "type": "detail::enable_if_t<!std::is_void< Ret >::value > *",
-          "typePlain": "detail::enable_if_t<!std::is_void< Ret >::value > *"
-        }
-      ],
-      "title": "optional_map_impl",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto",
-      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ constexpr auto",
-      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#function-optional-map-impl",
-      "virtual": false,
-      "visibility": "public"
-    },
-    {
-      "abstract": false,
-      "anchor": "#function-optional-map-impl",
-      "argsString": "(Opt &&opt, F &&f)",
-      "category": "functions",
-      "const": false,
-      "default": false,
-      "definition": "__thrust_exec_check_disable__ __host__ __device__ auto thrust::detail::optional_map_impl",
-      "deleted": false,
-      "explicit": false,
-      "fullname": "thrust::detail::optional_map_impl",
-      "hasDetails": true,
-      "inline": false,
-      "kind": "function",
-      "language": "cpp",
-      "location": {
-        "bodyEnd": 2072,
-        "bodyFile": "thrust/optional.h",
-        "bodyStart": 2065,
-        "column": 6,
-        "file": "thrust/optional.h",
-        "line": 2065
-      },
-      "name": "optional_map_impl",
-      "override": false,
-      "params": [
-        {
-          "name": "opt",
-          "type": "Opt &&",
-          "typePlain": "Opt &&"
-        },
-        {
-          "name": "f",
-          "type": "F &&",
-          "typePlain": "F &&"
-        }
-      ],
-      "pureVirtual": false,
-      "qualifiedname": "thrust::detail::optional_map_impl",
-      "refid": "namespacethrust_1_1detail_1a0b6e65cf6313a2d65070f679c7bfc34b",
-      "static": false,
-      "strong": false,
-      "templateParams": [
-        {
-          "name": "",
-          "type": "class Opt",
-          "typePlain": "class Opt"
-        },
-        {
-          "name": "",
-          "type": "class F",
-          "typePlain": "class F"
-        },
-        {
-          "defval": "decltype(detail::invoke(std::declval<F>(),                                              *std::declval<Opt>()))",
-          "defvalPlain": "decltype(detail::invoke(std::declval<F>(),                                              *std::declval<Opt>()))",
-          "name": "",
-          "type": "class Ret",
-          "typePlain": "class Ret"
-        },
-        {
-          "defval": "nullptr",
-          "defvalPlain": "nullptr",
-          "name": "",
-          "type": "detail::enable_if_t< std::is_void< Ret >::value > *",
-          "typePlain": "detail::enable_if_t< std::is_void< Ret >::value > *"
-        }
-      ],
-      "title": "optional_map_impl",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ auto",
-      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ auto",
-      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#function-optional-map-impl",
-      "virtual": false,
-      "visibility": "public"
     }
   ],
   "publicTypes": [
@@ -1376,10 +1200,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 187,
+        "bodyStart": 188,
         "column": 13,
         "file": "thrust/optional.h",
-        "line": 187
+        "line": 188
       },
       "name": "remove_const_t",
       "override": false,
@@ -1414,10 +1238,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 189,
+        "bodyStart": 190,
         "column": 1,
         "file": "thrust/optional.h",
-        "line": 189
+        "line": 190
       },
       "name": "remove_reference_t",
       "override": false,
@@ -1452,10 +1276,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 190,
+        "bodyStart": 191,
         "column": 13,
         "file": "thrust/optional.h",
-        "line": 190
+        "line": 191
       },
       "name": "decay_t",
       "override": false,
@@ -1490,10 +1314,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 192,
+        "bodyStart": 193,
         "column": 1,
         "file": "thrust/optional.h",
-        "line": 192
+        "line": 193
       },
       "name": "enable_if_t",
       "override": false,
@@ -1535,10 +1359,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 194,
+        "bodyStart": 195,
         "column": 1,
         "file": "thrust/optional.h",
-        "line": 194
+        "line": 195
       },
       "name": "conditional_t",
       "override": false,
@@ -1571,92 +1395,6 @@
     },
     {
       "abstract": false,
-      "anchor": "#using-invoke-result",
-      "category": "types",
-      "const": false,
-      "definition": "using thrust::detail::invoke_result = typedef invoke_result_impl<F, void, Us...>",
-      "explicit": false,
-      "fullname": "thrust::detail::invoke_result",
-      "hasDetails": true,
-      "inline": false,
-      "kind": "using",
-      "language": "cpp",
-      "location": {
-        "bodyFile": "thrust/optional.h",
-        "bodyStart": 270,
-        "column": 1,
-        "file": "thrust/optional.h",
-        "line": 270
-      },
-      "name": "invoke_result",
-      "override": false,
-      "qualifiedname": "thrust::detail::invoke_result",
-      "refid": "namespacethrust_1_1detail_1a56c4f953a0fa75b17b2279c5b6126041",
-      "static": false,
-      "strong": false,
-      "templateParams": [
-        {
-          "name": "",
-          "type": "class F",
-          "typePlain": "class F"
-        },
-        {
-          "name": "Us",
-          "type": "class...",
-          "typePlain": "class..."
-        }
-      ],
-      "title": "invoke_result",
-      "type": "invoke_result_impl< F, void, Us... >",
-      "typePlain": "invoke_result_impl< F, void, Us... >",
-      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-invoke-result",
-      "visibility": "public"
-    },
-    {
-      "abstract": false,
-      "anchor": "#using-invoke-result-t",
-      "category": "types",
-      "const": false,
-      "definition": "using thrust::detail::invoke_result_t = typedef typename invoke_result<F, Us...>::type",
-      "explicit": false,
-      "fullname": "thrust::detail::invoke_result_t",
-      "hasDetails": true,
-      "inline": false,
-      "kind": "using",
-      "language": "cpp",
-      "location": {
-        "bodyFile": "thrust/optional.h",
-        "bodyStart": 273,
-        "column": 1,
-        "file": "thrust/optional.h",
-        "line": 273
-      },
-      "name": "invoke_result_t",
-      "override": false,
-      "qualifiedname": "thrust::detail::invoke_result_t",
-      "refid": "namespacethrust_1_1detail_1ac4950c8527f23e3c88530dd9c6bb42be",
-      "static": false,
-      "strong": false,
-      "templateParams": [
-        {
-          "name": "",
-          "type": "class F",
-          "typePlain": "class F"
-        },
-        {
-          "name": "Us",
-          "type": "class...",
-          "typePlain": "class..."
-        }
-      ],
-      "title": "invoke_result_t",
-      "type": "typename invoke_result< F, Us... >::type",
-      "typePlain": "typename invoke_result< F, Us... >::type",
-      "url": "{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-invoke-result-t",
-      "visibility": "public"
-    },
-    {
-      "abstract": false,
       "anchor": "#using-void-t",
       "category": "types",
       "const": false,
@@ -1669,10 +1407,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 278,
+        "bodyStart": 263,
         "column": 13,
         "file": "thrust/optional.h",
-        "line": 278
+        "line": 263
       },
       "name": "void_t",
       "override": false,
@@ -1707,10 +1445,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 283,
+        "bodyStart": 268,
         "column": 13,
         "file": "thrust/optional.h",
-        "line": 283
+        "line": 268
       },
       "name": "is_optional",
       "override": false,
@@ -1745,10 +1483,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 287,
+        "bodyStart": 272,
         "column": 1,
         "file": "thrust/optional.h",
-        "line": 287
+        "line": 272
       },
       "name": "fixup_void",
       "override": false,
@@ -1783,10 +1521,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 290,
+        "bodyStart": 275,
         "column": 1,
         "file": "thrust/optional.h",
-        "line": 290
+        "line": 275
       },
       "name": "get_map_return",
       "override": false,
@@ -1833,10 +1571,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 298,
+        "bodyStart": 283,
         "column": 1,
         "file": "thrust/optional.h",
-        "line": 298
+        "line": 283
       },
       "name": "returns_void",
       "override": false,
@@ -1876,10 +1614,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 301,
+        "bodyStart": 286,
         "column": 1,
         "file": "thrust/optional.h",
-        "line": 301
+        "line": 286
       },
       "name": "enable_if_ret_void",
       "override": false,
@@ -1919,10 +1657,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 304,
+        "bodyStart": 289,
         "column": 1,
         "file": "thrust/optional.h",
-        "line": 304
+        "line": 289
       },
       "name": "disable_if_ret_void",
       "override": false,
@@ -1962,10 +1700,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 310,
+        "bodyStart": 295,
         "column": 1,
         "file": "thrust/optional.h",
-        "line": 307
+        "line": 292
       },
       "name": "enable_forward_value",
       "override": false,
@@ -2005,10 +1743,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 322,
+        "bodyStart": 307,
         "column": 1,
         "file": "thrust/optional.h",
-        "line": 313
+        "line": 298
       },
       "name": "enable_from_other",
       "override": false,
@@ -2053,10 +1791,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 329,
+        "bodyStart": 314,
         "column": 1,
         "file": "thrust/optional.h",
-        "line": 325
+        "line": 310
       },
       "name": "enable_assign_forward",
       "override": false,
@@ -2096,10 +1834,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 346,
+        "bodyStart": 331,
         "column": 1,
         "file": "thrust/optional.h",
-        "line": 332
+        "line": 317
       },
       "name": "enable_assign_from_other",
       "override": false,

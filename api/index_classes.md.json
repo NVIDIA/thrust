@@ -691,32 +691,6 @@
             },
             {
               "anchor": "",
-              "category": "classes",
-              "fullname": "thrust::detail::invoke_result_impl",
-              "kind": "struct",
-              "language": "cpp",
-              "name": "thrust::detail::invoke_result_impl",
-              "qualifiedname": "thrust::detail::invoke_result_impl",
-              "refid": "structthrust_1_1detail_1_1invoke__result__impl",
-              "title": "thrust::detail::invoke_result_impl",
-              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1invoke__result__impl.html",
-              "visibility": "public"
-            },
-            {
-              "anchor": "",
-              "category": "classes",
-              "fullname": "thrust::detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
-              "kind": "struct",
-              "language": "cpp",
-              "name": "thrust::detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
-              "qualifiedname": "thrust::detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
-              "refid": "structthrust_1_1detail_1_1invoke__result__impl_3_01F_00_01decltype_07detail_1_1invoke_07std_1_1d451dd7dc5a7b7994ee40dec8cfe27460",
-              "title": "thrust::detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
-              "url": "{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1invoke__result__impl_3_01f_00_01decltype_07detail_1_1invoke_07std_1.html",
-              "visibility": "public"
-            },
-            {
-              "anchor": "",
               "baseClasses": [
                 {
                   "external": true,

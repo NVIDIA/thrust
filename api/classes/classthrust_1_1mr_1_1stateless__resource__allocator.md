@@ -64,7 +64,7 @@ A helper allocator class that uses global instances of a given upstream memory r
 /* Inherited from <code><b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1allocator.html">thrust::mr::allocator&lt; T, Upstream &gt;</a></b></code> */</span><span>&nbsp;&nbsp;template &lt;typename U&gt;</span>
 <span>&nbsp;&nbsp;struct <b><a href="{{ site.baseurl }}/api/classes/structthrust_1_1mr_1_1allocator_1_1rebind.html">rebind</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html#function-stateless-resource-allocator">stateless&#95;resource&#95;allocator</a></b>();</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html#function-stateless-resource-allocator">stateless&#95;resource&#95;allocator</a></b>();</span>
 <br>
 <span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html#function-stateless-resource-allocator">stateless&#95;resource&#95;allocator</a></b>(const <a href="{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a> & other);</span>
 <br>
@@ -112,7 +112,7 @@ Function <code>thrust::mr::stateless&#95;resource&#95;allocator::stateless&#95;r
 </h3>
 
 <code class="doxybook">
-<span>__host__ </span><span><b>stateless_resource_allocator</b>();</span></code>
+<span>__thrust_exec_check_disable__ __host__ __device__ </span><span><b>stateless_resource_allocator</b>();</span></code>
 Default constructor. Uses <code>get&#95;global&#95;resource</code> to get the global instance of <code>Upstream</code> and initializes the <code>allocator</code> base subobject with that resource. 
 
 <h3 id="function-stateless-resource-allocator">

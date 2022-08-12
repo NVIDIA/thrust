@@ -14,12 +14,12 @@
   "kind": "class",
   "language": "cpp",
   "location": {
-    "bodyEnd": 170,
+    "bodyEnd": 171,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 170,
+    "bodyStart": 171,
     "column": 1,
     "file": "thrust/optional.h",
-    "line": 170
+    "line": 171
   },
   "name": "thrust::monostate",
   "override": false,

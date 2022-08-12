@@ -21,12 +21,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 625,
+    "bodyEnd": 610,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 606,
+    "bodyStart": 591,
     "column": 1,
     "file": "thrust/optional.h",
-    "line": 606
+    "line": 591
   },
   "name": "thrust::detail::optional_copy_assign_base< T, false >",
   "override": false,
@@ -94,7 +94,7 @@
       "location": {
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 610
+        "line": 595
       },
       "name": "optional_copy_assign_base",
       "override": false,
@@ -129,7 +129,7 @@
       "location": {
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 612
+        "line": 597
       },
       "name": "optional_copy_assign_base",
       "override": false,
@@ -170,7 +170,7 @@
       "location": {
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 615
+        "line": 600
       },
       "name": "optional_copy_assign_base",
       "override": false,
@@ -209,12 +209,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 621,
+        "bodyEnd": 606,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 618,
+        "bodyStart": 603,
         "column": 29,
         "file": "thrust/optional.h",
-        "line": 618
+        "line": 603
       },
       "name": "operator=",
       "override": false,
@@ -255,7 +255,7 @@
       "location": {
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 624
+        "line": 609
       },
       "name": "operator=",
       "override": false,

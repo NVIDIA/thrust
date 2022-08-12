@@ -12,12 +12,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 477,
+    "bodyEnd": 462,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 456,
+    "bodyStart": 441,
     "column": 12,
     "file": "thrust/optional.h",
-    "line": 456
+    "line": 441
   },
   "name": "thrust::detail::optional_storage_base< T, true >",
   "override": false,
@@ -81,10 +81,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 472,
+        "bodyStart": 457,
         "column": 11,
         "file": "thrust/optional.h",
-        "line": 472
+        "line": 457
       },
       "name": "m_dummy",
       "override": false,
@@ -112,10 +112,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 473,
+        "bodyStart": 458,
         "column": 7,
         "file": "thrust/optional.h",
-        "line": 473
+        "line": 458
       },
       "name": "m_value",
       "override": false,
@@ -144,7 +144,7 @@
       "location": {
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 474
+        "line": 459
       },
       "name": "@3",
       "override": false,
@@ -173,10 +173,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 476,
+        "bodyStart": 461,
         "column": 8,
         "file": "thrust/optional.h",
-        "line": 476
+        "line": 461
       },
       "name": "m_has_value",
       "override": false,
@@ -223,12 +223,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 460,
+        "bodyEnd": 445,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 459,
+        "bodyStart": 444,
         "column": 15,
         "file": "thrust/optional.h",
-        "line": 459
+        "line": 444
       },
       "name": "optional_storage_base",
       "override": false,
@@ -261,12 +261,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 466,
+        "bodyEnd": 451,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 465,
+        "bodyStart": 450,
         "column": 15,
         "file": "thrust/optional.h",
-        "line": 465
+        "line": 450
       },
       "name": "optional_storage_base",
       "override": false,

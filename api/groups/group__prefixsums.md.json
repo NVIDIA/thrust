@@ -107,7 +107,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator thrust::inclusive_scan",
       "deleted": false,
-      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. More precisely, <code>&#42;first</code> is assigned to <code>&#42;result</code> and the sum of <code>&#42;first</code> and <code>&#42;(first + 1)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>inclusive&#95;scan</code> assumes plus as the associative operator. \n\n When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::inclusive_scan(thrust::host, data, data + 6, data); // in-place scan\n\n// data is now {1, 1, 3, 5, 6, 9}\n```",
+      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. More precisely, <code>&#42;first</code> is assigned to <code>&#42;result</code> and the sum of <code>&#42;first</code> and <code>&#42;(first + 1)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>inclusive&#95;scan</code> assumes plus as the associative operator. \n\n When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::inclusive_scan(thrust::host, data, data + 6, data); // in-place scan\n\n// data is now {1, 1, 3, 5, 6, 9}\n```",
       "explicit": false,
       "fullname": "prefixsums::inclusive_scan",
       "hasDetails": true,
@@ -117,7 +117,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 95
+        "line": 99
       },
       "name": "inclusive_scan",
       "override": false,
@@ -222,7 +222,7 @@
       "default": false,
       "definition": "OutputIterator thrust::inclusive_scan",
       "deleted": false,
-      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. More precisely, <code>&#42;first</code> is assigned to <code>&#42;result</code> and the sum of <code>&#42;first</code> and <code>&#42;(first + 1)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>inclusive&#95;scan</code> assumes plus as the associative operator. \n\n When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::inclusive_scan(data, data + 6, data); // in-place scan\n\n// data is now {1, 1, 3, 5, 6, 9}\n```",
+      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. More precisely, <code>&#42;first</code> is assigned to <code>&#42;result</code> and the sum of <code>&#42;first</code> and <code>&#42;(first + 1)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>inclusive&#95;scan</code> assumes plus as the associative operator. \n\n When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::inclusive_scan(data, data + 6, data); // in-place scan\n\n// data is now {1, 1, 3, 5, 6, 9}\n```",
       "explicit": false,
       "fullname": "prefixsums::inclusive_scan",
       "hasDetails": true,
@@ -232,7 +232,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 148
+        "line": 156
       },
       "name": "inclusive_scan",
       "override": false,
@@ -319,7 +319,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator thrust::inclusive_scan",
       "deleted": false,
-      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::inclusive_scan(thrust::host, data, data + 10, data, binary_op); // in-place scan\n\n// data is now {-5, 0, 2, 2, 2, 4, 4, 4, 4, 8}\n```",
+      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::inclusive_scan(thrust::host, data, data + 10, data, binary_op); // in-place scan\n\n// data is now {-5, 0, 2, 2, 2, 4, 4, 4, 4, 8}\n```",
       "explicit": false,
       "fullname": "prefixsums::inclusive_scan",
       "hasDetails": true,
@@ -329,7 +329,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 206
+        "line": 218
       },
       "name": "inclusive_scan",
       "override": false,
@@ -452,7 +452,7 @@
       "default": false,
       "definition": "OutputIterator thrust::inclusive_scan",
       "deleted": false,
-      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code>\n\n\n\n```cpp\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::inclusive_scan(data, data + 10, data, binary_op); // in-place scan\n\n// data is now {-5, 0, 2, 2, 2, 4, 4, 4, 4, 8}\n```",
+      "details": "<code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. When the input and output sequences are the same, the scan is performed in-place.\n\n<code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\n\nThe following code snippet demonstrates how to use <code>inclusive&#95;scan</code>\n\n\n\n```cpp\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::inclusive_scan(data, data + 10, data, binary_op); // in-place scan\n\n// data is now {-5, 0, 2, 2, 2, 4, 4, 4, 4, 8}\n```",
       "explicit": false,
       "fullname": "prefixsums::inclusive_scan",
       "hasDetails": true,
@@ -462,7 +462,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 259
+        "line": 275
       },
       "name": "inclusive_scan",
       "override": false,
@@ -567,7 +567,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator thrust::exclusive_scan",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>0</code> is assigned to <code>&#42;result</code> and the sum of <code>0</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator and <code>0</code> as the initial value. When the input and output sequences are the same, the scan is performed in-place.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(thrust::host, data, data + 6, data); // in-place scan\n\n// data is now {0, 1, 1, 3, 5, 6}\n```",
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>0</code> is assigned to <code>&#42;result</code> and the sum of <code>0</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator and <code>0</code> as the initial value. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(thrust::host, data, data + 6, data); // in-place scan\n\n// data is now {0, 1, 1, 3, 5, 6}\n```",
       "explicit": false,
       "fullname": "prefixsums::exclusive_scan",
       "hasDetails": true,
@@ -577,7 +577,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 315
+        "line": 335
       },
       "name": "exclusive_scan",
       "override": false,
@@ -682,7 +682,7 @@
       "default": false,
       "definition": "OutputIterator thrust::exclusive_scan",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>0</code> is assigned to <code>&#42;result</code> and the sum of <code>0</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator and <code>0</code> as the initial value. When the input and output sequences are the same, the scan is performed in-place.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(data, data + 6, data); // in-place scan\n\n// data is now {0, 1, 1, 3, 5, 6}\n```",
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>0</code> is assigned to <code>&#42;result</code> and the sum of <code>0</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator and <code>0</code> as the initial value. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(data, data + 6, data); // in-place scan\n\n// data is now {0, 1, 1, 3, 5, 6}\n```",
       "explicit": false,
       "fullname": "prefixsums::exclusive_scan",
       "hasDetails": true,
@@ -692,7 +692,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 362
+        "line": 386
       },
       "name": "exclusive_scan",
       "override": false,
@@ -779,7 +779,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator thrust::exclusive_scan",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the sum of <code>init</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator but requires an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(thrust::host, data, data + 6, data, 4); // in-place scan\n\n// data is now {4, 5, 5, 7, 9, 10}\n```",
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the sum of <code>init</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator but requires an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/execution_policy.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(thrust::host, data, data + 6, data, 4); // in-place scan\n\n// data is now {4, 5, 5, 7, 9, 10}\n```",
       "explicit": false,
       "fullname": "prefixsums::exclusive_scan",
       "hasDetails": true,
@@ -789,7 +789,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 417
+        "line": 445
       },
       "name": "exclusive_scan",
       "override": false,
@@ -912,7 +912,7 @@
       "default": false,
       "definition": "OutputIterator thrust::exclusive_scan",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the sum of <code>init</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator but requires an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(data, data + 6, data, 4); // in-place scan\n\n// data is now {4, 5, 5, 7, 9, 10}\n```",
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the sum of <code>init</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator but requires an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n\nint data[6] = {1, 0, 2, 2, 1, 3};\n\nthrust::exclusive_scan(data, data + 6, data, 4); // in-place scan\n\n// data is now {4, 5, 5, 7, 9, 10}\n```",
       "explicit": false,
       "fullname": "prefixsums::exclusive_scan",
       "hasDetails": true,
@@ -922,7 +922,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 466
+        "line": 498
       },
       "name": "exclusive_scan",
       "override": false,
@@ -1027,7 +1027,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator thrust::exclusive_scan",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the value <code>binary&#95;op(init, &#42;first)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of the function requires both an associative operator and an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::exclusive_scan(thrust::host, data, data + 10, data, 1, binary_op); // in-place scan\n\n// data is now {1, 1, 1, 2, 2, 2, 4, 4, 4, 4 }\n```",
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the value <code>binary&#95;op(init, &#42;first)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of the function requires both an associative operator and an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code> to compute an in-place prefix sum using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n#include <thrust/execution_policy.h>\n...\n\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::exclusive_scan(thrust::host, data, data + 10, data, 1, binary_op); // in-place scan\n\n// data is now {1, 1, 1, 2, 2, 2, 4, 4, 4, 4 }\n```",
       "explicit": false,
       "fullname": "prefixsums::exclusive_scan",
       "hasDetails": true,
@@ -1037,7 +1037,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 532
+        "line": 568
       },
       "name": "exclusive_scan",
       "override": false,
@@ -1178,7 +1178,7 @@
       "default": false,
       "definition": "OutputIterator thrust::exclusive_scan",
       "deleted": false,
-      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the value <code>binary&#95;op(init, &#42;first)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of the function requires both an associative operator and an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::exclusive_scan(data, data + 10, data, 1, binary_op); // in-place scan\n\n// data is now {1, 1, 1, 2, 2, 2, 4, 4, 4, 4 }\n```",
+      "details": "<code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the value <code>binary&#95;op(init, &#42;first)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of the function requires both an associative operator and an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.\n\nResults are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.\n\n\nThe following code snippet demonstrates how to use <code>exclusive&#95;scan</code>\n\n\n\n```cpp\n#include <thrust/scan.h>\n#include <thrust/functional.h>\n\nint data[10] = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};\n\nthrust::maximum<int> binary_op;\n\nthrust::exclusive_scan(data, data + 10, data, 1, binary_op); // in-place scan\n\n// data is now {1, 1, 1, 2, 2, 2, 4, 4, 4, 4 }\n```",
       "explicit": false,
       "fullname": "prefixsums::exclusive_scan",
       "hasDetails": true,
@@ -1188,7 +1188,7 @@
       "location": {
         "column": 18,
         "file": "thrust/scan.h",
-        "line": 591
+        "line": 631
       },
       "name": "exclusive_scan",
       "override": false,

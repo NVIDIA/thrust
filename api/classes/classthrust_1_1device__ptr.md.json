@@ -172,7 +172,7 @@
     {
       "abstract": false,
       "anchor": "#function-device-ptr",
-      "argsString": "(std::nullptr_t ptr)",
+      "argsString": "(std::nullptr_t)",
       "brief": "Construct a null <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code>. ",
       "category": "functions",
       "const": false,
@@ -203,7 +203,7 @@
       ],
       "params": [
         {
-          "name": "ptr",
+          "name": "",
           "type": "std::nullptr_t",
           "typePlain": "std::nullptr_t"
         }
@@ -213,7 +213,7 @@
       ],
       "pureVirtual": false,
       "qualifiedname": "thrust::device_ptr::device_ptr",
-      "refid": "classthrust_1_1device__ptr_1a17a6e6a5574aa05ac28955d161dd9d18",
+      "refid": "classthrust_1_1device__ptr_1a364ab64a6ba00de2d593a570d97810cf",
       "static": false,
       "strong": false,
       "summary": "Construct a null device_ptr. ",
@@ -444,7 +444,7 @@
     {
       "abstract": false,
       "anchor": "#function-operator=",
-      "argsString": "(std::nullptr_t ptr)",
+      "argsString": "(std::nullptr_t)",
       "brief": "Set this <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html\">device&#95;ptr</a></code> to null. ",
       "category": "functions",
       "const": false,
@@ -475,7 +475,7 @@
       ],
       "params": [
         {
-          "name": "ptr",
+          "name": "",
           "type": "std::nullptr_t",
           "typePlain": "std::nullptr_t"
         }
@@ -485,7 +485,7 @@
       ],
       "pureVirtual": false,
       "qualifiedname": "thrust::device_ptr::operator=",
-      "refid": "classthrust_1_1device__ptr_1a90a77c59b2e784d13d7039a4764ab5e4",
+      "refid": "classthrust_1_1device__ptr_1a19717269cdb91a14b319a4223b177faa",
       "returns": [
         "<code>&#42;this</code>. "
       ],

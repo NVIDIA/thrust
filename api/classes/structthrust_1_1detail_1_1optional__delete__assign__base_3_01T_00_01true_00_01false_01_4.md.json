@@ -12,12 +12,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 763,
+    "bodyEnd": 748,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 749,
+    "bodyStart": 734,
     "column": 12,
     "file": "thrust/optional.h",
-    "line": 749
+    "line": 734
   },
   "name": "thrust::detail::optional_delete_assign_base< T, true, false >",
   "override": false,
@@ -85,7 +85,7 @@
       "location": {
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 751
+        "line": 736
       },
       "name": "optional_delete_assign_base",
       "override": false,
@@ -120,7 +120,7 @@
       "location": {
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 753
+        "line": 738
       },
       "name": "optional_delete_assign_base",
       "override": false,
@@ -161,7 +161,7 @@
       "location": {
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 755
+        "line": 740
       },
       "name": "optional_delete_assign_base",
       "override": false,
@@ -202,7 +202,7 @@
       "location": {
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 759
+        "line": 744
       },
       "name": "operator=",
       "override": false,
@@ -243,7 +243,7 @@
       "location": {
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 762
+        "line": 747
       },
       "name": "operator=",
       "override": false,

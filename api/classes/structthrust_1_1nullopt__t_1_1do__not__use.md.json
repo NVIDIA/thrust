@@ -12,12 +12,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 801,
+    "bodyEnd": 786,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 801,
+    "bodyStart": 786,
     "column": 3,
     "file": "thrust/optional.h",
-    "line": 801
+    "line": 786
   },
   "name": "thrust::nullopt_t::do_not_use",
   "override": false,

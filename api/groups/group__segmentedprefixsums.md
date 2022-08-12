@@ -195,6 +195,8 @@ This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code><a 
 
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
 
@@ -257,6 +259,8 @@ This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code><a 
 
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 
 The following code snippet demonstrates how to use <code>inclusive&#95;scan&#95;by&#95;key</code>
 
@@ -316,6 +320,8 @@ Function <code>thrust::inclusive&#95;scan&#95;by&#95;key</code>
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.
 
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -386,6 +392,8 @@ This version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the binary p
 
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 
 The following code snippet demonstrates how to use <code>inclusive&#95;scan&#95;by&#95;key</code>
 
@@ -452,6 +460,8 @@ Function <code>thrust::inclusive&#95;scan&#95;by&#95;key</code>
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.
 
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the associative operator <code>binary&#95;op</code> to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -525,6 +535,8 @@ Function <code>thrust::inclusive&#95;scan&#95;by&#95;key</code>
 
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> uses the associative operator <code>binary&#95;op</code> to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
 
 
@@ -595,6 +607,8 @@ This version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code>plu
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href="{{ site.baseurl }}/api/classes/structthrust_1_1equal__to.html">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 Refer to the most general form of <code>exclusive&#95;scan&#95;by&#95;key</code> for additional details.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
@@ -651,6 +665,8 @@ This version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code>plu
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href="{{ site.baseurl }}/api/classes/structthrust_1_1equal__to.html">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 Refer to the most general form of <code>exclusive&#95;scan&#95;by&#95;key</code> for additional details.
 
 
@@ -701,6 +717,8 @@ Function <code>thrust::exclusive&#95;scan&#95;by&#95;key</code>
 <code>exclusive&#95;scan&#95;by&#95;key</code> computes an exclusive key-value or 'segmented' prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate exclusive scan operation is computed. Refer to the code sample below for example usage.
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -762,6 +780,8 @@ Function <code>thrust::exclusive&#95;scan&#95;by&#95;key</code>
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 
 The following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code>
 
@@ -822,6 +842,8 @@ Function <code>thrust::exclusive&#95;scan&#95;by&#95;key</code>
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <code>init</code> to initialize the exclusive scan operation.
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>binary&#95;pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -890,6 +912,8 @@ This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <c
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>binary&#95;pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 
 The following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code>
 
@@ -957,6 +981,8 @@ This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <c
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>binary&#95;pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the associative operator <code>binary&#95;op</code> to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -1039,6 +1065,8 @@ This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <c
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the binary predicate <code>binary&#95;pred</code> to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>binary&#95;pred(&#42;i, &#42;(i+1))</code> is true, and belong to different segments otherwise.
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the associative operator <code>binary&#95;op</code> to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 
 The following code snippet demonstrates how to use <code>exclusive&#95;scan&#95;by&#95;key</code>

@@ -12,12 +12,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 277,
+    "bodyEnd": 262,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 277,
+    "bodyStart": 262,
     "column": 11,
     "file": "thrust/optional.h",
-    "line": 277
+    "line": 262
   },
   "name": "thrust::detail::voider",
   "override": false,
@@ -81,10 +81,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 277,
+        "bodyStart": 262,
         "column": 24,
         "file": "thrust/optional.h",
-        "line": 277
+        "line": 262
       },
       "name": "type",
       "override": false,

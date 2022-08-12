@@ -21,12 +21,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 197,
+    "bodyEnd": 198,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 197,
+    "bodyStart": 198,
     "column": 11,
     "file": "thrust/optional.h",
-    "line": 197
+    "line": 198
   },
   "name": "thrust::detail::conjunction",
   "override": false,

@@ -14,7 +14,7 @@
   "location": {
     "column": 1,
     "file": "thrust/system/cuda/config.h",
-    "line": 105
+    "line": 142
   },
   "name": "thrust::cub",
   "override": false,

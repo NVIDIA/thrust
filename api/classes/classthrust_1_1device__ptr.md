@@ -41,7 +41,7 @@ The raw pointer contained in a <code><a href="{{ site.baseurl }}/api/classes/cla
 /* Construct a null <code><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html">device&#95;ptr</a></code>.  */</span><span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-device-ptr">device&#95;ptr</a></b>();</span>
 <br>
 <span class="doxybook-comment"><code>&nbsp;&nbsp;</code>
-/* Construct a null <code><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html">device&#95;ptr</a></code>.  */</span><span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-device-ptr">device&#95;ptr</a></b>(std::nullptr_t ptr);</span>
+/* Construct a null <code><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html">device&#95;ptr</a></code>.  */</span><span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-device-ptr">device&#95;ptr</a></b>(std::nullptr_t);</span>
 <br>
 <span class="doxybook-comment"><code>&nbsp;&nbsp;</code>
 /* Construct a <code><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html">device&#95;ptr</a></code> from a raw pointer which is convertible to <code>T&#42;</code>.  */</span><span>&nbsp;&nbsp;template &lt;typename U&gt;</span>
@@ -56,7 +56,7 @@ The raw pointer contained in a <code><a href="{{ site.baseurl }}/api/classes/cla
 <span>&nbsp;&nbsp;__host__ __device__ <a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html">device_ptr</a> & </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-operator=">operator=</a></b>(<a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html">device_ptr</a>< U > const & other);</span>
 <br>
 <span class="doxybook-comment"><code>&nbsp;&nbsp;</code>
-/* Set this <code><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html">device&#95;ptr</a></code> to null.  */</span><span>&nbsp;&nbsp;__host__ __device__ <a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html">device_ptr</a> & </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-operator=">operator=</a></b>(std::nullptr_t ptr);</span>
+/* Set this <code><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html">device&#95;ptr</a></code> to null.  */</span><span>&nbsp;&nbsp;__host__ __device__ <a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html">device_ptr</a> & </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-operator=">operator=</a></b>(std::nullptr_t);</span>
 <br>
 <span class="doxybook-comment"><code>&nbsp;&nbsp;</code>
 /* Return the raw pointer that this <code><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html">device&#95;ptr</a></code> points to.  */</span><span>&nbsp;&nbsp;__host__ __device__ T * </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html#function-get">get</a></b>() const;</span>
@@ -81,7 +81,7 @@ Function <code>thrust::device&#95;ptr::device&#95;ptr</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ __device__ </span><span><b>device_ptr</b>(std::nullptr_t ptr);</span></code>
+<span>__host__ __device__ </span><span><b>device_ptr</b>(std::nullptr_t);</span></code>
 Construct a null <code><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html">device&#95;ptr</a></code>. 
 
 **Function Parameters**:
@@ -162,7 +162,7 @@ Function <code>thrust::device&#95;ptr::operator=</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html">device_ptr</a> & </span><span><b>operator=</b>(std::nullptr_t ptr);</span></code>
+<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html">device_ptr</a> & </span><span><b>operator=</b>(std::nullptr_t);</span></code>
 Set this <code><a href="{{ site.baseurl }}/api/classes/classthrust_1_1device__ptr.html">device&#95;ptr</a></code> to null. 
 
 **Function Parameters**:

@@ -29,15 +29,6 @@ has_toc: false
 <br>
 <span>struct <b><a href="{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1i__am__secret.html">i&#95;am&#95;secret</a></b>;</span>
 <br>
-<span>template &lt;class F,</span>
-<span>&nbsp;&nbsp;class,</span>
-<span>&nbsp;&nbsp;class... Us&gt;</span>
-<span>struct <b><a href="{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1invoke__result__impl.html">invoke&#95;result&#95;impl</a></b>;</span>
-<br>
-<span>template &lt;class F,</span>
-<span>&nbsp;&nbsp;class... Us&gt;</span>
-<span>struct <b><a href="{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1invoke__result__impl_3_01f_00_01decltype_07detail_1_1invoke_07std_1.html">invoke&#95;result&#95;impl&lt; F, decltype(detail::invoke(std::declval&lt; F &gt;(), std::declval&lt; Us &gt;()...), void()), Us... &gt;</a></b>;</span>
-<br>
 <span>template &lt;class T,</span>
 <span>&nbsp;&nbsp;class U = T&gt;</span>
 <span>struct <b><a href="{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1is__nothrow__swappable.html">is&#95;nothrow&#95;swappable</a></b>;</span>
@@ -148,14 +139,6 @@ has_toc: false
 <span>&nbsp;&nbsp;class F&gt;</span>
 <span>using <b><a href="{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-conditional-t">conditional&#95;t</a></b> = <i>see below</i>;</span>
 <br>
-<span>template &lt;class F,</span>
-<span>&nbsp;&nbsp;class... Us&gt;</span>
-<span>using <b><a href="{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-invoke-result">invoke&#95;result</a></b> = <i>see below</i>;</span>
-<br>
-<span>template &lt;class F,</span>
-<span>&nbsp;&nbsp;class... Us&gt;</span>
-<span>using <b><a href="{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-invoke-result-t">invoke&#95;result&#95;t</a></b> = <i>see below</i>;</span>
-<br>
 <span>template &lt;class... Ts&gt;</span>
 <span>using <b><a href="{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#using-void-t">void&#95;t</a></b> = <i>see below</i>;</span>
 <br>
@@ -240,20 +223,6 @@ has_toc: false
 <span>&nbsp;&nbsp;typename = enable&#95;if&#95;t&lt;!std::is&#95;member&#95;pointer&lt;decay&#95;t&lt;Fn&gt;&gt;::value&gt;&gt;</span>
 <span>__thrust_exec_check_disable__ __host__ __device__ constexpr auto </span><span><b><a href="{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#function-invoke">invoke</a></b>(Fn && f,</span>
 <span>&nbsp;&nbsp;Args &&... args);</span>
-<br>
-<span>template &lt;class Opt,</span>
-<span>&nbsp;&nbsp;class F,</span>
-<span>&nbsp;&nbsp;class Ret = decltype(detail::invoke(std::declval&lt;F&gt;(),                                              &#42;std::declval&lt;Opt&gt;())),</span>
-<span>&nbsp;&nbsp;detail::enable_if_t<!std::is_void< Ret >::value > * = nullptr&gt;</span>
-<span>__thrust_exec_check_disable__ __host__ __device__ constexpr auto </span><span><b><a href="{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#function-optional-map-impl">optional&#95;map&#95;impl</a></b>(Opt && opt,</span>
-<span>&nbsp;&nbsp;F && f);</span>
-<br>
-<span>template &lt;class Opt,</span>
-<span>&nbsp;&nbsp;class F,</span>
-<span>&nbsp;&nbsp;class Ret = decltype(detail::invoke(std::declval&lt;F&gt;(),                                              &#42;std::declval&lt;Opt&gt;())),</span>
-<span>&nbsp;&nbsp;detail::enable_if_t< std::is_void< Ret >::value > * = nullptr&gt;</span>
-<span>__thrust_exec_check_disable__ __host__ __device__ auto </span><span><b><a href="{{ site.baseurl }}/api/namespaces/namespacethrust_1_1detail.html#function-optional-map-impl">optional&#95;map&#95;impl</a></b>(Opt && opt,</span>
-<span>&nbsp;&nbsp;F && f);</span>
 <span>} /* namespace thrust::detail */</span>
 </code>
 
@@ -285,16 +254,6 @@ has_toc: false
 
 <h3 id="struct-thrustdetaili-am-secret">
 <a href="{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1i__am__secret.html">Struct <code>thrust::detail::i&#95;am&#95;secret</code>
-</a>
-</h3>
-
-<h3 id="struct-thrustdetailinvoke-result-impl">
-<a href="{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1invoke__result__impl.html">Struct <code>thrust::detail::invoke&#95;result&#95;impl</code>
-</a>
-</h3>
-
-<h3 id="struct-thrustdetailinvoke-result-impl<-f,-decltype(detailinvoke(stddeclval<-f->(),-stddeclval<-us->()...),-void()),-us...->">
-<a href="{{ site.baseurl }}/api/classes/structthrust_1_1detail_1_1invoke__result__impl_3_01f_00_01decltype_07detail_1_1invoke_07std_1.html">Struct <code>thrust::detail::invoke&#95;result&#95;impl&lt; F, decltype(detail::invoke(std::declval&lt; F &gt;(), std::declval&lt; Us &gt;()...), void()), Us... &gt;</code>
 </a>
 </h3>
 
@@ -539,22 +498,6 @@ Type Alias <code>thrust::detail::conditional&#95;t</code>
 <span>&nbsp;&nbsp;class T,</span>
 <span>&nbsp;&nbsp;class F&gt;</span>
 <span>using <b>conditional_t</b> = typename std::conditional&lt; B, T, F &gt;::type;</span></code>
-<h3 id="using-invoke-result">
-Type Alias <code>thrust::detail::invoke&#95;result</code>
-</h3>
-
-<code class="doxybook">
-<span>template &lt;class F,</span>
-<span>&nbsp;&nbsp;class... Us&gt;</span>
-<span>using <b>invoke_result</b> = invoke&#95;result&#95;impl&lt; F, void, Us... &gt;;</span></code>
-<h3 id="using-invoke-result-t">
-Type Alias <code>thrust::detail::invoke&#95;result&#95;t</code>
-</h3>
-
-<code class="doxybook">
-<span>template &lt;class F,</span>
-<span>&nbsp;&nbsp;class... Us&gt;</span>
-<span>using <b>invoke_result_t</b> = typename invoke&#95;result&lt; F, Us... &gt;::type;</span></code>
 <h3 id="using-void-t">
 Type Alias <code>thrust::detail::void&#95;t</code>
 </h3>
@@ -711,26 +654,4 @@ Function <code>thrust::detail::invoke</code>
 <span>&nbsp;&nbsp;typename = enable&#95;if&#95;t&lt;!std::is&#95;member&#95;pointer&lt;decay&#95;t&lt;Fn&gt;&gt;::value&gt;&gt;</span>
 <span>__thrust_exec_check_disable__ __host__ __device__ constexpr auto </span><span><b>invoke</b>(Fn && f,</span>
 <span>&nbsp;&nbsp;Args &&... args);</span></code>
-<h3 id="function-optional-map-impl">
-Function <code>thrust::detail::optional&#95;map&#95;impl</code>
-</h3>
-
-<code class="doxybook">
-<span>template &lt;class Opt,</span>
-<span>&nbsp;&nbsp;class F,</span>
-<span>&nbsp;&nbsp;class Ret = decltype(detail::invoke(std::declval&lt;F&gt;(),                                              &#42;std::declval&lt;Opt&gt;())),</span>
-<span>&nbsp;&nbsp;detail::enable_if_t<!std::is_void< Ret >::value > * = nullptr&gt;</span>
-<span>__thrust_exec_check_disable__ __host__ __device__ constexpr auto </span><span><b>optional_map_impl</b>(Opt && opt,</span>
-<span>&nbsp;&nbsp;F && f);</span></code>
-<h3 id="function-optional-map-impl">
-Function <code>thrust::detail::optional&#95;map&#95;impl</code>
-</h3>
-
-<code class="doxybook">
-<span>template &lt;class Opt,</span>
-<span>&nbsp;&nbsp;class F,</span>
-<span>&nbsp;&nbsp;class Ret = decltype(detail::invoke(std::declval&lt;F&gt;(),                                              &#42;std::declval&lt;Opt&gt;())),</span>
-<span>&nbsp;&nbsp;detail::enable_if_t< std::is_void< Ret >::value > * = nullptr&gt;</span>
-<span>__thrust_exec_check_disable__ __host__ __device__ auto </span><span><b>optional_map_impl</b>(Opt && opt,</span>
-<span>&nbsp;&nbsp;F && f);</span></code>
 

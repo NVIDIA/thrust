@@ -31,12 +31,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 633,
+    "bodyEnd": 618,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 631,
+    "bodyStart": 616,
     "column": 1,
     "file": "thrust/optional.h",
-    "line": 631
+    "line": 616
   },
   "name": "thrust::detail::optional_move_assign_base",
   "override": false,

@@ -21,12 +21,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 350,
+    "bodyEnd": 335,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 350,
+    "bodyStart": 335,
     "column": 16,
     "file": "thrust/optional.h",
-    "line": 350
+    "line": 335
   },
   "name": "thrust::detail::is_swappable",
   "override": false,

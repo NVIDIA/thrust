@@ -13,10 +13,10 @@
   "language": "cpp",
   "location": {
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 293,
+    "bodyStart": 278,
     "column": 17,
     "file": "thrust/optional.h",
-    "line": 293
+    "line": 278
   },
   "name": "thrust::detail::returns_void_impl",
   "override": false,

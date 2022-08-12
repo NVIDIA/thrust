@@ -20,10 +20,10 @@
       "language": "",
       "location": {
         "bodyFile": "thrust/type_traits/is_contiguous_iterator.h",
-        "bodyStart": 119,
+        "bodyStart": 122,
         "column": 9,
         "file": "thrust/type_traits/is_contiguous_iterator.h",
-        "line": 119
+        "line": 122
       },
       "name": "THRUST_PROCLAIM_CONTIGUOUS_ITERATOR",
       "override": false,
@@ -131,10 +131,10 @@
       "language": "",
       "location": {
         "bodyFile": "thrust/type_traits/is_contiguous_iterator.h",
-        "bodyStart": 98,
+        "bodyStart": 101,
         "column": 16,
         "file": "thrust/type_traits/is_contiguous_iterator.h",
-        "line": 98
+        "line": 101
       },
       "name": "is_contiguous_iterator_v",
       "override": false,
@@ -1199,10 +1199,10 @@
       "language": "",
       "location": {
         "bodyFile": "thrust/type_traits/is_contiguous_iterator.h",
-        "bodyStart": 85,
+        "bodyStart": 88,
         "column": 1,
         "file": "thrust/type_traits/is_contiguous_iterator.h",
-        "line": 77
+        "line": 80
       },
       "name": "is_contiguous_iterator",
       "override": false,

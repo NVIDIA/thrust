@@ -12,12 +12,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 446,
+    "bodyEnd": 431,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 446,
+    "bodyStart": 431,
     "column": 3,
     "file": "thrust/optional.h",
-    "line": 446
+    "line": 431
   },
   "name": "thrust::detail::optional_storage_base::dummy",
   "override": false,

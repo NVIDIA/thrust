@@ -14,7 +14,7 @@
   "location": {
     "column": 1,
     "file": "thrust/system/cuda/config.h",
-    "line": 107
+    "line": 144
   },
   "name": "CUB_NS_QUALIFIER",
   "override": false,

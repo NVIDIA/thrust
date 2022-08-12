@@ -12,12 +12,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 2884,
+    "bodyEnd": 2872,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 2875,
+    "bodyStart": 2863,
     "column": 12,
     "file": "thrust/optional.h",
-    "line": 2875
+    "line": 2863
   },
   "name": "std::hash< THRUST_NS_QUALIFIER::optional< T > >",
   "override": false,
@@ -66,12 +66,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 2883,
+        "bodyEnd": 2871,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 2878,
+        "bodyStart": 2866,
         "column": 17,
         "file": "thrust/optional.h",
-        "line": 2878
+        "line": 2866
       },
       "name": "operator()",
       "override": false,

@@ -736,7 +736,7 @@
   "kind": "class",
   "language": "cpp",
   "location": {
-    "bodyEnd": 245,
+    "bodyEnd": 246,
     "bodyFile": "thrust/mr/allocator.h",
     "bodyStart": 203,
     "column": 1,
@@ -887,7 +887,7 @@
       "category": "functions",
       "const": false,
       "default": false,
-      "definition": "__host__ thrust::mr::stateless_resource_allocator< T, Upstream >::stateless_resource_allocator",
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ thrust::mr::stateless_resource_allocator< T, Upstream >::stateless_resource_allocator",
       "deleted": false,
       "details": "Default constructor. Uses <code>get&#95;global&#95;resource</code> to get the global instance of <code>Upstream</code> and initializes the <code>allocator</code> base subobject with that resource. ",
       "explicit": false,
@@ -897,24 +897,24 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 225,
+        "bodyEnd": 226,
         "bodyFile": "thrust/mr/allocator.h",
-        "bodyStart": 223,
+        "bodyStart": 224,
         "column": 5,
         "file": "thrust/mr/allocator.h",
-        "line": 223
+        "line": 224
       },
       "name": "stateless_resource_allocator",
       "override": false,
       "params": [],
       "pureVirtual": false,
       "qualifiedname": "thrust::mr::stateless_resource_allocator::stateless_resource_allocator",
-      "refid": "classthrust_1_1mr_1_1stateless__resource__allocator_1a4963489c68fd728f140890153c8fcbb5",
+      "refid": "classthrust_1_1mr_1_1stateless__resource__allocator_1a04e0900fc42027bfff4704456f89bff0",
       "static": false,
       "strong": false,
       "title": "stateless_resource_allocator",
-      "type": "__host__",
-      "typePlain": "__host__",
+      "type": "__thrust_exec_check_disable__ __host__ __device__",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__",
       "url": "{{ site.baseurl }}/api/classes/classthrust_1_1mr_1_1stateless__resource__allocator.html#function-stateless-resource-allocator",
       "virtual": false,
       "visibility": "public"
@@ -936,12 +936,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 230,
+        "bodyEnd": 231,
         "bodyFile": "thrust/mr/allocator.h",
-        "bodyStart": 229,
+        "bodyStart": 230,
         "column": 5,
         "file": "thrust/mr/allocator.h",
-        "line": 229
+        "line": 230
       },
       "name": "stateless_resource_allocator",
       "override": false,
@@ -981,12 +981,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 236,
+        "bodyEnd": 237,
         "bodyFile": "thrust/mr/allocator.h",
-        "bodyStart": 235,
+        "bodyStart": 236,
         "column": 5,
         "file": "thrust/mr/allocator.h",
-        "line": 235
+        "line": 236
       },
       "name": "stateless_resource_allocator",
       "override": false,
@@ -1034,7 +1034,7 @@
       "location": {
         "column": 35,
         "file": "thrust/mr/allocator.h",
-        "line": 239
+        "line": 240
       },
       "name": "operator=",
       "override": false,
@@ -1074,12 +1074,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 244,
+        "bodyEnd": 245,
         "bodyFile": "thrust/mr/allocator.h",
-        "bodyStart": 244,
+        "bodyStart": 245,
         "column": 5,
         "file": "thrust/mr/allocator.h",
-        "line": 244
+        "line": 245
       },
       "name": "~stateless_resource_allocator",
       "override": false,

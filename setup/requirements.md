@@ -6,7 +6,7 @@ nav_order: 0
 # Requirements
 
 All requirements are applicable to the `main` branch on GitHub.
-For details on specific releases, please see the [changelog].
+For details on specific releases, please see the [CHANGELOG.md].
 
 ## Usage Requirements
 

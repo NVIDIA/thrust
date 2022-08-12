@@ -21,12 +21,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 282,
+    "bodyEnd": 267,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 282,
+    "bodyStart": 267,
     "column": 12,
     "file": "thrust/optional.h",
-    "line": 282
+    "line": 267
   },
   "name": "thrust::detail::is_optional_impl< optional< T > >",
   "override": false,

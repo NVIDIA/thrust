@@ -327,12 +327,12 @@
       "kind": "function",
       "language": "",
       "location": {
-        "bodyEnd": 200,
+        "bodyEnd": 202,
         "bodyFile": "thrust/zip_function.h",
-        "bodyStart": 196,
+        "bodyStart": 198,
         "column": 1,
         "file": "thrust/zip_function.h",
-        "line": 196
+        "line": 198
       },
       "name": "make_zip_function",
       "override": false,

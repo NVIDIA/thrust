@@ -21,12 +21,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 660,
+    "bodyEnd": 645,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 636,
+    "bodyStart": 621,
     "column": 1,
     "file": "thrust/optional.h",
-    "line": 636
+    "line": 621
   },
   "name": "thrust::detail::optional_move_assign_base< T, false >",
   "override": false,
@@ -94,7 +94,7 @@
       "location": {
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 640
+        "line": 625
       },
       "name": "optional_move_assign_base",
       "override": false,
@@ -129,7 +129,7 @@
       "location": {
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 642
+        "line": 627
       },
       "name": "optional_move_assign_base",
       "override": false,
@@ -170,7 +170,7 @@
       "location": {
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 645
+        "line": 630
       },
       "name": "optional_move_assign_base",
       "override": false,
@@ -211,7 +211,7 @@
       "location": {
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 649
+        "line": 634
       },
       "name": "operator=",
       "override": false,
@@ -250,12 +250,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 659,
+        "bodyEnd": 644,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 654,
+        "bodyStart": 639,
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 654
+        "line": 639
       },
       "name": "operator=",
       "override": false,

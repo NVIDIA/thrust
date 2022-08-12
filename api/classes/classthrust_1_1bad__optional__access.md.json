@@ -21,12 +21,12 @@
   "kind": "class",
   "language": "cpp",
   "location": {
-    "bodyEnd": 822,
+    "bodyEnd": 807,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 817,
+    "bodyStart": 802,
     "column": 1,
     "file": "thrust/optional.h",
-    "line": 817
+    "line": 802
   },
   "name": "thrust::bad_optional_access",
   "override": false,
@@ -77,7 +77,7 @@
       "location": {
         "column": 3,
         "file": "thrust/optional.h",
-        "line": 819
+        "line": 804
       },
       "name": "bad_optional_access",
       "override": false,
@@ -108,12 +108,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 821,
+        "bodyEnd": 806,
         "bodyFile": "thrust/optional.h",
-        "bodyStart": 821,
+        "bodyStart": 806,
         "column": 14,
         "file": "thrust/optional.h",
-        "line": 821
+        "line": 806
       },
       "name": "what",
       "override": false,

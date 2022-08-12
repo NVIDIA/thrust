@@ -2147,7 +2147,7 @@
       "location": {
         "column": 17,
         "file": "thrust/unique.h",
-        "line": 79
+        "line": 80
       },
       "name": "unique",
       "override": false,
@@ -2242,7 +2242,7 @@
       "location": {
         "column": 17,
         "file": "thrust/unique.h",
-        "line": 120
+        "line": 121
       },
       "name": "unique",
       "override": false,
@@ -2319,7 +2319,7 @@
       "location": {
         "column": 17,
         "file": "thrust/unique.h",
-        "line": 172
+        "line": 173
       },
       "name": "unique",
       "override": false,
@@ -2432,7 +2432,7 @@
       "location": {
         "column": 17,
         "file": "thrust/unique.h",
-        "line": 218
+        "line": 219
       },
       "name": "unique",
       "override": false,
@@ -2527,7 +2527,7 @@
       "location": {
         "column": 16,
         "file": "thrust/unique.h",
-        "line": 279
+        "line": 280
       },
       "name": "unique_copy",
       "override": false,
@@ -2643,7 +2643,7 @@
       "location": {
         "column": 16,
         "file": "thrust/unique.h",
-        "line": 333
+        "line": 334
       },
       "name": "unique_copy",
       "override": false,
@@ -2741,7 +2741,7 @@
       "location": {
         "column": 16,
         "file": "thrust/unique.h",
-        "line": 388
+        "line": 389
       },
       "name": "unique_copy",
       "override": false,
@@ -2875,7 +2875,7 @@
       "location": {
         "column": 16,
         "file": "thrust/unique.h",
-        "line": 437
+        "line": 438
       },
       "name": "unique_copy",
       "override": false,
@@ -2991,7 +2991,7 @@
       "location": {
         "column": 3,
         "file": "thrust/unique.h",
-        "line": 502
+        "line": 503
       },
       "name": "unique_by_key",
       "override": false,
@@ -3108,7 +3108,7 @@
       "location": {
         "column": 3,
         "file": "thrust/unique.h",
-        "line": 559
+        "line": 560
       },
       "name": "unique_by_key",
       "override": false,
@@ -3207,7 +3207,7 @@
       "location": {
         "column": 5,
         "file": "thrust/unique.h",
-        "line": 623
+        "line": 624
       },
       "name": "unique_by_key",
       "override": false,
@@ -3342,7 +3342,7 @@
       "location": {
         "column": 3,
         "file": "thrust/unique.h",
-        "line": 681
+        "line": 682
       },
       "name": "unique_by_key",
       "override": false,
@@ -3459,7 +3459,7 @@
       "location": {
         "column": 5,
         "file": "thrust/unique.h",
-        "line": 749
+        "line": 750
       },
       "name": "unique_by_key_copy",
       "override": false,
@@ -3612,7 +3612,7 @@
       "location": {
         "column": 3,
         "file": "thrust/unique.h",
-        "line": 811
+        "line": 812
       },
       "name": "unique_by_key_copy",
       "override": false,
@@ -3747,7 +3747,7 @@
       "location": {
         "column": 5,
         "file": "thrust/unique.h",
-        "line": 884
+        "line": 885
       },
       "name": "unique_by_key_copy",
       "override": false,
@@ -3918,7 +3918,7 @@
       "location": {
         "column": 3,
         "file": "thrust/unique.h",
-        "line": 951
+        "line": 952
       },
       "name": "unique_by_key_copy",
       "override": false,
@@ -4049,6 +4049,422 @@
       "type": "<a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1pair.html\">thrust::pair</a>< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-by-key-copy",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-count",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate binary_pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::iterator_traits< ForwardIterator >::difference_type thrust::unique_count",
+      "deleted": false,
+      "details": "<code>unique&#95;count</code> counts runs of equal elements in the range <code>[first, last)</code> with the same value,\n\nThis version of <code>unique&#95;count</code> uses the function object <code>binary&#95;pred</code> to test for equality.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;count</code> to determine a number of runs of equal elements using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1};\nint count = thrust::unique_count(thrust::host, A, A + N, thrust::equal_to<int>());\n// count is now 4\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique_count",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/unique.h",
+        "line": 1001
+      },
+      "name": "unique_count",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_count",
+      "refid": "group__stream__compaction_1ga17c527c27c10d1bf67814181d30d66ef",
+      "returns": [
+        "The number of runs of equal elements in <code>[first, new&#95;last)</code>"
+      ],
+      "see": [
+        "unique_copy ",
+        "unique_by_key_copy ",
+        "reduce_by_key_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "unique_count",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">thrust::iterator_traits</a>< ForwardIterator >::difference_type",
+      "typePlain": "__host__ __device__ thrust::iterator_traits< ForwardIterator >::difference_type",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-count",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-count",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, ForwardIterator first, ForwardIterator last)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::iterator_traits< ForwardIterator >::difference_type thrust::unique_count",
+      "deleted": false,
+      "details": "<code>unique&#95;count</code> counts runs of equal elements in the range <code>[first, last)</code> with the same value,\n\nThis version of <code>unique&#95;count</code> uses <code>operator==</code> to test for equality.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;count</code> to determine the number of runs of equal elements using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1};\nint count = thrust::unique_count(thrust::host, A, A + N);\n// count is now 4\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique_count",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/unique.h",
+        "line": 1047
+      },
+      "name": "unique_count",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_count",
+      "refid": "group__stream__compaction_1ga6f75f3371cf91c3ac81d2c6f9a2fdee8",
+      "returns": [
+        "The number of runs of equal elements in <code>[first, new&#95;last)</code>"
+      ],
+      "see": [
+        "unique_copy ",
+        "unique_by_key_copy ",
+        "reduce_by_key_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "unique_count",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">thrust::iterator_traits</a>< ForwardIterator >::difference_type",
+      "typePlain": "__host__ __device__ thrust::iterator_traits< ForwardIterator >::difference_type",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-count",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-count",
+      "argsString": "(ForwardIterator first, ForwardIterator last, BinaryPredicate binary_pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::iterator_traits< ForwardIterator >::difference_type thrust::unique_count",
+      "deleted": false,
+      "details": "<code>unique&#95;count</code> counts runs of equal elements in the range <code>[first, last)</code> with the same value,\n\nThis version of <code>unique&#95;count</code> uses the function object <code>binary&#95;pred</code> to test for equality.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;count</code> to determine the number of runs of equal elements:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1};\nint count = thrust::unique_count(A, A + N, thrust::equal_to<int>());\n// count is now 4\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique_count",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/unique.h",
+        "line": 1089
+      },
+      "name": "unique_count",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "binary_pred",
+          "type": "BinaryPredicate",
+          "typePlain": "BinaryPredicate"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_count",
+      "refid": "group__stream__compaction_1gaf93e0693e7768a0cd968a6278501b063",
+      "returns": [
+        "The number of runs of equal elements in <code>[first, new&#95;last)</code>"
+      ],
+      "see": [
+        "unique_copy ",
+        "unique_by_key_copy ",
+        "reduce_by_key_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "unique_count",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">thrust::iterator_traits</a>< ForwardIterator >::difference_type",
+      "typePlain": "__host__ __device__ thrust::iterator_traits< ForwardIterator >::difference_type",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-count",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique-count",
+      "argsString": "(ForwardIterator first, ForwardIterator last)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ thrust::iterator_traits< ForwardIterator >::difference_type thrust::unique_count",
+      "deleted": false,
+      "details": "<code>unique&#95;count</code> counts runs of equal elements in the range <code>[first, last)</code> with the same value,\n\nThis version of <code>unique&#95;count</code> uses <code>operator==</code> to test for equality.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;count</code> to determine the number of runs of equal elements:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1};\nint count = thrust::unique_count(thrust::host, A, A + N);\n// count is now 4\n```",
+      "explicit": false,
+      "fullname": "stream_compaction::unique_count",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "language": "",
+      "location": {
+        "column": 5,
+        "file": "thrust/unique.h",
+        "line": 1130
+      },
+      "name": "unique_count",
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "The beginning of the input range. "
+        },
+        {
+          "name": "last",
+          "text": "The end of the input range. "
+        },
+        {
+          "name": "binary_pred",
+          "text": "The binary predicate used to determine equality. "
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        },
+        {
+          "name": "last",
+          "type": "ForwardIterator",
+          "typePlain": "ForwardIterator"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::unique_count",
+      "refid": "group__stream__compaction_1ga2aa6edabfabf1613ca8ccc9fdf211ffa",
+      "returns": [
+        "The number of runs of equal elements in <code>[first, new&#95;last)</code>"
+      ],
+      "see": [
+        "unique_copy ",
+        "unique_by_key_copy ",
+        "reduce_by_key_copy "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename ForwardIterator",
+          "typePlain": "typename ForwardIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "ForwardIterator",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/forward_iterator\">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. "
+        },
+        {
+          "name": "BinaryPredicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/BinaryPredicate\">Binary Predicate</a>."
+        }
+      ],
+      "title": "unique_count",
+      "type": "__host__ __device__ <a href=\"{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html\">thrust::iterator_traits</a>< ForwardIterator >::difference_type",
+      "typePlain": "__host__ __device__ thrust::iterator_traits< ForwardIterator >::difference_type",
+      "url": "{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-count",
       "virtual": false,
       "visibility": "public"
     }

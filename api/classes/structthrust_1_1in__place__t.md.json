@@ -14,12 +14,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 175,
+    "bodyEnd": 176,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 173,
+    "bodyStart": 174,
     "column": 1,
     "file": "thrust/optional.h",
-    "line": 173
+    "line": 174
   },
   "name": "thrust::in_place_t",
   "override": false,
@@ -70,7 +70,7 @@
       "location": {
         "column": 12,
         "file": "thrust/optional.h",
-        "line": 174
+        "line": 175
       },
       "name": "in_place_t",
       "override": false,

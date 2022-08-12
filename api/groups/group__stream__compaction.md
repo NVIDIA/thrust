@@ -289,6 +289,30 @@ has_toc: false
 <span>&nbsp;&nbsp;OutputIterator1 keys_result,</span>
 <span>&nbsp;&nbsp;OutputIterator2 values_result,</span>
 <span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span>
+<br>
+<span>template &lt;typename DerivedPolicy,</span>
+<span>&nbsp;&nbsp;typename ForwardIterator,</span>
+<span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
+<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html">thrust::iterator_traits</a>< ForwardIterator >::difference_type </span><span><b><a href="{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-count">thrust::unique&#95;count</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>&nbsp;&nbsp;ForwardIterator first,</span>
+<span>&nbsp;&nbsp;ForwardIterator last,</span>
+<span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span>
+<br>
+<span>template &lt;typename DerivedPolicy,</span>
+<span>&nbsp;&nbsp;typename ForwardIterator&gt;</span>
+<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html">thrust::iterator_traits</a>< ForwardIterator >::difference_type </span><span><b><a href="{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-count">thrust::unique&#95;count</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>&nbsp;&nbsp;ForwardIterator first,</span>
+<span>&nbsp;&nbsp;ForwardIterator last);</span>
+<br>
+<span>template &lt;typename ForwardIterator,</span>
+<span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
+<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html">thrust::iterator_traits</a>< ForwardIterator >::difference_type </span><span><b><a href="{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-count">thrust::unique&#95;count</a></b>(ForwardIterator first,</span>
+<span>&nbsp;&nbsp;ForwardIterator last,</span>
+<span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span>
+<br>
+<span>template &lt;typename ForwardIterator&gt;</span>
+<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html">thrust::iterator_traits</a>< ForwardIterator >::difference_type </span><span><b><a href="{{ site.baseurl }}/api/groups/group__stream__compaction.html#function-unique-count">thrust::unique&#95;count</a></b>(ForwardIterator first,</span>
+<span>&nbsp;&nbsp;ForwardIterator last);</span>
 </code>
 
 ## Functions
@@ -2212,5 +2236,201 @@ A pair of iterators at end of the ranges <code>[keys&#95;result, keys&#95;result
 * unique_copy 
 * unique_by_key 
 * reduce_by_key 
+
+<h3 id="function-unique-count">
+Function <code>thrust::unique&#95;count</code>
+</h3>
+
+<code class="doxybook">
+<span>template &lt;typename DerivedPolicy,</span>
+<span>&nbsp;&nbsp;typename ForwardIterator,</span>
+<span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
+<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html">thrust::iterator_traits</a>< ForwardIterator >::difference_type </span><span><b>unique_count</b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>&nbsp;&nbsp;ForwardIterator first,</span>
+<span>&nbsp;&nbsp;ForwardIterator last,</span>
+<span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span></code>
+<code>unique&#95;count</code> counts runs of equal elements in the range <code>[first, last)</code> with the same value,
+
+This version of <code>unique&#95;count</code> uses the function object <code>binary&#95;pred</code> to test for equality.
+
+The algorithm's execution is parallelized as determined by <code>exec</code>.
+
+
+The following code snippet demonstrates how to use <code>unique&#95;count</code> to determine a number of runs of equal elements using the <code>thrust::host</code> execution policy for parallelization:
+
+
+
+```cpp
+#include <thrust/unique.h>
+#include <thrust/execution_policy.h>
+...
+const int N = 7;
+int A[N] = {1, 3, 3, 3, 2, 2, 1};
+int count = thrust::unique_count(thrust::host, A, A + N, thrust::equal_to<int>());
+// count is now 4
+```
+
+**Template Parameters**:
+* **`DerivedPolicy`** The name of the derived execution policy. 
+* **`ForwardIterator`** is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. 
+* **`BinaryPredicate`** is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
+
+**Function Parameters**:
+* **`exec`** The execution policy to use for parallelization. 
+* **`first`** The beginning of the input range. 
+* **`last`** The end of the input range. 
+* **`binary_pred`** The binary predicate used to determine equality. 
+
+**Returns**:
+The number of runs of equal elements in <code>[first, new&#95;last)</code>
+
+**See**:
+* unique_copy 
+* unique_by_key_copy 
+* reduce_by_key_copy 
+
+<h3 id="function-unique-count">
+Function <code>thrust::unique&#95;count</code>
+</h3>
+
+<code class="doxybook">
+<span>template &lt;typename DerivedPolicy,</span>
+<span>&nbsp;&nbsp;typename ForwardIterator&gt;</span>
+<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html">thrust::iterator_traits</a>< ForwardIterator >::difference_type </span><span><b>unique_count</b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>&nbsp;&nbsp;ForwardIterator first,</span>
+<span>&nbsp;&nbsp;ForwardIterator last);</span></code>
+<code>unique&#95;count</code> counts runs of equal elements in the range <code>[first, last)</code> with the same value,
+
+This version of <code>unique&#95;count</code> uses <code>operator==</code> to test for equality.
+
+The algorithm's execution is parallelized as determined by <code>exec</code>.
+
+
+The following code snippet demonstrates how to use <code>unique&#95;count</code> to determine the number of runs of equal elements using the <code>thrust::host</code> execution policy for parallelization:
+
+
+
+```cpp
+#include <thrust/unique.h>
+#include <thrust/execution_policy.h>
+...
+const int N = 7;
+int A[N] = {1, 3, 3, 3, 2, 2, 1};
+int count = thrust::unique_count(thrust::host, A, A + N);
+// count is now 4
+```
+
+**Template Parameters**:
+* **`DerivedPolicy`** The name of the derived execution policy. 
+* **`ForwardIterator`** is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. 
+* **`BinaryPredicate`** is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
+
+**Function Parameters**:
+* **`exec`** The execution policy to use for parallelization. 
+* **`first`** The beginning of the input range. 
+* **`last`** The end of the input range. 
+* **`binary_pred`** The binary predicate used to determine equality. 
+
+**Returns**:
+The number of runs of equal elements in <code>[first, new&#95;last)</code>
+
+**See**:
+* unique_copy 
+* unique_by_key_copy 
+* reduce_by_key_copy 
+
+<h3 id="function-unique-count">
+Function <code>thrust::unique&#95;count</code>
+</h3>
+
+<code class="doxybook">
+<span>template &lt;typename ForwardIterator,</span>
+<span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
+<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html">thrust::iterator_traits</a>< ForwardIterator >::difference_type </span><span><b>unique_count</b>(ForwardIterator first,</span>
+<span>&nbsp;&nbsp;ForwardIterator last,</span>
+<span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span></code>
+<code>unique&#95;count</code> counts runs of equal elements in the range <code>[first, last)</code> with the same value,
+
+This version of <code>unique&#95;count</code> uses the function object <code>binary&#95;pred</code> to test for equality.
+
+
+The following code snippet demonstrates how to use <code>unique&#95;count</code> to determine the number of runs of equal elements:
+
+
+
+```cpp
+#include <thrust/unique.h>
+#include <thrust/execution_policy.h>
+...
+const int N = 7;
+int A[N] = {1, 3, 3, 3, 2, 2, 1};
+int count = thrust::unique_count(A, A + N, thrust::equal_to<int>());
+// count is now 4
+```
+
+**Template Parameters**:
+* **`DerivedPolicy`** The name of the derived execution policy. 
+* **`ForwardIterator`** is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. 
+* **`BinaryPredicate`** is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
+
+**Function Parameters**:
+* **`exec`** The execution policy to use for parallelization. 
+* **`first`** The beginning of the input range. 
+* **`last`** The end of the input range. 
+* **`binary_pred`** The binary predicate used to determine equality. 
+
+**Returns**:
+The number of runs of equal elements in <code>[first, new&#95;last)</code>
+
+**See**:
+* unique_copy 
+* unique_by_key_copy 
+* reduce_by_key_copy 
+
+<h3 id="function-unique-count">
+Function <code>thrust::unique&#95;count</code>
+</h3>
+
+<code class="doxybook">
+<span>template &lt;typename ForwardIterator&gt;</span>
+<span>__host__ __device__ <a href="{{ site.baseurl }}/api/classes/structthrust_1_1iterator__traits.html">thrust::iterator_traits</a>< ForwardIterator >::difference_type </span><span><b>unique_count</b>(ForwardIterator first,</span>
+<span>&nbsp;&nbsp;ForwardIterator last);</span></code>
+<code>unique&#95;count</code> counts runs of equal elements in the range <code>[first, last)</code> with the same value,
+
+This version of <code>unique&#95;count</code> uses <code>operator==</code> to test for equality.
+
+
+The following code snippet demonstrates how to use <code>unique&#95;count</code> to determine the number of runs of equal elements:
+
+
+
+```cpp
+#include <thrust/unique.h>
+#include <thrust/execution_policy.h>
+...
+const int N = 7;
+int A[N] = {1, 3, 3, 3, 2, 2, 1};
+int count = thrust::unique_count(thrust::host, A, A + N);
+// count is now 4
+```
+
+**Template Parameters**:
+* **`DerivedPolicy`** The name of the derived execution policy. 
+* **`ForwardIterator`** is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>BinaryPredicate's</code><code>first&#95;argument&#95;type</code> and to <code>BinaryPredicate's</code><code>second&#95;argument&#95;type</code>. 
+* **`BinaryPredicate`** is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
+
+**Function Parameters**:
+* **`exec`** The execution policy to use for parallelization. 
+* **`first`** The beginning of the input range. 
+* **`last`** The end of the input range. 
+* **`binary_pred`** The binary predicate used to determine equality. 
+
+**Returns**:
+The number of runs of equal elements in <code>[first, new&#95;last)</code>
+
+**See**:
+* unique_copy 
+* unique_by_key_copy 
+* reduce_by_key_copy 
 
 

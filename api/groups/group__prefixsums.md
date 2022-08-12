@@ -122,6 +122,8 @@ Function <code>thrust::inclusive&#95;scan</code>
 
 <code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
 
@@ -177,6 +179,8 @@ Function <code>thrust::inclusive&#95;scan</code>
 
 <code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 
 The following code snippet demonstrates how to use <code>inclusive&#95;scan</code>
 
@@ -227,6 +231,8 @@ Function <code>thrust::inclusive&#95;scan</code>
 <code>inclusive&#95;scan</code> computes an inclusive prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. When the input and output sequences are the same, the scan is performed in-place.
 
 <code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -283,6 +289,8 @@ Function <code>thrust::inclusive&#95;scan</code>
 
 <code>inclusive&#95;scan</code> is similar to <code>std::partial&#95;sum</code> in the STL. The primary difference between the two functions is that <code>std::partial&#95;sum</code> guarantees a serial summation order, while <code>inclusive&#95;scan</code> requires associativity of the binary operation to parallelize the prefix sum.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 
 The following code snippet demonstrates how to use <code>inclusive&#95;scan</code>
 
@@ -331,6 +339,8 @@ Function <code>thrust::exclusive&#95;scan</code>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result);</span></code>
 <code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>0</code> is assigned to <code>&#42;result</code> and the sum of <code>0</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator and <code>0</code> as the initial value. When the input and output sequences are the same, the scan is performed in-place.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -383,6 +393,8 @@ Function <code>thrust::exclusive&#95;scan</code>
 <span>&nbsp;&nbsp;OutputIterator result);</span></code>
 <code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>0</code> is assigned to <code>&#42;result</code> and the sum of <code>0</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator and <code>0</code> as the initial value. When the input and output sequences are the same, the scan is performed in-place.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 
 The following code snippet demonstrates how to use <code>exclusive&#95;scan</code>
 
@@ -431,6 +443,8 @@ Function <code>thrust::exclusive&#95;scan</code>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
 <span>&nbsp;&nbsp;T init);</span></code>
 <code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the sum of <code>init</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator but requires an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -486,6 +500,8 @@ Function <code>thrust::exclusive&#95;scan</code>
 <span>&nbsp;&nbsp;T init);</span></code>
 <code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the sum of <code>init</code> and <code>&#42;first</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of <code>exclusive&#95;scan</code> assumes plus as the associative operator but requires an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.
 
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
+
 
 The following code snippet demonstrates how to use <code>exclusive&#95;scan</code>
 
@@ -538,6 +554,8 @@ Function <code>thrust::exclusive&#95;scan</code>
 <span>&nbsp;&nbsp;T init,</span>
 <span>&nbsp;&nbsp;AssociativeOperator binary_op);</span></code>
 <code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the value <code>binary&#95;op(init, &#42;first)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of the function requires both an associative operator and an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -600,6 +618,8 @@ Function <code>thrust::exclusive&#95;scan</code>
 <span>&nbsp;&nbsp;T init,</span>
 <span>&nbsp;&nbsp;AssociativeOperator binary_op);</span></code>
 <code>exclusive&#95;scan</code> computes an exclusive prefix sum operation. The term 'exclusive' means that each result does not include the corresponding input operand in the partial sum. More precisely, <code>init</code> is assigned to <code>&#42;result</code> and the value <code>binary&#95;op(init, &#42;first)</code> is assigned to <code>&#42;(result + 1)</code>, and so on. This version of the function requires both an associative operator and an initial value <code>init</code>. When the input and output sequences are the same, the scan is performed in-place.
+
+Results are not deterministic for pseudo-associative operators (e.g., addition of floating-point types). Results for pseudo-associative operators may vary from run to run.
 
 
 The following code snippet demonstrates how to use <code>exclusive&#95;scan</code>

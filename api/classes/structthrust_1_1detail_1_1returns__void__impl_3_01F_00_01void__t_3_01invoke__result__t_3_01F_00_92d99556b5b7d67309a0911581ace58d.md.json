@@ -21,12 +21,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 296,
+    "bodyEnd": 281,
     "bodyFile": "thrust/optional.h",
-    "bodyStart": 296,
+    "bodyStart": 281,
     "column": 1,
     "file": "thrust/optional.h",
-    "line": 295
+    "line": 280
   },
   "name": "thrust::detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
   "override": false,

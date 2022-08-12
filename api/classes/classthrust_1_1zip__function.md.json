@@ -14,12 +14,12 @@
   "kind": "class",
   "language": "cpp",
   "location": {
-    "bodyEnd": 184,
+    "bodyEnd": 186,
     "bodyFile": "thrust/zip_function.h",
-    "bodyStart": 152,
+    "bodyStart": 154,
     "column": 1,
     "file": "thrust/zip_function.h",
-    "line": 151
+    "line": 153
   },
   "module": {
     "anchor": "",
@@ -107,10 +107,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/zip_function.h",
-        "bodyStart": 183,
+        "bodyStart": 185,
         "column": 22,
         "file": "thrust/zip_function.h",
-        "line": 183
+        "line": 185
       },
       "name": "func",
       "override": false,
@@ -142,12 +142,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 155,
+        "bodyEnd": 157,
         "bodyFile": "thrust/zip_function.h",
-        "bodyStart": 155,
+        "bodyStart": 157,
         "column": 5,
         "file": "thrust/zip_function.h",
-        "line": 155
+        "line": 157
       },
       "name": "zip_function",
       "override": false,
@@ -186,12 +186,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 165,
+        "bodyEnd": 167,
         "bodyFile": "thrust/zip_function.h",
-        "bodyStart": 162,
+        "bodyStart": 164,
         "column": 14,
         "file": "thrust/zip_function.h",
-        "line": 162
+        "line": 164
       },
       "name": "operator()",
       "override": false,
