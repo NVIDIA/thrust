@@ -232,11 +232,6 @@ namespace __transform {
                                              predicate),
                            num_items);
 
-    cuda_cub::throw_on_error(
-      cuda_cub::synchronize_optional(policy)
-    , "transform: failed to synchronize"
-    );
-
     return result + num_items;
   }
 
@@ -277,11 +272,6 @@ namespace __transform {
                                               transform_op,
                                               predicate),
                            num_items);
-
-    cuda_cub::throw_on_error(
-      cuda_cub::synchronize_optional(policy)
-    , "transform: failed to synchronize"
-    );
 
     return result + num_items;
   }
