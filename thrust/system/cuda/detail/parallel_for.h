@@ -161,7 +161,9 @@ parallel_for(execution_policy<Derived> &policy,
   THRUST_CDP_DISPATCH(
     (cudaStream_t stream = cuda_cub::stream(policy);
      cudaError_t  status = __parallel_for::parallel_for(count, f, stream);
-     cuda_cub::throw_on_error(status, "parallel_for failed");),
+     cuda_cub::throw_on_error(status, "parallel_for failed");
+     status = cuda_cub::synchronize_optional(policy);
+     cuda_cub::throw_on_error(status, "parallel_for: failed to synchronize");),
     // CDP sequential impl:
     (for (Size idx = 0; idx != count; ++idx)
      {
