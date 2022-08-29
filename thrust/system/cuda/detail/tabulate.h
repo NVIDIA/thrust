@@ -76,11 +76,6 @@ tabulate(execution_policy<Derived>& policy,
   cuda_cub::parallel_for(policy,
                          functor_t(first, tabulate_op),
                          count);
-
-  cuda_cub::throw_on_error(
-    cuda_cub::synchronize_optional(policy)
-  , "tabulate: failed to synchronize"
-  );
 }
 
 }    // namespace cuda_cub

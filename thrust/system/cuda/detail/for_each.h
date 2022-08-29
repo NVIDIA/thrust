@@ -81,11 +81,6 @@ namespace cuda_cub {
                            for_each_f<Input, wrapped_t>(first, wrapped_op),
                            count);
 
-    cuda_cub::throw_on_error(
-      cuda_cub::synchronize_optional(policy)
-    , "for_each: failed to synchronize"
-    );
-
     return first + count;
   }
 
