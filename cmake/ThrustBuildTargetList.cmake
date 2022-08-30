@@ -163,8 +163,14 @@ function(_thrust_add_target_to_target_list target_name host device dialect prefi
 
   target_link_libraries(${target_name} INTERFACE
     thrust.compiler_interface
-    thrust.compiler_interface_cpp${dialect}
   )
+
+  # dialect-specific interface:
+  if (TARGET thrust.compiler_interface_cpp${dialect})
+    target_link_libraries(${target_name} INTERFACE
+      thrust.compiler_interface_cpp${dialect}
+    )
+  endif()
 
   # Workaround Github issue #1174. cudafe promote TBB header warnings to
   # errors, even when they're -isystem includes.
