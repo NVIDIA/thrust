@@ -39,6 +39,20 @@ BreakInheritanceList: BeforeComma
 ColumnLimit: 100
 CompactNamespaces: false
 ContinuationIndentWidth: 2
+IncludeBlocks:   Regroup
+IncludeCategories:
+  - Regex:           '^<cub'
+    Priority:        1
+  - Regex:           '^<thrust'
+    Priority:        2
+  - Regex:           '^<cuda'
+    Priority:        3
+  - Regex:           '^<[a-z]*>$'
+    Priority:        4
+  - Regex:           '^<unittest'
+    Priority:        5    
+  - Regex:           '.*'
+    Priority:        6
 IndentCaseLabels: true
 IndentPPDirectives: None
 IndentWidth: 2
