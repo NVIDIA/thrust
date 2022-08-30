@@ -236,11 +236,12 @@ if (WIN32 AND MSVC)
     set(COMPILER_PREFIX "vc11")
   elseif(MSVC_VERSION EQUAL 1800)
     set(COMPILER_PREFIX "vc12")
-  elseif(MSVC_VERSION GREATER_EQUAL 1900 AND MSVC_VERSION LESS_EQUAL 1929)
+  elseif(MSVC_VERSION GREATER_EQUAL 1900 AND MSVC_VERSION LESS_EQUAL 1939)
       # 1900-1925 actually spans three Visual Studio versions:
       # 1900      = VS 14.0 (v140 toolset) a.k.a. MSVC 2015
       # 1910-1919 = VS 15.0 (v141 toolset) a.k.a. MSVC 2017
       # 1920-1929 = VS 16.0 (v142 toolset) a.k.a. MSVC 2019
+      # 1930-1939 = VS 17.0 (v143 toolset) a.k.a. MSVC 2022
       #
       # But these are binary compatible and TBB's open source distribution only
       # ships a single vs14 lib (as of 2020.0)
