@@ -95,6 +95,12 @@ several minor bugfixes and cleanups.
 - NVIDIA/thrust#1752: Remove a leftover merge conflict from a documentation
   file. Thanks to @tabedzki for this contribution.
 
+## Thrust 1.17.2
+
+### Summary
+
+Thrust 1.17.2 is a minor bugfix release that provides an updated version of CUB.
+
 ## Thrust 1.17.1
 
 ### Summary
