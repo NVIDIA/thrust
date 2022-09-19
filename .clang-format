@@ -90,6 +90,7 @@ StatementMacros:
   - __thrust_exec_check_disable__
   - __host__
   - __device__
+  - __global__
   - THRUST_HOST_DEVICE
   - THRUST_NAMESPACE_BEGIN
   - THRUST_NAMESPACE_END
