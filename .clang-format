@@ -91,6 +91,9 @@ StatementMacros:
   - __host__
   - __device__
   - __global__
+  - THRUST_DEVICE_FUNCTION
+  - THRUST_HOST_FUNCTION
+  - THRUST_FUNCTION
   - THRUST_HOST_DEVICE
   - THRUST_NAMESPACE_BEGIN
   - THRUST_NAMESPACE_END
