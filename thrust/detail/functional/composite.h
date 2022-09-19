@@ -36,33 +36,11 @@ namespace detail
 namespace functional
 {
 
-// XXX we should just take a single EvalTuple
-template<typename Eval0,
-         typename Eval1  = thrust::null_type,
-         typename Eval2  = thrust::null_type,
-         typename Eval3  = thrust::null_type,
-         typename Eval4  = thrust::null_type,
-         typename Eval5  = thrust::null_type,
-         typename Eval6  = thrust::null_type,
-         typename Eval7  = thrust::null_type,
-         typename Eval8  = thrust::null_type,
-         typename Eval9  = thrust::null_type,
-         typename Eval10 = thrust::null_type>
-  class composite;
+template <typename... Eval>
+class composite;
 
 template<typename Eval0, typename Eval1>
-  class composite<
-    Eval0,
-    Eval1,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type
-  >
+  class composite<Eval0, Eval1>
 {
   public:
     template<typename Env>
@@ -96,18 +74,7 @@ template<typename Eval0, typename Eval1>
 }; // end composite<Eval0,Eval1>
 
 template<typename Eval0, typename Eval1, typename Eval2>
-  class composite<
-    Eval0,
-    Eval1,
-    Eval2,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type,
-    thrust::null_type
-  >
+  class composite<Eval0, Eval1, Eval2>
 {
   public:
     template<typename Env>

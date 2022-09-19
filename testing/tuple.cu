@@ -491,4 +491,18 @@ void TestTupleSwap(void)
 }
 DECLARE_UNITTEST(TestTupleSwap);
 
+#if THRUST_CPP_DIALECT >= 2017
+void TestTupleStructuredBindings(void)
+{
+  const int a = 0;
+  const int b = 42;
+  const int c = 1337;
+  thrust::tuple<int,int,int> t(a,b,c);
 
+  auto [a2, b2, c2] = t;
+  ASSERT_EQUAL(a, a2);
+  ASSERT_EQUAL(b, b2);
+  ASSERT_EQUAL(c, c2);
+}
+DECLARE_UNITTEST(TestTupleStructuredBindings);
+#endif

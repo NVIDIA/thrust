@@ -285,9 +285,9 @@ void TestZipIteratorCopy(void)
   sequence(input0.begin(), input0.end(), T{0});
   sequence(input1.begin(), input1.end(), T{13});
 
-  copy( make_zip_iterator(make_tuple(input0.begin(),  input1.begin())),
-        make_zip_iterator(make_tuple(input0.end(),    input1.end())),
-        make_zip_iterator(make_tuple(output0.begin(), output1.begin())));
+  thrust::copy( make_zip_iterator(make_tuple(input0.begin(),  input1.begin())),
+                make_zip_iterator(make_tuple(input0.end(),    input1.end())),
+                make_zip_iterator(make_tuple(output0.begin(), output1.begin())));
 
   ASSERT_EQUAL(input0, output0);
   ASSERT_EQUAL(input1, output1);

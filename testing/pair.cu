@@ -44,7 +44,7 @@ struct TestPairManipulation
     // test copy from pair
     p4.first  = T(2);
     p4.second = T(3);
-    
+
     P p5;
     p5 = p4;
     ASSERT_EQUAL(p4.first,  p5.first);
@@ -217,7 +217,7 @@ using PairConstVolatileTypes =
     unittest::type_list<thrust::pair<int, float>, thrust::pair<int, float> const,
                         thrust::pair<int, float> const volatile>;
 
-template <typename Pair> 
+template <typename Pair>
 struct TestPairTupleSize
 {
   void operator()()
@@ -289,3 +289,16 @@ void TestPairSwap(void)
 }
 DECLARE_UNITTEST(TestPairSwap);
 
+#if THRUST_CPP_DIALECT >= 2017
+void TestPairStructuredBindings(void)
+{
+  const int a = 42;
+  const int b = 1337;
+  thrust::pair<int,int> p(a,b);
+
+  auto [a2, b2] = p;
+  ASSERT_EQUAL(a, a2);
+  ASSERT_EQUAL(b, b2);
+}
+DECLARE_UNITTEST(TestPairStructuredBindings);
+#endif

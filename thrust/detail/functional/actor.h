@@ -65,10 +65,6 @@ template<typename Eval>
   __host__ __device__
   actor(const Eval &base);
 
-  __host__ __device__
-  typename apply_actor<eval_type, thrust::null_type >::type
-  operator()(void) const;
-
   template <typename... Ts>
   __host__ __device__
   typename apply_actor<eval_type, thrust::tuple<eval_ref<Ts>...>>::type
@@ -122,7 +118,7 @@ template<typename Eval>
 {
   typedef typename thrust::detail::functional::apply_actor<
     thrust::detail::functional::actor<Eval>,
-    thrust::null_type
+    thrust::tuple<>
   >::type type;
 }; // end result_of
 

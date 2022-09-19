@@ -54,18 +54,6 @@ template<typename Eval>
       : eval_type(base)
 {}
 
-template<typename Eval>
-  __host__ __device__
-  typename apply_actor<
-    typename actor<Eval>::eval_type,
-    typename thrust::null_type
-  >::type
-    actor<Eval>
-      ::operator()(void) const
-{
-  return eval_type::eval(thrust::null_type());
-} // end basic_environment::operator()
-
 // actor::operator() needs to construct a tuple of references to its
 // arguments. To make this work with thrust::reference<T>, we need to
 // detect thrust proxy references and store them as T rather than T&.

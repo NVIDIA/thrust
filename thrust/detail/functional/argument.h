@@ -41,9 +41,9 @@ template<unsigned int i, typename Env>
 };
 
 template<unsigned int i>
-  struct argument_helper<i,thrust::null_type>
+  struct argument_helper<i,thrust::tuple<>>
 {
-  typedef thrust::null_type type;
+  typedef thrust::tuple<> type;
 };
 
 
@@ -52,7 +52,7 @@ template<unsigned int i>
 {
   public:
     template<typename Env>
-      struct result
+    struct result
         : argument_helper<i,Env>
     {
     };
