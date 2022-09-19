@@ -24,7 +24,7 @@ enum wait_policy
 template <typename T>
 struct custom_greater
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator()(T rhs, T lhs) const
   {
     return lhs > rhs;

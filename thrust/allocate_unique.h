@@ -255,14 +255,14 @@ using uninitialized_array_allocator_delete
 template <typename Pointer, typename Lambda>
 struct tagged_deleter : Lambda
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   tagged_deleter(Lambda&& l) : Lambda(THRUST_FWD(l)) {}
 
   using pointer = Pointer;
 };
 
 template <typename Pointer, typename Lambda>
-__host__ __device__
+THRUST_HOST_DEVICE
 tagged_deleter<Pointer, Lambda>
 make_tagged_deleter(Lambda&& l)
 {

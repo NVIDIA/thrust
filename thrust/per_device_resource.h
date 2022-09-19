@@ -82,18 +82,18 @@ public:
     }
 
     /*! Copy constructor. Copies the memory resource pointer. */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     per_device_allocator(const per_device_allocator & other)
         : base(other) {}
 
     /*! Conversion constructor from an allocator of a different type. Copies the memory resource pointer. */
     template<typename U>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     per_device_allocator(const per_device_allocator<U, Upstream, ExecutionPolicy> & other)
         : base(other) {}
 
     /*! Destructor. */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     ~per_device_allocator() {}
 };
 

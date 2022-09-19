@@ -36,7 +36,7 @@ namespace generic
 template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   ForwardIterator stable_partition(thrust::execution_policy<ExecutionPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
@@ -46,7 +46,7 @@ template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   ForwardIterator stable_partition(thrust::execution_policy<ExecutionPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
@@ -59,7 +59,7 @@ template<typename ExecutionPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                           InputIterator first,
@@ -75,7 +75,7 @@ template<typename ExecutionPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                           InputIterator1 first,
@@ -89,7 +89,7 @@ __host__ __device__
 template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   ForwardIterator partition(thrust::execution_policy<ExecutionPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -100,7 +100,7 @@ template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   ForwardIterator partition(thrust::execution_policy<ExecutionPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -113,7 +113,7 @@ template<typename ExecutionPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                    InputIterator first,
@@ -129,7 +129,7 @@ template<typename ExecutionPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                    InputIterator1 first,
@@ -143,7 +143,7 @@ __host__ __device__
 template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   ForwardIterator partition_point(thrust::execution_policy<ExecutionPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
@@ -153,7 +153,7 @@ __host__ __device__
 template<typename ExecutionPolicy,
          typename InputIterator,
          typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   bool is_partitioned(thrust::execution_policy<ExecutionPolicy> &exec,
                       InputIterator first,
                       InputIterator last,

@@ -66,7 +66,7 @@ struct reference_is_assignable
 
 __thrust_exec_check_disable__
 template<typename OutputIterator, typename InputIterator>
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
 typename thrust::detail::enable_if<
   reference_is_assignable<InputIterator,OutputIterator>::value
 >::type
@@ -78,7 +78,7 @@ iter_assign(OutputIterator dst, InputIterator src)
 
 __thrust_exec_check_disable__
 template<typename OutputIterator, typename InputIterator>
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
 typename thrust::detail::disable_if<
   reference_is_assignable<InputIterator,OutputIterator>::value
 >::type
@@ -97,7 +97,7 @@ iter_assign(OutputIterator dst, InputIterator src)
 __thrust_exec_check_disable__
 template<typename InputIterator,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator general_copy(InputIterator first,
                               InputIterator last,
                               OutputIterator result)
@@ -120,7 +120,7 @@ __thrust_exec_check_disable__
 template<typename InputIterator,
          typename Size,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator general_copy_n(InputIterator first,
                                 Size n,
                                 OutputIterator result)

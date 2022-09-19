@@ -39,13 +39,13 @@ private:
   Allocator alloc;
 
 public:
-  __host__ __device__
+  THRUST_HOST_DEVICE
   execute_with_allocator(super_t const& super, Allocator alloc_)
     : super_t(super), alloc(alloc_)
   {}
 
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   execute_with_allocator(Allocator alloc_)
     : alloc(alloc_)
   {}

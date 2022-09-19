@@ -33,7 +33,7 @@ namespace detail
 template<typename UIntType, UIntType a, unsigned long long c, UIntType m>
   struct linear_congruential_engine_discard_implementation
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   static void discard(UIntType &state, unsigned long long z)
   {
     for(; z > 0; --z)
@@ -49,7 +49,7 @@ template<typename UIntType, UIntType a, unsigned long long c, UIntType m>
 template<thrust::detail::uint32_t a, thrust::detail::uint32_t m>
   struct linear_congruential_engine_discard_implementation<thrust::detail::uint32_t,a,0,m>
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   static void discard(thrust::detail::uint32_t &state, unsigned long long z)
   {
     const thrust::detail::uint32_t modulus = m;
@@ -82,7 +82,7 @@ template<thrust::detail::uint32_t a, thrust::detail::uint32_t m>
 struct linear_congruential_engine_discard
 {
   template<typename LinearCongruentialEngine>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   static void discard(LinearCongruentialEngine &lcg, unsigned long long z)
   {
     typedef typename LinearCongruentialEngine::result_type result_type;

@@ -21,7 +21,7 @@
 template <typename T>
 struct square
 {
-    __host__ __device__
+    THRUST_HOST_DEVICE
         T operator()(const T& x) const { 
             return x * x;
         }

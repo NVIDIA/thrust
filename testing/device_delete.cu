@@ -8,12 +8,12 @@
 
 struct Foo
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   Foo(void)
     : set_me_upon_destruction{nullptr}
   {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   ~Foo(void)
   {
     NV_IF_TARGET(NV_IS_DEVICE, (

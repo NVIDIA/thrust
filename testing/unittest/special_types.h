@@ -8,21 +8,21 @@ struct FixedVector
 {
     T data[N];
     
-    __host__ __device__
+    THRUST_HOST_DEVICE
     FixedVector()
     {
         for(unsigned int i = 0; i < N; i++)
             data[i] = T();
     }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     FixedVector(T init)
     {
         for(unsigned int i = 0; i < N; i++)
             data[i] = init;
     }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     FixedVector operator+(const FixedVector& bs) const
     {
         FixedVector output;
@@ -31,7 +31,7 @@ struct FixedVector
         return output;
     }
     
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool operator<(const FixedVector& bs) const
     {
         for(unsigned int i = 0; i < N; i++)
@@ -44,7 +44,7 @@ struct FixedVector
         return false;
     }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool operator==(const FixedVector& bs) const
     {
         for(unsigned int i = 0; i < N; i++)
@@ -62,35 +62,35 @@ template<typename Key, typename Value>
   typedef Key   key_type;
   typedef Value value_type;
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   key_value(void)
     : key(), value()
   {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   key_value(key_type k, value_type v)
     : key(k), value(v)
   {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator<(const key_value &rhs) const
   {
     return key < rhs.key;
   }
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator>(const key_value &rhs) const
   {
     return key > rhs.key;
   }
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator==(const key_value &rhs) const
   {
     return key == rhs.key && value == rhs.value;
   }
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator!=(const key_value &rhs) const
   {
     return !operator==(rhs);
@@ -107,7 +107,7 @@ template<typename Key, typename Value>
 
 struct user_swappable
 {
-  inline __host__ __device__
+  inline THRUST_HOST_DEVICE
   user_swappable(bool swapped = false)
     : was_swapped(swapped)
   {}
@@ -115,13 +115,13 @@ struct user_swappable
   bool was_swapped;
 };
 
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
 bool operator==(const user_swappable &x, const user_swappable &y)
 {
   return x.was_swapped == y.was_swapped;
 }
 
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
 void swap(user_swappable &x, user_swappable &y)
 {
   x.was_swapped = true;

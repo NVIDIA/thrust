@@ -483,7 +483,7 @@ DECLARE_VARIABLE_UNITTEST(TestTransformUnaryToDiscardIterator);
 struct repeat2
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::pair<T,T> operator()(T x)
   {
     return thrust::make_pair(x,x);
@@ -530,7 +530,7 @@ DECLARE_VARIABLE_UNITTEST(TestTransformUnaryToDiscardIteratorZipped);
 struct is_positive
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator()(T &x)
   {
     return x > 0;
@@ -814,7 +814,7 @@ struct plus_mod3
 
     plus_mod3(T * table) : table(table) {}
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     T operator()(T a, T b)
     {
         return table[(int) (a + b)];

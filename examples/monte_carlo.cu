@@ -9,7 +9,7 @@
 
 // we could vary M & N to find the perf sweet spot
 
-__host__ __device__
+THRUST_HOST_DEVICE
 unsigned int hash(unsigned int a)
 {
     a = (a+0x7ed55d16) + (a<<12);
@@ -23,7 +23,7 @@ unsigned int hash(unsigned int a)
 
 struct estimate_pi : public thrust::unary_function<unsigned int,float>
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   float operator()(unsigned int thread_id)
   {
     float sum = 0;

@@ -31,7 +31,7 @@ namespace generic
 template<typename DerivedPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2>
-__host__ __device__
+THRUST_HOST_DEVICE
   ForwardIterator2 swap_ranges(thrust::execution_policy<DerivedPolicy> &exec,
                                ForwardIterator1 first1,
                                ForwardIterator1 last1,

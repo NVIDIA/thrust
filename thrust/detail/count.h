@@ -24,7 +24,7 @@ THRUST_NAMESPACE_BEGIN
 template<typename DerivedPolicy,
          typename InputIterator,
          typename EqualityComparable>
-__host__ __device__
+THRUST_HOST_DEVICE
   typename thrust::iterator_traits<InputIterator>::difference_type
     count(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
           InputIterator first,
@@ -34,7 +34,7 @@ __host__ __device__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   typename thrust::iterator_traits<InputIterator>::difference_type
     count_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
              InputIterator first,

@@ -46,7 +46,7 @@ namespace __tabulate {
     Iterator items;
     TabulateOp op;
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     functor(Iterator items_, TabulateOp op_)
         : items(items_), op(op_) {}
 
@@ -61,7 +61,7 @@ namespace __tabulate {
 template <class Derived,
           class Iterator,
           class TabulateOp>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 tabulate(execution_policy<Derived>& policy,
          Iterator                   first,
          Iterator                   last,

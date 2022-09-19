@@ -47,7 +47,7 @@ void terminate()
 }
 
 
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
 void terminate_with_message(const char* message)
 {
   printf("%s\n", message);

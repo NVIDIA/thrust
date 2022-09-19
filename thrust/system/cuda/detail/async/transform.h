@@ -59,13 +59,13 @@ struct async_transform_fn
   OutputIt output_;
   UnaryOperation op_;
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   async_transform_fn(ForwardIt&& first, OutputIt&& output, UnaryOperation&& op)
     : first_(std::move(first)), output_(std::move(output)), op_(std::move(op))
   {}
 
   template <typename Index>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void operator()(Index idx)
   {
     output_[idx] = op_(thrust::raw_reference_cast(first_[idx]));

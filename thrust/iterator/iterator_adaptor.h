@@ -75,7 +75,7 @@ THRUST_NAMESPACE_BEGIN
  *        Iterator
  *      > super_t;
  *
- *      __host__ __device__
+ *      THRUST_HOST_DEVICE
  *      repeat_iterator(const Iterator &x, int n) : super_t(x), begin(x), n(n) {}
  *
  *      // befriend thrust::iterator_core_access to allow it access to the private interface below
@@ -89,7 +89,7 @@ THRUST_NAMESPACE_BEGIN
  *      const Iterator begin;
  *
  *      // it is private because only thrust::iterator_core_access needs access to it
- *      __host__ __device__
+ *      THRUST_HOST_DEVICE
  *      typename super_t::reference dereference() const
  *      {
  *        return *(begin + (this->base() - begin) / n);
@@ -138,13 +138,13 @@ template<typename Derived,
   public:
     /*! \p iterator_adaptor's default constructor does nothing.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     iterator_adaptor(){}
 
     /*! This constructor copies from a given instance of the \p Base iterator.
      */
     __thrust_exec_check_disable__
-    __host__ __device__
+    THRUST_HOST_DEVICE
     explicit iterator_adaptor(Base const& iter)
       : m_iterator(iter)
     {}
@@ -163,20 +163,20 @@ template<typename Derived,
 
     /*! \return A \p const reference to the \p Base iterator this \p iterator_adaptor adapts.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     Base const& base() const
     { return m_iterator; }
 
   protected:
     /*! \return A \p const reference to the \p Base iterator this \p iterator_adaptor adapts.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     Base const& base_reference() const
     { return m_iterator; }
 
     /*! \return A mutable reference to the \p Base iterator this \p iterator_adaptor adapts.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     Base& base_reference()
     { return m_iterator; }
 
@@ -185,18 +185,18 @@ template<typename Derived,
   private: // Core iterator interface for iterator_facade
 
     __thrust_exec_check_disable__
-    __host__ __device__
+    THRUST_HOST_DEVICE
     typename iterator_adaptor::reference dereference() const
     { return *m_iterator; }
 
     __thrust_exec_check_disable__
     template<typename OtherDerived, typename OtherIterator, typename V, typename S, typename T, typename R, typename D>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool equal(iterator_adaptor<OtherDerived, OtherIterator, V, S, T, R, D> const& x) const
     { return m_iterator == x.base(); }
 
     __thrust_exec_check_disable__
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void advance(typename iterator_adaptor::difference_type n)
     {
       // XXX statically assert on random_access_traversal_tag
@@ -207,12 +207,12 @@ template<typename Derived,
     }
 
     __thrust_exec_check_disable__
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void increment()
     { ++m_iterator; }
 
     __thrust_exec_check_disable__
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void decrement()
     {
       // XXX statically assert on bidirectional_traversal_tag
@@ -221,7 +221,7 @@ template<typename Derived,
 
     __thrust_exec_check_disable__
     template<typename OtherDerived, typename OtherIterator, typename V, typename S, typename T, typename R, typename D>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     typename iterator_adaptor::difference_type distance_to(iterator_adaptor<OtherDerived, OtherIterator, V, S, T, R, D> const& y) const
     { return y.base() - m_iterator; }
 

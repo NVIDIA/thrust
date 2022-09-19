@@ -589,7 +589,7 @@ private:
   {}
 
 public:
-  __host__ __device__
+  THRUST_HOST_DEVICE
   weak_promise() : device_(0), content_{} {}
 
   __thrust_exec_check_disable__
@@ -602,7 +602,7 @@ public:
   weak_promise& operator=(weak_promise&&) = default;
 
   template <typename U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void set_value(U&& value) &&
   {
     *content_ = THRUST_FWD(value);
@@ -628,13 +628,13 @@ struct ready_event final
   ready_event() = default;
 
   template <typename U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   explicit ready_event(ready_future<U>) {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   static constexpr bool valid_content() noexcept { return true; }
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   static constexpr bool ready() noexcept { return true; }
 };
 
@@ -648,7 +648,7 @@ private:
   value_type value_;
 
 public:
-  __host__ __device__
+  THRUST_HOST_DEVICE
   ready_future() : value_{} {}
 
   ready_future(ready_future&&) = default;
@@ -657,22 +657,22 @@ public:
   ready_future& operator=(ready_future const&) = default;
 
   template <typename U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   explicit ready_future(U&& u) : value_(THRUST_FWD(u)) {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   static constexpr bool valid_content() noexcept { return true; }
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   static constexpr bool ready() noexcept { return true; }
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   value_type get() const
   {
     return value_;
   }
 
-  THRUST_NODISCARD __host__ __device__
+  THRUST_NODISCARD THRUST_HOST_DEVICE
   value_type extract() 
   {
     return std::move(value_);
@@ -680,7 +680,7 @@ public:
 
   #if defined(THRUST_ENABLE_FUTURE_RAW_DATA_MEMBER)
   // For testing only.
-  __host__ __device__
+  THRUST_HOST_DEVICE
   raw_const_pointer data() const
   {
     return addressof(value_);

@@ -117,7 +117,7 @@ template<typename Engine1, size_t s1,
     /*! This constructor constructs a new \p xor_combine_engine and constructs
      *  its adapted engines using their null constructors.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     xor_combine_engine(void);
 
     /*! This constructor constructs a new \p xor_combine_engine using
@@ -128,20 +128,20 @@ template<typename Engine1, size_t s1,
      *  \param urng2 A \p base2_type to use to initialize this \p xor_combine_engine's
      *         first adapted base engine.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     xor_combine_engine(const base1_type &urng1, const base2_type &urng2);
 
     /*! This constructor initializes a new \p xor_combine_engine with a given seed.
      *  
      *  \param s The seed used to intialize this \p xor_combine_engine's adapted base engines.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     xor_combine_engine(result_type s);
 
     /*! This method initializes the state of this \p xor_combine_engine's adapted base engines
      *  by using their \p default_seed values.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void seed(void);
 
     /*! This method initializes the state of this \p xor_combine_engine's adapted base engines
@@ -149,7 +149,7 @@ template<typename Engine1, size_t s1,
      *
      *  \param s The seed with which to intialize this \p xor_combine_engine's adapted base engines.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void seed(result_type s);
 
     // generating functions
@@ -157,7 +157,7 @@ template<typename Engine1, size_t s1,
     /*! This member function produces a new random value and updates this \p xor_combine_engine's state.
      *  \return A new random number.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     result_type operator()(void);
 
     /*! This member function advances this \p xor_combine_engine's state a given number of times
@@ -166,7 +166,7 @@ template<typename Engine1, size_t s1,
      *  \param z The number of random values to discard.
      *  \note This function is provided because an implementation may be able to accelerate it.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void discard(unsigned long long z);
 
     // property functions
@@ -176,7 +176,7 @@ template<typename Engine1, size_t s1,
      *
      *  \return A const reference to the first base engine this \p xor_combine_engine adapts.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     const base1_type &base1(void) const;
 
     /*! This member function returns a const reference to this \p xor_combine_engine's
@@ -184,7 +184,7 @@ template<typename Engine1, size_t s1,
      *
      *  \return A const reference to the second base engine this \p xor_combine_engine adapts.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     const base2_type &base2(void) const;
 
     /*! \cond
@@ -195,7 +195,7 @@ template<typename Engine1, size_t s1,
 
     friend struct thrust::random::detail::random_core_access;
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool equal(const xor_combine_engine &rhs) const;
 
     template<typename CharT, typename Traits>
@@ -215,7 +215,7 @@ template<typename Engine1, size_t s1,
  *  \return \c true if \p lhs is equal to \p rhs; \c false, otherwise.
  */
 template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool operator==(const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &lhs,
                 const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &rhs);
 
@@ -226,7 +226,7 @@ bool operator==(const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &lhs,
  *  \return \c true if \p lhs is not equal to \p rhs; \c false, otherwise.
  */
 template<typename Engine1_, size_t s1_, typename Engine2_, size_t s2_>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool operator!=(const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &lhs,
                 const xor_combine_engine<Engine1_,s1_,Engine2_,s2_> &rhs);
 

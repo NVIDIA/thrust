@@ -41,7 +41,7 @@ DEFINE_ASYNC_FOR_EACH_CALLABLE(
 struct inplace_divide_by_2
 {
   template <typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void operator()(T& x) const
   {
     x /= 2;

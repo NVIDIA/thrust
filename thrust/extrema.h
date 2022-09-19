@@ -49,7 +49,7 @@ THRUST_NAMESPACE_BEGIN
  *
  *  struct compare_key_value
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    bool operator()(key_value lhs, key_value rhs)
  *    {
  *      return lhs.key < rhs.key;
@@ -69,7 +69,7 @@ THRUST_NAMESPACE_BEGIN
  *  \see max
  */
 template<typename T, typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp);
 
 
@@ -98,7 +98,7 @@ __host__ __device__
  *  \see max
  */
 template<typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
   T min THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs);
 
 
@@ -125,7 +125,7 @@ __host__ __device__
  *
  *  struct compare_key_value
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    bool operator()(key_value lhs, key_value rhs)
  *    {
  *      return lhs.key < rhs.key;
@@ -145,7 +145,7 @@ __host__ __device__
  *  \see min
  */
 template<typename T, typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs, BinaryPredicate comp);
 
 
@@ -174,7 +174,7 @@ __host__ __device__
  *  \see min
  */
 template<typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
   T max THRUST_PREVENT_MACRO_SUBSTITUTION (const T &lhs, const T &rhs);
 
 
@@ -223,7 +223,7 @@ __host__ __device__
  *  \see https://en.cppreference.com/w/cpp/algorithm/min_element 
  */
 template<typename DerivedPolicy, typename ForwardIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
 ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last);
 
 
@@ -307,7 +307,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last);
  *
  *  struct compare_key_value
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    bool operator()(key_value lhs, key_value rhs)
  *    {
  *      return lhs.key < rhs.key;
@@ -326,7 +326,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last);
  *  \see https://en.cppreference.com/w/cpp/algorithm/min_element 
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
 
 
@@ -367,7 +367,7 @@ ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedP
  *
  *  struct compare_key_value
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    bool operator()(key_value lhs, key_value rhs)
  *    {
  *      return lhs.key < rhs.key;
@@ -428,7 +428,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
  *  \see https://en.cppreference.com/w/cpp/algorithm/max_element 
  */
 template<typename DerivedPolicy, typename ForwardIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
 ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last);
 
 
@@ -511,7 +511,7 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last);
  *
  *  struct compare_key_value
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    bool operator()(key_value lhs, key_value rhs)
  *    {
  *      return lhs.key < rhs.key;
@@ -530,7 +530,7 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last);
  *  \see https://en.cppreference.com/w/cpp/algorithm/max_element 
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
 
 
@@ -571,7 +571,7 @@ ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedP
  *
  *  struct compare_key_value
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    bool operator()(key_value lhs, key_value rhs)
  *    {
  *      return lhs.key < rhs.key;
@@ -630,7 +630,7 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
  *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf
  */
 template<typename DerivedPolicy, typename ForwardIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
 thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last);
 
 
@@ -706,7 +706,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
  *
  *  struct compare_key_value
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    bool operator()(key_value lhs, key_value rhs)
  *    {
  *      return lhs.key < rhs.key;
@@ -729,7 +729,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
  *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
 
 
@@ -764,7 +764,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detai
  *
  *  struct compare_key_value
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    bool operator()(key_value lhs, key_value rhs)
  *    {
  *      return lhs.key < rhs.key;

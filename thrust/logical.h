@@ -71,7 +71,7 @@ THRUST_NAMESPACE_BEGIN
  *  \see transform_reduce
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool all_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
 
@@ -148,7 +148,7 @@ bool all_of(InputIterator first, InputIterator last, Predicate pred);
  *  \see transform_reduce
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool any_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
    
 
@@ -226,7 +226,7 @@ bool any_of(InputIterator first, InputIterator last, Predicate pred);
  *  \see transform_reduce
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool none_of(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
 

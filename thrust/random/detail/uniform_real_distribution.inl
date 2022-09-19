@@ -27,7 +27,7 @@ namespace random
 
 
 template<typename RealType>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   uniform_real_distribution<RealType>
     ::uniform_real_distribution(RealType a, RealType b)
       :m_param(a,b)
@@ -35,7 +35,7 @@ template<typename RealType>
 } // end uniform_real_distribution::uniform_real_distribution()
 
 template<typename RealType>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   uniform_real_distribution<RealType>
     ::uniform_real_distribution(const param_type &parm)
       :m_param(parm)
@@ -43,7 +43,7 @@ template<typename RealType>
 } // end uniform_real_distribution::uniform_real_distribution()
 
 template<typename RealType>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void uniform_real_distribution<RealType>
     ::reset(void)
 {
@@ -51,7 +51,7 @@ template<typename RealType>
 
 template<typename RealType>
   template<typename UniformRandomNumberGenerator>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     typename uniform_real_distribution<RealType>::result_type
       uniform_real_distribution<RealType>
         ::operator()(UniformRandomNumberGenerator &urng)
@@ -61,7 +61,7 @@ template<typename RealType>
 
 template<typename RealType>
   template<typename UniformRandomNumberGenerator>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     typename uniform_real_distribution<RealType>::result_type
       uniform_real_distribution<RealType>
         ::operator()(UniformRandomNumberGenerator &urng,
@@ -80,7 +80,7 @@ template<typename RealType>
 } // end uniform_real::operator()()
 
 template<typename RealType>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   typename uniform_real_distribution<RealType>::result_type
     uniform_real_distribution<RealType>
       ::a(void) const
@@ -89,7 +89,7 @@ template<typename RealType>
 } // end uniform_real::a()
 
 template<typename RealType>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   typename uniform_real_distribution<RealType>::result_type
     uniform_real_distribution<RealType>
       ::b(void) const
@@ -98,7 +98,7 @@ template<typename RealType>
 } // end uniform_real_distribution::b()
 
 template<typename RealType>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   typename uniform_real_distribution<RealType>::param_type
     uniform_real_distribution<RealType>
       ::param(void) const
@@ -107,7 +107,7 @@ template<typename RealType>
 } // end uniform_real_distribution::param()
 
 template<typename RealType>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void uniform_real_distribution<RealType>
     ::param(const param_type &parm)
 {
@@ -115,7 +115,7 @@ template<typename RealType>
 } // end uniform_real_distribution::param()
 
 template<typename RealType>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   typename uniform_real_distribution<RealType>::result_type
     uniform_real_distribution<RealType>
       ::min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
@@ -124,7 +124,7 @@ template<typename RealType>
 } // end uniform_real_distribution::min()
 
 template<typename RealType>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   typename uniform_real_distribution<RealType>::result_type
     uniform_real_distribution<RealType>
       ::max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
@@ -134,7 +134,7 @@ template<typename RealType>
 
 
 template<typename RealType>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool uniform_real_distribution<RealType>
     ::equal(const uniform_real_distribution &rhs) const
 {
@@ -191,7 +191,7 @@ template<typename RealType>
 
 
 template<typename RealType>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool operator==(const uniform_real_distribution<RealType> &lhs,
                 const uniform_real_distribution<RealType> &rhs)
 {
@@ -200,7 +200,7 @@ bool operator==(const uniform_real_distribution<RealType> &lhs,
 
 
 template<typename RealType>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool operator!=(const uniform_real_distribution<RealType> &lhs,
                 const uniform_real_distribution<RealType> &rhs)
 {

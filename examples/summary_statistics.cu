@@ -46,7 +46,7 @@ struct summary_stats_data
 template <typename T>
 struct summary_stats_unary_op
 {
-    __host__ __device__
+    THRUST_HOST_DEVICE
     summary_stats_data<T> operator()(const T& x) const
     {
          summary_stats_data<T> result;
@@ -72,7 +72,7 @@ struct summary_stats_binary_op
                                      const summary_stats_data<T>&,
                                            summary_stats_data<T> >
 {
-    __host__ __device__
+    THRUST_HOST_DEVICE
     summary_stats_data<T> operator()(const summary_stats_data<T>& x, const summary_stats_data <T>& y) const
     {
         summary_stats_data<T> result;

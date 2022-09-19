@@ -27,7 +27,7 @@ THRUST_NAMESPACE_BEGIN
 
 __thrust_exec_check_disable__
 template<typename System, typename InputIterator1, typename InputIterator2>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool equal(const thrust::detail::execution_policy_base<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
 {
   using thrust::system::detail::generic::equal;
@@ -37,7 +37,7 @@ bool equal(const thrust::detail::execution_policy_base<System> &system, InputIte
 
 __thrust_exec_check_disable__
 template<typename System, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool equal(const thrust::detail::execution_policy_base<System> &system, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred)
 {
   using thrust::system::detail::generic::equal;

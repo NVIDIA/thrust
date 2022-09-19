@@ -39,7 +39,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename BinaryFunction>
-__host__ __device__
+THRUST_HOST_DEVICE
 OutputIterator adjacent_difference(sequential::execution_policy<DerivedPolicy> &,
                                    InputIterator first,
                                    InputIterator last,

@@ -8,7 +8,7 @@
 template<typename T>
   struct plus_mod_10
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   T operator()(T lhs, T rhs) const
   {
     return ((lhs % 10) + (rhs % 10)) % 10;
@@ -18,7 +18,7 @@ template<typename T>
 template<typename T>
 struct is_equal_div_10_reduce
 {
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool operator()(const T x, const T& y) const { return ((int) x / 10) == ((int) y / 10); }
 };
 
@@ -155,7 +155,7 @@ struct plus_mod3
 
     plus_mod3(T * table) : table(table) {}
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     T operator()(T a, T b)
     {
         return table[(int) (a + b)];

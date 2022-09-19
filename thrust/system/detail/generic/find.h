@@ -30,7 +30,7 @@ namespace generic
 
 
 template<typename DerivedPolicy, typename InputIterator, typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
 InputIterator find(thrust::execution_policy<DerivedPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
@@ -38,7 +38,7 @@ InputIterator find(thrust::execution_policy<DerivedPolicy> &exec,
 
 
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 InputIterator find_if(thrust::execution_policy<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
@@ -46,7 +46,7 @@ InputIterator find_if(thrust::execution_policy<DerivedPolicy> &exec,
 
 
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 InputIterator find_if_not(thrust::execution_policy<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,

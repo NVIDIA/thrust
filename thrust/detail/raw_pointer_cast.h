@@ -22,7 +22,7 @@
 THRUST_NAMESPACE_BEGIN
 
 template<typename Pointer>
-__host__ __device__
+THRUST_HOST_DEVICE
 typename thrust::detail::pointer_traits<Pointer>::raw_pointer
 raw_pointer_cast(Pointer ptr)
 {
@@ -30,7 +30,7 @@ raw_pointer_cast(Pointer ptr)
 }
 
 template <typename ToPointer, typename FromPointer>
-__host__ __device__
+THRUST_HOST_DEVICE
 ToPointer
 reinterpret_pointer_cast(FromPointer ptr)
 {
@@ -39,7 +39,7 @@ reinterpret_pointer_cast(FromPointer ptr)
 }
 
 template <typename ToPointer, typename FromPointer>
-__host__ __device__
+THRUST_HOST_DEVICE
 ToPointer
 static_pointer_cast(FromPointer ptr)
 {

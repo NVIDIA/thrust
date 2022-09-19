@@ -26,7 +26,7 @@ THRUST_NAMESPACE_BEGIN
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
@@ -39,7 +39,7 @@ __host__ __device__
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Size, typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator copy_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                         InputIterator first,
                         Size n,
@@ -59,7 +59,7 @@ template<typename System1,
          typename System2,
          typename InputIterator,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator two_system_copy(const thrust::execution_policy<System1> &system1,
                                  const thrust::execution_policy<System2> &system2,
                                  InputIterator first,
@@ -78,7 +78,7 @@ template<typename System1,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator two_system_copy_n(const thrust::execution_policy<System1> &system1,
                                    const thrust::execution_policy<System2> &system2,
                                    InputIterator first,

@@ -42,7 +42,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename BinaryPredicate,
          typename BinaryFunction>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator inclusive_scan_by_key(sequential::execution_policy<DerivedPolicy> &,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
@@ -94,7 +94,7 @@ template<typename DerivedPolicy,
          typename T,
          typename BinaryPredicate,
          typename BinaryFunction>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator exclusive_scan_by_key(sequential::execution_policy<DerivedPolicy> &,
                                        InputIterator1 first1,
                                        InputIterator1 last1,

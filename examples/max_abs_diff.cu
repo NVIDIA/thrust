@@ -11,7 +11,7 @@
 template <typename T>
 struct abs_diff : public thrust::binary_function<T,T,T>
 {
-    __host__ __device__
+    THRUST_HOST_DEVICE
     T operator()(const T& a, const T& b)
     {
         return fabsf(b - a);

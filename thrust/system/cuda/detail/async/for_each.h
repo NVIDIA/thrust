@@ -58,13 +58,13 @@ struct async_for_each_fn
   ForwardIt first;
   UnaryFunction f;
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   async_for_each_fn(ForwardIt&& first_, UnaryFunction&& f_)
     : first(std::move(first_)), f(std::move(f_))
   {}
 
   template <typename Index>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void operator()(Index idx)
   {
     f(thrust::raw_reference_cast(first[idx]));

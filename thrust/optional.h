@@ -238,7 +238,7 @@ template <typename Fn, typename... Args,
 #endif
           typename = enable_if_t<std::is_member_pointer<decay_t<Fn>>::value>,
           int = 0>
-__host__ __device__
+THRUST_HOST_DEVICE
 constexpr auto invoke(Fn &&f, Args &&... args)
   noexcept(noexcept(std::mem_fn(f)(std::forward<Args>(args)...)))
   THRUST_TRAILING_RETURN(decltype(std::mem_fn(f)(std::forward<Args>(args)...)))
@@ -249,7 +249,7 @@ constexpr auto invoke(Fn &&f, Args &&... args)
 __thrust_exec_check_disable__
 template <typename Fn, typename... Args,
           typename = enable_if_t<!std::is_member_pointer<decay_t<Fn>>::value>>
-__host__ __device__
+THRUST_HOST_DEVICE
 constexpr auto invoke(Fn &&f, Args &&... args)
   noexcept(noexcept(std::forward<Fn>(f)(std::forward<Args>(args)...)))
   THRUST_TRAILING_RETURN(decltype(std::forward<Fn>(f)(std::forward<Args>(args)...)))
@@ -409,18 +409,18 @@ struct is_nothrow_swappable
 template <class T, bool = ::std::is_trivially_destructible<T>::value>
 struct optional_storage_base {
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR optional_storage_base() noexcept
       : m_dummy(), m_has_value(false) {}
 
   __thrust_exec_check_disable__
   template <class... U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR optional_storage_base(in_place_t, U &&... u)
       : m_value(std::forward<U>(u)...), m_has_value(true) {}
 
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   ~optional_storage_base() {
     if (m_has_value) {
       m_value.~T();
@@ -440,13 +440,13 @@ struct optional_storage_base {
 // This case is for when T is trivially destructible.
 template <class T> struct optional_storage_base<T, true> {
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR optional_storage_base() noexcept
       : m_dummy(), m_has_value(false) {}
 
   __thrust_exec_check_disable__
   template <class... U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR optional_storage_base(in_place_t, U &&... u)
       : m_value(std::forward<U>(u)...), m_has_value(true) {}
 
@@ -467,7 +467,7 @@ template <class T> struct optional_operations_base : optional_storage_base<T> {
   using optional_storage_base<T>::optional_storage_base;
 
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void hard_reset() noexcept {
     get().~T();
     this->m_has_value = false;
@@ -475,7 +475,7 @@ template <class T> struct optional_operations_base : optional_storage_base<T> {
 
   __thrust_exec_check_disable__
   template <class... Args>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void construct(Args &&... args) noexcept {
     new (thrust::addressof(this->m_value)) T(std::forward<Args>(args)...);
     this->m_has_value = true;
@@ -483,7 +483,7 @@ template <class T> struct optional_operations_base : optional_storage_base<T> {
 
   __thrust_exec_check_disable__
   template <class Opt>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void assign(Opt &&rhs) {
     if (this->has_value()) {
       if (rhs.has_value()) {
@@ -500,21 +500,21 @@ template <class T> struct optional_operations_base : optional_storage_base<T> {
   }
 
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool has_value() const { return this->m_has_value; }
 
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR T &get() & { return this->m_value; }
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR const T &get() const & { return this->m_value; }
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR T &&get() && { return std::move(this->m_value); }
 #ifndef THRUST_OPTIONAL_NO_CONSTRR
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr const T &&get() const && { return std::move(this->m_value); }
 #endif
 };
@@ -534,7 +534,7 @@ struct optional_copy_base<T, false> : optional_operations_base<T> {
   __thrust_exec_check_disable__
   optional_copy_base() = default;
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional_copy_base(const optional_copy_base &rhs) {
     if (rhs.has_value()) {
       this->construct(rhs.get());
@@ -564,7 +564,7 @@ template <class T> struct optional_move_base<T, false> : optional_copy_base<T> {
   optional_move_base(const optional_move_base &rhs) = default;
 
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional_move_base(optional_move_base &&rhs) noexcept(
       std::is_nothrow_move_constructible<T>::value) {
     if (rhs.has_value()) {
@@ -599,7 +599,7 @@ struct optional_copy_assign_base<T, false> : optional_move_base<T> {
   __thrust_exec_check_disable__
   optional_copy_assign_base(optional_copy_assign_base &&rhs) = default;
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional_copy_assign_base &operator=(const optional_copy_assign_base &rhs) {
     this->assign(rhs);
     return *this;
@@ -634,7 +634,7 @@ struct optional_move_assign_base<T, false> : optional_copy_assign_base<T> {
   operator=(const optional_move_assign_base &rhs) = default;
 
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional_move_assign_base &
   operator=(optional_move_assign_base &&rhs) noexcept(
       std::is_nothrow_move_constructible<T>::value
@@ -784,7 +784,7 @@ template <class T> struct optional_delete_assign_base<T, false, false> {
 /// \brief A tag type to represent an empty optional
 struct nullopt_t {
   struct do_not_use {};
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr explicit nullopt_t(do_not_use, do_not_use) noexcept {}
 };
 /// \brief Represents an empty optional
@@ -842,7 +842,7 @@ public:
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) &;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR auto and_then(F &&f) & {
     using result = detail::invoke_result_t<F, T &>;
     static_assert(detail::is_optional<result>::value,
@@ -856,7 +856,7 @@ public:
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) &&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR auto and_then(F &&f) && {
     using result = detail::invoke_result_t<F, T &&>;
     static_assert(detail::is_optional<result>::value,
@@ -870,7 +870,7 @@ public:
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) const &;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr auto and_then(F &&f) const & {
     using result = detail::invoke_result_t<F, const T &>;
     static_assert(detail::is_optional<result>::value,
@@ -885,7 +885,7 @@ public:
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) const &&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr auto and_then(F &&f) const && {
     using result = detail::invoke_result_t<F, const T &&>;
     static_assert(detail::is_optional<result>::value,
@@ -908,7 +908,7 @@ public:
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) &;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR detail::invoke_result_t<F, T &> and_then(F &&f) & {
     using result = detail::invoke_result_t<F, T &>;
     static_assert(detail::is_optional<result>::value,
@@ -922,7 +922,7 @@ public:
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) &&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR detail::invoke_result_t<F, T &&> and_then(F &&f) && {
     using result = detail::invoke_result_t<F, T &&>;
     static_assert(detail::is_optional<result>::value,
@@ -936,7 +936,7 @@ public:
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) const &;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr detail::invoke_result_t<F, const T &> and_then(F &&f) const & {
     using result = detail::invoke_result_t<F, const T &>;
     static_assert(detail::is_optional<result>::value,
@@ -951,7 +951,7 @@ public:
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) const &&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr detail::invoke_result_t<F, const T &&> and_then(F &&f) const && {
     using result = detail::invoke_result_t<F, const T &&>;
     static_assert(detail::is_optional<result>::value,
@@ -976,7 +976,7 @@ public:
   /// \synopsis template <class F> constexpr auto map(F &&f) &;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR auto map(F &&f) & {
     return optional_map_impl(*this, std::forward<F>(f));
   }
@@ -985,7 +985,7 @@ public:
   /// \synopsis template <class F> constexpr auto map(F &&f) &&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR auto map(F &&f) && {
     return optional_map_impl(std::move(*this), std::forward<F>(f));
   }
@@ -994,7 +994,7 @@ public:
   /// \synopsis template <class F> constexpr auto map(F &&f) const&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr auto map(F &&f) const & {
     return optional_map_impl(*this, std::forward<F>(f));
   }
@@ -1003,7 +1003,7 @@ public:
   /// \synopsis template <class F> constexpr auto map(F &&f) const&&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr auto map(F &&f) const && {
     return optional_map_impl(std::move(*this), std::forward<F>(f));
   }
@@ -1019,7 +1019,7 @@ public:
   /// \synopsis template <class F> auto map(F &&f) &;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR decltype(optional_map_impl(std::declval<optional &>(),
                                              std::declval<F &&>()))
   map(F &&f) & {
@@ -1030,7 +1030,7 @@ public:
   /// \synopsis template <class F> auto map(F &&f) &&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR decltype(optional_map_impl(std::declval<optional &&>(),
                                              std::declval<F &&>()))
   map(F &&f) && {
@@ -1041,7 +1041,7 @@ public:
   /// \synopsis template <class F> auto map(F &&f) const&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr decltype(optional_map_impl(std::declval<const optional &>(),
                               std::declval<F &&>()))
   map(F &&f) const & {
@@ -1053,7 +1053,7 @@ public:
   /// \synopsis template <class F> auto map(F &&f) const&&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr decltype(optional_map_impl(std::declval<const optional &&>(),
                               std::declval<F &&>()))
   map(F &&f) const && {
@@ -1073,7 +1073,7 @@ public:
   /// \synopsis template <class F> optional<T> or_else (F &&f) &;
   __thrust_exec_check_disable__
   template <class F, detail::enable_if_ret_void<F> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional<T> THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) & {
     if (has_value())
       return *this;
@@ -1085,7 +1085,7 @@ public:
   /// \exclude
   __thrust_exec_check_disable__
   template <class F, detail::disable_if_ret_void<F> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional<T> THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) & {
     return has_value() ? *this : std::forward<F>(f)();
   }
@@ -1094,7 +1094,7 @@ public:
   /// \synopsis template <class F> optional<T> or_else (F &&f) &&;
   __thrust_exec_check_disable__
   template <class F, detail::enable_if_ret_void<F> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional<T> or_else(F &&f) && {
     if (has_value())
       return std::move(*this);
@@ -1106,7 +1106,7 @@ public:
   /// \exclude
   __thrust_exec_check_disable__
   template <class F, detail::disable_if_ret_void<F> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional<T> THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) && {
     return has_value() ? std::move(*this) : std::forward<F>(f)();
   }
@@ -1115,7 +1115,7 @@ public:
   /// \synopsis template <class F> optional<T> or_else (F &&f) const &;
   __thrust_exec_check_disable__
   template <class F, detail::enable_if_ret_void<F> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional<T> or_else(F &&f) const & {
     if (has_value())
       return *this;
@@ -1127,7 +1127,7 @@ public:
   /// \exclude
   __thrust_exec_check_disable__
   template <class F, detail::disable_if_ret_void<F> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional<T> THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) const & {
     return has_value() ? *this : std::forward<F>(f)();
   }
@@ -1136,7 +1136,7 @@ public:
   /// \exclude
   __thrust_exec_check_disable__
   template <class F, detail::enable_if_ret_void<F> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional<T> or_else(F &&f) const && {
     if (has_value())
       return std::move(*this);
@@ -1148,7 +1148,7 @@ public:
   /// \exclude
   __thrust_exec_check_disable__
   template <class F, detail::disable_if_ret_void<F> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional<T> or_else(F &&f) const && {
     return has_value() ? std::move(*this) : std::forward<F>(f)();
   }
@@ -1163,7 +1163,7 @@ public:
   /// \group map_or
   __thrust_exec_check_disable__
   template <class F, class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   U map_or(F &&f, U &&u) & {
     return has_value() ? detail::invoke(std::forward<F>(f), **this)
                        : std::forward<U>(u);
@@ -1172,7 +1172,7 @@ public:
   /// \group map_or
   __thrust_exec_check_disable__
   template <class F, class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   U map_or(F &&f, U &&u) && {
     return has_value() ? detail::invoke(std::forward<F>(f), std::move(**this))
                        : std::forward<U>(u);
@@ -1181,7 +1181,7 @@ public:
   /// \group map_or
   __thrust_exec_check_disable__
   template <class F, class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   U map_or(F &&f, U &&u) const & {
     return has_value() ? detail::invoke(std::forward<F>(f), **this)
                        : std::forward<U>(u);
@@ -1191,7 +1191,7 @@ public:
   /// \group map_or
   __thrust_exec_check_disable__
   template <class F, class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   U map_or(F &&f, U &&u) const && {
     return has_value() ? detail::invoke(std::forward<F>(f), std::move(**this))
                        : std::forward<U>(u);
@@ -1209,7 +1209,7 @@ public:
   /// \synopsis template <class F, class U>\nauto map_or_else(F &&f, U &&u) &;
   __thrust_exec_check_disable__
   template <class F, class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   detail::invoke_result_t<U> map_or_else(F &&f, U &&u) & {
     return has_value() ? detail::invoke(std::forward<F>(f), **this)
                        : std::forward<U>(u)();
@@ -1220,7 +1220,7 @@ public:
   /// &&;
   __thrust_exec_check_disable__
   template <class F, class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   detail::invoke_result_t<U> map_or_else(F &&f, U &&u) && {
     return has_value() ? detail::invoke(std::forward<F>(f), std::move(**this))
                        : std::forward<U>(u)();
@@ -1231,7 +1231,7 @@ public:
   /// const &;
   __thrust_exec_check_disable__
   template <class F, class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   detail::invoke_result_t<U> map_or_else(F &&f, U &&u) const & {
     return has_value() ? detail::invoke(std::forward<F>(f), **this)
                        : std::forward<U>(u)();
@@ -1243,7 +1243,7 @@ public:
   /// const &&;
   __thrust_exec_check_disable__
   template <class F, class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   detail::invoke_result_t<U> map_or_else(F &&f, U &&u) const && {
     return has_value() ? detail::invoke(std::forward<F>(f), std::move(**this))
                        : std::forward<U>(u)();
@@ -1253,7 +1253,7 @@ public:
   /// \return `u` if `*this` has a value, otherwise an empty optional.
   __thrust_exec_check_disable__
   template <class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr optional<typename std::decay<U>::type> conjunction(U &&u) const {
     using result = optional<detail::decay_t<U>>;
     return has_value() ? result{u} : result{nullopt};
@@ -1262,21 +1262,21 @@ public:
   /// \return `rhs` if `*this` is empty, otherwise the current value.
   /// \group disjunction
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(const optional &rhs) & {
     return has_value() ? *this : rhs;
   }
 
   /// \group disjunction
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr optional disjunction(const optional &rhs) const & {
     return has_value() ? *this : rhs;
   }
 
   /// \group disjunction
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(const optional &rhs) && {
     return has_value() ? std::move(*this) : rhs;
   }
@@ -1284,7 +1284,7 @@ public:
 #ifndef THRUST_OPTIONAL_NO_CONSTRR
   /// \group disjunction
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr optional disjunction(const optional &rhs) const && {
     return has_value() ? std::move(*this) : rhs;
   }
@@ -1292,21 +1292,21 @@ public:
 
   /// \group disjunction
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(optional &&rhs) & {
     return has_value() ? *this : std::move(rhs);
   }
 
   /// \group disjunction
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr optional disjunction(optional &&rhs) const & {
     return has_value() ? *this : std::move(rhs);
   }
 
   /// \group disjunction
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(optional &&rhs) && {
     return has_value() ? std::move(*this) : std::move(rhs);
   }
@@ -1314,7 +1314,7 @@ public:
 #ifndef THRUST_OPTIONAL_NO_CONSTRR
   /// \group disjunction
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr optional disjunction(optional &&rhs) const && {
     return has_value() ? std::move(*this) : std::move(rhs);
   }
@@ -1323,7 +1323,7 @@ public:
   /// Takes the value out of the optional, leaving it empty
   /// \group take
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional take() & {
     optional ret = *this;
     reset();
@@ -1332,7 +1332,7 @@ public:
 
   /// \group take
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional take() const & {
     optional ret = *this;
     reset();
@@ -1341,7 +1341,7 @@ public:
 
   /// \group take
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional take() && {
     optional ret = std::move(*this);
     reset();
@@ -1351,7 +1351,7 @@ public:
 #ifndef THRUST_OPTIONAL_NO_CONSTRR
   /// \group take
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional take() const && {
     optional ret = std::move(*this);
     reset();
@@ -1368,7 +1368,7 @@ public:
 
   /// \group ctor_empty
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr optional(nullopt_t) noexcept {}
 
   /// Copy constructor
@@ -1390,7 +1390,7 @@ public:
   /// \synopsis template <class... Args> constexpr explicit optional(in_place_t, Args&&... args);
   __thrust_exec_check_disable__
   template <class... Args>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr explicit optional(
       detail::enable_if_t<std::is_constructible<T, Args...>::value, in_place_t>,
       Args &&... args)
@@ -1400,7 +1400,7 @@ public:
   /// \synopsis template <class U, class... Args>\nconstexpr explicit optional(in_place_t, std::initializer_list<U>&, Args&&... args);
   __thrust_exec_check_disable__
   template <class U, class... Args>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR explicit optional(
       detail::enable_if_t<std::is_constructible<T, std::initializer_list<U> &,
                                                 Args &&...>::value,
@@ -1416,7 +1416,7 @@ public:
       class U = T,
       detail::enable_if_t<std::is_convertible<U &&, T>::value> * = nullptr,
       detail::enable_forward_value<T, U> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr optional(U &&u) : base(in_place, std::forward<U>(u)) {}
 
   /// \exclude
@@ -1425,7 +1425,7 @@ public:
       class U = T,
       detail::enable_if_t<!std::is_convertible<U &&, T>::value> * = nullptr,
       detail::enable_forward_value<T, U> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr explicit optional(U &&u) : base(in_place, std::forward<U>(u)) {}
 
   /// Converting copy constructor.
@@ -1434,7 +1434,7 @@ public:
   template <
       class U, detail::enable_from_other<T, U, const U &> * = nullptr,
       detail::enable_if_t<std::is_convertible<const U &, T>::value> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional(const optional<U> &rhs) {
     this->construct(*rhs);
   }
@@ -1444,7 +1444,7 @@ public:
   template <class U, detail::enable_from_other<T, U, const U &> * = nullptr,
             detail::enable_if_t<!std::is_convertible<const U &, T>::value> * =
                 nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   explicit optional(const optional<U> &rhs) {
     this->construct(*rhs);
   }
@@ -1455,7 +1455,7 @@ public:
   template <
       class U, detail::enable_from_other<T, U, U &&> * = nullptr,
       detail::enable_if_t<std::is_convertible<U &&, T>::value> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional(optional<U> &&rhs) {
     this->construct(std::move(*rhs));
   }
@@ -1465,7 +1465,7 @@ public:
   template <
       class U, detail::enable_from_other<T, U, U &&> * = nullptr,
       detail::enable_if_t<!std::is_convertible<U &&, T>::value> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   explicit optional(optional<U> &&rhs) {
     this->construct(std::move(*rhs));
   }
@@ -1478,7 +1478,7 @@ public:
   ///
   /// Destroys the current value if there is one.
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional &operator=(nullopt_t) noexcept {
     if (has_value()) {
       this->m_value.~T();
@@ -1507,7 +1507,7 @@ public:
   /// \synopsis optional &operator=(U &&u);
   __thrust_exec_check_disable__
   template <class U = T, detail::enable_assign_forward<T, U> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional &operator=(U &&u) {
     if (has_value()) {
       this->m_value = std::forward<U>(u);
@@ -1526,7 +1526,7 @@ public:
   __thrust_exec_check_disable__
   template <class U,
             detail::enable_assign_from_other<T, U, const U &> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional &operator=(const optional<U> &rhs) {
     if (has_value()) {
       if (rhs.has_value()) {
@@ -1551,7 +1551,7 @@ public:
   /// \synopsis optional &operator=(optional<U> && rhs);
   __thrust_exec_check_disable__
   template <class U, detail::enable_assign_from_other<T, U, U> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional &operator=(optional<U> &&rhs) {
     if (has_value()) {
       if (rhs.has_value()) {
@@ -1573,7 +1573,7 @@ public:
   /// \group emplace
   __thrust_exec_check_disable__
   template <class... Args>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   T &emplace(Args &&... args) {
     static_assert(std::is_constructible<T, Args &&...>::value,
                   "T must be constructible with Args");
@@ -1587,7 +1587,7 @@ public:
   /// \synopsis template <class U, class... Args>\nT& emplace(std::initializer_list<U> il, Args &&... args);
   __thrust_exec_check_disable__
   template <class U, class... Args>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   detail::enable_if_t<
       std::is_constructible<T, std::initializer_list<U> &, Args &&...>::value,
       T &>
@@ -1604,7 +1604,7 @@ public:
   /// If one has a value, it is moved to the other and the movee is left
   /// valueless.
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void
   swap(optional &rhs) noexcept(std::is_nothrow_move_constructible<T>::value
                                    &&detail::is_nothrow_swappable<T>::value) {
@@ -1627,7 +1627,7 @@ public:
   /// \group pointer
   /// \synopsis constexpr const T *operator->() const;
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr const T *operator->() const {
     return addressof(this->m_value);
   }
@@ -1635,7 +1635,7 @@ public:
   /// \group pointer
   /// \synopsis constexpr T *operator->();
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR T *operator->() {
     return addressof(this->m_value);
   }
@@ -1645,18 +1645,18 @@ public:
   /// \group deref
   /// \synopsis constexpr T &operator*();
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR T &operator*() & { return this->m_value; }
 
   /// \group deref
   /// \synopsis constexpr const T &operator*() const;
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr const T &operator*() const & { return this->m_value; }
 
   /// \exclude
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR T &&operator*() && {
     return std::move(this->m_value);
   }
@@ -1664,19 +1664,19 @@ public:
 #ifndef THRUST_OPTIONAL_NO_CONSTRR
   /// \exclude
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr const T &&operator*() const && { return std::move(this->m_value); }
 #endif
 
   /// \return whether or not the optional has a value
   /// \group has_value
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr bool has_value() const noexcept { return this->m_has_value; }
 
   /// \group has_value
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr explicit operator bool() const noexcept {
     return this->m_has_value;
   }
@@ -1721,7 +1721,7 @@ public:
   /// \group value_or
   __thrust_exec_check_disable__
   template <class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr T value_or(U &&u) const & {
     static_assert(std::is_copy_constructible<T>::value &&
                       std::is_convertible<U &&, T>::value,
@@ -1732,7 +1732,7 @@ public:
   /// \group value_or
   __thrust_exec_check_disable__
   template <class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR T value_or(U &&u) && {
     static_assert(std::is_move_constructible<T>::value &&
                       std::is_convertible<U &&, T>::value,
@@ -1742,7 +1742,7 @@ public:
 
   /// Destroys the stored value if one exists, making the optional empty
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void reset() noexcept {
     if (has_value()) {
       this->m_value.~T();
@@ -1759,7 +1759,7 @@ public:
 /// is not.
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator==(const optional<T> &lhs,
                                  const optional<U> &rhs) {
   return lhs.has_value() == rhs.has_value() &&
@@ -1768,7 +1768,7 @@ inline constexpr bool operator==(const optional<T> &lhs,
 /// \group relop
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator!=(const optional<T> &lhs,
                                  const optional<U> &rhs) {
   return lhs.has_value() != rhs.has_value() ||
@@ -1777,7 +1777,7 @@ inline constexpr bool operator!=(const optional<T> &lhs,
 /// \group relop
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator<(const optional<T> &lhs,
                                 const optional<U> &rhs) {
   return rhs.has_value() && (!lhs.has_value() || *lhs < *rhs);
@@ -1785,7 +1785,7 @@ inline constexpr bool operator<(const optional<T> &lhs,
 /// \group relop
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator>(const optional<T> &lhs,
                                 const optional<U> &rhs) {
   return lhs.has_value() && (!rhs.has_value() || *lhs > *rhs);
@@ -1793,7 +1793,7 @@ inline constexpr bool operator>(const optional<T> &lhs,
 /// \group relop
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator<=(const optional<T> &lhs,
                                  const optional<U> &rhs) {
   return !lhs.has_value() || (rhs.has_value() && *lhs <= *rhs);
@@ -1801,7 +1801,7 @@ inline constexpr bool operator<=(const optional<T> &lhs,
 /// \group relop
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator>=(const optional<T> &lhs,
                                  const optional<U> &rhs) {
   return !rhs.has_value() || (lhs.has_value() && *lhs >= *rhs);
@@ -1812,84 +1812,84 @@ inline constexpr bool operator>=(const optional<T> &lhs,
 /// \details Equivalent to comparing the optional to an empty optional
 __thrust_exec_check_disable__
 template <class T>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator==(const optional<T> &lhs, nullopt_t) noexcept {
   return !lhs.has_value();
 }
 /// \group relop_nullopt
 __thrust_exec_check_disable__
 template <class T>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator==(nullopt_t, const optional<T> &rhs) noexcept {
   return !rhs.has_value();
 }
 /// \group relop_nullopt
 __thrust_exec_check_disable__
 template <class T>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator!=(const optional<T> &lhs, nullopt_t) noexcept {
   return lhs.has_value();
 }
 /// \group relop_nullopt
 __thrust_exec_check_disable__
 template <class T>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator!=(nullopt_t, const optional<T> &rhs) noexcept {
   return rhs.has_value();
 }
 /// \group relop_nullopt
 __thrust_exec_check_disable__
 template <class T>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator<(const optional<T> &, nullopt_t) noexcept {
   return false;
 }
 /// \group relop_nullopt
 __thrust_exec_check_disable__
 template <class T>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator<(nullopt_t, const optional<T> &rhs) noexcept {
   return rhs.has_value();
 }
 /// \group relop_nullopt
 __thrust_exec_check_disable__
 template <class T>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator<=(const optional<T> &lhs, nullopt_t) noexcept {
   return !lhs.has_value();
 }
 /// \group relop_nullopt
 __thrust_exec_check_disable__
 template <class T>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator<=(nullopt_t, const optional<T> &) noexcept {
   return true;
 }
 /// \group relop_nullopt
 __thrust_exec_check_disable__
 template <class T>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator>(const optional<T> &lhs, nullopt_t) noexcept {
   return lhs.has_value();
 }
 /// \group relop_nullopt
 __thrust_exec_check_disable__
 template <class T>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator>(nullopt_t, const optional<T> &) noexcept {
   return false;
 }
 /// \group relop_nullopt
 __thrust_exec_check_disable__
 template <class T>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator>=(const optional<T> &, nullopt_t) noexcept {
   return true;
 }
 /// \group relop_nullopt
 __thrust_exec_check_disable__
 template <class T>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator>=(nullopt_t, const optional<T> &rhs) noexcept {
   return !rhs.has_value();
 }
@@ -1901,84 +1901,84 @@ inline constexpr bool operator>=(nullopt_t, const optional<T> &rhs) noexcept {
 /// less than the value.
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator==(const optional<T> &lhs, const U &rhs) {
   return lhs.has_value() ? *lhs == rhs : false;
 }
 /// \group relop_t
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator==(const U &lhs, const optional<T> &rhs) {
   return rhs.has_value() ? lhs == *rhs : false;
 }
 /// \group relop_t
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator!=(const optional<T> &lhs, const U &rhs) {
   return lhs.has_value() ? *lhs != rhs : true;
 }
 /// \group relop_t
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator!=(const U &lhs, const optional<T> &rhs) {
   return rhs.has_value() ? lhs != *rhs : true;
 }
 /// \group relop_t
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator<(const optional<T> &lhs, const U &rhs) {
   return lhs.has_value() ? *lhs < rhs : true;
 }
 /// \group relop_t
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator<(const U &lhs, const optional<T> &rhs) {
   return rhs.has_value() ? lhs < *rhs : false;
 }
 /// \group relop_t
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator<=(const optional<T> &lhs, const U &rhs) {
   return lhs.has_value() ? *lhs <= rhs : true;
 }
 /// \group relop_t
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator<=(const U &lhs, const optional<T> &rhs) {
   return rhs.has_value() ? lhs <= *rhs : false;
 }
 /// \group relop_t
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator>(const optional<T> &lhs, const U &rhs) {
   return lhs.has_value() ? *lhs > rhs : false;
 }
 /// \group relop_t
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator>(const U &lhs, const optional<T> &rhs) {
   return rhs.has_value() ? lhs > *rhs : true;
 }
 /// \group relop_t
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator>=(const optional<T> &lhs, const U &rhs) {
   return lhs.has_value() ? *lhs >= rhs : false;
 }
 /// \group relop_t
 __thrust_exec_check_disable__
 template <class T, class U>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr bool operator>=(const U &lhs, const optional<T> &rhs) {
   return rhs.has_value() ? lhs >= *rhs : true;
 }
@@ -1988,7 +1988,7 @@ __thrust_exec_check_disable__
 template <class T,
           detail::enable_if_t<std::is_move_constructible<T>::value> * = nullptr,
           detail::enable_if_t<detail::is_swappable<T>::value> * = nullptr>
-__host__ __device__
+THRUST_HOST_DEVICE
 void swap(optional<T> &lhs,
           optional<T> &rhs) noexcept(noexcept(lhs.swap(rhs))) {
   return lhs.swap(rhs);
@@ -2003,20 +2003,20 @@ template <class T = detail::i_am_secret, class U,
           class Ret =
               detail::conditional_t<std::is_same<T, detail::i_am_secret>::value,
                                     detail::decay_t<U>, T>>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr optional<Ret> make_optional(U &&v) {
   return optional<Ret>(std::forward<U>(v));
 }
 
 __thrust_exec_check_disable__
 template <class T, class... Args>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr optional<T> make_optional(Args &&... args) {
   return optional<T>(in_place, std::forward<Args>(args)...);
 }
 __thrust_exec_check_disable__
 template <class T, class U, class... Args>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline constexpr optional<T> make_optional(std::initializer_list<U> il,
                                            Args &&... args) {
   return optional<T>(in_place, il, std::forward<Args>(args)...);
@@ -2036,7 +2036,7 @@ template <class Opt, class F,
           class Ret = decltype(detail::invoke(std::declval<F>(),
                                               *std::declval<Opt>())),
           detail::enable_if_t<!std::is_void<Ret>::value> * = nullptr>
-__host__ __device__
+THRUST_HOST_DEVICE
 constexpr auto optional_map_impl(Opt &&opt, F &&f) {
   return opt.has_value()
              ? detail::invoke(std::forward<F>(f), *std::forward<Opt>(opt))
@@ -2048,7 +2048,7 @@ template <class Opt, class F,
           class Ret = decltype(detail::invoke(std::declval<F>(),
                                               *std::declval<Opt>())),
           detail::enable_if_t<std::is_void<Ret>::value> * = nullptr>
-__host__ __device__
+THRUST_HOST_DEVICE
 auto optional_map_impl(Opt &&opt, F &&f) {
   if (opt.has_value()) {
     detail::invoke(std::forward<F>(f), *std::forward<Opt>(opt));
@@ -2063,7 +2063,7 @@ template <class Opt, class F,
           class Ret = decltype(detail::invoke(std::declval<F>(),
                                               *std::declval<Opt>())),
           detail::enable_if_t<!std::is_void<Ret>::value> * = nullptr>
-__host__ __device__
+THRUST_HOST_DEVICE
 constexpr optional<Ret> optional_map_impl(Opt &&opt, F &&f) {
   return opt.has_value()
              ? detail::invoke(std::forward<F>(f), *std::forward<Opt>(opt))
@@ -2075,7 +2075,7 @@ template <class Opt, class F,
           class Ret = decltype(detail::invoke(std::declval<F>(),
                                               *std::declval<Opt>())),
           detail::enable_if_t<std::is_void<Ret>::value> * = nullptr>
-__host__ __device__
+THRUST_HOST_DEVICE
 auto optional_map_impl(Opt &&opt, F &&f) -> optional<monostate>
 {
   if (opt.has_value()) {
@@ -2131,7 +2131,7 @@ public:
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) &;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR auto and_then(F &&f) & {
     using result = detail::invoke_result_t<F, T &>;
     static_assert(detail::is_optional<result>::value,
@@ -2145,7 +2145,7 @@ public:
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) &&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR auto and_then(F &&f) && {
     using result = detail::invoke_result_t<F, T &>;
     static_assert(detail::is_optional<result>::value,
@@ -2159,7 +2159,7 @@ public:
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) const &;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr auto and_then(F &&f) const & {
     using result = detail::invoke_result_t<F, const T &>;
     static_assert(detail::is_optional<result>::value,
@@ -2174,7 +2174,7 @@ public:
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) const &&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr auto and_then(F &&f) const && {
     using result = detail::invoke_result_t<F, const T &>;
     static_assert(detail::is_optional<result>::value,
@@ -2197,7 +2197,7 @@ public:
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) &;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR detail::invoke_result_t<F, T &> and_then(F &&f) & {
     using result = detail::invoke_result_t<F, T &>;
     static_assert(detail::is_optional<result>::value,
@@ -2211,7 +2211,7 @@ public:
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) &&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR detail::invoke_result_t<F, T &> and_then(F &&f) && {
     using result = detail::invoke_result_t<F, T &>;
     static_assert(detail::is_optional<result>::value,
@@ -2225,7 +2225,7 @@ public:
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) const &;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr detail::invoke_result_t<F, const T &> and_then(F &&f) const & {
     using result = detail::invoke_result_t<F, const T &>;
     static_assert(detail::is_optional<result>::value,
@@ -2240,7 +2240,7 @@ public:
   /// \synopsis template <class F>\nconstexpr auto and_then(F &&f) const &&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr detail::invoke_result_t<F, const T &> and_then(F &&f) const && {
     using result = detail::invoke_result_t<F, const T &>;
     static_assert(detail::is_optional<result>::value,
@@ -2265,7 +2265,7 @@ public:
   /// \synopsis template <class F> constexpr auto map(F &&f) &;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR auto map(F &&f) & {
     return detail::optional_map_impl(*this, std::forward<F>(f));
   }
@@ -2274,7 +2274,7 @@ public:
   /// \synopsis template <class F> constexpr auto map(F &&f) &&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR auto map(F &&f) && {
     return detail::optional_map_impl(std::move(*this), std::forward<F>(f));
   }
@@ -2283,7 +2283,7 @@ public:
   /// \synopsis template <class F> constexpr auto map(F &&f) const&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr auto map(F &&f) const & {
     return detail::optional_map_impl(*this, std::forward<F>(f));
   }
@@ -2292,7 +2292,7 @@ public:
   /// \synopsis template <class F> constexpr auto map(F &&f) const&&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr auto map(F &&f) const && {
     return detail::optional_map_impl(std::move(*this), std::forward<F>(f));
   }
@@ -2308,7 +2308,7 @@ public:
   /// \synopsis template <class F> auto map(F &&f) &;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR decltype(detail::optional_map_impl(std::declval<optional &>(),
                                                      std::declval<F &&>()))
   map(F &&f) & {
@@ -2319,7 +2319,7 @@ public:
   /// \synopsis template <class F> auto map(F &&f) &&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR decltype(detail::optional_map_impl(std::declval<optional &&>(),
                                                      std::declval<F &&>()))
   map(F &&f) && {
@@ -2330,7 +2330,7 @@ public:
   /// \synopsis template <class F> auto map(F &&f) const&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr decltype(detail::optional_map_impl(std::declval<const optional &>(),
                                       std::declval<F &&>()))
   map(F &&f) const & {
@@ -2342,7 +2342,7 @@ public:
   /// \synopsis template <class F> auto map(F &&f) const&&;
   __thrust_exec_check_disable__
   template <class F>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr decltype(detail::optional_map_impl(std::declval<const optional &&>(),
                                       std::declval<F &&>()))
   map(F &&f) const && {
@@ -2361,7 +2361,7 @@ public:
   /// \synopsis template <class F> optional<T> or_else (F &&f) &;
   __thrust_exec_check_disable__
   template <class F, detail::enable_if_ret_void<F> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional<T>
   THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) & {
     if (has_value())
@@ -2374,7 +2374,7 @@ public:
   /// \exclude
   __thrust_exec_check_disable__
   template <class F, detail::disable_if_ret_void<F> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional<T>
   THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) & {
     return has_value() ? *this : std::forward<F>(f)();
@@ -2384,7 +2384,7 @@ public:
   /// \synopsis template <class F> optional<T> or_else (F &&f) &&;
   __thrust_exec_check_disable__
   template <class F, detail::enable_if_ret_void<F> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional<T> or_else(F &&f) && {
     if (has_value())
       return std::move(*this);
@@ -2396,7 +2396,7 @@ public:
   /// \exclude
   __thrust_exec_check_disable__
   template <class F, detail::disable_if_ret_void<F> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional<T> THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) && {
     return has_value() ? std::move(*this) : std::forward<F>(f)();
   }
@@ -2405,7 +2405,7 @@ public:
   /// \synopsis template <class F> optional<T> or_else (F &&f) const &;
   __thrust_exec_check_disable__
   template <class F, detail::enable_if_ret_void<F> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional<T> or_else(F &&f) const & {
     if (has_value())
       return *this;
@@ -2417,7 +2417,7 @@ public:
   /// \exclude
   __thrust_exec_check_disable__
   template <class F, detail::disable_if_ret_void<F> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional<T> THRUST_OPTIONAL_CPP11_CONSTEXPR or_else(F &&f) const & {
     return has_value() ? *this : std::forward<F>(f)();
   }
@@ -2426,7 +2426,7 @@ public:
   /// \exclude
   __thrust_exec_check_disable__
   template <class F, detail::enable_if_ret_void<F> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional<T> or_else(F &&f) const && {
     if (has_value())
       return std::move(*this);
@@ -2438,7 +2438,7 @@ public:
   /// \exclude
   __thrust_exec_check_disable__
   template <class F, detail::disable_if_ret_void<F> * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional<T> or_else(F &&f) const && {
     return has_value() ? std::move(*this) : std::forward<F>(f)();
   }
@@ -2453,7 +2453,7 @@ public:
   /// \group map_or
   __thrust_exec_check_disable__
   template <class F, class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   U map_or(F &&f, U &&u) & {
     return has_value() ? detail::invoke(std::forward<F>(f), **this)
                        : std::forward<U>(u);
@@ -2462,7 +2462,7 @@ public:
   /// \group map_or
   __thrust_exec_check_disable__
   template <class F, class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   U map_or(F &&f, U &&u) && {
     return has_value() ? detail::invoke(std::forward<F>(f), std::move(**this))
                        : std::forward<U>(u);
@@ -2471,7 +2471,7 @@ public:
   /// \group map_or
   __thrust_exec_check_disable__
   template <class F, class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   U map_or(F &&f, U &&u) const & {
     return has_value() ? detail::invoke(std::forward<F>(f), **this)
                        : std::forward<U>(u);
@@ -2481,7 +2481,7 @@ public:
   /// \group map_or
   __thrust_exec_check_disable__
   template <class F, class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   U map_or(F &&f, U &&u) const && {
     return has_value() ? detail::invoke(std::forward<F>(f), std::move(**this))
                        : std::forward<U>(u);
@@ -2499,7 +2499,7 @@ public:
   /// \synopsis template <class F, class U>\nauto map_or_else(F &&f, U &&u) &;
   __thrust_exec_check_disable__
   template <class F, class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   detail::invoke_result_t<U> map_or_else(F &&f, U &&u) & {
     return has_value() ? detail::invoke(std::forward<F>(f), **this)
                        : std::forward<U>(u)();
@@ -2510,7 +2510,7 @@ public:
   /// &&;
   __thrust_exec_check_disable__
   template <class F, class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   detail::invoke_result_t<U> map_or_else(F &&f, U &&u) && {
     return has_value() ? detail::invoke(std::forward<F>(f), std::move(**this))
                        : std::forward<U>(u)();
@@ -2521,7 +2521,7 @@ public:
   /// const &;
   __thrust_exec_check_disable__
   template <class F, class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   detail::invoke_result_t<U> map_or_else(F &&f, U &&u) const & {
     return has_value() ? detail::invoke(std::forward<F>(f), **this)
                        : std::forward<U>(u)();
@@ -2533,7 +2533,7 @@ public:
   /// const &&;
   __thrust_exec_check_disable__
   template <class F, class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   detail::invoke_result_t<U> map_or_else(F &&f, U &&u) const && {
     return has_value() ? detail::invoke(std::forward<F>(f), std::move(**this))
                        : std::forward<U>(u)();
@@ -2543,7 +2543,7 @@ public:
   /// \return `u` if `*this` has a value, otherwise an empty optional.
   __thrust_exec_check_disable__
   template <class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr optional<typename std::decay<U>::type> conjunction(U &&u) const {
     using result = optional<detail::decay_t<U>>;
     return has_value() ? result{u} : result{nullopt};
@@ -2552,21 +2552,21 @@ public:
   /// \return `rhs` if `*this` is empty, otherwise the current value.
   /// \group disjunction
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(const optional &rhs) & {
     return has_value() ? *this : rhs;
   }
 
   /// \group disjunction
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr optional disjunction(const optional &rhs) const & {
     return has_value() ? *this : rhs;
   }
 
   /// \group disjunction
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(const optional &rhs) && {
     return has_value() ? std::move(*this) : rhs;
   }
@@ -2574,7 +2574,7 @@ public:
 #ifndef THRUST_OPTIONAL_NO_CONSTRR
   /// \group disjunction
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr optional disjunction(const optional &rhs) const && {
     return has_value() ? std::move(*this) : rhs;
   }
@@ -2582,21 +2582,21 @@ public:
 
   /// \group disjunction
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(optional &&rhs) & {
     return has_value() ? *this : std::move(rhs);
   }
 
   /// \group disjunction
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr optional disjunction(optional &&rhs) const & {
     return has_value() ? *this : std::move(rhs);
   }
 
   /// \group disjunction
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR optional disjunction(optional &&rhs) && {
     return has_value() ? std::move(*this) : std::move(rhs);
   }
@@ -2604,7 +2604,7 @@ public:
 #ifndef THRUST_OPTIONAL_NO_CONSTRR
   /// \group disjunction
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr optional disjunction(optional &&rhs) const && {
     return has_value() ? std::move(*this) : std::move(rhs);
   }
@@ -2613,7 +2613,7 @@ public:
   /// Takes the value out of the optional, leaving it empty
   /// \group take
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional take() & {
     optional ret = *this;
     reset();
@@ -2622,7 +2622,7 @@ public:
 
   /// \group take
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional take() const & {
     optional ret = *this;
     reset();
@@ -2631,7 +2631,7 @@ public:
 
   /// \group take
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional take() && {
     optional ret = std::move(*this);
     reset();
@@ -2641,7 +2641,7 @@ public:
 #ifndef THRUST_OPTIONAL_NO_CONSTRR
   /// \group take
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional take() const && {
     optional ret = std::move(*this);
     reset();
@@ -2654,12 +2654,12 @@ public:
   /// Constructs an optional that does not contain a value.
   /// \group ctor_empty
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr optional() noexcept : m_value(nullptr) {}
 
   /// \group ctor_empty
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr optional(nullopt_t) noexcept : m_value(nullptr) {}
 
   /// Copy constructor
@@ -2682,7 +2682,7 @@ public:
   template <class U = T,
             detail::enable_if_t<!detail::is_optional<detail::decay_t<U>>::value>
                 * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr optional(U &&u) : m_value(addressof(u)) {
     static_assert(std::is_lvalue_reference<U>::value, "U must be an lvalue");
   }
@@ -2690,7 +2690,7 @@ public:
   /// \exclude
   __thrust_exec_check_disable__
   template <class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr explicit optional(const optional<U> &rhs) : optional(*rhs) {}
 
   /// No-op
@@ -2701,7 +2701,7 @@ public:
   ///
   /// Destroys the current value if there is one.
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional &operator=(nullopt_t) noexcept {
     m_value = nullptr;
     return *this;
@@ -2722,7 +2722,7 @@ public:
   template <class U = T,
             detail::enable_if_t<!detail::is_optional<detail::decay_t<U>>::value>
                 * = nullptr>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional &operator=(U &&u) {
     static_assert(std::is_lvalue_reference<U>::value, "U must be an lvalue");
     m_value = addressof(u);
@@ -2735,7 +2735,7 @@ public:
   /// resets the stored value in `*this`.
   __thrust_exec_check_disable__
   template <class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   optional &operator=(const optional<U> &rhs) {
     m_value = addressof(rhs.value());
     return *this;
@@ -2747,7 +2747,7 @@ public:
   /// \group emplace
   __thrust_exec_check_disable__
   template <class... Args>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   T &emplace(Args &&... args) noexcept {
     static_assert(std::is_constructible<T, Args &&...>::value,
                   "T must be constructible with Args");
@@ -2763,7 +2763,7 @@ public:
   /// If one has a value, it is moved to the other and the movee is left
   /// valueless.
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void swap(optional &rhs) noexcept { std::swap(m_value, rhs.m_value); }
 
   /// \return a pointer to the stored value
@@ -2771,13 +2771,13 @@ public:
   /// \group pointer
   /// \synopsis constexpr const T *operator->() const;
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr const T *operator->() const { return m_value; }
 
   /// \group pointer
   /// \synopsis constexpr T *operator->();
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR T *operator->() { return m_value; }
 
   /// \return the stored value
@@ -2790,18 +2790,18 @@ public:
   /// \group deref
   /// \synopsis constexpr const T &operator*() const;
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr const T &operator*() const { return *m_value; }
 
   /// \return whether or not the optional has a value
   /// \group has_value
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr bool has_value() const noexcept { return m_value != nullptr; }
 
   /// \group has_value
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr explicit operator bool() const noexcept {
     return m_value != nullptr;
   }
@@ -2829,7 +2829,7 @@ public:
   /// \group value_or
   __thrust_exec_check_disable__
   template <class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr T value_or(U &&u) const & {
     static_assert(std::is_copy_constructible<T>::value &&
                       std::is_convertible<U &&, T>::value,
@@ -2840,7 +2840,7 @@ public:
   /// \group value_or
   __thrust_exec_check_disable__
   template <class U>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   THRUST_OPTIONAL_CPP11_CONSTEXPR T value_or(U &&u) && {
     static_assert(std::is_move_constructible<T>::value &&
                       std::is_convertible<U &&, T>::value,
@@ -2862,7 +2862,7 @@ namespace std {
 // TODO SFINAE
 template <class T> struct hash<THRUST_NS_QUALIFIER::optional<T>> {
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   ::std::size_t operator()(const THRUST_NS_QUALIFIER::optional<T> &o) const {
     if (!o.has_value())
       return 0;

@@ -29,7 +29,7 @@ __thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
-__host__ __device__
+THRUST_HOST_DEVICE
   InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator first,
                          InputIterator last,
@@ -56,7 +56,7 @@ InputIterator for_each(InputIterator first,
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Size, typename UnaryFunction>
-__host__ __device__
+THRUST_HOST_DEVICE
   InputIterator for_each_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator first,
                            Size n,

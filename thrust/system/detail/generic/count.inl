@@ -33,11 +33,11 @@ namespace generic
 template <typename InputType, typename Predicate, typename CountType>
 struct count_if_transform
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   count_if_transform(Predicate _pred) : pred(_pred){}
 
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   CountType operator()(const InputType& val)
   {
     if(pred(val))
@@ -51,7 +51,7 @@ struct count_if_transform
 
 
 template <typename DerivedPolicy, typename InputIterator, typename EqualityComparable>
-__host__ __device__
+THRUST_HOST_DEVICE
 typename thrust::iterator_traits<InputIterator>::difference_type
 count(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, const EqualityComparable& value)
 {
@@ -62,7 +62,7 @@ count(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputI
 
 
 template <typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 typename thrust::iterator_traits<InputIterator>::difference_type
 count_if(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred)
 {

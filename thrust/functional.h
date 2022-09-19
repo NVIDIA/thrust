@@ -52,7 +52,7 @@ template<typename Operation> struct binary_traits;
  *  \code
  *  struct sine : public thrust::unary_function<float,float>
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    float operator()(float x) { return sinf(x); }
  *  };
  *  \endcode
@@ -92,7 +92,7 @@ struct unary_function
  *  \code
  *  struct exponentiate : public thrust::binary_function<float,float,float>
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    float operator()(float x, float y) { return powf(x,y); }
  *  };
  *  \endcode
@@ -145,7 +145,7 @@ struct binary_function
     using is_transparent = void;                                               \
     __thrust_exec_check_disable__                                              \
     template <typename T>                                                      \
-    __host__ __device__                                                        \
+    THRUST_HOST_DEVICE                                                        \
     constexpr auto operator()(T&& x) const                                     \
       noexcept(noexcept(impl)) THRUST_TRAILING_RETURN(decltype(impl))          \
     {                                                                          \
@@ -160,7 +160,7 @@ struct binary_function
     using is_transparent = void;                                               \
     __thrust_exec_check_disable__                                              \
     template <typename T1, typename T2>                                        \
-    __host__ __device__                                                        \
+    THRUST_HOST_DEVICE                                                        \
     constexpr auto operator()(T1&& t1, T2&& t2) const                          \
       noexcept(noexcept(impl)) THRUST_TRAILING_RETURN(decltype(impl))          \
     {                                                                          \
@@ -227,7 +227,7 @@ struct plus
   /*! Function call operator. The return value is <tt>lhs + rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr T operator()(const T &lhs, const T &rhs) const
   {
     return lhs + rhs;
@@ -290,7 +290,7 @@ struct minus
   /*! Function call operator. The return value is <tt>lhs - rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr T operator()(const T &lhs, const T &rhs) const
   {
     return lhs - rhs;
@@ -353,7 +353,7 @@ struct multiplies
   /*! Function call operator. The return value is <tt>lhs * rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr T operator()(const T &lhs, const T &rhs) const
   {
     return lhs * rhs;
@@ -416,7 +416,7 @@ struct divides
   /*! Function call operator. The return value is <tt>lhs / rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr T operator()(const T &lhs, const T &rhs) const
   {
     return lhs / rhs;
@@ -479,7 +479,7 @@ struct modulus
   /*! Function call operator. The return value is <tt>lhs % rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr T operator()(const T &lhs, const T &rhs) const
   {
     return lhs % rhs;
@@ -534,7 +534,7 @@ struct negate
   /*! Function call operator. The return value is <tt>-x</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr T operator()(const T &x) const
   {
     return -x;
@@ -588,7 +588,7 @@ struct square
   /*! Function call operator. The return value is <tt>x*x</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr T operator()(const T &x) const
   {
     return x*x;
@@ -637,7 +637,7 @@ struct equal_to
   /*! Function call operator. The return value is <tt>lhs == rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr bool operator()(const T &lhs, const T &rhs) const
   {
     return lhs == rhs;
@@ -678,7 +678,7 @@ struct not_equal_to
   /*! Function call operator. The return value is <tt>lhs != rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr bool operator()(const T &lhs, const T &rhs) const
   {
     return lhs != rhs;
@@ -719,7 +719,7 @@ struct greater
   /*! Function call operator. The return value is <tt>lhs > rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr bool operator()(const T &lhs, const T &rhs) const
   {
     return lhs > rhs;
@@ -760,7 +760,7 @@ struct less
   /*! Function call operator. The return value is <tt>lhs < rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr bool operator()(const T &lhs, const T &rhs) const
   {
     return lhs < rhs;
@@ -801,7 +801,7 @@ struct greater_equal
   /*! Function call operator. The return value is <tt>lhs >= rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr bool operator()(const T &lhs, const T &rhs) const
   {
     return lhs >= rhs;
@@ -842,7 +842,7 @@ struct less_equal
   /*! Function call operator. The return value is <tt>lhs <= rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr bool operator()(const T &lhs, const T &rhs) const
   {
     return lhs <= rhs;
@@ -892,7 +892,7 @@ struct logical_and
   /*! Function call operator. The return value is <tt>lhs && rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr bool operator()(const T &lhs, const T &rhs) const
   {
     return lhs && rhs;
@@ -933,7 +933,7 @@ struct logical_or
   /*! Function call operator. The return value is <tt>lhs || rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr bool operator()(const T &lhs, const T &rhs) const
   {
     return lhs || rhs;
@@ -988,7 +988,7 @@ struct logical_not
   /*! Function call operator. The return value is <tt>!x</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr bool operator()(const T &x) const
   {
     return !x;
@@ -1058,7 +1058,7 @@ struct bit_and
   /*! Function call operator. The return value is <tt>lhs & rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr T operator()(const T &lhs, const T &rhs) const
   {
     return lhs & rhs;
@@ -1120,7 +1120,7 @@ struct bit_or
   /*! Function call operator. The return value is <tt>lhs | rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr T operator()(const T &lhs, const T &rhs) const
   {
     return lhs | rhs;
@@ -1182,7 +1182,7 @@ struct bit_xor
   /*! Function call operator. The return value is <tt>lhs ^ rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr T operator()(const T &lhs, const T &rhs) const
   {
     return lhs ^ rhs;
@@ -1235,7 +1235,7 @@ struct identity
   /*! Function call operator. The return value is <tt>x</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr const T &operator()(const T &x) const
   {
     return x;
@@ -1289,7 +1289,7 @@ struct maximum
   /*! Function call operator. The return value is <tt>rhs < lhs ? lhs : rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr T operator()(const T &lhs, const T &rhs) const
   {
     return lhs < rhs ? rhs : lhs;
@@ -1345,7 +1345,7 @@ struct minimum
   /*! Function call operator. The return value is <tt>lhs < rhs ? lhs : rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr T operator()(const T &lhs, const T &rhs) const
   {
     return lhs < rhs ? lhs : rhs;
@@ -1394,7 +1394,7 @@ struct project1st
 
   /*! Function call operator. The return value is <tt>lhs</tt>.
    */
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr const T1 &operator()(const T1 &lhs, const T2 & /*rhs*/) const
   {
     return lhs;
@@ -1407,7 +1407,7 @@ struct project1st<void, void>
   using is_transparent = void;
   __thrust_exec_check_disable__
   template <typename T1, typename T2>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr auto operator()(T1&& t1, T2&&) const
     noexcept(noexcept(THRUST_FWD(t1)))
     THRUST_TRAILING_RETURN(decltype(THRUST_FWD(t1)))
@@ -1454,7 +1454,7 @@ struct project2nd
 
   /*! Function call operator. The return value is <tt>rhs</tt>.
    */
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr const T2 &operator()(const T1 &/*lhs*/, const T2 &rhs) const
   {
     return rhs;
@@ -1467,7 +1467,7 @@ struct project2nd<void, void>
   using is_transparent = void;
   __thrust_exec_check_disable__
   template <typename T1, typename T2>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr auto operator()(T1&&, T2&& t2) const
   noexcept(noexcept(THRUST_FWD(t2)))
   THRUST_TRAILING_RETURN(decltype(THRUST_FWD(t2)))
@@ -1503,13 +1503,13 @@ struct unary_negate
   /*! Constructor takes a \p Predicate object to negate.
    *  \param p The \p Predicate object to negate.
    */
-  __host__ __device__
+  THRUST_HOST_DEVICE
   explicit unary_negate(Predicate p) : pred(p){}
 
   /*! Function call operator. The return value is <tt>!pred(x)</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator()(const typename Predicate::argument_type& x) { return !pred(x); }
 
   /*! \cond
@@ -1536,7 +1536,7 @@ struct unary_negate
  *  \see not2
  */
 template<typename Predicate>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   unary_negate<Predicate> not1(const Predicate &pred);
 
 /*! \p binary_negate is a function object adaptor: it is an Adaptable Binary
@@ -1558,13 +1558,13 @@ struct binary_negate
   /*! Constructor takes a \p Predicate object to negate.
    *  \param p The \p Predicate object to negate.
    */
-  __host__ __device__
+  THRUST_HOST_DEVICE
   explicit binary_negate(Predicate p) : pred(p){}
 
   /*! Function call operator. The return value is <tt>!pred(x,y)</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator()(const typename Predicate::first_argument_type& x, const typename Predicate::second_argument_type& y)
   {
       return !pred(x,y);
@@ -1594,7 +1594,7 @@ struct binary_negate
  *  \see not1
  */
 template<typename BinaryPredicate>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   binary_negate<BinaryPredicate> not2(const BinaryPredicate &pred);
 
 /*! \}

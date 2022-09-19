@@ -126,7 +126,7 @@ struct tag : thrust::system::cpp::execution_policy<tag> { unspecified };
  *
  *  struct printf_functor
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    void operator()(int x)
  *    {
  *      printf("%d\n", x);

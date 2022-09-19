@@ -36,7 +36,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename RandomAccessIterator,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator gather(thrust::execution_policy<DerivedPolicy> &exec,
                         InputIterator                            map_first,
                         InputIterator                            map_last,
@@ -56,7 +56,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename RandomAccessIterator,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator gather_if(thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator1                           map_first,
                            InputIterator1                           map_last,
@@ -81,7 +81,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename OutputIterator,
          typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator gather_if(thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator1                           map_first,
                            InputIterator1                           map_last,

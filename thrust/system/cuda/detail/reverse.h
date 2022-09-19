@@ -35,14 +35,14 @@ THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
 template <class Derived, class ItemsIt, class ResultIt>
-ResultIt __host__ __device__
+ResultIt THRUST_HOST_DEVICE
 reverse_copy(execution_policy<Derived> &policy,
              ItemsIt                    first,
              ItemsIt                    last,
              ResultIt                   result);
 
 template <class Derived, class ItemsIt>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 reverse(execution_policy<Derived> &policy,
         ItemsIt                    first,
         ItemsIt                    last);
@@ -62,7 +62,7 @@ namespace cuda_cub {
 template <class Derived,
           class ItemsIt,
           class ResultIt>
-ResultIt __host__ __device__
+ResultIt THRUST_HOST_DEVICE
 reverse_copy(execution_policy<Derived> &policy,
              ItemsIt                    first,
              ItemsIt                    last,
@@ -76,7 +76,7 @@ reverse_copy(execution_policy<Derived> &policy,
 
 template <class Derived,
           class ItemsIt>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 reverse(execution_policy<Derived> &policy,
         ItemsIt                    first,
         ItemsIt                    last)

@@ -115,7 +115,7 @@ template<typename Value,
     /*! Null constructor initializes this \p constant_iterator's constant using its
      *  null constructor.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     constant_iterator()
       : super_t(), m_value() {}
 
@@ -124,7 +124,7 @@ template<typename Value,
      *
      *  \p rhs The constant_iterator to copy.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     constant_iterator(constant_iterator const &rhs)
       : super_t(rhs.base()), m_value(rhs.m_value) {}
 
@@ -134,7 +134,7 @@ template<typename Value,
      *  \param rhs The \p constant_iterator to copy.
      */
     template<typename OtherSystem>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     constant_iterator(constant_iterator<Value,Incrementable,OtherSystem> const &rhs,
                       typename thrust::detail::enable_if_convertible<
                         typename thrust::iterator_system<constant_iterator<Value,Incrementable,OtherSystem> >::type,
@@ -151,7 +151,7 @@ template<typename Value,
      *       value returned by \c Incrementable's null constructor. For example,
      *       when <tt>Incrementable == int</tt>, \c 0.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     constant_iterator(value_type const& v, incrementable const &i = incrementable())
       : super_t(base_iterator(i)), m_value(v) {}
 
@@ -164,14 +164,14 @@ template<typename Value,
      *       when <tt>Incrementable == int</tt>, \c 0.
      */
     template<typename OtherValue, typename OtherIncrementable>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     constant_iterator(OtherValue const& v, OtherIncrementable const& i = incrementable())
       : super_t(base_iterator(i)), m_value(v) {}
 
     /*! This method returns the value of this \p constant_iterator's constant value.
      *  \return A \c const reference to this \p constant_iterator's constant value.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     Value const& value() const
     { return m_value; }
 
@@ -179,16 +179,16 @@ template<typename Value,
      */
 
   protected:
-    __host__ __device__
+    THRUST_HOST_DEVICE
     Value const& value_reference() const
     { return m_value; }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     Value & value_reference()
     { return m_value; }
   
   private: // Core iterator interface
-    __host__ __device__
+    THRUST_HOST_DEVICE
     reference dereference() const
     {
       return m_value;
@@ -217,7 +217,7 @@ template<typename Value,
  *  \see constant_iterator
  */
 template<typename ValueT, typename IndexT>
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
 constant_iterator<ValueT, IndexT> make_constant_iterator(ValueT x, IndexT i = int())
 {
   return constant_iterator<ValueT, IndexT>(x, i);
@@ -234,7 +234,7 @@ constant_iterator<ValueT, IndexT> make_constant_iterator(ValueT x, IndexT i = in
  *  \see constant_iterator
  */
 template<typename V>
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
 constant_iterator<V> make_constant_iterator(V x)
 {
   return constant_iterator<V>(x, 0);

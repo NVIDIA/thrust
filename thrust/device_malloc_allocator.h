@@ -89,20 +89,20 @@ template<typename T>
     }; // end rebind
 
     /*! No-argument constructor has no effect. */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     inline device_malloc_allocator() {}
 
     /*! No-argument destructor has no effect. */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     inline ~device_malloc_allocator() {}
 
     /*! Copy constructor has no effect. */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     inline device_malloc_allocator(device_malloc_allocator const&) {}
 
     /*! Constructor from other \p device_malloc_allocator has no effect. */
     template<typename U>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     inline device_malloc_allocator(device_malloc_allocator<U> const&) {}
 
 #if THRUST_CPP_DIALECT >= 2011
@@ -112,13 +112,13 @@ template<typename T>
     /*! Returns the address of an allocated object.
      *  \return <tt>&r</tt>.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     inline pointer address(reference r) { return &r; }
 
     /*! Returns the address an allocated object.
      *  \return <tt>&r</tt>.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     inline const_pointer address(const_reference r) { return &r; }
 
     /*! Allocates storage for \p cnt objects.
@@ -164,13 +164,13 @@ template<typename T>
     /*! Compares against another \p device_malloc_allocator for equality.
      *  \return \c true
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     inline bool operator==(device_malloc_allocator const&) const { return true; }
 
     /*! Compares against another \p device_malloc_allocator for inequality.
      *  \return \c false
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     inline bool operator!=(device_malloc_allocator const &a) const {return !operator==(a); }
 }; // end device_malloc_allocator
 

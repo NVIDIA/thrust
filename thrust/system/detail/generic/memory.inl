@@ -33,7 +33,7 @@ namespace generic
 
 
 template<typename DerivedPolicy, typename Size>
-__host__ __device__
+THRUST_HOST_DEVICE
   void malloc(thrust::execution_policy<DerivedPolicy> &, Size)
 {
   THRUST_STATIC_ASSERT_MSG(
@@ -44,7 +44,7 @@ __host__ __device__
 
 
 template<typename T, typename DerivedPolicy>
-__host__ __device__
+THRUST_HOST_DEVICE
   thrust::pointer<T,DerivedPolicy>
     malloc(thrust::execution_policy<DerivedPolicy> &exec, std::size_t n)
 {
@@ -55,7 +55,7 @@ __host__ __device__
 
 
 template<typename DerivedPolicy, typename Pointer>
-__host__ __device__
+THRUST_HOST_DEVICE
   void free(thrust::execution_policy<DerivedPolicy> &, Pointer)
 {
   THRUST_STATIC_ASSERT_MSG(
@@ -66,7 +66,7 @@ __host__ __device__
 
 
 template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
-__host__ __device__
+THRUST_HOST_DEVICE
 void assign_value(thrust::execution_policy<DerivedPolicy> &, Pointer1, Pointer2)
 {
   THRUST_STATIC_ASSERT_MSG(
@@ -77,7 +77,7 @@ void assign_value(thrust::execution_policy<DerivedPolicy> &, Pointer1, Pointer2)
 
 
 template<typename DerivedPolicy, typename Pointer>
-__host__ __device__
+THRUST_HOST_DEVICE
 void get_value(thrust::execution_policy<DerivedPolicy> &, Pointer)
 {
   THRUST_STATIC_ASSERT_MSG(
@@ -88,7 +88,7 @@ void get_value(thrust::execution_policy<DerivedPolicy> &, Pointer)
 
 
 template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
-__host__ __device__
+THRUST_HOST_DEVICE
 void iter_swap(thrust::execution_policy<DerivedPolicy> &, Pointer1, Pointer2)
 {
   THRUST_STATIC_ASSERT_MSG(

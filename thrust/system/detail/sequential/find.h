@@ -38,7 +38,7 @@ __thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 InputIterator find_if(execution_policy<DerivedPolicy> &,
                       InputIterator first,
                       InputIterator last,

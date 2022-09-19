@@ -13,7 +13,7 @@
 
 
 // determines whether the character is alphabetical
-__host__ __device__
+THRUST_HOST_DEVICE
 bool is_alpha(const char c)
 {
     return (c >= 'A' && c <= 'z');
@@ -23,7 +23,7 @@ bool is_alpha(const char c)
 struct is_word_start
     : public thrust::binary_function<const char&, const char&, bool>
 {
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool operator()(const char& left, const char& right) const
     {
         return is_alpha(right) && !is_alpha(left);

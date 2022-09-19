@@ -65,7 +65,7 @@ void scatter_if_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, It
 template<typename T>
 struct is_even_scatter_if
 {
-  __host__ __device__ bool operator()(const T i) const { return (i % 2) == 0; }
+  THRUST_HOST_DEVICE bool operator()(const T i) const { return (i % 2) == 0; }
 };
 
 

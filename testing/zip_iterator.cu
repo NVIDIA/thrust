@@ -298,7 +298,7 @@ DECLARE_VECTOR_UNITTEST(TestZipIteratorCopy);
 struct SumTwoTuple
 {
   template<typename Tuple>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   typename thrust::detail::remove_reference<typename thrust::tuple_element<0,Tuple>::type>::type
     operator()(Tuple x) const
   {
@@ -309,7 +309,7 @@ struct SumTwoTuple
 struct SumThreeTuple
 {
   template<typename Tuple>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   typename thrust::detail::remove_reference<typename thrust::tuple_element<0,Tuple>::type>::type
     operator()(Tuple x) const
   {

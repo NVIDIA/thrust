@@ -65,7 +65,7 @@ THRUST_NAMESPACE_BEGIN
  *
  *  struct printf_functor
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    void operator()(int x)
  *    {
  *      // note that using printf in a __device__ function requires
@@ -89,7 +89,7 @@ THRUST_NAMESPACE_BEGIN
 template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
-__host__ __device__
+THRUST_HOST_DEVICE
 InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator first,
                        InputIterator last,
@@ -128,7 +128,7 @@ InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy
  *
  *  struct printf_functor
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    void operator()(int x)
  *    {
  *      // note that using printf in a __device__ function requires
@@ -153,7 +153,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename UnaryFunction>
-__host__ __device__
+THRUST_HOST_DEVICE
 InputIterator for_each_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator first,
                          Size n,
@@ -186,7 +186,7 @@ InputIterator for_each_n(const thrust::detail::execution_policy_base<DerivedPoli
  *
  *  struct printf_functor
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    void operator()(int x)
  *    {
  *      // note that using printf in a __device__ function requires
@@ -241,7 +241,7 @@ InputIterator for_each(InputIterator first,
  *
  *  struct printf_functor
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    void operator()(int x)
  *    {
  *      // note that using printf in a __device__ function requires

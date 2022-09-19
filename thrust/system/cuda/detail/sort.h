@@ -492,7 +492,7 @@ namespace __smart_sort {
 
 __thrust_exec_check_disable__
 template <class Derived, class ItemsIt, class CompareOp>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 sort(execution_policy<Derived>& policy,
      ItemsIt                    first,
      ItemsIt                    last,
@@ -511,7 +511,7 @@ sort(execution_policy<Derived>& policy,
 
 __thrust_exec_check_disable__
 template <class Derived, class ItemsIt, class CompareOp>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 stable_sort(execution_policy<Derived>& policy,
             ItemsIt                    first,
             ItemsIt                    last,
@@ -533,7 +533,7 @@ stable_sort(execution_policy<Derived>& policy,
 
 __thrust_exec_check_disable__
 template <class Derived, class KeysIt, class ValuesIt, class CompareOp>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 sort_by_key(execution_policy<Derived>& policy,
             KeysIt                     keys_first,
             KeysIt                     keys_last,
@@ -559,7 +559,7 @@ template <class Derived,
           class KeysIt,
           class ValuesIt,
           class CompareOp>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 stable_sort_by_key(execution_policy<Derived> &policy,
             KeysIt                     keys_first,
             KeysIt                     keys_last,
@@ -583,7 +583,7 @@ stable_sort_by_key(execution_policy<Derived> &policy,
 // API with default comparator
 
 template <class Derived, class ItemsIt>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 sort(execution_policy<Derived>& policy,
      ItemsIt                    first,
      ItemsIt                    last)
@@ -593,7 +593,7 @@ sort(execution_policy<Derived>& policy,
 }
 
 template <class Derived, class ItemsIt>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 stable_sort(execution_policy<Derived>& policy,
             ItemsIt                    first,
             ItemsIt                    last)
@@ -603,7 +603,7 @@ stable_sort(execution_policy<Derived>& policy,
 }
 
 template <class Derived, class KeysIt, class ValuesIt>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 sort_by_key(execution_policy<Derived>& policy,
             KeysIt                     keys_first,
             KeysIt                     keys_last,
@@ -614,7 +614,7 @@ sort_by_key(execution_policy<Derived>& policy,
 }
 
 template <class Derived, class KeysIt, class ValuesIt>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 stable_sort_by_key(
     execution_policy<Derived>& policy, KeysIt keys_first, KeysIt keys_last, ValuesIt values)
 {

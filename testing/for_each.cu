@@ -14,7 +14,7 @@ class mark_present_for_each
 {
     public:
         T * ptr;
-        __host__ __device__ void operator()(T x){ ptr[(int) x] = 1; }
+        THRUST_HOST_DEVICE void operator()(T x){ ptr[(int) x] = 1; }
 };
 
 template <class Vector>
@@ -264,7 +264,7 @@ struct SetFixedVectorToConstant
 
     SetFixedVectorToConstant(T scalar) : exemplar(scalar) {} 
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void operator()(FixedVector<T,N>& t)
     {
         t = exemplar;

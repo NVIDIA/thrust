@@ -11,7 +11,7 @@
 
 namespace unittest
 {
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void assert_static(bool condition, const char * filename, int lineno);
 }
 
@@ -57,12 +57,12 @@ namespace unittest
     class static_assert_exception
     {
     public:
-        __host__ __device__
+        THRUST_HOST_DEVICE
         static_assert_exception() : triggered(false)
         {
         }
 
-        __host__ __device__
+        THRUST_HOST_DEVICE
         static_assert_exception(const char * filename, int lineno)
             : triggered(true), filename(filename), lineno(lineno)
         {
@@ -82,7 +82,7 @@ namespace unittest
         __device__ static static_assert_exception* device_exception = NULL;
     }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void assert_static(bool condition, const char * filename, int lineno)
     {
         if (!condition)

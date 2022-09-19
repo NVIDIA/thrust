@@ -11,7 +11,7 @@
 template <typename T>
 struct is_odd : public thrust::unary_function<T,bool>
 {
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool operator()(T x)
     {
         return x % 2;

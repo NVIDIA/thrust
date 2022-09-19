@@ -15,7 +15,7 @@ void sort_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Compare co
 template<typename T>
 struct my_less
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator()(const T& lhs, const T& rhs) const
   {
     return lhs < rhs;

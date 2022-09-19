@@ -35,14 +35,14 @@ template <typename UnaryFunction, typename OutputIterator>
   class transform_output_iterator_proxy
 {
   public:
-    __host__ __device__
+    THRUST_HOST_DEVICE
     transform_output_iterator_proxy(const OutputIterator& out, UnaryFunction fun) : out(out), fun(fun)
     {
     }
 
     __thrust_exec_check_disable__
     template <typename T>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     transform_output_iterator_proxy operator=(const T& x)
     {
       *out = fun(x);

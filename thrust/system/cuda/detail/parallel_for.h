@@ -147,7 +147,7 @@ __thrust_exec_check_disable__
 template <class Derived,
           class F,
           class Size>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 parallel_for(execution_policy<Derived> &policy,
              F                          f,
              Size                       count)

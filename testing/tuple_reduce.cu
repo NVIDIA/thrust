@@ -8,7 +8,7 @@ using namespace unittest;
 struct SumTupleFunctor
 {
   template <typename Tuple>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   Tuple operator()(const Tuple &lhs, const Tuple &rhs)
   {
     using thrust::get;
@@ -21,7 +21,7 @@ struct SumTupleFunctor
 struct MakeTupleFunctor
 {
   template<typename T1, typename T2>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::tuple<T1,T2> operator()(T1 &lhs, T2 &rhs)
   {
     return thrust::make_tuple(lhs, rhs);

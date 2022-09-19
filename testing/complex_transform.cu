@@ -11,7 +11,7 @@
 struct basic_arithmetic_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x,
 				const thrust::complex<T> &y)
   {
@@ -24,7 +24,7 @@ struct basic_arithmetic_functor
 struct complex_plane_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x)
   {
     // Should return a proximately 1
@@ -35,7 +35,7 @@ struct complex_plane_functor
 struct pow_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x,
 				const thrust::complex<T> &y)
   {
@@ -47,7 +47,7 @@ struct pow_functor
 struct sqrt_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x)
   {
     // exercise power functions
@@ -58,7 +58,7 @@ struct sqrt_functor
 struct log_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x)
   {
     return log(x);
@@ -68,7 +68,7 @@ struct log_functor
 struct exp_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x)
   {
     return exp(x);
@@ -78,7 +78,7 @@ struct exp_functor
 struct log10_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x)
   {
     return log10(x);
@@ -89,7 +89,7 @@ struct log10_functor
 struct cos_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x)
   {
     return cos(x);
@@ -99,7 +99,7 @@ struct cos_functor
 struct sin_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x)
   {
     return sin(x);
@@ -109,7 +109,7 @@ struct sin_functor
 struct tan_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x)
   {
     return tan(x);
@@ -121,7 +121,7 @@ struct tan_functor
 struct cosh_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x)
   {
     return cosh(x);
@@ -131,7 +131,7 @@ struct cosh_functor
 struct sinh_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x)
   {
     return sinh(x);
@@ -141,7 +141,7 @@ struct sinh_functor
 struct tanh_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x)
   {
     return tanh(x);
@@ -152,7 +152,7 @@ struct tanh_functor
 struct acos_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x)
   {
     return acos(x);
@@ -162,7 +162,7 @@ struct acos_functor
 struct asin_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x)
   {
     return asin(x);
@@ -172,7 +172,7 @@ struct asin_functor
 struct atan_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x)
   {
     return atan(x);
@@ -183,7 +183,7 @@ struct atan_functor
 struct acosh_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x)
   {
     return acosh(x);
@@ -193,7 +193,7 @@ struct acosh_functor
 struct asinh_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x)
   {
     return asinh(x);
@@ -203,7 +203,7 @@ struct asinh_functor
 struct atanh_functor
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::complex<T> operator()(const thrust::complex<T> &x)
   {
     return atanh(x);

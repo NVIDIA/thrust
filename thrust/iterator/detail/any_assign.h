@@ -26,15 +26,15 @@ namespace detail
 // a type which may be assigned any other type
 struct any_assign
 {
-  inline __host__ __device__ any_assign()
+  inline THRUST_HOST_DEVICE any_assign()
   {}
 
   template<typename T>
-  inline __host__ __device__ any_assign(T)
+  inline THRUST_HOST_DEVICE any_assign(T)
   {}
 
   template<typename T>
-  inline __host__ __device__
+  inline THRUST_HOST_DEVICE
   any_assign &operator=(T)
   {
     if(0)

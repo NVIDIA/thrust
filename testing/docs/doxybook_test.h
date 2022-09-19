@@ -75,19 +75,19 @@ public:
 
   /*! \brief Construct a test class.
    */
-  __host__ __device__ constexpr
+  THRUST_HOST_DEVICE constexpr
   test_class(int);
 
   /*! \brief \c test_member_function is a function intended to exercise
    *  and test Doxybook rendering.
    */
-  __host__ __device__ constexpr
+  THRUST_HOST_DEVICE constexpr
   int test_member_function() = 0;
 
   /*! \brief \c test_virtual_member_function is a function intended to exercise
    *  and test Doxybook rendering.
    */
-  __host__ __device__
+  THRUST_HOST_DEVICE
   virtual int test_virtual_member_function() = 0;
 
   /*! \brief \c test_parameter_overflow_member_function is a function intended
@@ -138,7 +138,7 @@ class test_derived_class : test_class<int, double>
   /*! \brief \c test_derived_member_function is a function intended to exercise
    *  and test Doxybook rendering.
    */
-  __host__ __device__ constexpr
+  THRUST_HOST_DEVICE constexpr
   double test_derived_member_function(int, int);
 };
 

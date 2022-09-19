@@ -28,7 +28,7 @@ THRUST_NAMESPACE_BEGIN
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
   void replace(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                ForwardIterator first, ForwardIterator last,
                const T &old_value,
@@ -41,7 +41,7 @@ __host__ __device__
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename Predicate, typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
   void replace_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                   ForwardIterator first, ForwardIterator last,
                   Predicate pred,
@@ -54,7 +54,7 @@ __host__ __device__
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename Predicate, typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
   void replace_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                   ForwardIterator first, ForwardIterator last,
                   InputIterator stencil,
@@ -68,7 +68,7 @@ __host__ __device__
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator replace_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                               InputIterator first, InputIterator last,
                               OutputIterator result,
@@ -82,7 +82,7 @@ __host__ __device__
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename Predicate, typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator replace_copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                  InputIterator first, InputIterator last,
                                  OutputIterator result,
@@ -96,7 +96,7 @@ __host__ __device__
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate, typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator replace_copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                  InputIterator1 first, InputIterator1 last,
                                  InputIterator2 stencil,

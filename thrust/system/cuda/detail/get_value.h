@@ -35,7 +35,7 @@ namespace
 
 
 template<typename DerivedPolicy, typename Pointer>
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
   typename thrust::iterator_value<Pointer>::type
     get_value_msvc2005_war(execution_policy<DerivedPolicy> &exec, Pointer ptr)
 {
@@ -72,7 +72,7 @@ inline __host__ __device__
 
 
 template<typename DerivedPolicy, typename Pointer>
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
   typename thrust::iterator_value<Pointer>::type
     get_value(execution_policy<DerivedPolicy> &exec, Pointer ptr)
 {

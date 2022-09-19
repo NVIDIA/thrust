@@ -15,7 +15,7 @@ struct stateful_operator
 {
   T offset;
 
-  __host__ __device__ T operator()(T v1, T v2) { return v1 + v2 + offset; }
+  THRUST_HOST_DEVICE T operator()(T v1, T v2) { return v1 + v2 + offset; }
 };
 
 // Postfix args overload definition that uses a stateful custom binary operator

@@ -27,7 +27,7 @@ THRUST_NAMESPACE_BEGIN
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy>
-__host__ __device__
+THRUST_HOST_DEVICE
 pointer<void,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, std::size_t n)
 {
   using thrust::system::detail::generic::malloc;
@@ -40,7 +40,7 @@ pointer<void,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<D
 
 __thrust_exec_check_disable__
 template<typename T, typename DerivedPolicy>
-__host__ __device__
+THRUST_HOST_DEVICE
 pointer<T,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, std::size_t n)
 {
   using thrust::system::detail::generic::malloc;
@@ -58,7 +58,7 @@ pointer<T,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<Deri
 // cudafe generates unqualified calls to free(int *volatile)
 // which get confused with thrust::free
 // spoof a thrust::free which simply maps to ::free
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
 void free(int *volatile ptr)
 {
   ::free(ptr);
@@ -69,7 +69,7 @@ void free(int *volatile ptr)
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename Pointer>
-__host__ __device__
+THRUST_HOST_DEVICE
 void free(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, Pointer ptr)
 {
   using thrust::system::detail::generic::free;

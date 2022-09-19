@@ -70,7 +70,7 @@ template<typename Derived>
 //     arbitrarily define in the omp backend
 
 template<typename System1, typename System2>
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
   System1 select_system(execution_policy<System1> s, thrust::system::tbb::detail::execution_policy<System2>)
 {
   return thrust::detail::derived_cast(s);
@@ -78,7 +78,7 @@ inline __host__ __device__
 
 
 template<typename System1, typename System2>
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
   System2 select_system(thrust::system::tbb::detail::execution_policy<System1>, execution_policy<System2> s)
 {
   return thrust::detail::derived_cast(s);

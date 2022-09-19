@@ -331,14 +331,14 @@ struct TypeWithNonTrivialAssigment
 {
   int x, y, z;
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   TypeWithNonTrivialAssigment() : x(0), y(0), z(0) {}
 
 #if THRUST_CPP_DIALECT >= 2011
   TypeWithNonTrivialAssigment(const TypeWithNonTrivialAssigment &) = default;
 #endif
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   TypeWithNonTrivialAssigment& operator=(const TypeWithNonTrivialAssigment& t)
   {
     x = t.x;
@@ -347,7 +347,7 @@ struct TypeWithNonTrivialAssigment
     return *this;
   }
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator==(const TypeWithNonTrivialAssigment& t) const
   {
     return x == t.x && y == t.y && z == t.z;

@@ -7,7 +7,7 @@
 struct comp
 {
   template<typename Tuple1, typename Tuple2>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator()(const Tuple1& t1, const Tuple2& t2) 
   {
     return thrust::get<0>(t1) == thrust::get<1>(t2);

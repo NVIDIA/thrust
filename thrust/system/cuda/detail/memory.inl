@@ -25,7 +25,7 @@ THRUST_NAMESPACE_BEGIN
 namespace cuda_cub
 {
 
-__host__ __device__
+THRUST_HOST_DEVICE
 pointer<void> malloc(std::size_t n)
 {
   tag cuda_tag;
@@ -33,14 +33,14 @@ pointer<void> malloc(std::size_t n)
 } // end malloc()
 
 template<typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
 pointer<T> malloc(std::size_t n)
 {
   pointer<void> raw_ptr = thrust::cuda_cub::malloc(sizeof(T) * n);
   return pointer<T>(reinterpret_cast<T*>(raw_ptr.get()));
 } // end malloc()
 
-__host__ __device__
+THRUST_HOST_DEVICE
 void free(pointer<void> ptr)
 {
   tag cuda_tag;

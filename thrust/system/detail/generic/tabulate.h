@@ -32,7 +32,7 @@ namespace generic
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename UnaryOperation>
-__host__ __device__
+THRUST_HOST_DEVICE
   void tabulate(thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,

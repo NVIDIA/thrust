@@ -43,7 +43,7 @@ template <class Derived,
           class OutputIt,
           class TransformOp,
           class ScanOp>
-OutputIt __host__ __device__
+OutputIt THRUST_HOST_DEVICE
 transform_inclusive_scan(execution_policy<Derived> &policy,
                          InputIt                    first,
                          InputIt                    last,
@@ -76,7 +76,7 @@ template <class Derived,
           class TransformOp,
           class InitialValueType,
           class ScanOp>
-OutputIt __host__ __device__
+OutputIt THRUST_HOST_DEVICE
 transform_exclusive_scan(execution_policy<Derived> &policy,
                          InputIt                    first,
                          InputIt                    last,

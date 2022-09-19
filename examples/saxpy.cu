@@ -21,7 +21,7 @@ struct saxpy_functor : public thrust::binary_function<float,float,float>
 
     saxpy_functor(float _a) : a(_a) {}
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
         float operator()(const float& x, const float& y) const { 
             return a * x + y;
         }

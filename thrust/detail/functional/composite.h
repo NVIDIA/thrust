@@ -75,14 +75,14 @@ template<typename Eval0, typename Eval1>
       >::type type;
     };
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     composite(const Eval0 &e0, const Eval1 &e1)
       : m_eval0(e0),
         m_eval1(e1)
     {}
 
     template<typename Env>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     typename result<Env>::type
     eval(const Env &x) const
     {
@@ -121,7 +121,7 @@ template<typename Eval0, typename Eval1, typename Eval2>
       >::type type;
     };
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     composite(const Eval0 &e0, const Eval1 &e1, const Eval2 &e2)
       : m_eval0(e0),
         m_eval1(e1),
@@ -129,7 +129,7 @@ template<typename Eval0, typename Eval1, typename Eval2>
     {}
 
     template<typename Env>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     typename result<Env>::type
     eval(const Env &x) const
     {
@@ -145,14 +145,14 @@ template<typename Eval0, typename Eval1, typename Eval2>
 }; // end composite<Eval0,Eval1,Eval2>
 
 template<typename Eval0, typename Eval1>
-__host__ __device__
+THRUST_HOST_DEVICE
   actor<composite<Eval0,Eval1> > compose(const Eval0 &e0, const Eval1 &e1)
 {
   return actor<composite<Eval0,Eval1> >(composite<Eval0,Eval1>(e0,e1));
 }
 
 template<typename Eval0, typename Eval1, typename Eval2>
-__host__ __device__
+THRUST_HOST_DEVICE
   actor<composite<Eval0,Eval1,Eval2> > compose(const Eval0 &e0, const Eval1 &e1, const Eval2 &e2)
 {
   return actor<composite<Eval0,Eval1,Eval2> >(composite<Eval0,Eval1,Eval2>(e0,e1,e2));

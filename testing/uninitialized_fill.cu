@@ -148,13 +148,13 @@ DECLARE_VECTOR_UNITTEST(TestUninitializedFillPOD);
 
 struct CopyConstructTest
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   CopyConstructTest(void)
     :copy_constructed_on_host(false),
      copy_constructed_on_device(false)
   {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   CopyConstructTest(const CopyConstructTest &)
   {
     NV_IF_TARGET(NV_IS_DEVICE, (
@@ -166,7 +166,7 @@ struct CopyConstructTest
     ));
   }
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   CopyConstructTest &operator=(const CopyConstructTest &x)
   {
     copy_constructed_on_host   = x.copy_constructed_on_host;

@@ -47,7 +47,7 @@ struct select_system_fn final
 {
   __thrust_exec_check_disable__
   template <typename DerivedPolicy0>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   auto operator()(
     thrust::detail::execution_policy_base<DerivedPolicy0> const& exec0
   ) const
@@ -59,7 +59,7 @@ struct select_system_fn final
 
   __thrust_exec_check_disable__
   template <typename DerivedPolicy0, typename DerivedPolicy1>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   auto operator()(
     thrust::detail::execution_policy_base<DerivedPolicy0> const& exec0
   , thrust::detail::execution_policy_base<DerivedPolicy1> const& exec1

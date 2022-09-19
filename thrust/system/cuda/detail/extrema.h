@@ -52,7 +52,7 @@ namespace __extrema {
     Predicate predicate;
     typedef tuple<InputType, IndexType> pair_type;
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     arg_min_f(Predicate p) : predicate(p) {}
 
     pair_type __device__
@@ -83,7 +83,7 @@ namespace __extrema {
     Predicate predicate;
     typedef tuple<InputType, IndexType> pair_type;
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     arg_max_f(Predicate p) : predicate(p) {}
 
     pair_type __device__
@@ -119,7 +119,7 @@ namespace __extrema {
     typedef arg_min_f<InputType, IndexType, Predicate> arg_min_t;
     typedef arg_max_f<InputType, IndexType, Predicate> arg_max_t;
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     arg_minmax_f(Predicate p) : predicate(p)
     {
     }
@@ -412,7 +412,7 @@ __thrust_exec_check_disable__
 template <class Derived,
           class ItemsIt,
           class BinaryPred>
-ItemsIt __host__ __device__
+ItemsIt THRUST_HOST_DEVICE
 min_element(execution_policy<Derived> &policy,
             ItemsIt                    first,
             ItemsIt                    last,
@@ -432,7 +432,7 @@ min_element(execution_policy<Derived> &policy,
 
 template <class Derived,
           class ItemsIt>
-ItemsIt __host__ __device__
+ItemsIt THRUST_HOST_DEVICE
 min_element(execution_policy<Derived> &policy,
             ItemsIt                    first,
             ItemsIt                    last)
@@ -447,7 +447,7 @@ __thrust_exec_check_disable__
 template <class Derived,
           class ItemsIt,
           class BinaryPred>
-ItemsIt __host__ __device__
+ItemsIt THRUST_HOST_DEVICE
 max_element(execution_policy<Derived> &policy,
             ItemsIt                    first,
             ItemsIt                    last,
@@ -467,7 +467,7 @@ max_element(execution_policy<Derived> &policy,
 
 template <class Derived,
           class ItemsIt>
-ItemsIt __host__ __device__
+ItemsIt THRUST_HOST_DEVICE
 max_element(execution_policy<Derived> &policy,
             ItemsIt                    first,
             ItemsIt                    last)
@@ -482,7 +482,7 @@ __thrust_exec_check_disable__
 template <class Derived,
           class ItemsIt,
           class BinaryPred>
-pair<ItemsIt, ItemsIt> __host__ __device__
+pair<ItemsIt, ItemsIt> THRUST_HOST_DEVICE
 minmax_element(execution_policy<Derived> &policy,
                ItemsIt                    first,
                ItemsIt                    last,
@@ -533,7 +533,7 @@ minmax_element(execution_policy<Derived> &policy,
 
 template <class Derived,
           class ItemsIt>
-pair<ItemsIt, ItemsIt> __host__ __device__
+pair<ItemsIt, ItemsIt> THRUST_HOST_DEVICE
 minmax_element(execution_policy<Derived> &policy,
                ItemsIt                    first,
                ItemsIt                    last)

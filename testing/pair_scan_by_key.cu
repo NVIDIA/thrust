@@ -6,7 +6,7 @@
 struct make_pair_functor
 {
   template<typename T1, typename T2>
-  __host__ __device__
+  THRUST_HOST_DEVICE
     thrust::pair<T1,T2> operator()(const T1 &x, const T2 &y)
   {
     return thrust::make_pair(x,y);
@@ -17,7 +17,7 @@ struct make_pair_functor
 struct add_pairs
 {
   template <typename Pair1, typename Pair2>
-  __host__ __device__
+  THRUST_HOST_DEVICE
     Pair1 operator()(const Pair1 &x, const Pair2 &y)
   {
     // Need cast to undo integer promotion, decltype(char{} + char{}) == int

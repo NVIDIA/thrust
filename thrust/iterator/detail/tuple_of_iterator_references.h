@@ -37,7 +37,7 @@ template<
 
   public:
     // allow implicit construction from tuple<refs>
-    inline __host__ __device__
+    inline THRUST_HOST_DEVICE
     tuple_of_iterator_references(const super_t &other)
       : super_t(other)
     {}
@@ -46,7 +46,7 @@ template<
     // XXX might be worthwhile to guard this with an enable_if is_assignable
     __thrust_exec_check_disable__
     template<typename... Us>
-    inline __host__ __device__
+    inline THRUST_HOST_DEVICE
     tuple_of_iterator_references &operator=(const thrust::tuple<Us...> &other)
     {
       super_t::operator=(other);
@@ -57,7 +57,7 @@ template<
     // XXX might be worthwhile to guard this with an enable_if is_assignable
     __thrust_exec_check_disable__
     template<typename U1, typename U2>
-    inline __host__ __device__
+    inline THRUST_HOST_DEVICE
     tuple_of_iterator_references &operator=(const thrust::pair<U1,U2> &other)
     {
       super_t::operator=(other);
@@ -70,7 +70,7 @@ template<
     __thrust_exec_check_disable__
     template<typename Pointer, typename Derived,
              typename... Us>
-    inline __host__ __device__
+    inline THRUST_HOST_DEVICE
 // XXX gcc-4.2 crashes on is_assignable
 //    typename thrust::detail::enable_if<
 //      thrust::detail::is_assignable<
@@ -92,10 +92,10 @@ template<
 
 
     // duplicate thrust::tuple's constructors
-    inline __host__ __device__
+    inline THRUST_HOST_DEVICE
     tuple_of_iterator_references() {}
 
-    inline __host__ __device__
+    inline THRUST_HOST_DEVICE
     tuple_of_iterator_references(typename access_traits<Ts>::parameter_type... ts)
       : super_t(ts...)
     {}
@@ -108,7 +108,7 @@ template<
   typename... Ts,
   typename... Us
 >
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
 void swap(tuple_of_iterator_references<Ts...> x,
           tuple_of_iterator_references<Us...> y)
 {

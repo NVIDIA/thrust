@@ -75,7 +75,7 @@ template <class Derived,
           class InputIt,
           class Size,
           class OutputIt>
-OutputIt __host__ __device__
+OutputIt THRUST_HOST_DEVICE
 uninitialized_copy_n(execution_policy<Derived> &policy,
                      InputIt                    first,
                      Size                       count,
@@ -93,7 +93,7 @@ uninitialized_copy_n(execution_policy<Derived> &policy,
 template <class Derived,
           class InputIt,
           class OutputIt>
-OutputIt __host__ __device__
+OutputIt THRUST_HOST_DEVICE
 uninitialized_copy(execution_policy<Derived>& policy,
                    InputIt                    first,
                    InputIt                    last,

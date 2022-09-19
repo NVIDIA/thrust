@@ -6,7 +6,7 @@
 template <typename T>
 struct less_than_five
 {
-  __host__ __device__ bool operator()(const T &val) const {return val < 5;}
+  THRUST_HOST_DEVICE bool operator()(const T &val) const {return val < 5;}
 };
 
 

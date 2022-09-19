@@ -44,7 +44,7 @@
 struct arbitrary_functor1
 {
     template <typename Tuple>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void operator()(Tuple t)
     {
         // D[i] = A[i] + B[i] * C[i];
@@ -55,7 +55,7 @@ struct arbitrary_functor1
 #if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
 struct arbitrary_functor2
 {
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void operator()(const float& a, const float& b, const float& c, float& d)
     {
         // D[i] = A[i] + B[i] * C[i];

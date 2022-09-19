@@ -48,25 +48,25 @@ template<typename T, typename System>
     typedef typename super_t::pointer   pointer;
     typedef typename super_t::size_type size_type;
 
-    inline __host__ __device__
+    inline THRUST_HOST_DEVICE
     temporary_allocator(const temporary_allocator &other) :
       super_t(),
       m_system(other.m_system)
     {}
 
-    inline __host__ __device__
+    inline THRUST_HOST_DEVICE
     explicit temporary_allocator(thrust::execution_policy<System> &system) :
       super_t(),
       m_system(thrust::detail::derived_cast(system))
     {}
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     pointer allocate(size_type cnt);
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void deallocate(pointer p, size_type n);
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     inline System &system()
     {
       return m_system;

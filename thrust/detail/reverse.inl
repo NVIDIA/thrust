@@ -28,7 +28,7 @@ THRUST_NAMESPACE_BEGIN
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename BidirectionalIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   void reverse(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                BidirectionalIterator first,
                BidirectionalIterator last)
@@ -40,7 +40,7 @@ __host__ __device__
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename BidirectionalIterator, typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator reverse_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                               BidirectionalIterator first,
                               BidirectionalIterator last,

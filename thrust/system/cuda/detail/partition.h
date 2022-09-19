@@ -837,7 +837,7 @@ template <class Derived,
           class SelectedOutIt,
           class RejectedOutIt,
           class Predicate>
-pair<SelectedOutIt, RejectedOutIt> __host__ __device__
+pair<SelectedOutIt, RejectedOutIt> THRUST_HOST_DEVICE
 partition_copy(execution_policy<Derived> &policy,
                InputIt                    first,
                InputIt                    last,
@@ -871,7 +871,7 @@ template <class Derived,
           class SelectedOutIt,
           class RejectedOutIt,
           class Predicate>
-pair<SelectedOutIt, RejectedOutIt> __host__ __device__
+pair<SelectedOutIt, RejectedOutIt> THRUST_HOST_DEVICE
 partition_copy(execution_policy<Derived> &policy,
                InputIt                    first,
                InputIt                    last,
@@ -903,7 +903,7 @@ template <class Derived,
           class SelectedOutIt,
           class RejectedOutIt,
           class Predicate>
-pair<SelectedOutIt, RejectedOutIt> __host__ __device__
+pair<SelectedOutIt, RejectedOutIt> THRUST_HOST_DEVICE
 stable_partition_copy(execution_policy<Derived> &policy,
                       InputIt                    first,
                       InputIt                    last,
@@ -936,7 +936,7 @@ template <class Derived,
           class SelectedOutIt,
           class RejectedOutIt,
           class Predicate>
-pair<SelectedOutIt, RejectedOutIt> __host__ __device__
+pair<SelectedOutIt, RejectedOutIt> THRUST_HOST_DEVICE
 stable_partition_copy(execution_policy<Derived> &policy,
                       InputIt                    first,
                       InputIt                    last,
@@ -971,7 +971,7 @@ template <class Derived,
           class Iterator,
           class StencilIt,
           class Predicate>
-Iterator __host__ __device__
+Iterator THRUST_HOST_DEVICE
 partition(execution_policy<Derived> &policy,
           Iterator                   first,
           Iterator                   last,
@@ -993,7 +993,7 @@ __thrust_exec_check_disable__
 template <class Derived,
           class Iterator,
           class Predicate>
-Iterator __host__ __device__
+Iterator THRUST_HOST_DEVICE
 partition(execution_policy<Derived> &policy,
           Iterator                   first,
           Iterator                   last,
@@ -1017,7 +1017,7 @@ template <class Derived,
           class Iterator,
           class StencilIt,
           class Predicate>
-Iterator __host__ __device__
+Iterator THRUST_HOST_DEVICE
 stable_partition(execution_policy<Derived> &policy,
                  Iterator                   first,
                  Iterator                   last,
@@ -1044,7 +1044,7 @@ __thrust_exec_check_disable__
 template <class Derived,
           class Iterator,
           class Predicate>
-Iterator __host__ __device__
+Iterator THRUST_HOST_DEVICE
 stable_partition(execution_policy<Derived> &policy,
                  Iterator                   first,
                  Iterator                   last,
@@ -1071,7 +1071,7 @@ stable_partition(execution_policy<Derived> &policy,
 template <class Derived,
           class ItemsIt,
           class Predicate>
-bool __host__ __device__
+bool THRUST_HOST_DEVICE
 is_partitioned(execution_policy<Derived> &policy,
                ItemsIt                    first,
                ItemsIt                    last,

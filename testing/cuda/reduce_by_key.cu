@@ -53,7 +53,7 @@ void reduce_by_key_kernel(ExecutionPolicy exec,
 template<typename T>
 struct is_equal_div_10_reduce
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator()(const T x, const T& y) const { return ((int) x / 10) == ((int) y / 10); }
 };
 
@@ -302,7 +302,7 @@ public:
     : m_divisor(divisor)
   {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   std::int64_t operator()(std::int64_t x) const
   {
     return x / m_divisor;
@@ -319,7 +319,7 @@ public:
     : m_divisor(divisor)
   {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   std::int64_t operator()(std::int64_t x) const
   {
     // div: 2          

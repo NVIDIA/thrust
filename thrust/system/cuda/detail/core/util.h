@@ -398,7 +398,7 @@ namespace core {
   }
 
   template <class Agent, class F>
-  AgentPlan __host__ __device__ __forceinline__
+  AgentPlan THRUST_HOST_DEVICE __forceinline__
   xget_agent_plan_impl(F f, cudaStream_t s, void* d_ptr)
   {
     AgentPlan plan;
@@ -599,19 +599,19 @@ namespace core {
   public:
     cuda_optional() = default;
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     cuda_optional(T v, cudaError_t status = cudaSuccess) : status_(status), value_(v) {}
 
-    bool __host__ __device__
+    bool THRUST_HOST_DEVICE
     isValid() const { return cudaSuccess == status_; }
 
-    cudaError_t __host__ __device__
+    cudaError_t THRUST_HOST_DEVICE
     status() const { return status_; }
 
-    __host__ __device__ T const &
+    THRUST_HOST_DEVICE T const &
     value() const { return value_; }
 
-    __host__ __device__ operator T const &() const { return value_; }
+    THRUST_HOST_DEVICE operator T const &() const { return value_; }
   };
 
   THRUST_RUNTIME_FUNCTION
@@ -655,12 +655,12 @@ namespace core {
 
     DeviceWord storage[WORDS];
 
-    __host__ __device__ __forceinline__ T& get()
+    THRUST_HOST_DEVICE __forceinline__ T& get()
     {
       return reinterpret_cast<T&>(*this);
     }
 
-    __host__ __device__ __forceinline__ operator T&() { return get(); }
+    THRUST_HOST_DEVICE __forceinline__ operator T&() { return get(); }
   };
 
   // uninitialized_array
@@ -676,12 +676,12 @@ namespace core {
       T data_[N];
 
     public:
-      __host__ __device__ T* data() { return data_; }
-      __host__ __device__ const T* data() const { return data_; }
-      __host__ __device__ T& operator[](unsigned int idx) { return ((T*)data_)[idx]; }
-      __host__ __device__ T const& operator[](unsigned int idx) const { return ((T*)data_)[idx]; }
-      __host__ __device__ unsigned int size() const { return N; }
-      __host__ __device__ operator ref&() { return data_; }
+      THRUST_HOST_DEVICE T* data() { return data_; }
+      THRUST_HOST_DEVICE const T* data() const { return data_; }
+      THRUST_HOST_DEVICE T& operator[](unsigned int idx) { return ((T*)data_)[idx]; }
+      THRUST_HOST_DEVICE T const& operator[](unsigned int idx) const { return ((T*)data_)[idx]; }
+      THRUST_HOST_DEVICE unsigned int size() const { return N; }
+      THRUST_HOST_DEVICE operator ref&() { return data_; }
   };
 
 
@@ -698,18 +698,18 @@ namespace core {
       char data_[N * sizeof(T)];
 
     public:
-      __host__ __device__ T* data() { return data_; }
-      __host__ __device__ const T* data() const { return data_; }
-      __host__ __device__ T& operator[](unsigned int idx) { return ((T*)data_)[idx]; }
-      __host__ __device__ T const& operator[](unsigned int idx) const { return ((T*)data_)[idx]; }
-      __host__ __device__ T& operator[](int idx) { return ((T*)data_)[idx]; }
-      __host__ __device__ T const& operator[](int idx) const { return ((T*)data_)[idx]; }
-      __host__ __device__ unsigned int size() const { return N; }
-      __host__ __device__ operator ref&() { return *reinterpret_cast<ref*>(data_); }
-      __host__ __device__ ref& get_ref() { return (ref&)*this; }
+      THRUST_HOST_DEVICE T* data() { return data_; }
+      THRUST_HOST_DEVICE const T* data() const { return data_; }
+      THRUST_HOST_DEVICE T& operator[](unsigned int idx) { return ((T*)data_)[idx]; }
+      THRUST_HOST_DEVICE T const& operator[](unsigned int idx) const { return ((T*)data_)[idx]; }
+      THRUST_HOST_DEVICE T& operator[](int idx) { return ((T*)data_)[idx]; }
+      THRUST_HOST_DEVICE T const& operator[](int idx) const { return ((T*)data_)[idx]; }
+      THRUST_HOST_DEVICE unsigned int size() const { return N; }
+      THRUST_HOST_DEVICE operator ref&() { return *reinterpret_cast<ref*>(data_); }
+      THRUST_HOST_DEVICE ref& get_ref() { return (ref&)*this; }
   };
 
-  __host__ __device__ __forceinline__ size_t align_to(size_t n, size_t align)
+  THRUST_HOST_DEVICE __forceinline__ size_t align_to(size_t n, size_t align)
   {
     return ((n+align-1)/align) * align;
   }

@@ -8,12 +8,12 @@ struct detect_wrong_difference
 {
     bool * flag;
 
-    __host__ __device__ detect_wrong_difference operator++() const { return *this; }
-    __host__ __device__ detect_wrong_difference operator*() const { return *this; }
+    THRUST_HOST_DEVICE detect_wrong_difference operator++() const { return *this; }
+    THRUST_HOST_DEVICE detect_wrong_difference operator*() const { return *this; }
     template<typename Difference>
-    __host__ __device__ detect_wrong_difference operator+(Difference) const { return *this; }
+    THRUST_HOST_DEVICE detect_wrong_difference operator+(Difference) const { return *this; }
     template<typename Index>
-    __host__ __device__ detect_wrong_difference operator[](Index) const { return *this; }
+    THRUST_HOST_DEVICE detect_wrong_difference operator[](Index) const { return *this; }
 
     __device__
     void operator=(long long difference) const

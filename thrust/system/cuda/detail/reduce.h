@@ -58,7 +58,7 @@ template <typename DerivedPolicy,
           typename InputIterator,
           typename T,
           typename BinaryFunction>
-T __host__ __device__
+T THRUST_HOST_DEVICE
 reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
        InputIterator                                               first,
        InputIterator                                               last,
@@ -1009,7 +1009,7 @@ template <typename Derived,
           typename Size,
           typename T,
           typename BinaryOp>
-__host__ __device__
+THRUST_HOST_DEVICE
 T reduce_n(execution_policy<Derived>& policy,
            InputIt                    first,
            Size                       num_items,
@@ -1031,7 +1031,7 @@ T reduce_n(execution_policy<Derived>& policy,
 }
 
 template <class Derived, class InputIt, class T, class BinaryOp>
-__host__ __device__
+THRUST_HOST_DEVICE
 T reduce(execution_policy<Derived> &policy,
          InputIt                    first,
          InputIt                    last,
@@ -1047,7 +1047,7 @@ T reduce(execution_policy<Derived> &policy,
 template <class Derived,
           class InputIt,
           class T>
-__host__ __device__
+THRUST_HOST_DEVICE
 T reduce(execution_policy<Derived> &policy,
          InputIt                    first,
          InputIt                    last,
@@ -1058,7 +1058,7 @@ T reduce(execution_policy<Derived> &policy,
 
 template <class Derived,
           class InputIt>
-__host__ __device__
+THRUST_HOST_DEVICE
 typename iterator_traits<InputIt>::value_type
 reduce(execution_policy<Derived> &policy,
        InputIt                    first,

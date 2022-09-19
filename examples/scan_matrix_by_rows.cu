@@ -30,10 +30,10 @@ void scan_matrix_by_rows0(thrust::device_vector<int>& u, int n, int m) {
 struct which_row : thrust::unary_function<int, int> {
   int row_length;
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   which_row(int row_length_) : row_length(row_length_) {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   int operator()(int idx) const {
     return idx / row_length;
   }

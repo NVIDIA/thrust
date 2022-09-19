@@ -31,7 +31,7 @@ template<typename DerivedPolicy,
          typename UnaryFunction,
          typename OutputType,
          typename BinaryFunction>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputType transform_reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,

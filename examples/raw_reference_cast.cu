@@ -28,13 +28,13 @@
 // executed within an appropriate context.
 
 
-__host__ __device__
+THRUST_HOST_DEVICE
 void assign_reference_to_reference(int& x, int& y)
 {
   y = x;
 }
 
-__host__ __device__
+THRUST_HOST_DEVICE
 void assign_value_to_reference(int x, int& y)
 {
   y = x;
@@ -51,7 +51,7 @@ struct copy_iterators
     : input(input), output(output)
   {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void operator()(int i)
   {
     InputIterator  in  = input  + i;

@@ -34,7 +34,7 @@ namespace generic
 
 
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
 OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result)
@@ -47,7 +47,7 @@ OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec
 
 
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename BinaryFunction>
-__host__ __device__
+THRUST_HOST_DEVICE
 OutputIterator adjacent_difference(thrust::execution_policy<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,

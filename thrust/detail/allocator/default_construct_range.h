@@ -24,7 +24,7 @@ namespace detail
 
 
 template<typename Allocator, typename Pointer, typename Size>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline void default_construct_range(Allocator &a, Pointer p, Size n);
 
 

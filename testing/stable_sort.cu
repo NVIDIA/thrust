@@ -43,7 +43,7 @@ DECLARE_UNITTEST(TestStableSortDispatchImplicit);
 template <typename T>
 struct less_div_10
 {
-  __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return ((int) lhs) / 10 < ((int) rhs) / 10;}
+  THRUST_HOST_DEVICE bool operator()(const T &lhs, const T &rhs) const {return ((int) lhs) / 10 < ((int) rhs) / 10;}
 };
 
 template <class Vector>
@@ -131,7 +131,7 @@ struct comp_mod3
 
     comp_mod3(T * table) : table(table) {}
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool operator()(T a, T b)
     {
         return table[(int) a] < table[(int) b];

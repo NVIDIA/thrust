@@ -78,7 +78,7 @@ class join_iterator
     typedef typename super_t::difference_type size_type;
 
   public:
-    inline __host__ __device__
+    inline THRUST_HOST_DEVICE
     join_iterator(RandomAccessIterator1 first1, size_type n, RandomAccessIterator2 first2)
       : super_t(thrust::counting_iterator<size_type>(0)),
         m_n1(n),
@@ -87,7 +87,7 @@ class join_iterator
     {}
 
 
-    inline __host__ __device__
+    inline THRUST_HOST_DEVICE
     join_iterator(const join_iterator &other)
       : super_t(other),
         m_n1(other.m_n1),
@@ -104,7 +104,7 @@ class join_iterator
     // See goo.gl/LELTNp
     THRUST_DISABLE_MSVC_WARNING_BEGIN(4172)
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     typename super_t::reference dereference() const
     {
       size_type i = *super_t::base();
@@ -121,7 +121,7 @@ class join_iterator
 
 
 template<typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2>
-__host__ __device__
+THRUST_HOST_DEVICE
 join_iterator<RandomAccessIterator1,RandomAccessIterator2,Size> make_join_iterator(RandomAccessIterator1 first1, Size n1, RandomAccessIterator2 first2)
 {
   return join_iterator<RandomAccessIterator1,RandomAccessIterator2,Size>(first1, n1, first2);

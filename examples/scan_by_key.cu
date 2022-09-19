@@ -9,7 +9,7 @@ template <typename HeadFlagType>
 struct head_flag_predicate 
     : public thrust::binary_function<HeadFlagType,HeadFlagType,bool>
 {
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool operator()(HeadFlagType, HeadFlagType right) const
     {
         return !right;

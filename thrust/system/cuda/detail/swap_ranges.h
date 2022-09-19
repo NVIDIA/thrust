@@ -77,7 +77,7 @@ namespace __swap_ranges {
 template <class Derived,
           class ItemsIt1,
           class ItemsIt2>
-ItemsIt2 __host__ __device__
+ItemsIt2 THRUST_HOST_DEVICE
 swap_ranges(execution_policy<Derived> &policy,
             ItemsIt1                   first1,
             ItemsIt1                   last1,

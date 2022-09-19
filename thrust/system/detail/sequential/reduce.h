@@ -39,7 +39,7 @@ template<typename DerivedPolicy,
          typename InputIterator, 
          typename OutputType,
          typename BinaryFunction>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputType reduce(sequential::execution_policy<DerivedPolicy> &,
                     InputIterator begin,
                     InputIterator end,

@@ -59,7 +59,7 @@ template <typename DerivedPolicy,
           typename OutputIterator1,
           typename OutputIterator2,
           typename BinaryPredicate>
-__host__ __device__ thrust::pair<OutputIterator1, OutputIterator2>
+THRUST_HOST_DEVICE thrust::pair<OutputIterator1, OutputIterator2>
 reduce_by_key(
     const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
     InputIterator1                                              keys_first,
@@ -1108,7 +1108,7 @@ template <class Derived,
           class ValOutputIt,
           class BinaryPred,
           class BinaryOp>
-pair<KeyOutputIt, ValOutputIt> __host__ __device__
+pair<KeyOutputIt, ValOutputIt> THRUST_HOST_DEVICE
 reduce_by_key(execution_policy<Derived> &policy,
               KeyInputIt                 keys_first,
               KeyInputIt                 keys_last,
@@ -1145,7 +1145,7 @@ template <class Derived,
           class KeyOutputIt,
           class ValOutputIt,
           class BinaryPred>
-pair<KeyOutputIt, ValOutputIt> __host__ __device__
+pair<KeyOutputIt, ValOutputIt> THRUST_HOST_DEVICE
 reduce_by_key(execution_policy<Derived> &policy,
               KeyInputIt                 keys_first,
               KeyInputIt                 keys_last,
@@ -1174,7 +1174,7 @@ template <class Derived,
           class ValInputIt,
           class KeyOutputIt,
           class ValOutputIt>
-pair<KeyOutputIt, ValOutputIt> __host__ __device__
+pair<KeyOutputIt, ValOutputIt> THRUST_HOST_DEVICE
 reduce_by_key(execution_policy<Derived> &policy,
               KeyInputIt                 keys_first,
               KeyInputIt                 keys_last,

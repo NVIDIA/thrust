@@ -15,7 +15,7 @@ void sort_by_key_kernel(ExecutionPolicy exec, Iterator1 keys_first, Iterator1 ke
 template<typename T>
 struct my_less
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator()(const T& lhs, const T& rhs) const
   {
     return lhs < rhs;

@@ -16,7 +16,7 @@
 template <typename T>
 struct custom_plus
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   T operator()(T lhs, T rhs) const
   {
     return lhs + rhs;

@@ -69,7 +69,7 @@ THRUST_NAMESPACE_BEGIN
  *  // note: functor inherits from unary_function
  *  struct square_root : public thrust::unary_function<float,float>
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    float operator()(float x) const
  *    {
  *      return sqrtf(x);
@@ -112,7 +112,7 @@ THRUST_NAMESPACE_BEGIN
  *  // note: functor inherits from unary_function
  *  struct square : public thrust::unary_function<float,float>
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    float operator()(float x) const
  *    {
  *      return x * x;
@@ -153,7 +153,7 @@ THRUST_NAMESPACE_BEGIN
  *  // note: functor *does not* inherit from unary_function
  *  struct square_root
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    float operator()(float x) const
  *    {
  *      return sqrtf(x);
@@ -203,7 +203,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
   public:
     /*! Null constructor does nothing.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     transform_iterator() {}
 
 #if THRUST_CPP_DIALECT >= 2011
@@ -216,7 +216,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
      *  \param x An \c Iterator pointing to the input to this \p transform_iterator's \c AdaptableUnaryFunction.
      *  \param f An \c AdaptableUnaryFunction used to transform the objects pointed to by \p x.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     transform_iterator(Iterator const& x, AdaptableUnaryFunction f)
       : super_t(x), m_f(f) {
     }
@@ -226,7 +226,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
      *
      *  \param x An \c Iterator to copy.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     explicit transform_iterator(Iterator const& x)
       : super_t(x) { }
 
@@ -239,7 +239,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
              typename OtherIterator,
              typename OtherReference,
              typename OtherValue>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     transform_iterator(const transform_iterator<OtherAdaptableUnaryFunction, OtherIterator, OtherReference, OtherValue> &other,
                        typename thrust::detail::enable_if_convertible<OtherIterator, Iterator>::type* = 0,
                        typename thrust::detail::enable_if_convertible<OtherAdaptableUnaryFunction, AdaptableUnaryFunction>::type* = 0)
@@ -255,7 +255,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
      *
      *        In any case, this \p transform_iterator's underlying iterator will be copy assigned.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     transform_iterator &operator=(const transform_iterator &other)
     {
       return do_assign(other,
@@ -271,14 +271,14 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
     /*! This method returns a copy of this \p transform_iterator's \c AdaptableUnaryFunction.
      *  \return A copy of this \p transform_iterator's \c AdaptableUnaryFunction.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     AdaptableUnaryFunction functor() const
       { return m_f; }
 
     /*! \cond
      */
   private:
-    __host__ __device__
+    THRUST_HOST_DEVICE
     transform_iterator &do_assign(const transform_iterator &other, thrust::detail::true_type)
     {
       super_t::operator=(other);
@@ -289,7 +289,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
       return *this;
     }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     transform_iterator &do_assign(const transform_iterator &other, thrust::detail::false_type)
     {
       super_t::operator=(other);
@@ -305,7 +305,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
     THRUST_DISABLE_MSVC_WARNING_BEGIN(4172)
 
     __thrust_exec_check_disable__
-    __host__ __device__
+    THRUST_HOST_DEVICE
     typename super_t::reference dereference() const
     {
       // Create a temporary to allow iterators with wrapped references to
@@ -338,7 +338,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
  *  \see transform_iterator
  */
 template <class AdaptableUnaryFunction, class Iterator>
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
 transform_iterator<AdaptableUnaryFunction, Iterator>
 make_transform_iterator(Iterator it, AdaptableUnaryFunction fun)
 {

@@ -42,3 +42,9 @@
 
 #endif
 
+/**
+ * \def THRUST_HOST_DEVICE
+ * This macro is used replace __host__ __device__, with a clang-format friendly
+ * replacement
+ */
+#define THRUST_HOST_DEVICE __host__ __device__

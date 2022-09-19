@@ -29,92 +29,92 @@ private:
 
 
 public:
-  __host__ __device__
+  THRUST_HOST_DEVICE
   range_view(Iterator first, Iterator last)
       : first(first), last(last) {}
-  __host__ __device__
+  THRUST_HOST_DEVICE
   ~range_view() {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   difference_type size() const { return thrust::distance(first, last); }
 
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   reference operator[](difference_type n)
   {
     return *(first + n);
   }
-  __host__ __device__
+  THRUST_HOST_DEVICE
   const reference operator[](difference_type n) const
   {
     return *(first + n);
   }
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   iterator begin() 
   {
     return first;
   }
-  __host__ __device__
+  THRUST_HOST_DEVICE
   const iterator cbegin() const
   {
     return first;
   }
-  __host__ __device__
+  THRUST_HOST_DEVICE
   iterator end() 
   {
     return last;
   }
-  __host__ __device__
+  THRUST_HOST_DEVICE
   const iterator cend() const
   {
     return last;
   }
 
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::reverse_iterator<iterator> rbegin()
   {
     return thrust::reverse_iterator<iterator>(end());
   }
-  __host__ __device__
+  THRUST_HOST_DEVICE
   const thrust::reverse_iterator<const iterator> crbegin() const 
   {
     return thrust::reverse_iterator<const iterator>(cend());
   }
-  __host__ __device__
+  THRUST_HOST_DEVICE
   thrust::reverse_iterator<iterator> rend()
   {
     return thrust::reverse_iterator<iterator>(begin());
   }
-  __host__ __device__
+  THRUST_HOST_DEVICE
   const thrust::reverse_iterator<const iterator> crend() const 
   {
     return thrust::reverse_iterator<const iterator>(cbegin());
   }
-  __host__ __device__
+  THRUST_HOST_DEVICE
   reference front() 
   {
     return *begin();
   }
-  __host__ __device__
+  THRUST_HOST_DEVICE
   const reference front()  const
   {
     return *cbegin();
   }
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   reference back() 
   {
     return *end();
   }
-  __host__ __device__
+  THRUST_HOST_DEVICE
   const reference back()  const
   {
     return *cend();
   }
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool empty() const 
   {
     return size() == 0;
@@ -126,7 +126,7 @@ public:
 // elements
 template <class Iterator, class Size>
 range_view<Iterator>
-__host__ __device__
+THRUST_HOST_DEVICE
 make_range_view(Iterator first, Size n)
 {
   return range_view<Iterator>(first, first+n);
@@ -135,7 +135,7 @@ make_range_view(Iterator first, Size n)
 // This helper function creates a range_view from a pair of iterators
 template <class Iterator>
 range_view<Iterator>
-__host__ __device__
+THRUST_HOST_DEVICE
 make_range_view(Iterator first, Iterator last)
 {
   return range_view<Iterator>(first, last);
@@ -161,13 +161,13 @@ struct saxpy_functor : public thrust::unary_function<int,void>
   View2 y;
   View3 z;
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   saxpy_functor(float _a, View1 _x, View2 _y, View3 _z)
       : a(_a), x(_x), y(_y), z(_z)
   {
   }
 
-  __host__ __device__ 
+  THRUST_HOST_DEVICE 
   void operator()(int i) 
   {
     z[i] = a * x[i] + y[i];
@@ -177,7 +177,7 @@ struct saxpy_functor : public thrust::unary_function<int,void>
 // saxpy function, which can either be called form host or device
 // The views are passed by value
 template<class View1, class View2, class View3>
-__host__ __device__
+THRUST_HOST_DEVICE
 void saxpy(float A, View1 X, View2 Y, View3 Z)
 {
   // Z = A * X + Y
@@ -190,7 +190,7 @@ void saxpy(float A, View1 X, View2 Y, View3 Z)
 
 struct f1 : public thrust::unary_function<float,float>
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   float operator()(float x) const
   {
     return x*3;

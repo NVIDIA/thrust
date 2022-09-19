@@ -25,7 +25,7 @@
 THRUST_NAMESPACE_BEGIN
 
 template <typename T0, typename T1>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<typename detail::promoted_numerical_type<T0, T1>::type>
 pow(const complex<T0>& x, const complex<T1>& y)
 {
@@ -34,7 +34,7 @@ pow(const complex<T0>& x, const complex<T1>& y)
 }
 
 template <typename T0, typename T1>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<typename detail::promoted_numerical_type<T0, T1>::type>
 pow(const complex<T0>& x, const T1& y)
 {
@@ -43,7 +43,7 @@ pow(const complex<T0>& x, const T1& y)
 }
 
 template <typename T0, typename T1>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<typename detail::promoted_numerical_type<T0, T1>::type>
 pow(const T0& x, const complex<T1>& y)
 {

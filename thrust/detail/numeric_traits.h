@@ -116,7 +116,7 @@ template<typename Number>
 
 
 template<typename Number>
-__host__ __device__
+THRUST_HOST_DEVICE
 typename numeric_difference<Number>::type
 numeric_distance(Number x, Number y)
 {

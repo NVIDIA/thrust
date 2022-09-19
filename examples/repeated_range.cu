@@ -28,7 +28,7 @@ class repeated_range
         repeat_functor(difference_type repeats)
             : repeats(repeats) {}
 
-        __host__ __device__
+        THRUST_HOST_DEVICE
         difference_type operator()(const difference_type& i) const
         { 
             return i / repeats;

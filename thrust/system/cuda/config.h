@@ -48,7 +48,7 @@
  * \def THRUST_RUNTIME_FUNCTION
  *
  * Execution space for functions that can use the CUDA runtime API (`__host__`
- * when RDC is off, `__host__ __device__` when RDC is on).
+ * when RDC is off, `THRUST_HOST_DEVICE` when RDC is on).
  */
 #define THRUST_RUNTIME_FUNCTION CUB_RUNTIME_FUNCTION
 
@@ -100,7 +100,7 @@
 
 #define THRUST_DEVICE_FUNCTION __device__ __forceinline__
 #define THRUST_HOST_FUNCTION __host__     __forceinline__
-#define THRUST_FUNCTION __host__ __device__ __forceinline__
+#define THRUST_FUNCTION THRUST_HOST_DEVICE __forceinline__
 #if 0
 #define THRUST_ARGS(...) __VA_ARGS__
 #define THRUST_STRIP_PARENS(X) X

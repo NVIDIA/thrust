@@ -40,7 +40,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator unique_copy(sequential::execution_policy<DerivedPolicy> &,
                              InputIterator first,
                              InputIterator last,
@@ -78,7 +78,7 @@ __host__ __device__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   ForwardIterator unique(sequential::execution_policy<DerivedPolicy> &exec,
                          ForwardIterator first,
                          ForwardIterator last,
@@ -92,7 +92,7 @@ __host__ __device__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   typename thrust::iterator_traits<ForwardIterator>::difference_type
     unique_count(sequential::execution_policy<DerivedPolicy> &,
                  ForwardIterator first,

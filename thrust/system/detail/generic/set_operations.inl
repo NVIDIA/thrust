@@ -38,7 +38,7 @@ template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
 OutputIterator set_difference(thrust::execution_policy<DerivedPolicy> &exec,
                               InputIterator1                           first1,
                               InputIterator1                           last1,
@@ -58,7 +58,7 @@ template<typename DerivedPolicy,
          typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2>
-__host__ __device__
+THRUST_HOST_DEVICE
 thrust::pair<OutputIterator1,OutputIterator2>
   set_difference_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                         InputIterator1                           keys_first1,
@@ -83,7 +83,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
 thrust::pair<OutputIterator1,OutputIterator2>
   set_difference_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                         InputIterator1                           keys_first1,
@@ -124,7 +124,7 @@ template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
 OutputIterator set_intersection(thrust::execution_policy<DerivedPolicy> &exec,
                                 InputIterator1                           first1,
                                 InputIterator1                           last1,
@@ -143,7 +143,7 @@ template<typename DerivedPolicy,
          typename InputIterator3,
          typename OutputIterator1,
          typename OutputIterator2>
-__host__ __device__
+THRUST_HOST_DEVICE
 thrust::pair<OutputIterator1,OutputIterator2>
   set_intersection_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                           InputIterator1                           keys_first1,
@@ -166,7 +166,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
 thrust::pair<OutputIterator1,OutputIterator2>
   set_intersection_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                           InputIterator1                           keys_first1,
@@ -213,7 +213,7 @@ template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
 OutputIterator set_symmetric_difference(thrust::execution_policy<DerivedPolicy> &exec,
                                         InputIterator1                           first1,
                                         InputIterator1                           last1,
@@ -233,7 +233,7 @@ template<typename DerivedPolicy,
          typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2>
-__host__ __device__
+THRUST_HOST_DEVICE
 thrust::pair<OutputIterator1,OutputIterator2>
   set_symmetric_difference_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                                   InputIterator1                           keys_first1,
@@ -258,7 +258,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
 thrust::pair<OutputIterator1,OutputIterator2>
   set_symmetric_difference_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                                   InputIterator1                           keys_first1,
@@ -299,7 +299,7 @@ template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
 OutputIterator set_union(thrust::execution_policy<DerivedPolicy> &exec,
                          InputIterator1                           first1,
                          InputIterator1                           last1,
@@ -319,7 +319,7 @@ template<typename DerivedPolicy,
          typename InputIterator4,
          typename OutputIterator1,
          typename OutputIterator2>
-__host__ __device__
+THRUST_HOST_DEVICE
 thrust::pair<OutputIterator1,OutputIterator2>
   set_union_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                    InputIterator1                           keys_first1,
@@ -344,7 +344,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
 thrust::pair<OutputIterator1,OutputIterator2>
   set_union_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                    InputIterator1                           keys_first1,
@@ -386,7 +386,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
 OutputIterator set_difference(thrust::execution_policy<DerivedPolicy> &,
                               InputIterator1,
                               InputIterator1,
@@ -408,7 +408,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
 OutputIterator set_intersection(thrust::execution_policy<DerivedPolicy> &,
                                 InputIterator1,
                                 InputIterator1,
@@ -430,7 +430,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
 OutputIterator set_symmetric_difference(thrust::execution_policy<DerivedPolicy> &,
                                         InputIterator1,
                                         InputIterator1,
@@ -452,7 +452,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
 OutputIterator set_union(thrust::execution_policy<DerivedPolicy> &,
                          InputIterator1,
                          InputIterator1,

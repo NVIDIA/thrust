@@ -38,14 +38,14 @@
 THRUST_NAMESPACE_BEGIN
 
 template <typename DerivedPolicy, typename InputIt, typename OutputIt>
-__host__ __device__ OutputIt
+THRUST_HOST_DEVICE OutputIt
 copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
      InputIt                                                     first,
      InputIt                                                     last,
      OutputIt                                                    result);
 
 template <class DerivedPolicy, class InputIt, class Size, class OutputIt>
-__host__ __device__ OutputIt
+THRUST_HOST_DEVICE OutputIt
 copy_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
        InputIt                                                     first,
        Size                                                        n,
@@ -57,7 +57,7 @@ namespace cuda_cub {
 template <class System,
           class InputIterator,
           class OutputIterator>
-OutputIterator __host__ __device__
+OutputIterator THRUST_HOST_DEVICE
 copy(execution_policy<System> &system,
      InputIterator             first,
      InputIterator             last,
@@ -77,7 +77,7 @@ template <class System,
           class InputIterator,
           class Size,
           class OutputIterator>
-OutputIterator __host__ __device__
+OutputIterator THRUST_HOST_DEVICE
 copy_n(execution_policy<System> &system,
        InputIterator             first,
        Size                      n,
@@ -114,7 +114,7 @@ __thrust_exec_check_disable__
 template <class System,
           class InputIterator,
           class OutputIterator>
-OutputIterator __host__ __device__
+OutputIterator THRUST_HOST_DEVICE
 copy(execution_policy<System> &system,
      InputIterator             first,
      InputIterator             last,
@@ -132,7 +132,7 @@ template <class System,
           class InputIterator,
           class Size,
           class OutputIterator>
-OutputIterator __host__ __device__
+OutputIterator THRUST_HOST_DEVICE
 copy_n(execution_policy<System> &system,
        InputIterator             first,
        Size                      n,

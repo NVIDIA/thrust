@@ -32,7 +32,7 @@ __thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator inclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
@@ -48,7 +48,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename AssociativeOperator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator inclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
@@ -64,7 +64,7 @@ __thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator exclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
@@ -80,7 +80,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator exclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
@@ -98,7 +98,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename T,
          typename AssociativeOperator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator exclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
@@ -116,7 +116,7 @@ template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator inclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
@@ -134,7 +134,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator inclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
@@ -154,7 +154,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename BinaryPredicate,
          typename AssociativeOperator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator inclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
@@ -173,7 +173,7 @@ template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator exclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
@@ -191,7 +191,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator exclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
@@ -211,7 +211,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename T,
          typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator exclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,
@@ -233,7 +233,7 @@ template<typename DerivedPolicy,
          typename T,
          typename BinaryPredicate,
          typename AssociativeOperator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator exclusive_scan_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator1 first1,
                                        InputIterator1 last1,

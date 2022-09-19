@@ -30,7 +30,7 @@ struct transform_tuple :
 
   transform_tuple(IndexType n, IndexType N) : n(n), N(N) {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
     OutputTuple operator()(const InputTuple& t) const
     { 
       bool is_valid = (thrust::get<0>(t) % N) < n;
@@ -49,7 +49,7 @@ struct reduce_tuple :
 {
   typedef typename thrust::tuple<bool,ValueType,ValueType> Tuple;
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
     Tuple operator()(const Tuple& t0, const Tuple& t1) const
     { 
       if(thrust::get<0>(t0) && thrust::get<0>(t1)) // both valid

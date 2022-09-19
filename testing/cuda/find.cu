@@ -10,7 +10,7 @@ struct equal_to_value_pred
 
     equal_to_value_pred(T value) : value(value) {}
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool operator()(T v) const { return v == value; }
 };
 
@@ -22,7 +22,7 @@ struct not_equal_to_value_pred
 
     not_equal_to_value_pred(T value) : value(value) {}
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool operator()(T v) const { return v != value; }
 };
 
@@ -34,7 +34,7 @@ struct less_than_value_pred
 
     less_than_value_pred(T value) : value(value) {}
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool operator()(T v) const { return v < value; }
 };
 

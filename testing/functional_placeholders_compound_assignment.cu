@@ -37,31 +37,31 @@ VectorUnitTest<TestFunctionalPlaceholders##name, type_list, thrust::host_vector,
 template<typename T>
   struct plus_equal_reference
 {
-  __host__ __device__ T& operator()(T &lhs, const T &rhs) const { return lhs += rhs; }
+  THRUST_HOST_DEVICE T& operator()(T &lhs, const T &rhs) const { return lhs += rhs; }
 };
 
 template<typename T>
   struct minus_equal_reference
 {
-  __host__ __device__ T& operator()(T &lhs, const T &rhs) const { return lhs -= rhs; }
+  THRUST_HOST_DEVICE T& operator()(T &lhs, const T &rhs) const { return lhs -= rhs; }
 };
 
 template<typename T>
   struct multiplies_equal_reference
 {
-  __host__ __device__ T& operator()(T &lhs, const T &rhs) const { return lhs *= rhs; }
+  THRUST_HOST_DEVICE T& operator()(T &lhs, const T &rhs) const { return lhs *= rhs; }
 };
 
 template<typename T>
   struct divides_equal_reference
 {
-  __host__ __device__ T& operator()(T &lhs, const T &rhs) const { return lhs /= rhs; }
+  THRUST_HOST_DEVICE T& operator()(T &lhs, const T &rhs) const { return lhs /= rhs; }
 };
 
 template<typename T>
   struct modulus_equal_reference
 {
-  __host__ __device__ T& operator()(T &lhs, const T &rhs) const { return lhs %= rhs; }
+  THRUST_HOST_DEVICE T& operator()(T &lhs, const T &rhs) const { return lhs %= rhs; }
 };
 
 BINARY_FUNCTIONAL_PLACEHOLDERS_TEST(PlusEqual,       +=, plus_equal_reference,       ThirtyTwoBitTypes);
@@ -73,31 +73,31 @@ BINARY_FUNCTIONAL_PLACEHOLDERS_TEST(ModulusEqual,    %=, modulus_equal_reference
 template<typename T>
   struct bit_and_equal_reference
 {
-  __host__ __device__ T& operator()(T &lhs, const T &rhs) const { return lhs &= rhs; }
+  THRUST_HOST_DEVICE T& operator()(T &lhs, const T &rhs) const { return lhs &= rhs; }
 };
 
 template<typename T>
   struct bit_or_equal_reference
 {
-  __host__ __device__ T& operator()(T &lhs, const T &rhs) const { return lhs |= rhs; }
+  THRUST_HOST_DEVICE T& operator()(T &lhs, const T &rhs) const { return lhs |= rhs; }
 };
 
 template<typename T>
   struct bit_xor_equal_reference
 {
-  __host__ __device__ T& operator()(T &lhs, const T &rhs) const { return lhs ^= rhs; }
+  THRUST_HOST_DEVICE T& operator()(T &lhs, const T &rhs) const { return lhs ^= rhs; }
 };
 
 template<typename T>
   struct bit_lshift_equal_reference
 {
-  __host__ __device__ T& operator()(T &lhs, const T &rhs) const { return lhs <<= rhs; }
+  THRUST_HOST_DEVICE T& operator()(T &lhs, const T &rhs) const { return lhs <<= rhs; }
 };
 
 template<typename T>
   struct bit_rshift_equal_reference
 {
-  __host__ __device__ T& operator()(T &lhs, const T &rhs) const { return lhs >>= rhs; }
+  THRUST_HOST_DEVICE T& operator()(T &lhs, const T &rhs) const { return lhs >>= rhs; }
 };
 
 BINARY_FUNCTIONAL_PLACEHOLDERS_TEST(BitAndEqual,    &=,  bit_and_equal_reference,    SmallIntegralTypes);
@@ -121,25 +121,25 @@ BINARY_FUNCTIONAL_PLACEHOLDERS_TEST(BitRshiftEqual, >>=, bit_rshift_equal_refere
 template<typename T>
   struct prefix_increment_reference
 {
-  __host__ __device__ T& operator()(T &x) const { return ++x; }
+  THRUST_HOST_DEVICE T& operator()(T &x) const { return ++x; }
 };
 
 template<typename T>
   struct suffix_increment_reference
 {
-  __host__ __device__ T operator()(T &x) const { return x++; }
+  THRUST_HOST_DEVICE T operator()(T &x) const { return x++; }
 };
 
 template<typename T>
   struct prefix_decrement_reference
 {
-  __host__ __device__ T& operator()(T &x) const { return --x; }
+  THRUST_HOST_DEVICE T& operator()(T &x) const { return --x; }
 };
 
 template<typename T>
   struct suffix_decrement_reference
 {
-  __host__ __device__ T operator()(T &x) const { return x--; }
+  THRUST_HOST_DEVICE T operator()(T &x) const { return x--; }
 };
 
 #define PREFIX_FUNCTIONAL_PLACEHOLDERS_TEST(name, reference_operator, functor) \

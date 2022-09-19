@@ -20,7 +20,7 @@ class strided_range
         stride_functor(difference_type stride)
             : stride(stride) {}
 
-        __host__ __device__
+        THRUST_HOST_DEVICE
         difference_type operator()(const difference_type& i) const
         { 
             return stride * i;

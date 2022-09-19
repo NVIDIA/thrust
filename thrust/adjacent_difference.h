@@ -79,7 +79,7 @@ THRUST_NAMESPACE_BEGIN
  *  \see inclusive_scan
  */
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
 OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last, 
                                    OutputIterator result);
@@ -134,7 +134,7 @@ OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<D
  *  \see inclusive_scan
  */
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename BinaryFunction>
-__host__ __device__
+THRUST_HOST_DEVICE
 OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,

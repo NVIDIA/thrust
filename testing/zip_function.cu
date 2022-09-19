@@ -14,7 +14,7 @@ using namespace unittest;
 struct SumThree
 {
   template <typename T1, typename T2, typename T3>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   auto operator()(T1 x, T2 y, T3 z) const
   THRUST_DECLTYPE_RETURNS(x + y + z)
 }; // end SumThree
@@ -22,7 +22,7 @@ struct SumThree
 struct SumThreeTuple
 {
   template <typename Tuple>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   auto operator()(Tuple x) const
   THRUST_DECLTYPE_RETURNS(thrust::get<0>(x) + thrust::get<1>(x) + thrust::get<2>(x))
 }; // end SumThreeTuple

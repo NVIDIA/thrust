@@ -5,7 +5,7 @@
 
 struct hash32
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   unsigned int operator()(unsigned int h) const
   {
     h = ~h + (h << 15);
@@ -20,7 +20,7 @@ struct hash32
 
 struct hash64
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   unsigned long long operator()(unsigned long long h) const
   {
     h = ~h + (h << 21);
@@ -36,7 +36,7 @@ struct hash64
 
 struct hashtofloat
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   float operator()(unsigned int h) const
   {
     return static_cast<float>(hash32()(h)) / 4294967296.0f;
@@ -45,7 +45,7 @@ struct hashtofloat
 
 struct hashtodouble
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   double operator()(unsigned long long h) const
   {
     return static_cast<double>(hash64()(h)) / 18446744073709551616.0;

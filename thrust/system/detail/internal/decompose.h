@@ -32,16 +32,16 @@ namespace internal
       public:
         typedef IndexType index_type;
 
-        __host__ __device__
+        THRUST_HOST_DEVICE
           index_range(index_type begin, index_type end) : m_begin(begin), m_end(end) {}
 
-        __host__ __device__
+        THRUST_HOST_DEVICE
           index_type begin(void) const { return m_begin; }
 
-        __host__ __device__
+        THRUST_HOST_DEVICE
           index_type end(void)   const { return m_end; }
 
-        __host__ __device__
+        THRUST_HOST_DEVICE
           index_type size(void)  const { return m_end - m_begin; }
 
       private:
@@ -56,7 +56,7 @@ namespace internal
         typedef IndexType               index_type;
         typedef index_range<index_type> range_type;
 
-        __host__ __device__
+        THRUST_HOST_DEVICE
         uniform_decomposition(index_type N, index_type granularity, index_type max_intervals)
           : m_N(N),
 	    m_intervals((N + granularity - 1) / granularity),
@@ -73,7 +73,7 @@ namespace internal
 	  }
         }
 
-        __host__ __device__
+        THRUST_HOST_DEVICE
           index_range<index_type> operator[](const index_type& i) const
           {
             if (i < m_threshold)
@@ -90,7 +90,7 @@ namespace internal
             }
           }
 
-        __host__ __device__
+        THRUST_HOST_DEVICE
           index_type size(void) const
           {
             return m_intervals;

@@ -42,7 +42,7 @@ struct assign
 
   __thrust_exec_check_disable__
   template <typename T1, typename T2>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr auto operator()(T1&& t1, T2&& t2) const
   noexcept(noexcept(THRUST_FWD(t1) = THRUST_FWD(t2)))
   THRUST_TRAILING_RETURN(decltype(THRUST_FWD(t1) = THRUST_FWD(t2)))
@@ -64,7 +64,7 @@ template<typename Eval, typename T>
 }; // end assign_result
 
 template<typename Eval, typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
     typename assign_result<Eval,T>::type
       do_assign(const actor<Eval> &_1, const T &_2)
 {

@@ -73,7 +73,7 @@ template <class Derived,
           class Iterator,
           class Size,
           class T>
-Iterator __host__ __device__
+Iterator THRUST_HOST_DEVICE
 uninitialized_fill_n(execution_policy<Derived>& policy,
                      Iterator                   first,
                      Size                       count,
@@ -91,7 +91,7 @@ uninitialized_fill_n(execution_policy<Derived>& policy,
 template <class Derived,
           class Iterator,
           class T>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 uninitialized_fill(execution_policy<Derived>& policy,
                    Iterator                   first,
                    Iterator                   last,

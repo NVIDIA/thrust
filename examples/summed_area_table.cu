@@ -18,10 +18,10 @@ struct transpose_index : public thrust::unary_function<size_t,size_t>
 {
   size_t m, n;
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   transpose_index(size_t _m, size_t _n) : m(_m), n(_n) {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   size_t operator()(size_t linear_index)
   {
       size_t i = linear_index / n;
@@ -36,10 +36,10 @@ struct row_index : public thrust::unary_function<size_t,size_t>
 {
   size_t n;
   
-  __host__ __device__
+  THRUST_HOST_DEVICE
   row_index(size_t _n) : n(_n) {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   size_t operator()(size_t i)
   {
       return i / n;

@@ -60,7 +60,7 @@ namespace complex{
 
 using thrust::complex;
   
-__host__ __device__ inline
+THRUST_HOST_DEVICE inline
       complex<float> clog_for_large_values(complex<float> z);
 
 /*
@@ -77,7 +77,7 @@ __host__ __device__ inline
  * a few comments on the right of declarations remain.
  */
 
-__host__ __device__
+THRUST_HOST_DEVICE
 inline float
 f(float a, float b, float hypot_a_b)
 {
@@ -98,7 +98,7 @@ f(float a, float b, float hypot_a_b)
  * If returning sqrt_A2my2 has potential to result in an underflow, it is
  * rescaled, and new_y is similarly rescaled.
  */
-__host__ __device__ 
+THRUST_HOST_DEVICE 
 inline void
 do_hard_work(float x, float y, float *rx, int *B_is_usable, float *B,
 	     float *sqrt_A2my2, float *new_y)
@@ -160,7 +160,7 @@ do_hard_work(float x, float y, float *rx, int *B_is_usable, float *B,
 
 }
 
-__host__ __device__ inline
+THRUST_HOST_DEVICE inline
 complex<float>
 casinhf(complex<float> z)
 {
@@ -210,7 +210,7 @@ casinhf(complex<float> z)
   return (complex<float>(copysignf(rx, x), copysignf(ry, y)));
 }
 
-__host__ __device__ inline
+THRUST_HOST_DEVICE inline
 complex<float> casinf(complex<float> z)
 {
   complex<float> w = casinhf(complex<float>(z.imag(), z.real()));
@@ -218,7 +218,7 @@ complex<float> casinf(complex<float> z)
   return (complex<float>(w.imag(), w.real()));
 }
 
-__host__ __device__ inline
+THRUST_HOST_DEVICE inline
 complex<float> cacosf(complex<float> z)
 {
   float x, y, ax, ay, rx, ry, B, sqrt_A2mx2, new_x;
@@ -282,7 +282,7 @@ complex<float> cacosf(complex<float> z)
   return (complex<float>(rx, ry));
 }
 
-__host__ __device__ inline
+THRUST_HOST_DEVICE inline
 complex<float> cacoshf(complex<float> z)
 {
   complex<float> w;
@@ -307,7 +307,7 @@ complex<float> cacoshf(complex<float> z)
   /*
    * Optimized version of clog() for |z| finite and larger than ~RECIP_EPSILON.
    */
-__host__ __device__ inline
+THRUST_HOST_DEVICE inline
 complex<float> clog_for_large_values(complex<float> z)
 {
   float x, y;
@@ -349,7 +349,7 @@ complex<float> clog_for_large_values(complex<float> z)
  * Assumes y is non-negative.
  * Assumes fabsf(x) >= FLT_EPSILON.
  */
-__host__ __device__
+THRUST_HOST_DEVICE
 inline float sum_squares(float x, float y)
 {
   const float SQRT_MIN =	1.084202172485504434007453e-19f; /* 0x1p-63; >= sqrt(FLT_MIN) */
@@ -360,7 +360,7 @@ inline float sum_squares(float x, float y)
   return (x * x + y * y);
 }
 
-__host__ __device__
+THRUST_HOST_DEVICE
 inline float real_part_reciprocal(float x, float y)
 {
   float scale;
@@ -388,7 +388,7 @@ inline float real_part_reciprocal(float x, float y)
 }
 
 #if THRUST_CPP_DIALECT >= 2011 || THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
-__host__ __device__ inline
+THRUST_HOST_DEVICE inline
 complex<float> catanhf(complex<float> z)
 {
   float x, y, ax, ay, rx, ry;
@@ -444,7 +444,7 @@ complex<float> catanhf(complex<float> z)
   return (complex<float>(copysignf(rx, x), copysignf(ry, y)));
 }
 
-__host__ __device__ inline
+THRUST_HOST_DEVICE inline
 complex<float>catanf(complex<float> z){
   complex<float> w = catanhf(complex<float>(z.imag(), z.real()));
   return (complex<float>(w.imag(), w.real()));
@@ -457,41 +457,41 @@ complex<float>catanf(complex<float> z){
 
 
 template <>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline complex<float> acos(const complex<float>& z){
   return detail::complex::cacosf(z);
 }
 
 template <>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline complex<float> asin(const complex<float>& z){
   return detail::complex::casinf(z);
 }
 
 #if THRUST_CPP_DIALECT >= 2011 || THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
 template <>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline complex<float> atan(const complex<float>& z){
   return detail::complex::catanf(z);
 }
 #endif
 
 template <>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline complex<float> acosh(const complex<float>& z){
   return detail::complex::cacoshf(z);
 }
 
 
 template <>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline complex<float> asinh(const complex<float>& z){
   return detail::complex::casinhf(z);
 }
 
 #if THRUST_CPP_DIALECT >= 2011 || THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
 template <>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline complex<float> atanh(const complex<float>& z){
   return detail::complex::catanhf(z);
 }

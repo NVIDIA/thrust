@@ -54,7 +54,7 @@ struct needs_reverse
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
 void stable_sort(sequential::execution_policy<DerivedPolicy> &exec,
                  RandomAccessIterator first,
                  RandomAccessIterator last,
@@ -77,7 +77,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
 void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
                         RandomAccessIterator1 first1,
                         RandomAccessIterator1 last1,
@@ -113,7 +113,7 @@ void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
 void stable_sort(sequential::execution_policy<DerivedPolicy> &exec,
                  RandomAccessIterator first,
                  RandomAccessIterator last,
@@ -128,7 +128,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
 void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
                         RandomAccessIterator1 first1,
                         RandomAccessIterator1 last1,
@@ -158,7 +158,7 @@ struct use_primitive_sort
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
 void stable_sort(sequential::execution_policy<DerivedPolicy> &exec,
                  RandomAccessIterator first,
                  RandomAccessIterator last,
@@ -181,7 +181,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
 void stable_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
                         RandomAccessIterator1 first1,
                         RandomAccessIterator1 last1,

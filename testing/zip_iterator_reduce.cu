@@ -7,7 +7,7 @@ using namespace unittest;
 template<typename Tuple>
 struct TuplePlus
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   Tuple operator()(Tuple x, Tuple y) const
   {
     using namespace thrust;

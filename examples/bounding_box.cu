@@ -11,10 +11,10 @@ struct point2d
 {
   float x, y;
   
-  __host__ __device__
+  THRUST_HOST_DEVICE
   point2d() : x(0), y(0) {}
   
-  __host__ __device__
+  THRUST_HOST_DEVICE
   point2d(float _x, float _y) : x(_x), y(_y) {}
 };
 
@@ -22,17 +22,17 @@ struct point2d
 struct bbox
 {
   // construct an empty box
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bbox() {}
 
   // construct a box from a single point
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bbox(const point2d &point)
     : lower_left(point), upper_right(point)
   {}
 
   // construct a box from a single point
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bbox& operator=(const point2d &point)
   {
     lower_left = point;
@@ -41,7 +41,7 @@ struct bbox
   }
 
   // construct a box from a pair of points
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bbox(const point2d &ll, const point2d &ur)
     : lower_left(ll), upper_right(ur)
   {}
@@ -52,7 +52,7 @@ struct bbox
 // reduce a pair of bounding boxes (a,b) to a bounding box containing a and b
 struct bbox_reduction : public thrust::binary_function<bbox,bbox,bbox>
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bbox operator()(bbox a, bbox b)
   {
     // lower left corner

@@ -138,7 +138,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     // friend iterator_core_access to give it access to dereference
     friend class thrust::iterator_core_access;
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     typename super_t::reference dereference() const;
 
     // don't provide access to this part of super_t's interface
@@ -150,24 +150,24 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 
     // constructors
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     pointer();
 
     // NOTE: This is needed so that Thrust smart pointers can be used in
     // `std::unique_ptr`.
-    __host__ __device__
+    THRUST_HOST_DEVICE
     pointer(std::nullptr_t);
 
     // OtherValue shall be convertible to Value
     // XXX consider making the pointer implementation a template parameter which defaults to Element *
     template<typename OtherElement>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     explicit pointer(OtherElement *ptr);
 
     // OtherPointer's element_type shall be convertible to Element
     // OtherPointer's system shall be convertible to Tag
     template<typename OtherPointer>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     pointer(const OtherPointer &other,
             typename thrust::detail::enable_if_pointer_is_convertible<
               OtherPointer,
@@ -177,7 +177,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     // OtherPointer's element_type shall be void
     // OtherPointer's system shall be convertible to Tag
     template<typename OtherPointer>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     explicit
     pointer(const OtherPointer &other,
             typename thrust::detail::enable_if_void_pointer_is_system_convertible<
@@ -189,13 +189,13 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 
     // NOTE: This is needed so that Thrust smart pointers can be used in
     // `std::unique_ptr`.
-    __host__ __device__
+    THRUST_HOST_DEVICE
     derived_type& operator=(std::nullptr_t);
 
     // OtherPointer's element_type shall be convertible to Element
     // OtherPointer's system shall be convertible to Tag
     template<typename OtherPointer>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     typename thrust::detail::enable_if_pointer_is_convertible<
       OtherPointer,
       pointer,
@@ -205,18 +205,18 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 
     // observers
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     Element *get() const;
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     Element *operator->() const;
 
     // NOTE: This is needed so that Thrust smart pointers can be used in
     // `std::unique_ptr`.
-    __host__ __device__
+    THRUST_HOST_DEVICE
     explicit operator bool() const;
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     static derived_type pointer_to(typename thrust::detail::pointer_traits_detail::pointer_to_param<Element>::type r)
     {
       return thrust::detail::pointer_traits<derived_type>::pointer_to(r);
@@ -234,19 +234,19 @@ operator<<(std::basic_ostream<charT, traits> &os,
 // NOTE: This is needed so that Thrust smart pointers can be used in
 // `std::unique_ptr`.
 template <typename Element, typename Tag, typename Reference, typename Derived>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool operator==(std::nullptr_t, pointer<Element, Tag, Reference, Derived> p);
 
 template <typename Element, typename Tag, typename Reference, typename Derived>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool operator==(pointer<Element, Tag, Reference, Derived> p, std::nullptr_t);
 
 template <typename Element, typename Tag, typename Reference, typename Derived>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool operator!=(std::nullptr_t, pointer<Element, Tag, Reference, Derived> p);
 
 template <typename Element, typename Tag, typename Reference, typename Derived>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool operator!=(pointer<Element, Tag, Reference, Derived> p, std::nullptr_t);
 
 THRUST_NAMESPACE_END

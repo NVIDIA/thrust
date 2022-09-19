@@ -31,7 +31,7 @@ namespace cuda_cub {
 
 
 template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
   void assign_value(thrust::cuda::execution_policy<DerivedPolicy> &exec, Pointer1 dst, Pointer2 src)
 {
   // XXX war nvbugs/881631
@@ -58,7 +58,7 @@ inline __host__ __device__
 
 
 template<typename System1, typename System2, typename Pointer1, typename Pointer2>
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
   void assign_value(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
 {
   // XXX war nvbugs/881631

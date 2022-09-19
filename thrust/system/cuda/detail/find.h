@@ -42,7 +42,7 @@ namespace cuda_cub {
 template <class Derived,
           class InputIt,
           class Predicate>
-InputIt __host__ __device__
+InputIt THRUST_HOST_DEVICE
 find_if(execution_policy<Derived>& policy,
         InputIt                    first,
         InputIt                    last,
@@ -51,7 +51,7 @@ find_if(execution_policy<Derived>& policy,
 template <class Derived,
           class InputIt,
           class Predicate>
-InputIt __host__ __device__
+InputIt THRUST_HOST_DEVICE
 find_if_not(execution_policy<Derived>& policy,
             InputIt                    first,
             InputIt                    last,
@@ -60,7 +60,7 @@ find_if_not(execution_policy<Derived>& policy,
 template <class Derived,
           class InputIt,
           class T>
-InputIt __host__ __device__
+InputIt THRUST_HOST_DEVICE
 find(execution_policy<Derived> &policy,
      InputIt                    first,
      InputIt                    last,
@@ -104,7 +104,7 @@ template <class Derived,
           class InputIt,
           class Size,
           class Predicate>
-InputIt __host__ __device__
+InputIt THRUST_HOST_DEVICE
 find_if_n(execution_policy<Derived>& policy,
           InputIt                    first,
           Size                       num_items,
@@ -173,7 +173,7 @@ find_if_n(execution_policy<Derived>& policy,
 template <class Derived,
           class InputIt,
           class Predicate>
-InputIt __host__ __device__
+InputIt THRUST_HOST_DEVICE
 find_if(execution_policy<Derived>& policy,
         InputIt                    first,
         InputIt                    last,
@@ -185,7 +185,7 @@ find_if(execution_policy<Derived>& policy,
 template <class Derived,
           class InputIt,
           class Predicate>
-InputIt __host__ __device__
+InputIt THRUST_HOST_DEVICE
 find_if_not(execution_policy<Derived>& policy,
             InputIt                    first,
             InputIt                    last,
@@ -198,7 +198,7 @@ find_if_not(execution_policy<Derived>& policy,
 template <class Derived,
           class InputIt,
           class T>
-InputIt __host__ __device__
+InputIt THRUST_HOST_DEVICE
 find(execution_policy<Derived> &policy,
      InputIt                    first,
      InputIt                    last,

@@ -108,7 +108,7 @@ template<typename IntType = int>
      *  \param b The largest integer to potentially produce. Defaults to the largest representable integer in
      *           the platform.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     explicit uniform_int_distribution(IntType a = 0,
                                       IntType b = THRUST_NS_QUALIFIER::detail::integer_traits<IntType>::const_max);
 
@@ -117,12 +117,12 @@ template<typename IntType = int>
      *  
      *  \param parm A \p param_type object encapsulating the parameters (i.e., the range) of the distribution.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     explicit uniform_int_distribution(const param_type &parm);
 
     /*! This does nothing.  It is included to conform to the requirements of the RandomDistribution concept.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void reset(void);
 
     // generating functions
@@ -133,7 +133,7 @@ template<typename IntType = int>
      *  \param urng The \p UniformRandomNumberGenerator to use as a source of randomness.
      */
     template<typename UniformRandomNumberGenerator>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     result_type operator()(UniformRandomNumberGenerator &urng);
 
     /*! This method produces a new uniform random integer as if by creating a new \p uniform_int_distribution 
@@ -145,7 +145,7 @@ template<typename IntType = int>
      *              to draw from.
      */
     template<typename UniformRandomNumberGenerator>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     result_type operator()(UniformRandomNumberGenerator &urng, const param_type &parm);
 
     // property functions
@@ -155,7 +155,7 @@ template<typename IntType = int>
      *
      *  \return The lower bound of this \p uniform_int_distribution's range.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     result_type a(void) const;
 
     /*! This method returns the value of the parameter with which this \p uniform_int_distribution
@@ -163,7 +163,7 @@ template<typename IntType = int>
      *
      *  \return The upper bound of this \p uniform_int_distribution's range.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     result_type b(void) const;
 
     /*! This method returns a \p param_type object encapsulating the parameters with which this
@@ -171,7 +171,7 @@ template<typename IntType = int>
      *
      *  \return A \p param_type object enapsulating the range of this \p uniform_int_distribution.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     param_type param(void) const;
 
     /*! This method changes the parameters of this \p uniform_int_distribution using the values encapsulated
@@ -179,21 +179,21 @@ template<typename IntType = int>
      *
      *  \param parm A \p param_type object encapsulating the new range of this \p uniform_int_distribution.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void param(const param_type &parm);
 
     /*! This method returns the smallest integer this \p uniform_int_distribution can potentially produce.
      *
      *  \return The lower bound of this \p uniform_int_distribution's range.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     result_type min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
 
     /*! This method returns the largest integer this \p uniform_int_distribution can potentially produce.
      *
      *  \return The upper bound of this \p uniform_int_distribution's range.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     result_type max THRUST_PREVENT_MACRO_SUBSTITUTION (void) const;
 
     /*! \cond
@@ -203,7 +203,7 @@ template<typename IntType = int>
 
     friend struct thrust::random::detail::random_core_access;
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool equal(const uniform_int_distribution &rhs) const;
 
     template<typename CharT, typename Traits>
@@ -222,7 +222,7 @@ template<typename IntType = int>
  *  \return \c true if \p lhs is equal to \p rhs; \c false, otherwise.
  */
 template<typename IntType>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool operator==(const uniform_int_distribution<IntType> &lhs,
                 const uniform_int_distribution<IntType> &rhs);
 
@@ -233,7 +233,7 @@ bool operator==(const uniform_int_distribution<IntType> &lhs,
  *  \return \c true if \p lhs is not equal to \p rhs; \c false, otherwise.
  */
 template<typename IntType>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool operator!=(const uniform_int_distribution<IntType> &lhs,
                 const uniform_int_distribution<IntType> &rhs);
 

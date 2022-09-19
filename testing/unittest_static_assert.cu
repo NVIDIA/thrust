@@ -11,7 +11,7 @@ struct dependent_false
 template<typename T>
 struct static_assertion
 {
-    __host__ __device__
+    THRUST_HOST_DEVICE
     T operator()() const
     {
         THRUST_STATIC_ASSERT(dependent_false<T>::value);

@@ -42,7 +42,7 @@
 THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
 cudaStream_t
 default_stream()
 {
@@ -55,7 +55,7 @@ default_stream()
 
 // Fallback implementation of the customization point.
 template <class Derived>
-__host__ __device__
+THRUST_HOST_DEVICE
 cudaStream_t
 get_stream(execution_policy<Derived> &)
 {
@@ -64,7 +64,7 @@ get_stream(execution_policy<Derived> &)
 
 // Entry point/interface.
 template <class Derived>
-__host__ __device__ cudaStream_t
+THRUST_HOST_DEVICE cudaStream_t
 stream(execution_policy<Derived> &policy)
 {
   return get_stream(derived_cast(policy));
@@ -73,7 +73,7 @@ stream(execution_policy<Derived> &policy)
 
 // Fallback implementation of the customization point.
 template <class Derived>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool
 must_perform_optional_stream_synchronization(execution_policy<Derived> &)
 {
@@ -82,7 +82,7 @@ must_perform_optional_stream_synchronization(execution_policy<Derived> &)
 
 // Entry point/interface.
 template <class Derived>
-__host__ __device__ bool
+THRUST_HOST_DEVICE bool
 must_perform_optional_synchronization(execution_policy<Derived> &policy)
 {
   return must_perform_optional_stream_synchronization(derived_cast(policy));
@@ -92,7 +92,7 @@ must_perform_optional_synchronization(execution_policy<Derived> &policy)
 // Fallback implementation of the customization point.
 __thrust_exec_check_disable__
 template <class Derived>
-__host__ __device__
+THRUST_HOST_DEVICE
 cudaError_t
 synchronize_stream(execution_policy<Derived> &policy)
 {
@@ -101,7 +101,7 @@ synchronize_stream(execution_policy<Derived> &policy)
 
 // Entry point/interface.
 template <class Policy>
-__host__ __device__
+THRUST_HOST_DEVICE
 cudaError_t
 synchronize(Policy &policy)
 {
@@ -111,7 +111,7 @@ synchronize(Policy &policy)
 // Fallback implementation of the customization point.
 __thrust_exec_check_disable__
 template <class Derived>
-__host__ __device__
+THRUST_HOST_DEVICE
 cudaError_t
 synchronize_stream_optional(execution_policy<Derived> &policy)
 {
@@ -131,7 +131,7 @@ synchronize_stream_optional(execution_policy<Derived> &policy)
 
 // Entry point/interface.
 template <class Policy>
-__host__ __device__
+THRUST_HOST_DEVICE
 cudaError_t
 synchronize_optional(Policy &policy)
 {
@@ -177,7 +177,7 @@ trivial_copy_to_device(Type *       dst,
 }
 
 template <class Policy, class Type>
-__host__ __device__ cudaError_t
+THRUST_HOST_DEVICE cudaError_t
 trivial_copy_device_to_device(Policy &    policy,
                               Type *      dst,
                               Type const *src,
@@ -197,7 +197,7 @@ trivial_copy_device_to_device(Policy &    policy,
   return status;
 }
 
-inline void __host__ __device__
+inline void THRUST_HOST_DEVICE
 terminate()
 {
   NV_IF_TARGET(NV_IS_HOST, (std::terminate();), (asm("trap;");));
@@ -246,7 +246,7 @@ inline void throw_on_error(cudaError_t status)
   }
 }
 
-__host__ __device__
+THRUST_HOST_DEVICE
 inline void throw_on_error(cudaError_t status, char const *msg)
 {
   // Clear the global CUDA error state which may have been set by the last
@@ -307,7 +307,7 @@ struct transform_input_iterator_t
   InputIt         input;
   mutable UnaryOp op;
 
-  __host__ __device__ __forceinline__
+  THRUST_HOST_DEVICE __forceinline__
   transform_input_iterator_t(InputIt input, UnaryOp op)
       : input(input), op(op) {}
 
@@ -324,7 +324,7 @@ struct transform_input_iterator_t
   }
 
   /// Postfix increment
-  __host__ __device__ __forceinline__ self_t operator++(int)
+  THRUST_HOST_DEVICE __forceinline__ self_t operator++(int)
   {
     self_t retval = *this;
     ++input;
@@ -332,71 +332,71 @@ struct transform_input_iterator_t
   }
 
   /// Prefix increment
-  __host__ __device__ __forceinline__ self_t operator++()
+  THRUST_HOST_DEVICE __forceinline__ self_t operator++()
   {
     ++input;
     return *this;
   }
 
   /// Indirection
-  __host__ __device__ __forceinline__ reference operator*() const
+  THRUST_HOST_DEVICE __forceinline__ reference operator*() const
   {
     typename thrust::iterator_value<InputIt>::type x = *input;
     return op(x);
   }
   /// Indirection
-  __host__ __device__ __forceinline__ reference operator*()
+  THRUST_HOST_DEVICE __forceinline__ reference operator*()
   {
     typename thrust::iterator_value<InputIt>::type x = *input;
     return op(x);
   }
 
   /// Addition
-  __host__ __device__ __forceinline__ self_t operator+(difference_type n) const
+  THRUST_HOST_DEVICE __forceinline__ self_t operator+(difference_type n) const
   {
     return self_t(input + n, op);
   }
 
   /// Addition assignment
-  __host__ __device__ __forceinline__ self_t &operator+=(difference_type n)
+  THRUST_HOST_DEVICE __forceinline__ self_t &operator+=(difference_type n)
   {
     input += n;
     return *this;
   }
 
   /// Subtraction
-  __host__ __device__ __forceinline__ self_t operator-(difference_type n) const
+  THRUST_HOST_DEVICE __forceinline__ self_t operator-(difference_type n) const
   {
     return self_t(input - n, op);
   }
 
   /// Subtraction assignment
-  __host__ __device__ __forceinline__ self_t &operator-=(difference_type n)
+  THRUST_HOST_DEVICE __forceinline__ self_t &operator-=(difference_type n)
   {
     input -= n;
     return *this;
   }
 
   /// Distance
-  __host__ __device__ __forceinline__ difference_type operator-(self_t other) const
+  THRUST_HOST_DEVICE __forceinline__ difference_type operator-(self_t other) const
   {
     return input - other.input;
   }
 
   /// Array subscript
-  __host__ __device__ __forceinline__ reference operator[](difference_type n) const
+  THRUST_HOST_DEVICE __forceinline__ reference operator[](difference_type n) const
   {
     return op(input[n]);
   }
 
   /// Equal to
-  __host__ __device__ __forceinline__ bool operator==(const self_t &rhs) const
+  THRUST_HOST_DEVICE __forceinline__ bool operator==(const self_t &rhs) const
   {
     return (input == rhs.input);
   }
 
   /// Not equal to
-  __host__ __device__ __forceinline__ bool operator!=(const self_t &rhs) const
+  THRUST_HOST_DEVICE __forceinline__ bool operator!=(const self_t &rhs) const
   {
     return (input != rhs.input);
   }
@@ -419,7 +419,7 @@ struct transform_pair_of_input_iterators_t
   InputIt2         input2;
   mutable BinaryOp op;
 
-  __host__ __device__ __forceinline__
+  THRUST_HOST_DEVICE __forceinline__
   transform_pair_of_input_iterators_t(InputIt1 input1_,
                                       InputIt2 input2_,
                                       BinaryOp op_)
@@ -439,7 +439,7 @@ struct transform_pair_of_input_iterators_t
   }
 
   /// Postfix increment
-  __host__ __device__ __forceinline__ self_t operator++(int)
+  THRUST_HOST_DEVICE __forceinline__ self_t operator++(int)
   {
     self_t retval = *this;
     ++input1;
@@ -448,7 +448,7 @@ struct transform_pair_of_input_iterators_t
   }
 
   /// Prefix increment
-  __host__ __device__ __forceinline__ self_t operator++()
+  THRUST_HOST_DEVICE __forceinline__ self_t operator++()
   {
     ++input1;
     ++input2;
@@ -456,24 +456,24 @@ struct transform_pair_of_input_iterators_t
   }
 
   /// Indirection
-  __host__ __device__ __forceinline__ reference operator*() const
+  THRUST_HOST_DEVICE __forceinline__ reference operator*() const
   {
     return op(*input1, *input2);
   }
   /// Indirection
-  __host__ __device__ __forceinline__ reference operator*()
+  THRUST_HOST_DEVICE __forceinline__ reference operator*()
   {
     return op(*input1, *input2);
   }
 
   /// Addition
-  __host__ __device__ __forceinline__ self_t operator+(difference_type n) const
+  THRUST_HOST_DEVICE __forceinline__ self_t operator+(difference_type n) const
   {
     return self_t(input1 + n, input2 + n, op);
   }
 
   /// Addition assignment
-  __host__ __device__ __forceinline__ self_t &operator+=(difference_type n)
+  THRUST_HOST_DEVICE __forceinline__ self_t &operator+=(difference_type n)
   {
     input1 += n;
     input2 += n;
@@ -481,13 +481,13 @@ struct transform_pair_of_input_iterators_t
   }
 
   /// Subtraction
-  __host__ __device__ __forceinline__ self_t operator-(difference_type n) const
+  THRUST_HOST_DEVICE __forceinline__ self_t operator-(difference_type n) const
   {
     return self_t(input1 - n, input2 - n, op);
   }
 
   /// Subtraction assignment
-  __host__ __device__ __forceinline__ self_t &operator-=(difference_type n)
+  THRUST_HOST_DEVICE __forceinline__ self_t &operator-=(difference_type n)
   {
     input1 -= n;
     input2 -= n;
@@ -495,25 +495,25 @@ struct transform_pair_of_input_iterators_t
   }
 
   /// Distance
-  __host__ __device__ __forceinline__ difference_type operator-(self_t other) const
+  THRUST_HOST_DEVICE __forceinline__ difference_type operator-(self_t other) const
   {
     return input1 - other.input1;
   }
 
   /// Array subscript
-  __host__ __device__ __forceinline__ reference operator[](difference_type n) const
+  THRUST_HOST_DEVICE __forceinline__ reference operator[](difference_type n) const
   {
     return op(input1[n], input2[n]);
   }
 
   /// Equal to
-  __host__ __device__ __forceinline__ bool operator==(const self_t &rhs) const
+  THRUST_HOST_DEVICE __forceinline__ bool operator==(const self_t &rhs) const
   {
     return (input1 == rhs.input1) && (input2 == rhs.input2);
   }
 
   /// Not equal to
-  __host__ __device__ __forceinline__ bool operator!=(const self_t &rhs) const
+  THRUST_HOST_DEVICE __forceinline__ bool operator!=(const self_t &rhs) const
   {
     return (input1 != rhs.input1) || (input2 != rhs.input2);
   }
@@ -524,14 +524,14 @@ struct transform_pair_of_input_iterators_t
 struct identity
 {
   template <class T>
-  __host__ __device__ T const &
+  THRUST_HOST_DEVICE T const &
   operator()(T const &t) const
   {
     return t;
   }
 
   template <class T>
-  __host__ __device__ T &
+  THRUST_HOST_DEVICE T &
   operator()(T &t) const
   {
     return t;
@@ -551,11 +551,11 @@ struct counting_iterator_t
 
   T count;
 
-  __host__ __device__ __forceinline__
+  THRUST_HOST_DEVICE __forceinline__
   counting_iterator_t(T count_) : count(count_) {}
 
   /// Postfix increment
-  __host__ __device__ __forceinline__ self_t operator++(int)
+  THRUST_HOST_DEVICE __forceinline__ self_t operator++(int)
   {
     self_t retval = *this;
     ++count;
@@ -563,70 +563,70 @@ struct counting_iterator_t
   }
 
   /// Prefix increment
-  __host__ __device__ __forceinline__ self_t operator++()
+  THRUST_HOST_DEVICE __forceinline__ self_t operator++()
   {
     ++count;
     return *this;
   }
 
   /// Indirection
-  __host__ __device__ __forceinline__ reference operator*() const
+  THRUST_HOST_DEVICE __forceinline__ reference operator*() const
   {
     return count;
   }
 
   /// Indirection
-  __host__ __device__ __forceinline__ reference operator*()
+  THRUST_HOST_DEVICE __forceinline__ reference operator*()
   {
     return count;
   }
 
   /// Addition
-  __host__ __device__ __forceinline__ self_t operator+(difference_type n) const
+  THRUST_HOST_DEVICE __forceinline__ self_t operator+(difference_type n) const
   {
     return self_t(count + n);
   }
 
   /// Addition assignment
-  __host__ __device__ __forceinline__ self_t &operator+=(difference_type n)
+  THRUST_HOST_DEVICE __forceinline__ self_t &operator+=(difference_type n)
   {
     count += n;
     return *this;
   }
 
   /// Subtraction
-  __host__ __device__ __forceinline__ self_t operator-(difference_type n) const
+  THRUST_HOST_DEVICE __forceinline__ self_t operator-(difference_type n) const
   {
     return self_t(count - n);
   }
 
   /// Subtraction assignment
-  __host__ __device__ __forceinline__ self_t &operator-=(difference_type n)
+  THRUST_HOST_DEVICE __forceinline__ self_t &operator-=(difference_type n)
   {
     count -= n;
     return *this;
   }
 
   /// Distance
-  __host__ __device__ __forceinline__ difference_type operator-(self_t other) const
+  THRUST_HOST_DEVICE __forceinline__ difference_type operator-(self_t other) const
   {
     return count - other.count;
   }
 
   /// Array subscript
-  __host__ __device__ __forceinline__ reference operator[](difference_type n) const
+  THRUST_HOST_DEVICE __forceinline__ reference operator[](difference_type n) const
   {
     return count + n;
   }
 
   /// Equal to
-  __host__ __device__ __forceinline__ bool operator==(const self_t &rhs) const
+  THRUST_HOST_DEVICE __forceinline__ bool operator==(const self_t &rhs) const
   {
     return (count == rhs.count);
   }
 
   /// Not equal to
-  __host__ __device__ __forceinline__ bool operator!=(const self_t &rhs) const
+  THRUST_HOST_DEVICE __forceinline__ bool operator!=(const self_t &rhs) const
   {
     return (count != rhs.count);
   }

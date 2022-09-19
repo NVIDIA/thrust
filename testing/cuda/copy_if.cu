@@ -7,7 +7,7 @@
 template<typename T>
 struct is_even
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator()(T x) { return (static_cast<unsigned int>(x) & 1) == 0; }
 };
 
@@ -15,7 +15,7 @@ struct is_even
 template<typename T>
 struct mod_3
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   unsigned int operator()(T x) { return static_cast<unsigned int>(x) % 3; }
 };
 

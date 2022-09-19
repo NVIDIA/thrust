@@ -80,7 +80,7 @@ THRUST_NAMESPACE_BEGIN
  *  \endcode
  */
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
@@ -133,7 +133,7 @@ __host__ __device__
  *  \see thrust::copy
  */
 template<typename DerivedPolicy, typename InputIterator, typename Size, typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator copy_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                         InputIterator first,
                         Size n,
@@ -276,7 +276,7 @@ template<typename InputIterator, typename Size, typename OutputIterator>
  *  ...
  *  struct is_even
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    bool operator()(const int x)
  *    {
  *      return (x % 2) == 0;
@@ -296,7 +296,7 @@ template<typename InputIterator, typename Size, typename OutputIterator>
  *  \see \c remove_copy_if
  */
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator first,
                          InputIterator last,
@@ -337,7 +337,7 @@ __host__ __device__
  *  ...
  *  struct is_even
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    bool operator()(const int x)
  *    {
  *      return (x % 2) == 0;
@@ -405,7 +405,7 @@ template<typename InputIterator,
  *  ...
  *  struct is_even
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    bool operator()(const int x)
  *    {
  *      return (x % 2) == 0;
@@ -427,7 +427,7 @@ template<typename InputIterator,
  *  \see \c remove_copy_if
  */
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator copy_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                          InputIterator1 first,
                          InputIterator1 last,
@@ -471,7 +471,7 @@ __host__ __device__
  *  ...
  *  struct is_even
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    bool operator()(const int x)
  *    {
  *      return (x % 2) == 0;

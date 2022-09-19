@@ -33,7 +33,7 @@ namespace cuda_cub {
 
 
 template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
 void iter_swap(thrust::cuda::execution_policy<DerivedPolicy> &, Pointer1 a, Pointer2 b)
 {
   // XXX war nvbugs/881631

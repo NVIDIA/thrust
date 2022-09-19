@@ -49,7 +49,7 @@ private:
 
 public:
   __thrust_exec_check_disable__
-  __host__ __device__
+  THRUST_HOST_DEVICE
   execute_on_stream_base(cudaStream_t stream_ = default_stream())
       : stream(stream_){}
 
@@ -63,7 +63,7 @@ public:
   }
 
 private:
-  friend __host__ __device__
+  friend THRUST_HOST_DEVICE
   cudaStream_t
   get_stream(const execute_on_stream_base &exec)
   {
@@ -78,7 +78,7 @@ private:
   cudaStream_t stream;
 
 public:
-  __host__ __device__
+  THRUST_HOST_DEVICE
   execute_on_stream_nosync_base(cudaStream_t stream_ = default_stream())
       : stream(stream_){}
 
@@ -92,14 +92,14 @@ public:
   }
 
 private:
-  friend __host__ __device__
+  friend THRUST_HOST_DEVICE
   cudaStream_t
   get_stream(const execute_on_stream_nosync_base &exec)
   {
     return exec.stream;
   }
 
-  friend __host__ __device__
+  friend THRUST_HOST_DEVICE
   bool
   must_perform_optional_stream_synchronization(const execute_on_stream_nosync_base &)
   {
@@ -111,9 +111,9 @@ struct execute_on_stream : execute_on_stream_base<execute_on_stream>
 {
   typedef execute_on_stream_base<execute_on_stream> base_t;
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   execute_on_stream() : base_t(){};
-  __host__ __device__
+  THRUST_HOST_DEVICE
   execute_on_stream(cudaStream_t stream) 
   : base_t(stream){};
 };
@@ -122,9 +122,9 @@ struct execute_on_stream_nosync : execute_on_stream_nosync_base<execute_on_strea
 {
   typedef execute_on_stream_nosync_base<execute_on_stream_nosync> base_t;
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   execute_on_stream_nosync() : base_t(){};
-  __host__ __device__
+  THRUST_HOST_DEVICE
   execute_on_stream_nosync(cudaStream_t stream) 
   : base_t(stream){};
 };
@@ -140,7 +140,7 @@ struct par_t : execution_policy<par_t>,
 {
   typedef execution_policy<par_t> base_t;
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr par_t() : base_t() {}
 
   typedef execute_on_stream stream_attachment_type;
@@ -163,7 +163,7 @@ struct par_nosync_t : execution_policy<par_nosync_t>,
 {
   typedef execution_policy<par_nosync_t> base_t;
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   constexpr par_nosync_t() : base_t() {}
 
   typedef execute_on_stream_nosync stream_attachment_type;
@@ -178,7 +178,7 @@ struct par_nosync_t : execution_policy<par_nosync_t>,
 private:
   //this function is defined to allow non-blocking calls on the default_stream() with thrust::cuda::par_nosync
   //without explicitly using thrust::cuda::par_nosync.on(default_stream())
-  friend __host__ __device__
+  friend THRUST_HOST_DEVICE
   bool
   must_perform_optional_stream_synchronization(const par_nosync_t &)
   {
@@ -204,7 +204,7 @@ THRUST_INLINE_CONSTANT par_t par;
  *    #include <thrust/execution_policy.h>
  *
  *    struct IncFunctor{
- *        __host__ __device__
+ *        THRUST_HOST_DEVICE
  *        void operator()(std::size_t& x){ x = x + 1; };
  *    };
  *

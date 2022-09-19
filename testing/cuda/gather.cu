@@ -96,7 +96,7 @@ void gather_if_kernel(ExecutionPolicy exec, Iterator1 map_first, Iterator1 map_l
 template<typename T>
 struct is_even_gather_if
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator()(const T i) const
   { 
     return (i % 2) == 0;

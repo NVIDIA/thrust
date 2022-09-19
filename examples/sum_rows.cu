@@ -12,10 +12,10 @@ struct linear_index_to_row_index : public thrust::unary_function<T,T>
 {
   T C; // number of columns
   
-  __host__ __device__
+  THRUST_HOST_DEVICE
   linear_index_to_row_index(T C) : C(C) {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   T operator()(T i)
   {
     return i / C;

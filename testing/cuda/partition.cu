@@ -15,7 +15,7 @@ void partition_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Pre
 template<typename T>
 struct is_even
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator()(T x) const { return ((int) x % 2) == 0; }
 };
 

@@ -21,7 +21,7 @@ typedef thrust::tuple<float,float,float> Float3;
 // This functor implements the dot product between 3d vectors
 struct DotProduct : public thrust::binary_function<Float3,Float3,float>
 {
-    __host__ __device__
+    THRUST_HOST_DEVICE
         float operator()(const Float3& a, const Float3& b) const
         {
             return thrust::get<0>(a) * thrust::get<0>(b) +    // x components

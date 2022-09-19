@@ -81,7 +81,7 @@ void print(thrust::device_vector<int>& v1, thrust::device_vector<int> v2)
 // except even numbers are considered to be smaller than odd numbers
 struct evens_before_odds
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator()(int x, int y)
   {
     if (x % 2 == y % 2)

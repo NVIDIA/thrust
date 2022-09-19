@@ -58,7 +58,7 @@ THRUST_NAMESPACE_BEGIN
  *  \endcode
  */
 template<typename Assignable1, typename Assignable2>
-__host__ __device__ 
+THRUST_HOST_DEVICE 
 inline void swap(Assignable1 &a, Assignable2 &b);
 
 /*! \} // swap
@@ -122,7 +122,7 @@ inline void swap(Assignable1 &a, Assignable2 &b);
 template<typename DerivedPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2>
-__host__ __device__
+THRUST_HOST_DEVICE
   ForwardIterator2 swap_ranges(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                ForwardIterator1 first1,
                                ForwardIterator1 last1,

@@ -36,7 +36,7 @@ namespace scalar
 {
 
 template<typename RandomAccessIterator, typename Size, typename T, typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 RandomAccessIterator lower_bound_n(RandomAccessIterator first,
                                    Size n,
                                    const T &val,
@@ -68,7 +68,7 @@ RandomAccessIterator lower_bound_n(RandomAccessIterator first,
 // XXX generalize these upon implementation of scalar::distance & scalar::advance
 
 template<typename RandomAccessIterator, typename T, typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 RandomAccessIterator lower_bound(RandomAccessIterator first, RandomAccessIterator last,
                                  const T &val,
                                  BinaryPredicate comp)
@@ -78,7 +78,7 @@ RandomAccessIterator lower_bound(RandomAccessIterator first, RandomAccessIterato
 }
 
 template<typename RandomAccessIterator, typename Size, typename T, typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 RandomAccessIterator upper_bound_n(RandomAccessIterator first,
                                    Size n,
                                    const T &val,
@@ -108,7 +108,7 @@ RandomAccessIterator upper_bound_n(RandomAccessIterator first,
 }
 
 template<typename RandomAccessIterator, typename T, typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 RandomAccessIterator upper_bound(RandomAccessIterator first, RandomAccessIterator last,
                                  const T &val,
                                  BinaryPredicate comp)
@@ -118,7 +118,7 @@ RandomAccessIterator upper_bound(RandomAccessIterator first, RandomAccessIterato
 }
 
 template<typename RandomAccessIterator, typename T, typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   pair<RandomAccessIterator,RandomAccessIterator>
     equal_range(RandomAccessIterator first, RandomAccessIterator last,
                 const T &val,
@@ -130,7 +130,7 @@ __host__ __device__
 
 
 template<typename RandomAccessIterator, typename T, typename Compare>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool binary_search(RandomAccessIterator first, RandomAccessIterator last, const T &value, Compare comp)
 {
   RandomAccessIterator iter = thrust::system::detail::generic::scalar::lower_bound(first, last, value, comp);

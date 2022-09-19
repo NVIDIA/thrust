@@ -13,10 +13,10 @@ struct clamp : public thrust::unary_function<T,T>
 {
     T lo, hi;
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     clamp(T _lo, T _hi) : lo(_lo), hi(_hi) {}
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     T operator()(T x)
     {
         if (x < lo)
@@ -31,7 +31,7 @@ struct clamp : public thrust::unary_function<T,T>
 template <typename T>
 struct simple_negate : public thrust::unary_function<T,T>
 {
-    __host__ __device__
+    THRUST_HOST_DEVICE
     T operator()(T x)
     {
         return -x;

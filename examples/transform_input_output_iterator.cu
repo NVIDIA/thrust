@@ -13,13 +13,13 @@ class ScaledInteger
   int scale_;
 
 public:
-  __host__ __device__
+  THRUST_HOST_DEVICE
   ScaledInteger(int value, int scale): value_{value}, scale_{scale} {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   int value() const { return value_; }
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   ScaledInteger rescale(int scale) const
   {
     int shift = scale - scale_;
@@ -27,7 +27,7 @@ public:
     return ScaledInteger{result, scale};
   }
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   friend ScaledInteger operator+(ScaledInteger a, ScaledInteger b)
   {
     // Rescale inputs to the lesser of the two scales
@@ -43,7 +43,7 @@ struct ValueToScaledInteger
 {
   int scale;
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   ScaledInteger operator()(const int& value) const
   {
     return ScaledInteger{value, scale};
@@ -54,7 +54,7 @@ struct ScaledIntegerToValue
 {
   int scale;
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   int operator()(const ScaledInteger& scaled) const
   {
     return scaled.rescale(scale).value();

@@ -37,7 +37,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
 OutputIterator merge(sequential::execution_policy<DerivedPolicy> &exec,
                      InputIterator1 first1,
                      InputIterator1 last1,
@@ -81,7 +81,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
 thrust::pair<OutputIterator1,OutputIterator2>
   merge_by_key(sequential::execution_policy<DerivedPolicy> &,
                InputIterator1 keys_first1,

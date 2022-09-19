@@ -41,7 +41,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator set_difference(sequential::execution_policy<DerivedPolicy> &exec,
                                 InputIterator1 first1,
                                 InputIterator1 last1,
@@ -85,7 +85,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator set_intersection(sequential::execution_policy<DerivedPolicy> &,
                                   InputIterator1 first1,
                                   InputIterator1 last1,
@@ -129,7 +129,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator set_symmetric_difference(sequential::execution_policy<DerivedPolicy> &exec,
                                           InputIterator1 first1,
                                           InputIterator1 last1,
@@ -175,7 +175,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator set_union(sequential::execution_policy<DerivedPolicy> &exec,
                            InputIterator1 first1,
                            InputIterator1 last1,

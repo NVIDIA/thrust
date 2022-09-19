@@ -60,7 +60,7 @@ template <class Derived,
           class OutputIt,
           class Size,
           class Generator>
-OutputIt __host__ __device__
+OutputIt THRUST_HOST_DEVICE
 generate_n(execution_policy<Derived> &policy,
            OutputIt                   result,
            Size                       count,
@@ -76,7 +76,7 @@ generate_n(execution_policy<Derived> &policy,
 template <class Derived,
           class OutputIt,
           class Generator>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 generate(execution_policy<Derived> &policy,
          OutputIt                   first,
          OutputIt                   last,

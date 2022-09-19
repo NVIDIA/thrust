@@ -135,7 +135,7 @@ template <typename ElementIterator,
     /*! Null constructor calls the null constructor of this \p permutation_iterator's
      *  element iterator.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     permutation_iterator()
       : m_element_iterator() {}
 
@@ -146,7 +146,7 @@ template <typename ElementIterator,
      *  \param x An \c ElementIterator pointing this \p permutation_iterator's range of values.
      *  \param y An \c IndexIterator pointing to an indexing scheme to use on \p x.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     explicit permutation_iterator(ElementIterator x, IndexIterator y)
       : super_t(y), m_element_iterator(x) {}
 
@@ -154,7 +154,7 @@ template <typename ElementIterator,
      *  \param r A compatible \p permutation_iterator to copy from.
      */
     template<typename OtherElementIterator, typename OtherIndexIterator>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     permutation_iterator(permutation_iterator<OtherElementIterator,OtherIndexIterator> const &r
     // XXX remove these guards when we have static_assert
     , typename detail::enable_if_convertible<OtherElementIterator, ElementIterator>::type* = 0
@@ -172,7 +172,7 @@ template <typename ElementIterator,
     THRUST_DISABLE_MSVC_WARNING_BEGIN(4172)
 
     __thrust_exec_check_disable__
-    __host__ __device__
+    THRUST_HOST_DEVICE
     typename super_t::reference dereference() const
     {
       return *(m_element_iterator + *this->base());
@@ -200,7 +200,7 @@ template <typename ElementIterator,
  *  \see permutation_iterator
  */
 template<typename ElementIterator, typename IndexIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
 permutation_iterator<ElementIterator,IndexIterator> make_permutation_iterator(ElementIterator e, IndexIterator i)
 {
   return permutation_iterator<ElementIterator,IndexIterator>(e,i);

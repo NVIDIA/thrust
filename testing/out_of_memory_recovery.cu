@@ -16,8 +16,8 @@
 
 struct non_trivial
 {
-  __host__ __device__ non_trivial() {}
-  __host__ __device__ ~non_trivial() {}
+  THRUST_HOST_DEVICE non_trivial() {}
+  THRUST_HOST_DEVICE ~non_trivial() {}
 };
 
 void test_out_of_memory_recovery()

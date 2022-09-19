@@ -39,7 +39,7 @@ template <class Derived,
           class MapIt,
           class ItemsIt,
           class ResultIt>
-ResultIt __host__ __device__
+ResultIt THRUST_HOST_DEVICE
 gather(execution_policy<Derived>& policy,
     MapIt map_first,
     MapIt map_last,
@@ -60,7 +60,7 @@ template <class Derived,
           class ItemsIt,
           class ResultIt,
           class Predicate>
-ResultIt __host__ __device__
+ResultIt THRUST_HOST_DEVICE
 gather_if(execution_policy<Derived>& policy,
           MapIt                      map_first,
           MapIt                      map_last,
@@ -83,7 +83,7 @@ template <class Derived,
           class StencilIt,
           class ItemsIt,
           class ResultIt>
-ResultIt __host__ __device__
+ResultIt THRUST_HOST_DEVICE
 gather_if(execution_policy<Derived>& policy,
           MapIt                      map_first,
           MapIt                      map_last,

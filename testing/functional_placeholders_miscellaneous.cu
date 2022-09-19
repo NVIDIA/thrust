@@ -5,11 +5,11 @@
 template<typename T>
   struct saxpy_reference
 {
-  __host__ __device__ saxpy_reference(const T &aa)
+  THRUST_HOST_DEVICE saxpy_reference(const T &aa)
     : a(aa)
   {}
 
-  __host__ __device__ T operator()(const T &x, const T &y) const
+  THRUST_HOST_DEVICE T operator()(const T &x, const T &y) const
   {
     return a * x + y;
   }

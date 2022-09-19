@@ -39,7 +39,7 @@ class feistel_bijection {
 
  public:
   template <class URBG>
-  __host__ __device__ feistel_bijection(std::uint64_t m, URBG&& g) {
+  THRUST_HOST_DEVICE feistel_bijection(std::uint64_t m, URBG&& g) {
     std::uint64_t total_bits = get_cipher_bits(m);
     // Half bits rounded down
     left_side_bits = total_bits / 2;
@@ -53,11 +53,11 @@ class feistel_bijection {
     }
   }
 
-  __host__ __device__ std::uint64_t nearest_power_of_two() const {
+  THRUST_HOST_DEVICE std::uint64_t nearest_power_of_two() const {
     return 1ull << (left_side_bits + right_side_bits);
   }
 
-  __host__ __device__ std::uint64_t operator()(const std::uint64_t val) const {
+  THRUST_HOST_DEVICE std::uint64_t operator()(const std::uint64_t val) const {
     std::uint32_t state[2] = { static_cast<std::uint32_t>( val >> right_side_bits ), static_cast<std::uint32_t>( val & right_side_mask ) };
     for( std::uint32_t i = 0; i < num_rounds; i++ )
     {
@@ -74,7 +74,7 @@ class feistel_bijection {
 
  private:
    // Perform 64 bit multiplication and save result in two 32 bit int
-   static __host__ __device__ void mulhilo( std::uint64_t a, std::uint64_t b, std::uint32_t& hi, std::uint32_t& lo )
+   static THRUST_HOST_DEVICE void mulhilo( std::uint64_t a, std::uint64_t b, std::uint32_t& hi, std::uint32_t& lo )
    {
        std::uint64_t product = a * b;
        hi = static_cast<std::uint32_t>( product >> 32 );
@@ -82,7 +82,7 @@ class feistel_bijection {
    }
 
   // Find the nearest power of two
-  static __host__ __device__ std::uint64_t get_cipher_bits(std::uint64_t m) {
+  static THRUST_HOST_DEVICE std::uint64_t get_cipher_bits(std::uint64_t m) {
     if (m <= 16) return 4;
     std::uint64_t i = 0;
     m--;
@@ -108,7 +108,7 @@ struct key_flag_tuple {
 
 // scan only flags
 struct key_flag_scan_op {
-  __host__ __device__ key_flag_tuple operator()(const key_flag_tuple& a,
+  THRUST_HOST_DEVICE key_flag_tuple operator()(const key_flag_tuple& a,
                                                 const key_flag_tuple& b) {
     return {b.key, a.flag + b.flag};
   }
@@ -117,10 +117,10 @@ struct key_flag_scan_op {
 struct construct_key_flag_op {
   std::uint64_t m;
   feistel_bijection bijection;
-  __host__ __device__ construct_key_flag_op(std::uint64_t m,
+  THRUST_HOST_DEVICE construct_key_flag_op(std::uint64_t m,
                                             feistel_bijection bijection)
       : m(m), bijection(bijection) {}
-  __host__ __device__ key_flag_tuple operator()(std::uint64_t idx) {
+  THRUST_HOST_DEVICE key_flag_tuple operator()(std::uint64_t idx) {
     auto gather_key = bijection(idx);
     return key_flag_tuple{gather_key, (gather_key < m) ? 1ull : 0ull};
   }
@@ -134,7 +134,7 @@ struct write_output_op {
   // flag contains inclusive scan of valid keys
   // perform gather using valid keys
   __thrust_exec_check_disable__
-  __host__ __device__ std::size_t operator()(key_flag_tuple x) {
+  THRUST_HOST_DEVICE std::size_t operator()(key_flag_tuple x) {
     if (x.key < m) {
       // -1 because inclusive scan
       out[x.flag - 1] = in[x.key];
@@ -144,7 +144,7 @@ struct write_output_op {
 };
 
 template <typename ExecutionPolicy, typename RandomIterator, typename URBG>
-__host__ __device__ void shuffle(
+THRUST_HOST_DEVICE void shuffle(
     thrust::execution_policy<ExecutionPolicy>& exec, RandomIterator first,
     RandomIterator last, URBG&& g) {
   using InputType = typename thrust::iterator_value_t<RandomIterator>;
@@ -157,7 +157,7 @@ __host__ __device__ void shuffle(
 
 template <typename ExecutionPolicy, typename RandomIterator,
           typename OutputIterator, typename URBG>
-__host__ __device__ void shuffle_copy(
+THRUST_HOST_DEVICE void shuffle_copy(
     thrust::execution_policy<ExecutionPolicy>& exec, RandomIterator first,
     RandomIterator last, OutputIterator result, URBG&& g) {
   // m is the length of the input

@@ -32,7 +32,7 @@ namespace detail
 
 __thrust_exec_check_disable__
 template<typename InputIterator, typename Distance>
-__host__ __device__
+THRUST_HOST_DEVICE
 void advance(InputIterator& i, Distance n, thrust::incrementable_traversal_tag)
 {
   while(n)
@@ -44,7 +44,7 @@ void advance(InputIterator& i, Distance n, thrust::incrementable_traversal_tag)
 
 __thrust_exec_check_disable__
 template<typename InputIterator, typename Distance>
-__host__ __device__
+THRUST_HOST_DEVICE
 void advance(InputIterator& i, Distance n, thrust::random_access_traversal_tag)
 {
   i += n;
@@ -53,7 +53,7 @@ void advance(InputIterator& i, Distance n, thrust::random_access_traversal_tag)
 } // end detail
 
 template<typename InputIterator, typename Distance>
-__host__ __device__
+THRUST_HOST_DEVICE
 void advance(InputIterator& i, Distance n)
 {
   // dispatch on iterator traversal

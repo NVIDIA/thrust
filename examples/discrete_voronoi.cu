@@ -31,13 +31,13 @@ struct minFunctor
 {
   int m, n, k;
   
-  __host__ __device__
+  THRUST_HOST_DEVICE
   minFunctor(int m, int n, int k)
     : m(m), n(n), k(k) {}
 
 
   //To decide I have to change my current Voronoi site
-  __host__ __device__
+  THRUST_HOST_DEVICE
       int minVoro(int x_i, int y_i, int p, int q)
       {    
           if (q == m*n)
@@ -61,7 +61,7 @@ struct minFunctor
 
   //For each point p+{-k,0,k}, we keep the Site with minimum distance
   template <typename Tuple>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   int operator()(const Tuple &t)
   {
       //Current point and site

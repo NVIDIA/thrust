@@ -18,7 +18,7 @@ template<typename T>
     : thrust::device_allocator<T>
 {
   // the default generated constructors and destructors are implicitly
-  // marked __host__ __device__, but the current Thrust device_allocator
+  // marked THRUST_HOST_DEVICE, but the current Thrust device_allocator
   // can only be constructed and destroyed on the host; therefore, we
   // define these as host only
   __host__
@@ -44,8 +44,8 @@ template<typename T>
   };
 
   // note that construct is annotated as
-  // a __host__ __device__ function
-  __host__ __device__
+  // a THRUST_HOST_DEVICE function
+  THRUST_HOST_DEVICE
   void construct(T *)
   {
     // no-op

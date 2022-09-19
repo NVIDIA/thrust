@@ -74,7 +74,7 @@ typedef unittest::type_list<float,
 class custom_numeric
 {
 public:
-    __host__ __device__
+    THRUST_HOST_DEVICE
     custom_numeric()
     {
         fill(0);
@@ -83,26 +83,26 @@ public:
     // Allow construction from any integral numeric.
     template <typename T,
               typename = typename std::enable_if<std::is_integral<T>::value>::type>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     custom_numeric(const T& i)
     {
         fill(static_cast<int>(i));
     }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     custom_numeric(const custom_numeric & other)
     {
         fill(other.value[0]);
     }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     custom_numeric & operator=(int val)
     {
         fill(val);
         return *this;
     }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     custom_numeric & operator=(const custom_numeric & other)
     {
         fill(other.value[0]);
@@ -111,7 +111,7 @@ public:
 
     // cast to void * instead of bool to fool overload resolution
     // WTB C++11 explicit conversion operators
-    __host__ __device__
+    THRUST_HOST_DEVICE
     operator void *() const
     {
         // static cast first to avoid MSVC warning C4312
@@ -119,12 +119,12 @@ public:
     }
 
 #define DEFINE_OPERATOR(op)                                         \
-    __host__ __device__                                             \
+    THRUST_HOST_DEVICE                                             \
     custom_numeric & operator op() {                                \
         fill(op value[0]);                                          \
         return *this;                                               \
     }                                                               \
-    __host__ __device__                                             \
+    THRUST_HOST_DEVICE                                             \
     custom_numeric operator op(int) const {                         \
         custom_numeric ret(*this);                                  \
         op ret;                                                     \
@@ -137,7 +137,7 @@ public:
 #undef DEFINE_OPERATOR
 
 #define DEFINE_OPERATOR(op)                                         \
-    __host__ __device__                                             \
+    THRUST_HOST_DEVICE                                             \
     custom_numeric operator op () const                             \
     {                                                               \
         return custom_numeric(op value[0]);                         \
@@ -150,7 +150,7 @@ public:
 #undef DEFINE_OPERATOR
 
 #define DEFINE_OPERATOR(op)                                         \
-    __host__ __device__                                             \
+    THRUST_HOST_DEVICE                                             \
     custom_numeric operator op (const custom_numeric & other) const \
     {                                                               \
         return custom_numeric(value[0] op other.value[0]);          \
@@ -172,7 +172,7 @@ public:
 #define CONCAT(X, Y) X ## Y
 
 #define DEFINE_OPERATOR(op)                                         \
-    __host__ __device__                                             \
+    THRUST_HOST_DEVICE                                             \
     custom_numeric & operator CONCAT(op, =) (const custom_numeric & other) \
     {                                                               \
         fill(value[0] op other.value[0]);                           \
@@ -193,7 +193,7 @@ public:
 #undef DEFINE_OPERATOR
 
 #define DEFINE_OPERATOR(op)                                         \
-    __host__ __device__                                             \
+    THRUST_HOST_DEVICE                                             \
     friend bool operator op (const custom_numeric & lhs, const custom_numeric & rhs) \
     {                                                               \
         return lhs.value[0] op rhs.value[0];                        \
@@ -219,7 +219,7 @@ public:
 private:
     int value[5];
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void fill(int val)
     {
         for (int i = 0; i < 5; ++i)

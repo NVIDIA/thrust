@@ -39,7 +39,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator copy_if(sequential::execution_policy<DerivedPolicy> &,
                          InputIterator1 first,
                          InputIterator1 last,

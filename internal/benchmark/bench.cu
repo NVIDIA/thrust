@@ -65,13 +65,13 @@ private:
   T const average;
 
 public:
-  __host__ __device__
+  THRUST_HOST_DEVICE
   squared_difference(squared_difference const& rhs) : average(rhs.average) {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   squared_difference(T average_) : average(average_) {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   T operator()(T x) const
   {
     return (x - average) * (x - average);
@@ -84,19 +84,19 @@ struct value_and_count
   T           value;
   uint64_t count;
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   value_and_count(value_and_count const& other)
     : value(other.value), count(other.count) {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   value_and_count(T const& value_)
     : value(value_), count(1) {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   value_and_count(T const& value_, uint64_t count_)
     : value(value_), count(count_) {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   value_and_count& operator=(value_and_count const& other)
   {
     value = other.value;
@@ -104,7 +104,7 @@ struct value_and_count
     return *this;
   }
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   value_and_count& operator=(T const& value_)
   {
     value = value_;
@@ -120,16 +120,16 @@ private:
   ReduceOp reduce;
 
 public:
-  __host__ __device__
+  THRUST_HOST_DEVICE
   counting_op() : reduce() {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   counting_op(counting_op const& other) : reduce(other.reduce) {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   counting_op(ReduceOp const& reduce_) : reduce(reduce_) {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   value_and_count<T> operator()(
       value_and_count<T> const& x
     , T const&                  y
@@ -138,7 +138,7 @@ public:
     return value_and_count<T>(reduce(x.value, y), x.count + 1);
   }
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   value_and_count<T> operator()(
       value_and_count<T> const& x
     , value_and_count<T> const& y
@@ -201,7 +201,7 @@ T sample_standard_deviation(InputIt first, InputIt last, T average)
 //   f_unc = abs(f) * sqrt((A_unc / A) ^ 2 + (B_unc / B) ^ 2)
 //
 template <typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
 T uncertainty_multiplicative(
     T const& f
   , T const& A, T const& A_unc
@@ -219,7 +219,7 @@ T uncertainty_multiplicative(
 //   f_unc = sqrt(c ^ 2 * A_unc ^ 2 + d ^ 2 * B_unc ^ 2)
 //
 template <typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
 T uncertainty_additive(
     T const& c, T const& A_unc
   , T const& d, T const& B_unc

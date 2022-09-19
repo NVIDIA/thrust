@@ -210,7 +210,7 @@ struct Record {
 };
 
 struct negate {
-    __host__ __device__ int operator()(Record const& record) const
+    THRUST_HOST_DEVICE int operator()(Record const& record) const
     {
         return - record.number;
     }

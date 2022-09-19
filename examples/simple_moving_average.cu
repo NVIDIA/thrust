@@ -28,7 +28,7 @@ struct minus_and_divide : public thrust::binary_function<T,T,T>
 
     minus_and_divide(T w) : w(w) {}
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     T operator()(const T& a, const T& b) const
     {
         return (a - b) / w;

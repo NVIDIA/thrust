@@ -38,7 +38,7 @@ namespace copy_detail
 
 // returns the raw pointer associated with a Pointer-like thing
 template<typename Pointer>
-__host__ __device__
+THRUST_HOST_DEVICE
   typename thrust::detail::pointer_traits<Pointer>::raw_pointer
     get(Pointer ptr)
 {
@@ -49,7 +49,7 @@ __host__ __device__
 __thrust_exec_check_disable__
 template<typename InputIterator,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator copy(InputIterator first,
                       InputIterator last,
                       OutputIterator result,
@@ -66,7 +66,7 @@ __host__ __device__
 __thrust_exec_check_disable__
 template<typename InputIterator,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator copy(InputIterator first,
                       InputIterator last,
                       OutputIterator result,
@@ -80,7 +80,7 @@ __thrust_exec_check_disable__
 template<typename InputIterator,
          typename Size,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator copy_n(InputIterator first,
                         Size n,
                         OutputIterator result,
@@ -95,7 +95,7 @@ __thrust_exec_check_disable__
 template<typename InputIterator,
          typename Size,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator copy_n(InputIterator first,
                         Size n,
                         OutputIterator result,
@@ -112,7 +112,7 @@ __thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator copy(sequential::execution_policy<DerivedPolicy> &,
                       InputIterator first,
                       InputIterator last,
@@ -128,7 +128,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator copy_n(sequential::execution_policy<DerivedPolicy> &,
                         InputIterator first,
                         Size n,

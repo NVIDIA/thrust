@@ -226,13 +226,13 @@ template <
 
 // provide declarations of raw_reference_cast's overloads for raw_reference_caster below
 template<typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
 typename detail::raw_reference<T>::type
   raw_reference_cast(T &ref);
 
 
 template<typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
 typename detail::raw_reference<const T>::type
   raw_reference_cast(const T &ref);
 
@@ -240,7 +240,7 @@ typename detail::raw_reference<const T>::type
 template<
   typename... Ts
 >
-__host__ __device__
+THRUST_HOST_DEVICE
 typename detail::enable_if_unwrappable<
   thrust::detail::tuple_of_iterator_references<Ts...>,
   typename detail::raw_reference<
@@ -257,14 +257,14 @@ namespace detail
 struct raw_reference_caster
 {
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   typename detail::raw_reference<T>::type operator()(T &ref)
   {
     return thrust::raw_reference_cast(ref);
   }
 
   template<typename T>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   typename detail::raw_reference<const T>::type operator()(const T &ref)
   {
     return thrust::raw_reference_cast(ref);
@@ -273,7 +273,7 @@ struct raw_reference_caster
   template<
     typename... Ts
   >
-  __host__ __device__
+  THRUST_HOST_DEVICE
   typename detail::raw_reference<
     thrust::detail::tuple_of_iterator_references<Ts...>
   >::type
@@ -291,7 +291,7 @@ struct raw_reference_caster
 
 
 template<typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
 typename detail::raw_reference<T>::type
   raw_reference_cast(T &ref)
 {
@@ -300,7 +300,7 @@ typename detail::raw_reference<T>::type
 
 
 template<typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
 typename detail::raw_reference<const T>::type
   raw_reference_cast(const T &ref)
 {
@@ -311,7 +311,7 @@ typename detail::raw_reference<const T>::type
 template<
   typename... Ts
 >
-__host__ __device__
+THRUST_HOST_DEVICE
 typename detail::enable_if_unwrappable<
   thrust::detail::tuple_of_iterator_references<Ts...>,
   typename detail::raw_reference<

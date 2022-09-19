@@ -35,7 +35,7 @@ template<typename T> struct avoid_initialization : thrust::detail::has_trivial_c
 
 
 template<typename T, typename TemporaryArray, typename Size>
-__host__ __device__
+THRUST_HOST_DEVICE
 typename thrust::detail::enable_if<
   avoid_initialization<T>::value
 >::type
@@ -47,7 +47,7 @@ typename thrust::detail::enable_if<
 
 
 template<typename T, typename TemporaryArray, typename Size>
-__host__ __device__
+THRUST_HOST_DEVICE
 typename thrust::detail::disable_if<
   avoid_initialization<T>::value
 >::type
@@ -62,7 +62,7 @@ typename thrust::detail::disable_if<
 
 
 template<typename T, typename System>
-__host__ __device__
+THRUST_HOST_DEVICE
   temporary_array<T,System>
     ::temporary_array(thrust::execution_policy<System> &system)
       :super_t(alloc_type(temporary_allocator<T,System>(system)))
@@ -71,7 +71,7 @@ __host__ __device__
 
 
 template<typename T, typename System>
-__host__ __device__
+THRUST_HOST_DEVICE
   temporary_array<T,System>
     ::temporary_array(thrust::execution_policy<System> &system, size_type n)
       :super_t(n, alloc_type(temporary_allocator<T,System>(system)))
@@ -81,7 +81,7 @@ __host__ __device__
 
 
 template<typename T, typename System>
-__host__ __device__
+THRUST_HOST_DEVICE
   temporary_array<T,System>
     ::temporary_array(int, thrust::execution_policy<System> &system, size_type n)
       :super_t(n, alloc_type(temporary_allocator<T,System>(system)))
@@ -93,7 +93,7 @@ __host__ __device__
 
 template<typename T, typename System>
   template<typename InputIterator>
-  __host__ __device__
+  THRUST_HOST_DEVICE
     temporary_array<T,System>
       ::temporary_array(thrust::execution_policy<System> &system,
                         InputIterator first,
@@ -108,7 +108,7 @@ template<typename T, typename System>
 
 template<typename T, typename System>
   template<typename InputIterator, typename InputSystem>
-  __host__ __device__
+  THRUST_HOST_DEVICE
     temporary_array<T,System>
       ::temporary_array(thrust::execution_policy<System> &system,
                         thrust::execution_policy<InputSystem> &input_system,
@@ -124,7 +124,7 @@ template<typename T, typename System>
 
 template<typename T, typename System>
   template<typename InputIterator>
-  __host__ __device__
+  THRUST_HOST_DEVICE
     temporary_array<T,System>
       ::temporary_array(thrust::execution_policy<System> &system,
                         InputIterator first,
@@ -139,7 +139,7 @@ template<typename T, typename System>
 
 template<typename T, typename System>
   template<typename InputSystem, typename InputIterator>
-  __host__ __device__
+  THRUST_HOST_DEVICE
     temporary_array<T,System>
       ::temporary_array(thrust::execution_policy<System> &system,
                         thrust::execution_policy<InputSystem> &input_system,
@@ -154,7 +154,7 @@ template<typename T, typename System>
 
 
 template<typename T, typename System>
-__host__ __device__
+THRUST_HOST_DEVICE
   temporary_array<T,System>
     ::~temporary_array()
 {

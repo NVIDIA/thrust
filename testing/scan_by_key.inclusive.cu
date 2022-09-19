@@ -134,7 +134,7 @@ DECLARE_UNITTEST(TestInclusiveScanByKeyDispatchImplicit);
 struct head_flag_predicate
 {
   template <typename T>
-  __host__ __device__ bool operator()(const T&, const T& b)
+  THRUST_HOST_DEVICE bool operator()(const T&, const T& b)
   {
     return b ? false : true;
   }

@@ -11,11 +11,11 @@ template <typename T>
 struct my_allocator_with_custom_construct1
   : thrust::device_malloc_allocator<T>
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   my_allocator_with_custom_construct1()
   {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void construct(T *p)
   {
     *p = 13;
@@ -36,12 +36,12 @@ template <typename T>
 struct my_allocator_with_custom_construct2
   : thrust::device_malloc_allocator<T>
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   my_allocator_with_custom_construct2()
   {}
 
   template <typename Arg>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void construct(T *p, const Arg &)
   {
     *p = 13;
@@ -83,7 +83,7 @@ struct my_allocator_with_custom_destroy
   __host__
   ~my_allocator_with_custom_destroy(){}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void destroy(T *)
   {
     NV_IF_TARGET(NV_IS_HOST, (g_state = true;));

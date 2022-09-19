@@ -88,7 +88,7 @@ public:
      *  \param other the other resource to compare this resource to
      *  \return whether the two resources are equivalent.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool is_equal(const memory_resource & other) const noexcept
     {
         return do_is_equal(other);
@@ -119,7 +119,7 @@ public:
      *  \param other the other resource to compare this resource to
      *  \return whether the two resources are equivalent.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     virtual bool do_is_equal(const memory_resource & other) const noexcept
     {
         return this == &other;
@@ -148,7 +148,7 @@ public:
         do_deallocate(p, bytes, alignment);
     }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool is_equal(const memory_resource & other) const noexcept
     {
         return do_is_equal(other);
@@ -156,7 +156,7 @@ public:
 
     virtual pointer do_allocate(std::size_t bytes, std::size_t alignment) = 0;
     virtual void do_deallocate(pointer p, std::size_t bytes, std::size_t alignment) = 0;
-    __host__ __device__
+    THRUST_HOST_DEVICE
     virtual bool do_is_equal(const memory_resource & other) const noexcept
     {
         return this == &other;
@@ -181,7 +181,7 @@ public:
 /*! Compares the memory resources for equality, first by identity, then by \p is_equal.
  */
 template<typename Pointer>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool operator==(const memory_resource<Pointer> & lhs, const memory_resource<Pointer> & rhs) noexcept
 {
     return &lhs == &rhs || rhs.is_equal(rhs);
@@ -190,7 +190,7 @@ bool operator==(const memory_resource<Pointer> & lhs, const memory_resource<Poin
 /*! Compares the memory resources for inequality, first by identity, then by \p is_equal.
  */
 template<typename Pointer>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool operator!=(const memory_resource<Pointer> & lhs, const memory_resource<Pointer> & rhs) noexcept
 {
     return !(lhs == rhs);

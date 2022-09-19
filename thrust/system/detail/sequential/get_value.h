@@ -30,7 +30,7 @@ namespace sequential
 
 
 template<typename DerivedPolicy, typename Pointer>
-__host__ __device__
+THRUST_HOST_DEVICE
   typename thrust::iterator_value<Pointer>::type
     get_value(sequential::execution_policy<DerivedPolicy> &, Pointer ptr)
 {

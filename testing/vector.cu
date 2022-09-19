@@ -687,7 +687,7 @@ struct LargeStruct
 {
   int data[N];
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator==(const LargeStruct & ls) const
   {
     for (int i = 0; i < N; i++)

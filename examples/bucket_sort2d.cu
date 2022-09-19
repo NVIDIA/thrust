@@ -29,11 +29,11 @@ struct point_to_bucket_index : public thrust::unary_function<vec2,unsigned int>
   unsigned int width;  // buckets in the x dimension (grid spacing = 1/width)
   unsigned int height; // buckets in the y dimension (grid spacing = 1/height)
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   point_to_bucket_index(unsigned int width, unsigned int height)
     : width(width), height(height) {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   unsigned int operator()(const vec2& v) const
   {
     // find the raster indices of p's bucket

@@ -147,7 +147,7 @@ template<typename Incrementable,
     /*! Default constructor initializes this \p counting_iterator's counter to
      * `Incrementable{}`.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     counting_iterator() : super_t(Incrementable{}) {}
 
     /*! Copy constructor copies the value of another \p counting_iterator into a
@@ -155,7 +155,7 @@ template<typename Incrementable,
      *
      *  \p rhs The \p counting_iterator to copy.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     counting_iterator(counting_iterator const &rhs):super_t(rhs.base()){}
 
     /*! Copy constructor copies the value of another counting_iterator
@@ -164,7 +164,7 @@ template<typename Incrementable,
      *  \param rhs The \p counting_iterator to copy.
      */
     template<typename OtherSystem>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     counting_iterator(counting_iterator<Incrementable, OtherSystem, Traversal, Difference> const &rhs,
                       typename thrust::detail::enable_if_convertible<
                         typename thrust::iterator_system<counting_iterator<Incrementable,OtherSystem,Traversal,Difference> >::type,
@@ -178,7 +178,7 @@ template<typename Incrementable,
      *  \param x The initial value of the new \p counting_iterator's \c Incrementable
      *         counter.
      */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     explicit counting_iterator(Incrementable x):super_t(x){}
 
 #if THRUST_CPP_DIALECT >= 2011
@@ -188,7 +188,7 @@ template<typename Incrementable,
     /*! \cond
      */
   private:
-    __host__ __device__
+    THRUST_HOST_DEVICE
     reference dereference() const
     {
       return this->base_reference();
@@ -196,7 +196,7 @@ template<typename Incrementable,
 
     // note that we implement equal specially for floating point counting_iterator
     template <typename OtherIncrementable, typename OtherSystem, typename OtherTraversal, typename OtherDifference>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool equal(counting_iterator<OtherIncrementable, OtherSystem, OtherTraversal, OtherDifference> const& y) const
     {
       typedef thrust::detail::counting_iterator_equal<difference_type,Incrementable,OtherIncrementable> e;
@@ -204,7 +204,7 @@ template<typename Incrementable,
     }
 
     template <class OtherIncrementable>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     difference_type
     distance_to(counting_iterator<OtherIncrementable, System, Traversal, Difference> const& y) const
     {
@@ -230,7 +230,7 @@ template<typename Incrementable,
  *  \return A new \p counting_iterator whose counter has been initialized to \p x.
  */
 template <typename Incrementable>
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
 counting_iterator<Incrementable> make_counting_iterator(Incrementable x)
 {
   return counting_iterator<Incrementable>(x);

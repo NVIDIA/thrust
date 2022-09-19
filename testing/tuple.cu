@@ -325,14 +325,14 @@ SimpleUnitTest<TestTupleComparison, NumericTypes> TestTupleComparisonInstance;
 template <typename T>
 struct TestTupleTieFunctor
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void clear(T *data) const
   {
     for(int i = 0; i < 10; ++i)
       data[i] = 13;
   }
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   bool operator()() const
   {
     using namespace thrust;

@@ -71,7 +71,7 @@ THRUST_NAMESPACE_BEGIN
  *  \see thrust::sequence
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename UnaryOperation>
-__host__ __device__
+THRUST_HOST_DEVICE
   void tabulate(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,

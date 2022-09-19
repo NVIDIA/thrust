@@ -59,7 +59,7 @@ namespace __fill {
 }    // namespace __fill
 
 template <class Derived, class OutputIterator, class Size, class T>
-OutputIterator __host__ __device__
+OutputIterator THRUST_HOST_DEVICE
 fill_n(execution_policy<Derived>& policy,
        OutputIterator             first,
        Size                       count,
@@ -75,7 +75,7 @@ fill_n(execution_policy<Derived>& policy,
 }    // func fill_n
 
 template <class Derived, class ForwardIterator, class T>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 fill(execution_policy<Derived>& policy,
      ForwardIterator            first,
      ForwardIterator            last,

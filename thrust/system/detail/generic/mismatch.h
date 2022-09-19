@@ -30,7 +30,7 @@ namespace generic
 
 
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2>
-__host__ __device__
+THRUST_HOST_DEVICE
   thrust::pair<InputIterator1, InputIterator2>
     mismatch(thrust::execution_policy<DerivedPolicy> &exec,
              InputIterator1 first1,
@@ -39,7 +39,7 @@ __host__ __device__
 
 
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   thrust::pair<InputIterator1, InputIterator2>
     mismatch(thrust::execution_policy<DerivedPolicy> &exec,
              InputIterator1 first1,

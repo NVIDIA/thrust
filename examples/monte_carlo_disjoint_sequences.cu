@@ -23,7 +23,7 @@
 
 struct estimate_pi : public thrust::unary_function<unsigned int,float>
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   float operator()(unsigned int thread_id)
   {
     float sum = 0;

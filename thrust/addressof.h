@@ -18,7 +18,7 @@ THRUST_NAMESPACE_BEGIN
 /*! Obtains the actual address of the object or function arg, even in presence of overloaded operator&.
  */
 template <typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
 T* addressof(T& arg) 
 {
   return reinterpret_cast<T*>(

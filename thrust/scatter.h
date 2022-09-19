@@ -88,7 +88,7 @@ template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   void scatter(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                InputIterator1 first,
                InputIterator1 last,
@@ -203,7 +203,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename InputIterator3,
          typename RandomAccessIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   void scatter_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                   InputIterator1 first,
                   InputIterator1 last,
@@ -304,7 +304,7 @@ template<typename InputIterator1,
  *
  *  struct is_even
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    bool operator()(int x)
  *    {
  *      return (x % 2) == 0;
@@ -332,7 +332,7 @@ template<typename DerivedPolicy,
          typename InputIterator3,
          typename RandomAccessIterator,
          typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   void scatter_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                   InputIterator1 first,
                   InputIterator1 last,
@@ -376,7 +376,7 @@ __host__ __device__
  *
  *  struct is_even
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    bool operator()(int x)
  *    {
  *      return (x % 2) == 0;

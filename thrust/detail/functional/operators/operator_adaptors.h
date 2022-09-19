@@ -70,7 +70,7 @@ struct transparent_unary_operator
   };
 
   template <typename Env>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   result_type<Env> eval(Env&& e) const
   THRUST_RETURNS(UnaryFunctor{}(thrust::get<0>(THRUST_FWD(e))))
 };
@@ -125,7 +125,7 @@ struct transparent_binary_operator
   };
 
   template <typename Env>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   result_type<Env> eval(Env&& e) const
   THRUST_RETURNS(BinaryFunctor{}(thrust::get<0>(e), thrust::get<1>(e)))
 };

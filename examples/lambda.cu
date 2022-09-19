@@ -30,7 +30,7 @@ struct saxpy_functor
   
   saxpy_functor(float a) : a(a) {}
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   float operator()(float x, float y)
   {
     return a * x + y;

@@ -7,7 +7,7 @@
 struct Functor 
 {
   template<class Tuple>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   float operator()(const Tuple& tuple) const
   {
     const float x = thrust::get<0>(tuple);

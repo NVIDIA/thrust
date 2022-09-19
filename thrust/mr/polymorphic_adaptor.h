@@ -42,7 +42,7 @@ public:
         return upstream_resource->deallocate(p, bytes, alignment);
     }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     virtual bool do_is_equal(const memory_resource<Pointer> & other) const noexcept override
     {
         return upstream_resource->is_equal(other);

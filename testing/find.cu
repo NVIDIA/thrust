@@ -11,7 +11,7 @@ struct equal_to_value_pred
 
     equal_to_value_pred(T value) : value(value) {}
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool operator()(T v) const { return v == value; }
 };
 
@@ -22,7 +22,7 @@ struct not_equal_to_value_pred
 
     not_equal_to_value_pred(T value) : value(value) {}
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool operator()(T v) const { return v != value; }
 };
 
@@ -33,7 +33,7 @@ struct less_than_value_pred
 
     less_than_value_pred(T value) : value(value) {}
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool operator()(T v) const { return v < value; }
 };
 
@@ -348,11 +348,11 @@ class Weird
   int value;
 
 public:
-  __host__ __device__ Weird(int val, int)
+  THRUST_HOST_DEVICE Weird(int val, int)
       : value(val)
   {}
 
-  friend __host__ __device__
+  friend THRUST_HOST_DEVICE
   bool operator==(int x, Weird y)
   {
     return x == y.value;

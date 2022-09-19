@@ -36,7 +36,7 @@ namespace detail
 
 
 template<typename T, typename System>
-__host__ __device__
+THRUST_HOST_DEVICE
   typename temporary_allocator<T,System>::pointer
     temporary_allocator<T,System>
       ::allocate(typename temporary_allocator<T,System>::size_type cnt)
@@ -66,7 +66,7 @@ __host__ __device__
 
 
 template<typename T, typename System>
-__host__ __device__
+THRUST_HOST_DEVICE
   void temporary_allocator<T,System>
     ::deallocate(typename temporary_allocator<T,System>::pointer p, typename temporary_allocator<T,System>::size_type n)
 {

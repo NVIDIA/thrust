@@ -56,10 +56,10 @@ struct min_element_reduction
 {
   BinaryPredicate comp;
 
-  __host__ __device__ 
+  THRUST_HOST_DEVICE 
   min_element_reduction(BinaryPredicate comp) : comp(comp){}
 
-  __host__ __device__ 
+  THRUST_HOST_DEVICE 
   thrust::tuple<InputType, IndexType>
   operator()(const thrust::tuple<InputType, IndexType>& lhs, 
              const thrust::tuple<InputType, IndexType>& rhs )
@@ -83,10 +83,10 @@ struct max_element_reduction
 {
   BinaryPredicate comp;
 
-  __host__ __device__ 
+  THRUST_HOST_DEVICE 
   max_element_reduction(BinaryPredicate comp) : comp(comp){}
 
-  __host__ __device__ 
+  THRUST_HOST_DEVICE 
   thrust::tuple<InputType, IndexType>
   operator()(const thrust::tuple<InputType, IndexType>& lhs, 
              const thrust::tuple<InputType, IndexType>& rhs )
@@ -112,10 +112,10 @@ struct minmax_element_reduction
 {
   BinaryPredicate comp;
 
-  __host__ __device__
+  THRUST_HOST_DEVICE
   minmax_element_reduction(BinaryPredicate comp) : comp(comp){}
 
-  __host__ __device__ 
+  THRUST_HOST_DEVICE 
   thrust::tuple< thrust::tuple<InputType,IndexType>, thrust::tuple<InputType,IndexType> >
   operator()(const thrust::tuple< thrust::tuple<InputType,IndexType>, thrust::tuple<InputType,IndexType> >& lhs, 
              const thrust::tuple< thrust::tuple<InputType,IndexType>, thrust::tuple<InputType,IndexType> >& rhs )
@@ -130,7 +130,7 @@ struct minmax_element_reduction
 template <typename InputType, typename IndexType>
 struct duplicate_tuple
 {
-  __host__ __device__ 
+  THRUST_HOST_DEVICE 
   thrust::tuple< thrust::tuple<InputType,IndexType>, thrust::tuple<InputType,IndexType> >
   operator()(const thrust::tuple<InputType,IndexType>& t)
   {
@@ -143,7 +143,7 @@ struct duplicate_tuple
 
 
 template <typename DerivedPolicy, typename ForwardIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
 ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last)
@@ -155,7 +155,7 @@ ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
 
 
 template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -180,7 +180,7 @@ ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
 
 
 template <typename DerivedPolicy, typename ForwardIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
 ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last)
@@ -192,7 +192,7 @@ ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
 
 
 template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -217,7 +217,7 @@ ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
 
 
 template <typename DerivedPolicy, typename ForwardIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
 thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_policy<DerivedPolicy> &exec,
                                                              ForwardIterator first, 
                                                              ForwardIterator last)
@@ -229,7 +229,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_p
 
 
 template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
-__host__ __device__
+THRUST_HOST_DEVICE
 thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_policy<DerivedPolicy> &exec,
                                                              ForwardIterator first, 
                                                              ForwardIterator last,

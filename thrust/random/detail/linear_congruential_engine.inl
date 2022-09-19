@@ -29,7 +29,7 @@ namespace random
 
 
 template<typename UIntType, UIntType a, UIntType c, UIntType m>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   linear_congruential_engine<UIntType,a,c,m>
     ::linear_congruential_engine(result_type s)
 {
@@ -38,7 +38,7 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
 
 
 template<typename UIntType, UIntType a, UIntType c, UIntType m>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void linear_congruential_engine<UIntType,a,c,m>
     ::seed(result_type s)
 {
@@ -51,7 +51,7 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
 
 
 template<typename UIntType, UIntType a, UIntType c, UIntType m>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   typename linear_congruential_engine<UIntType,a,c,m>::result_type
     linear_congruential_engine<UIntType,a,c,m>
       ::operator()(void)
@@ -62,7 +62,7 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
 
 
 template<typename UIntType, UIntType a, UIntType c, UIntType m>
-  __host__ __device__
+  THRUST_HOST_DEVICE
   void linear_congruential_engine<UIntType,a,c,m>
     ::discard(unsigned long long z)
 {
@@ -120,7 +120,7 @@ template<typename UIntType, UIntType a, UIntType c, UIntType m>
 
 
 template<typename UIntType, UIntType a, UIntType c, UIntType m>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool linear_congruential_engine<UIntType,a,c,m>
   ::equal(const linear_congruential_engine<UIntType,a,c,m> &rhs) const
 {
@@ -129,7 +129,7 @@ bool linear_congruential_engine<UIntType,a,c,m>
 
 
 template<typename UIntType_, UIntType_ a_, UIntType_ c_, UIntType_ m_>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool operator==(const linear_congruential_engine<UIntType_,a_,c_,m_> &lhs,
                 const linear_congruential_engine<UIntType_,a_,c_,m_> &rhs)
 {
@@ -138,7 +138,7 @@ bool operator==(const linear_congruential_engine<UIntType_,a_,c_,m_> &lhs,
 
 
 template<typename UIntType, UIntType a, UIntType c, UIntType m>
-__host__ __device__
+THRUST_HOST_DEVICE
 bool operator!=(const linear_congruential_engine<UIntType,a,c,m> &lhs,
                 const linear_congruential_engine<UIntType,a,c,m> &rhs)
 {

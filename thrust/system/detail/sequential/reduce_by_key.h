@@ -38,7 +38,7 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename BinaryPredicate,
          typename BinaryFunction>
-__host__ __device__
+THRUST_HOST_DEVICE
   thrust::pair<OutputIterator1,OutputIterator2>
     reduce_by_key(sequential::execution_policy<DerivedPolicy> &,
                   InputIterator1 keys_first, 

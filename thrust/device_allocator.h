@@ -115,22 +115,22 @@ public:
     };
 
     /*! Default constructor has no effect. */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     device_allocator() {}
 
     /*! Copy constructor has no effect. */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     device_allocator(const device_allocator& other) : base(other) {}
 
     /*! Constructor from other \p device_allocator has no effect. */
     template<typename U>
-    __host__ __device__
+    THRUST_HOST_DEVICE
     device_allocator(const device_allocator<U>& other) : base(other) {}
 
     device_allocator & operator=(const device_allocator &) = default;
 
     /*! Destructor has no effect. */
-    __host__ __device__
+    THRUST_HOST_DEVICE
     ~device_allocator() {}
 };
 

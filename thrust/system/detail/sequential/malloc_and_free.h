@@ -31,7 +31,7 @@ namespace sequential
 
 
 template<typename DerivedPolicy>
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
 void *malloc(execution_policy<DerivedPolicy> &, std::size_t n)
 {
   return std::malloc(n);
@@ -39,7 +39,7 @@ void *malloc(execution_policy<DerivedPolicy> &, std::size_t n)
 
 
 template<typename DerivedPolicy, typename Pointer>
-inline __host__ __device__
+inline THRUST_HOST_DEVICE
 void free(sequential::execution_policy<DerivedPolicy> &, Pointer ptr)
 {
   std::free(thrust::raw_pointer_cast(ptr));

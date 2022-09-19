@@ -79,7 +79,7 @@ THRUST_NAMESPACE_BEGIN
  *  \see https://en.cppreference.com/w/cpp/algorithm/count
  */
 template<typename DerivedPolicy, typename InputIterator, typename EqualityComparable>
-__host__ __device__
+THRUST_HOST_DEVICE
   typename thrust::iterator_traits<InputIterator>::difference_type
     count(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, const EqualityComparable& value);
 
@@ -147,7 +147,7 @@ template <typename InputIterator, typename EqualityComparable>
  *  ...
  *  struct is_odd
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    bool operator()(int &x)
  *    {
  *      return x & 1;
@@ -170,7 +170,7 @@ template <typename InputIterator, typename EqualityComparable>
  *  \see https://en.cppreference.com/w/cpp/algorithm/count
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
-__host__ __device__
+THRUST_HOST_DEVICE
   typename thrust::iterator_traits<InputIterator>::difference_type
     count_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
@@ -195,7 +195,7 @@ __host__ __device__
  *  ...
  *  struct is_odd
  *  {
- *    __host__ __device__
+ *    THRUST_HOST_DEVICE
  *    bool operator()(int &x)
  *    {
  *      return x & 1;

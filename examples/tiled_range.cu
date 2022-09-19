@@ -28,7 +28,7 @@ class tiled_range
         tile_functor(difference_type tile_size)
             : tile_size(tile_size) {}
 
-        __host__ __device__
+        THRUST_HOST_DEVICE
         difference_type operator()(const difference_type& i) const
         { 
             return i % tile_size;

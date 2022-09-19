@@ -41,7 +41,7 @@ namespace cuda_cub {
 template <class Derived,
           class InputIt,
           class UnaryPred>
-typename iterator_traits<InputIt>::difference_type __host__ __device__
+typename iterator_traits<InputIt>::difference_type THRUST_HOST_DEVICE
 count_if(execution_policy<Derived> &policy,
          InputIt                    first,
          InputIt                    last,
@@ -63,7 +63,7 @@ count_if(execution_policy<Derived> &policy,
 template <class Derived,
           class InputIt,
           class Value>
-typename iterator_traits<InputIt>::difference_type __host__ __device__
+typename iterator_traits<InputIt>::difference_type THRUST_HOST_DEVICE
 count(execution_policy<Derived> &policy,
       InputIt                    first,
       InputIt                    last,

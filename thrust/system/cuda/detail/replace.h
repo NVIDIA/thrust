@@ -83,7 +83,7 @@ namespace cuda_cub {
 template <class Derived,
           class Iterator,
           class T>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 replace(execution_policy<Derived> &policy,
         Iterator                   first,
         Iterator                   last,
@@ -104,7 +104,7 @@ template <class Derived,
           class Iterator,
           class Predicate,
           class T>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 replace_if(execution_policy<Derived> &policy,
            Iterator                   first,
            Iterator                   last,
@@ -124,7 +124,7 @@ template <class Derived,
           class StencilIt,
           class Predicate,
           class T>
-void __host__ __device__
+void THRUST_HOST_DEVICE
 replace_if(execution_policy<Derived> &policy,
            Iterator                   first,
            Iterator                   last,
@@ -146,7 +146,7 @@ template <class Derived,
           class OutputIt,
           class Predicate,
           class T>
-OutputIt __host__ __device__
+OutputIt THRUST_HOST_DEVICE
 replace_copy_if(execution_policy<Derived> &policy,
                 InputIt                    first,
                 InputIt                    last,
@@ -169,7 +169,7 @@ template <class Derived,
           class OutputIt,
           class Predicate,
           class T>
-OutputIt __host__ __device__
+OutputIt THRUST_HOST_DEVICE
 replace_copy_if(execution_policy<Derived> &policy,
                 InputIt                    first,
                 InputIt                    last,
@@ -192,7 +192,7 @@ template <class Derived,
           class InputIt,
           class OutputIt,
           class T>
-OutputIt __host__ __device__
+OutputIt THRUST_HOST_DEVICE
 replace_copy(execution_policy<Derived> &policy,
              InputIt                    first,
              InputIt                    last,

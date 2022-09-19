@@ -41,7 +41,7 @@ template <class Derived,
           class TransformOp,
           class T,
           class ReduceOp>
-T __host__ __device__
+T THRUST_HOST_DEVICE
 transform_reduce(execution_policy<Derived> &policy,
                  InputIt                    first,
                  InputIt                    last,

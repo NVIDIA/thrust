@@ -40,12 +40,12 @@ struct tracked_pointer : thrust::iterator_facade<
     std::size_t offset;
     void * ptr;
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     explicit tracked_pointer(T * ptr = NULL) : id(), size(), alignment(), offset(), ptr(ptr)
     {
     }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     ~tracked_pointer()
     {
     }
@@ -62,13 +62,13 @@ struct tracked_pointer : thrust::iterator_facade<
         return ret;
     }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     std::ptrdiff_t distance_to(const tracked_pointer & other) const
     {
         return static_cast<T *>(other.ptr) - static_cast<T *>(ptr);
     }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     T * get() const
     {
         return static_cast<T *>(ptr);
@@ -76,32 +76,32 @@ struct tracked_pointer : thrust::iterator_facade<
 
     // globally qualified, because MSVC somehow prefers the name from the dependent base
     // of this class over the `reference` template that's visible in the global namespace of this file...
-    __host__ __device__
+    THRUST_HOST_DEVICE
     typename ::reference<T>::type dereference() const
     {
         return *get();
     }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void increment()
     {
         advance(1);
     }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void decrement()
     {
         advance(-1);
     }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     void advance(std::ptrdiff_t diff)
     {
         ptr = get() + diff;
         offset += diff * sizeof(T);
     }
 
-    __host__ __device__
+    THRUST_HOST_DEVICE
     bool equal(const tracked_pointer & other) const
     {
         return id == other.id && size == other.size && alignment == other.alignment && offset == other.offset && ptr == other.ptr;

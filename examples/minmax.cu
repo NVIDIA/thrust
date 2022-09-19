@@ -24,7 +24,7 @@ template <typename T>
 struct minmax_unary_op
   : public thrust::unary_function< T, minmax_pair<T> >
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   minmax_pair<T> operator()(const T& x) const
   {
     minmax_pair<T> result;
@@ -42,7 +42,7 @@ template <typename T>
 struct minmax_binary_op
   : public thrust::binary_function< minmax_pair<T>, minmax_pair<T>, minmax_pair<T> >
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   minmax_pair<T> operator()(const minmax_pair<T>& x, const minmax_pair<T>& y) const
   {
     minmax_pair<T> result;

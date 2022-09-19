@@ -29,7 +29,7 @@ namespace detail {
 // --------------------------------------------------
 // it is okay to dereference iterator in the usual way
 template<typename DerivedPolicy, typename Iterator>
-__host__ __device__
+THRUST_HOST_DEVICE
 typename thrust::iterator_traits<Iterator>::value_type
 get_iterator_value(thrust::execution_policy<DerivedPolicy> &, Iterator it)
 {
@@ -43,7 +43,7 @@ get_iterator_value(thrust::execution_policy<DerivedPolicy> &, Iterator it)
 // we use get_value(exec,pointer*) function
 // to perform a dereferencing consistent with the execution policy
 template<typename DerivedPolicy, typename Pointer>
-__host__ __device__
+THRUST_HOST_DEVICE
 typename thrust::detail::pointer_traits<Pointer*>::element_type 
 get_iterator_value(thrust::execution_policy<DerivedPolicy> &exec, Pointer* ptr)
 {

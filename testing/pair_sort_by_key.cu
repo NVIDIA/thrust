@@ -5,7 +5,7 @@
 struct make_pair_functor
 {
   template<typename T1, typename T2>
-  __host__ __device__
+  THRUST_HOST_DEVICE
     thrust::pair<T1,T2> operator()(const T1 &x, const T2 &y)
   {
     return thrust::make_pair(x,y);

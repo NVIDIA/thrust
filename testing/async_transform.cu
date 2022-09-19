@@ -13,7 +13,7 @@
 template <typename T>
 struct divide_by_2
 {
-  __host__ __device__
+  THRUST_HOST_DEVICE
   T operator()(T x) const
   {
     return x / 2;

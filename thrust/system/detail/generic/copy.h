@@ -31,7 +31,7 @@ namespace generic
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator copy(thrust::execution_policy<DerivedPolicy> &exec,
                       InputIterator  first,
                       InputIterator  last,
@@ -42,7 +42,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-__host__ __device__
+THRUST_HOST_DEVICE
   OutputIterator copy_n(thrust::execution_policy<DerivedPolicy> &exec,
                         InputIterator  first,
                         Size           n,

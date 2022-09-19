@@ -29,7 +29,7 @@ THRUST_NAMESPACE_BEGIN
   /* --- Binary Arithmetic Operators --- */
 
 template <typename T0, typename T1>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator+(const complex<T0>& x, const complex<T1>& y)
 {
@@ -38,7 +38,7 @@ operator+(const complex<T0>& x, const complex<T1>& y)
 }
 
 template <typename T0, typename T1>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator+(const complex<T0>& x, const T1& y)
 {
@@ -47,7 +47,7 @@ operator+(const complex<T0>& x, const T1& y)
 }
 
 template <typename T0, typename T1>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator+(const T0& x, const complex<T1>& y)
 {
@@ -57,7 +57,7 @@ operator+(const T0& x, const complex<T1>& y)
 
 
 template <typename T0, typename T1>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator-(const complex<T0>& x, const complex<T1>& y)
 {
@@ -66,7 +66,7 @@ operator-(const complex<T0>& x, const complex<T1>& y)
 }
 
 template <typename T0, typename T1>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator-(const complex<T0>& x, const T1& y)
 {
@@ -75,7 +75,7 @@ operator-(const complex<T0>& x, const T1& y)
 }
 
 template <typename T0, typename T1>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator-(const T0& x, const complex<T1>& y)
 {
@@ -85,7 +85,7 @@ operator-(const T0& x, const complex<T1>& y)
 
 
 template <typename T0, typename T1>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator*(const complex<T0>& x, const complex<T1>& y)
 {
@@ -95,7 +95,7 @@ operator*(const complex<T0>& x, const complex<T1>& y)
 }
 
 template <typename T0, typename T1>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator*(const complex<T0>& x, const T1& y)
 {
@@ -104,7 +104,7 @@ operator*(const complex<T0>& x, const T1& y)
 }
 
 template <typename T0, typename T1>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator*(const T0& x, const complex<T1>& y)
 {
@@ -114,7 +114,7 @@ operator*(const T0& x, const complex<T1>& y)
 
 
 template <typename T0, typename T1>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator/(const complex<T0>& x, const complex<T1>& y)
 {
@@ -142,7 +142,7 @@ operator/(const complex<T0>& x, const complex<T1>& y)
 }
 
 template <typename T0, typename T1>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator/(const complex<T0>& x, const T1& y)
 {
@@ -151,7 +151,7 @@ operator/(const complex<T0>& x, const T1& y)
 }
 
 template <typename T0, typename T1>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator/(const T0& x, const complex<T1>& y)
 {
@@ -164,14 +164,14 @@ operator/(const T0& x, const complex<T1>& y)
 /* --- Unary Arithmetic Operators --- */
 
 template <typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<T> operator+(const complex<T>& y)
 {
   return y;
 }
 
 template <typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<T> operator-(const complex<T>& y)
 {
   return y * -T(1);
@@ -182,7 +182,7 @@ complex<T> operator-(const complex<T>& y)
 
 // As std::hypot is only C++11 we have to use the C interface
 template <typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
 T abs(const complex<T>& z)
 {
   return hypot(z.real(), z.imag());
@@ -192,13 +192,13 @@ T abs(const complex<T>& z)
 namespace detail {
 namespace complex {
 
-__host__ __device__
+THRUST_HOST_DEVICE
 inline float abs(const thrust::complex<float>& z)
 {
   return hypotf(z.real(),z.imag());
 }
 
-__host__ __device__
+THRUST_HOST_DEVICE
 inline double abs(const thrust::complex<double>& z)
 {
   return hypot(z.real(),z.imag());
@@ -208,14 +208,14 @@ inline double abs(const thrust::complex<double>& z)
 } // end namespace detail
 
 template <>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline float abs(const complex<float>& z)
 {
   return detail::complex::abs(z);
 }
 
 template <>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline double abs(const complex<double>& z)
 {
   return detail::complex::abs(z);
@@ -223,7 +223,7 @@ inline double abs(const complex<double>& z)
 
 
 template <typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
 T arg(const complex<T>& z)
 {
   // Find `atan2` by ADL.
@@ -233,7 +233,7 @@ T arg(const complex<T>& z)
 
 
 template <typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<T> conj(const complex<T>& z)
 {
   return complex<T>(z.real(), -z.imag());
@@ -241,7 +241,7 @@ complex<T> conj(const complex<T>& z)
 
 
 template <typename T>
-__host__ __device__
+THRUST_HOST_DEVICE
 T norm(const complex<T>& z)
 {
   return z.real() * z.real() + z.imag() * z.imag();
@@ -249,7 +249,7 @@ T norm(const complex<T>& z)
 
 // XXX Why specialize these, we could just rely on ADL.
 template <>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline float norm(const complex<float>& z)
 {
   // Find `abs` and `sqrt` by ADL.
@@ -267,7 +267,7 @@ inline float norm(const complex<float>& z)
 }
 
 template <>
-__host__ __device__
+THRUST_HOST_DEVICE
 inline double norm(const complex<double>& z)
 {
   // Find `abs` and `sqrt` by ADL.
@@ -286,7 +286,7 @@ inline double norm(const complex<double>& z)
 
 
 template <typename T0, typename T1>
-__host__ __device__
+THRUST_HOST_DEVICE
 complex<typename detail::promoted_numerical_type<T0, T1>::type>
 polar(const T0& m, const T1& theta)
 {
