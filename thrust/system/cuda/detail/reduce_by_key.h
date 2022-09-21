@@ -134,10 +134,13 @@ namespace __reduce_by_key {
   {
     enum
     {
+      MAX_INPUT_BYTES      = mpl::max<size_t, sizeof(Key), sizeof(Value)>::value,
+      COMBINED_INPUT_BYTES = sizeof(Key) + sizeof(Value),
+
       NOMINAL_4B_ITEMS_PER_THREAD = 6,
 
       ITEMS_PER_THREAD =
-          (Tuning::MAX_INPUT_BYTES <= 8)
+          (MAX_INPUT_BYTES <= 8)
               ? 6
               : mpl::min<
                     int,
@@ -146,8 +149,8 @@ namespace __reduce_by_key {
                         int,
                         1,
                         ((NOMINAL_4B_ITEMS_PER_THREAD * 8) +
-                         Tuning::COMBINED_INPUT_BYTES - 1) /
-                            Tuning::COMBINED_INPUT_BYTES>::value>::value,
+                         COMBINED_INPUT_BYTES - 1) /
+                            COMBINED_INPUT_BYTES>::value>::value,
     };
 
     typedef PtxPolicy<128,
@@ -163,10 +166,13 @@ namespace __reduce_by_key {
   {
     enum
     {
+      MAX_INPUT_BYTES      = mpl::max<size_t, sizeof(Key), sizeof(Value)>::value,
+      COMBINED_INPUT_BYTES = sizeof(Key) + sizeof(Value),
+
       NOMINAL_4B_ITEMS_PER_THREAD = 9,
 
       ITEMS_PER_THREAD =
-          (Tuning::MAX_INPUT_BYTES <= 8)
+          (MAX_INPUT_BYTES <= 8)
               ? 9
               : mpl::min<
                     int,
@@ -175,8 +181,8 @@ namespace __reduce_by_key {
                         int,
                         1,
                         ((NOMINAL_4B_ITEMS_PER_THREAD * 8) +
-                         Tuning::COMBINED_INPUT_BYTES - 1) /
-                            Tuning::COMBINED_INPUT_BYTES>::value>::value,
+                         COMBINED_INPUT_BYTES - 1) /
+                            COMBINED_INPUT_BYTES>::value>::value,
     };
 
     typedef PtxPolicy<256,
