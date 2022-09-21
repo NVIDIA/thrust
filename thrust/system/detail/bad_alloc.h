@@ -43,7 +43,7 @@ class bad_alloc
 
     inline virtual ~bad_alloc(void) throw () {};
 
-    inline virtual const char *what(void) const throw()
+    inline virtual const char *what(void) const noexcept
     {
       return m_what.c_str();
     } // end what()
