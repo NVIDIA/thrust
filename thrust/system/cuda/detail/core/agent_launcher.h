@@ -34,6 +34,7 @@
 #include <thrust/system/cuda/detail/core/util.h>
 
 #include <cub/detail/device_synchronize.cuh>
+#include <cub/detail/kernel_macros.cuh>
 #include <cub/detail/ptx_dispatch.cuh>
 
 #include <nv/target>
@@ -43,6 +44,8 @@
 THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 namespace core {
+
+CUB_KERNEL_BEGIN
 
 #ifndef _NVHPC_CUDA
 
@@ -298,6 +301,8 @@ namespace core {
   // clang-format on
 
 #endif
+
+CUB_KERNEL_END
 
   template<class Agent>
   struct AgentLauncher : Agent
