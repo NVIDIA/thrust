@@ -1359,7 +1359,7 @@
     {
       "abstract": false,
       "anchor": "#function-code",
-      "argsString": "(void) const",
+      "argsString": "(void) const noexcept",
       "category": "functions",
       "const": true,
       "default": false,
@@ -1388,7 +1388,7 @@
       ],
       "pureVirtual": false,
       "qualifiedname": "thrust::system::system_error::code",
-      "refid": "group__system__diagnostics_1ga7842159aa5ca369920f38c319d799075",
+      "refid": "group__system__diagnostics_1gaefb9f644f647b9f6f07e92902f1fe279",
       "returns": [
         "<code>ec</code> or <code>error&#95;code(ev, ecat)</code>, from the constructor, as appropriate. "
       ],
@@ -1404,7 +1404,7 @@
     {
       "abstract": false,
       "anchor": "#function-what",
-      "argsString": "(void) const",
+      "argsString": "(void) const noexcept",
       "category": "functions",
       "const": true,
       "default": false,
@@ -1433,7 +1433,7 @@
       ],
       "pureVirtual": false,
       "qualifiedname": "thrust::system::system_error::what",
-      "refid": "group__system__diagnostics_1ga3ad393d381a73853d5beb70b07a142be",
+      "refid": "group__system__diagnostics_1ga6f0a481d10924826e5f882ad946319f7",
       "returns": [
         "a string incorporating <code><a href=\"{{ site.baseurl }}/api/groups/group__system__diagnostics.html#function-code\">code()</a>.message()</code> and the arguments supplied in the constructor. "
       ],
