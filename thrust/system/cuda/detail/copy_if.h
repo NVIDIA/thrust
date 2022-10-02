@@ -182,7 +182,7 @@ namespace __copy_if {
                                         Arch::ver>
           TilePrefixCallback;
 
-      typedef cub::BlockScan<Size,
+      typedef cub::BlockScan<int,
                              PtxPlan::BLOCK_THREADS,
                              PtxPlan::SCAN_ALGORITHM,
                              1,
@@ -244,8 +244,8 @@ namespace __copy_if {
 
       THRUST_DEVICE_FUNCTION void
       scatter(item_type (&items)[ITEMS_PER_THREAD],
-              Size (&selection_flags)[ITEMS_PER_THREAD],
-              Size (&selection_indices)[ITEMS_PER_THREAD],
+              int (&selection_flags)[ITEMS_PER_THREAD],
+              int (&selection_indices)[ITEMS_PER_THREAD],
               int  num_tile_selections,
               Size num_selections_prefix)
       {
@@ -254,8 +254,7 @@ namespace __copy_if {
 #pragma unroll
         for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ++ITEM)
         {
-          int local_scatter_offset = selection_indices[ITEM] -
-                                     num_selections_prefix;
+          int local_scatter_offset = selection_indices[ITEM];
           if (selection_flags[ITEM])
           {
             new (&storage.raw_exchange[local_scatter_offset]) item_type(items[ITEM]);
@@ -339,7 +338,7 @@ namespace __copy_if {
       THRUST_DEVICE_FUNCTION void
       compute_selection_flags(int num_tile_items,
                               T (&values)[ITEMS_PER_THREAD],
-                              Size (&selection_flags)[ITEMS_PER_THREAD])
+                              int (&selection_flags)[ITEMS_PER_THREAD])
       {
 #pragma unroll
         for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ++ITEM)
@@ -348,7 +347,7 @@ namespace __copy_if {
           selection_flags[ITEM] = 1;
 
           if (!IS_LAST_TILE ||
-              (Size(threadIdx.x * ITEMS_PER_THREAD) + ITEM < num_tile_items))
+              (threadIdx.x * ITEMS_PER_THREAD + ITEM < num_tile_items))
           {
             selection_flags[ITEM] =
                 predicate_wrapper(wrap_value<TYPE, T>(values[ITEM]),
@@ -368,8 +367,8 @@ namespace __copy_if {
                         Size tile_base)
       {
         item_type items_loc[ITEMS_PER_THREAD];
-        Size      selection_flags[ITEMS_PER_THREAD];
-        Size      selection_idx[ITEMS_PER_THREAD];
+        int      selection_flags[ITEMS_PER_THREAD];
+        int      selection_idx[ITEMS_PER_THREAD];
 
         if (IS_LAST_TILE) {
           BlockLoadItems(storage.load_items)
@@ -417,7 +416,7 @@ namespace __copy_if {
 
         core::sync_threadblock();
 
-        Size num_tile_selections   = 0;
+        int num_tile_selections    = 0;
         Size num_selections        = 0;
         Size num_selections_prefix = 0;
         if (IS_FIRST_TILE)
@@ -451,11 +450,23 @@ namespace __copy_if {
           BlockScan(storage.scan_storage.scan)
               .ExclusiveSum(selection_flags,
                             selection_idx,
-                            prefix_cb);
+                            num_tile_selections);
 
-          num_selections        = prefix_cb.GetInclusivePrefix();
-          num_tile_selections   = prefix_cb.GetBlockAggregate();
-          num_selections_prefix = prefix_cb.GetExclusivePrefix();
+          __shared__ Size exclusive_prefix;
+
+          if (threadIdx.x < CUB_PTX_WARP_THREADS)
+          {
+            Size t = prefix_cb(num_tile_selections);
+            if (threadIdx.x == 0)
+            {
+              exclusive_prefix = t;
+            }
+          }
+
+          core::sync_threadblock();
+
+          num_selections_prefix = exclusive_prefix;
+          num_selections        = num_selections_prefix + num_tile_selections;
 
           if (IS_LAST_TILE)
           {
@@ -703,7 +714,7 @@ namespace __copy_if {
                    OutputIt                   output,
                    Predicate                  predicate)
   {
-    typedef int size_type;
+    typedef std::int64_t size_type;
 
     size_type    num_items          = static_cast<size_type>(thrust::distance(first, last));
     size_t       temp_storage_bytes = 0;
