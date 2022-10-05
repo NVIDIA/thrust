@@ -140,7 +140,7 @@ class system_error
 
     /*! Destructor does not throw.
      */
-    inline virtual ~system_error(void) throw () {};
+    inline virtual ~system_error(void) noexcept {};
     
     /*! Returns an object encoding the error.
      *  \return <tt>ec</tt> or <tt>error_code(ev, ecat)</tt>, from the
