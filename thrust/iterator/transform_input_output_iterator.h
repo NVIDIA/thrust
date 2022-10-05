@@ -100,9 +100,7 @@ public:
   /*! \endcond
    */
 
-  /*! Null constructor does nothing.
-   */
-  __host__ __device__ transform_input_output_iterator() {}
+  transform_input_output_iterator() = default;
 
   /*! This constructor takes as argument a \c Iterator an \c InputFunction and an
    * \c OutputFunction and copies them to a new \p transform_input_output_iterator
