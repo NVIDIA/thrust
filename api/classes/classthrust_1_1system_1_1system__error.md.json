@@ -487,7 +487,7 @@
     {
       "abstract": false,
       "anchor": "#function-~system-error",
-      "argsString": "(void)",
+      "argsString": "(void) noexcept",
       "category": "functions",
       "const": false,
       "default": false,
@@ -519,7 +519,7 @@
       ],
       "pureVirtual": false,
       "qualifiedname": "thrust::system::system_error::~system_error",
-      "refid": "group__system__diagnostics_1ga75e888acf23bee7345082f8eeb24619c",
+      "refid": "group__system__diagnostics_1ga3ac67254bd96dd58548550b0c4ea2671",
       "static": false,
       "strong": false,
       "title": "~system_error",
