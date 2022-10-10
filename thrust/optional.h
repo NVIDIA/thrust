@@ -1580,7 +1580,7 @@ public:
 
     *this = nullopt;
     this->construct(std::forward<Args>(args)...);
-    return value();
+    return this->m_value;
   }
 
   /// \group emplace
@@ -1594,7 +1594,7 @@ public:
   emplace(std::initializer_list<U> il, Args &&... args) {
     *this = nullopt;
     this->construct(il, std::forward<Args>(args)...);
-    return value();
+    return this->m_value;
   }
 
   /// Swaps this optional with the other.
