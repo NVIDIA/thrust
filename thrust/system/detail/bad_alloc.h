@@ -41,7 +41,7 @@ class bad_alloc
       m_what += w;
     } // end bad_alloc()
 
-    inline virtual ~bad_alloc(void) throw () {};
+    inline virtual ~bad_alloc(void) noexcept {};
 
     inline virtual const char *what(void) const noexcept
     {
