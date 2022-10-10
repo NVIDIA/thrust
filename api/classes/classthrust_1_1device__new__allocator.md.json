@@ -14,12 +14,12 @@
   "kind": "class",
   "language": "cpp",
   "location": {
-    "bodyEnd": 164,
+    "bodyEnd": 167,
     "bodyFile": "thrust/device_new_allocator.h",
-    "bodyStart": 47,
+    "bodyStart": 50,
     "column": 3,
     "file": "thrust/device_new_allocator.h",
-    "line": 46
+    "line": 49
   },
   "module": {
     "anchor": "",
@@ -125,12 +125,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 85,
+        "bodyEnd": 88,
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 85,
+        "bodyStart": 88,
         "column": 12,
         "file": "thrust/device_new_allocator.h",
-        "line": 85
+        "line": 88
       },
       "name": "device_new_allocator",
       "override": false,
@@ -164,12 +164,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 89,
+        "bodyEnd": 92,
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 89,
+        "bodyStart": 92,
         "column": 12,
         "file": "thrust/device_new_allocator.h",
-        "line": 89
+        "line": 92
       },
       "name": "~device_new_allocator",
       "override": false,
@@ -203,12 +203,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 93,
+        "bodyEnd": 96,
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 93,
+        "bodyStart": 96,
         "column": 12,
         "file": "thrust/device_new_allocator.h",
-        "line": 93
+        "line": 96
       },
       "name": "device_new_allocator",
       "override": false,
@@ -248,12 +248,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 98,
+        "bodyEnd": 101,
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 98,
+        "bodyStart": 101,
         "column": 12,
         "file": "thrust/device_new_allocator.h",
-        "line": 98
+        "line": 101
       },
       "name": "device_new_allocator",
       "override": false,
@@ -300,12 +300,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 104,
+        "bodyEnd": 107,
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 104,
+        "bodyStart": 107,
         "column": 20,
         "file": "thrust/device_new_allocator.h",
-        "line": 104
+        "line": 107
       },
       "name": "address",
       "override": false,
@@ -348,12 +348,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 110,
+        "bodyEnd": 113,
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 110,
+        "bodyStart": 113,
         "column": 26,
         "file": "thrust/device_new_allocator.h",
-        "line": 110
+        "line": 113
       },
       "name": "address",
       "override": false,
@@ -396,12 +396,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 128,
+        "bodyEnd": 131,
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 118,
+        "bodyStart": 121,
         "column": 20,
         "file": "thrust/device_new_allocator.h",
-        "line": 118
+        "line": 121
       },
       "name": "allocate",
       "note": [
@@ -460,12 +460,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 142,
+        "bodyEnd": 145,
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 137,
+        "bodyStart": 140,
         "column": 17,
         "file": "thrust/device_new_allocator.h",
-        "line": 137
+        "line": 140
       },
       "name": "deallocate",
       "note": [
@@ -523,12 +523,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 151,
+        "bodyEnd": 154,
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 148,
+        "bodyStart": 151,
         "column": 22,
         "file": "thrust/device_new_allocator.h",
-        "line": 148
+        "line": 151
       },
       "name": "max_size",
       "override": false,
@@ -565,12 +565,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 157,
+        "bodyEnd": 160,
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 157,
+        "bodyStart": 160,
         "column": 17,
         "file": "thrust/device_new_allocator.h",
-        "line": 157
+        "line": 160
       },
       "name": "operator==",
       "override": false,
@@ -613,12 +613,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 163,
+        "bodyEnd": 166,
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 163,
+        "bodyStart": 166,
         "column": 17,
         "file": "thrust/device_new_allocator.h",
-        "line": 163
+        "line": 166
       },
       "name": "operator!=",
       "override": false,
@@ -661,10 +661,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 50,
+        "bodyStart": 53,
         "column": 47,
         "file": "thrust/device_new_allocator.h",
-        "line": 50
+        "line": 53
       },
       "name": "value_type",
       "override": false,
@@ -693,10 +693,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 53,
+        "bodyStart": 56,
         "column": 44,
         "file": "thrust/device_new_allocator.h",
-        "line": 53
+        "line": 56
       },
       "name": "pointer",
       "override": false,
@@ -725,10 +725,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 56,
+        "bodyStart": 59,
         "column": 38,
         "file": "thrust/device_new_allocator.h",
-        "line": 56
+        "line": 59
       },
       "name": "const_pointer",
       "override": false,
@@ -757,10 +757,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 59,
+        "bodyStart": 62,
         "column": 44,
         "file": "thrust/device_new_allocator.h",
-        "line": 59
+        "line": 62
       },
       "name": "reference",
       "override": false,
@@ -789,10 +789,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 62,
+        "bodyStart": 65,
         "column": 38,
         "file": "thrust/device_new_allocator.h",
-        "line": 62
+        "line": 65
       },
       "name": "const_reference",
       "override": false,
@@ -811,8 +811,8 @@
       "anchor": "#typedef-size-type",
       "category": "types",
       "const": false,
-      "definition": "typedef std::size_t thrust::device_new_allocator< T >::size_type",
-      "details": "Type of allocation size, <code>std::size&#95;t</code>. ",
+      "definition": "typedef ::cuda::std::size_t thrust::device_new_allocator< T >::size_type",
+      "details": "Type of allocation size, <code>::cuda::std::size&#95;t</code>. ",
       "explicit": false,
       "fullname": "thrust::device_new_allocator::size_type",
       "hasDetails": true,
@@ -821,20 +821,20 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 65,
-        "column": 47,
+        "bodyStart": 68,
+        "column": 49,
         "file": "thrust/device_new_allocator.h",
-        "line": 65
+        "line": 68
       },
       "name": "size_type",
       "override": false,
       "qualifiedname": "thrust::device_new_allocator::size_type",
-      "refid": "classthrust_1_1device__new__allocator_1ae08c58ac9b7883f96563b03f5a209b6f",
+      "refid": "classthrust_1_1device__new__allocator_1a3b47defd09cfa2ca882cbd976ce31317",
       "static": false,
       "strong": false,
       "title": "size_type",
-      "type": "std::size_t",
-      "typePlain": "std::size_t",
+      "type": "::cuda::std::size_t",
+      "typePlain": "::cuda::std::size_t",
       "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__new__allocator.html#typedef-size-type",
       "visibility": "public"
     },
@@ -853,10 +853,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 68,
+        "bodyStart": 71,
         "column": 47,
         "file": "thrust/device_new_allocator.h",
-        "line": 68
+        "line": 71
       },
       "name": "difference_type",
       "override": false,

@@ -14,12 +14,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 81,
+    "bodyEnd": 84,
     "bodyFile": "thrust/device_new_allocator.h",
-    "bodyStart": 77,
+    "bodyStart": 80,
     "column": 7,
     "file": "thrust/device_new_allocator.h",
-    "line": 76
+    "line": 79
   },
   "name": "thrust::device_new_allocator::rebind",
   "override": false,
@@ -80,10 +80,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/device_new_allocator.h",
-        "bodyStart": 80,
+        "bodyStart": 83,
         "column": 36,
         "file": "thrust/device_new_allocator.h",
-        "line": 80
+        "line": 83
       },
       "name": "other",
       "override": false,

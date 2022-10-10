@@ -119,8 +119,8 @@ Typedef <code>thrust::device&#95;new&#95;allocator::size&#95;type</code>
 </h3>
 
 <code class="doxybook">
-<span>typedef std::size_t<b>size_type</b>;</span></code>
-Type of allocation size, <code>std::size&#95;t</code>. 
+<span>typedef ::cuda::std::size_t<b>size_type</b>;</span></code>
+Type of allocation size, <code>::cuda::std::size&#95;t</code>. 
 
 <h3 id="typedef-difference-type">
 Typedef <code>thrust::device&#95;new&#95;allocator::difference&#95;type</code>
