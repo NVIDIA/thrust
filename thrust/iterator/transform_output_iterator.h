@@ -102,7 +102,9 @@ public:
   /*! \endcond
    */
 
-  transform_output_iterator() = default;
+  /*! Null constructor does nothing.
+   */
+  __host__ __device__ transform_output_iterator() {}
 
   /*! This constructor takes as argument an \c OutputIterator and an \c
    * UnaryFunction and copies them to a new \p transform_output_iterator
