@@ -41,6 +41,10 @@ thrust_declare_test_restrictions(future            CPP.CUDA OMP.CUDA TBB.CUDA)
 # for CUDA.
 thrust_declare_test_restrictions(unittest_static_assert CPP.CPP CPP.CUDA)
 
+# In the TBB backend, reduce_by_key does not currently work with transform_output_iterator
+# https://github.com/NVIDIA/thrust/issues/1811
+thrust_declare_test_restrictions(transform_output_iterator_reduce_by_key CPP.CPP CPP.OMP CPP.CUDA)
+
 ## thrust_add_test
 #
 # Add a test executable and register it with ctest.
