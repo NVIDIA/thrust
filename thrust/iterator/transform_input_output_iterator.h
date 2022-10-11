@@ -62,7 +62,7 @@ THRUST_NAMESPACE_BEGIN
  *    // Iterator that returns negated values and writes squared values
  *    auto iter = thrust::make_transform_input_output_iterator(v.begin(),
  *        thrust::negate<float>{}, thrust::square<float>{});
- *
+ * 
  *    // Iterator negates values when reading
  *    std::cout << iter[0] << " ";  // -1.0f;
  *    std::cout << iter[1] << " ";  // -2.0f;
@@ -85,24 +85,22 @@ THRUST_NAMESPACE_BEGIN
  */
 
 template <typename InputFunction, typename OutputFunction, typename Iterator>
-class transform_input_output_iterator
+  class transform_input_output_iterator
     : public detail::transform_input_output_iterator_base<InputFunction, OutputFunction, Iterator>::type
 {
 
   /*! \cond
    */
 
-public:
-  typedef typename detail::
-    transform_input_output_iterator_base<InputFunction, OutputFunction, Iterator>::type super_t;
+  public:
 
-  friend class thrust::iterator_core_access;
+    typedef typename
+    detail::transform_input_output_iterator_base<InputFunction, OutputFunction, Iterator>::type
+    super_t;
+
+    friend class thrust::iterator_core_access;
   /*! \endcond
    */
-
-  /*! Null constructor does nothing.
-   */
-  __host__ __device__ transform_input_output_iterator() {}
 
   /*! This constructor takes as argument a \c Iterator an \c InputFunction and an
    * \c OutputFunction and copies them to a new \p transform_input_output_iterator
@@ -112,30 +110,29 @@ public:
    * \param input_function An \c InputFunction to be executed on values read from the iterator
    * \param output_function An \c OutputFunction to be executed on values written to the iterator
    */
-  __host__ __device__ transform_input_output_iterator(Iterator const &io,
-                                                      InputFunction input_function,
-                                                      OutputFunction output_function)
-      : super_t(io)
-      , input_function(input_function)
-      , output_function(output_function)
-  {}
+    __host__ __device__
+    transform_input_output_iterator(Iterator const& io, InputFunction input_function, OutputFunction output_function)
+      : super_t(io), input_function(input_function), output_function(output_function)
+    {
+    }
 
-  /*! \cond
-   */
-private:
-  __host__ __device__ typename super_t::reference dereference() const
-  {
-    return detail::transform_input_output_iterator_proxy<InputFunction, OutputFunction, Iterator>(
-      this->base_reference(),
-      input_function,
-      output_function);
-  }
+    /*! \cond
+     */
+  private:
 
-  InputFunction input_function;
-  OutputFunction output_function;
+    __host__ __device__
+    typename super_t::reference dereference() const
+    {
+      return detail::transform_input_output_iterator_proxy<
+        InputFunction, OutputFunction, Iterator
+      >(this->base_reference(), input_function, output_function);
+    }
 
-  /*! \endcond
-   */
+    InputFunction input_function;
+    OutputFunction output_function;
+
+    /*! \endcond
+     */
 }; // end transform_input_output_iterator
 
 /*! \p make_transform_input_output_iterator creates a \p transform_input_output_iterator from
@@ -149,13 +146,10 @@ private:
  */
 template <typename InputFunction, typename OutputFunction, typename Iterator>
 transform_input_output_iterator<InputFunction, OutputFunction, Iterator>
-  __host__ __device__ make_transform_input_output_iterator(Iterator io,
-                                                           InputFunction input_function,
-                                                           OutputFunction output_function)
+__host__ __device__
+make_transform_input_output_iterator(Iterator io, InputFunction input_function, OutputFunction output_function)
 {
-  return transform_input_output_iterator<InputFunction, OutputFunction, Iterator>(io,
-                                                                                  input_function,
-                                                                                  output_function);
+    return transform_input_output_iterator<InputFunction, OutputFunction, Iterator>(io, input_function, output_function);
 } // end make_transform_input_output_iterator
 
 /*! \} // end fancyiterators
@@ -165,3 +159,4 @@ transform_input_output_iterator<InputFunction, OutputFunction, Iterator>
  */
 
 THRUST_NAMESPACE_END
+
