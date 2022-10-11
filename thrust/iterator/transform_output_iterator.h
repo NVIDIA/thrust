@@ -161,3 +161,4 @@ make_transform_output_iterator(OutputIterator out, UnaryFunction fun)
  */
 
 THRUST_NAMESPACE_END
+

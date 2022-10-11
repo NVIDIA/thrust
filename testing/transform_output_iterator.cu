@@ -90,3 +90,4 @@ struct TestTransformOutputIteratorScan
     }
 };
 VariableUnitTest<TestTransformOutputIteratorScan, SignedIntegralTypes> TestTransformOutputIteratorScanInstance;
+

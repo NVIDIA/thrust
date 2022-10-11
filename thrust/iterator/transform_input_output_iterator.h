@@ -161,3 +161,4 @@ make_transform_input_output_iterator(Iterator io, InputFunction input_function, 
  */
 
 THRUST_NAMESPACE_END
+

@@ -48,3 +48,4 @@ struct TestTransformOutputIteratorReduceByKey
 };
 VariableUnitTest<TestTransformOutputIteratorReduceByKey, SignedIntegralTypes>
   TestTransformOutputIteratorReduceByKeyInstance;
+
