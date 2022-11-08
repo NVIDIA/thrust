@@ -13,7 +13,7 @@ install(DIRECTORY "${Thrust_SOURCE_DIR}/thrust"
 
 install(DIRECTORY "${Thrust_SOURCE_DIR}/thrust/cmake/"
   DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/thrust"
-  PATTERN thrust-header-search EXCLUDE
+  PATTERN *.cmake.in EXCLUDE
 )
 # Need to configure a file to store the infix specified in
 # CMAKE_INSTALL_INCLUDEDIR since it can be defined by the user
