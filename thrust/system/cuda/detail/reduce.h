@@ -943,11 +943,8 @@ T reduce_n_impl(execution_policy<Derived>& policy,
 
   size_t tmp_size = 0;
 
-  THRUST_INDEX_TYPE_DISPATCH2(status,
+  THRUST_INDEX_TYPE_DISPATCH(status,
     cub::DeviceReduce::Reduce,
-    (cub::DispatchReduce<
-        InputIt, T*, Size, BinaryOp, T
-    >::Dispatch),
     num_items,
     (NULL, tmp_size, first, reinterpret_cast<T*>(NULL),
         num_items_fixed, binary_op, init, stream));
@@ -970,11 +967,8 @@ T reduce_n_impl(execution_policy<Derived>& policy,
   // make this guarantee.
   T* ret_ptr = thrust::detail::aligned_reinterpret_cast<T*>(tmp.data().get());
   void* tmp_ptr = static_cast<void*>((tmp.data() + sizeof(T)).get());
-  THRUST_INDEX_TYPE_DISPATCH2(status,
+  THRUST_INDEX_TYPE_DISPATCH(status,
     cub::DeviceReduce::Reduce,
-    (cub::DispatchReduce<
-        InputIt, T*, Size, BinaryOp, T
-    >::Dispatch),
     num_items,
     (tmp_ptr, tmp_size, first, ret_ptr,
         num_items_fixed, binary_op, init, stream));
