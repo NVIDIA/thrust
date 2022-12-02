@@ -725,12 +725,12 @@
       "kind": "function",
       "language": "",
       "location": {
-        "bodyEnd": 153,
+        "bodyEnd": 155,
         "bodyFile": "thrust/iterator/transform_input_output_iterator.h",
-        "bodyStart": 150,
+        "bodyStart": 152,
         "column": 1,
         "file": "thrust/iterator/transform_input_output_iterator.h",
-        "line": 150
+        "line": 152
       },
       "name": "make_transform_input_output_iterator",
       "override": false,
@@ -892,12 +892,12 @@
       "kind": "function",
       "language": "",
       "location": {
-        "bodyEnd": 153,
+        "bodyEnd": 155,
         "bodyFile": "thrust/iterator/transform_output_iterator.h",
-        "bodyStart": 150,
+        "bodyStart": 152,
         "column": 1,
         "file": "thrust/iterator/transform_output_iterator.h",
-        "line": 150
+        "line": 152
       },
       "name": "make_transform_output_iterator",
       "override": false,
