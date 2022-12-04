@@ -4,6 +4,9 @@
 #include <thrust/sequence.h>
 #include <thrust/device_malloc_allocator.h>
 
+#if THRUST_CPP_DIALECT >= 2011
+#include <initializer_list>
+#endif
 #include <vector>
 #include <list>
 #include <limits>
@@ -37,6 +40,32 @@ void TestVectorBool(void)
 }
 DECLARE_UNITTEST(TestVectorBool);
 
+#if THRUST_CPP_DIALECT >= 2011
+template <class Vector>
+void TestVectorInitializerList(void)
+{
+    Vector v{1, 2, 3};
+    ASSERT_EQUAL(v.size(), 3lu);
+    ASSERT_EQUAL(v[0], 0);
+    ASSERT_EQUAL(v[1], 1);
+    ASSERT_EQUAL(v[2], 2);
+
+    v = {1, 2, 3, 4};
+    ASSERT_EQUAL(v.size(), 4lu);
+    ASSERT_EQUAL(v[0], 1);
+    ASSERT_EQUAL(v[1], 2);
+    ASSERT_EQUAL(v[2], 3);
+    ASSERT_EQUAL(v[3], 4);
+    
+    const auto alloc = v.get_allocator();
+    Vector v2{{1, 2, 3}, alloc};
+    ASSERT_EQUAL(v2.size(), 3lu);
+    ASSERT_EQUAL(v2[0], 0);
+    ASSERT_EQUAL(v2[1], 1);
+    ASSERT_EQUAL(v2[2], 2);
+}
+DECLARE_VECTOR_UNITTEST(TestVectorInitializerList);
+#endif
 
 template <class Vector>
 void TestVectorFrontBack(void)

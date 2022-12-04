@@ -28,6 +28,10 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/config.h>
 #include <thrust/detail/contiguous_storage.h>
+
+#if THRUST_CPP_DIALECT >= 2011
+#include <initializer_list>
+#endif
 #include <vector>
 
 THRUST_NAMESPACE_BEGIN
@@ -128,6 +132,22 @@ template<typename T, typename Alloc>
      *  \param v The vector_base to move.
      */
     vector_base &operator=(vector_base &&v);
+
+    /*! This constructor builds a \p vector_base from an intializer_list.
+     *  \param il The intializer_list.
+     */
+    vector_base(std::initializer_list<T> il);
+      
+    /*! This constructor builds a \p vector_base from an intializer_list.
+     *  \param il The intializer_list.
+     *  \param alloc The allocator to use by this device_vector.
+     */
+    vector_base(std::initializer_list<T> il, const Alloc &alloc);
+    
+    /*! Assign operator copies from an initializer_list
+     *  \param il The initializer_list.
+     */
+    vector_base &operator=(std::initializer_list<T> il);
   #endif
 
     /*! Copy constructor copies from an exemplar vector_base with different
