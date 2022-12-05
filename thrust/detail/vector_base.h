@@ -29,9 +29,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/contiguous_storage.h>
 
-#if THRUST_CPP_DIALECT >= 2011
 #include <initializer_list>
-#endif
 #include <vector>
 
 THRUST_NAMESPACE_BEGIN
@@ -127,7 +125,6 @@ template<typename T, typename Alloc>
      */
     vector_base &operator=(const vector_base &v);
 
-  #if THRUST_CPP_DIALECT >= 2011
     /*! Move assign operator moves from another vector_base.
      *  \param v The vector_base to move.
      */
@@ -148,7 +145,6 @@ template<typename T, typename Alloc>
      *  \param il The initializer_list.
      */
     vector_base &operator=(std::initializer_list<T> il);
-  #endif
 
     /*! Copy constructor copies from an exemplar vector_base with different
      *  type.

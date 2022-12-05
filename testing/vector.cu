@@ -40,7 +40,6 @@ void TestVectorBool(void)
 }
 DECLARE_UNITTEST(TestVectorBool);
 
-#if THRUST_CPP_DIALECT >= 2011
 template <class Vector>
 void TestVectorInitializerList(void)
 {
@@ -65,7 +64,6 @@ void TestVectorInitializerList(void)
     ASSERT_EQUAL(v2[2], 3);
 }
 DECLARE_VECTOR_UNITTEST(TestVectorInitializerList);
-#endif
 
 template <class Vector>
 void TestVectorFrontBack(void)

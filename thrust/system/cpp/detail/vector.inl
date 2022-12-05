@@ -97,6 +97,7 @@ template<typename T, typename Allocator>
     super_t::operator=(std::move(x));
     return *this;
   }
+#endif
   
   template<typename T, typename Allocator>
     vector<T,Allocator>
@@ -118,7 +119,6 @@ template<typename T, typename Allocator>
     super_t::operator=(il);
     return *this;
   }
-#endif
 
 template<typename T, typename Allocator>
   template<typename OtherT, typename OtherAllocator>

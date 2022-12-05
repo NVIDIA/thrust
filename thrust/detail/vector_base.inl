@@ -195,7 +195,6 @@ template<typename T, typename Alloc>
   return *this;
 } // end vector_base::operator=()
 
-#if THRUST_CPP_DIALECT >= 2011
   template<typename T, typename Alloc>
     vector_base<T,Alloc>
       ::vector_base(std::initializer_list<T> il)
@@ -223,7 +222,6 @@ template<typename T, typename Alloc>
 
     return *this;
   } // end vector_base::operator=()
-#endif
 
 template<typename T, typename Alloc>
   template<typename IteratorOrIntegralType>
