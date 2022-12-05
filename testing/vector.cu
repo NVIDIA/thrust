@@ -46,9 +46,9 @@ void TestVectorInitializerList(void)
 {
     Vector v{1, 2, 3};
     ASSERT_EQUAL(v.size(), 3lu);
-    ASSERT_EQUAL(v[0], 0);
-    ASSERT_EQUAL(v[1], 1);
-    ASSERT_EQUAL(v[2], 2);
+    ASSERT_EQUAL(v[0], 1);
+    ASSERT_EQUAL(v[1], 2);
+    ASSERT_EQUAL(v[2], 3);
 
     v = {1, 2, 3, 4};
     ASSERT_EQUAL(v.size(), 4lu);
@@ -60,9 +60,9 @@ void TestVectorInitializerList(void)
     const auto alloc = v.get_allocator();
     Vector v2{{1, 2, 3}, alloc};
     ASSERT_EQUAL(v2.size(), 3lu);
-    ASSERT_EQUAL(v2[0], 0);
-    ASSERT_EQUAL(v2[1], 1);
-    ASSERT_EQUAL(v2[2], 2);
+    ASSERT_EQUAL(v2[0], 1);
+    ASSERT_EQUAL(v2[1], 2);
+    ASSERT_EQUAL(v2[2], 3);
 }
 DECLARE_VECTOR_UNITTEST(TestVectorInitializerList);
 #endif
