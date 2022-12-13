@@ -25,10 +25,7 @@
 #include <thrust/device_reference.h>
 #include <thrust/device_new.h>
 #include <thrust/device_delete.h>
-
-#include <cuda/std/cstdint>
-#include <cuda/std/limits>
-
+#include <limits>
 #include <stdexcept>
 
 THRUST_NAMESPACE_BEGIN
@@ -64,8 +61,8 @@ template<typename T>
     /*! \c const reference to allocated element, \c device_reference<const T>. */
     typedef device_reference<const T>         const_reference;
 
-    /*! Type of allocation size, \c ::cuda::std::size_t. */
-    typedef ::cuda::std::size_t                 size_type;
+    /*! Type of allocation size, \c std::size_t. */
+    typedef std::size_t                       size_type;
 
     /*! Type of allocation difference, \c pointer::difference_type. */
     typedef typename pointer::difference_type difference_type;
@@ -150,7 +147,7 @@ template<typename T>
     __host__ __device__
     inline size_type max_size() const
     {
-      return ::cuda::std::numeric_limits<size_type>::max THRUST_PREVENT_MACRO_SUBSTITUTION () / sizeof(T);
+      return std::numeric_limits<size_type>::max THRUST_PREVENT_MACRO_SUBSTITUTION () / sizeof(T);
     } // end max_size()
 
     /*! Compares against another \p device_malloc_allocator for equality.
