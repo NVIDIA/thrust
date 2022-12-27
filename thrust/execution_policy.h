@@ -282,10 +282,10 @@ template<typename DerivedPolicy>
  *    }
  *  };
  *  ...
- *  int vec(3);
+ *  int vec[3];
  *  vec[0] = 0; vec[1] = 1; vec[2] = 2;
  *
- *  thrust::for_each(thrust::host, vec.begin(), vec.end(), printf_functor());
+ *  thrust::for_each(thrust::host, vec, vec + 3, printf_functor());
  *
  *  // 0 1 2 is printed to standard output in some unspecified order
  *  \endcode
