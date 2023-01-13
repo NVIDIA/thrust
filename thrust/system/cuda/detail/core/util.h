@@ -618,7 +618,8 @@ namespace core {
   inline cuda_optional<int> get_ptx_version()
   {
     int ptx_version = 0;
-    cudaError_t status = cudaGetDevice(&device);
+    int dev_id = 0;
+    cudaError_t status = cudaGetDevice(&dev_id);
     if (status != cudaSuccess)
     {
       throw thrust::system_error(status, thrust::cuda_category(), "No GPU is available\n");
@@ -632,12 +633,12 @@ namespace core {
       int major = 0, minor = 0;
       cudaError_t attr_status;
 
-      attr_status = cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, device);
+      attr_status = cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, dev_id);
       cuda_cub::throw_on_error(attr_status,
                               "get_ptx_version :"
                               "failed to get major CUDA device compute capability version.");
 
-      attr_status = cudaDeviceGetAttribute(&minor, cudaDevAttrComputeCapabilityMinor, device);
+      attr_status = cudaDeviceGetAttribute(&minor, cudaDevAttrComputeCapabilityMinor, dev_id);
       cuda_cub::throw_on_error(attr_status,
                               "get_ptx_version :"
                               "failed to get minor CUDA device compute capability version.");
