@@ -618,7 +618,35 @@ namespace core {
   inline cuda_optional<int> get_ptx_version()
   {
     int ptx_version = 0;
-    cudaError_t status = cub::PtxVersion(ptx_version);
+    cudaError_t status = cudaGetDevice(&device);
+    if (status != cudaSuccess)
+    {
+      throw thrust::system_error(status, thrust::cuda_category(), "No GPU is available\n");
+    }
+
+    status = cub::PtxVersion(ptx_version);
+
+    // Any failure means the provided device binary does not match the generated function code
+    if (status != cudaSuccess) 
+    {
+      int major = 0, minor = 0;
+      cudaError_t attr_status;
+
+      attr_status = cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, device);
+      cuda_cub::throw_on_error(attr_status,
+                              "get_ptx_version :"
+                              "failed to get major CUDA device compute capability version.");
+
+      attr_status = cudaDeviceGetAttribute(&minor, cudaDevAttrComputeCapabilityMinor, device);
+      cuda_cub::throw_on_error(attr_status,
+                              "get_ptx_version :"
+                              "failed to get minor CUDA device compute capability version.");
+
+      throw thrust::system_error(status, thrust::cuda_category(), 
+        "Incompatible GPU: you are trying to run this program on sm_%d%d, "
+        "different from the one that it was compiled for\n",
+        major, minor);
+    }
     return cuda_optional<int>(ptx_version, status);
   }
 
