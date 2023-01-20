@@ -109,7 +109,7 @@ foreach (arch IN LISTS THRUST_KNOWN_COMPUTE_ARCHS)
       )
     endif()
     set(arch_flag "-gpu=cc${arch}")
-  elseif ("Clang" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
+  elseif ("Clang" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
     set(arch_flag "--cuda-gpu-arch=sm_${arch}")
   else()
     set(arch_flag "-gencode arch=compute_${arch},code=sm_${arch}")
@@ -180,7 +180,7 @@ endforeach()
 # 
 # Clang CUDA options 
 #
-if ("Clang" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
+if ("Clang" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
   set(THRUST_CUDA_FLAGS_BASE "${THRUST_CUDA_FLAGS_BASE} -Wno-unknown-cuda-version -Xclang=-fcuda-allow-variadic-functions")
 endif()
 
