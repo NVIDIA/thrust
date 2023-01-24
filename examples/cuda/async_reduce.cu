@@ -21,11 +21,13 @@
 // std::future to wait for the result of the reduction. This method requires a compiler which supports
 // C++11-capable language and library constructs.
 
+#if THRUST_EXAMPLE_DEVICE_SIDE
 template<typename Iterator, typename T, typename BinaryOperation, typename Pointer>
 __global__ void reduce_kernel(Iterator first, Iterator last, T init, BinaryOperation binary_op, Pointer result)
 {
   *result = thrust::reduce(thrust::cuda::par, first, last, init, binary_op);
 }
+#endif
 
 int main()
 {
@@ -40,7 +42,11 @@ int main()
   cudaStreamCreate(&s);
 
   // launch a CUDA kernel with only 1 thread on our stream
+#if THRUST_EXAMPLE_DEVICE_SIDE
   reduce_kernel<<<1,1,0,s>>>(data.begin(), data.end(), 0, thrust::plus<int>(), result.data());
+#else
+  result[0] = thrust::reduce(thrust::cuda::par, data.begin(), data.end(), 0, thrust::plus<int>());
+#endif
 
   // wait for the stream to finish
   cudaStreamSynchronize(s);

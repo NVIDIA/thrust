@@ -110,6 +110,10 @@ function(thrust_add_example target_name_var example_name example_src thrust_targ
     thrust_enable_rdc_for_cuda_target(${example_target})
   endif()
 
+  if (NOT "Clang" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+    target_compile_definitions(${example_target} PRIVATE THRUST_EXAMPLE_DEVICE_SIDE)
+  endif()
+
   # Get the name of FileCheck input by stripping out the config name.
   # (e.g. "thrust.cpp.cuda.cpp14.example.xxx" -> "thrust.example.xxx.filecheck")
   string(REPLACE "${config_prefix}" "thrust"
