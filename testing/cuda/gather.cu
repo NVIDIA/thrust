@@ -3,7 +3,7 @@
 #include <thrust/execution_policy.h>
 #include <algorithm>
 
-#if THRUST_TEST_DEVICE_SIDE
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3>
 __global__
 void gather_kernel(ExecutionPolicy exec, Iterator1 map_first, Iterator1 map_last, Iterator2 elements_first, Iterator3 result)
@@ -87,7 +87,7 @@ void TestGatherCudaStreams()
 DECLARE_UNITTEST(TestGatherCudaStreams);
 
 
-#if THRUST_TEST_DEVICE_SIDE
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Predicate>
 __global__
 void gather_if_kernel(ExecutionPolicy exec, Iterator1 map_first, Iterator1 map_last, Iterator2 stencil_first, Iterator3 elements_first, Iterator4 result, Predicate pred)

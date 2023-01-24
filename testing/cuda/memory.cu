@@ -35,7 +35,7 @@ void TestSelectSystemCudaToCpp()
 DECLARE_UNITTEST(TestSelectSystemCudaToCpp);
 
 
-#if THRUST_TEST_DEVICE_SIDE
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename Iterator>
 __global__ void get_temporary_buffer_kernel(size_t n, Iterator result)
 {

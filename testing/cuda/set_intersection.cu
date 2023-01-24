@@ -6,7 +6,7 @@
 #include <thrust/iterator/discard_iterator.h>
 
 
-#if THRUST_TEST_DEVICE_SIDE
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4>
 __global__
 void set_intersection_kernel(ExecutionPolicy exec, Iterator1 first1, Iterator1 last1,

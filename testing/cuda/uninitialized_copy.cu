@@ -3,7 +3,7 @@
 #include <thrust/execution_policy.h>
 
 
-#if THRUST_TEST_DEVICE_SIDE
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2>
 __global__
 void uninitialized_copy_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 result)
@@ -76,7 +76,7 @@ void TestUninitializedCopyCudaStreams()
 DECLARE_UNITTEST(TestUninitializedCopyCudaStreams);
 
 
-#if THRUST_TEST_DEVICE_SIDE
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Size, typename Iterator2>
 __global__
 void uninitialized_copy_n_kernel(ExecutionPolicy exec, Iterator1 first, Size n, Iterator2 result)

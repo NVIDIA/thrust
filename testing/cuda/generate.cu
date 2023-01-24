@@ -16,7 +16,7 @@ struct return_value
 };
 
 
-#if THRUST_TEST_DEVICE_SIDE
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename Function>
 __global__
 void generate_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Function f)
@@ -88,7 +88,7 @@ void TestGenerateCudaStreams()
 DECLARE_UNITTEST(TestGenerateCudaStreams);
 
 
-#if THRUST_TEST_DEVICE_SIDE
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename Size, typename Function>
 __global__
 void generate_n_kernel(ExecutionPolicy exec, Iterator first, Size n, Function f)

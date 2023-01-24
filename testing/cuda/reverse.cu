@@ -3,7 +3,7 @@
 #include <thrust/execution_policy.h>
 
 
-#if THRUST_TEST_DEVICE_SIDE
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator>
 __global__
 void reverse_kernel(ExecutionPolicy exec, Iterator first, Iterator last)

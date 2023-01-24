@@ -4,7 +4,7 @@
 #include <thrust/execution_policy.h>
 
 
-#if THRUST_TEST_DEVICE_SIDE
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename Function>
 __global__
 void tabulate_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Function f)

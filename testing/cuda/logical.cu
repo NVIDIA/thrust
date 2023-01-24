@@ -4,7 +4,7 @@
 #include <thrust/execution_policy.h>
 
 
-#if THRUST_TEST_DEVICE_SIDE
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename Function, typename Iterator2>
 __global__
 void all_of_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Function f, Iterator2 result)
@@ -113,7 +113,7 @@ void TestAllOfCudaStreams()
 DECLARE_UNITTEST(TestAllOfCudaStreams);
 
 
-#if THRUST_TEST_DEVICE_SIDE
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename Function, typename Iterator2>
 __global__
 void any_of_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Function f, Iterator2 result)
@@ -223,7 +223,7 @@ void TestAnyOfCudaStreams()
 DECLARE_UNITTEST(TestAnyOfCudaStreams);
 
 
-#if THRUST_TEST_DEVICE_SIDE
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename Function, typename Iterator2>
 __global__
 void none_of_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Function f, Iterator2 result)

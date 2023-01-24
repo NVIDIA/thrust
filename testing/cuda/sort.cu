@@ -15,7 +15,7 @@ struct my_less
 };
 
 
-#if THRUST_TEST_DEVICE_SIDE
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename Compare>
 __global__
 void sort_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Compare comp)

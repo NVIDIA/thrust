@@ -59,7 +59,7 @@ struct mark_present_for_each
 };
 
 
-#if THRUST_TEST_DEVICE_SIDE
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename Function>
 __global__ void for_each_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Function f)
 {

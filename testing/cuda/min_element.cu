@@ -3,7 +3,7 @@
 #include <thrust/execution_policy.h>
 
 
-#if THRUST_TEST_DEVICE_SIDE
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename Iterator2>
 __global__
 void min_element_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Iterator2 result)
