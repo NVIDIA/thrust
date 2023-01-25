@@ -4,14 +4,6 @@
 #include <thrust/functional.h>
 
 
-template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Compare>
-__global__
-void sort_by_key_kernel(ExecutionPolicy exec, Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_first, Compare comp)
-{
-  thrust::sort_by_key(exec, keys_first, keys_last, values_first, comp);
-}
-
-
 template<typename T>
 struct my_less
 {
@@ -21,6 +13,15 @@ struct my_less
     return lhs < rhs;
   }
 };
+
+
+#ifdef THRUST_TEST_DEVICE_SIDE
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Compare>
+__global__
+void sort_by_key_kernel(ExecutionPolicy exec, Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_first, Compare comp)
+{
+  thrust::sort_by_key(exec, keys_first, keys_last, values_first, comp);
+}
 
 
 template<typename T, typename ExecutionPolicy, typename Compare>
@@ -104,6 +105,7 @@ VariableUnitTest<
   TestSortByKeyDeviceDevice,
   unittest::type_list<unittest::int8_t,unittest::int32_t>
 > TestSortByKeyDeviceDeviceInstance;
+#endif
 
 
 void TestComparisonSortByKeyCudaStreams()

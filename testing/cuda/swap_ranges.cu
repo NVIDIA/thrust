@@ -3,6 +3,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2>
 __global__
 void swap_ranges_kernel(ExecutionPolicy exec, Iterator1 first1, Iterator1 last1, Iterator2 first2)
@@ -50,6 +51,7 @@ void TestSwapRangesDeviceDevice()
   TestSwapRangesDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestSwapRangesDeviceDevice);
+#endif
 
 void TestSwapRangesCudaStreams()
 {

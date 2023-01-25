@@ -3,6 +3,15 @@
 #include <thrust/execution_policy.h>
 
 
+template<typename T>
+struct is_equal_div_10_unique
+{
+  __host__ __device__
+  bool operator()(const T x, const T& y) const { return ((int) x / 10) == ((int) y / 10); }
+};
+
+
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2>
 __global__
 void unique_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 result)
@@ -17,14 +26,6 @@ void unique_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Binary
 {
   *result = thrust::unique(exec, first, last, pred);
 }
-
-
-template<typename T>
-struct is_equal_div_10_unique
-{
-  __host__ __device__
-  bool operator()(const T x, const T& y) const { return ((int) x / 10) == ((int) y / 10); }
-};
 
 
 template<typename ExecutionPolicy>
@@ -99,6 +100,7 @@ void TestUniqueDeviceNoSync()
   TestUniqueDevice(thrust::cuda::par_nosync);
 }
 DECLARE_UNITTEST(TestUniqueDeviceNoSync);
+#endif
 
 
 template<typename ExecutionPolicy>
@@ -164,6 +166,7 @@ void TestUniqueCudaStreamsNoSync()
 DECLARE_UNITTEST(TestUniqueCudaStreamsNoSync);
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3>
 __global__
 void unique_copy_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 result1, Iterator3 result2)
@@ -254,6 +257,7 @@ void TestUniqueCopyDeviceNoSync()
   TestUniqueCopyDevice(thrust::cuda::par_nosync);
 }
 DECLARE_UNITTEST(TestUniqueCopyDeviceNoSync);
+#endif
 
 
 template<typename ExecutionPolicy>
@@ -321,6 +325,7 @@ void TestUniqueCopyCudaStreamsNoSync()
 DECLARE_UNITTEST(TestUniqueCopyCudaStreamsNoSync);
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2>
 __global__
 void unique_count_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 result)
@@ -394,6 +399,7 @@ void TestUniqueCountDeviceNoSync()
   TestUniqueCountDevice(thrust::cuda::par_nosync);
 }
 DECLARE_UNITTEST(TestUniqueCountDeviceNoSync);
+#endif
 
 
 template<typename ExecutionPolicy>

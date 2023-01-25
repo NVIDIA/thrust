@@ -4,6 +4,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Predicate, typename Iterator2>
 __global__
 void partition_point_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result)
@@ -50,6 +51,7 @@ void TestPartitionPointDeviceDevice()
   TestPartitionPointDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestPartitionPointDeviceDevice);
+#endif
 
 
 void TestPartitionPointCudaStreams()

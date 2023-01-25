@@ -3,6 +3,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4>
 __global__
 void set_difference_kernel(ExecutionPolicy exec, Iterator1 first1, Iterator1 last1, Iterator2 first2, Iterator2 last2, Iterator3 result1, Iterator4 result2)
@@ -52,6 +53,7 @@ void TestSetDifferenceDeviceDevice()
   TestSetDifferenceDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestSetDifferenceDeviceDevice);
+#endif
 
 
 void TestSetDifferenceCudaStreams()

@@ -8,6 +8,7 @@
 #include <cstdint>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Iterator5>
 __global__
 void reduce_by_key_kernel(ExecutionPolicy exec,
@@ -48,6 +49,7 @@ void reduce_by_key_kernel(ExecutionPolicy exec,
 {
   *result = thrust::reduce_by_key(exec, keys_first, keys_last, values_first, keys_result, values_result, pred, binary_op);
 }
+#endif
 
 
 template<typename T>
@@ -90,6 +92,7 @@ void initialize_values(Vector& values)
 }
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy>
 void TestReduceByKeyDevice(ExecutionPolicy exec)
 {
@@ -201,6 +204,7 @@ void TestReduceByKeyDeviceNoSync()
   TestReduceByKeyDevice(thrust::cuda::par_nosync);
 }
 DECLARE_UNITTEST(TestReduceByKeyDeviceNoSync);
+#endif
 
 
 template<typename ExecutionPolicy>

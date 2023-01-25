@@ -5,6 +5,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy,
          typename Iterator1,
          typename Iterator2,
@@ -84,6 +85,7 @@ void TestMergeByKeyDeviceDevice()
   TestMergeByKeyDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestMergeByKeyDeviceDevice);
+#endif
 
 
 void TestMergeByKeyCudaStreams()

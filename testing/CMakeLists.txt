@@ -83,6 +83,10 @@ function(thrust_add_test target_name_var test_name test_src thrust_target)
   target_include_directories(${test_target} PRIVATE "${Thrust_SOURCE_DIR}/testing")
   thrust_clone_target_properties(${test_target} ${thrust_target})
 
+  if (NOT "Clang" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+    target_compile_definitions(${test_target} PRIVATE THRUST_TEST_DEVICE_SIDE)
+  endif()
+
   # Add to the active configuration's meta target
   add_dependencies(${config_meta_target} ${test_target})
 

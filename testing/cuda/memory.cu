@@ -35,6 +35,7 @@ void TestSelectSystemCudaToCpp()
 DECLARE_UNITTEST(TestSelectSystemCudaToCpp);
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename Iterator>
 __global__ void get_temporary_buffer_kernel(size_t n, Iterator result)
 {
@@ -132,4 +133,5 @@ void TestMallocDeviceSeq()
   }
 }
 DECLARE_UNITTEST(TestMallocDeviceSeq);
+#endif
 

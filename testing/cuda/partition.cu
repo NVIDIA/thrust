@@ -4,20 +4,21 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename ExecutionPolicy, typename Iterator1, typename Predicate, typename Iterator2>
-__global__
-void partition_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result)
-{
-  *result = thrust::partition(exec, first, last, pred);
-}
-
-
 template<typename T>
 struct is_even
 {
   __host__ __device__
   bool operator()(T x) const { return ((int) x % 2) == 0; }
 };
+
+
+#ifdef THRUST_TEST_DEVICE_SIDE
+template<typename ExecutionPolicy, typename Iterator1, typename Predicate, typename Iterator2>
+__global__
+void partition_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result)
+{
+  *result = thrust::partition(exec, first, last, pred);
+}
 
 
 template<typename ExecutionPolicy>
@@ -558,6 +559,7 @@ void TestStablePartitionCopyStencilDeviceNoSync()
   TestStablePartitionCopyStencilDevice(thrust::cuda::par_nosync);
 }
 DECLARE_UNITTEST(TestStablePartitionCopyStencilDeviceNoSync);
+#endif
 
 
 template<typename ExecutionPolicy>

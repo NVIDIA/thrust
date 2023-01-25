@@ -3,6 +3,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Iterator5, typename Iterator6>
 __global__
 void set_intersection_by_key_kernel(ExecutionPolicy exec,
@@ -78,6 +79,7 @@ void TestSetIntersectionByKeyDeviceNoSync()
   TestSetIntersectionByKeyDevice(thrust::cuda::par_nosync);
 }
 DECLARE_UNITTEST(TestSetIntersectionByKeyDeviceNoSync);
+#endif
 
 
 template<typename ExecutionPolicy>

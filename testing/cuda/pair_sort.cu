@@ -4,6 +4,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator>
 __global__
 void stable_sort_kernel(ExecutionPolicy exec, Iterator first, Iterator last)
@@ -61,4 +62,5 @@ void TestPairStableSortDeviceDevice()
   TestPairStableSortDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestPairStableSortDeviceDevice);
+#endif
 

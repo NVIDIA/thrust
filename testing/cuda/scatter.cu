@@ -3,6 +3,7 @@
 #include <thrust/execution_policy.h>
 #include <algorithm>
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3>
 __global__
 void scatter_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 map_first, Iterator3 result)
@@ -112,6 +113,7 @@ void TestScatterIfDeviceDevice()
   TestScatterIfDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestScatterIfDeviceDevice);
+#endif
 
 
 void TestScatterCudaStreams()

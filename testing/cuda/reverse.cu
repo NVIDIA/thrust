@@ -3,6 +3,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator>
 __global__
 void reverse_kernel(ExecutionPolicy exec, Iterator first, Iterator last)
@@ -82,6 +83,7 @@ void TestReverseCopyDeviceDevice()
   TestReverseCopyDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestReverseCopyDeviceDevice);
+#endif
 
 
 void TestReverseCudaStreams()

@@ -4,14 +4,6 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename ExecutionPolicy, typename Iterator, typename Compare>
-__global__
-void sort_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Compare comp)
-{
-  thrust::sort(exec, first, last, comp);
-}
-
-
 template<typename T>
 struct my_less
 {
@@ -21,6 +13,15 @@ struct my_less
     return lhs < rhs;
   }
 };
+
+
+#ifdef THRUST_TEST_DEVICE_SIDE
+template<typename ExecutionPolicy, typename Iterator, typename Compare>
+__global__
+void sort_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Compare comp)
+{
+  thrust::sort(exec, first, last, comp);
+}
 
 
 template<typename T, typename ExecutionPolicy, typename Compare>
@@ -101,6 +102,7 @@ VariableUnitTest<
   TestSortDeviceDevice,
   unittest::type_list<unittest::int8_t,unittest::int32_t>
 > TestSortDeviceDeviceInstance;
+#endif
 
 
 void TestSortCudaStreams()

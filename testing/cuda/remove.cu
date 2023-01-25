@@ -3,6 +3,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename T, typename Iterator2>
 __global__
 void remove_kernel(ExecutionPolicy exec, Iterator first, Iterator last, T val, Iterator2 result)
@@ -49,6 +50,7 @@ void remove_copy_if_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last
 {
   *result_end = thrust::remove_copy_if(exec, first, last, stencil_first, result, pred);
 }
+#endif
 
 
 template<typename T>
@@ -69,6 +71,7 @@ struct is_true
 };
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy>
 void TestRemoveDevice(ExecutionPolicy exec)
 {
@@ -328,6 +331,7 @@ void TestRemoveCopyIfStencilDeviceDevice()
   TestRemoveCopyIfStencilDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestRemoveCopyIfStencilDeviceDevice);
+#endif
 
 
 void TestRemoveCudaStreams()

@@ -4,6 +4,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename Function, typename Iterator2>
 __global__
 void all_of_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Function f, Iterator2 result)
@@ -83,6 +84,7 @@ void TestAllOfDeviceDevice()
   TestAllOfDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestAllOfDeviceDevice);
+#endif
 
 
 void TestAllOfCudaStreams()
@@ -111,6 +113,7 @@ void TestAllOfCudaStreams()
 DECLARE_UNITTEST(TestAllOfCudaStreams);
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename Function, typename Iterator2>
 __global__
 void any_of_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Function f, Iterator2 result)
@@ -191,6 +194,7 @@ void TestAnyOfDeviceDevice()
   TestAnyOfDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestAnyOfDeviceDevice);
+#endif
 
 
 void TestAnyOfCudaStreams()
@@ -219,6 +223,7 @@ void TestAnyOfCudaStreams()
 DECLARE_UNITTEST(TestAnyOfCudaStreams);
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename Function, typename Iterator2>
 __global__
 void none_of_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Function f, Iterator2 result)
@@ -299,6 +304,7 @@ void TestNoneOfDeviceDevice()
   TestNoneOfDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestNoneOfDeviceDevice);
+#endif
 
 
 void TestNoneOfCudaStreams()

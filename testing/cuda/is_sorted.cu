@@ -3,6 +3,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename Iterator2>
 __global__
 void is_sorted_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Iterator2 result)
@@ -55,6 +56,7 @@ void TestIsSortedDeviceDevice()
   TestIsSortedDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestIsSortedDeviceDevice);
+#endif
 
 
 void TestIsSortedCudaStreams()

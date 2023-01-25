@@ -3,6 +3,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Function1, typename T, typename Function2, typename Iterator2>
 __global__
 void transform_reduce_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Function1 f1, T init, Function2 f2, Iterator2 result)
@@ -44,6 +45,7 @@ void TestTransformReduceDeviceDevice()
   TestTransformReduceDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestTransformReduceDeviceDevice);
+#endif
 
 
 void TestTransformReduceCudaStreams()

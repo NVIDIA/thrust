@@ -4,6 +4,7 @@
 #include <thrust/iterator/constant_iterator.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename T, typename Iterator2>
 __global__
 void reduce_kernel(ExecutionPolicy exec, Iterator first, Iterator last, T init, Iterator2 result)
@@ -63,6 +64,7 @@ struct TestReduceDeviceNoSync
   }
 };
 VariableUnitTest<TestReduceDeviceNoSync, IntegralTypes> TestReduceDeviceNoSyncInstance;
+#endif
 
 
 template<typename ExecutionPolicy>

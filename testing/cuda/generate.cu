@@ -3,14 +3,6 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename ExecutionPolicy, typename Iterator, typename Function>
-__global__
-void generate_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Function f)
-{
-  thrust::generate(exec, first, last, f);
-}
-
-
 template<typename T>
 struct return_value
 {
@@ -22,6 +14,15 @@ struct return_value
   __host__ __device__
   T operator()(void){ return val; }
 };
+
+
+#ifdef THRUST_TEST_DEVICE_SIDE
+template<typename ExecutionPolicy, typename Iterator, typename Function>
+__global__
+void generate_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Function f)
+{
+  thrust::generate(exec, first, last, f);
+}
 
 
 template<typename T, typename ExecutionPolicy>
@@ -59,6 +60,7 @@ void TestGenerateDeviceDevice(const size_t n)
   TestGenerateDevice<T>(thrust::device, n);
 }
 DECLARE_VARIABLE_UNITTEST(TestGenerateDeviceDevice);
+#endif
 
 
 void TestGenerateCudaStreams()
@@ -86,6 +88,7 @@ void TestGenerateCudaStreams()
 DECLARE_UNITTEST(TestGenerateCudaStreams);
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename Size, typename Function>
 __global__
 void generate_n_kernel(ExecutionPolicy exec, Iterator first, Size n, Function f)
@@ -129,6 +132,7 @@ void TestGenerateNDeviceDevice(const size_t n)
   TestGenerateNDevice<T>(thrust::device, n);
 }
 DECLARE_VARIABLE_UNITTEST(TestGenerateNDeviceDevice);
+#endif
 
 
 void TestGenerateNCudaStreams()
