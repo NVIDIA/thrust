@@ -51,14 +51,6 @@ foreach(thrust_target IN LISTS THRUST_TARGETS)
   add_dependencies(${config_prefix}.all ${config_meta_target})
 endforeach()
 
-# Update flags to reflect RDC options. See note in ThrustCudaConfig.cmake --
-# these flag variables behave unintuitively:
-if (THRUST_ENABLE_EXAMPLES_WITH_RDC)
-  set(CMAKE_CUDA_FLAGS "${THRUST_CUDA_FLAGS_BASE} ${THRUST_CUDA_FLAGS_RDC}")
-else()
-  set(CMAKE_CUDA_FLAGS "${THRUST_CUDA_FLAGS_BASE} ${THRUST_CUDA_FLAGS_NO_RDC}")
-endif()
-
 ## thrust_add_example
 #
 # Add an example executable and register it with ctest.
@@ -97,6 +89,10 @@ function(thrust_add_example target_name_var example_name example_src thrust_targ
   thrust_clone_target_properties(${example_target} ${thrust_target})
   thrust_fix_clang_nvcc_build_for(${example_target})
 
+  if ("CUDA" STREQUAL "${config_device}")
+    thrust_configure_cuda_target(${example_target} RDC ${THRUST_FORCE_RDC})
+  endif()
+
   # Add to the active configuration's meta target
   add_dependencies(${config_meta_target} ${example_target})
 
@@ -105,11 +101,6 @@ function(thrust_add_example target_name_var example_name example_src thrust_targ
     add_custom_target(${example_meta_target})
   endif()
   add_dependencies(${example_meta_target} ${example_target})
-
-  if ("CUDA" STREQUAL "${config_device}" AND
-      THRUST_ENABLE_EXAMPLES_WITH_RDC)
-    thrust_enable_rdc_for_cuda_target(${example_target})
-  endif()
 
   if (NOT "Clang" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
     target_compile_definitions(${example_target} PRIVATE THRUST_EXAMPLE_DEVICE_SIDE)

@@ -699,9 +699,8 @@ if (NOT TARGET Thrust::libcudacxx)
     ${_THRUST_QUIET_FLAG}
     NO_DEFAULT_PATH # Only check the explicit HINTS below:
     HINTS
-      "${_THRUST_INCLUDE_DIR}/dependencies/libcudacxx" # Source layout (GitHub)
-      "${_THRUST_INCLUDE_DIR}/../libcudacxx"           # Source layout (Perforce)
-      "${_THRUST_CMAKE_DIR}/.."                        # Install layout
+      "${_THRUST_INCLUDE_DIR}/../libcudacxx" # Source layout
+      "${_THRUST_CMAKE_DIR}/.."              # Install layout
   )
 
   # A second required search allows externally packaged to be used and fails if

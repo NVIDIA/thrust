@@ -110,20 +110,12 @@ function(thrust_build_compiler_targets)
     append_option_if_available("-diag-disable=11076" cxx_compile_options)
   endif()
 
-  if ("NVCXX" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
-    # Today:
-    # * NVCC accepts CUDA C++ in .cu files but not .cpp files.
-    # * NVC++ accepts CUDA C++ in .cpp files but not .cu files.
-    # TODO: This won't be necessary in the future.
-    list(APPEND cxx_compile_options -cppsuffix=cu)
-  endif()
-
   add_library(thrust.compiler_interface INTERFACE)
 
   foreach (cxx_option IN LISTS cxx_compile_options)
     target_compile_options(thrust.compiler_interface INTERFACE
       $<$<COMPILE_LANGUAGE:CXX>:${cxx_option}>
-      $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVCXX>>:${cxx_option}>
+      $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVCXX>>:${cxx_option}> # TODO will this work with the new nvc++ recipe?
       # Only use -Xcompiler with NVCC, not NVC++.
       #
       # CMake can't split genexs, so this can't be formatted better :(
@@ -144,12 +136,8 @@ function(thrust_build_compiler_targets)
   target_compile_options(thrust.compiler_interface INTERFACE
     # If using CUDA w/ NVCC...
     $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Xcudafe=--display_error_number>
-  )
-
-  # Tell NVCC to be quiet about deprecated GPU targets:
-  target_compile_options(thrust.compiler_interface INTERFACE
-    # If using CUDA w/ NVCC...
     $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Wno-deprecated-gpu-targets>
+    $<$<COMPILE_LANG_AND_ID:CUDA,NVIDIA>:-diag-suppress 128>
   )
 
   # This is kept separate for Github issue #1174.

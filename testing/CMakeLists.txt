@@ -6,14 +6,6 @@ foreach(thrust_target IN LISTS THRUST_TARGETS)
   add_dependencies(${config_prefix}.all ${config_meta_target})
 endforeach()
 
-# Update flags to reflect RDC options. See note in ThrustCudaConfig.cmake --
-# these flag variables behave unintuitively:
-if (THRUST_ENABLE_TESTS_WITH_RDC)
-  set(CMAKE_CUDA_FLAGS "${THRUST_CUDA_FLAGS_BASE} ${THRUST_CUDA_FLAGS_RDC}")
-else()
-  set(CMAKE_CUDA_FLAGS "${THRUST_CUDA_FLAGS_BASE} ${THRUST_CUDA_FLAGS_NO_RDC}")
-endif()
-
 # Generate testing framework libraries:
 add_subdirectory(unittest)
 
@@ -154,8 +146,8 @@ foreach(thrust_target IN LISTS THRUST_TARGETS)
 
     thrust_add_test(test_target ${test_name} "${test_src}" ${thrust_target})
 
-    if (THRUST_ENABLE_TESTS_WITH_RDC AND ("CUDA" STREQUAL "${config_device}"))
-      thrust_enable_rdc_for_cuda_target(${test_target})
+    if ("CUDA" STREQUAL "${config_device}")
+      thrust_configure_cuda_target(${test_target} RDC ${THRUST_FORCE_RDC})
     endif()
   endforeach()
 endforeach()
