@@ -54,13 +54,13 @@
   { /* Without this, the device pass won't compile any kernels. */             \
     NV_IF_TARGET(NV_ANY_TARGET, par_impl);                                     \
   }                                                                            \
-  NV_DISPATCH_TARGET(NV_PROVIDES_SM_90, seq_impl, NV_ANY_TARGET, par_impl)
+  NV_IF_TARGET(NV_PROVIDES_SM_90, seq_impl, par_impl)
 
 #else // NVCC device pass
 
 // seq_impl only used on platforms that do not support device synchronization.
 #define THRUST_CDP_DISPATCH(par_impl, seq_impl)                                \
-  NV_DISPATCH_TARGET(NV_PROVIDES_SM_90, seq_impl, NV_ANY_TARGET, par_impl)
+  NV_IF_TARGET(NV_PROVIDES_SM_90, seq_impl, par_impl)
 
 #endif // NVCC device pass
 
