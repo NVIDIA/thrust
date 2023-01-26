@@ -618,15 +618,14 @@ namespace core {
   THRUST_RUNTIME_FUNCTION
   inline int get_ptx_version()
   {
-    int ptx_version = 0;
     const int current_device = cub::CurrentDevice();
-
     if (current_device < 0)
     {
       cuda_cub::throw_on_error(cudaErrorNoDevice, "No GPU is available\n");
     }
 
     // Any failure means the provided device binary does not match the generated function code
+    int ptx_version = 0;
     if (cub::PtxVersion(ptx_version) != cudaSuccess) 
     {
       int major = 0, minor = 0;

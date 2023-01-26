@@ -475,9 +475,7 @@ namespace core {
 #ifdef __CUDACC_RDC__
       return core::get_agent_plan<Agent>(s, d_ptr);
 #else
-      core::cuda_optional<int> ptx_version = core::get_ptx_version();
-      //CUDA_CUB_RET_IF_FAIL(ptx_version.status());
-      return get_agent_plan<Agent>(ptx_version);
+      return get_agent_plan<Agent>(core::get_ptx_version());
 #endif
     }
     THRUST_RUNTIME_FUNCTION
@@ -527,7 +525,7 @@ namespace core {
     {
       #if THRUST_DEBUG_SYNC_FLAG 
       cuda_optional<int> occ = max_sm_occupancy(k);
-      core::cuda_optional<int> ptx_version = core::get_ptx_version();
+      const int ptx_version = core::get_ptx_version();
       if (count > 0)
       {
         _CubLog("Invoking %s<<<%u, %d, %d, %lld>>>(), %llu items total, %d items per thread, %d SM occupancy, %d vshmem size, %d ptx_version \n",
