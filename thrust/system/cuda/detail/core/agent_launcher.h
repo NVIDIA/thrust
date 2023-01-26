@@ -491,8 +491,7 @@ namespace core {
     typename core::get_plan<Agent>::type static get_plan(cudaStream_t , void* d_ptr = 0)
     {
       THRUST_UNUSED_VAR(d_ptr);
-      core::cuda_optional<int> ptx_version = core::get_ptx_version();
-      return get_agent_plan<Agent>(ptx_version);
+      return get_agent_plan<Agent>(core::get_ptx_version());
     }
 
     THRUST_RUNTIME_FUNCTION
