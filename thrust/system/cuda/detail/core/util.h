@@ -30,6 +30,7 @@
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/system/cuda/config.h>
 #include <thrust/system/cuda/detail/util.h>
+#include <thrust/system/system_error.h>
 #include <thrust/type_traits/is_contiguous_iterator.h>
 
 #include <cub/block/block_load.cuh>
@@ -615,11 +616,57 @@ namespace core {
   };
 
   THRUST_RUNTIME_FUNCTION
-  inline cuda_optional<int> get_ptx_version()
+  inline int get_ptx_version()
   {
     int ptx_version = 0;
-    cudaError_t status = cub::PtxVersion(ptx_version);
-    return cuda_optional<int>(ptx_version, status);
+    if (cub::PtxVersion(ptx_version) != cudaSuccess) 
+    {
+      // Failure might mean that there's no device found
+      const int current_device = cub::CurrentDevice();
+      if (current_device < 0)
+      {
+        cuda_cub::throw_on_error(cudaErrorNoDevice, "No GPU is available\n");
+      }
+
+      // Any subsequent failure means the provided device binary does not match 
+      // the generated function code
+      int major = 0, minor = 0;
+      cudaError_t attr_status;
+
+      attr_status = cudaDeviceGetAttribute(&major, cudaDevAttrComputeCapabilityMajor, current_device);
+      cuda_cub::throw_on_error(attr_status,
+                              "get_ptx_version :"
+                              "failed to get major CUDA device compute capability version.");
+
+      attr_status = cudaDeviceGetAttribute(&minor, cudaDevAttrComputeCapabilityMinor, current_device);
+      cuda_cub::throw_on_error(attr_status,
+                              "get_ptx_version :"
+                              "failed to get minor CUDA device compute capability version.");
+        
+      // Index from which SM code has to start in the message below
+      int code_offset = 37;
+      char str[] = "This program was not compiled for SM     \n";
+
+      auto print_1_helper = [&](int v) {
+        str[code_offset] = static_cast<char>(v) + '0';
+        code_offset++;
+      };
+
+      // Assume two digits will be enough
+      auto print_2_helper = [&](int v) {
+        if (v / 10 != 0) {
+          print_1_helper(v / 10);
+        }
+        print_1_helper(v % 10);
+      };
+
+      print_2_helper(major);
+      print_2_helper(minor);
+
+      cuda_cub::throw_on_error(cudaErrorInvalidDevice, str);
+    }
+
+    return ptx_version;
   }
 
   THRUST_RUNTIME_FUNCTION
