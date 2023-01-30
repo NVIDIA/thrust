@@ -357,7 +357,7 @@
       "location": {
         "column": 29,
         "file": "thrust/system/cuda/error.h",
-        "line": 143
+        "line": 133
       },
       "name": "cuda_category",
       "note": [
@@ -404,7 +404,7 @@
       "location": {
         "column": 19,
         "file": "thrust/system/cuda/error.h",
-        "line": 156
+        "line": 146
       },
       "name": "make_error_code",
       "override": false,
@@ -449,7 +449,7 @@
       "location": {
         "column": 24,
         "file": "thrust/system/cuda/error.h",
-        "line": 162
+        "line": 152
       },
       "name": "make_error_condition",
       "override": false,

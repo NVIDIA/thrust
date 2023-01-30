@@ -14,7 +14,7 @@
   "location": {
     "column": 1,
     "file": "thrust/system/cuda/error.h",
-    "line": 166
+    "line": 156
   },
   "name": "thrust::cuda_cub",
   "override": false,

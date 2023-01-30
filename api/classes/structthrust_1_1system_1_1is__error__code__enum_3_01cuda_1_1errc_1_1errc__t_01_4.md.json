@@ -23,12 +23,12 @@
   "kind": "struct",
   "language": "cpp",
   "location": {
-    "bodyEnd": 150,
+    "bodyEnd": 140,
     "bodyFile": "thrust/system/cuda/error.h",
-    "bodyStart": 150,
+    "bodyStart": 140,
     "column": 10,
     "file": "thrust/system/cuda/error.h",
-    "line": 150
+    "line": 140
   },
   "name": "thrust::system::is_error_code_enum< cuda::errc::errc_t >",
   "override": false,
