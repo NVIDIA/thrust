@@ -78,8 +78,8 @@ elif [[ "${BUILD_MODE}" == "pull-request" || "${BUILD_MODE}" == "branch" ]]; the
   export ENABLE_SCCACHE="gpuCI"
   # Change to 'thrust-aarch64' if we add aarch64 builds to gpuCI:
   export SCCACHE_S3_KEY_PREFIX=thrust-linux64 # [linux64]
-  export SCCACHE_BUCKET=rapids-sccache
-  export SCCACHE_REGION=us-west-2
+  export SCCACHE_BUCKET=rapids-sccache-east
+  export SCCACHE_REGION=us-east-2
   export SCCACHE_IDLE_TIMEOUT=32768
 else
   export ENABLE_SCCACHE="local"
