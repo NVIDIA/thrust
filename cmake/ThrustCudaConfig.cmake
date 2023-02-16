@@ -27,8 +27,8 @@ set(THRUST_CUDA_FLAGS_BASE "${CMAKE_CUDA_FLAGS}")
 set(THRUST_CUDA_FLAGS_RDC)
 set(THRUST_CUDA_FLAGS_NO_RDC)
 
-# Archs that don't support RDC:
-set(no_rdc_archs 53 62 72)
+# Archs that don't support CDP:
+set(no_rdc_archs 53 62 72 87)
 
 # Find the highest arch:
 list(SORT THRUST_KNOWN_COMPUTE_ARCHS)
