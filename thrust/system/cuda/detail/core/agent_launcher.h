@@ -36,14 +36,7 @@
 #include <thrust/system/cuda/detail/core/util.h>
 #include <cassert>
 
-#if 0
-#define __THRUST__TEMPLATE_DEBUG
-#endif
-
-#if __THRUST__TEMPLATE_DEBUG
-template<int...> class ID_impl;
-template<int... I> class Foo { ID_impl<I...> t;};
-#endif
+#include <nv/target>
 
 THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
@@ -382,7 +375,6 @@ namespace core {
     size_t          count;
     cudaStream_t    stream;
     char const*     name;
-    bool            debug_sync;
     unsigned int    grid;
     char*           vshmem;
     bool            has_shmem;
@@ -404,13 +396,11 @@ namespace core {
     AgentLauncher(AgentPlan    plan_,
                   Size         count_,
                   cudaStream_t stream_,
-                  char const*  name_,
-                  bool         debug_sync_)
+                  char const*  name_)
         : plan(plan_),
           count((size_t)count_),
           stream(stream_),
           name(name_),
-          debug_sync(debug_sync_),
           grid(static_cast<unsigned int>((count + plan.items_per_tile - 1) / plan.items_per_tile)),
           vshmem(NULL),
           has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size),
@@ -425,13 +415,11 @@ namespace core {
                   Size         count_,
                   cudaStream_t stream_,
                   char*        vshmem,
-                  char const*  name_,
-                  bool         debug_sync_)
+                  char const*  name_)
         : plan(plan_),
           count((size_t)count_),
           stream(stream_),
           name(name_),
-          debug_sync(debug_sync_),
           grid(static_cast<unsigned int>((count + plan.items_per_tile - 1) / plan.items_per_tile)),
           vshmem(vshmem),
           has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size),
@@ -443,13 +431,11 @@ namespace core {
     THRUST_RUNTIME_FUNCTION
     AgentLauncher(AgentPlan    plan_,
                   cudaStream_t stream_,
-                  char const*  name_,
-                  bool         debug_sync_)
+                  char const*  name_)
         : plan(plan_),
           count(0),
           stream(stream_),
           name(name_),
-          debug_sync(debug_sync_),
           grid(plan.grid_size),
           vshmem(NULL),
           has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size),
@@ -462,13 +448,11 @@ namespace core {
     AgentLauncher(AgentPlan    plan_,
                   cudaStream_t stream_,
                   char*        vshmem,
-                  char const*  name_,
-                  bool         debug_sync_)
+                  char const*  name_)
         : plan(plan_),
           count(0),
           stream(stream_),
           name(name_),
-          debug_sync(debug_sync_),
           grid(plan.grid_size),
           vshmem(vshmem),
           has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size),
@@ -491,9 +475,7 @@ namespace core {
 #ifdef __CUDACC_RDC__
       return core::get_agent_plan<Agent>(s, d_ptr);
 #else
-      core::cuda_optional<int> ptx_version = core::get_ptx_version();
-      //CUDA_CUB_RET_IF_FAIL(ptx_version.status());
-      return get_agent_plan<Agent>(ptx_version);
+      return get_agent_plan<Agent>(core::get_ptx_version());
 #endif
     }
     THRUST_RUNTIME_FUNCTION
@@ -507,8 +489,7 @@ namespace core {
     typename core::get_plan<Agent>::type static get_plan(cudaStream_t , void* d_ptr = 0)
     {
       THRUST_UNUSED_VAR(d_ptr);
-      core::cuda_optional<int> ptx_version = core::get_ptx_version();
-      return get_agent_plan<Agent>(ptx_version);
+      return get_agent_plan<Agent>(core::get_ptx_version());
     }
 
     THRUST_RUNTIME_FUNCTION
@@ -519,18 +500,7 @@ namespace core {
 
     THRUST_RUNTIME_FUNCTION void sync() const
     {
-      if (debug_sync)
-      {
-        if (THRUST_IS_DEVICE_CODE) {
-          #if THRUST_INCLUDE_DEVICE_CODE
-            cub::detail::device_synchronize();
-          #endif
-        } else {
-          #if THRUST_INCLUDE_HOST_CODE
-            cudaStreamSynchronize(stream);
-          #endif
-        }
-      }
+      CubDebug(cub::detail::DebugSyncStream(stream));
     }
 
     template<class K>
@@ -549,44 +519,43 @@ namespace core {
       return max_blocks_per_sm_impl(k, plan.block_threads);
     }
 
-
-
     template<class K>
     THRUST_RUNTIME_FUNCTION
     void print_info(K k) const
     {
-      if (debug_sync)
+      #if THRUST_DEBUG_SYNC_FLAG 
+      cuda_optional<int> occ = max_sm_occupancy(k);
+      const int ptx_version = core::get_ptx_version();
+      if (count > 0)
       {
-        cuda_optional<int> occ = max_sm_occupancy(k);
-        core::cuda_optional<int> ptx_version = core::get_ptx_version();
-        if (count > 0)
-        {
-          _CubLog("Invoking %s<<<%u, %d, %d, %lld>>>(), %llu items total, %d items per thread, %d SM occupancy, %d vshmem size, %d ptx_version \n",
-                  name,
-                  grid,
-                  plan.block_threads,
-                  (has_shmem ? (int)plan.shared_memory_size : 0),
-                  (long long)stream,
-                  (long long)count,
-                  plan.items_per_thread,
-                  (int)occ,
-                  (!has_shmem ? (int)plan.shared_memory_size : 0),
-                  (int)ptx_version);
-        }
-        else
-        {
-          _CubLog("Invoking %s<<<%u, %d, %d, %lld>>>(), %d items per thread, %d SM occupancy, %d vshmem size, %d ptx_version\n",
-                  name,
-                  grid,
-                  plan.block_threads,
-                  (has_shmem ? (int)plan.shared_memory_size : 0),
-                  (long long)stream,
-                  plan.items_per_thread,
-                  (int)occ,
-                  (!has_shmem ? (int)plan.shared_memory_size : 0),
-                  (int)ptx_version);
-        }
+        _CubLog("Invoking %s<<<%u, %d, %d, %lld>>>(), %llu items total, %d items per thread, %d SM occupancy, %d vshmem size, %d ptx_version \n",
+                name,
+                grid,
+                plan.block_threads,
+                (has_shmem ? (int)plan.shared_memory_size : 0),
+                (long long)stream,
+                (long long)count,
+                plan.items_per_thread,
+                (int)occ,
+                (!has_shmem ? (int)plan.shared_memory_size : 0),
+                (int)ptx_version);
       }
+      else
+      {
+        _CubLog("Invoking %s<<<%u, %d, %d, %lld>>>(), %d items per thread, %d SM occupancy, %d vshmem size, %d ptx_version\n",
+                name,
+                grid,
+                plan.block_threads,
+                (has_shmem ? (int)plan.shared_memory_size : 0),
+                (long long)stream,
+                plan.items_per_thread,
+                (int)occ,
+                (!has_shmem ? (int)plan.shared_memory_size : 0),
+                (int)ptx_version);
+      }
+      #else
+      (void)k;
+      #endif
     }
 
     ////////////////////
@@ -747,16 +716,6 @@ namespace core {
     void THRUST_RUNTIME_FUNCTION
     launch(Args... args) const
     {
-#if __THRUST__TEMPLATE_DEBUG
-#ifdef __CUDA_ARCH__
-      typedef typename Foo<
-        shm1::v1,
-        shm1::v2,
-        shm1::v3,
-        shm1::v4,
-        shm1::v5>::t tt;
-#endif
-#endif
       launch_impl(has_enough_shmem_t(),args...);
       sync();
     }

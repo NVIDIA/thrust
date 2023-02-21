@@ -26,6 +26,7 @@
 #include <thrust/detail/vector_base.h>
 #include <thrust/device_allocator.h>
 
+#include <initializer_list>
 #include <vector>
 #include <utility>
 
@@ -196,6 +197,25 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
     template<typename OtherT, typename OtherAlloc>
     device_vector &operator=(const detail::vector_base<OtherT,OtherAlloc> &v)
     { Parent::operator=(v); return *this; }
+
+    /*! This constructor builds a \p device_vector from an intializer_list.
+     *  \param il The intializer_list.
+     */
+    device_vector(std::initializer_list<T> il)
+      :Parent(il) {}
+      
+    /*! This constructor builds a \p device_vector from an intializer_list.
+     *  \param il The intializer_list.
+     *  \param alloc The allocator to use by this device_vector.
+     */
+    device_vector(std::initializer_list<T> il, const Alloc &alloc)
+      :Parent(il, alloc) {}
+      
+    /*! Assign an \p intializer_list with a matching element type
+     *  \param il The intializer_list.
+     */
+    device_vector &operator=(std::initializer_list<T> il)
+    { Parent::operator=(il); return *this; }
 
     /*! This constructor builds a \p device_vector from a range.
      *  \param first The beginning of the range.

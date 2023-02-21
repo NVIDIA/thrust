@@ -3,6 +3,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3>
 __global__ void mismatch_kernel(ExecutionPolicy exec, Iterator1 first1, Iterator1 last1, Iterator2 first2, Iterator3 result)
 {
@@ -72,6 +73,7 @@ void TestMismatchDeviceDevice()
   TestMismatchDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestMismatchDeviceDevice);
+#endif
 
 
 void TestMismatchCudaStreams()

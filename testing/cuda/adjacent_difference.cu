@@ -5,6 +5,7 @@
 #include <thrust/device_free.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2>
 __global__ void adjacent_difference_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 result)
 {
@@ -73,6 +74,7 @@ void TestAdjacentDifferenceDeviceDevice(const size_t n)
   TestAdjacentDifferenceDevice<T>(thrust::device, n);
 }
 DECLARE_VARIABLE_UNITTEST(TestAdjacentDifferenceDeviceDevice);
+#endif
 
 
 void TestAdjacentDifferenceCudaStreams()

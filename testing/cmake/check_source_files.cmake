@@ -85,6 +85,24 @@ if (NOT valid_count EQUAL 5)
 endif()
 
 ################################################################################
+# Legacy macro checks.
+# Check all files in Thrust to make sure that they aren't using the legacy
+# CUB_RUNTIME_ENABLED and __THRUST_HAS_CUDART__ macros.
+#
+# These macros depend on __CUDA_ARCH__ and are not compatible with NV_IF_TARGET.
+# They are provided for legacy purposes and should be replaced with
+# [THRUST|CUB]_RDC_ENABLED and NV_IF_TARGET in Thrust/CUB code.
+#
+#
+set(legacy_macro_header_exclusions
+  # This header defines a legacy CUDART macro:
+  thrust/system/cuda/config.h
+)
+
+set(cub_legacy_macro_regex "CUB_RUNTIME_ENABLED")
+set(thrust_legacy_macro_regex "__THRUST_HAS_CUDART__")
+
+################################################################################
 # Read source files:
 foreach(src ${thrust_srcs})
   file(READ "${Thrust_SOURCE_DIR}/${src}" src_contents)
@@ -142,6 +160,21 @@ foreach(src ${thrust_srcs})
 
     if (NOT numeric_count EQUAL 0)
       message("'${src}' includes the <numeric> header. Replace with <thrust/detail/numeric_wrapper.h>.")
+      set(found_errors 1)
+    endif()
+  endif()
+
+  if (NOT ${src} IN_LIST legacy_macro_header_exclusions)
+    count_substrings("${src_contents}" "${thrust_legacy_macro_regex}" thrust_count)
+    count_substrings("${src_contents}" "${cub_legacy_macro_regex}" cub_count)
+
+    if (NOT thrust_count EQUAL 0)
+      message("'${src}' uses __THRUST_HAS_CUDART__. Replace with THRUST_RDC_ENABLED and NV_IF_TARGET.")
+      set(found_errors 1)
+    endif()
+
+    if (NOT cub_count EQUAL 0)
+      message("'${src}' uses CUB_RUNTIME_ENABLED. Replace with CUB_RDC_ENABLED and NV_IF_TARGET.")
       set(found_errors 1)
     endif()
   endif()

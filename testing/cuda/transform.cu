@@ -3,6 +3,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Function, typename Iterator3>
 __global__
 void transform_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 result1, Function f, Iterator3 result2)
@@ -270,6 +271,7 @@ void TestTransformIfBinaryDeviceDevice()
   TestTransformIfBinaryDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestTransformIfBinaryDeviceDevice);
+#endif
 
 void TestTransformUnaryCudaStreams()
 {

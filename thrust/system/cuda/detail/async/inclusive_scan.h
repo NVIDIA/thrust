@@ -72,16 +72,19 @@ async_inclusive_scan_n(execution_policy<DerivedPolicy>& policy,
                        OutputIt out,
                        BinaryOp op)
 {
+  using AccumT = typename thrust::iterator_traits<ForwardIt>::value_type;
   using Dispatch32 = cub::DispatchScan<ForwardIt,
                                        OutputIt,
                                        BinaryOp,
                                        cub::NullType,
-                                       thrust::detail::int32_t>;
+                                       thrust::detail::int32_t,
+                                       AccumT>;
   using Dispatch64 = cub::DispatchScan<ForwardIt,
                                        OutputIt,
                                        BinaryOp,
                                        cub::NullType,
-                                       thrust::detail::int64_t>;
+                                       thrust::detail::int64_t,
+                                       AccumT>;
 
   auto const device_alloc = get_async_device_allocator(policy);
   unique_eager_event ev;
@@ -101,8 +104,7 @@ async_inclusive_scan_n(execution_policy<DerivedPolicy>& policy,
                                   op,
                                   cub::NullType{},
                                   n_fixed,
-                                  nullptr,
-                                  THRUST_DEBUG_SYNC_FLAG));
+                                  nullptr));
     thrust::cuda_cub::throw_on_error(status,
                                      "after determining tmp storage "
                                      "requirements for inclusive_scan");
@@ -148,8 +150,7 @@ async_inclusive_scan_n(execution_policy<DerivedPolicy>& policy,
                                  op,
                                  cub::NullType{},
                                  n_fixed,
-                                 user_raw_stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 user_raw_stream));
     thrust::cuda_cub::throw_on_error(status,
                                      "after dispatching inclusive_scan kernel");
   }

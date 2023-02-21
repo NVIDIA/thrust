@@ -7,7 +7,7 @@ function(thrust_configure_multiconfig)
 
   # Dialects:
   set(THRUST_CPP_DIALECT_OPTIONS
-    11 14 17
+    11 14 17 20
     CACHE INTERNAL "C++ dialects supported by Thrust." FORCE
   )
 

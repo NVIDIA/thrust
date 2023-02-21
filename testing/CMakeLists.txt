@@ -41,6 +41,10 @@ thrust_declare_test_restrictions(future            CPP.CUDA OMP.CUDA TBB.CUDA)
 # for CUDA.
 thrust_declare_test_restrictions(unittest_static_assert CPP.CPP CPP.CUDA)
 
+# In the TBB backend, reduce_by_key does not currently work with transform_output_iterator
+# https://github.com/NVIDIA/thrust/issues/1811
+thrust_declare_test_restrictions(transform_output_iterator_reduce_by_key CPP.CPP CPP.OMP CPP.CUDA)
+
 ## thrust_add_test
 #
 # Add a test executable and register it with ctest.
@@ -78,6 +82,10 @@ function(thrust_add_test target_name_var test_name test_src thrust_target)
   target_link_libraries(${test_target} PRIVATE ${config_framework_target})
   target_include_directories(${test_target} PRIVATE "${Thrust_SOURCE_DIR}/testing")
   thrust_clone_target_properties(${test_target} ${thrust_target})
+
+  if (NOT "Clang" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+    target_compile_definitions(${test_target} PRIVATE THRUST_TEST_DEVICE_SIDE)
+  endif()
 
   # Add to the active configuration's meta target
   add_dependencies(${config_meta_target} ${test_target})

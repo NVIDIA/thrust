@@ -3,6 +3,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename T, typename Iterator3>
 __global__
 void inner_product_kernel(ExecutionPolicy exec, Iterator1 first1, Iterator1 last1, Iterator2 first2, T init, Iterator3 result)
@@ -50,6 +51,7 @@ void TestInnerProductDeviceDevice()
   TestInnerProductDevice(thrust::device);
 };
 DECLARE_UNITTEST(TestInnerProductDeviceDevice);
+#endif
 
 
 void TestInnerProductCudaStreams()

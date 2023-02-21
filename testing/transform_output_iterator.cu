@@ -1,11 +1,13 @@
 #include <unittest/unittest.h>
-#include <thrust/iterator/transform_output_iterator.h>
 
 #include <thrust/copy.h>
-#include <thrust/reduce.h>
+#include <thrust/device_vector.h>
 #include <thrust/functional.h>
-#include <thrust/sequence.h>
+#include <thrust/host_vector.h>
 #include <thrust/iterator/counting_iterator.h>
+#include <thrust/iterator/transform_output_iterator.h>
+#include <thrust/reduce.h>
+#include <thrust/sequence.h>
 
 template <class Vector>
 void TestTransformOutputIterator(void)

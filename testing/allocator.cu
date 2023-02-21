@@ -2,6 +2,9 @@
 #include <thrust/detail/config.h>
 #include <thrust/device_malloc_allocator.h>
 #include <thrust/system/cpp/vector.h>
+
+#include <nv/target>
+
 #include <memory>
 
 template <typename T>
@@ -60,9 +63,12 @@ DECLARE_VARIABLE_UNITTEST(TestAllocatorCustomCopyConstruct);
 template <typename T>
 struct my_allocator_with_custom_destroy
 {
-  typedef T         value_type;
-  typedef T &       reference;
-  typedef const T & const_reference;
+  // This is only used with thrust::cpp::vector:
+  using system_type = thrust::cpp::tag;
+
+  using value_type = T;
+  using reference = T &;
+  using const_reference = const T &;
 
   static bool g_state;
 
@@ -80,9 +86,7 @@ struct my_allocator_with_custom_destroy
   __host__ __device__
   void destroy(T *)
   {
-#if !__CUDA_ARCH__
-    g_state = true;
-#endif
+    NV_IF_TARGET(NV_IS_HOST, (g_state = true;));
   }
 
   value_type *allocate(std::ptrdiff_t n)
@@ -119,12 +123,14 @@ bool my_allocator_with_custom_destroy<T>::g_state = false;
 template <typename T>
 void TestAllocatorCustomDestroy(size_t n)
 {
+  my_allocator_with_custom_destroy<T>::g_state = false;
+
   {
     thrust::cpp::vector<T, my_allocator_with_custom_destroy<T> > vec(n);
   } // destroy everything
 
-  if (0 < n)
-    ASSERT_EQUAL(true, my_allocator_with_custom_destroy<T>::g_state);
+  // state should only be true when there are values to destroy:
+  ASSERT_EQUAL(n > 0, my_allocator_with_custom_destroy<T>::g_state);
 }
 DECLARE_VARIABLE_UNITTEST(TestAllocatorCustomDestroy);
 
@@ -203,7 +209,6 @@ void TestAllocatorTraitsRebind()
 }
 DECLARE_UNITTEST(TestAllocatorTraitsRebind);
 
-#if THRUST_CPP_DIALECT >= 2011
 void TestAllocatorTraitsRebindCpp11()
 {
   ASSERT_EQUAL(
@@ -251,5 +256,3 @@ void TestAllocatorTraitsRebindCpp11()
   );
 }
 DECLARE_UNITTEST(TestAllocatorTraitsRebindCpp11);
-#endif // C++11
-

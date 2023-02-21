@@ -3,6 +3,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4>
 __global__
 void set_symmetric_difference_kernel(ExecutionPolicy exec,
@@ -59,6 +60,7 @@ void TestSetSymmetricDifferenceDeviceDevice()
   TestSetSymmetricDifferenceDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestSetSymmetricDifferenceDeviceDevice);
+#endif
 
 
 void TestSetSymmetricDifferenceCudaStreams()

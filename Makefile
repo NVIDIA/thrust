@@ -120,7 +120,7 @@ ifeq ($(OS), win32)
 else
   TAR_FILES = bin thrust/internal/test thrust/internal/scripts thrust/internal/benchmark $(DVS_COMMON_TEST_PACKAGE_FILES)
   TAR_FILES += `find -L thrust \( -name "*.cuh" -o -name "*.h" -o -name "*.inl" \)`
-  MAKE_DVS_PACKAGE = tar -I lbzip2 -chvf built/CUDA-thrust-package.tar.bz2 $(TAR_FILES)
+  MAKE_DVS_PACKAGE = tar -I bzip2 -chvf built/CUDA-thrust-package.tar.bz2 $(TAR_FILES)
 endif
 
 COPY_CUB_FOR_PACKAGING = rm -rf cub && cp -rp ../cub/cub cub

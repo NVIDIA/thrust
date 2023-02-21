@@ -29,13 +29,13 @@
 #include <thrust/detail/config.h>
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-#include <thrust/system/cuda/config.h>
 
-#include <thrust/system/cuda/detail/util.h>
 #include <thrust/detail/type_traits/result_of_adaptable_function.h>
-#include <thrust/system/cuda/detail/par_to_seq.h>
+#include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
+#include <thrust/system/cuda/detail/util.h>
 
 THRUST_NAMESPACE_BEGIN
 
@@ -132,12 +132,10 @@ namespace __parallel_for {
     using core::AgentLauncher;
     using core::AgentPlan;
 
-    bool debug_sync = THRUST_DEBUG_SYNC_FLAG;
-
     typedef AgentLauncher<ParallelForAgent<F, Size> > parallel_for_agent;
     AgentPlan parallel_for_plan = parallel_for_agent::get_plan(stream);
 
-    parallel_for_agent pfa(parallel_for_plan, num_items, stream, "transform::agent", debug_sync);
+    parallel_for_agent pfa(parallel_for_plan, num_items, stream, "transform::agent");
     pfa.launch(f, num_items);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 
@@ -155,21 +153,24 @@ parallel_for(execution_policy<Derived> &policy,
              Size                       count)
 {
   if (count == 0)
+  {
     return;
+  }
 
-  if (__THRUST_HAS_CUDART__)
-  {
-    cudaStream_t stream = cuda_cub::stream(policy);
-    cudaError_t  status = __parallel_for::parallel_for(count, f, stream);
-    cuda_cub::throw_on_error(status, "parallel_for failed");
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    for (Size idx = 0; idx != count; ++idx)
-      f(idx);
-#endif
-  }
+  // clang-format off
+  THRUST_CDP_DISPATCH(
+    (cudaStream_t stream = cuda_cub::stream(policy);
+     cudaError_t  status = __parallel_for::parallel_for(count, f, stream);
+     cuda_cub::throw_on_error(status, "parallel_for failed");
+     status = cuda_cub::synchronize_optional(policy);
+     cuda_cub::throw_on_error(status, "parallel_for: failed to synchronize");),
+    // CDP sequential impl:
+    (for (Size idx = 0; idx != count; ++idx)
+     {
+       f(idx);
+     }
+  ));
+  // clang-format on
 }
 
 }    // namespace cuda_cub

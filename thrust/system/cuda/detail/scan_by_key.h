@@ -38,9 +38,12 @@
 #include <thrust/iterator/iterator_traits.h>
 
 #include <thrust/detail/cstdint.h>
+#include <thrust/detail/minmax.h>
+#include <thrust/detail/mpl/math.h>
 #include <thrust/detail/temporary_array.h>
 
 #include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
 #include <thrust/system/cuda/detail/dispatch.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/system/cuda/detail/util.h>
@@ -84,6 +87,7 @@ ValuesOutIt inclusive_scan_by_key_n(
     thrust::detail::try_unwrap_contiguous_iterator_return_t<ValuesInIt>;
   using ValuesOutUnwrapIt =
     thrust::detail::try_unwrap_contiguous_iterator_return_t<ValuesOutIt>;
+  using AccumT = typename thrust::iterator_traits<ValuesInUnwrapIt>::value_type;
 
   auto keys_unwrap = thrust::detail::try_unwrap_contiguous_iterator(keys);
   auto values_unwrap = thrust::detail::try_unwrap_contiguous_iterator(values);
@@ -95,14 +99,16 @@ ValuesOutIt inclusive_scan_by_key_n(
                                             EqualityOpT,
                                             ScanOpT,
                                             cub::NullType,
-                                            thrust::detail::int32_t>;
+                                            thrust::detail::int32_t,
+                                            AccumT>;
   using Dispatch64 = cub::DispatchScanByKey<KeysInUnwrapIt,
                                             ValuesInUnwrapIt,
                                             ValuesOutUnwrapIt,
                                             EqualityOpT,
                                             ScanOpT,
                                             cub::NullType,
-                                            thrust::detail::int64_t>;
+                                            thrust::detail::int64_t,
+                                            AccumT>;
 
   cudaStream_t stream = thrust::cuda_cub::stream(policy);
   cudaError_t status{};
@@ -123,8 +129,7 @@ ValuesOutIt inclusive_scan_by_key_n(
                                  scan_op,
                                  cub::NullType{},
                                  num_items_fixed,
-                                 stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 stream));
     thrust::cuda_cub::throw_on_error(status,
                                      "after determining tmp storage "
                                      "requirements for inclusive_scan_by_key");
@@ -150,8 +155,7 @@ ValuesOutIt inclusive_scan_by_key_n(
                                  scan_op,
                                  cub::NullType{},
                                  num_items_fixed,
-                                 stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 stream));
 
     thrust::cuda_cub::throw_on_error(
       status, "after dispatching inclusive_scan_by_key kernel");
@@ -208,14 +212,16 @@ ValuesOutIt exclusive_scan_by_key_n(
                                             EqualityOpT,
                                             ScanOpT,
                                             InitValueT,
-                                            thrust::detail::int32_t>;
+                                            thrust::detail::int32_t,
+                                            InitValueT>;
   using Dispatch64 = cub::DispatchScanByKey<KeysInUnwrapIt,
                                             ValuesInUnwrapIt,
                                             ValuesOutUnwrapIt,
                                             EqualityOpT,
                                             ScanOpT,
                                             InitValueT,
-                                            thrust::detail::int64_t>;
+                                            thrust::detail::int64_t,
+                                            InitValueT>;
 
   cudaStream_t stream = thrust::cuda_cub::stream(policy);
   cudaError_t status{};
@@ -236,8 +242,7 @@ ValuesOutIt exclusive_scan_by_key_n(
                                  scan_op,
                                  init_value,
                                  num_items_fixed,
-                                 stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 stream));
     thrust::cuda_cub::throw_on_error(status,
                                      "after determining tmp storage "
                                      "requirements for exclusive_scan_by_key");
@@ -263,8 +268,7 @@ ValuesOutIt exclusive_scan_by_key_n(
                                  scan_op,
                                  init_value,
                                  num_items_fixed,
-                                 stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 stream));
 
     thrust::cuda_cub::throw_on_error(
       status, "after dispatching exclusive_scan_by_key kernel");
@@ -305,29 +309,23 @@ inclusive_scan_by_key(execution_policy<Derived> &policy,
                       ScanOp                     scan_op)
 {
   ValOutputIt ret = value_result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = thrust::cuda_cub::detail::inclusive_scan_by_key_n(
-      policy,
-      key_first,
-      value_first,
-      value_result,
-      thrust::distance(key_first, key_last),
-      binary_pred,
-      scan_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::inclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
-                                        key_first,
-                                        key_last,
-                                        value_first,
-                                        value_result,
-                                        binary_pred,
-                                        scan_op);
-#endif
-  }
+  THRUST_CDP_DISPATCH(
+    (ret = thrust::cuda_cub::detail::inclusive_scan_by_key_n(
+       policy,
+       key_first,
+       value_first,
+       value_result,
+       thrust::distance(key_first, key_last),
+       binary_pred,
+       scan_op);),
+    (ret = thrust::inclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
+                                         key_first,
+                                         key_last,
+                                         value_first,
+                                         value_result,
+                                         binary_pred,
+                                         scan_op);));
+
   return ret;
 }
 
@@ -396,31 +394,24 @@ exclusive_scan_by_key(execution_policy<Derived> &policy,
                       ScanOp                     scan_op)
 {
   ValOutputIt ret = value_result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = thrust::cuda_cub::detail::exclusive_scan_by_key_n(
-      policy,
-      key_first,
-      value_first,
-      value_result,
-      thrust::distance(key_first, key_last),
-      init,
-      binary_pred,
-      scan_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::exclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
-                                        key_first,
-                                        key_last,
-                                        value_first,
-                                        value_result,
-                                        init,
-                                        binary_pred,
-                                        scan_op);
-#endif
-  }
+  THRUST_CDP_DISPATCH(
+    (ret = thrust::cuda_cub::detail::exclusive_scan_by_key_n(
+       policy,
+       key_first,
+       value_first,
+       value_result,
+       thrust::distance(key_first, key_last),
+       init,
+       binary_pred,
+       scan_op);),
+    (ret = thrust::exclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
+                                         key_first,
+                                         key_last,
+                                         value_first,
+                                         value_result,
+                                         init,
+                                         binary_pred,
+                                         scan_op);));
   return ret;
 }
 

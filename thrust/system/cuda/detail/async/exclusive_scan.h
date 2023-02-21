@@ -79,12 +79,14 @@ async_exclusive_scan_n(execution_policy<DerivedPolicy>& policy,
                                        OutputIt,
                                        BinaryOp,
                                        InputValueT,
-                                       thrust::detail::int32_t>;
+                                       thrust::detail::int32_t,
+                                       InitialValueType>;
   using Dispatch64 = cub::DispatchScan<ForwardIt,
                                        OutputIt,
                                        BinaryOp,
                                        InputValueT,
-                                       thrust::detail::int64_t>;
+                                       thrust::detail::int64_t,
+                                       InitialValueType>;
 
   InputValueT init_value(init);
 
@@ -106,8 +108,7 @@ async_exclusive_scan_n(execution_policy<DerivedPolicy>& policy,
                                   op,
                                   init_value,
                                   n_fixed,
-                                  nullptr,
-                                  THRUST_DEBUG_SYNC_FLAG));
+                                  nullptr));
     thrust::cuda_cub::throw_on_error(status,
                                      "after determining tmp storage "
                                      "requirements for exclusive_scan");
@@ -153,8 +154,7 @@ async_exclusive_scan_n(execution_policy<DerivedPolicy>& policy,
                                   op,
                                   init_value,
                                   n_fixed,
-                                  user_raw_stream,
-                                  THRUST_DEBUG_SYNC_FLAG));
+                                  user_raw_stream));
     thrust::cuda_cub::throw_on_error(status,
                                      "after dispatching exclusive_scan kernel");
   }

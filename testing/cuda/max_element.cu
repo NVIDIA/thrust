@@ -3,6 +3,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename Iterator2>
 __global__
 void max_element_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Iterator2 result)
@@ -72,6 +73,7 @@ void TestMaxElementDeviceNoSync()
   TestMaxElementDevice(thrust::cuda::par_nosync);
 }
 DECLARE_UNITTEST(TestMaxElementDeviceNoSync);
+#endif
 
 
 template<typename ExecutionPolicy>

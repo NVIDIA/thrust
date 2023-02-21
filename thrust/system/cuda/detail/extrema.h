@@ -29,14 +29,15 @@
 #include <thrust/detail/config.h>
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-#include <thrust/system/cuda/config.h>
-#include <thrust/system/cuda/detail/reduce.h>
 
 #include <thrust/detail/cstdint.h>
 #include <thrust/detail/temporary_array.h>
+#include <thrust/distance.h>
 #include <thrust/extrema.h>
 #include <thrust/pair.h>
-#include <thrust/distance.h>
+#include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
+#include <thrust/system/cuda/detail/reduce.h>
 
 #include <cub/util_math.cuh>
 
@@ -159,8 +160,7 @@ namespace __extrema {
             Size         num_items,
             ReductionOp  reduction_op,
             OutputIt     output_it,
-            cudaStream_t stream,
-            bool         debug_sync)
+            cudaStream_t stream)
   {
     using core::AgentPlan;
     using core::AgentLauncher;
@@ -193,7 +193,7 @@ namespace __extrema {
       }
       char *vshmem_ptr = vshmem_size > 0 ? (char*)d_temp_storage : NULL;
 
-      reduce_agent ra(reduce_plan, num_items, stream, vshmem_ptr, "reduce_agent: single_tile only", debug_sync);
+      reduce_agent ra(reduce_plan, num_items, stream, vshmem_ptr, "reduce_agent: single_tile only");
       ra.launch(input_it, output_it, num_items, reduction_op);
       CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
     }
@@ -273,7 +273,7 @@ namespace __extrema {
         typedef AgentLauncher<__reduce::DrainAgent<Size> > drain_agent;
         AgentPlan drain_plan = drain_agent::get_plan();
         drain_plan.grid_size = 1;
-        drain_agent da(drain_plan, stream, "__reduce::drain_agent", debug_sync);
+        drain_agent da(drain_plan, stream, "__reduce::drain_agent");
         da.launch(queue, num_items);
         CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
       }
@@ -283,7 +283,7 @@ namespace __extrema {
       }
 
       reduce_plan.grid_size = reduce_grid_size;
-      reduce_agent ra(reduce_plan, stream, vshmem_ptr, "reduce_agent: regular size reduce", debug_sync);
+      reduce_agent ra(reduce_plan, stream, vshmem_ptr, "reduce_agent: regular size reduce");
       ra.launch(input_it,
                 d_block_reductions,
                 num_items,
@@ -298,7 +298,7 @@ namespace __extrema {
         reduce_agent_single;
 
       reduce_plan.grid_size = 1;
-      reduce_agent_single ra1(reduce_plan, stream, vshmem_ptr, "reduce_agent: single tile reduce", debug_sync);
+      reduce_agent_single ra1(reduce_plan, stream, vshmem_ptr, "reduce_agent: single tile reduce");
 
       ra1.launch(d_block_reductions, output_it, reduce_grid_size, reduction_op);
       CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
@@ -323,13 +323,11 @@ namespace __extrema {
   {
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     THRUST_INDEX_TYPE_DISPATCH(status, doit_step<T>, num_items,
         (NULL, temp_storage_bytes, first, num_items_fixed,
-            binary_op, reinterpret_cast<T*>(NULL), stream,
-            debug_sync));
+            binary_op, reinterpret_cast<T*>(NULL), stream));
     cuda_cub::throw_on_error(status, "extrema failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(T*), temp_storage_bytes};
@@ -357,8 +355,7 @@ namespace __extrema {
 
     THRUST_INDEX_TYPE_DISPATCH(status, doit_step<T>, num_items,
         (allocations[1], temp_storage_bytes, first,
-            num_items_fixed, binary_op, d_result, stream,
-            debug_sync));
+            num_items_fixed, binary_op, d_result, stream));
     cuda_cub::throw_on_error(status, "extrema failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);
@@ -421,24 +418,16 @@ min_element(execution_policy<Derived> &policy,
             ItemsIt                    last,
             BinaryPred                 binary_pred)
 {
-  ItemsIt ret = first;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __extrema::element<__extrema::arg_min_f>(policy,
-                                                   first,
-                                                   last,
-                                                   binary_pred);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::min_element(cvt_to_seq(derived_cast(policy)),
-                              first,
-                              last,
-                              binary_pred);
-#endif
-  }
-  return ret;
+  THRUST_CDP_DISPATCH(
+    (last = __extrema::element<__extrema::arg_min_f>(policy,
+                                                     first,
+                                                     last,
+                                                     binary_pred);),
+    (last = thrust::min_element(cvt_to_seq(derived_cast(policy)),
+                                first,
+                                last,
+                                binary_pred);));
+  return last;
 }
 
 template <class Derived,
@@ -464,24 +453,16 @@ max_element(execution_policy<Derived> &policy,
             ItemsIt                    last,
             BinaryPred                 binary_pred)
 {
-  ItemsIt ret = first;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __extrema::element<__extrema::arg_max_f>(policy,
-                                                   first,
-                                                   last,
-                                                   binary_pred);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::max_element(cvt_to_seq(derived_cast(policy)),
-                              first,
-                              last,
-                              binary_pred);
-#endif
-  }
-  return ret;
+  THRUST_CDP_DISPATCH(
+    (last = __extrema::element<__extrema::arg_max_f>(policy,
+                                                     first,
+                                                     last,
+                                                     binary_pred);),
+    (last = thrust::max_element(cvt_to_seq(derived_cast(policy)),
+                                first,
+                                last,
+                                binary_pred);));
+  return last;
 }
 
 template <class Derived,
@@ -507,51 +488,46 @@ minmax_element(execution_policy<Derived> &policy,
                ItemsIt                    last,
                BinaryPred                 binary_pred)
 {
-  pair<ItemsIt, ItemsIt> ret = thrust::make_pair(first, first);
-
-  if (__THRUST_HAS_CUDART__)
+  auto ret = thrust::make_pair(last, last);
+  if (first == last)
   {
-    if (first == last)
-      return thrust::make_pair(last, last);
-
-    typedef typename iterator_traits<ItemsIt>::value_type      InputType;
-    typedef typename iterator_traits<ItemsIt>::difference_type IndexType;
-
-    IndexType num_items = static_cast<IndexType>(thrust::distance(first, last));
-
-
-    typedef tuple<ItemsIt, counting_iterator_t<IndexType> > iterator_tuple;
-    typedef zip_iterator<iterator_tuple> zip_iterator;
-
-    iterator_tuple iter_tuple = thrust::make_tuple(first, counting_iterator_t<IndexType>(0));
-
-
-    typedef __extrema::arg_minmax_f<InputType, IndexType, BinaryPred> arg_minmax_t;
-    typedef typename arg_minmax_t::two_pairs_type  two_pairs_type;
-    typedef typename arg_minmax_t::duplicate_tuple duplicate_t;
-    typedef transform_input_iterator_t<two_pairs_type,
-                                       zip_iterator,
-                                       duplicate_t>
-        transform_t;
-
-    zip_iterator   begin  = make_zip_iterator(iter_tuple);
-    two_pairs_type result = __extrema::extrema(policy,
-                                               transform_t(begin, duplicate_t()),
-                                               num_items,
-                                               arg_minmax_t(binary_pred),
-                                               (two_pairs_type *)(NULL));
-    ret = thrust::make_pair(first + get<1>(get<0>(result)),
-                    first + get<1>(get<1>(result)));
+    return ret;
   }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::minmax_element(cvt_to_seq(derived_cast(policy)),
-                                 first,
-                                 last,
-                                 binary_pred);
-#endif
-  }
+
+  THRUST_CDP_DISPATCH(
+    (using InputType = typename iterator_traits<ItemsIt>::value_type;
+     using IndexType = typename iterator_traits<ItemsIt>::difference_type;
+
+     const auto num_items =
+       static_cast<IndexType>(thrust::distance(first, last));
+
+     using iterator_tuple = tuple<ItemsIt, counting_iterator_t<IndexType>>;
+     using zip_iterator   = zip_iterator<iterator_tuple>;
+
+     iterator_tuple iter_tuple =
+       thrust::make_tuple(first, counting_iterator_t<IndexType>(0));
+
+     using arg_minmax_t =
+       __extrema::arg_minmax_f<InputType, IndexType, BinaryPred>;
+     using two_pairs_type = typename arg_minmax_t::two_pairs_type;
+     using duplicate_t    = typename arg_minmax_t::duplicate_tuple;
+     using transform_t =
+       transform_input_iterator_t<two_pairs_type, zip_iterator, duplicate_t>;
+
+     zip_iterator   begin = make_zip_iterator(iter_tuple);
+     two_pairs_type result =
+       __extrema::extrema(policy,
+                          transform_t(begin, duplicate_t()),
+                          num_items,
+                          arg_minmax_t(binary_pred),
+                          (two_pairs_type *)(NULL));
+     ret = thrust::make_pair(first + get<1>(get<0>(result)),
+                             first + get<1>(get<1>(result)));),
+    // CDP Sequential impl:
+    (ret = thrust::minmax_element(cvt_to_seq(derived_cast(policy)),
+                                  first,
+                                  last,
+                                  binary_pred);));
   return ret;
 }
 

@@ -1,8 +1,10 @@
 #include <unittest/unittest.h>
 #include <thrust/reduce.h>
 #include <thrust/execution_policy.h>
+#include <thrust/iterator/constant_iterator.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename T, typename Iterator2>
 __global__
 void reduce_kernel(ExecutionPolicy exec, Iterator first, Iterator last, T init, Iterator2 result)
@@ -62,6 +64,7 @@ struct TestReduceDeviceNoSync
   }
 };
 VariableUnitTest<TestReduceDeviceNoSync, IntegralTypes> TestReduceDeviceNoSyncInstance;
+#endif
 
 
 template<typename ExecutionPolicy>
@@ -98,4 +101,23 @@ void TestReduceCudaStreamsNoSync()
   TestReduceCudaStreams(thrust::cuda::par_nosync);
 }
 DECLARE_UNITTEST(TestReduceCudaStreamsNoSync);
+
+#if defined(THRUST_RDC_ENABLED)
+void TestReduceLargeInput()
+{
+  using T = unsigned long long;
+  using OffsetT = std::size_t;
+  const OffsetT num_items = 1ull << 32;
+
+  thrust::constant_iterator<T> d_data(T{1});
+  thrust::device_vector<T> d_result(1);
+
+  reduce_kernel<<<1,1>>>(thrust::device, d_data, d_data + num_items, T{}, d_result.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
+  
+  ASSERT_EQUAL(num_items, d_result[0]);
+}
+DECLARE_UNITTEST(TestReduceLargeInput);
+#endif
 

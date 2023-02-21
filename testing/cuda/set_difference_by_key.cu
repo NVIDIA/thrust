@@ -4,6 +4,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Iterator5, typename Iterator6, typename Iterator7>
 __global__
 void set_difference_by_key_kernel(ExecutionPolicy exec,
@@ -82,6 +83,7 @@ void TestSetDifferenceByKeyDeviceDevice()
   TestSetDifferenceByKeyDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestSetDifferenceByKeyDeviceDevice);
+#endif
 
 
 void TestSetDifferenceByKeyCudaStreams()

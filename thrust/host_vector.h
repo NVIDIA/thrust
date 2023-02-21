@@ -25,6 +25,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/memory_wrapper.h>
 #include <thrust/detail/vector_base.h>
+
+#include <initializer_list>
 #include <vector>
 #include <utility>
 
@@ -216,6 +218,25 @@ template<typename T, typename Alloc = std::allocator<T> >
     __host__
     host_vector &operator=(const detail::vector_base<OtherT,OtherAlloc> &v)
     { Parent::operator=(v); return *this; }
+    
+    /*! This constructor builds a \p host_vector from an intializer_list.
+     *  \param il The intializer_list.
+     */
+    host_vector(std::initializer_list<T> il)
+      :Parent(il) {}
+      
+    /*! This constructor builds a \p host_vector from an intializer_list.
+     *  \param il The intializer_list.
+     *  \param alloc The allocator to use by this host_vector.
+     */
+    host_vector(std::initializer_list<T> il, const Alloc &alloc)
+      :Parent(il, alloc) {}
+      
+    /*! Assign an \p intializer_list with a matching element type
+     *  \param il The intializer_list.
+     */
+    host_vector &operator=(std::initializer_list<T> il)
+    { Parent::operator=(il); return *this; }
 
     /*! This constructor builds a \p host_vector from a range.
      *  \param first The beginning of the range.

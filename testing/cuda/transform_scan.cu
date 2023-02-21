@@ -3,6 +3,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Function1, typename Function2, typename Iterator3>
 __global__
 void transform_inclusive_scan_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 result1, Function1 f1, Function2 f2, Iterator3 result2)
@@ -115,6 +116,7 @@ void TestTransformScanDeviceDevice()
   TestTransformScanDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestTransformScanDeviceDevice);
+#endif
 
 
 void TestTransformScanCudaStreams()

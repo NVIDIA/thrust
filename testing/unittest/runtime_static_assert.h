@@ -18,7 +18,10 @@ namespace unittest
 #include <thrust/device_new.h>
 #include <thrust/device_delete.h>
 
+#include <nv/target>
+
 #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+
 
 #define ASSERT_STATIC_ASSERT(X) \
     { \
@@ -86,11 +89,9 @@ namespace unittest
         {
             static_assert_exception ex(filename, lineno);
 
-#ifdef __CUDA_ARCH__
-            *detail::device_exception = ex;
-#else
-            throw ex;
-#endif
+            NV_IF_TARGET(NV_IS_DEVICE,
+                         (*detail::device_exception = ex;),
+                         (throw ex;));
         }
     }
 }

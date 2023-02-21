@@ -36,6 +36,7 @@
 #include <thrust/distance.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
 #include <thrust/system/cuda/detail/dispatch.h>
 
 #include <cub/device/device_scan.cuh>
@@ -59,16 +60,19 @@ OutputIt inclusive_scan_n_impl(thrust::cuda_cub::execution_policy<Derived> &poli
                                OutputIt result,
                                ScanOp scan_op)
 {
+  using AccumT = typename thrust::iterator_traits<InputIt>::value_type;
   using Dispatch32 = cub::DispatchScan<InputIt,
                                        OutputIt,
                                        ScanOp,
                                        cub::NullType,
-                                       thrust::detail::int32_t>;
+                                       thrust::detail::int32_t,
+                                       AccumT>;
   using Dispatch64 = cub::DispatchScan<InputIt,
                                        OutputIt,
                                        ScanOp,
                                        cub::NullType,
-                                       thrust::detail::int64_t>;
+                                       thrust::detail::int64_t,
+                                       AccumT>;
 
   cudaStream_t stream = thrust::cuda_cub::stream(policy);
   cudaError_t status;
@@ -87,8 +91,7 @@ OutputIt inclusive_scan_n_impl(thrust::cuda_cub::execution_policy<Derived> &poli
                                  scan_op,
                                  cub::NullType{},
                                  num_items_fixed,
-                                 stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 stream));
     thrust::cuda_cub::throw_on_error(status,
                                      "after determining tmp storage "
                                      "requirements for inclusive_scan");
@@ -111,8 +114,7 @@ OutputIt inclusive_scan_n_impl(thrust::cuda_cub::execution_policy<Derived> &poli
                                  scan_op,
                                  cub::NullType{},
                                  num_items_fixed,
-                                 stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 stream));
     thrust::cuda_cub::throw_on_error(status,
                                      "after dispatching inclusive_scan kernel");
     thrust::cuda_cub::throw_on_error(thrust::cuda_cub::synchronize_optional(policy),
@@ -142,12 +144,14 @@ OutputIt exclusive_scan_n_impl(thrust::cuda_cub::execution_policy<Derived> &poli
                                        OutputIt,
                                        ScanOp,
                                        InputValueT,
-                                       thrust::detail::int32_t>;
+                                       thrust::detail::int32_t,
+                                       InitValueT>;
   using Dispatch64 = cub::DispatchScan<InputIt,
                                        OutputIt,
                                        ScanOp,
                                        InputValueT,
-                                       thrust::detail::int64_t>;
+                                       thrust::detail::int64_t,
+                                       InitValueT>;
 
   cudaStream_t stream = thrust::cuda_cub::stream(policy);
   cudaError_t status;
@@ -166,8 +170,7 @@ OutputIt exclusive_scan_n_impl(thrust::cuda_cub::execution_policy<Derived> &poli
                                  scan_op,
                                  InputValueT(init),
                                  num_items_fixed,
-                                 stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 stream));
     thrust::cuda_cub::throw_on_error(status,
                                      "after determining tmp storage "
                                      "requirements for exclusive_scan");
@@ -190,8 +193,7 @@ OutputIt exclusive_scan_n_impl(thrust::cuda_cub::execution_policy<Derived> &poli
                                  scan_op,
                                  InputValueT(init),
                                  num_items_fixed,
-                                 stream,
-                                 THRUST_DEBUG_SYNC_FLAG));
+                                 stream));
     thrust::cuda_cub::throw_on_error(status,
                                      "after dispatching exclusive_scan kernel");
     thrust::cuda_cub::throw_on_error(thrust::cuda_cub::synchronize_optional(policy),
@@ -220,26 +222,18 @@ OutputIt inclusive_scan_n(thrust::cuda_cub::execution_policy<Derived> &policy,
                           OutputIt result,
                           ScanOp scan_op)
 {
-  OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = thrust::cuda_cub::detail::inclusive_scan_n_impl(policy,
-                                                          first,
-                                                          num_items,
-                                                          result,
-                                                          scan_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::inclusive_scan(cvt_to_seq(derived_cast(policy)),
-                                 first,
-                                 first + num_items,
-                                 result,
-                                 scan_op);
-#endif
-  }
-  return ret;
+  THRUST_CDP_DISPATCH(
+    (result = thrust::cuda_cub::detail::inclusive_scan_n_impl(policy,
+                                                              first,
+                                                              num_items,
+                                                              result,
+                                                              scan_op);),
+    (result = thrust::inclusive_scan(cvt_to_seq(derived_cast(policy)),
+                                     first,
+                                     first + num_items,
+                                     result,
+                                     scan_op);));
+  return result;
 }
 
 template <typename Derived, typename InputIt, typename OutputIt, typename ScanOp>
@@ -288,28 +282,20 @@ OutputIt exclusive_scan_n(thrust::cuda_cub::execution_policy<Derived> &policy,
                           T init,
                           ScanOp scan_op)
 {
-  OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = thrust::cuda_cub::detail::exclusive_scan_n_impl(policy,
-                                                          first,
-                                                          num_items,
-                                                          result,
-                                                          init,
-                                                          scan_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::exclusive_scan(cvt_to_seq(derived_cast(policy)),
-                                 first,
-                                 first + num_items,
-                                 result,
-                                 init,
-                                 scan_op);
-#endif
-  }
-  return ret;
+  THRUST_CDP_DISPATCH(
+    (result = thrust::cuda_cub::detail::exclusive_scan_n_impl(policy,
+                                                              first,
+                                                              num_items,
+                                                              result,
+                                                              init,
+                                                              scan_op);),
+    (result = thrust::exclusive_scan(cvt_to_seq(derived_cast(policy)),
+                                     first,
+                                     first + num_items,
+                                     result,
+                                     init,
+                                     scan_op);));
+  return result;
 }
 
 template <typename Derived,

@@ -1,5 +1,112 @@
 # Changelog
 
+## Thrust 2.0.0
+
+### Summary
+
+The Thrust 2.0.0 major release adds a dependency on libcu++ and contains several
+breaking changes. These include new diagnostics when inspecting device-only
+lambdas from the host, removal of the `cub` symlink in the Thrust repository
+root, and removal of the deprecated `THRUST_*_BACKEND` macros. It also includes
+several minor bugfixes and cleanups.
+
+### Breaking Changes
+
+- NVIDIA/thrust#1605: Add libcu++ dependency.
+    - A suitable version of libcu++ is provided through
+      the `${THRUST_ROOT}/dependencies/libcudacxx/` submodule.
+    - Non-cmake users may need to add the libcu++ include path to their
+      builds (`-I ${THRUST_ROOT}/dependencies/libcudacxx/include/`).
+    - The Thrust CMake packages have been updated to add this include path.
+- NVIDIA/thrust#1605: The following macros are no longer defined by default.
+  They can be re-enabled by defining `THRUST_PROVIDE_LEGACY_ARCH_MACROS`. These
+  will be removed completely in a future release.
+    - `THRUST_IS_HOST_CODE`: Replace with `NV_IF_TARGET`.
+    - `THRUST_IS_DEVICE_CODE`: Replace with `NV_IF_TARGET`.
+    - `THRUST_INCLUDE_HOST_CODE`: Replace with `NV_IF_TARGET`.
+    - `THRUST_INCLUDE_DEVICE_CODE`: Replace with `NV_IF_TARGET`.
+    - `THRUST_DEVICE_CODE`: Replace with `NV_IF_TARGET`.
+- NVIDIA/thrust#1661: Thrust’s CUDA Runtime support macros have been updated to
+  support `NV_IF_TARGET`. They are now defined consistently across all
+  host/device compilation passes. This should not affect most usages of these
+  macros, but may require changes for some edge cases.
+    - `THRUST_RUNTIME_FUNCTION`: Execution space annotations for functions that
+      invoke CUDA Runtime APIs.
+        - Old behavior:
+            - RDC enabled: Defined to `__host__ __device__`
+            - RDC not enabled:
+                - NVCC host pass: Defined to `__host__ __device__`
+                - NVCC device pass: Defined to `__host__`
+        - New behavior:
+            - RDC enabled: Defined to `__host__ __device__`
+            - RDC not enabled: Defined to `__host__`
+    - `__THRUST_HAS_CUDART__`: No change in behavior, but no longer used in
+      Thrust. Provided for legacy support only. Legacy behavior:
+        - RDC enabled: Defined to 1.
+        - RDC not enabled:
+            - NVCC host pass: Defined to 1.
+            - NVCC device pass: Defined to 0.
+    - `THRUST_RDC_ENABLED`: New macro, may be combined with `NV_IF_TARGET` to
+      replace most usages of `__THRUST_HAS_CUDART__`. Behavior:
+        - RDC enabled: Macro is defined.
+        - RDC not enabled: Macro is not defined.
+- NVIDIA/thrust#1701: Remove the `cub` symlink from the root of the Thrust
+  repository.
+    - This symlink caused issues in certain build environments (e.g.
+      NVIDIA/thrust#1328).
+    - Builds that relied on this symlink will need to add the full CUB include
+      path (`-I ${THRUST_ROOT}/dependencies/cub`).
+    - CMake builds that use the Thrust packages via CPM, `add_subdirectory`,
+      or `find_package` are not affected.
+- NVIDIA/thrust#1760: A compile-time error is now emitted when a `__device__`
+  -only lambda’s return type is queried from host code (requires libcu++ ≥
+  1.9.0).
+    - Due to limitations in the CUDA programming model, the result of this query
+      is unreliable, and will silently return an incorrect result. This leads to
+      difficult to debug errors.
+    - When using libcu++ 1.9.0, an error will be emitted with information about
+      work-arounds:
+        - Use a named function object with a `__device__`-only implementation
+          of `operator()`.
+        - Use a `__host__ __device__` lambda.
+        - Use `cuda::proclaim_return_type` (Added in libcu++ 1.9.0)
+- NVIDIA/thrust#1761: Removed support for deprecated `THRUST_DEVICE_BACKEND`
+  and `THRUST_HOST_BACKEND` macros. The `THRUST_DEVICE_SYSTEM`
+  and `THRUST_HOST_SYSTEM` macros should be used instead.
+
+### Bug Fixes
+
+- NVIDIA/thrust#1605: Fix some execution space warnings in the allocator
+  library.
+- NVIDIA/thrust#1683: Fix bug in `iterator_category_to_traversal` metafunctions.
+- NVIDIA/thrust#1715: Add missing `__thrust_exec_check_disable__` annotation
+  to `thrust::make_zip_function`. Thanks to @mfbalin for this contribution.
+- NVIDIA/thrust#1722: Remove CUDA-specific error handler from code that may be
+  executed on non-CUDA backends. Thanks to @dkolsen-pgi for this contribution.
+- NVIDIA/thrust#1756: Fix `copy_if` for output iterators that don’t support copy
+  assignment. Thanks for @mfbalin for this contribution.
+
+### Other Enhancements
+
+- NVIDIA/thrust#1605: Removed special case code for unsupported CUDA
+  architectures.
+- NVIDIA/thrust#1605: Replace several usages of `__CUDA_ARCH__`
+  with `<nv/target>` to handle host/device code divergence.
+- NVIDIA/thrust#1752: Remove a leftover merge conflict from a documentation
+  file. Thanks to @tabedzki for this contribution.
+
+## Thrust 1.17.2
+
+### Summary
+
+Thrust 1.17.2 is a minor bugfix release that provides an updated version of CUB.
+
+## Thrust 1.17.1
+
+### Summary
+
+Thrust 1.17.1 is a minor bugfix release that provides an updated version of CUB.
+
 ## Thrust 1.17.0
 
 ### Summary

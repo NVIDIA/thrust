@@ -3,6 +3,7 @@
 #include <thrust/execution_policy.h>
 #include <algorithm>
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename T>
 __global__
 void fill_kernel(ExecutionPolicy exec, Iterator first, Iterator last, T value)
@@ -169,6 +170,7 @@ void TestFillNDeviceDevice(size_t n)
   TestFillNDevice<T>(thrust::device, n);
 }
 DECLARE_VARIABLE_UNITTEST(TestFillNDeviceDevice);
+#endif
 
 void TestFillCudaStreams()
 {

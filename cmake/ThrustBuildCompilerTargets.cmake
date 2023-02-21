@@ -6,11 +6,9 @@
 # - Interface target providing compiler-specific options needed to build
 #   Thrust's tests, examples, etc.
 #
-# thrust.compiler_interface_cpp11
-# thrust.compiler_interface_cpp14
-# thrust.compiler_interface_cpp17
+# thrust.compiler_interface_cppXX
 # - Interface targets providing compiler-specific options that should only be
-#   applied to certain dialects of C++.
+#   applied to certain dialects of C++. May not be defined for all dialects.
 #
 # thrust.promote_cudafe_warnings
 # - Interface target that adds warning promotion for NVCC cudafe invocations.
@@ -175,7 +173,6 @@ function(thrust_build_compiler_targets)
   # These targets are used for dialect-specific options:
   add_library(thrust.compiler_interface_cpp11 INTERFACE)
   add_library(thrust.compiler_interface_cpp14 INTERFACE)
-  add_library(thrust.compiler_interface_cpp17 INTERFACE)
 
   if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     # C4127: conditional expression is constant

@@ -2,6 +2,7 @@
 #include <thrust/extrema.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2>
 __global__
 void minmax_element_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 result)
@@ -85,6 +86,7 @@ void TestMinMaxElementDeviceDevice()
   TestMinMaxElementDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestMinMaxElementDeviceDevice);
+#endif
 
 
 void TestMinMaxElementCudaStreams()

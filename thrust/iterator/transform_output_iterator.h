@@ -104,6 +104,8 @@ template <typename UnaryFunction, typename OutputIterator>
   /*! \endcond
    */
 
+  transform_output_iterator() = default;
+
   /*! This constructor takes as argument an \c OutputIterator and an \c
    * UnaryFunction and copies them to a new \p transform_output_iterator
    *

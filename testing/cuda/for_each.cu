@@ -59,6 +59,7 @@ struct mark_present_for_each
 };
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename Function>
 __global__ void for_each_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Function f)
 {
@@ -202,6 +203,7 @@ void TestForEachNDeviceDevice(const size_t n)
   ASSERT_EQUAL(h_output, d_output);
 }
 DECLARE_VARIABLE_UNITTEST(TestForEachNDeviceDevice);
+#endif
 
 
 void TestForEachCudaStreams()

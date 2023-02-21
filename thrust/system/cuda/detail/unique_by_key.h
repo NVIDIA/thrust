@@ -29,22 +29,23 @@
 #include <thrust/detail/config.h>
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-#include <thrust/system/cuda/config.h>
 
+#include <thrust/detail/alignment.h>
 #include <thrust/detail/cstdint.h>
 #include <thrust/detail/temporary_array.h>
-#include <thrust/system/cuda/detail/util.h>
-#include <cub/device/device_select.cuh>
+#include <thrust/detail/minmax.h>
+#include <thrust/detail/mpl/math.h>
+#include <thrust/distance.h>
+#include <thrust/functional.h>
+#include <thrust/pair.h>
+#include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/get_value.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
-#include <thrust/functional.h>
-#include <thrust/pair.h>
-#include <thrust/detail/mpl/math.h>
-#include <thrust/detail/minmax.h>
-#include <thrust/distance.h>
-#include <thrust/detail/alignment.h>
+#include <thrust/system/cuda/detail/util.h>
 
+#include <cub/device/device_select.cuh>
 #include <cub/util_math.cuh>
 
 THRUST_NAMESPACE_BEGIN
@@ -633,8 +634,7 @@ namespace __unique_by_key {
             BinaryPred       binary_pred,
             NumSelectedOutIt num_selected_out,
             Size             num_items,
-            cudaStream_t     stream,
-            bool             debug_sync)
+            cudaStream_t     stream)
   {
     using core::AgentLauncher;
     using core::AgentPlan;
@@ -690,7 +690,7 @@ namespace __unique_by_key {
     CUDA_CUB_RET_IF_FAIL(status);
 
     num_tiles = max<size_t>(1,num_tiles);
-    init_agent ia(init_plan, num_tiles, stream, "unique_by_key::init_agent", debug_sync);
+    init_agent ia(init_plan, num_tiles, stream, "unique_by_key::init_agent");
     ia.launch(tile_status, num_tiles, num_selected_out);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 
@@ -698,7 +698,7 @@ namespace __unique_by_key {
 
     char *vshmem_ptr = vshmem_size > 0 ? (char *)allocations[1] : NULL;
 
-    unique_agent ua(unique_plan, num_items, stream, vshmem_ptr, "unique_by_key::unique_agent", debug_sync);
+    unique_agent ua(unique_plan, num_items, stream, vshmem_ptr, "unique_by_key::unique_agent");
     ua.launch(keys_in,
               values_in,
               keys_out,
@@ -736,7 +736,6 @@ namespace __unique_by_key {
 
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = __unique_by_key::doit_step(NULL,
@@ -748,8 +747,7 @@ namespace __unique_by_key {
                                         binary_pred,
                                         reinterpret_cast<size_type*>(NULL),
                                         num_items,
-                                        stream,
-                                        debug_sync);
+                                        stream);
     cuda_cub::throw_on_error(status, "unique_by_key: failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
@@ -785,8 +783,7 @@ namespace __unique_by_key {
                                         binary_pred,
                                         d_num_selected_out,
                                         num_items,
-                                        stream,
-                                        debug_sync);
+                                        stream);
     cuda_cub::throw_on_error(status, "unique_by_key: failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);
@@ -824,29 +821,22 @@ unique_by_key_copy(execution_policy<Derived> &policy,
                    ValOutputIt                values_result,
                    BinaryPred                 binary_pred)
 {
-  pair<KeyOutputIt, ValOutputIt> ret = thrust::make_pair(keys_result, values_result);
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __unique_by_key::unique_by_key(policy,
-                                keys_first,
-                                keys_last,
-                                values_first,
-                                keys_result,
-                                values_result,
-                                binary_pred);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::unique_by_key_copy(cvt_to_seq(derived_cast(policy)),
-                                     keys_first,
-                                     keys_last,
-                                     values_first,
-                                     keys_result,
-                                     values_result,
-                                     binary_pred);
-#endif
-  }
+  auto ret = thrust::make_pair(keys_result, values_result);
+  THRUST_CDP_DISPATCH(
+    (ret = __unique_by_key::unique_by_key(policy,
+                                          keys_first,
+                                          keys_last,
+                                          values_first,
+                                          keys_result,
+                                          values_result,
+                                          binary_pred);),
+    (ret = thrust::unique_by_key_copy(cvt_to_seq(derived_cast(policy)),
+                                      keys_first,
+                                      keys_last,
+                                      values_first,
+                                      keys_result,
+                                      values_result,
+                                      binary_pred);));
   return ret;
 }
 
@@ -884,27 +874,20 @@ unique_by_key(execution_policy<Derived> &policy,
               ValInputIt                 values_first,
               BinaryPred                 binary_pred)
 {
-  pair<KeyInputIt, ValInputIt> ret = thrust::make_pair(keys_first, values_first);
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = cuda_cub::unique_by_key_copy(policy,
-                                       keys_first,
-                                       keys_last,
-                                       values_first,
-                                       keys_first,
-                                       values_first,
-                                       binary_pred);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::unique_by_key(cvt_to_seq(derived_cast(policy)),
-                                keys_first,
-                                keys_last,
-                                values_first,
-                                binary_pred);
-#endif
-  }
+  auto ret = thrust::make_pair(keys_first, values_first);
+  THRUST_CDP_DISPATCH(
+    (ret = cuda_cub::unique_by_key_copy(policy,
+                                         keys_first,
+                                         keys_last,
+                                         values_first,
+                                         keys_first,
+                                         values_first,
+                                         binary_pred);),
+    (ret = thrust::unique_by_key(cvt_to_seq(derived_cast(policy)),
+                                  keys_first,
+                                  keys_last,
+                                  values_first,
+                                  binary_pred);));
   return ret;
 }
 

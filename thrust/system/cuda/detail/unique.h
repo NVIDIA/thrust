@@ -29,21 +29,20 @@
 #include <thrust/detail/config.h>
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+
+#include <thrust/advance.h>
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/minmax.h>
+#include <thrust/distance.h>
+#include <thrust/functional.h>
 #include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
+#include <thrust/system/cuda/detail/core/agent_launcher.h>
+#include <thrust/system/cuda/detail/get_value.h>
+#include <thrust/system/cuda/detail/par_to_seq.h>
+#include <thrust/system/cuda/detail/util.h>
 
 #include <cub/device/device_select.cuh>
-#include <thrust/system/cuda/detail/core/agent_launcher.h>
-#include <thrust/system/cuda/detail/par_to_seq.h>
-#include <thrust/detail/cstdint.h>
-#include <thrust/detail/temporary_array.h>
-#include <thrust/system/cuda/detail/util.h>
-#include <thrust/system/cuda/detail/get_value.h>
-#include <thrust/functional.h>
-#include <thrust/detail/mpl/math.h>
-#include <thrust/detail/minmax.h>
-#include <thrust/advance.h>
-#include <thrust/distance.h>
-
 #include <cub/util_math.cuh>
 
 THRUST_NAMESPACE_BEGIN
@@ -564,8 +563,7 @@ namespace __unique {
             BinaryPred       binary_pred,
             NumSelectedOutIt num_selected_out,
             Size             num_items,
-            cudaStream_t     stream,
-            bool             debug_sync)
+            cudaStream_t     stream)
   {
     using core::AgentLauncher;
     using core::AgentPlan;
@@ -619,7 +617,7 @@ namespace __unique {
     CUDA_CUB_RET_IF_FAIL(status);
 
     num_tiles = max<size_t>(1,num_tiles);
-    init_agent ia(init_plan, num_tiles, stream, "unique_by_key::init_agent", debug_sync);
+    init_agent ia(init_plan, num_tiles, stream, "unique_by_key::init_agent");
     ia.launch(tile_status, num_tiles, num_selected_out);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 
@@ -627,7 +625,7 @@ namespace __unique {
 
     char *vshmem_ptr = vshmem_size > 0 ? (char *)allocations[1] : NULL;
 
-    unique_agent ua(unique_plan, num_items, stream, vshmem_ptr, "unique_by_key::unique_agent", debug_sync);
+    unique_agent ua(unique_plan, num_items, stream, vshmem_ptr, "unique_by_key::unique_agent");
     ua.launch(items_in,
               items_out,
               binary_pred,
@@ -656,7 +654,6 @@ namespace __unique {
     size_type    num_items          = static_cast<size_type>(thrust::distance(items_first, items_last));
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = doit_step(NULL,
@@ -666,8 +663,7 @@ namespace __unique {
                        binary_pred,
                        reinterpret_cast<size_type*>(NULL),
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "unique: failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
@@ -701,8 +697,7 @@ namespace __unique {
                        binary_pred,
                        d_num_selected_out,
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "unique: failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);
@@ -730,26 +725,14 @@ unique_copy(execution_policy<Derived> &policy,
             OutputIt                   result,
             BinaryPred                 binary_pred)
 {
-  OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __unique::unique(policy,
-                           first,
-                           last,
-                           result,
-                           binary_pred);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::unique_copy(cvt_to_seq(derived_cast(policy)),
-                              first,
-                              last,
-                              result,
-                              binary_pred);
-#endif
-  }
-  return ret;
+  THRUST_CDP_DISPATCH(
+    (result = __unique::unique(policy, first, last, result, binary_pred);),
+    (result = thrust::unique_copy(cvt_to_seq(derived_cast(policy)),
+                                  first,
+                                  last,
+                                  result,
+                                  binary_pred);));
+  return result;
 }
 
 template <class Derived,
@@ -778,19 +761,12 @@ unique(execution_policy<Derived> &policy,
        BinaryPred                 binary_pred)
 {
   ForwardIt ret = first;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = cuda_cub::unique_copy(policy, first, last, first, binary_pred);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::unique(cvt_to_seq(derived_cast(policy)),
-                         first,
-                         last,
-                         binary_pred);
-#endif
-  }
+  THRUST_CDP_DISPATCH(
+    (ret = cuda_cub::unique_copy(policy, first, last, first, binary_pred);),
+    (ret = thrust::unique(cvt_to_seq(derived_cast(policy)),
+                          first,
+                          last,
+                          binary_pred);));
   return ret;
 }
 

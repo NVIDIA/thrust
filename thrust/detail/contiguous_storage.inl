@@ -25,6 +25,8 @@
 #include <thrust/detail/allocator/destroy_range.h>
 #include <thrust/detail/allocator/fill_construct_range.h>
 
+#include <nv/target>
+
 #include <stdexcept> // for std::runtime_error
 #include <utility> // for use of std::swap in the WAR below
 
@@ -432,19 +434,16 @@ __host__ __device__
   void contiguous_storage<T,Alloc>
     ::swap_allocators(false_type, Alloc &other)
 {
-  if (THRUST_IS_DEVICE_CODE) {
-    #if THRUST_INCLUDE_DEVICE_CODE
-      // allocators must be equal when swapping containers with allocators that propagate on swap
-      assert(!is_allocator_not_equal(other));
-    #endif
-  } else {
-    #if THRUST_INCLUDE_HOST_CODE
-      if (is_allocator_not_equal(other))
-      {
-        throw allocator_mismatch_on_swap();
-      }
-    #endif
-  }
+  NV_IF_TARGET(NV_IS_DEVICE, (
+    // allocators must be equal when swapping containers with allocators that propagate on swap
+    assert(!is_allocator_not_equal(other));
+  ), (
+    if (is_allocator_not_equal(other))
+    {
+      throw allocator_mismatch_on_swap();
+    }
+  ));
+
   thrust::swap(m_allocator, other);
 } // end contiguous_storage::swap_allocators()
 

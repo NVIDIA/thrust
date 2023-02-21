@@ -29,21 +29,25 @@
 #include <thrust/detail/config.h>
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-#include <thrust/system/cuda/config.h>
 
 #include <thrust/detail/cstdint.h>
 #include <thrust/detail/temporary_array.h>
-#include <thrust/system/cuda/detail/util.h>
-#include <thrust/system/cuda/detail/reverse.h>
-#include <thrust/system/cuda/detail/find.h>
-#include <thrust/system/cuda/detail/uninitialized_copy.h>
-#include <cub/device/device_partition.cuh>
-#include <thrust/system/cuda/detail/core/agent_launcher.h>
-#include <thrust/system/cuda/detail/par_to_seq.h>
-#include <thrust/partition.h>
-#include <thrust/pair.h>
 #include <thrust/distance.h>
+#include <thrust/pair.h>
+#include <thrust/partition.h>
+#include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
+#include <thrust/system/cuda/detail/core/agent_launcher.h>
+#include <thrust/system/cuda/detail/find.h>
+#include <thrust/system/cuda/detail/reverse.h>
+#include <thrust/system/cuda/detail/uninitialized_copy.h>
+#include <thrust/system/cuda/detail/par_to_seq.h>
+#include <thrust/system/cuda/detail/util.h>
 
+#include <cub/agent/single_pass_scan_operators.cuh> // cub::ScanTileState
+#include <cub/block/block_scan.cuh>
+#include <cub/device/device_partition.cuh>
+#include <cub/util_device.cuh>
 #include <cub/util_math.cuh>
 
 THRUST_NAMESPACE_BEGIN
@@ -618,8 +622,7 @@ namespace __partition {
             Predicate        predicate,
             NumSelectedOutIt num_selected_out,
             Size             num_items,
-            cudaStream_t     stream,
-            bool             debug_sync)
+            cudaStream_t     stream)
   {
     using core::AgentLauncher;
     using core::AgentPlan;
@@ -677,11 +680,11 @@ namespace __partition {
     status = tile_status.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
-    init_agent ia(init_plan, num_tiles, stream, "partition::init_agent", debug_sync);
+    init_agent ia(init_plan, num_tiles, stream, "partition::init_agent");
 
     char *vshmem_ptr = vshmem_storage > 0 ? (char *)allocations[1] : NULL;
 
-    partition_agent pa(partition_plan, num_items, stream, vshmem_ptr, "partition::partition_agent", debug_sync);
+    partition_agent pa(partition_plan, num_items, stream, vshmem_ptr, "partition::partition_agent");
 
     ia.launch(tile_status, num_tiles, num_selected_out);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
@@ -721,7 +724,6 @@ namespace __partition {
     size_type    num_items          = static_cast<size_type>(thrust::distance(first, last));
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = doit_step(NULL,
@@ -733,8 +735,7 @@ namespace __partition {
                        predicate,
                        reinterpret_cast<size_type*>(NULL),
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "partition failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
@@ -771,8 +772,7 @@ namespace __partition {
                        predicate,
                        d_num_selected_out,
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "partition failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);
@@ -846,29 +846,22 @@ partition_copy(execution_policy<Derived> &policy,
                RejectedOutIt              rejected_result,
                Predicate                  predicate)
 {
-  pair<SelectedOutIt, RejectedOutIt> ret = thrust::make_pair(selected_result, rejected_result);
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __partition::partition(policy,
-                            first,
-                            last,
-                            stencil,
-                            selected_result,
-                            rejected_result,
-                            predicate);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::partition_copy(cvt_to_seq(derived_cast(policy)),
-                                 first,
-                                 last,
-                                 stencil,
-                                 selected_result,
-                                 rejected_result,
-                                 predicate);
-#endif
-  }
+  auto ret = thrust::make_pair(selected_result, rejected_result);
+  THRUST_CDP_DISPATCH(
+    (ret = __partition::partition(policy,
+                                  first,
+                                  last,
+                                  stencil,
+                                  selected_result,
+                                  rejected_result,
+                                  predicate);),
+    (ret = thrust::partition_copy(cvt_to_seq(derived_cast(policy)),
+                                  first,
+                                  last,
+                                  stencil,
+                                  selected_result,
+                                  rejected_result,
+                                  predicate);));
   return ret;
 }
 
@@ -886,28 +879,21 @@ partition_copy(execution_policy<Derived> &policy,
                RejectedOutIt              rejected_result,
                Predicate                  predicate)
 {
-  pair<SelectedOutIt, RejectedOutIt> ret = thrust::make_pair(selected_result, rejected_result);
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __partition::partition(policy,
-                                 first,
-                                 last,
-                                 __partition::no_stencil_tag(),
-                                 selected_result,
-                                 rejected_result,
-                                 predicate);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::partition_copy(cvt_to_seq(derived_cast(policy)),
-                                 first,
-                                 last,
-                                 selected_result,
-                                 rejected_result,
-                                 predicate);
-#endif
-  }
+  auto ret = thrust::make_pair(selected_result, rejected_result);
+  THRUST_CDP_DISPATCH(
+    (ret = __partition::partition(policy,
+                                  first,
+                                  last,
+                                  __partition::no_stencil_tag(),
+                                  selected_result,
+                                  rejected_result,
+                                  predicate);),
+    (ret = thrust::partition_copy(cvt_to_seq(derived_cast(policy)),
+                                  first,
+                                  last,
+                                  selected_result,
+                                  rejected_result,
+                                  predicate);));
   return ret;
 }
 
@@ -925,28 +911,21 @@ stable_partition_copy(execution_policy<Derived> &policy,
                       RejectedOutIt              rejected_result,
                       Predicate                  predicate)
 {
-  pair<SelectedOutIt, RejectedOutIt> ret = thrust::make_pair(selected_result, rejected_result);
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __partition::partition(policy,
-                                 first,
-                                 last,
-                                 __partition::no_stencil_tag(),
-                                 selected_result,
-                                 rejected_result,
-                                 predicate);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::stable_partition_copy(cvt_to_seq(derived_cast(policy)),
-                                        first,
-                                        last,
-                                        selected_result,
-                                        rejected_result,
-                                        predicate);
-#endif
-  }
+  auto ret = thrust::make_pair(selected_result, rejected_result);
+  THRUST_CDP_DISPATCH(
+    (ret = __partition::partition(policy,
+                                  first,
+                                  last,
+                                  __partition::no_stencil_tag(),
+                                  selected_result,
+                                  rejected_result,
+                                  predicate);),
+    (ret = thrust::stable_partition_copy(cvt_to_seq(derived_cast(policy)),
+                                         first,
+                                         last,
+                                         selected_result,
+                                         rejected_result,
+                                         predicate);));
   return ret;
 }
 
@@ -966,29 +945,22 @@ stable_partition_copy(execution_policy<Derived> &policy,
                       RejectedOutIt              rejected_result,
                       Predicate                  predicate)
 {
-  pair<SelectedOutIt, RejectedOutIt> ret = thrust::make_pair(selected_result, rejected_result);
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __partition::partition(policy,
-                                 first,
-                                 last,
-                                 stencil,
-                                 selected_result,
-                                 rejected_result,
-                                 predicate);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::stable_partition_copy(cvt_to_seq(derived_cast(policy)),
-                                        first,
-                                        last,
-                                        stencil,
-                                        selected_result,
-                                        rejected_result,
-                                        predicate);
-#endif
-  }
+  auto ret = thrust::make_pair(selected_result, rejected_result);
+  THRUST_CDP_DISPATCH(
+    (ret = __partition::partition(policy,
+                                  first,
+                                  last,
+                                  stencil,
+                                  selected_result,
+                                  rejected_result,
+                                  predicate);),
+    (ret = thrust::stable_partition_copy(cvt_to_seq(derived_cast(policy)),
+                                         first,
+                                         last,
+                                         stencil,
+                                         selected_result,
+                                         rejected_result,
+                                         predicate);));
   return ret;
 }
 
@@ -1006,22 +978,15 @@ partition(execution_policy<Derived> &policy,
           StencilIt                  stencil,
           Predicate                  predicate)
 {
-  Iterator ret = first;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __partition::partition_inplace(policy, first, last, stencil, predicate);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::partition(cvt_to_seq(derived_cast(policy)),
-                            first,
-                            last,
-                            stencil,
-                            predicate);
-#endif
-  }
-  return ret;
+  THRUST_CDP_DISPATCH(
+    (last =
+       __partition::partition_inplace(policy, first, last, stencil, predicate);),
+    (last = thrust::partition(cvt_to_seq(derived_cast(policy)),
+                              first,
+                              last,
+                              stencil,
+                              predicate);));
+  return last;
 }
 
 __thrust_exec_check_disable__
@@ -1034,25 +999,17 @@ partition(execution_policy<Derived> &policy,
           Iterator                   last,
           Predicate                  predicate)
 {
-  Iterator ret = first;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __partition::partition_inplace(policy,
-                                         first,
-                                         last,
-                                         __partition::no_stencil_tag(),
-                                         predicate);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::partition(cvt_to_seq(derived_cast(policy)),
-                            first,
-                            last,
-                            predicate);
-#endif
-  }
-  return ret;
+  THRUST_CDP_DISPATCH(
+    (last = __partition::partition_inplace(policy,
+                                           first,
+                                           last,
+                                           __partition::no_stencil_tag(),
+                                           predicate);),
+    (last = thrust::partition(cvt_to_seq(derived_cast(policy)),
+                              first,
+                              last,
+                              predicate);));
+  return last;
 }
 
 __thrust_exec_check_disable__
@@ -1067,30 +1024,20 @@ stable_partition(execution_policy<Derived> &policy,
                  StencilIt                  stencil,
                  Predicate                  predicate)
 {
-  Iterator result = first;
-  if (__THRUST_HAS_CUDART__)
-  {
-    result = __partition::partition_inplace(policy,
+  auto ret = last;
+  THRUST_CDP_DISPATCH(
+    (ret =
+       __partition::partition_inplace(policy, first, last, stencil, predicate);
+
+     /* partition returns rejected values in reverse order
+       so reverse the rejected elements to make it stable */
+     cuda_cub::reverse(policy, ret, last);),
+    (ret = thrust::stable_partition(cvt_to_seq(derived_cast(policy)),
                                     first,
                                     last,
                                     stencil,
-                                    predicate);
-
-    // partition returns rejected values in reverese order
-    // so reverse the rejected elements to make it stable
-    cuda_cub::reverse(policy, result, last);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    result = thrust::stable_partition(cvt_to_seq(derived_cast(policy)),
-                                      first,
-                                      last,
-                                      stencil,
-                                      predicate);
-#endif
-  }
-  return result;
+                                    predicate);));
+  return ret;
 }
 
 __thrust_exec_check_disable__
@@ -1103,29 +1050,22 @@ stable_partition(execution_policy<Derived> &policy,
                  Iterator                   last,
                  Predicate                  predicate)
 {
-  Iterator result = first;
-  if (__THRUST_HAS_CUDART__)
-  {
-    result = __partition::partition_inplace(policy,
-                                       first,
-                                       last,
-                                       __partition::no_stencil_tag(),
-                                       predicate);
+  auto ret = last;
+  THRUST_CDP_DISPATCH(
+    (ret = __partition::partition_inplace(policy,
+                                          first,
+                                          last,
+                                          __partition::no_stencil_tag(),
+                                          predicate);
 
-    // partition returns rejected values in reverese order
-    // so reverse the rejected elements to make it stable
-    cuda_cub::reverse(policy, result, last);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    result = thrust::stable_partition(cvt_to_seq(derived_cast(policy)),
-                                      first,
-                                      last,
-                                      predicate);
-#endif
-  }
-  return result;
+     /* partition returns rejected values in reverse order
+      so reverse the rejected elements to make it stable */
+     cuda_cub::reverse(policy, ret, last);),
+    (ret = thrust::stable_partition(cvt_to_seq(derived_cast(policy)),
+                                    first,
+                                    last,
+                                    predicate);));
+  return ret;
 }
 
 template <class Derived,

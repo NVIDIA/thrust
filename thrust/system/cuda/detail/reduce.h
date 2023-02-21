@@ -29,24 +29,25 @@
 #include <thrust/detail/config.h>
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-#include <thrust/system/cuda/config.h>
 
-#include <thrust/detail/cstdint.h>
-#include <thrust/detail/temporary_array.h>
-#include <thrust/system/cuda/detail/util.h>
-#include <thrust/detail/raw_reference_cast.h>
-#include <thrust/detail/type_traits/iterator/is_output_iterator.h>
-#include <cub/device/device_reduce.cuh>
-#include <thrust/system/cuda/detail/par_to_seq.h>
-#include <thrust/system/cuda/detail/get_value.h>
-#include <thrust/system/cuda/detail/dispatch.h>
-#include <thrust/system/cuda/detail/make_unsigned_special.h>
-#include <thrust/functional.h>
-#include <thrust/system/cuda/detail/core/agent_launcher.h>
-#include <thrust/detail/minmax.h>
-#include <thrust/distance.h>
 #include <thrust/detail/alignment.h>
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/minmax.h>
+#include <thrust/detail/raw_reference_cast.h>
+#include <thrust/detail/temporary_array.h>
+#include <thrust/detail/type_traits/iterator/is_output_iterator.h>
+#include <thrust/distance.h>
+#include <thrust/functional.h>
+#include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
+#include <thrust/system/cuda/detail/core/agent_launcher.h>
+#include <thrust/system/cuda/detail/dispatch.h>
+#include <thrust/system/cuda/detail/get_value.h>
+#include <thrust/system/cuda/detail/make_unsigned_special.h>
+#include <thrust/system/cuda/detail/par_to_seq.h>
+#include <thrust/system/cuda/detail/util.h>
 
+#include <cub/device/device_reduce.cuh>
 #include <cub/util_math.cuh>
 
 THRUST_NAMESPACE_BEGIN
@@ -195,6 +196,9 @@ namespace __reduce {
     struct Plan : core::AgentPlan
     {
       cub::GridMappingStrategy grid_mapping;
+
+      THRUST_RUNTIME_FUNCTION
+      Plan() {}
 
       template <class P>
       THRUST_RUNTIME_FUNCTION
@@ -699,8 +703,7 @@ namespace __reduce {
             T            init,
             ReductionOp  reduction_op,
             OutputIt     output_it,
-            cudaStream_t stream,
-            bool         debug_sync)
+            cudaStream_t stream)
   {
     using core::AgentPlan;
     using core::AgentLauncher;
@@ -733,7 +736,7 @@ namespace __reduce {
       }
       char *vshmem_ptr = vshmem_size > 0 ? (char*)d_temp_storage : NULL;
 
-      reduce_agent ra(reduce_plan, num_items, stream, vshmem_ptr, "reduce_agent: single_tile only", debug_sync);
+      reduce_agent ra(reduce_plan, num_items, stream, vshmem_ptr, "reduce_agent: single_tile only");
       ra.launch(input_it, output_it, num_items, reduction_op, init);
       CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
     }
@@ -813,7 +816,7 @@ namespace __reduce {
         typedef AgentLauncher<DrainAgent<Size> > drain_agent;
         AgentPlan drain_plan = drain_agent::get_plan();
         drain_plan.grid_size = 1;
-        drain_agent da(drain_plan, stream, "__reduce::drain_agent", debug_sync);
+        drain_agent da(drain_plan, stream, "__reduce::drain_agent");
         da.launch(queue, num_items);
         CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
       }
@@ -823,7 +826,7 @@ namespace __reduce {
       }
 
       reduce_plan.grid_size = reduce_grid_size;
-      reduce_agent ra(reduce_plan, stream, vshmem_ptr, "reduce_agent: regular size reduce", debug_sync);
+      reduce_agent ra(reduce_plan, stream, vshmem_ptr, "reduce_agent: regular size reduce");
       ra.launch(input_it,
                 d_block_reductions,
                 num_items,
@@ -838,7 +841,7 @@ namespace __reduce {
         reduce_agent_single;
 
       reduce_plan.grid_size = 1;
-      reduce_agent_single ra1(reduce_plan, stream, vshmem_ptr, "reduce_agent: single tile reduce", debug_sync);
+      reduce_agent_single ra1(reduce_plan, stream, vshmem_ptr, "reduce_agent: single tile reduce");
 
       ra1.launch(d_block_reductions, output_it, reduce_grid_size, reduction_op, init);
       CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
@@ -865,7 +868,6 @@ namespace __reduce {
 
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     status = doit_step(NULL,
@@ -875,8 +877,7 @@ namespace __reduce {
                        init,
                        binary_op,
                        reinterpret_cast<T*>(NULL),
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "reduce failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(T*), temp_storage_bytes};
@@ -909,8 +910,7 @@ namespace __reduce {
                        init,
                        binary_op,
                        d_result,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "reduce failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);
@@ -943,15 +943,11 @@ T reduce_n_impl(execution_policy<Derived>& policy,
 
   size_t tmp_size = 0;
 
-  THRUST_INDEX_TYPE_DISPATCH2(status,
+  THRUST_INDEX_TYPE_DISPATCH(status,
     cub::DeviceReduce::Reduce,
-    (cub::DispatchReduce<
-        InputIt, T*, Size, BinaryOp
-    >::Dispatch),
     num_items,
     (NULL, tmp_size, first, reinterpret_cast<T*>(NULL),
-        num_items_fixed, binary_op, init, stream,
-        THRUST_DEBUG_SYNC_FLAG));
+        num_items_fixed, binary_op, init, stream));
   cuda_cub::throw_on_error(status, "after reduction step 1");
 
   // Allocate temporary storage.
@@ -971,15 +967,11 @@ T reduce_n_impl(execution_policy<Derived>& policy,
   // make this guarantee.
   T* ret_ptr = thrust::detail::aligned_reinterpret_cast<T*>(tmp.data().get());
   void* tmp_ptr = static_cast<void*>((tmp.data() + sizeof(T)).get());
-  THRUST_INDEX_TYPE_DISPATCH2(status,
+  THRUST_INDEX_TYPE_DISPATCH(status,
     cub::DeviceReduce::Reduce,
-    (cub::DispatchReduce<
-        InputIt, T*, Size, BinaryOp
-    >::Dispatch),
     num_items,
     (tmp_ptr, tmp_size, first, ret_ptr,
-        num_items_fixed, binary_op, init, stream,
-        THRUST_DEBUG_SYNC_FLAG));
+        num_items_fixed, binary_op, init, stream));
   cuda_cub::throw_on_error(status, "after reduction step 2");
 
   // Synchronize the stream and get the value.
@@ -1018,14 +1010,18 @@ T reduce_n(execution_policy<Derived>& policy,
            T                          init,
            BinaryOp                   binary_op)
 {
-  if (__THRUST_HAS_CUDART__)
-    return thrust::cuda_cub::detail::reduce_n_impl(
-      policy, first, num_items, init, binary_op);
-
-  #if !__THRUST_HAS_CUDART__
-    return thrust::reduce(
-      cvt_to_seq(derived_cast(policy)), first, first + num_items, init, binary_op);
-  #endif
+  THRUST_CDP_DISPATCH((init =
+                         thrust::cuda_cub::detail::reduce_n_impl(policy,
+                                                                 first,
+                                                                 num_items,
+                                                                 init,
+                                                                 binary_op);),
+                      (init = thrust::reduce(cvt_to_seq(derived_cast(policy)),
+                                             first,
+                                             first + num_items,
+                                             init,
+                                             binary_op);));
+  return init;
 }
 
 template <class Derived, class InputIt, class T, class BinaryOp>

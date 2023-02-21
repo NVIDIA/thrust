@@ -1,8 +1,6 @@
-# Parse version information from version.h:
-unset(_THRUST_VERSION_INCLUDE_DIR CACHE) # Clear old result to force search
-find_path(_THRUST_VERSION_INCLUDE_DIR thrust/version.h
-  NO_DEFAULT_PATH # Only search explicit paths below:
-  PATHS
-    "${CMAKE_CURRENT_LIST_DIR}/../.."            # Source tree
-)
-set_property(CACHE _THRUST_VERSION_INCLUDE_DIR PROPERTY TYPE INTERNAL)
+# Parse version information from version.h in source tree
+set(_THRUST_VERSION_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/../..")
+if(EXISTS "${_THRUST_VERSION_INCLUDE_DIR}/thrust/version.h")
+  set(_THRUST_VERSION_INCLUDE_DIR "${_THRUST_VERSION_INCLUDE_DIR}" CACHE FILEPATH "" FORCE) # Clear old result
+  set_property(CACHE _THRUST_VERSION_INCLUDE_DIR PROPERTY TYPE INTERNAL)
+endif()

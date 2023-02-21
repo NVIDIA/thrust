@@ -4,6 +4,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename Function>
 __global__
 void tabulate_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Function f)
@@ -69,6 +70,7 @@ void TestTabulateDeviceDevice()
   TestTabulateDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestTabulateDeviceDevice);
+#endif
 
 void TestTabulateCudaStreams()
 {

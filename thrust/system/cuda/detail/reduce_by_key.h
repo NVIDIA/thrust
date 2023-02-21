@@ -29,25 +29,26 @@
 #include <thrust/detail/config.h>
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-#include <thrust/system/cuda/config.h>
-#include <thrust/detail/type_traits.h>
 
+#include <thrust/detail/alignment.h>
 #include <thrust/detail/cstdint.h>
-#include <thrust/detail/temporary_array.h>
-#include <thrust/system/cuda/detail/util.h>
+#include <thrust/detail/minmax.h>
+#include <thrust/detail/mpl/math.h>
 #include <thrust/detail/raw_reference_cast.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
-#include <cub/device/device_reduce.cuh>
-#include <thrust/system/cuda/detail/par_to_seq.h>
+#include <thrust/detail/type_traits.h>
+#include <thrust/distance.h>
+#include <thrust/functional.h>
+#include <thrust/pair.h>
+#include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cdp_dispatch.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/get_value.h>
-#include <thrust/pair.h>
-#include <thrust/functional.h>
-#include <thrust/detail/mpl/math.h>
-#include <thrust/detail/minmax.h>
-#include <thrust/distance.h>
-#include <thrust/detail/alignment.h>
+#include <thrust/system/cuda/detail/par_to_seq.h>
+#include <thrust/system/cuda/detail/util.h>
 
+#include <cub/device/device_reduce.cuh>
 #include <cub/util_math.cuh>
 
 THRUST_NAMESPACE_BEGIN
@@ -133,10 +134,13 @@ namespace __reduce_by_key {
   {
     enum
     {
+      MAX_INPUT_BYTES      = mpl::max<size_t, sizeof(Key), sizeof(Value)>::value,
+      COMBINED_INPUT_BYTES = sizeof(Key) + sizeof(Value),
+
       NOMINAL_4B_ITEMS_PER_THREAD = 6,
 
       ITEMS_PER_THREAD =
-          (Tuning::MAX_INPUT_BYTES <= 8)
+          (MAX_INPUT_BYTES <= 8)
               ? 6
               : mpl::min<
                     int,
@@ -145,8 +149,8 @@ namespace __reduce_by_key {
                         int,
                         1,
                         ((NOMINAL_4B_ITEMS_PER_THREAD * 8) +
-                         Tuning::COMBINED_INPUT_BYTES - 1) /
-                            Tuning::COMBINED_INPUT_BYTES>::value>::value,
+                         COMBINED_INPUT_BYTES - 1) /
+                            COMBINED_INPUT_BYTES>::value>::value,
     };
 
     typedef PtxPolicy<128,
@@ -162,10 +166,13 @@ namespace __reduce_by_key {
   {
     enum
     {
+      MAX_INPUT_BYTES      = mpl::max<size_t, sizeof(Key), sizeof(Value)>::value,
+      COMBINED_INPUT_BYTES = sizeof(Key) + sizeof(Value),
+
       NOMINAL_4B_ITEMS_PER_THREAD = 9,
 
       ITEMS_PER_THREAD =
-          (Tuning::MAX_INPUT_BYTES <= 8)
+          (MAX_INPUT_BYTES <= 8)
               ? 9
               : mpl::min<
                     int,
@@ -174,8 +181,8 @@ namespace __reduce_by_key {
                         int,
                         1,
                         ((NOMINAL_4B_ITEMS_PER_THREAD * 8) +
-                         Tuning::COMBINED_INPUT_BYTES - 1) /
-                            Tuning::COMBINED_INPUT_BYTES>::value>::value,
+                         COMBINED_INPUT_BYTES - 1) /
+                            COMBINED_INPUT_BYTES>::value>::value,
     };
 
     typedef PtxPolicy<256,
@@ -879,8 +886,7 @@ namespace __reduce_by_key {
             EqualityOp      equality_op,
             ReductionOp     reduction_op,
             Size            num_items,
-            cudaStream_t    stream,
-            bool            debug_sync)
+            cudaStream_t    stream)
   {
     using core::AgentPlan;
     using core::AgentLauncher;
@@ -937,7 +943,7 @@ namespace __reduce_by_key {
     status = tile_state.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
-    init_agent ia(init_plan, num_tiles, stream, "reduce_by_key::init_agent", debug_sync);
+    init_agent ia(init_plan, num_tiles, stream, "reduce_by_key::init_agent");
     ia.launch(tile_state, num_tiles, num_runs_output_it);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 
@@ -947,8 +953,7 @@ namespace __reduce_by_key {
                              num_items,
                              stream,
                              vshmem_ptr,
-                             "reduce_by_keys::reduce_by_key_agent",
-                             debug_sync);
+                             "reduce_by_keys::reduce_by_key_agent");
     rbka.launch(keys_input_it,
                 values_input_it,
                 keys_output_it,
@@ -984,7 +989,6 @@ namespace __reduce_by_key {
   {
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     if (num_items == 0)
     {
@@ -1002,8 +1006,7 @@ namespace __reduce_by_key {
                        equality_op,
                        reduction_op,
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "reduce_by_key failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(Size), temp_storage_bytes};
@@ -1040,8 +1043,7 @@ namespace __reduce_by_key {
                        equality_op,
                        reduction_op,
                        num_items,
-                       stream,
-                       debug_sync);
+                       stream);
     cuda_cub::throw_on_error(status, "reduce_by_key failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);
@@ -1077,12 +1079,13 @@ namespace __reduce_by_key {
 
     size_type num_items = thrust::distance(keys_first, keys_last);
 
+    pair<KeysOutputIt, ValuesOutputIt> result = thrust::make_pair(keys_output, values_output);
+
     if (num_items == 0)
     {
-      return thrust::make_pair(keys_output, values_output);
+      return result;
     }
 
-    pair<KeysOutputIt, ValuesOutputIt> result{};
     THRUST_INDEX_TYPE_DISPATCH(result,
                                reduce_by_key_dispatch,
                                num_items,
@@ -1122,34 +1125,26 @@ reduce_by_key(execution_policy<Derived> &policy,
               BinaryPred                 binary_pred,
               BinaryOp                   binary_op)
 {
-  pair<KeyOutputIt, ValOutputIt> ret = thrust::make_pair(keys_output, values_output);
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __reduce_by_key::reduce_by_key(policy,
-                                         keys_first,
-                                         keys_last,
-                                         values_first,
-                                         keys_output,
-                                         values_output,
-                                         binary_pred,
-                                         binary_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::reduce_by_key(cvt_to_seq(derived_cast(policy)),
-                                keys_first,
-                                keys_last,
-                                values_first,
-                                keys_output,
-                                values_output,
-                                binary_pred,
-                                binary_op);
-#endif
-  }
+  auto ret = thrust::make_pair(keys_output, values_output);
+  THRUST_CDP_DISPATCH((ret = __reduce_by_key::reduce_by_key(policy,
+                                                            keys_first,
+                                                            keys_last,
+                                                            values_first,
+                                                            keys_output,
+                                                            values_output,
+                                                            binary_pred,
+                                                            binary_op);),
+                      (ret =
+                         thrust::reduce_by_key(cvt_to_seq(derived_cast(policy)),
+                                               keys_first,
+                                               keys_last,
+                                               values_first,
+                                               keys_output,
+                                               values_output,
+                                               binary_pred,
+                                               binary_op);));
   return ret;
 }
-
 
 template <class Derived,
           class KeyInputIt,

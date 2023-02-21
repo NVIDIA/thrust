@@ -219,7 +219,8 @@ public:
     /*! Default constructor. Uses \p get_global_resource to get the global instance of \p Upstream and initializes the
      *      \p allocator base subobject with that resource.
      */
-    __host__
+    __thrust_exec_check_disable__
+    __host__ __device__
     stateless_resource_allocator() : base(get_global_resource<Upstream>())
     {
     }

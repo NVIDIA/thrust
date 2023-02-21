@@ -4,20 +4,21 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename ExecutionPolicy, typename Iterator1, typename Predicate, typename Iterator2>
-__global__
-void partition_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result)
-{
-  *result = thrust::partition(exec, first, last, pred);
-}
-
-
 template<typename T>
 struct is_even
 {
   __host__ __device__
   bool operator()(T x) const { return ((int) x % 2) == 0; }
 };
+
+
+#ifdef THRUST_TEST_DEVICE_SIDE
+template<typename ExecutionPolicy, typename Iterator1, typename Predicate, typename Iterator2>
+__global__
+void partition_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result)
+{
+  *result = thrust::partition(exec, first, last, pred);
+}
 
 
 template<typename ExecutionPolicy>
@@ -286,16 +287,11 @@ void TestPartitionCopyStencilDeviceNoSync()
 DECLARE_UNITTEST(TestPartitionCopyStencilDeviceNoSync);
 
 
-template<typename ExecutionPolicy, typename Iterator1, typename Predicate, typename Iterator2, typename Iterator3>
+template<typename ExecutionPolicy, typename Iterator1, typename Predicate, typename Iterator2>
 __global__
-void stable_partition_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result, Iterator3 is_supported)
+void stable_partition_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result)
 {
-#if (__CUDA_ARCH__ >= 200)
-  *is_supported = true;
   *result = thrust::stable_partition(exec, first, last, pred);
-#else
-  *is_supported = false;
-#endif
 }
 
 
@@ -313,24 +309,20 @@ void TestStablePartitionDevice(ExecutionPolicy exec)
   data[4] = 2; 
 
   thrust::device_vector<iterator> result(1);
-  thrust::device_vector<bool> is_supported(1);
-  
-  stable_partition_kernel<<<1,1>>>(exec, data.begin(), data.end(), is_even<T>(), result.begin(), is_supported.begin());
+
+  stable_partition_kernel<<<1,1>>>(exec, data.begin(), data.end(), is_even<T>(), result.begin());
   cudaError_t const err = cudaDeviceSynchronize();
   ASSERT_EQUAL(cudaSuccess, err);
   
-  if(is_supported[0])
-  {
-    thrust::device_vector<T> ref(5);
-    ref[0] = 2;
-    ref[1] = 2;
-    ref[2] = 1;
-    ref[3] = 1;
-    ref[4] = 1;
+  thrust::device_vector<T> ref(5);
+  ref[0] = 2;
+  ref[1] = 2;
+  ref[2] = 1;
+  ref[3] = 1;
+  ref[4] = 1;
     
-    ASSERT_EQUAL(2, (iterator)result[0] - data.begin());
-    ASSERT_EQUAL(ref, data);
-  }
+  ASSERT_EQUAL(2, (iterator)result[0] - data.begin());
+  ASSERT_EQUAL(ref, data);
 }
 
 
@@ -355,16 +347,11 @@ void TestStablePartitionDeviceNoSync()
 DECLARE_UNITTEST(TestStablePartitionDeviceNoSync);
 
 
-template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Predicate, typename Iterator3, typename Iterator4>
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Predicate, typename Iterator3>
 __global__
-void stable_partition_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 stencil_first, Predicate pred, Iterator3 result, Iterator4 is_supported)
+void stable_partition_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 stencil_first, Predicate pred, Iterator3 result)
 {
-#if (__CUDA_ARCH__ >= 200)
-  *is_supported = true;
   *result = thrust::stable_partition(exec, first, last, stencil_first, pred);
-#else
-  *is_supported = false;
-#endif
 }
 
 
@@ -389,24 +376,20 @@ void TestStablePartitionStencilDevice(ExecutionPolicy exec)
   stencil[4] = 2; 
 
   thrust::device_vector<iterator> result(1);
-  thrust::device_vector<bool> is_supported(1);
-  
-  stable_partition_kernel<<<1,1>>>(exec, data.begin(), data.end(), stencil.begin(), is_even<T>(), result.begin(), is_supported.begin());
+
+  stable_partition_kernel<<<1,1>>>(exec, data.begin(), data.end(), stencil.begin(), is_even<T>(), result.begin());
   cudaError_t const err = cudaDeviceSynchronize();
   ASSERT_EQUAL(cudaSuccess, err);
   
-  if(is_supported[0])
-  {
-    thrust::device_vector<T> ref(5);
-    ref[0] = 1;
-    ref[1] = 1;
-    ref[2] = 0;
-    ref[3] = 0;
-    ref[4] = 0;
+  thrust::device_vector<T> ref(5);
+  ref[0] = 1;
+  ref[1] = 1;
+  ref[2] = 0;
+  ref[3] = 0;
+  ref[4] = 0;
     
-    ASSERT_EQUAL(2, (iterator)result[0] - data.begin());
-    ASSERT_EQUAL(ref, data);
-  }
+  ASSERT_EQUAL(2, (iterator)result[0] - data.begin());
+  ASSERT_EQUAL(ref, data);
 }
 
 
@@ -576,6 +559,7 @@ void TestStablePartitionCopyStencilDeviceNoSync()
   TestStablePartitionCopyStencilDevice(thrust::cuda::par_nosync);
 }
 DECLARE_UNITTEST(TestStablePartitionCopyStencilDeviceNoSync);
+#endif
 
 
 template<typename ExecutionPolicy>

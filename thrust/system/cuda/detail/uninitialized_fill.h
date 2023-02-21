@@ -85,11 +85,6 @@ uninitialized_fill_n(execution_policy<Derived>& policy,
                          functor_t(first, x),
                          count);
 
-  cuda_cub::throw_on_error(
-    cuda_cub::synchronize_optional(policy)
-  , "uninitialized_fill_n: failed to synchronize"
-  );
-
   return first + count;
 }
 

@@ -195,6 +195,34 @@ template<typename T, typename Alloc>
   return *this;
 } // end vector_base::operator=()
 
+  template<typename T, typename Alloc>
+    vector_base<T,Alloc>
+      ::vector_base(std::initializer_list<T> il)
+        :m_storage(),
+         m_size(0)
+  {
+    range_init(il.begin(), il.end());
+  } // end vector_base::vector_base()
+
+  template<typename T, typename Alloc>
+  vector_base<T,Alloc>
+    ::vector_base(std::initializer_list<T> il, const Alloc &alloc)
+    :m_storage(alloc),
+      m_size(0)
+  {
+    range_init(il.begin(), il.end());
+  } // end vector_base::vector_base()
+
+  template<typename T, typename Alloc>
+    vector_base<T,Alloc> &
+      vector_base<T,Alloc>
+      ::operator=(std::initializer_list<T> il)
+  {
+    assign(il.begin(), il.end());
+
+    return *this;
+  } // end vector_base::operator=()
+
 template<typename T, typename Alloc>
   template<typename IteratorOrIntegralType>
     void vector_base<T,Alloc>

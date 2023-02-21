@@ -4,6 +4,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3>
 __global__
 void inclusive_scan_by_key_kernel(ExecutionPolicy exec, Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_first, Iterator3 result)
@@ -78,7 +79,7 @@ void TestScanByKeyDevice(ExecutionPolicy exec)
   }
   ASSERT_EQUAL(d_output, h_output);
   
-  // in-place scans
+  // in-place scans: in/out values aliasing
   h_output = h_vals;
   d_output = d_vals;
   thrust::inclusive_scan_by_key(h_keys.begin(), h_keys.end(), h_output.begin(), h_output.begin());
@@ -98,6 +99,24 @@ void TestScanByKeyDevice(ExecutionPolicy exec)
     ASSERT_EQUAL(cudaSuccess, err);
   }
   ASSERT_EQUAL(d_output, h_output);
+
+  // in-place scans: keys/values aliasing
+  thrust::inclusive_scan_by_key(h_keys.begin(), h_keys.end(), h_vals.begin(), h_output.begin());
+  inclusive_scan_by_key_kernel<<<1,1>>>(exec, d_keys.begin(), d_keys.end(), d_vals.begin(), d_keys.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+  ASSERT_EQUAL(d_keys, h_output);
+
+  d_keys = h_keys;
+  thrust::exclusive_scan_by_key(h_keys.begin(), h_keys.end(), h_vals.begin(), h_output.begin(), 11);
+  exclusive_scan_by_key_kernel<<<1,1>>>(exec, d_keys.begin(), d_keys.end(), d_vals.begin(), d_keys.begin(), 11);
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+  ASSERT_EQUAL(d_keys, h_output);
 }
 
 
@@ -113,6 +132,7 @@ void TestScanByKeyDeviceDevice()
   TestScanByKeyDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestScanByKeyDeviceDevice);
+#endif
 
 
 void TestInclusiveScanByKeyCudaStreams()

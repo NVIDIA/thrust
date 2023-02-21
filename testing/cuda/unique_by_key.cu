@@ -44,6 +44,7 @@ void initialize_values(Vector& values)
 }
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3>
 __global__
 void unique_by_key_kernel(ExecutionPolicy exec, Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_first, Iterator3 result)
@@ -139,6 +140,7 @@ void TestUniqueByKeyDeviceNoSync()
   TestUniqueByKeyDevice(thrust::cuda::par_nosync);
 }
 DECLARE_UNITTEST(TestUniqueByKeyDeviceNoSync);
+#endif
 
 
 template<typename ExecutionPolicy>
@@ -210,6 +212,7 @@ void TestUniqueByKeyCudaStreamsNoSync()
 DECLARE_UNITTEST(TestUniqueByKeyCudaStreamsNoSync);
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Iterator5>
 __global__
 void unique_by_key_copy_kernel(ExecutionPolicy exec, Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_first, Iterator3 keys_result, Iterator4 values_result, Iterator5 result)
@@ -309,6 +312,7 @@ void TestUniqueCopyByKeyDeviceNoSync()
   TestUniqueCopyByKeyDevice(thrust::cuda::par_nosync);
 }
 DECLARE_UNITTEST(TestUniqueCopyByKeyDeviceNoSync);
+#endif
 
 
 template<typename ExecutionPolicy>

@@ -10,6 +10,7 @@ struct less_than_five
 };
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename T1, typename T2>
 __global__
 void replace_kernel(ExecutionPolicy exec, Iterator first, Iterator last, T1 old_value, T2 new_value)
@@ -258,6 +259,7 @@ void TestReplaceCopyIfStencilDeviceDevice()
   TestReplaceCopyIfStencilDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestReplaceCopyIfStencilDeviceDevice);
+#endif
 
 
 void TestReplaceCudaStreams()

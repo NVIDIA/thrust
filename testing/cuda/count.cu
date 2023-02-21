@@ -3,6 +3,7 @@
 #include <thrust/execution_policy.h>
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename T, typename Iterator2>
 __global__
 void count_kernel(ExecutionPolicy exec, Iterator first, Iterator last, T value, Iterator2 result)
@@ -91,6 +92,7 @@ void TestCountIfDeviceDevice(const size_t n)
   TestCountIfDevice<T>(thrust::device, n);
 }
 DECLARE_VARIABLE_UNITTEST(TestCountIfDeviceDevice);
+#endif
 
 
 void TestCountCudaStreams()

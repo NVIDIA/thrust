@@ -24,22 +24,9 @@ void _TestStableSortWithLargeKeys(void)
 
 void TestStableSortWithLargeKeys(void)
 {
-    _TestStableSortWithLargeKeys<int,    1>();
     _TestStableSortWithLargeKeys<int,    2>();
-    _TestStableSortWithLargeKeys<int,    4>();
-    _TestStableSortWithLargeKeys<int,    8>();
-    _TestStableSortWithLargeKeys<int,   16>();
-    _TestStableSortWithLargeKeys<int,   32>();
-    _TestStableSortWithLargeKeys<int,   64>();
+    _TestStableSortWithLargeKeys<int,   17>();
     _TestStableSortWithLargeKeys<int,  128>();
-    _TestStableSortWithLargeKeys<int,  256>();
-
-// XXX these take too long to compile
-//    _TestStableSortWithLargeKeys<int,  512>();
-//    _TestStableSortWithLargeKeys<int, 1024>();
-//    _TestStableSortWithLargeKeys<int, 2048>();
-//    _TestStableSortWithLargeKeys<int, 4096>();
-//    _TestStableSortWithLargeKeys<int, 8192>();
 }
 DECLARE_UNITTEST(TestStableSortWithLargeKeys);
 

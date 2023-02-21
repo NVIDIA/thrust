@@ -1,0 +1,29 @@
+name: Add new issue/PR to project
+
+on:
+  issues:
+    types:
+      - opened
+
+  pull_request_target:
+    types:
+      - opened
+
+jobs:
+  add-to-project:
+    name: Add issue or PR to project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@36464acb844fc53b9b8b2401da68844f6b05ebb0
+        with:
+          app_id: ${{ secrets.CCCL_AUTH_APP_ID }}
+          private_key: ${{ secrets.CCCL_AUTH_APP_PEM }}
+      - name: Add to Project
+        env:
+          TOKEN: ${{ steps.generate_token.outputs.token }}
+        uses: actions/add-to-project@v0.3.0
+        with:
+          project-url: https://github.com/orgs/NVIDIA/projects/6
+          github-token: ${{ env.TOKEN }}
