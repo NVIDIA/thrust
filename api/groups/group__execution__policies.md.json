@@ -21,7 +21,7 @@
       "category": "attributes",
       "const": false,
       "definition": "const detail::host_t thrust::host",
-      "details": "<code>thrust::host</code> is the default parallel execution policy associated with Thrust's host backend system configured by the <code>THRUST&#95;HOST&#95;SYSTEM</code> macro.\n\nInstead of relying on implicit algorithm dispatch through iterator system tags, users may directly target algorithm dispatch at Thrust's host system by providing <code>thrust::host</code> as an algorithm parameter.\n\nExplicit dispatch can be useful in avoiding the introduction of data copies into containers such as <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">thrust::host&#95;vector</a></code>.\n\nNote that even though <code>thrust::host</code> targets the host CPU, it is a parallel execution policy. That is, the order that an algorithm invokes functors or dereferences iterators is not defined.\n\nThe type of <code>thrust::host</code> is implementation-defined.\n\nThe following code snippet demonstrates how to use <code>thrust::host</code> to explicitly dispatch an invocation of <code>thrust::for&#95;each</code> to the host backend system:\n\n\n\n```cpp\n#include <thrust/for_each.h>\n#include <thrust/execution_policy.h>\n#include <cstdio>\n\nstruct printf_functor\n{\n  __host__ __device__\n  void operator()(int x)\n  {\n    printf(\"%d\\n\", x);\n  }\n};\n...\nint vec(3);\nvec[0] = 0; vec[1] = 1; vec[2] = 2;\n\nthrust::for_each(thrust::host, vec.begin(), vec.end(), printf_functor());\n\n// 0 1 2 is printed to standard output in some unspecified order\n```",
+      "details": "<code>thrust::host</code> is the default parallel execution policy associated with Thrust's host backend system configured by the <code>THRUST&#95;HOST&#95;SYSTEM</code> macro.\n\nInstead of relying on implicit algorithm dispatch through iterator system tags, users may directly target algorithm dispatch at Thrust's host system by providing <code>thrust::host</code> as an algorithm parameter.\n\nExplicit dispatch can be useful in avoiding the introduction of data copies into containers such as <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">thrust::host&#95;vector</a></code>.\n\nNote that even though <code>thrust::host</code> targets the host CPU, it is a parallel execution policy. That is, the order that an algorithm invokes functors or dereferences iterators is not defined.\n\nThe type of <code>thrust::host</code> is implementation-defined.\n\nThe following code snippet demonstrates how to use <code>thrust::host</code> to explicitly dispatch an invocation of <code>thrust::for&#95;each</code> to the host backend system:\n\n\n\n```cpp\n#include <thrust/for_each.h>\n#include <thrust/execution_policy.h>\n#include <cstdio>\n\nstruct printf_functor\n{\n  __host__ __device__\n  void operator()(int x)\n  {\n    printf(\"%d\\n\", x);\n  }\n};\n...\nint vec[] = { 0, 1, 2 };\n\nthrust::for_each(thrust::host, vec, vec + 3, printf_functor());\n\n// 0 1 2 is printed to standard output in some unspecified order\n```",
       "explicit": false,
       "fullname": "execution_policies::host",
       "hasDetails": true,
@@ -30,10 +30,10 @@
       "language": "",
       "location": {
         "bodyFile": "thrust/execution_policy.h",
-        "bodyStart": 296,
+        "bodyStart": 295,
         "column": 29,
         "file": "thrust/execution_policy.h",
-        "line": 296
+        "line": 295
       },
       "name": "host",
       "override": false,
@@ -66,10 +66,10 @@
       "language": "",
       "location": {
         "bodyFile": "thrust/execution_policy.h",
-        "bodyStart": 345,
+        "bodyStart": 344,
         "column": 41,
         "file": "thrust/execution_policy.h",
-        "line": 345
+        "line": 344
       },
       "name": "device",
       "override": false,
