@@ -167,7 +167,7 @@ casinhf(complex<float> z)
   float x, y, ax, ay, rx, ry, B, sqrt_A2my2, new_y;
   int B_is_usable;
   complex<float> w;
-  const float RECIP_EPSILON = 1.0 / FLT_EPSILON;
+  const float RECIP_EPSILON = 1.0f / FLT_EPSILON;
   const float m_ln2 = 6.9314718055994531e-1f; /*  0x162e42fefa39ef.0p-53 */
   x = z.real();
   y = z.imag();
@@ -246,7 +246,7 @@ complex<float> cacosf(complex<float> z)
     return (complex<float>(x + 0.0f + (y + 0), x + 0.0f + (y + 0)));
   }
 
-  const float RECIP_EPSILON = 1.0 / FLT_EPSILON;
+  const float RECIP_EPSILON = 1.0f / FLT_EPSILON;
   if (ax > RECIP_EPSILON || ay > RECIP_EPSILON) {
     w = clog_for_large_values(z);
     rx = fabsf(w.imag());
