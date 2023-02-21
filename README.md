@@ -2,7 +2,7 @@
 
 <table><tr>
 <th><b><a href="https://github.com/nvidia/thrust/tree/main/examples">Examples</a></b></th>
-<th><b><a href="https://godbolt.org/z/rsdedW">Godbolt</a></b></th>
+<th><b><a href="https://godbolt.org/z/8E8W764E6">Godbolt</a></b></th>
 <th><b><a href="https://nvidia.github.io/thrust">Documentation</a></b></th>
 </tr></table>
 
@@ -53,7 +53,7 @@ int main() {
 }
 ```
 
-[See it on Godbolt](https://godbolt.org/z/v3fdoE)
+[See it on Godbolt](https://godbolt.org/z/GeWEd8Er9)
 
 This example demonstrates computing the sum of some random numbers in parallel:
 
@@ -78,7 +78,7 @@ int main() {
 }
 ```
 
-[See it on Godbolt](https://godbolt.org/z/119jxj)
+[See it on Godbolt](https://godbolt.org/z/cnsbWWME7)
 
 This example show how to perform such a reduction asynchronously:
 
@@ -115,7 +115,7 @@ int main() {
 }
 ```
 
-[See it on Godbolt](https://godbolt.org/z/rsdedW)
+[See it on Godbolt](https://godbolt.org/z/be54efaKj)
 
 ## Getting The Thrust Source Code
 
