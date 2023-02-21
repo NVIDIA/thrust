@@ -110,12 +110,12 @@
       "kind": "function",
       "language": "",
       "location": {
-        "bodyEnd": 508,
+        "bodyEnd": 529,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 505,
+        "bodyStart": 526,
         "column": 8,
         "file": "thrust/host_vector.h",
-        "line": 505
+        "line": 526
       },
       "name": "swap",
       "override": false,

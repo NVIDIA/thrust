@@ -55,12 +55,12 @@
       "kind": "function",
       "language": "",
       "location": {
-        "bodyEnd": 486,
+        "bodyEnd": 506,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 483,
+        "bodyStart": 503,
         "column": 8,
         "file": "thrust/device_vector.h",
-        "line": 483
+        "line": 503
       },
       "name": "swap",
       "override": false,

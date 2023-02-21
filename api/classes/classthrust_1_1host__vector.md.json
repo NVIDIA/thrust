@@ -23,12 +23,12 @@
   "kind": "class",
   "language": "cpp",
   "location": {
-    "bodyEnd": 498,
+    "bodyEnd": 519,
     "bodyFile": "thrust/host_vector.h",
-    "bodyStart": 53,
+    "bodyStart": 55,
     "column": 3,
     "file": "thrust/host_vector.h",
-    "line": 51
+    "line": 53
   },
   "module": {
     "anchor": "",
@@ -116,10 +116,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 55,
+        "bodyStart": 57,
         "column": 33,
         "file": "thrust/host_vector.h",
-        "line": 55
+        "line": 57
       },
       "name": "Parent",
       "override": false,
@@ -152,12 +152,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 69,
+        "bodyEnd": 71,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 68,
+        "bodyStart": 70,
         "column": 5,
         "file": "thrust/host_vector.h",
-        "line": 68
+        "line": 70
       },
       "name": "host_vector",
       "override": false,
@@ -197,12 +197,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 76,
+        "bodyEnd": 78,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 75,
+        "bodyStart": 77,
         "column": 5,
         "file": "thrust/host_vector.h",
-        "line": 75
+        "line": 77
       },
       "name": "host_vector",
       "override": false,
@@ -248,12 +248,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 83,
+        "bodyEnd": 85,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 83,
+        "bodyStart": 85,
         "column": 5,
         "file": "thrust/host_vector.h",
-        "line": 83
+        "line": 85
       },
       "name": "~host_vector",
       "override": false,
@@ -293,12 +293,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 91,
+        "bodyEnd": 93,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 90,
+        "bodyStart": 92,
         "column": 14,
         "file": "thrust/host_vector.h",
-        "line": 90
+        "line": 92
       },
       "name": "host_vector",
       "override": false,
@@ -344,12 +344,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 100,
+        "bodyEnd": 102,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 99,
+        "bodyStart": 101,
         "column": 14,
         "file": "thrust/host_vector.h",
-        "line": 99
+        "line": 101
       },
       "name": "host_vector",
       "override": false,
@@ -404,12 +404,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 109,
+        "bodyEnd": 111,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 108,
+        "bodyStart": 110,
         "column": 14,
         "file": "thrust/host_vector.h",
-        "line": 108
+        "line": 110
       },
       "name": "host_vector",
       "override": false,
@@ -464,12 +464,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 119,
+        "bodyEnd": 121,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 118,
+        "bodyStart": 120,
         "column": 14,
         "file": "thrust/host_vector.h",
-        "line": 118
+        "line": 120
       },
       "name": "host_vector",
       "override": false,
@@ -533,12 +533,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 126,
+        "bodyEnd": 128,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 125,
+        "bodyStart": 127,
         "column": 5,
         "file": "thrust/host_vector.h",
-        "line": 125
+        "line": 127
       },
       "name": "host_vector",
       "override": false,
@@ -584,12 +584,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 134,
+        "bodyEnd": 136,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 133,
+        "bodyStart": 135,
         "column": 5,
         "file": "thrust/host_vector.h",
-        "line": 133
+        "line": 135
       },
       "name": "host_vector",
       "override": false,
@@ -644,12 +644,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 142,
+        "bodyEnd": 144,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 141,
+        "bodyStart": 143,
         "column": 5,
         "file": "thrust/host_vector.h",
-        "line": 141
+        "line": 143
       },
       "name": "host_vector",
       "override": false,
@@ -695,12 +695,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 150,
+        "bodyEnd": 152,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 149,
+        "bodyStart": 151,
         "column": 5,
         "file": "thrust/host_vector.h",
-        "line": 149
+        "line": 151
       },
       "name": "host_vector",
       "override": false,
@@ -755,12 +755,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 158,
+        "bodyEnd": 160,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 157,
+        "bodyStart": 159,
         "column": 15,
         "file": "thrust/host_vector.h",
-        "line": 157
+        "line": 159
       },
       "name": "operator=",
       "override": false,
@@ -806,12 +806,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 166,
+        "bodyEnd": 168,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 165,
+        "bodyStart": 167,
         "column": 18,
         "file": "thrust/host_vector.h",
-        "line": 165
+        "line": 167
       },
       "name": "operator=",
       "override": false,
@@ -857,12 +857,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 175,
+        "bodyEnd": 177,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 174,
+        "bodyStart": 176,
         "column": 5,
         "file": "thrust/host_vector.h",
-        "line": 174
+        "line": 176
       },
       "name": "host_vector",
       "override": false,
@@ -920,12 +920,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 183,
+        "bodyEnd": 185,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 182,
+        "bodyStart": 184,
         "column": 17,
         "file": "thrust/host_vector.h",
-        "line": 182
+        "line": 184
       },
       "name": "operator=",
       "override": false,
@@ -983,12 +983,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 191,
+        "bodyEnd": 193,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 190,
+        "bodyStart": 192,
         "column": 5,
         "file": "thrust/host_vector.h",
-        "line": 190
+        "line": 192
       },
       "name": "host_vector",
       "override": false,
@@ -1046,12 +1046,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 199,
+        "bodyEnd": 201,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 198,
+        "bodyStart": 200,
         "column": 17,
         "file": "thrust/host_vector.h",
-        "line": 198
+        "line": 200
       },
       "name": "operator=",
       "override": false,
@@ -1109,12 +1109,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 209,
+        "bodyEnd": 211,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 208,
+        "bodyStart": 210,
         "column": 5,
         "file": "thrust/host_vector.h",
-        "line": 208
+        "line": 210
       },
       "name": "host_vector",
       "override": false,
@@ -1172,12 +1172,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 218,
+        "bodyEnd": 220,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 217,
+        "bodyStart": 219,
         "column": 17,
         "file": "thrust/host_vector.h",
-        "line": 217
+        "line": 219
       },
       "name": "operator=",
       "override": false,
@@ -1221,6 +1221,164 @@
     {
       "abstract": false,
       "anchor": "#function-host-vector",
+      "argsString": "(std::initializer_list< T > il)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::host_vector< T, Alloc >::host_vector",
+      "deleted": false,
+      "details": "This constructor builds a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> from an intializer_list. ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 226,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 225,
+        "column": 5,
+        "file": "thrust/host_vector.h",
+        "line": 225
+      },
+      "name": "host_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "il",
+          "text": "The intializer_list. "
+        }
+      ],
+      "params": [
+        {
+          "name": "il",
+          "type": "std::initializer_list< T >",
+          "typePlain": "std::initializer_list< T >"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::host_vector",
+      "refid": "classthrust_1_1host__vector_1a3b8bb99163c31671a08ca80ffd1c5423",
+      "static": false,
+      "strong": false,
+      "title": "host_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-host-vector",
+      "argsString": "(std::initializer_list< T > il, const Alloc &alloc)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::host_vector< T, Alloc >::host_vector",
+      "deleted": false,
+      "details": "This constructor builds a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host&#95;vector</a></code> from an intializer_list. ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::host_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 233,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 232,
+        "column": 5,
+        "file": "thrust/host_vector.h",
+        "line": 232
+      },
+      "name": "host_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "il",
+          "text": "The intializer_list. "
+        },
+        {
+          "name": "alloc",
+          "text": "The allocator to use by this <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "il",
+          "type": "std::initializer_list< T >",
+          "typePlain": "std::initializer_list< T >"
+        },
+        {
+          "name": "alloc",
+          "type": "const Alloc &",
+          "typePlain": "const Alloc &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::host_vector",
+      "refid": "classthrust_1_1host__vector_1ad8c254dcf182ba152136f61c7be4169d",
+      "static": false,
+      "strong": false,
+      "title": "host_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(std::initializer_list< T > il)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "host_vector & thrust::host_vector< T, Alloc >::operator=",
+      "deleted": false,
+      "details": "Assign an <code>intializer&#95;list</code> with a matching element type ",
+      "explicit": false,
+      "fullname": "thrust::host_vector::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 239,
+        "bodyFile": "thrust/host_vector.h",
+        "bodyStart": 238,
+        "column": 17,
+        "file": "thrust/host_vector.h",
+        "line": 238
+      },
+      "name": "operator=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "il",
+          "text": "The intializer_list. "
+        }
+      ],
+      "params": [
+        {
+          "name": "il",
+          "type": "std::initializer_list< T >",
+          "typePlain": "std::initializer_list< T >"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::host_vector::operator=",
+      "refid": "classthrust_1_1host__vector_1ae6df1f2c988c30a2518a6be15496c007",
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html\">host_vector</a> &",
+      "typePlain": "host_vector &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-host-vector",
       "argsString": "(InputIterator first, InputIterator last)",
       "category": "functions",
       "const": false,
@@ -1235,12 +1393,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 227,
+        "bodyEnd": 248,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 226,
+        "bodyStart": 247,
         "column": 5,
         "file": "thrust/host_vector.h",
-        "line": 226
+        "line": 247
       },
       "name": "host_vector",
       "override": false,
@@ -1302,12 +1460,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 237,
+        "bodyEnd": 258,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 236,
+        "bodyStart": 257,
         "column": 5,
         "file": "thrust/host_vector.h",
-        "line": 236
+        "line": 257
       },
       "name": "host_vector",
       "override": false,

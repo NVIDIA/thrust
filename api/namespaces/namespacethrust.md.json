@@ -12722,12 +12722,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 486,
+        "bodyEnd": 506,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 483,
+        "bodyStart": 503,
         "column": 8,
         "file": "thrust/device_vector.h",
-        "line": 483
+        "line": 503
       },
       "name": "swap",
       "override": false,
@@ -17683,12 +17683,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 508,
+        "bodyEnd": 529,
         "bodyFile": "thrust/host_vector.h",
-        "bodyStart": 505,
+        "bodyStart": 526,
         "column": 8,
         "file": "thrust/host_vector.h",
-        "line": 505
+        "line": 526
       },
       "name": "swap",
       "override": false,

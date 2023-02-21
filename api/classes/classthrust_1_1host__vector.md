@@ -80,6 +80,13 @@ A <code><a href="{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html
 <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;typename OtherAlloc&gt;</span>
 <span>&nbsp;&nbsp;__host__ <a href="{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html">host_vector</a> & </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-operator=">operator=</a></b>(const detail::vector_base< OtherT, OtherAlloc > & v);</span>
 <br>
+<span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector">host&#95;vector</a></b>(std::initializer_list< T > il);</span>
+<br>
+<span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector">host&#95;vector</a></b>(std::initializer_list< T > il,</span>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;const Alloc & alloc);</span>
+<br>
+<span>&nbsp;&nbsp;<a href="{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html">host_vector</a> & </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-operator=">operator=</a></b>(std::initializer_list< T > il);</span>
+<br>
 <span>&nbsp;&nbsp;template &lt;typename InputIterator&gt;</span>
 <span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html#function-host-vector">host&#95;vector</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;InputIterator last);</span>
@@ -319,6 +326,41 @@ Assign a <code>vector&#95;base</code> whose element type is convertible to <code
 
 **Function Parameters**:
 **`v`**: The <code>vector&#95;base</code> to copy. 
+
+<h3 id="function-host-vector">
+Function <code>thrust::host&#95;vector::host&#95;vector</code>
+</h3>
+
+<code class="doxybook">
+<span><b>host_vector</b>(std::initializer_list< T > il);</span></code>
+This constructor builds a <code><a href="{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html">host&#95;vector</a></code> from an intializer_list. 
+
+**Function Parameters**:
+**`il`**: The intializer_list. 
+
+<h3 id="function-host-vector">
+Function <code>thrust::host&#95;vector::host&#95;vector</code>
+</h3>
+
+<code class="doxybook">
+<span><b>host_vector</b>(std::initializer_list< T > il,</span>
+<span>&nbsp;&nbsp;const Alloc & alloc);</span></code>
+This constructor builds a <code><a href="{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html">host&#95;vector</a></code> from an intializer_list. 
+
+**Function Parameters**:
+* **`il`** The intializer_list. 
+* **`alloc`** The allocator to use by this <a href="{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html">host_vector</a>. 
+
+<h3 id="function-operator=">
+Function <code>thrust::host&#95;vector::operator=</code>
+</h3>
+
+<code class="doxybook">
+<span><a href="{{ site.baseurl }}/api/classes/classthrust_1_1host__vector.html">host_vector</a> & </span><span><b>operator=</b>(std::initializer_list< T > il);</span></code>
+Assign an <code>intializer&#95;list</code> with a matching element type 
+
+**Function Parameters**:
+**`il`**: The intializer_list. 
 
 <h3 id="function-host-vector">
 Function <code>thrust::host&#95;vector::host&#95;vector</code>

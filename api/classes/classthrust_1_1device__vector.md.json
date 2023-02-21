@@ -23,12 +23,12 @@
   "kind": "class",
   "language": "cpp",
   "location": {
-    "bodyEnd": 476,
+    "bodyEnd": 496,
     "bodyFile": "thrust/device_vector.h",
-    "bodyStart": 53,
+    "bodyStart": 54,
     "column": 3,
     "file": "thrust/device_vector.h",
-    "line": 51
+    "line": 52
   },
   "module": {
     "anchor": "",
@@ -103,10 +103,10 @@
       "language": "cpp",
       "location": {
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 55,
+        "bodyStart": 56,
         "column": 33,
         "file": "thrust/device_vector.h",
-        "line": 55
+        "line": 56
       },
       "name": "Parent",
       "override": false,
@@ -139,12 +139,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 68,
+        "bodyEnd": 69,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 67,
+        "bodyStart": 68,
         "column": 5,
         "file": "thrust/device_vector.h",
-        "line": 67
+        "line": 68
       },
       "name": "device_vector",
       "override": false,
@@ -182,12 +182,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 74,
+        "bodyEnd": 75,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 73,
+        "bodyStart": 74,
         "column": 5,
         "file": "thrust/device_vector.h",
-        "line": 73
+        "line": 74
       },
       "name": "device_vector",
       "override": false,
@@ -231,12 +231,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 80,
+        "bodyEnd": 81,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 80,
+        "bodyStart": 81,
         "column": 5,
         "file": "thrust/device_vector.h",
-        "line": 80
+        "line": 81
       },
       "name": "~device_vector",
       "override": false,
@@ -274,12 +274,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 87,
+        "bodyEnd": 88,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 86,
+        "bodyStart": 87,
         "column": 14,
         "file": "thrust/device_vector.h",
-        "line": 86
+        "line": 87
       },
       "name": "device_vector",
       "override": false,
@@ -323,12 +323,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 95,
+        "bodyEnd": 96,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 94,
+        "bodyStart": 95,
         "column": 14,
         "file": "thrust/device_vector.h",
-        "line": 94
+        "line": 95
       },
       "name": "device_vector",
       "override": false,
@@ -381,12 +381,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 103,
+        "bodyEnd": 104,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 102,
+        "bodyStart": 103,
         "column": 14,
         "file": "thrust/device_vector.h",
-        "line": 102
+        "line": 103
       },
       "name": "device_vector",
       "override": false,
@@ -439,12 +439,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 112,
+        "bodyEnd": 113,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 111,
+        "bodyStart": 112,
         "column": 14,
         "file": "thrust/device_vector.h",
-        "line": 111
+        "line": 112
       },
       "name": "device_vector",
       "override": false,
@@ -506,12 +506,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 118,
+        "bodyEnd": 119,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 117,
+        "bodyStart": 118,
         "column": 5,
         "file": "thrust/device_vector.h",
-        "line": 117
+        "line": 118
       },
       "name": "device_vector",
       "override": false,
@@ -555,12 +555,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 125,
+        "bodyEnd": 126,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 124,
+        "bodyStart": 125,
         "column": 5,
         "file": "thrust/device_vector.h",
-        "line": 124
+        "line": 125
       },
       "name": "device_vector",
       "override": false,
@@ -613,12 +613,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 132,
+        "bodyEnd": 133,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 131,
+        "bodyStart": 132,
         "column": 5,
         "file": "thrust/device_vector.h",
-        "line": 131
+        "line": 132
       },
       "name": "device_vector",
       "override": false,
@@ -662,12 +662,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 139,
+        "bodyEnd": 140,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 138,
+        "bodyStart": 139,
         "column": 5,
         "file": "thrust/device_vector.h",
-        "line": 138
+        "line": 139
       },
       "name": "device_vector",
       "override": false,
@@ -720,12 +720,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 146,
+        "bodyEnd": 147,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 145,
+        "bodyStart": 146,
         "column": 19,
         "file": "thrust/device_vector.h",
-        "line": 145
+        "line": 146
       },
       "name": "operator=",
       "override": false,
@@ -771,12 +771,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 153,
+        "bodyEnd": 154,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 152,
+        "bodyStart": 153,
         "column": 20,
         "file": "thrust/device_vector.h",
-        "line": 152
+        "line": 153
       },
       "name": "operator=",
       "override": false,
@@ -822,12 +822,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 161,
+        "bodyEnd": 162,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 160,
+        "bodyStart": 161,
         "column": 14,
         "file": "thrust/device_vector.h",
-        "line": 160
+        "line": 161
       },
       "name": "device_vector",
       "override": false,
@@ -883,12 +883,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 168,
+        "bodyEnd": 169,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 167,
+        "bodyStart": 168,
         "column": 19,
         "file": "thrust/device_vector.h",
-        "line": 167
+        "line": 168
       },
       "name": "operator=",
       "override": false,
@@ -946,12 +946,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 175,
+        "bodyEnd": 176,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 174,
+        "bodyStart": 175,
         "column": 5,
         "file": "thrust/device_vector.h",
-        "line": 174
+        "line": 175
       },
       "name": "device_vector",
       "override": false,
@@ -1007,12 +1007,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 182,
+        "bodyEnd": 183,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 181,
+        "bodyStart": 182,
         "column": 19,
         "file": "thrust/device_vector.h",
-        "line": 181
+        "line": 182
       },
       "name": "operator=",
       "override": false,
@@ -1070,12 +1070,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 191,
+        "bodyEnd": 192,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 190,
+        "bodyStart": 191,
         "column": 5,
         "file": "thrust/device_vector.h",
-        "line": 190
+        "line": 191
       },
       "name": "device_vector",
       "override": false,
@@ -1131,12 +1131,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 198,
+        "bodyEnd": 199,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 197,
+        "bodyStart": 198,
         "column": 19,
         "file": "thrust/device_vector.h",
-        "line": 197
+        "line": 198
       },
       "name": "operator=",
       "override": false,
@@ -1180,6 +1180,164 @@
     {
       "abstract": false,
       "anchor": "#function-device-vector",
+      "argsString": "(std::initializer_list< T > il)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::device_vector",
+      "deleted": false,
+      "details": "This constructor builds a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> from an intializer_list. ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 205,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 204,
+        "column": 5,
+        "file": "thrust/device_vector.h",
+        "line": 204
+      },
+      "name": "device_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "il",
+          "text": "The intializer_list. "
+        }
+      ],
+      "params": [
+        {
+          "name": "il",
+          "type": "std::initializer_list< T >",
+          "typePlain": "std::initializer_list< T >"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::device_vector",
+      "refid": "classthrust_1_1device__vector_1a8e23c850b93e255e4079c8aa17fc5da8",
+      "static": false,
+      "strong": false,
+      "title": "device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-device-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-vector",
+      "argsString": "(std::initializer_list< T > il, const Alloc &alloc)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "thrust::device_vector< T, Alloc >::device_vector",
+      "deleted": false,
+      "details": "This constructor builds a <code><a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device&#95;vector</a></code> from an intializer_list. ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::device_vector",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 212,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 211,
+        "column": 5,
+        "file": "thrust/device_vector.h",
+        "line": 211
+      },
+      "name": "device_vector",
+      "override": false,
+      "paramList": [
+        {
+          "name": "il",
+          "text": "The intializer_list. "
+        },
+        {
+          "name": "alloc",
+          "text": "The allocator to use by this <a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "il",
+          "type": "std::initializer_list< T >",
+          "typePlain": "std::initializer_list< T >"
+        },
+        {
+          "name": "alloc",
+          "type": "const Alloc &",
+          "typePlain": "const Alloc &"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::device_vector",
+      "refid": "classthrust_1_1device__vector_1a3ad43819b2d3c559c7571f5bb04dd289",
+      "static": false,
+      "strong": false,
+      "title": "device_vector",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-device-vector",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(std::initializer_list< T > il)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "device_vector & thrust::device_vector< T, Alloc >::operator=",
+      "deleted": false,
+      "details": "Assign an <code>intializer&#95;list</code> with a matching element type ",
+      "explicit": false,
+      "fullname": "thrust::device_vector::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "language": "cpp",
+      "location": {
+        "bodyEnd": 218,
+        "bodyFile": "thrust/device_vector.h",
+        "bodyStart": 217,
+        "column": 19,
+        "file": "thrust/device_vector.h",
+        "line": 217
+      },
+      "name": "operator=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "il",
+          "text": "The intializer_list. "
+        }
+      ],
+      "params": [
+        {
+          "name": "il",
+          "type": "std::initializer_list< T >",
+          "typePlain": "std::initializer_list< T >"
+        }
+      ],
+      "pureVirtual": false,
+      "qualifiedname": "thrust::device_vector::operator=",
+      "refid": "classthrust_1_1device__vector_1a9ce51425ebb29596f820d1d12ca89b22",
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "<a href=\"{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html\">device_vector</a> &",
+      "typePlain": "device_vector &",
+      "url": "{{ site.baseurl }}/api/classes/classthrust_1_1device__vector.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device-vector",
       "argsString": "(InputIterator first, InputIterator last)",
       "category": "functions",
       "const": false,
@@ -1194,12 +1352,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 206,
+        "bodyEnd": 226,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 205,
+        "bodyStart": 225,
         "column": 5,
         "file": "thrust/device_vector.h",
-        "line": 205
+        "line": 225
       },
       "name": "device_vector",
       "override": false,
@@ -1259,12 +1417,12 @@
       "kind": "function",
       "language": "cpp",
       "location": {
-        "bodyEnd": 215,
+        "bodyEnd": 235,
         "bodyFile": "thrust/device_vector.h",
-        "bodyStart": 214,
+        "bodyStart": 234,
         "column": 5,
         "file": "thrust/device_vector.h",
-        "line": 214
+        "line": 234
       },
       "name": "device_vector",
       "override": false,
