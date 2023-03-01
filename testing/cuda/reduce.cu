@@ -4,7 +4,6 @@
 #include <thrust/iterator/constant_iterator.h>
 
 
-#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename ExecutionPolicy, typename Iterator, typename T, typename Iterator2>
 __global__
 void reduce_kernel(ExecutionPolicy exec, Iterator first, Iterator last, T init, Iterator2 result)
@@ -13,6 +12,7 @@ void reduce_kernel(ExecutionPolicy exec, Iterator first, Iterator last, T init, 
 }
 
 
+#ifdef THRUST_TEST_DEVICE_SIDE
 template<typename T, typename ExecutionPolicy>
 void TestReduceDevice(ExecutionPolicy exec, const size_t n)
 {
