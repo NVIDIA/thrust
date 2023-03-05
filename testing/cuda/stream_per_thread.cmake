@@ -4,6 +4,8 @@ set_target_properties(${test_target} PROPERTIES
     $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:--default-stream=per-thread>
 )
 
+thrust_fix_clang_nvcc_build_for(${test_target})
+
 # NVC++ does not have an equivalent option, and will always
 # use the global stream by default.
 if (CMAKE_CUDA_COMPILER_ID STREQUAL "Feta")

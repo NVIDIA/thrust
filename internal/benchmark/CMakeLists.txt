@@ -23,6 +23,7 @@ foreach(thrust_target IN LISTS THRUST_TARGETS)
   target_link_libraries(${bench_target} PRIVATE ${thrust_target})
   target_include_directories(${bench_target} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
   thrust_clone_target_properties(${bench_target} ${thrust_target})
+  thrust_fix_clang_nvcc_build_for(${bench_target})
 
   add_dependencies(thrust.all.bench ${bench_target})
   add_dependencies(${config_prefix}.all ${bench_target})

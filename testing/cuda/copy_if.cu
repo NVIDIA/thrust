@@ -3,7 +3,6 @@
 #include <thrust/sequence.h>
 #include <thrust/execution_policy.h>
 
-
 template<typename T>
 struct is_even
 {
