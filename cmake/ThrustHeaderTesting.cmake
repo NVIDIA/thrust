@@ -133,6 +133,8 @@ foreach(thrust_target IN LISTS THRUST_TARGETS)
     )
   endif()
 
+  thrust_fix_clang_nvcc_build_for(${headertest_target})
+
   add_dependencies(thrust.all.headers ${headertest_target})
   add_dependencies(${config_prefix}.all ${headertest_target})
 endforeach()

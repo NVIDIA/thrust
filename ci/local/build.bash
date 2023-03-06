@@ -60,7 +60,7 @@ REPOSITORY_PATH=$(realpath ${SCRIPT_PATH}/../..)
 # FLAGS - Process command line flags.
 ################################################################################
 
-IMAGE="gpuci/cccl:cuda11.5.1-devel-ubuntu20.04-gcc9"
+IMAGE="gpuci/cccl:cuda11.7.0-devel-ubuntu20.04-gcc9"
 
 LOCAL_IMAGE=0
 
