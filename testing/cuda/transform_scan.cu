@@ -186,3 +186,30 @@ void TestTransformScanCudaStreams()
 }
 DECLARE_UNITTEST(TestTransformScanCudaStreams);
 
+void TestTransformScanConstAccumulator()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef Vector::value_type T;
+
+  Vector::iterator iter;
+
+  Vector input(5);
+  Vector reference(5);
+  Vector output(5);
+
+  input[0] = 1;
+  input[1] = 3;
+  input[2] = -2;
+  input[3] = 4;
+  input[4] = -5;
+
+  thrust::transform_inclusive_scan(input.begin(),
+                                   input.end(),
+                                   output.begin(),
+                                   thrust::identity<T>(),
+                                   thrust::plus<T>());
+  thrust::inclusive_scan(input.begin(), input.end(), reference.begin(), thrust::plus<T>());
+
+  ASSERT_EQUAL(output, reference);
+}
+DECLARE_UNITTEST(TestTransformScanConstAccumulator);
