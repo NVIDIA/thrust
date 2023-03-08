@@ -1,5 +1,42 @@
 # Changelog
 
+## Thrust 2.1.0
+
+### New Features
+
+- NVIDIA/thrust#1805: Add default constructors to `transform_output_iterator`
+  and `transform_input_output_iterator`. Thanks to Mark Harris (@harrism) for this contribution.
+- NVIDIA/thrust#1836: Enable constructions of vectors from `std::initializer_list`.
+
+### Bug Fixes
+
+- NVIDIA/thrust#1768: Fix type conversion warning in the `thrust::complex` utilities. Thanks to
+  Zishi Wu (@zishiwu123) for this contribution.
+- NVIDIA/thrust#1809: Fix some warnings about usage of `__host__` functions in `__device__` code.
+- NVIDIA/thrust#1825: Fix Thrust's CMake install rules. Thanks to Robert Maynard (@robertmaynard)
+  for this contribution.
+- NVIDIA/thrust#1827: Fix `thrust::reduce_by_key` when using non-default-initializable iterators.
+- NVIDIA/thrust#1832: Fix bug in device-side CDP `thrust::reduce` when using a large number of
+  inputs.
+
+### Other Enhancements
+
+- NVIDIA/thrust#1815: Update Thrust's libcu++ git submodule to version 1.8.1.
+- NVIDIA/thrust#1841: Fix invalid code in execution policy documentation example. Thanks to Raphaël
+  Frantz (@Eren121) for this contribution.
+- NVIDIA/thrust#1848: Improve error messages when attempting to launch a kernel on a device that is
+  not supported by compiled PTX versions. Thanks to Zahra Khatami (@zkhatami) for this contribution.
+- NVIDIA/thrust#1855: Remove usage of deprecated CUDA error codes.
+
+## Thrust 2.0.1
+
+### Other Enhancements
+
+- Disable CDP parallelization of device-side invocations of Thrust algorithms on SM90+. The removal
+  of device-side synchronization support in recent architectures makes Thrust's fork-join model
+  unimplementable on device, so a serial implementation will be used instead. Host-side invocations
+  of Thrust algorithms are not affected.
+
 ## Thrust 2.0.0
 
 ### Summary
@@ -26,7 +63,7 @@ several minor bugfixes and cleanups.
     - `THRUST_INCLUDE_HOST_CODE`: Replace with `NV_IF_TARGET`.
     - `THRUST_INCLUDE_DEVICE_CODE`: Replace with `NV_IF_TARGET`.
     - `THRUST_DEVICE_CODE`: Replace with `NV_IF_TARGET`.
-- NVIDIA/thrust#1661: Thrust’s CUDA Runtime support macros have been updated to
+- NVIDIA/thrust#1661: Thrust's CUDA Runtime support macros have been updated to
   support `NV_IF_TARGET`. They are now defined consistently across all
   host/device compilation passes. This should not affect most usages of these
   macros, but may require changes for some edge cases.
@@ -59,7 +96,7 @@ several minor bugfixes and cleanups.
     - CMake builds that use the Thrust packages via CPM, `add_subdirectory`,
       or `find_package` are not affected.
 - NVIDIA/thrust#1760: A compile-time error is now emitted when a `__device__`
-  -only lambda’s return type is queried from host code (requires libcu++ ≥
+  -only lambda's return type is queried from host code (requires libcu++ ≥
   1.9.0).
     - Due to limitations in the CUDA programming model, the result of this query
       is unreliable, and will silently return an incorrect result. This leads to
@@ -83,7 +120,7 @@ several minor bugfixes and cleanups.
   to `thrust::make_zip_function`. Thanks to @mfbalin for this contribution.
 - NVIDIA/thrust#1722: Remove CUDA-specific error handler from code that may be
   executed on non-CUDA backends. Thanks to @dkolsen-pgi for this contribution.
-- NVIDIA/thrust#1756: Fix `copy_if` for output iterators that don’t support copy
+- NVIDIA/thrust#1756: Fix `copy_if` for output iterators that don't support copy
   assignment. Thanks for @mfbalin for this contribution.
 
 ### Other Enhancements
@@ -157,7 +194,7 @@ numerous bugfixes and stability improvements.
 
 #### New `thrust::cuda::par_nosync` Execution Policy
 
-Most of Thrust’s parallel algorithms are fully synchronous and will block the
+Most of Thrust's parallel algorithms are fully synchronous and will block the
 calling CPU thread until all work is completed. This design avoids many pitfalls
 associated with asynchronous GPU programming, resulting in simpler and
 less-error prone usage for new CUDA developers. Unfortunately, this improvement
@@ -222,12 +259,12 @@ on the calling GPU thread instead of launching a device-wide kernel.
 
 ### Enhancements
 
-- NVIDIA/thrust#1511: Use CUB’s new `DeviceMergeSort` API and remove Thrust’s
+- NVIDIA/thrust#1511: Use CUB's new `DeviceMergeSort` API and remove Thrust's
   internal implementation.
 - NVIDIA/thrust#1566: Improved performance of `thrust::shuffle`. Thanks to
   @djns99 for this contribution.
 - NVIDIA/thrust#1584: Support user-defined `CMAKE_INSTALL_INCLUDEDIR` values in
-  Thrust’s CMake install rules. Thanks to @robertmaynard for this contribution.
+  Thrust's CMake install rules. Thanks to @robertmaynard for this contribution.
 
 ### Bug Fixes
 
@@ -239,7 +276,7 @@ on the calling GPU thread instead of launching a device-wide kernel.
 - NVIDIA/thrust#1597: Fix some collisions with the `small` macro defined
   in `windows.h`.
 - NVIDIA/thrust#1599, NVIDIA/thrust#1603: Fix some issues with version handling
-  in Thrust’s CMake packages.
+  in Thrust's CMake packages.
 - NVIDIA/thrust#1614: Clarify that scan algorithm results are non-deterministic
   for pseudo-associative operators (e.g. floating-point addition).
 
@@ -752,7 +789,7 @@ Starting with the upcoming 1.10.0 release, C++03 support will be dropped
     passing a size.
   This was necessary to enable usage of Thrust caching MR allocators with
     synchronous Thrust algorithms.
-  This change has allowed NVC++’s C++17 Parallel Algorithms implementation to
+  This change has allowed NVC++'s C++17 Parallel Algorithms implementation to
     switch to use Thrust caching MR allocators for device temporary storage,
     which gives a 2x speedup on large multi-GPU systems such as V100 and A100
     DGX where `cudaMalloc` is very slow.
