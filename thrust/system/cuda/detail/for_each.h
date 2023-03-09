@@ -55,7 +55,7 @@ namespace cuda_cub {
     template <class Size>
     THRUST_DEVICE_FUNCTION void operator()(Size idx)
     {
-      op(raw_reference_cast(input[idx]));
+      op(raw_reference_cast(*(input + idx)));
     }
   };
 
