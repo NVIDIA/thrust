@@ -575,6 +575,55 @@ void TestInclusiveScanWithIndirection(void)
 }
 DECLARE_INTEGRAL_VECTOR_UNITTEST(TestInclusiveScanWithIndirection);
 
+template <typename T>
+struct const_ref_plus_mod3
+{
+    T * table;
+
+    const_ref_plus_mod3(T * table) : table(table) {}
+
+    __host__ __device__
+    const T& operator()(T a, T b)
+    {
+        return table[(int) (a + b)];
+    }
+};
+
+template <typename Vector>
+void TestInclusiveScanWithConstAccumulator(void)
+{
+    // add numbers modulo 3 with external lookup table
+    typedef typename Vector::value_type T;
+
+    Vector data(7);
+    data[0] = 0;
+    data[1] = 1;
+    data[2] = 2;
+    data[3] = 1;
+    data[4] = 2;
+    data[5] = 0;
+    data[6] = 1;
+
+    Vector table(6);
+    table[0] = 0;
+    table[1] = 1;
+    table[2] = 2;
+    table[3] = 0;
+    table[4] = 1;
+    table[5] = 2;
+
+    thrust::inclusive_scan(data.begin(), data.end(), data.begin(), const_ref_plus_mod3<T>(thrust::raw_pointer_cast(&table[0])));
+    
+    ASSERT_EQUAL(data[0], T(0));
+    ASSERT_EQUAL(data[1], T(1));
+    ASSERT_EQUAL(data[2], T(0));
+    ASSERT_EQUAL(data[3], T(1));
+    ASSERT_EQUAL(data[4], T(0));
+    ASSERT_EQUAL(data[5], T(0));
+    ASSERT_EQUAL(data[6], T(1));
+}
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestInclusiveScanWithConstAccumulator);
+
 struct only_set_when_expected_it
 {
     long long expected;
