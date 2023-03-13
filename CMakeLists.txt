@@ -32,7 +32,7 @@ function(thrust_fix_clang_nvcc_build_for target)
 
     # Only affects host compiler
     target_compile_options(${target} PRIVATE 
-        $<$<COMPILE_LANGUAGE:CUDA>:-include"${clang_fix_header_path}">)
+        "$<$<COMPILE_LANGUAGE:CUDA>:-include${clang_fix_header_path}>")
   endif()
 endfunction()
 
