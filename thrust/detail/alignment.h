@@ -26,7 +26,7 @@
 #include <cstddef> // For `std::size_t` and `std::max_align_t`.
 
 #if THRUST_CPP_DIALECT >= 2011
-    #include <type_traits> // For `std::alignment_of` and `std::aligned_storage`.
+    #include <type_traits> // For `std::alignment_of`. 
 #endif
 
 THRUST_NAMESPACE_BEGIN
@@ -151,32 +151,6 @@ struct aligned_type;
     struct aligned_type
     {
         struct type {} __attribute__((aligned(Align)));
-    };
-#endif
-
-/// \p aligned_storage provides the nested type `type`, which is a trivial type
-/// suitable for use as uninitialized storage for any object whose size is at
-/// most `Len` bytes and whose alignment requirement is a divisor of `Align`.
-/// 
-/// The behavior is undefined if `Len` is 0 or `Align` is not a power of 2.
-///
-/// It is an implementation of C++11's \p std::aligned_storage.
-#if THRUST_CPP_DIALECT >= 2011
-    template <std::size_t Len, std::size_t Align>
-    using aligned_storage = std::aligned_storage<Len, Align>;
-#else
-    template <std::size_t Len, std::size_t Align>
-    struct aligned_storage
-    {
-        union type
-        {
-            unsigned char data[Len];
-            // We put this into the union in case the alignment requirement of
-            // an array of `unsigned char` of length `Len` is greater than
-            // `Align`.
-
-            typename aligned_type<Align>::type align;
-        };
     };
 #endif
 
