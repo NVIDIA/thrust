@@ -117,7 +117,7 @@ THRUST_NAMESPACE_END
 
 #if defined(__GLIBCXX__) && __has_feature(is_trivially_assignable)
 #define THRUST_OPTIONAL_IS_TRIVIALLY_COPY_ASSIGNABLE(T) \
-  __is_trivially_assignable(T, T const&)
+  __is_trivially_assignable(T&, T const&)
 #else
 #define THRUST_OPTIONAL_IS_TRIVIALLY_COPY_ASSIGNABLE(T) \
   std::is_trivially_copy_assignable<T>::value
@@ -133,7 +133,7 @@ THRUST_NAMESPACE_END
 
 #if defined(__GLIBCXX__) && __has_feature(is_trivially_assignable)
 #define THRUST_OPTIONAL_IS_TRIVIALLY_MOVE_ASSIGNABLE(T) \
-  __is_trivially_assignable(T, T&&)
+  __is_trivially_assignable(T&, T&&)
 #else
 #define THRUST_OPTIONAL_IS_TRIVIALLY_MOVE_ASSIGNABLE(T) \
   std::is_trivially_move_assignable<T>::value
