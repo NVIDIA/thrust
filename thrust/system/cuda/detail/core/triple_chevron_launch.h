@@ -103,6 +103,7 @@ namespace launcher {
       fill_arguments(buffer, copy_arg(buffer, offset, arg), args...);
     }
 
+    #ifdef THRUST_RDC_ENABLED
     template<class K, class... Args>
     cudaError_t __device__
     doit_device(K k, Args const&... args) const
@@ -124,6 +125,14 @@ namespace launcher {
                               shared_mem,
                               stream);
     }
+    #else 
+    template<class K, class... Args>
+    cudaError_t __device__
+    doit_device(K, Args const&... ) const
+    {
+      return cudaErrorNotSupported;
+    }
+    #endif
 
     __thrust_exec_check_disable__
     template <class K, class... Args>
