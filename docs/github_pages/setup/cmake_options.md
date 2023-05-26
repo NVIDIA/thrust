@@ -99,37 +99,13 @@ The CMake options are divided into these categories:
 
 ## CUDA Specific CMake Options
 
-- `THRUST_INCLUDE_CUB_CMAKE={ON, OFF}`
-  - If enabled, the CUB project will be built as part of Thrust. Default is
-    `OFF`.
-  - This adds CUB tests, etc. Useful for working on both CUB and Thrust
-    simultaneously.
-  - CUB configurations will be generated for each C++ dialect targeted by
-    the current Thrust build.
-- `THRUST_INSTALL_CUB_HEADERS={ON, OFF}`
-  - If enabled, the CUB project's headers will be installed through Thrust's
-    installation rules. Default is `ON`.
-  - This option depends on `THRUST_ENABLE_INSTALL_RULES`.
-- `THRUST_ENABLE_COMPUTE_XX={ON, OFF}`
-  - Controls the targeted CUDA architecture(s)
-  - Multiple options may be selected when using NVCC as the CUDA compiler.
-  - Valid values of `XX` are:
-    `{35, 37, 50, 52, 53, 60, 61, 62, 70, 72, 75, 80}`
-  - Default value depends on `THRUST_DISABLE_ARCH_BY_DEFAULT`:
-- `THRUST_ENABLE_COMPUTE_FUTURE={ON, OFF}`
-  - If enabled, CUDA objects will target the most recent virtual architecture
-    in addition to the real architectures specified by the
-    `THRUST_ENABLE_COMPUTE_XX` options.
-  - Default value depends on `THRUST_DISABLE_ARCH_BY_DEFAULT`:
-- `THRUST_DISABLE_ARCH_BY_DEFAULT={ON, OFF}`
-  - When `ON`, all `THRUST_ENABLE_COMPUTE_*` options are initially `OFF`.
-  - Default: `OFF` (meaning all architectures are enabled by default)
-- `THRUST_ENABLE_TESTS_WITH_RDC={ON, OFF}`
-  - Whether to enable Relocatable Device Code when building tests.
-    Default is `OFF`.
-- `THRUST_ENABLE_EXAMPLES_WITH_RDC={ON, OFF}`
-  - Whether to enable Relocatable Device Code when building examples.
-    Default is `OFF`.
+- `THRUST_ENABLE_RDC_TESTS={ON, OFF}`
+  - Enable tests that require separable compilation.
+  - Default is `ON`.
+- `THRUST_FORCE_RDC={ON, OFF}`
+  - Enable separable compilation on all targets that are agnostic of RDC.
+  - Targets that explicitly require RDC to be enabled or disabled will ignore this setting.
+  - Default is `OFF`.
 
 ## TBB Specific CMake Options
 
