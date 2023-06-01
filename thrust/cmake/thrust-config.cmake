@@ -78,7 +78,7 @@
 cmake_minimum_required(VERSION 3.15)
 
 # Minimum supported libcudacxx version:
-set(thrust_libcudacxx_version 1.8.0)
+set(thrust_libcudacxx_version "${Thrust_VERSION}")
 
 ################################################################################
 # User variables and APIs. Users can rely on these:
