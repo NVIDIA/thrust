@@ -4,14 +4,6 @@ file(GLOB test_srcs
   *.cu *.cpp
 )
 
-# These tests always build with RDC, so make sure that the sm_XX flags are
-# compatible. See note in ThrustCudaConfig.cmake.
-# TODO once we're using CUDA_ARCHITECTURES, we can setup non-rdc fallback
-# tests to build for non-rdc arches. But for now, all files in a given directory
-# must build with the same `CMAKE_CUDA_FLAGS` due to CMake constraints around
-# how CUDA_FLAGS works.
-set(CMAKE_CUDA_FLAGS "${THRUST_CUDA_FLAGS_BASE} ${THRUST_CUDA_FLAGS_RDC}")
-
 foreach(thrust_target IN LISTS THRUST_TARGETS)
   thrust_get_target_property(config_device ${thrust_target} DEVICE)
   if (NOT config_device STREQUAL "CUDA")
