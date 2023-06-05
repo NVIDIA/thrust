@@ -33,6 +33,7 @@ function(thrust_configure_cuda_target target_name)
   if (thrust_cuda_RDC)
     set_target_properties(${target_name} PROPERTIES
       CUDA_ARCHITECTURES "${THRUST_CUDA_ARCHITECTURES_RDC}"
+      POSITION_INDEPENDENT_CODE ON
       CUDA_SEPARABLE_COMPILATION ON)
   else()
     set_target_properties(${target_name} PROPERTIES
