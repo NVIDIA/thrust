@@ -94,14 +94,6 @@ function(thrust_set_target_properties target_name host device dialect prefix)
         LIBRARY_OUTPUT_DIRECTORY "${THRUST_LIBRARY_OUTPUT_DIR}"
         RUNTIME_OUTPUT_DIRECTORY "${THRUST_EXECUTABLE_OUTPUT_DIR}"
     )
-
-    # TODO is this still needed?
-    if ("CUDA" STREQUAL "${device}" AND
-        "NVCXX" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
-      set_target_properties(${target_name} PROPERTIES
-        CUDA_RESOLVE_DEVICE_SYMBOLS OFF
-      )
-    endif()
   endif()
 endfunction()
 
