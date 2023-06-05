@@ -137,7 +137,6 @@ function(thrust_build_compiler_targets)
     # If using CUDA w/ NVCC...
     $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Xcudafe=--display_error_number>
     $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Wno-deprecated-gpu-targets>
-    $<$<COMPILE_LANG_AND_ID:CUDA,NVIDIA>:-diag-suppress 128>
   )
 
   # This is kept separate for Github issue #1174.
