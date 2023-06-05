@@ -4,6 +4,17 @@ enable_language(CUDA)
 # Architecture options:
 #
 
+# Since we have to filter the arch list based on target features, we don't
+# currently support the convenience arch flags:
+if ("all" IN_LIST CMAKE_CUDA_ARCHITECTURES OR
+    "all-major" IN_LIST CMAKE_CUDA_ARCHITECTURES OR
+    "native" IN_LIST CMAKE_CUDA_ARCHITECTURES)
+  message(FATAL_ERROR
+    "The Thrust dev build requires an explicit list of architectures in CMAKE_CUDA_ARCHITECTURES. "
+    "The convenience flags of 'all', 'all-major', and 'native' are not supported.\n"
+    "CMAKE_CUDA_ARCHITECTURES=${CMAKE_CUDA_ARCHITECTURES}")
+endif()
+
 # Create a new arch list that only contains arches that support CDP:
 set(THRUST_CUDA_ARCHITECTURES ${CMAKE_CUDA_ARCHITECTURES})
 set(THRUST_CUDA_ARCHITECTURES_RDC ${THRUST_CUDA_ARCHITECTURES})
