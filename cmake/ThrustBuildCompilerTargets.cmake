@@ -115,13 +115,13 @@ function(thrust_build_compiler_targets)
   foreach (cxx_option IN LISTS cxx_compile_options)
     target_compile_options(thrust.compiler_interface INTERFACE
       $<$<COMPILE_LANGUAGE:CXX>:${cxx_option}>
-      $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVCXX>>:${cxx_option}> # TODO will this work with the new nvc++ recipe?
+      $<$<COMPILE_LANG_AND_ID:CUDA,NVHPC>:${cxx_option}>
       # Only use -Xcompiler with NVCC, not NVC++.
       #
       # CMake can't split genexs, so this can't be formatted better :(
       # This is:
       # if (using CUDA and CUDA_COMPILER is NVCC) add -Xcompiler=opt:
-      $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Xcompiler=${cxx_option}>
+      $<$<COMPILE_LANG_AND_ID:CUDA,NVIDIA>:-Xcompiler=${cxx_option}>
     )
   endforeach()
 
@@ -135,14 +135,14 @@ function(thrust_build_compiler_targets)
   # Display warning numbers from nvcc cudafe errors:
   target_compile_options(thrust.compiler_interface INTERFACE
     # If using CUDA w/ NVCC...
-    $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Xcudafe=--display_error_number>
-    $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Wno-deprecated-gpu-targets>
+    $<$<COMPILE_LANG_AND_ID:CUDA,NVIDIA>:-Xcudafe=--display_error_number>
+    $<$<COMPILE_LANG_AND_ID:CUDA,NVIDIA>:-Wno-deprecated-gpu-targets>
   )
 
   # This is kept separate for Github issue #1174.
   add_library(thrust.promote_cudafe_warnings INTERFACE)
   target_compile_options(thrust.promote_cudafe_warnings INTERFACE
-    $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Xcudafe=--promote_warnings>
+    $<$<COMPILE_LANG_AND_ID:CUDA,NVIDIA>:-Xcudafe=--promote_warnings>
   )
 
   # Some of our unit tests unconditionally throw exceptions, and compilers will
@@ -153,7 +153,7 @@ function(thrust_build_compiler_targets)
   if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     target_compile_options(thrust.silence_unreachable_code_warnings INTERFACE
       $<$<COMPILE_LANGUAGE:CXX>:/wd4702>
-      $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Xcompiler=/wd4702>
+      $<$<COMPILE_LANG_AND_ID:CUDA,NVIDIA>:-Xcompiler=/wd4702>
     )
   endif()
 
@@ -167,11 +167,11 @@ function(thrust_build_compiler_targets)
     # THRUST_IF_CONSTEXPR to address these warnings.
     target_compile_options(thrust.compiler_interface_cpp11 INTERFACE
       $<$<COMPILE_LANGUAGE:CXX>:/wd4127>
-      $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Xcompiler=/wd4127>
+      $<$<COMPILE_LANG_AND_ID:CUDA,NVIDIA>:-Xcompiler=/wd4127>
     )
     target_compile_options(thrust.compiler_interface_cpp14 INTERFACE
       $<$<COMPILE_LANGUAGE:CXX>:/wd4127>
-      $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Xcompiler=/wd4127>
+      $<$<COMPILE_LANG_AND_ID:CUDA,NVIDIA>:-Xcompiler=/wd4127>
     )
   endif()
 

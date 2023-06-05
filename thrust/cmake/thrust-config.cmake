@@ -609,7 +609,7 @@ function(thrust_fixup_omp_target omp_target)
   get_target_property(opts ${omp_target} INTERFACE_COMPILE_OPTIONS)
   if (opts MATCHES "\\$<\\$<COMPILE_LANGUAGE:CXX>:([^>]*)>")
     target_compile_options(${omp_target} INTERFACE
-      $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Xcompiler=${CMAKE_MATCH_1}>
+      $<$<COMPILE_LANG_AND_ID:CUDA,NVIDIA>:-Xcompiler=${CMAKE_MATCH_1}>
     )
   endif()
 endfunction()
