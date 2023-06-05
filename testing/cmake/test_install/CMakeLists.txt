@@ -5,7 +5,7 @@
 
 cmake_minimum_required(VERSION 3.15)
 
-project(ThrustTestInstall CXX CUDA)
+project(ThrustTestInstall LANGUAGES CXX CUDA)
 
 # This will eventually get deleted recursively -- keep that in mind if modifying
 set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/install_prefix/")

@@ -13,7 +13,7 @@ if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.18)
   cmake_policy(SET CMP0104 OLD)
 endif()
 
-project(ThrustAddSubDirExample CXX)
+project(ThrustAddSubDirExample LANGUAGES CXX)
 
 # Add required Thrust systems to THRUST_REQUIRED_SYSTEMS.
 # Options are: CPP, CUDA, TBB or OMP.

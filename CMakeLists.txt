@@ -2,7 +2,7 @@
 # 3.21 is the minimum for the developer build.
 cmake_minimum_required(VERSION 3.15)
 
-project(Thrust NONE)
+project(Thrust LANGUAGES NONE)
 
 # Determine whether Thrust is the top-level project or included into
 # another project via add_subdirectory()
