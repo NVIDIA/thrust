@@ -5,6 +5,6 @@ target_link_libraries(${test_target} PRIVATE thrust.silence_unreachable_code_war
 
 # The machinery behind this test is not compatible with NVC++.
 # See https://github.com/NVIDIA/thrust/issues/1397
-if ("NVCXX" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+if ("NVHPC" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
   set_tests_properties(${test_target} PROPERTIES DISABLED True)
 endif()
