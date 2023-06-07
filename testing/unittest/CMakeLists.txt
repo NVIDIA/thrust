@@ -18,7 +18,8 @@ foreach(thrust_target IN LISTS THRUST_TARGETS)
   target_link_libraries(${framework_target} PUBLIC ${thrust_target})
   target_include_directories(${framework_target} PRIVATE "${Thrust_SOURCE_DIR}/testing")
   thrust_clone_target_properties(${framework_target} ${thrust_target})
-
   thrust_fix_clang_nvcc_build_for(${framework_target})
-
+  if ("CUDA" STREQUAL "${config_device}")
+    thrust_configure_cuda_target(${framework_target} RDC ${THRUST_FORCE_RDC})
+  endif()
 endforeach()

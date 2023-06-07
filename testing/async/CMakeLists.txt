@@ -40,6 +40,7 @@ function(thrust_add_async_test_dir algo_name)
 
   foreach(thrust_target IN LISTS cuda_configs)
     thrust_get_target_property(config_prefix ${thrust_target} PREFIX)
+    thrust_get_target_property(config_device ${thrust_target} DEVICE)
 
     # Per-algorithm, per-config metatarget: thrust.[config].test.async.[algo].all
     set(algo_config_meta_target ${config_prefix}.test.async.${algo_name}.all)
@@ -51,10 +52,9 @@ function(thrust_add_async_test_dir algo_name)
       string(PREPEND test_name async.${algo_name}.)
 
       thrust_add_test(test_target ${test_name} "${test_src}" ${thrust_target})
-      if(THRUST_ENABLE_TESTS_WITH_RDC)
-        thrust_enable_rdc_for_cuda_target(${test_target})
+      if ("CUDA" STREQUAL "${config_device}")
+        thrust_configure_cuda_target(${test_target} RDC ${THRUST_FORCE_RDC})
       endif()
-
       add_dependencies(${algo_config_meta_target} ${test_target})
     endforeach()
   endforeach()

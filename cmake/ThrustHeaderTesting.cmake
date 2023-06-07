@@ -125,6 +125,10 @@ foreach(thrust_target IN LISTS THRUST_TARGETS)
   )
   thrust_clone_target_properties(${headertest_target} ${thrust_target})
 
+  if ("CUDA" STREQUAL "${config_device}")
+    thrust_configure_cuda_target(${headertest_target} RDC ${THRUST_FORCE_RDC})
+  endif()
+
   # Disable macro checks on TBB; the TBB atomic implementation uses `I` and
   # our checks will issue false errors.
   if ("TBB" IN_LIST config_systems)

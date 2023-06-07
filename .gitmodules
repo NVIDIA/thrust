@@ -1,6 +1,0 @@
-[submodule "cub"]
-	path = dependencies/cub
-	url = ../cub.git
-[submodule "libcudacxx"]
-	path = dependencies/libcudacxx
-	url = ../libcudacxx.git

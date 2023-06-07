@@ -1,22 +1,13 @@
 # 3.15 is the minimum for including the project with add_subdirectory.
-# 3.17 for building the project's standalone tests/examples/etc.
-# 3.18.3 for C++17 + CUDA
+# 3.21 is the minimum for the developer build.
 cmake_minimum_required(VERSION 3.15)
 
-# Remove this when we use the new CUDA_ARCHITECTURES properties with both
-# nvcc and nvc++.
-if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.18)
-  cmake_policy(SET CMP0104 OLD)
-endif()
-
-project(Thrust NONE)
+project(Thrust LANGUAGES NONE)
 
 # Determine whether Thrust is the top-level project or included into
 # another project via add_subdirectory()
 if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_LIST_DIR}")
   set(THRUST_TOPLEVEL_PROJECT ON)
-else()
-  set(THRUST_TOPLEVEL_PROJECT OFF)
 endif()
 
 ## thrust_fix_clang_nvcc_build_for 
@@ -38,6 +29,7 @@ endfunction()
 
 # This must be done before any languages are enabled:
 if (THRUST_TOPLEVEL_PROJECT)
+  cmake_minimum_required(VERSION 3.21)
   include(cmake/ThrustCompilerHacks.cmake)
 endif()
 
