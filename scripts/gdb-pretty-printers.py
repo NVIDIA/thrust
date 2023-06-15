@@ -31,7 +31,7 @@ class ThrustVectorPrinter(gdb.printing.PrettyPrinter):
             self.count = self.count + 1
             return ('[%d]' % count, elt)
 
-    class _device_iterator(Iterator):
+    class _cuda_iterator(Iterator):
         def __init__(self, start, size):
             self.exec = exec
             self.item = start
@@ -88,14 +88,14 @@ class ThrustVectorPrinter(gdb.printing.PrettyPrinter):
         self.pointer = val['m_storage']['m_begin']['m_iterator']
         self.size = int(val['m_size'])
         self.capacity = int(val['m_storage']['m_size'])
-        self.is_device = False
-        if str(self.pointer.type).startswith("thrust::device_ptr"):
+        self.is_device_vector = str(self.pointer.type).startswith("thrust::device_ptr")
+        if self.is_device_vector:
             self.pointer = self.pointer['m_iterator']
-            self.is_device = True
+        self.is_cuda_vector = "cuda" in str(val['m_storage']['m_allocator'])
 
     def children(self):
-        if self.is_device:
-            return self._device_iterator(self.pointer, self.size)
+        if self.is_cuda_vector:
+            return self._cuda_iterator(self.pointer, self.size)
         else:
             return self._host_accessible_iterator(self.pointer, self.size)
 
@@ -107,8 +107,8 @@ class ThrustVectorPrinter(gdb.printing.PrettyPrinter):
         return 'array'
 
 
-class ThrustReferencePrinter(gdb.printing.PrettyPrinter):
-    "Print a thrust::device_reference"
+class ThrustCUDAReferencePrinter(gdb.printing.PrettyPrinter):
+    "Print a thrust::device_reference that resides in CUDA memory space"
 
     def __init__(self, val):
         self.val = val
@@ -138,6 +138,22 @@ class ThrustReferencePrinter(gdb.printing.PrettyPrinter):
     def display_hint(self):
         return None
 
+class ThrustHostAccessibleReferencePrinter(gdb.printing.PrettyPrinter):
+    def __init__(self, val):
+        self.val = val
+        self.pointer = val['ptr']['m_iterator']
+
+    def children(self):
+        return []
+
+    def to_string(self):
+        typename = str(self.val.type)
+        return ('(%s) @%s: %s' % (typename, self.pointer, self.pointer.dereference()))
+
+    def display_hint(self):
+        return None
+
+
 
 def lookup_thrust_type(val):
     if not str(val.type.unqualified()).startswith('thrust::'):
@@ -146,7 +162,10 @@ def lookup_thrust_type(val):
     if suffix.startswith('host_vector') or suffix.startswith('device_vector'):
         return ThrustVectorPrinter(val)
     elif int(gdb.VERSION.split(".")[0]) >= 10 and suffix.startswith('device_reference'):
-        return ThrustReferencePrinter(val)
+        # look for tag in type name
+        if "cuda" in "".join(str(field.type) for field in val["ptr"].type.fields()):
+            return ThrustCUDAReferencePrinter(val)
+        return ThrustHostAccessibleReferencePrinter(val)
     return None
 
 
