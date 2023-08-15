@@ -61,8 +61,8 @@ private:
 
 public:
     __host__
-    execute_with_dependencies(super_t const &super, Dependencies && ...dependencies)
-        : super_t(super), dependencies(std::forward<Dependencies>(dependencies)...)
+    execute_with_dependencies(super_t const &super, Dependencies && ...deps)
+        : super_t(super), dependencies(std::forward<Dependencies>(deps)...)
     {
     }
 
