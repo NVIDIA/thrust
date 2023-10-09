@@ -2,4 +2,4 @@ blank_issues_enabled: false
 contact_links:
   - name: Open Issue in CCCL Repository
     url: https://github.com/NVIDIA/cccl/issues/new/choose
-    about:  This repository has moved! Please see the new home for Thrust at NVIDIA/cccl
+    about:  This repository has moved! Please see the new home for Thrust. 
