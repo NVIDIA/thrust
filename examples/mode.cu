@@ -46,11 +46,7 @@ int main(void)
     std::cout << std::endl;
 
     // count number of unique keys
-    size_t num_unique = thrust::inner_product(d_data.begin(), d_data.end() - 1,
-                                              d_data.begin() + 1,
-                                              0,
-                                              thrust::plus<int>(),
-                                              thrust::not_equal_to<int>()) + 1;
+    size_t num_unique = thrust::unique_count(d_data.begin(), d_data.end());
 
     // count multiplicity of each key
     thrust::device_vector<int> d_output_keys(num_unique);
